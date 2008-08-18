@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdarg.h>
-#include"circBuffer.h"
+#include <string.h>
+#include "circBuffer.h"
+#include "gpsSplit.h"
 
 int main(int argc, char* argv[])
 {
    char i;
-   CBRef A = newCircBuffer(10);
+/*   CBRef A = newCircBuffer(10);
    CBRef B = newCircBuffer(20);
 
    for(i=0; i<=12; i++)
@@ -21,15 +23,56 @@ int main(int argc, char* argv[])
    for(i=0; i<=6; i++)
    {
 	printf("Read byte: %d\n", readFront(A));
-	printCircBuf(A);
+	//printCircBuf(A);
    }
 
 	makeEmpty(A);
 	printCircBuf(A);
 
 	freeCircBuffer(&A);
-	freeCircBuffer(&B);
+	freeCircBuffer(&B);*/
+	
+	unsigned char msg1 [] = "B$GPRMC,213922.000,A,4221.1129,N,07102.9146,W,0.00,,010207,,,A*6F\r\n";
+	unsigned char msg2 [] = "G$GPRMC,184050.84,A,3907.3839,N,12102.4772,W,00.0,000.0,080301,15,E*54\r\n";
+	unsigned char msg3 [] = "&$GPGGA,213922.000,4221.1129,N,07102.91";
+	unsigned char msg4 [] = "(46,W,1,04,3.9,129.7,M,-33.7,M,,0000*6E\r\n";
+	
+	unsigned char outBuffer [128] ={0};
+	
+	gpsInit();
+	
+	printf("Message 1\n");
+	gpsSeparate(msg1, outBuffer);	
+		printf("\n");
+		printf(outBuffer);
+		printf("\nValid: %d Type:%d", outBuffer[127], outBuffer[0]);
+		printf("\n");
+		printf(msg1);
+	
+	printf("Message 2\n");
+	gpsSeparate(msg2, outBuffer);	
+		printf("\n");
+		printf(outBuffer);
+		printf("\nValid: %d Type:%d", outBuffer[127], outBuffer[0]);
+		printf("\n");
+		printf(msg2);
+	
 
 
+	printf("First Call to GPS Separate\n");
+	gpsSeparate(msg3, outBuffer);	
+	printf("============================\n");
+	
+	printf("Second Call to GPS Separate\n");	
+	gpsSeparate(msg4, outBuffer);	
+	printf("============================\n");
+	
+	printf(outBuffer);
+	printf("\nValid: %d Type:%d", outBuffer[127], outBuffer[0]);
+	printf("\n");
+	printf(msg3);
+	printf(msg4);
+
+	
    return(0);
 }

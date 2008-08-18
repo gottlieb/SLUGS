@@ -20,11 +20,11 @@
 // Private Types
 // =============
 typedef struct CircBuffer{
-	char* buffer;
-	int length;
-	int head;
-	int tail;
-	int size;
+	unsigned char* buffer;
+	unsigned int length;
+	unsigned int head;
+	unsigned int tail;
+	unsigned int size;
 }CircBuffer;
 
 // Constructors - Destructors
@@ -38,7 +38,7 @@ CBRef newCircBuffer (int pm_size){
 	cB = malloc(sizeof(CircBuffer));
 	
 	// allocate memory for the buffer
-	cB->buffer = calloc(pm_size, sizeof(char));
+	cB->buffer = calloc(pm_size, sizeof(unsigned char));
 	
 	// initialize the data members
 	cB->length = 0;
@@ -68,7 +68,7 @@ void freeCircBuffer (CBRef* cB){
 // ===============
 
 // returns the amount of unread bytes in the circular buffer
-int getLength (CBRef cB){
+unsigned int getLength (CBRef cB){
 	
 	// if the circular buffer is not null
 	if (cB != NULL){
@@ -81,7 +81,7 @@ int getLength (CBRef cB){
 }
 
 // returns the actual index of the head
-char readHead (CBRef cB){
+unsigned char readHead (CBRef cB){
 	// if the circular buffer is not null
 	if (cB != NULL){
 		return (cB->head);
@@ -93,7 +93,7 @@ char readHead (CBRef cB){
 }
 
 // returns the actual index of the tail
-char readTail (CBRef cB){
+unsigned char readTail (CBRef cB){
 	// if the circular buffer is not null
 	if (cB != NULL){
 		return (cB->tail);
@@ -104,14 +104,30 @@ char readTail (CBRef cB){
 
 }
 
+// returns the byte (actual value) that the head points to. this
+// does not mark the byte as read, so succesive calls to peak will
+// always return the same value
+unsigned char peak(CBRef cB){
+	// if the circular buffer is not null
+	if (cB != NULL)
+	{	
+		// if there are bytes in the buffer
+		if (cB->length > 0){
+			return cB->buffer[cB->head];
+		}
+	}
+	return 0;	
+}
+
 
 // Manipulation Procedures
 // ======================
 // returns the front of the circular buffer and marks the byte as read
-char readFront (CBRef cB){
+unsigned char readFront (CBRef cB){
 	// if the circular buffer is not null
 	if (cB != NULL)
-	{		char retVal;
+	{	
+		char retVal;
 		// if there are bytes in the buffer
 		if (cB->length > 0){
 			retVal = cB->buffer[cB->head];
@@ -126,7 +142,7 @@ char readFront (CBRef cB){
 }
 
 // writes one byte at the end of the circular buffer, returns 1 if overflow occured
-char writeBack (CBRef cB, char data){
+unsigned char writeBack (CBRef cB, char data){
 	// if the circular buffer is not null
 	if (cB != NULL){
 		cB->buffer[cB->tail] = data;

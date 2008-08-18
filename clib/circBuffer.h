@@ -35,22 +35,27 @@ void freeCircBuffer (CBRef* cB);
 // ===============
 
 // returns the amount of unread bytes in the circular buffer
-int getLength (CBRef cB);
+unsigned int getLength (CBRef cB);
 
 // returns the actual index of the head
-char readHead (CBRef cB);
+unsigned char readHead (CBRef cB);
 
 // returns the actual index of the tail
-char readTail (CBRef cB);
+unsigned char readTail (CBRef cB);
+
+// returns the byte (actual value) that the head points to. this
+// does not mark the byte as read, so succesive calls to peak will
+// always return the same value
+unsigned char peak(CBRef cB);
 
 
 // Manipulation Procedures
 // ======================
 // returns the front of the circular buffer and marks the byte as read
-char readFront (CBRef cB);
+unsigned char readFront (CBRef cB);
 
 // writes one byte at the end of the circular buffer, returns 1 if overflow occured
-char writeBack(CBRef cB, char data);
+unsigned char writeBack(CBRef cB, char data);
 
 // empties the circular buffer. It does not change the size. use with caution!!
 void makeEmpty(CBRef cB);
