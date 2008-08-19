@@ -1,15 +1,16 @@
 /* ==============================================================
-The following function receives a raw input stream and
-produces an output stream with split sentences ready to
-parse. The checksum is validated. The function, which
-will be a simulink C function call.
+This file implements the GPS splitting of sentences, it receives
+the incomming stream of data into a circular buffer, it then
+splits it in sentences, verifies the checksum, clasifies them
+accordingly and sends them to the next Simulink block for
+parsing.
 
   This code was written specifically to work in Simulink so
 inStream and outStream are of fixed length (n & m respectively)
 
-// Code by: Mariano I. Lizarraga
-// First Revision: Aug 16 2008 @ 00:36
-// ==============================================================
+ Code by: Mariano I. Lizarraga
+ First Revision: Aug 18 2008 @ 17:42
+ ==============================================================
 
 
 Parameters
@@ -22,25 +23,13 @@ out_stream [m+1]	...	Byte indicating wether there is a valid message
 
 
 #include "circBuffer.h"
+#include "apDefinitions.h"
 #include <stdlib.h>
 
 #ifdef DEBUG
 	#include <stdio.h>
 #endif
 
-// GPS Checksum Messages
-#define GGACS	86
-#define RMCCS	75
-
-// Circular Buffer and Out Message size
-#define BSIZE	127
-#define MSIZE	127
-
-// Standard characters to parse the message
-#define DOLLAR	36
-#define STAR	42
-#define CR		13
-#define LF		10
 
 // Global Circular buffer
 CBRef serBuffer;
@@ -164,7 +153,7 @@ void gpsSeparate(unsigned char* inStream, unsigned char* outStream)
 		// verify the validity
 		isValid = (tmpChksum == getChecksum(outBuf,indexLast));
 		#ifdef DEBUG
-			printf("%c%c %d\n", chsmStr_0,chsmStr_1,getChecksum(outBuf,indexLast));
+			printf("%d\n", getChecksum(outBuf,indexLast));
 			printf("%d \n", tmpChksum);
 		#endif
 		
@@ -202,13 +191,13 @@ void gpsSeparate(unsigned char* inStream, unsigned char* outStream)
 		// based on the obtained header checksum set the type
 		switch (chksumHeader){
 			case GGACS: 
-				outStream[0] = 1;
+				outStream[0] = GGAID;
 				break;
 			case RMCCS:
-				outStream[0] = 2;
+				outStream[0] = RMCID;
 				break;
 			default:
-				outStream[0] = 254;
+				outStream[0] = UNKID;
 				break;
 		}
 	}

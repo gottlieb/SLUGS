@@ -3,6 +3,7 @@
 #include <string.h>
 #include "circBuffer.h"
 #include "gpsSplit.h"
+#include "apDefinitions.h"
 
 int main(int argc, char* argv[])
 {
@@ -45,7 +46,7 @@ int main(int argc, char* argv[])
 	gpsSeparate(msg1, outBuffer);	
 		printf("\n");
 		printf(outBuffer);
-		printf("\nValid: %d Type:%d", outBuffer[127], outBuffer[0]);
+		printf("\nValid: %d Type:%d", outBuffer[MSIZE-1], outBuffer[0]);
 		printf("\n");
 		printf(msg1);
 	
@@ -53,7 +54,7 @@ int main(int argc, char* argv[])
 	gpsSeparate(msg2, outBuffer);	
 		printf("\n");
 		printf(outBuffer);
-		printf("\nValid: %d Type:%d", outBuffer[127], outBuffer[0]);
+		printf("\nValid: %d Type:%d", outBuffer[MSIZE-1], outBuffer[0]);
 		printf("\n");
 		printf(msg2);
 	
@@ -68,11 +69,17 @@ int main(int argc, char* argv[])
 	printf("============================\n");
 	
 	printf(outBuffer);
-	printf("\nValid: %d Type:%d", outBuffer[127], outBuffer[0]);
+	printf("\nValid: %d Type:%d", outBuffer[MSIZE-1], outBuffer[0]);
 	printf("\n");
 	printf(msg3);
 	printf(msg4);
 
+	printf("============================\n");
+	printf("============================\n");
+	printf("============================\n");
+	printf("============================\n");
+	printf("Char: %d, Short: %d, Int: %d, Float: %d, Long:%d", sizeof(char), sizeof(short), sizeof(int), sizeof(float), sizeof(long));
+	printf("\n");	
 	
    return(0);
 }

@@ -13,7 +13,7 @@ circBufferDriver.o : circBuffer.h circBufferDriver.c
 circBuffer.o : circBuffer.h circBuffer.c
 	gcc -c  -Wall circBuffer.c
 	
-gpsSplit.o : gpsSplit.c gpsSplit.h
+gpsSplit.o : gpsSplit.c gpsSplit.h apDefinitions.h
 	gcc -c -Wall gpsSplit.c
 
 clean :

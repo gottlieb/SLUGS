@@ -14,9 +14,9 @@
 #ifndef _CIRCBUFFER_H_
 #define _CIRCBUFFER_H_
 
-// Comment if compiling in dsPIC
-#define DEBUG 1
-
+#ifndef C30
+	#define DEBUG 1
+#endif
 
 // Exported Types
 // ==============
