@@ -75,3 +75,19 @@ enum gpsOutSentence {
 	gpsFix	
 };
 
+// ============= Structures used for data ============
+typedef struct tGpsData{
+	tUnsignedIntToChar 		year;
+	unsigned char			month;
+	unsigned char			day;
+	unsigned char			hour;
+	unsigned char			min;
+	unsigned char			sec;	 
+	tFloatToChar 			lat;
+	tFloatToChar 			lon;
+	tFloatToChar 			height;
+	tIntToChar				cog;
+	tIntToChar				sog;
+	unsigned char			fix;
+}tGpsData;
+

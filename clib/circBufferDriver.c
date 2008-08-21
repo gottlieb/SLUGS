@@ -4,6 +4,7 @@
 #include "circBuffer.h"
 #include "gpsSplit.h"
 #include "apDefinitions.h"
+#include "gpsParse.h"
 
 int main(int argc, char* argv[])
 {
@@ -38,7 +39,7 @@ int main(int argc, char* argv[])
 	unsigned char msg3 [] = "&$GPGGA,213922.000,4221.1129,N,07102.91";
 	unsigned char msg4 [] = "(46,W,1,04,3.9,129.7,M,-33.7,M,,0000*6E\r\n";
 	
-	unsigned char outBuffer [128] ={0};
+	unsigned char outBuffer [128] ={0}, parsedData[128]={0};
 	
 	gpsInit();
 	
@@ -50,7 +51,14 @@ int main(int argc, char* argv[])
 		printf("\n");
 		printf(msg1);
 	
-	printf("Message 2\n");
+	gpsParse(outBuffer, parsedData);
+	
+	for(i=0;i<10;i++){
+		printf("%d ", parsedData[i]);
+	}
+	printf("\n");
+	
+	/*printf("Message 2\n");
 	gpsSeparate(msg2, outBuffer);	
 		printf("\n");
 		printf(outBuffer);
@@ -80,6 +88,6 @@ int main(int argc, char* argv[])
 	printf("============================\n");
 	printf("Char: %d, Short: %d, Int: %d, Float: %d, Long:%d", sizeof(char), sizeof(short), sizeof(int), sizeof(float), sizeof(long));
 	printf("\n");	
-	
+	*/
    return(0);
 }
