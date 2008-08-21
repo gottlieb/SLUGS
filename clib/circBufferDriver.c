@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
 	freeCircBuffer(&A);
 	freeCircBuffer(&B);*/
 	
-	unsigned char msg1 [] = "B$GPRMC,213922.000,A,4221.1129,N,07102.9146,W,0.00,,010207,,,A*6F\r\n";
+	unsigned char msg1 [] = "@$GPRMC,040302.663,A,3939.7,N,10506.6,W,5.27,358.86,200804,,*1A\r\n";
 	unsigned char msg2 [] = "G$GPRMC,184050.84,A,3907.3839,N,12102.4772,W,00.0,000.0,080301,15,E*54\r\n";
 	unsigned char msg3 [] = "&$GPGGA,213922.000,4221.1129,N,07102.91";
 	unsigned char msg4 [] = "(46,W,1,04,3.9,129.7,M,-33.7,M,,0000*6E\r\n";
@@ -53,9 +53,47 @@ int main(int argc, char* argv[])
 	
 	gpsParse(outBuffer, parsedData);
 	
-	for(i=0;i<10;i++){
+	for(i=0;i<6;i++){
 		printf("%d ", parsedData[i]);
 	}
+	
+	tFloatToChar flCh;
+	tIntToChar inCh;
+	
+	flCh.chData[0] = parsedData[6];
+	flCh.chData[1] = parsedData[7];
+	flCh.chData[2] = parsedData[8];
+	flCh.chData[3] = parsedData[9];
+	printf("%f ", flCh.flData);
+	
+	flCh.chData[0] = parsedData[10];
+	flCh.chData[1] = parsedData[11];
+	flCh.chData[2] = parsedData[12];
+	flCh.chData[3] = parsedData[13];
+	printf("%f ", flCh.flData);
+
+	flCh.chData[0] = parsedData[14];
+	flCh.chData[1] = parsedData[15];
+	flCh.chData[2] = parsedData[16];
+	flCh.chData[3] = parsedData[17];
+	printf("%f ", flCh.flData);
+	
+	inCh.chData[0] = parsedData[18];
+	inCh.chData[1] = parsedData[19];
+	printf("%d ", inCh.inData);
+
+	inCh.chData[0] = parsedData[20];
+	inCh.chData[1] = parsedData[21];
+	printf("%d ", inCh.inData);
+	
+	inCh.chData[0] = parsedData[22];
+	inCh.chData[1] = parsedData[23];
+	printf("%d ", inCh.inData);
+	
+	for(i=24;i<26;i++){
+		printf("%d ", parsedData[i]);
+	}
+	
 	printf("\n");
 	
 	/*printf("Message 2\n");

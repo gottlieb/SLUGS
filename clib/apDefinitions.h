@@ -28,6 +28,11 @@ and data types.
 #define CR		13
 #define LF		10
 
+// Standard Units
+#define KTS2MPS 0.514444444
+
+#define DEBUG 1
+
 
 // ============= Unions Used for Data Transmission ====
 //Type definitions for standard unions used in sending
@@ -77,7 +82,7 @@ enum gpsOutSentence {
 
 // ============= Structures used for data ============
 typedef struct tGpsData{
-	tUnsignedIntToChar 		year;
+	unsigned char	 		year;
 	unsigned char			month;
 	unsigned char			day;
 	unsigned char			hour;
@@ -88,6 +93,8 @@ typedef struct tGpsData{
 	tFloatToChar 			height;
 	tIntToChar				cog;
 	tIntToChar				sog;
+	tIntToChar				hdop;	
 	unsigned char			fix;
+	unsigned char 			sats;	
 }tGpsData;
 
