@@ -14,7 +14,7 @@
 #ifndef _CIRCBUFFER_H_
 #define _CIRCBUFFER_H_
 
-#ifndef C30
+#ifndef __C30_VERSION__
 	#define DEBUG 1
 #endif
 
@@ -61,7 +61,7 @@ unsigned char writeBack(CBRef cB, char data);
 void makeEmpty(CBRef cB);
 
 
-#ifdef DEBUG
+#if DEBUG
 	// Other Functions
 	// ===============
 	// prints the circular buffer, used for debug

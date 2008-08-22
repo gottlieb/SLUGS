@@ -26,7 +26,7 @@ out_stream [m+1]	...	Byte indicating wether there is a valid message
 #include "apDefinitions.h"
 #include <stdlib.h>
 
-#ifdef DEBUG
+#if DEBUG
 	#include <stdio.h>
 #endif
 
@@ -69,9 +69,6 @@ unsigned char getChecksum(unsigned char* sentence, unsigned char size){
         else
         {
           // No. XOR the checksum with this character's value
-	       /*#ifdef DEBUG
-	       	printf("%d XOR %d = %d\n", checkSum, sentence[i], checkSum ^ sentence[i]);
-	       #endif*/
 	       checkSum ^= sentence[i];
         }
       }
@@ -112,7 +109,7 @@ void gpsSeparate(unsigned char* inStream, unsigned char* outStream)
 	for (i=1; i<=inStream[0]; i++){
 		writeBack(serBuffer, inStream[i]);
 	}
-	#ifdef DEBUG
+	#if DEBUG
 		printf("Data Received\n");
 		printCircBuf(serBuffer);
 	#endif
@@ -125,7 +122,7 @@ void gpsSeparate(unsigned char* inStream, unsigned char* outStream)
 			readFront(serBuffer);
 		}
 	} 
-	#ifdef DEBUG
+	#if DEBUG
 		printf("Data Read up to dollar sign\n");
 		printCircBuf(serBuffer);
 	#endif
@@ -135,14 +132,14 @@ void gpsSeparate(unsigned char* inStream, unsigned char* outStream)
 		outBuf[indexLast] = readFront(serBuffer);
 		indexLast++;
 	}
-	#ifdef DEBUG
+	#if DEBUG
 		printf("Read until CR or out of bytes\n");
 		printCircBuf(serBuffer);
 	#endif
 
 	// if we found a carriage return, then the message is complete
 	if (peak(serBuffer)== CR){
-		#ifdef DEBUG
+		#if DEBUG
 			printf("%d\n", peak(serBuffer));
 		#endif
 		// validate the checksum
@@ -152,7 +149,7 @@ void gpsSeparate(unsigned char* inStream, unsigned char* outStream)
 		tmpChksum = (unsigned char)(chsmStr_0 * 16 + chsmStr_1);
 		// verify the validity
 		isValid = (tmpChksum == getChecksum(outBuf,indexLast));
-		#ifdef DEBUG
+		#if DEBUG
 			printf("%d\n", getChecksum(outBuf,indexLast));
 			printf("%d \n", tmpChksum);
 		#endif
@@ -184,7 +181,7 @@ void gpsSeparate(unsigned char* inStream, unsigned char* outStream)
 
 		// finally compute the type of message
 		chksumHeader = getChecksum(outBuf,6);
-		#ifdef DEBUG
+		#if DEBUG
 			printf("Header Checksum: %d \n", chksumHeader);
 		#endif
 		

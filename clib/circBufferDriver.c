@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
 	freeCircBuffer(&B);*/
 	
 	unsigned char msg1 [] = "@$GPRMC,040302.663,A,3939.7,N,10506.6,W,5.27,358.86,200804,,*1A\r\n";
-	unsigned char msg2 [] = "G$GPRMC,184050.84,A,3907.3839,N,12102.4772,W,00.0,000.0,080301,15,E*54\r\n";
+	unsigned char msg2 [] = "N$GPGGA,213924.000,4221.1129,N,07102.9146,W,1,04,3.9,129.7,M,-33.7,M,,0000*68\r\n";
 	unsigned char msg3 [] = "&$GPGGA,213922.000,4221.1129,N,07102.91";
 	unsigned char msg4 [] = "(46,W,1,04,3.9,129.7,M,-33.7,M,,0000*6E\r\n";
 	
@@ -44,12 +44,12 @@ int main(int argc, char* argv[])
 	gpsInit();
 	
 	printf("Message 1\n");
-	gpsSeparate(msg1, outBuffer);	
+	gpsSeparate(msg2, outBuffer);	
 		printf("\n");
 		printf(outBuffer);
 		printf("\nValid: %d Type:%d", outBuffer[MSIZE-1], outBuffer[0]);
 		printf("\n");
-		printf(msg1);
+		printf(msg2);
 	
 	gpsParse(outBuffer, parsedData);
 	

@@ -1,3 +1,4 @@
 T = 0.01;
 baudRate = 19200;
-MAX_POSSIBLE = (baudRate/8)*T;
+MAX_POSSIBLE = ceil((baudRate/8)*T);
+GPS_SENTENCE = 127;

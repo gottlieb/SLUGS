@@ -22,7 +22,7 @@ in_stream[n]			... IsValid flag
 #include "apDefinitions.h"
 #include <string.h>
 #include <stdlib.h>
-#ifdef DEBUG
+#if DEBUG
 	#include <stdio.h>
 #endif
 
@@ -89,7 +89,7 @@ void parseRMC(unsigned char* stream){
 		
 		// 4.- Latitude Sector
 		token = strtok(NULL, ",");
-		#ifdef DEBUG
+		#if DEBUG
 			printf("\nToken :%d\n", token[0]);
 			printf("\nToken Len:%d\n", strlen(token));
 		#endif
@@ -114,7 +114,7 @@ void parseRMC(unsigned char* stream){
 		
 		// 6.- Longitude Sector
 		token = strtok(NULL, ",");
-		#ifdef DEBUG
+		#if DEBUG
 			printf("\nToken :%d\n", token[0]);
 			printf("\nToken Len:%d\n", strlen(token));
 		#endif
@@ -128,7 +128,7 @@ void parseRMC(unsigned char* stream){
 	// xx.xx
 	token = strtok(NULL, ",");	
 	if (strlen(token)>0){
-		gpsData.sog.inData = (int) atof(token)*KTS2MPS*100.0;	
+		gpsData.sog.inData = (int) (atof(token)*KTS2MPS*100.0);	
 	}
 	
 	// 8.- COG in degrees
@@ -187,7 +187,7 @@ void parseGGA(unsigned char* stream){
 		gpsData.lat.flData =  degMinToDeg(chTmp,atof(token));		
 		// 3.- Latitude Sector
 		token = strtok(NULL, ",");
-		#ifdef DEBUG
+		#if DEBUG
 			printf("\nToken :%d\n", token[0]);
 			printf("\nToken Len:%d\n", strlen(token));
 		#endif
@@ -212,7 +212,7 @@ void parseGGA(unsigned char* stream){
 		
 		// 5.- Longitude Sector
 		token = strtok(NULL, ",");
-		#ifdef DEBUG
+		#if DEBUG
 			printf("\nToken :%d\n", token[0]);
 			printf("\nToken Len:%d\n", strlen(token));
 		#endif
@@ -240,7 +240,7 @@ void parseGGA(unsigned char* stream){
 	// xx.xx
 	token = strtok(NULL, ",");	
 	if (strlen(token)>0){
-		gpsData.hdop.inData = (int) atof(token)*10.0;	
+		gpsData.hdop.inData = (int) (atof(token)*10.0);	
 	}
 	
 	// 9.- Altitude above mean sea level given in meters

@@ -30,8 +30,15 @@ and data types.
 
 // Standard Units
 #define KTS2MPS 0.514444444
+#define __IN_DSPIC__ 1 // switch for use in PC
 
-#define DEBUG 1
+#if __IN_DSPIC__
+	#ifdef DEBUG
+		#undef DEBUG
+	#endif	
+#else
+	#define DEBUG 1
+#endif
 
 
 // ============= Unions Used for Data Transmission ====

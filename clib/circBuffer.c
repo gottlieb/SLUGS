@@ -12,56 +12,109 @@
 
 #include <stdlib.h>
 #include "circBuffer.h"
+#include "apDefinitions.h"
 
-#ifdef DEBUG
+#if DEBUG
 #include <stdio.h>
 #endif
 
+
 // Private Types
 // =============
-typedef struct CircBuffer{
-	unsigned char* buffer;
-	unsigned int length;
-	unsigned int head;
-	unsigned int tail;
-	unsigned int size;
-}CircBuffer;
+
+# if __IN_DSPIC__
+	typedef struct CircBuffer{
+		unsigned char buffer[BSIZE];
+		unsigned int length;
+		unsigned int head;
+		unsigned int tail;
+		unsigned int size;
+	}CircBuffer;
+#else
+	typedef struct CircBuffer{
+		unsigned char* buffer;
+		unsigned int length;
+		unsigned int head;
+		unsigned int tail;
+		unsigned int size;
+	}CircBuffer;
+#endif
 
 // Constructors - Destructors
 // ==========================
 // this Function returns a pointer to a new Circular Buffer of size pm_size 
-CBRef newCircBuffer (int pm_size){
-	// create the circular buffer pointer
-	CBRef cB;
-	
-	// allocate memory for it
-	cB = malloc(sizeof(CircBuffer));
-	
-	// allocate memory for the buffer
-	cB->buffer = calloc(pm_size, sizeof(unsigned char));
-	
-	// initialize the data members
-	cB->length = 0;
-	cB->head = 0;
-	cB->tail = 0;
-	cB->size = pm_size;
-	
-	// return the buffer
-	return (cB);
-}
+
+#if __IN_DSPIC__
+	CBRef newCircBuffer (int pm_size){
+		// create the circular buffer pointer
+		static struct CircBuffer tmpCB;		
+		CBRef cB = &tmpCB;
+				
+		// initialize to zero
+		int i;
+		for (i=0; i<BSIZE; i++){
+			cB->buffer[i] = 0;
+		}
+				
+		// initialize the data members
+		cB->length = 0;
+		cB->head = 0;
+		cB->tail = 0;
+		cB->size = pm_size;
+		
+		// return the buffer pointer
+		return (cB);
+	}
 
 // this function frees the Circular Buffer CB Ref
-void freeCircBuffer (CBRef* cB){
-	// if it is already null, nothing to free
-	if (cB == NULL || *cB == NULL) {return;}
+	void freeCircBuffer (CBRef* cB){
+		// if it is already null, nothing to free
+		if (cB == NULL || *cB == NULL) {return;}
+				
+		// free and nil the pointer
+		free(*cB);
+		*cB = NULL;
+	}
+
+
+#else
+	CBRef newCircBuffer (int pm_size){
+		// create the circular buffer pointer
+		CBRef cB;
+		
+		// allocate memory for it
+		cB = (CBRef) malloc(sizeof(CircBuffer));
+		
+		// allocate memory for the buffer
+		cB->buffer = (unsigned char *)calloc(pm_size, sizeof(unsigned char));
+		
+		// initialize the data members
+		cB->length = 0;
+		cB->head = 0;
+		cB->tail = 0;
+		cB->size = pm_size;
+		
+		// return the buffer pointer
+		return (cB);
+		
+		printf("No Jala");
+	}
+
+	// this function frees the Circular Buffer CB Ref
+	void freeCircBuffer (CBRef* cB){
+		// if it is already null, nothing to free
+		if (cB == NULL || *cB == NULL) {return;}
+		
+		// free the buffer
+		free((*cB)->buffer);
+		
+		// free and nil the pointer
+		free(*cB);
+		*cB = NULL;
+	}
+
+#endif
 	
-	// free the buffer
-	free((*cB)->buffer);
-	
-	// free and nil the pointer
-	free(*cB);
-	*cB = NULL;
-}
 
 
 // Accesor Methods
@@ -169,7 +222,7 @@ void makeEmpty(CBRef cB){
 	}
 }
 
-#ifdef DEBUG
+#if DEBUG
 // Other Functions
 // ===============
 // prints the circular buffer, used for debug
