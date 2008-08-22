@@ -9,30 +9,42 @@
 int main(int argc, char* argv[])
 {
    char i;
-/*   CBRef A = newCircBuffer(10);
-   CBRef B = newCircBuffer(20);
+   /*
+	//CBRef A = newCircBuffer(10);
+   //CBRef B = newCircBuffer(20);
+   struct CircBuffer Anp;
+   struct CircBuffer Bnp;
+   
+	CBRef A = &Anp;
+	CBRef B = &Bnp; 
+	
+	newCircBuffer(A);
+	newCircBuffer(B);
+	
+   for(i=0; i<=12; i++)
+   {
+      writeBack(B, i);
+      writeBack(A, 15-i);
+   }
+   //printCircBuf(A);
+   //printCircBuf(B);
+   printf("\n");
+   printf("\n");
 
    for(i=0; i<=12; i++)
    {
-      writeBack(A, i);
-      writeBack(B, 15-i);
-   }
-   printCircBuf(A);
-   printCircBuf(B);
-   printf("\n");
-   printf("\n");
-
-   for(i=0; i<=6; i++)
-   {
-	printf("Read byte: %d\n", readFront(A));
+	printf("Read byte A: %d\n", readFront(A));
+	printf("Read byte B: %d\n", readFront(B));
 	//printCircBuf(A);
    }
 
 	makeEmpty(A);
-	printCircBuf(A);
+	//printCircBuf(A);
 
 	freeCircBuffer(&A);
-	freeCircBuffer(&B);*/
+	freeCircBuffer(&B);
+	
+	*/
 	
 	unsigned char msg1 [] = "@$GPRMC,040302.663,A,3939.7,N,10506.6,W,5.27,358.86,200804,,*1A\r\n";
 	unsigned char msg2 [] = "N$GPGGA,213924.000,4221.1129,N,07102.9146,W,1,04,3.9,129.7,M,-33.7,M,,0000*68\r\n";
@@ -95,6 +107,8 @@ int main(int argc, char* argv[])
 	}
 	
 	printf("\n");
+	
+	
 	
 	/*printf("Message 2\n");
 	gpsSeparate(msg2, outBuffer);	

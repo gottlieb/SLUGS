@@ -32,11 +32,17 @@ out_stream [m+1]	...	Byte indicating wether there is a valid message
 
 
 // Global Circular buffer
+struct CircBuffer gpsBuffer;
 CBRef serBuffer;
 
 // call this from Simulink to initialize the circular buffer
 void gpsInit(void){
-	serBuffer = newCircBuffer(BSIZE);
+	#if __IN_DSPIC__
+		serBuffer = &gpsBuffer;
+		newCircBuffer (serBuffer);
+	#else
+		serBuffer = newCircBuffer(BSIZE);
+	#endif
 }
 
 // GPS checksum code based on 

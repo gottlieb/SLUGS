@@ -9,13 +9,27 @@
 // Code by: Mariano I. Lizarraga
 // First Revision: Aug 16 2008 @ 00:36
 // ==============================================================
-
-
 #ifndef _CIRCBUFFER_H_
 #define _CIRCBUFFER_H_
 
-#ifndef __C30_VERSION__
-	#define DEBUG 1
+#include "apDefinitions.h"
+
+# if __IN_DSPIC__
+	typedef struct CircBuffer{
+		unsigned char buffer[BSIZE];
+		unsigned int length;
+		unsigned int head;
+		unsigned int tail;
+		unsigned int size;
+	}CircBuffer;
+#else
+	typedef struct CircBuffer{
+		unsigned char* buffer;
+		unsigned int length;
+		unsigned int head;
+		unsigned int tail;
+		unsigned int size;
+	}CircBuffer;
 #endif
 
 // Exported Types
@@ -25,7 +39,12 @@ typedef struct CircBuffer* CBRef;
 // Constructors - Destructors
 // ==========================
 // this Function returns a pointer to a new Circular Buffer of size pm_size 
-CBRef newCircBuffer (int pm_size);
+
+#if __IN_DSPIC__
+	void newCircBuffer (CBRef cB);
+#else
+	CBRef newCircBuffer (int pm_size);
+#endif
 
 // this function frees the Circular Buffer CB Ref
 void freeCircBuffer (CBRef* cB);

@@ -12,44 +12,20 @@
 
 #include <stdlib.h>
 #include "circBuffer.h"
-#include "apDefinitions.h"
 
 #if DEBUG
-#include <stdio.h>
+	#include <stdio.h>
 #endif
 
 
-// Private Types
-// =============
-
-# if __IN_DSPIC__
-	typedef struct CircBuffer{
-		unsigned char buffer[BSIZE];
-		unsigned int length;
-		unsigned int head;
-		unsigned int tail;
-		unsigned int size;
-	}CircBuffer;
-#else
-	typedef struct CircBuffer{
-		unsigned char* buffer;
-		unsigned int length;
-		unsigned int head;
-		unsigned int tail;
-		unsigned int size;
-	}CircBuffer;
-#endif
 
 // Constructors - Destructors
 // ==========================
 // this Function returns a pointer to a new Circular Buffer of size pm_size 
 
 #if __IN_DSPIC__
-	CBRef newCircBuffer (int pm_size){
-		// create the circular buffer pointer
-		static struct CircBuffer tmpCB;		
-		CBRef cB = &tmpCB;
-				
+	void newCircBuffer (CBRef cB){
+		
 		// initialize to zero
 		int i;
 		for (i=0; i<BSIZE; i++){
@@ -60,10 +36,8 @@
 		cB->length = 0;
 		cB->head = 0;
 		cB->tail = 0;
-		cB->size = pm_size;
-		
-		// return the buffer pointer
-		return (cB);
+		cB->size = BSIZE;
+
 	}
 
 // this function frees the Circular Buffer CB Ref
@@ -72,7 +46,7 @@
 		if (cB == NULL || *cB == NULL) {return;}
 				
 		// free and nil the pointer
-		free(*cB);
+		//free(*cB);
 		*cB = NULL;
 	}
 

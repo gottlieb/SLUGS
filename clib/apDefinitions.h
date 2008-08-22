@@ -6,7 +6,8 @@ and data types.
  Code by: Mariano I. Lizarraga
  First Revision: Aug 18 2008 @ 17:42
  ====================================================*/
-
+#ifndef _APDEFINITIONS_H_
+#define _APDEFINITIONS_H_
 
 // =========== Global Definitions ==========
 // GPS Checksum Messages
@@ -30,6 +31,11 @@ and data types.
 
 // Standard Units
 #define KTS2MPS 0.514444444
+
+// Periphereal Configurations
+#define UCSCAP_UBRG 5
+
+// ifdef switches for debugging and conditional inclusion
 #define __IN_DSPIC__ 1 // switch for use in PC
 
 #if __IN_DSPIC__
@@ -105,3 +111,4 @@ typedef struct tGpsData{
 	unsigned char 			sats;	
 }tGpsData;
 
+#endif /* _APDEFINITIONS_H_ */
