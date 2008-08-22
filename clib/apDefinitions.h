@@ -19,9 +19,10 @@ and data types.
 #define RMCID	2
 #define UNKID	254
 
-// GPS Circular Buffer and Out Message size
+// GPS Circular Buffers
 #define BSIZE	127
 #define MSIZE	127
+#define CSIZE	26 //[newBytes payload remaingBytes]
 
 // Standard characters to parse the GPS message
 #define DOLLAR	36
@@ -33,7 +34,9 @@ and data types.
 #define KTS2MPS 0.514444444
 
 // Periphereal Configurations
-#define UCSCAP_UBRG 5
+#define APFCY		40000000
+#define GPSBAUD		19200
+#define UCSCAP_UBRG (int)((APFCY/(16.0*GPSBAUD))-1.0)
 
 // ifdef switches for debugging and conditional inclusion
 #define __IN_DSPIC__ 1 // switch for use in PC
@@ -109,6 +112,7 @@ typedef struct tGpsData{
 	tIntToChar				hdop;	
 	unsigned char			fix;
 	unsigned char 			sats;	
+	unsigned char			new;
 }tGpsData;
 
 #endif /* _APDEFINITIONS_H_ */

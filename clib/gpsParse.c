@@ -152,6 +152,9 @@ void parseRMC(unsigned char* stream){
 		tmp[0]= token[4]; tmp[1]=token[5];
 		gpsData.year = (unsigned char) atoi(tmp);	
 	}
+	
+	// turn the flag on of new data
+	gpsData.new = 1;
 }
 
 void parseGGA(unsigned char* stream){
@@ -249,6 +252,9 @@ void parseGGA(unsigned char* stream){
 	if (strlen(token)>0){
 		gpsData.height.flData =  atof(token);	
 	}
+	
+	// turn the flag on of new data
+	gpsData.new = 1;
 }
 
 void gpsParse(unsigned char* inStream, unsigned char * parsedData){
@@ -267,6 +273,10 @@ void gpsParse(unsigned char* inStream, unsigned char * parsedData){
 			default:
 				break;
 		}
+	}else{
+		// turn the flag on of new data
+		gpsData.new = 0;
+	}
 		// write the output data;
 		parsedData[0]  = gpsData.year;					
 		parsedData[1]  = gpsData.month;					
@@ -294,6 +304,6 @@ void gpsParse(unsigned char* inStream, unsigned char * parsedData){
 		parsedData[23] = gpsData.hdop.chData[1];
 		parsedData[24]  = gpsData.fix;
 		parsedData[25]  = gpsData.sats;									
-	}
+		parsedData[26]  = gpsData.new;									
 }
 

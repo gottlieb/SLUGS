@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.20"
+    ComputedModelVersion    "1.27"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ASL_Lab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Aug 21 18:10:03 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:20>"
+  LastModifiedDate	  "Fri Aug 22 14:10:05 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:27>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -325,7 +325,7 @@ Model {
 	  ConfigAtBuild		  off
 	  CustomHeaderCode	  "\n"
 	  CustomSource		  "clib\\circBuffer.c\nclib\\gpsParse.c\nclib"
-"\\gpsSplit.c\nclib\\sbrk.c"
+"\\gpsSplit.c\nclib\\sbrk.c\nclib\\bufferedUART.c"
 	  IncludeHyperlinkInReport on
 	  LaunchReport		  on
 	  TargetLang		  "C"
@@ -571,7 +571,7 @@ Model {
 	PropName		"Components"
       }
       Name		      "Configuration"
-      CurrentDlgPage	      "Real-Time Workshop"
+      CurrentDlgPage	      "Real-Time Workshop/Custom Code"
     }
     PropName		    "ConfigurationSets"
   }
@@ -592,14 +592,6 @@ Model {
     ShowName		    on
   }
   BlockParameterDefaults {
-    Block {
-      BlockType		      Assignment
-      NumberOfDimensions      "1"
-      IndexMode		      "One-based"
-      OutputInitialize	      "Initialize using input port <Y0>"
-      DiagnosticForDimensions "None"
-      SampleTime	      "-1"
-    }
     Block {
       BlockType		      BusCreator
       Inputs		      "4"
@@ -636,38 +628,10 @@ Model {
       SampleTime	      "-1"
     }
     Block {
-      BlockType		      DiscreteIntegrator
-      IntegratorMethod	      "Integration: Forward Euler"
-      gainval		      "1.0"
-      ExternalReset	      "none"
-      InitialConditionSource  "internal"
-      InitialCondition	      "0"
-      InitialConditionMode    "State and output"
-      SampleTime	      "1"
-      OutDataTypeMode	      "Inherit via internal rule"
-      OutDataType	      "sfix(16)"
-      OutScaling	      "2^0"
-      LockScale		      off
-      RndMeth		      "Floor"
-      SaturateOnIntegerOverflow	off
-      LimitOutput	      off
-      UpperSaturationLimit    "inf"
-      LowerSaturationLimit    "-inf"
-      ShowSaturationPort      off
-      ShowStatePort	      off
-      IgnoreLimit	      off
-      StateMustResolveToSignalObject off
-      RTWStateStorageClass    "Auto"
-    }
-    Block {
-      BlockType		      ForIterator
-      ResetStates	      "held"
-      IterationSource	      "internal"
-      IterationLimit	      "5"
-      ExternalIncrement	      off
-      ShowIterationPort	      on
-      IndexMode		      "One-based"
-      IterationVariableDataType	"int32"
+      BlockType		      Demux
+      Outputs		      "4"
+      DisplayOption	      "none"
+      BusSelectionMode	      off
     }
     Block {
       BlockType		      Gain
@@ -704,14 +668,6 @@ Model {
       LatchByDelayingOutsideSignal off
       LatchByCopyingInsideSignal off
       Interpolate	      on
-    }
-    Block {
-      BlockType		      Mux
-      Inputs		      "4"
-      DisplayOption	      "none"
-      UseBusObject	      off
-      BusObject		      "BusObject"
-      NonVirtualBus	      off
     }
     Block {
       BlockType		      Outport
@@ -835,7 +791,7 @@ Model {
   }
   System {
     Name		    "GPSRead"
-    Location		    [284, 173, 1053, 624]
+    Location		    [284, 173, 1127, 631]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -852,10 +808,10 @@ Model {
     Block {
       BlockType		      BusCreator
       Name		      "Bus\nCreator"
-      Ports		      [14, 1]
-      Position		      [470, 295, 475, 425]
+      Ports		      [15, 1]
+      Position		      [470, 290, 475, 430]
       ShowName		      off
-      Inputs		      "14"
+      Inputs		      "15"
       DisplayOption	      "bar"
     }
     Block {
@@ -864,7 +820,7 @@ Model {
       Ports		      [1, 3]
       Position		      [505, 341, 510, 379]
       ShowName		      off
-      OutputSignals	      "hr,min,fix"
+      OutputSignals	      "hr,min,new"
       Port {
 	PortNumber		1
 	Name			"<hr>"
@@ -879,7 +835,7 @@ Model {
       }
       Port {
 	PortNumber		3
-	Name			"<fix>"
+	Name			"<new>"
 	RTWStorageClass		"Auto"
 	DataLoggingNameMode	"SignalName"
       }
@@ -1012,6 +968,26 @@ Model {
       SaturateOnIntegerOverflow	off
     }
     Block {
+      BlockType		      Demux
+      Name		      "Demux"
+      Ports		      [1, 2]
+      Position		      [175, 256, 180, 294]
+      BackgroundColor	      "black"
+      ShowName		      off
+      Outputs		      "[25 1]"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Demux
+      Name		      "Demux1"
+      Ports		      [1, 2]
+      Position		      [365, 226, 370, 264]
+      BackgroundColor	      "black"
+      ShowName		      off
+      Outputs		      "[1 24]"
+      DisplayOption	      "bar"
+    }
+    Block {
       BlockType		      Reference
       Name		      "Digital Output Write"
       Tag		      "dsPIC_Digital_Output"
@@ -1027,155 +1003,36 @@ Model {
       OrderingInOutPopup      "None"
     }
     Block {
-      BlockType		      SubSystem
-      Name		      "For Iterator\nSubsystem"
-      Ports		      [0, 2]
-      Position		      [35, 244, 185, 311]
-      TreatAsAtomicUnit	      on
-      MinAlgLoopOccurrences   off
-      RTWSystemCode	      "Auto"
-      FunctionWithSeparateData off
-      MaskHideContents	      off
-      System {
-	Name			"For Iterator\nSubsystem"
-	Location		[459, 417, 1053, 798]
-	Open			off
-	ModelBrowserVisibility	off
-	ModelBrowserWidth	200
-	ScreenColor		"white"
-	PaperOrientation	"landscape"
-	PaperPositionMode	"auto"
-	PaperType		"usletter"
-	PaperUnits		"inches"
-	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
-	TiledPageScale		1
-	ShowPageBoundaries	off
-	ZoomFactor		"100"
-	Block {
-	  BlockType		  Assignment
-	  Name			  "Assignment"
-	  Ports			  [3, 1]
-	  Position		  [265, 56, 355, 224]
-	  IndexMode		  "Zero-based"
-	  IndexOptions		  "Index vector (port)"
-	  Indices		  "1"
-	  OutputSizes		  "1"
-	}
-	Block {
-	  BlockType		  Constant
-	  Name			  "Constant1"
-	  Position		  [20, 70, 160, 100]
-	  Value			  "zeros(1,MAX_POSSIBLE)"
-	  OutDataTypeMode	  "uint8"
-	}
-	Block {
-	  BlockType		  DataTypeConversion
-	  Name			  "Data Type Conversion"
-	  Position		  [350, 253, 425, 287]
-	  ShowName		  off
-	  OutDataTypeMode	  "uint8"
-	  RndMeth		  "Floor"
-	}
-	Block {
-	  BlockType		  DiscreteIntegrator
-	  Name			  "Discrete-Time\nIntegrator"
-	  Ports			  [1, 1]
-	  Position		  [285, 254, 320, 286]
-	  IntegratorMethod	  "Integration: Forward Euler"
-	  ExternalReset		  "none"
-	  InitialConditionSource  "internal"
-	  SampleTime		  "-1"
-	  OutDataTypeMode	  "uint16"
-	  IgnoreLimit		  off
-	  ICPrevOutput		  "DiscIntNeverNeededParam"
-	  ICPrevScaledInput	  "DiscIntNeverNeededParam"
-	}
-	Block {
-	  BlockType		  ForIterator
-	  Name			  "For Iterator"
-	  Ports			  [0, 1]
-	  Position		  [135, 179, 210, 211]
-	  ResetStates		  "reset"
-	  IterationLimit	  "MAX_POSSIBLE"
-	  IndexMode		  "Zero-based"
-	  IterationVariableDataType "int8"
-	}
-	Block {
-	  BlockType		  Reference
-	  Name			  "Rx Input"
-	  Tag			  "dsPIC_RX"
-	  Ports			  [0, 2]
-	  Position		  [20, 126, 90, 159]
-	  Priority		  "5"
-	  SourceBlock		  "dsPICdrivers/Serial PORT/Rx Input"
-	  SourceType		  "Rx"
-	  UART			  "2"
-	  SampleTime		  "-1"
-	  BlockingFctChk	  off
-	  OutputDefault		  "0"
-	  IsPresentFlagChk	  on
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "Total Data Received"
-	  Position		  [475, 263, 505, 277]
-	  IconDisplay		  "Port number"
-	  BusOutputAsStruct	  off
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "Buffer Data"
-	  Position		  [470, 128, 500, 142]
-	  Port			  "2"
-	  IconDisplay		  "Port number"
-	  BusOutputAsStruct	  off
-	}
-	Line {
-	  SrcBlock		  "Discrete-Time\nIntegrator"
-	  SrcPort		  1
-	  DstBlock		  "Data Type Conversion"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Rx Input"
-	  SrcPort		  2
-	  Points		  [25, 0; 0, 120]
-	  DstBlock		  "Discrete-Time\nIntegrator"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Assignment"
-	  SrcPort		  1
-	  Points		  [0, -5]
-	  DstBlock		  "Buffer Data"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Rx Input"
-	  SrcPort		  1
-	  Points		  [155, 0]
-	  DstBlock		  "Assignment"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Constant1"
-	  SrcPort		  1
-	  DstBlock		  "Assignment"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "For Iterator"
-	  SrcPort		  1
-	  DstBlock		  "Assignment"
-	  DstPort		  3
-	}
-	Line {
-	  SrcBlock		  "Data Type Conversion"
-	  SrcPort		  1
-	  DstBlock		  "Total Data Received"
-	  DstPort		  1
-	}
+      BlockType		      Reference
+      Name		      "GPS Read"
+      Tag		      "dsPIC_dsPIC_CFunctionCall"
+      Ports		      [0, 1]
+      Position		      [40, 257, 145, 293]
+      List {
+	ListType		RTWdata
+	FctDeclaration		"extern void gpsRead(uint8_T* y1);"
+	FctCall			"gpsRead(*%y1);"
+	fctName			"gpsRead"
+	INPUT_SIZE		"1"
+	OUTPUT_SIZE		"26"
+	NBR_INPUT		"0"
+	NBR_OUTPUT		"1"
       }
+      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+      SourceType	      "C Function Call"
+      fctName		      "'gpsRead'"
+      INPUT_SIZE	      "1"
+      INPUT1		      "--"
+      INPUT2		      "--"
+      INPUT3		      "--"
+      OUTPUT_SIZE	      "26"
+      OUTPUT1		      "uint8"
+      SampleTime	      "-1"
+      InputType		      "[ ]"
+      OutputType	      "[ 2 ]"
+      FctDeclaration	      "extern void gpsRead(uint8_T* y1);"
+      FctCall		      "gpsRead(*%y1);"
+      OrderingInOutPopup      "None"
     }
     Block {
       BlockType		      Reference
@@ -1190,7 +1047,7 @@ Model {
 	FctCall			"gpsParse(*%u1, *%y1);"
 	fctName			"gpsParse"
 	INPUT_SIZE		"127"
-	OUTPUT_SIZE		"26"
+	OUTPUT_SIZE		"27"
 	NBR_INPUT		"1"
 	NBR_OUTPUT		"1"
       }
@@ -1201,7 +1058,7 @@ Model {
       INPUT1		      "uint8"
       INPUT2		      "--"
       INPUT3		      "--"
-      OUTPUT_SIZE	      "26"
+      OUTPUT_SIZE	      "27"
       OUTPUT1		      "uint8"
       SampleTime	      "-1"
       InputType		      "[ 2 ]"
@@ -1256,6 +1113,39 @@ Model {
     }
     Block {
       BlockType		      Reference
+      Name		      "Initialize UART 1 for\nGPS"
+      Tag		      "dsPIC_dsPIC_CFunctionCall"
+      Ports		      []
+      Position		      [270, 167, 375, 203]
+      BackgroundColor	      "yellow"
+      List {
+	ListType		RTWdata
+	FctDeclaration		"extern void uartInit();"
+	FctCall			"uartInit();"
+	fctName			"uartInit"
+	INPUT_SIZE		"1"
+	OUTPUT_SIZE		"1"
+	NBR_INPUT		"0"
+	NBR_OUTPUT		"0"
+      }
+      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+      SourceType	      "C Function Call"
+      fctName		      "'uartInit'"
+      INPUT_SIZE	      "1"
+      INPUT1		      "--"
+      INPUT2		      "--"
+      INPUT3		      "--"
+      OUTPUT_SIZE	      "1"
+      OUTPUT1		      "--"
+      SampleTime	      "inf"
+      InputType		      "[ ]"
+      OutputType	      "[ ]"
+      FctDeclaration	      "extern void uartInit();"
+      FctCall		      "uartInit();"
+      OrderingInOutPopup      "None"
+    }
+    Block {
+      BlockType		      Reference
       Name		      "Master"
       Tag		      "dsPIC_MASTER"
       Ports		      []
@@ -1283,7 +1173,7 @@ Model {
 "   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 "
 "  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0  "
 " 0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   "
-"0   0   0   0   0   0   0   0   0   0   0   0   0   4   5   4   0   0   0   0"
+"0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   4   5   0   0   0"
 "   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 "
 "  0   0   0   0 ]"
       TRIS		      "[ 65311  65535  65535  65535  65535  65535  655"
@@ -1297,15 +1187,6 @@ Model {
       PWRT		      "disable"
       MCLR		      "<empty>"
       PowerSave		      off
-    }
-    Block {
-      BlockType		      Mux
-      Name		      "Mux"
-      Ports		      [2, 1]
-      Position		      [215, 250, 220, 305]
-      ShowName		      off
-      Inputs		      "2"
-      DisplayOption	      "bar"
     }
     Block {
       BlockType		      Reference
@@ -1343,13 +1224,26 @@ Model {
       SourceBlock	      "dsPICdrivers/Serial PORT/TX Output Multiplexed"
 "\nfor Matlab // Labview"
       SourceType	      "send structured data frame to Matlab / Labview"
-      UART		      "1"
+      UART		      "2"
       CleverSpreadingChk      on
       CleverSpreading	      "1"
       CHANNEL		      "[0 1 2 3  4]"
       CHANNELBLOCKED	      "[]"
       CHANNELBLOCKED_BITEWISE "0"
       Status		      "OK"
+    }
+    Block {
+      BlockType		      Terminator
+      Name		      "Terminator"
+      Position		      [150, 305, 170, 325]
+      Orientation	      "left"
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Terminator
+      Name		      "Terminator1"
+      Position		      [400, 245, 420, 265]
+      ShowName		      off
     }
     Block {
       BlockType		      Reference
@@ -1371,41 +1265,10 @@ Model {
       InterruptTxWhen	      "When Transmit Buffer is empty"
       TXInterruptPri	      "7"
       TxBufferSize	      "64"
-      TXEN		      off
-      InterruptRxWhen	      "When Receive Buffer is full (contain 4 characte"
-"rs)"
-      RXInterruptPri	      "1"
-      RxBufferSize	      "64"
-      BAUD		      "19200"
-      UxBRG		      "129"
-      Info		      "UxBRG = 129   ||  Real Baud : 19231   ||  % err"
-"or : 0.16026  ||  max 1.9231 Bytes / Step"
-      RealBaud		      "0"
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "UART Configuration1"
-      Tag		      "dsPIC_config_UART"
-      Ports		      []
-      Position		      [295, 164, 396, 194]
-      BackgroundColor	      "lightBlue"
-      Priority		      "2"
-      List {
-	ListType		RTWdata
-	RxBufferSize		"64"
-      }
-      SourceBlock	      "dsPICdrivers/Serial PORT/UART Configuration"
-      SourceType	      "Configure UART"
-      UART		      "1"
-      proposed_BAUD	      "19200"
-      ALT_TX_RX		      off
-      InterruptTxWhen	      "When Transmit Buffer is empty"
-      TXInterruptPri	      "7"
-      TxBufferSize	      "64"
       TXEN		      on
       InterruptRxWhen	      "When Receive Buffer is full (contain 4 characte"
 "rs)"
-      RXInterruptPri	      "1"
+      RXInterruptPri	      "5"
       RxBufferSize	      "64"
       BAUD		      "19200"
       UxBRG		      "129"
@@ -1416,14 +1279,14 @@ Model {
     Block {
       BlockType		      Reference
       Name		      "Unpack"
-      Ports		      [1, 14]
-      Position		      [385, 295, 430, 425]
+      Ports		      [1, 15]
+      Position		      [385, 290, 430, 430]
       SourceBlock	      "xpclib/UDP/Unpack"
       SourceType	      "xpcbyte2any"
-      dimensions	      "{1,1,1,1,1,1,1,1,1,1,1,1,1,1}"
+      dimensions	      "{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}"
       datatypes		      "{'uint8', 'uint8', 'uint8', 'uint8', 'uint8', '"
 "uint8', 'single', 'single','single','uint16', 'uint16', 'uint16', 'uint8','ui"
-"nt8'}"
+"nt8', 'uint8'}"
       byteAlign		      "1"
       Port {
 	PortNumber		1
@@ -1509,6 +1372,12 @@ Model {
 	RTWStorageClass		"Auto"
 	DataLoggingNameMode	"SignalName"
       }
+      Port {
+	PortNumber		15
+	Name			"new"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
     }
     Block {
       BlockType		      Reference
@@ -1534,7 +1403,7 @@ Model {
       Name		      "gpsParser Init"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      []
-      Position		      [145, 165, 251, 200]
+      Position		      [145, 167, 250, 203]
       BackgroundColor	      "yellow"
       List {
 	ListType		RTWdata
@@ -1577,38 +1446,10 @@ Model {
       DstPort		      1
     }
     Line {
-      SrcBlock		      "For Iterator\nSubsystem"
-      SrcPort		      2
-      Points		      [10, 0]
-      DstBlock		      "Mux"
-      DstPort		      2
-    }
-    Line {
-      SrcBlock		      "For Iterator\nSubsystem"
-      SrcPort		      1
-      Points		      [5, 0]
-      Branch {
-	Points			[5, 0]
-	DstBlock		"Mux"
-	DstPort			1
-      }
-      Branch {
-	Points			[0, -50]
-	DstBlock		"TX Output Multiplexed\nfor Matlab / Labview"
-	DstPort			2
-      }
-    }
-    Line {
       SrcBlock		      "Compute Load"
       SrcPort		      1
       Points		      [-85, 0; 0, 50]
       DstBlock		      "TX Output Multiplexed\nfor Matlab / Labview"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Mux"
-      SrcPort		      1
-      DstBlock		      "GPS Sentence Split"
       DstPort		      1
     }
     Line {
@@ -1761,13 +1602,61 @@ Model {
       DstPort		      4
     }
     Line {
-      Name		      "<fix>"
+      Name		      "<new>"
       Labels		      [0, 0]
       SrcBlock		      "Bus\nSelector"
       SrcPort		      3
       Points		      [45, 0; 0, -115]
       DstBlock		      "TX Output Multiplexed\nfor Matlab / Labview"
       DstPort		      5
+    }
+    Line {
+      SrcBlock		      "GPS Read"
+      SrcPort		      1
+      DstBlock		      "Demux"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux"
+      SrcPort		      1
+      Points		      [10, 0]
+      Branch {
+	Points			[0, 15]
+	DstBlock		"GPS Sentence Split"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, -20]
+	DstBlock		"Demux1"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Demux"
+      SrcPort		      2
+      DstBlock		      "Terminator"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux1"
+      SrcPort		      2
+      DstBlock		      "Terminator1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux1"
+      SrcPort		      1
+      Points		      [100, 0; 0, -25]
+      DstBlock		      "TX Output Multiplexed\nfor Matlab / Labview"
+      DstPort		      2
+    }
+    Line {
+      Name		      "new"
+      Labels		      [0, 0]
+      SrcBlock		      "Unpack"
+      SrcPort		      15
+      DstBlock		      "Bus\nCreator"
+      DstPort		      15
     }
     Annotation {
       Name		      "GPS Reader/Decoder"

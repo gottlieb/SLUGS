@@ -169,7 +169,7 @@ unsigned char readFront (CBRef cB){
 }
 
 // writes one byte at the end of the circular buffer, returns 1 if overflow occured
-unsigned char writeBack (CBRef cB, char data){
+unsigned char writeBack (CBRef cB, unsigned char data){
 	// if the circular buffer is not null
 	if (cB != NULL){
 		cB->buffer[cB->tail] = data;

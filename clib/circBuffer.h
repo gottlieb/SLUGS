@@ -74,10 +74,10 @@ unsigned char peak(CBRef cB);
 unsigned char readFront (CBRef cB);
 
 // writes one byte at the end of the circular buffer, returns 1 if overflow occured
-unsigned char writeBack(CBRef cB, char data);
+unsigned char writeBack (CBRef cB, unsigned char data);
 
 // empties the circular buffer. It does not change the size. use with caution!!
-void makeEmpty(CBRef cB);
+void makeEmpty (CBRef cB);
 
 
 #if DEBUG
