@@ -17,9 +17,39 @@
 #include "circBuffer.h"
 #include "apDefinitions.h"
 #include <p33fxxxx.h>
+#include <uart.h>
 
 struct CircBuffer com1Buffer;
 CBRef uartBuffer;
+
+void gpsSentenceConfig(void){
+	int i;
+	//unsigned char chBaudRt  [] = {'$','P','M','T','K','2','5','1',',','1','9','2','0','0','*','2','2','\r','\n','\0'};	
+	//unsigned char chMsgs    [] = {'$','P','M','T','K','3','1','4',',','0',',','1',',','0',',','1',',','0',',','0',',','0',',','0',',','0',',','0',',','0',',','0',',','0',',','0',',','0',',','0',',','0',',','0',',','0','*','2','8','\r','\n','\0'};
+	unsigned char chMsgs [] = "$PMTK314,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*28\r\n\0";
+	unsigned char chBaudRt [] = "$PMTK251,19200*22\r\n\0";
+	
+	putsUART1((unsigned int *)chMsgs);
+	while(BusyUART1());	
+
+	for( i = 0; i < 32700; i += 1 )
+	{
+		Nop();
+	}
+	
+	putsUART1((unsigned int *)chBaudRt);
+	while(BusyUART1());
+	
+}
+
+void gpsFreqConfig(void){
+	//unsigned char chFreq    [] = {'$','P','M','T','K','3','0','0',',','2','0','0',',','0',',','0',',','0',',','0','*','2','F','\r','\n','\0'};
+	unsigned char chFreq [] = "$PMTK300,200,0,0,0,0*2F\r\n\0";	
+	putsUART1((unsigned int *)chFreq);
+	while(BusyUART1());	
+}
+
+
 
 // UART and Buffer initialization
 void uartInit (void){
@@ -27,16 +57,11 @@ void uartInit (void){
 	uartBuffer = (struct CircBuffer* )&com1Buffer;
 	newCircBuffer(uartBuffer);
 	
-	// Initialize the Interrupt	
-	IPC2bits.U1RXIP 	= 6;		// Interrupt priority 6	
-	IFS0bits.U1RXIF 	= 0;		// Clear the interrupt flag
-	IEC0bits.U1RXIE 	= 1;		// Enable interrupts
-	
 	// Configure and open the port;
 	// U1MODE Register
 	// ==============
 	U1MODEbits.UARTEN	= 0;		// Disable the port		
-	U1MODEbits.USIDL 	= 1;		// Stop on idle
+	U1MODEbits.USIDL 	= 0;		// Stop on idle
 	U1MODEbits.IREN		= 0;		// No IR decoder
 	U1MODEbits.RTSMD	= 0;		// Ready to send mode (irrelevant)
 	U1MODEbits.UEN		= 0;		// Only RX and TX
@@ -51,21 +76,61 @@ void uartInit (void){
 	// U1STA Register
 	// ==============
 	//U1STAbits.UTXISEL	= 0;		// irrelevant no TX for gps
-	U1STAbits.UTXINV	= 0;		// 
-	U1STAbits.UTXBRK	= 0;		//
-	U1STAbits.UTXEN		= 0;		// disable TX
-	U1STAbits.UTXBF		= 0;		// clear TX buffer
-	U1STAbits.TRMT		= 0;		// TX Buffer empty
+	//U1STAbits.UTXINV	= 1;		// 
+	//U1STAbits.UTXBRK	= 0;		//
+	//U1STAbits.UTXEN		= 1;		// Enable TX
 	U1STAbits.URXISEL	= 2;		// RX interrupt when 3 chars are in
-	U1STAbits.ADDEN		= 0;		// Irrelevant, working in 8 bits
 	U1STAbits.OERR		= 0;		// clear overun error
 	
 	// U1BRG Register
 	// ==============
-	U1BRG = UCSCAP_UBRG;				// Set the baud rate
+	U1BRG = UCSCAP_UBRGI;			// Set the baud rate for initial config of GPS
 
 	// Enable the port;
 	U1MODEbits.UARTEN	= 1;		// Enable the port	
+	U1STAbits.UTXEN		= 1;		// Enable TX
+	
+	// wait for the UART to settle
+	int i;
+	for( i = 0; i < 32700; i += 1 )
+	{
+		Nop();
+	}
+
+	// Configure the GPS sentences and change the baud Rate
+	gpsSentenceConfig();
+	
+	// Disable the port and TX;
+	U1MODEbits.UARTEN	= 0;		// Disable the port	
+	
+	// U1BRG Register
+	// ==============
+	U1BRG = UCSCAP_UBRGF;			// Set the baud rate for operation of GPS	
+	
+	// Enable the port;
+	U1MODEbits.UARTEN	= 1;		// Enable the port	
+	U1STAbits.UTXEN		= 1;		// Enable TX
+	
+	for( i = 0; i < 32700; i += 1 )
+	{
+		Nop();
+	}
+	
+	// Configure the frequency to 5 Hz
+	gpsFreqConfig();
+	
+	// Disable the port and TX;
+	U1MODEbits.UARTEN	= 0;		// Disable the port	
+
+
+	// Initialize the Interrupt  
+  	IPC2bits.U1RXIP   = 6;    		// Interrupt priority 6  
+  	IFS0bits.U1RXIF   = 0;    		// Clear the interrupt flag
+  	IEC0bits.U1RXIE   = 1;    		// Enable interrupts
+ 
+  	// Enable the port;
+	U1STAbits.UTXEN		= 0;		// Disable TX	
+  	U1MODEbits.UARTEN	= 1;		// Enable the port		
 }
 
 

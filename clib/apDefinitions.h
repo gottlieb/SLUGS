@@ -35,8 +35,10 @@ and data types.
 
 // Periphereal Configurations
 #define APFCY		40000000
-#define GPSBAUD		19200
-#define UCSCAP_UBRG (int)((APFCY/(16.0*GPSBAUD))-1.0)
+#define GPSBAUDF		19200
+#define GPSBAUDI		4800
+#define UCSCAP_UBRGF 129
+#define UCSCAP_UBRGI 520
 
 // ifdef switches for debugging and conditional inclusion
 #define __IN_DSPIC__ 1 // switch for use in PC

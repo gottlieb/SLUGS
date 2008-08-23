@@ -108,8 +108,15 @@ int main(int argc, char* argv[])
 	
 	printf("\n");
 	
+	unsigned char thischr [] = "$PMTK251,19200*22\r\n";
+	printf("Baud Rate %d", getChecksum(thischr, 17));
 	
+	unsigned char thischr2 [] = "$PMTK300,200,0,0,0,0*2F\r\n";
+	printf("Frequency %d", getChecksum(thischr2, 23));
 	
+	unsigned char thischr3 [] = "$PMTK314,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*28\r\n";
+	printf("Sentences %d", getChecksum(thischr3, 49));
+				
 	/*printf("Message 2\n");
 	gpsSeparate(msg2, outBuffer);	
 		printf("\n");
