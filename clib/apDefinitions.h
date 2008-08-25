@@ -10,38 +10,66 @@ and data types.
 #define _APDEFINITIONS_H_
 
 // =========== Global Definitions ==========
+
+// Circular Buffer Size
+// ===================
+#define BSIZE			127
+
 // GPS Checksum Messages
-#define GGACS	86
-#define RMCCS	75
+// =====================
+#define GGACS			86
+#define RMCCS			75
 
 // GPS Header IDs
-#define GGAID	1
-#define RMCID	2
-#define UNKID	254
+// ==============
+#define GGAID			1
+#define RMCID			2
+#define UNKID			254
 
 // GPS Circular Buffers
-#define BSIZE	127
-#define MSIZE	127
-#define CSIZE	26 //[newBytes payload remaingBytes]
+// ====================
+#define MSIZE			127
+#define CSIZE			26 //[newBytes payload remaingBytes]  (comms buffer out of readGPS)
 
-// Standard characters to parse the GPS message
-#define DOLLAR	36
-#define STAR	42
-#define CR		13
-#define LF		10
+// Data Logger Values
+// ================
+#define LOGSEND			8
+
+#define GPS_START 		0
+#define IMU_START 		27
+
+// Message Protocol Lengths and IDs
+// ================================
+#define GPSMSG_ID		1
+#define GPSMSG_LEN		27
+
+// Standard characters used in the parsing of messages
+// ===================================================
+#define DOLLAR			36
+#define STAR			42
+#define CR				13
+#define LF				10
+#define AT				64
 
 // Standard Units
-#define KTS2MPS 0.514444444
+// ==============
+#define KTS2MPS 		0.514444444
 
 // Periphereal Configurations
-#define APFCY		40000000
+// ==========================
+#define APFCY			40000000
+
 #define GPSBAUDF		19200
 #define GPSBAUDI		4800
-#define UCSCAP_UBRGF 129
-#define UCSCAP_UBRGI 520
+#define UCSCAP_UBRGF 	129
+#define UCSCAP_UBRGI 	520
+
+#define LOGBAUD			57600
+#define LOG_UBRG		42
 
 // ifdef switches for debugging and conditional inclusion
-#define __IN_DSPIC__ 1 // switch for use in PC
+// ======================================================
+#define __IN_DSPIC__ 	1 // switch for use in PC
 
 #if __IN_DSPIC__
 	#ifdef DEBUG
@@ -90,12 +118,27 @@ enum gpsOutSentence {
 	gpsHour,
 	gpsMin,
 	gpsSec,
-	gpsLat,
-	gpsLong,
-	gpsHeight,
-	gpsCOG,
-	gpsSOG,
-	gpsFix	
+	gpsLat0,
+	gpsLat1,
+	gpsLat2,
+	gpsLat3,
+	gpsLong0,
+	gpsLong1,
+	gpsLong2,
+	gpsLong3,
+	gpsHeight0,
+	gpsHeight1,
+	gpsHeight2,
+	gpsHeight3,
+	gpsCOG0,
+	gpsCOG1,
+	gpsSOG0,
+	gpsSOG1,
+	gpsHDOP0,
+	gpsHDOP1,
+	gpsFix,
+	gpsSats,
+	gpsNew		
 };
 
 // ============= Structures used for data ============

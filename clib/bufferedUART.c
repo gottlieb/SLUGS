@@ -24,8 +24,6 @@ CBRef uartBuffer;
 
 void gpsSentenceConfig(void){
 	int i;
-	//unsigned char chBaudRt  [] = {'$','P','M','T','K','2','5','1',',','1','9','2','0','0','*','2','2','\r','\n','\0'};	
-	//unsigned char chMsgs    [] = {'$','P','M','T','K','3','1','4',',','0',',','1',',','0',',','1',',','0',',','0',',','0',',','0',',','0',',','0',',','0',',','0',',','0',',','0',',','0',',','0',',','0',',','0',',','0','*','2','8','\r','\n','\0'};
 	unsigned char chMsgs [] = "$PMTK314,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*28\r\n\0";
 	unsigned char chBaudRt [] = "$PMTK251,19200*22\r\n\0";
 	
@@ -43,7 +41,6 @@ void gpsSentenceConfig(void){
 }
 
 void gpsFreqConfig(void){
-	//unsigned char chFreq    [] = {'$','P','M','T','K','3','0','0',',','2','0','0',',','0',',','0',',','0',',','0','*','2','F','\r','\n','\0'};
 	unsigned char chFreq [] = "$PMTK300,200,0,0,0,0*2F\r\n\0";	
 	putsUART1((unsigned int *)chFreq);
 	while(BusyUART1());	
@@ -75,10 +72,6 @@ void uartInit (void){
 	
 	// U1STA Register
 	// ==============
-	//U1STAbits.UTXISEL	= 0;		// irrelevant no TX for gps
-	//U1STAbits.UTXINV	= 1;		// 
-	//U1STAbits.UTXBRK	= 0;		//
-	//U1STAbits.UTXEN		= 1;		// Enable TX
 	U1STAbits.URXISEL	= 2;		// RX interrupt when 3 chars are in
 	U1STAbits.OERR		= 0;		// clear overun error
 	
@@ -158,17 +151,21 @@ void gpsRead(unsigned char* gpsChunk){
 	// until the next gpsRead
 	unsigned char tmpLen = getLength(uartBuffer), i=0;
 	
-	
+	// if the buffer has more data than the max size
 	if (tmpLen > CSIZE -2){
+		// set the new to the max
 		gpsChunk[0] = CSIZE -2;
+		// set the remaining to the len - max
 		gpsChunk[CSIZE-1] = tmpLen - (CSIZE -2);
 	}else{
+		// set the new to the actual len
 		gpsChunk[0] = tmpLen;
+		// no remaining data in the buffer
 		gpsChunk[CSIZE-1] = 0;
 	}
 	
 	// read the data 
-	for(i = 1; i <= tmpLen; i += 1 )
+	for(i = 1; i <= gpsChunk[0]; i += 1 )
 	{
 		gpsChunk[i] = readFront(uartBuffer);
 	}
