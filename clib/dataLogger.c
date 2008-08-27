@@ -107,14 +107,19 @@ void logData (unsigned char* rawData){
 	
 	switch (samplePeriod){
 		case 2:
-			// assemble the data for protocol sending
+			// assemble the CPU load data for protocol sending
+
 			assembleMsg(&rawData[LOAD_START], LOADMSG_LEN, LOADMSG_ID, tmpBuf);
 			for( i = 0; i < LOADMSG_LEN+6; i += 1 ){
 				writeBack(logBuffer,tmpBuf[i]);
 			}
-			// since the data is less than the actual minimum length to transmit no 
-			// new data, wait for next update
-			newData = 0;
+
+			assembleMsg(&rawData[RAW_START], RAWMSG_LEN, RAWMSG_ID, tmpBuf);
+			for( i = 0; i < RAWMSG_LEN+6; i += 1 ){
+				writeBack(logBuffer,tmpBuf[i]);
+			}
+			newData = 1;
+			break;
 		case 4:
 			// assemble the data for protocol sending
 			assembleMsg(&rawData[GPS_START], GPSMSG_LEN, GPSMSG_ID, tmpBuf);
@@ -123,6 +128,7 @@ void logData (unsigned char* rawData){
 				writeBack(logBuffer,tmpBuf[i]);
 			}
 			newData = 1;
+			break;
 	}
 	
 	// increment/overflow the samplePeriod counter

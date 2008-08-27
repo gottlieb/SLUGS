@@ -38,7 +38,7 @@ and data types.
 
 #define GPS_START 		0
 #define LOAD_START		28
-#define IMU_START 		29
+#define RAW_START 		29
 
 // Message Protocol Lengths and IDs
 // ================================
@@ -46,6 +46,8 @@ and data types.
 #define GPSMSG_LEN		27
 #define LOADMSG_ID		2
 #define LOADMSG_LEN		1
+#define RAWMSG_ID		3
+#define RAWMSG_LEN		18
 
 // Standard characters used in the parsing of messages
 // ===================================================

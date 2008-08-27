@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.45"
+    ComputedModelVersion    "1.46"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ASL_Lab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Aug 26 16:58:45 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:45>"
+  LastModifiedDate	  "Wed Aug 27 13:15:08 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:46>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -593,6 +593,18 @@ Model {
   }
   BlockParameterDefaults {
     Block {
+      BlockType		      BusCreator
+      Inputs		      "4"
+      DisplayOption	      "none"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      NonVirtualBus	      off
+    }
+    Block {
+      BlockType		      BusSelector
+      OutputAsBus	      off
+    }
+    Block {
       BlockType		      Constant
       Value		      "1"
       VectorParams1D	      on
@@ -620,6 +632,15 @@ Model {
       Outputs		      "4"
       DisplayOption	      "none"
       BusSelectionMode	      off
+    }
+    Block {
+      BlockType		      DiscreteTransferFcn
+      Numerator		      "[1]"
+      Denominator	      "[1 0.5]"
+      SampleTime	      "1"
+      StateMustResolveToSignalObject off
+      RTWStateStorageClass    "Auto"
+      Realization	      "auto"
     }
     Block {
       BlockType		      Ground
@@ -776,7 +797,7 @@ Model {
   }
   System {
     Name		    "GPSReadLog"
-    Location		    [284, 173, 1142, 554]
+    Location		    [284, 173, 1142, 779]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -792,7 +813,7 @@ Model {
     ReportName		    "simulink-default.rpt"
     Block {
       BlockType		      SubSystem
-      Name		      "Compute Load1"
+      Name		      "Compute Load"
       Ports		      [0, 1]
       Position		      [50, 293, 130, 337]
       BackgroundColor	      "orange"
@@ -801,7 +822,7 @@ Model {
       FunctionWithSeparateData off
       MaskHideContents	      off
       System {
-	Name			"Compute Load1"
+	Name			"Compute Load"
 	Location		[338, 369, 968, 477]
 	Open			off
 	ModelBrowserVisibility	off
@@ -945,7 +966,7 @@ Model {
 	FctDeclaration		"extern void logData(uint8_T* u1);"
 	FctCall			"logData(*%u1);"
 	fctName			"logData"
-	INPUT_SIZE		"28"
+	INPUT_SIZE		"46"
 	OUTPUT_SIZE		"1"
 	NBR_INPUT		"1"
 	NBR_OUTPUT		"0"
@@ -953,7 +974,7 @@ Model {
       SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
       SourceType	      "C Function Call"
       fctName		      "'logData'"
-      INPUT_SIZE	      "28"
+      INPUT_SIZE	      "46"
       INPUT1		      "uint8"
       INPUT2		      "--"
       INPUT3		      "--"
@@ -1338,10 +1359,10 @@ Model {
     Block {
       BlockType		      Mux
       Name		      "Mux"
-      Ports		      [2, 1]
-      Position		      [180, 266, 185, 304]
+      Ports		      [3, 1]
+      Position		      [200, 266, 205, 304]
       ShowName		      off
-      Inputs		      "2"
+      Inputs		      "3"
       DisplayOption	      "bar"
     }
     Block {
@@ -1367,6 +1388,1162 @@ Model {
 	Name			"1Hz"
 	RTWStorageClass		"Auto"
 	DataLoggingNameMode	"SignalName"
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Raw Sensors"
+      Ports		      [0, 1]
+      Position		      [45, 361, 130, 419]
+      BackgroundColor	      "orange"
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      MaskHideContents	      off
+      System {
+	Name			"Raw Sensors"
+	Location		[324, 524, 579, 724]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Reference
+	  Name			  "Pack"
+	  Ports			  [9, 1]
+	  Position		  [130, 26, 175, 174]
+	  SourceBlock		  "xpclib/UDP/Pack"
+	  SourceType		  "xpcany2byte"
+	  datatypes		  "{'uint16', 'uint16', 'uint16', 'uint16', 'u"
+"int16', 'uint16', 'uint16', 'uint16', 'uint16',}"
+	  byteAlign		  "1"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Sensor Suite"
+	  Ports			  [0, 9]
+	  Position		  [25, 29, 85, 171]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Sensor Suite"
+	    Location		    [89, 300, 809, 666]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Analog Sensors"
+	      Ports		      [0, 1]
+	      Position		      [25, 90, 100, 120]
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"Analog Sensors"
+		Location		[125, 367, 420, 653]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Reference
+		  Name			  "ADC Input"
+		  Tag			  "dsPIC_ADC"
+		  Ports			  [0, 15]
+		  Position		  [25, 28, 160, 262]
+		  Priority		  "5"
+		  List {
+		    ListType		    RTWdata
+		    DMAChannel		    "1"
+		  }
+		  SourceBlock		  "dsPICdrivers/Peripheral I//O/ADC In"
+"put"
+		  SourceType		  "dsPIC : ADC10"
+		  ADC_TYPE		  "12 bits"
+		  ADC_MODE		  "Continuous sampling & get last chan"
+"nel value"
+		  NbrSampleStep		  "1"
+		  VoltRefpopup		  "AVdd  -  AVss"
+		  OutFormatBitspopup	  "0000 dddd dddd dddd : Integer"
+		  InterruptPriority	  "6"
+		  ANCHANNELS		  "[0 1 3 4 5 6 7 8 9 10 11 12 13 15 1"
+"6]"
+		  MaxName		  "ANmax = 4096"
+		  Rin			  "1e2"
+		  ADCS			  "53"
+		  SAMC			  "1"
+		  Temperature		  "25"
+		  DMAChannel		  "1"
+		  SampleTime		  ".01"
+		  Status		  "OK  |  Tsmp=6.750e-007 |  T/Channel"
+"=1.012e-005 |  Tall=1.519e-004"
+		}
+		Block {
+		  BlockType		  Mux
+		  Name			  "Mux"
+		  Ports			  [15, 1]
+		  Position		  [210, 30, 215, 260]
+		  ShowName		  off
+		  Inputs		  "15"
+		  DisplayOption		  "bar"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Sensors"
+		  Position		  [240, 138, 270, 152]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "ADC Input"
+		  SrcPort		  1
+		  DstBlock		  "Mux"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "ADC Input"
+		  SrcPort		  2
+		  DstBlock		  "Mux"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "ADC Input"
+		  SrcPort		  3
+		  DstBlock		  "Mux"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "ADC Input"
+		  SrcPort		  4
+		  DstBlock		  "Mux"
+		  DstPort		  4
+		}
+		Line {
+		  SrcBlock		  "ADC Input"
+		  SrcPort		  5
+		  DstBlock		  "Mux"
+		  DstPort		  5
+		}
+		Line {
+		  SrcBlock		  "ADC Input"
+		  SrcPort		  6
+		  DstBlock		  "Mux"
+		  DstPort		  6
+		}
+		Line {
+		  SrcBlock		  "ADC Input"
+		  SrcPort		  7
+		  DstBlock		  "Mux"
+		  DstPort		  7
+		}
+		Line {
+		  SrcBlock		  "ADC Input"
+		  SrcPort		  8
+		  DstBlock		  "Mux"
+		  DstPort		  8
+		}
+		Line {
+		  SrcBlock		  "ADC Input"
+		  SrcPort		  9
+		  DstBlock		  "Mux"
+		  DstPort		  9
+		}
+		Line {
+		  SrcBlock		  "ADC Input"
+		  SrcPort		  10
+		  DstBlock		  "Mux"
+		  DstPort		  10
+		}
+		Line {
+		  SrcBlock		  "ADC Input"
+		  SrcPort		  11
+		  DstBlock		  "Mux"
+		  DstPort		  11
+		}
+		Line {
+		  SrcBlock		  "ADC Input"
+		  SrcPort		  12
+		  DstBlock		  "Mux"
+		  DstPort		  12
+		}
+		Line {
+		  SrcBlock		  "ADC Input"
+		  SrcPort		  13
+		  DstBlock		  "Mux"
+		  DstPort		  13
+		}
+		Line {
+		  SrcBlock		  "ADC Input"
+		  SrcPort		  14
+		  DstBlock		  "Mux"
+		  DstPort		  14
+		}
+		Line {
+		  SrcBlock		  "ADC Input"
+		  SrcPort		  15
+		  DstBlock		  "Mux"
+		  DstPort		  15
+		}
+		Line {
+		  SrcBlock		  "Mux"
+		  SrcPort		  1
+		  DstBlock		  "Sensors"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      BusCreator
+	      Name		      "Bus\nCreator"
+	      Ports		      [15, 1]
+	      Position		      [310, 30, 315, 180]
+	      ShowName		      off
+	      Inputs		      "15"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      BusSelector
+	      Name		      "Bus\nSelector"
+	      Ports		      [1, 9]
+	      Position		      [350, 55, 355, 155]
+	      ShowName		      off
+	      OutputSignals	      "GyroX,Gyro y,Gyro Z,Accel X,Accel y,Acc"
+"el z,Baro,Pitot,Thermistor"
+	      Port {
+		PortNumber		1
+		Name			"<GyroX>"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		2
+		Name			"<Gyro y>"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		3
+		Name			"<Gyro Z>"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		4
+		Name			"<Accel X>"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		5
+		Name			"<Accel y>"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		6
+		Name			"<Accel z>"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		7
+		Name			"<Baro>"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		8
+		Name			"<Pitot>"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		9
+		Name			"<Thermistor>"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion1"
+	      Position		      [585, 37, 640, 53]
+	      ShowName		      off
+	      OutDataTypeMode	      "uint16"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion10"
+	      Position		      [445, 142, 500, 158]
+	      ShowName		      off
+	      OutDataTypeMode	      "double"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion11"
+	      Position		      [445, 177, 500, 193]
+	      ShowName		      off
+	      OutDataTypeMode	      "double"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion12"
+	      Position		      [450, 212, 500, 228]
+	      ShowName		      off
+	      OutDataTypeMode	      "double"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion13"
+	      Position		      [440, 247, 495, 263]
+	      ShowName		      off
+	      OutDataTypeMode	      "double"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion14"
+	      Position		      [445, 282, 500, 298]
+	      ShowName		      off
+	      OutDataTypeMode	      "double"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion15"
+	      Position		      [445, 317, 495, 333]
+	      ShowName		      off
+	      OutDataTypeMode	      "double"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion16"
+	      Position		      [585, 247, 640, 263]
+	      ShowName		      off
+	      OutDataTypeMode	      "uint16"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion17"
+	      Position		      [585, 282, 640, 298]
+	      ShowName		      off
+	      OutDataTypeMode	      "uint16"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion18"
+	      Position		      [585, 317, 640, 333]
+	      ShowName		      off
+	      OutDataTypeMode	      "uint16"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion2"
+	      Position		      [585, 72, 640, 88]
+	      ShowName		      off
+	      OutDataTypeMode	      "uint16"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion3"
+	      Position		      [585, 107, 640, 123]
+	      ShowName		      off
+	      OutDataTypeMode	      "uint16"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion4"
+	      Position		      [445, 37, 500, 53]
+	      ShowName		      off
+	      OutDataTypeMode	      "double"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion5"
+	      Position		      [445, 72, 500, 88]
+	      ShowName		      off
+	      OutDataTypeMode	      "double"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion6"
+	      Position		      [445, 107, 495, 123]
+	      ShowName		      off
+	      OutDataTypeMode	      "double"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion7"
+	      Position		      [585, 142, 640, 158]
+	      ShowName		      off
+	      OutDataTypeMode	      "uint16"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion8"
+	      Position		      [585, 177, 640, 193]
+	      ShowName		      off
+	      OutDataTypeMode	      "uint16"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion9"
+	      Position		      [585, 212, 640, 228]
+	      ShowName		      off
+	      OutDataTypeMode	      "uint16"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Demux
+	      Name		      "Demux"
+	      Ports		      [1, 15]
+	      Position		      [205, 30, 210, 180]
+	      BackgroundColor	      "black"
+	      ShowName		      off
+	      Outputs		      "15"
+	      DisplayOption	      "bar"
+	      Port {
+		PortNumber		1
+		Name			"Accel y"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		2
+		Name			"Accel z"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		3
+		Name			"GyroX"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		4
+		Name			"IDGRef"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		5
+		Name			"Gyro y"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		6
+		Name			"Accel X"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		7
+		Name			"Gyro Z"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		8
+		Name			"ADX Ref"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		9
+		Name			"Mag23"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		10
+		Name			"Mag01"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		11
+		Name			"Mag Z"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		12
+		Name			"Baro"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		13
+		Name			"Pitot"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		14
+		Name			"Thermistor"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		15
+		Name			"Power"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      DiscreteTransferFcn
+	      Name		      "Low Pass Filter"
+	      Position		      [520, 29, 560, 61]
+	      NamePlacement	      "alternate"
+	      Numerator		      "[.01478 .01478]"
+	      Denominator	      "[1 -.9704]"
+	      SampleTime	      ".01"
+	    }
+	    Block {
+	      BlockType		      DiscreteTransferFcn
+	      Name		      "Low Pass Filter1"
+	      Position		      [520, 64, 560, 96]
+	      ShowName		      off
+	      Numerator		      "[.01478 .01478]"
+	      Denominator	      "[1 -.9704]"
+	      SampleTime	      ".01"
+	    }
+	    Block {
+	      BlockType		      DiscreteTransferFcn
+	      Name		      "Low Pass Filter2"
+	      Position		      [520, 99, 560, 131]
+	      ShowName		      off
+	      Numerator		      "[.01478 .01478]"
+	      Denominator	      "[1 -.9704]"
+	      SampleTime	      ".01"
+	    }
+	    Block {
+	      BlockType		      DiscreteTransferFcn
+	      Name		      "Low Pass Filter3"
+	      Position		      [520, 134, 560, 166]
+	      NamePlacement	      "alternate"
+	      ShowName		      off
+	      Numerator		      "[.01478 .01478]"
+	      Denominator	      "[1 -.9704]"
+	      SampleTime	      ".01"
+	    }
+	    Block {
+	      BlockType		      DiscreteTransferFcn
+	      Name		      "Low Pass Filter4"
+	      Position		      [520, 169, 560, 201]
+	      ShowName		      off
+	      Numerator		      "[.01478 .01478]"
+	      Denominator	      "[1 -.9704]"
+	      SampleTime	      ".01"
+	    }
+	    Block {
+	      BlockType		      DiscreteTransferFcn
+	      Name		      "Low Pass Filter5"
+	      Position		      [520, 204, 560, 236]
+	      ShowName		      off
+	      Numerator		      "[.01478 .01478]"
+	      Denominator	      "[1 -.9704]"
+	      SampleTime	      ".01"
+	    }
+	    Block {
+	      BlockType		      DiscreteTransferFcn
+	      Name		      "Low Pass Filter6"
+	      Position		      [520, 239, 560, 271]
+	      NamePlacement	      "alternate"
+	      ShowName		      off
+	      Numerator		      "[.01478 .01478]"
+	      Denominator	      "[1 -.9704]"
+	      SampleTime	      ".01"
+	    }
+	    Block {
+	      BlockType		      DiscreteTransferFcn
+	      Name		      "Low Pass Filter7"
+	      Position		      [520, 274, 560, 306]
+	      ShowName		      off
+	      Numerator		      "[.01478 .01478]"
+	      Denominator	      "[1 -.9704]"
+	      SampleTime	      ".01"
+	    }
+	    Block {
+	      BlockType		      DiscreteTransferFcn
+	      Name		      "Low Pass Filter8"
+	      Position		      [520, 309, 560, 341]
+	      ShowName		      off
+	      Numerator		      "[.01478 .01478]"
+	      Denominator	      "[1 -.9704]"
+	      SampleTime	      ".01"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Gyro X"
+	      Position		      [665, 38, 695, 52]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Gyro Y"
+	      Position		      [665, 73, 695, 87]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Gyro Z"
+	      Position		      [665, 108, 695, 122]
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Accel X"
+	      Position		      [665, 143, 695, 157]
+	      Port		      "4"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Accel Y"
+	      Position		      [665, 178, 695, 192]
+	      Port		      "5"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Accel Z"
+	      Position		      [665, 213, 695, 227]
+	      Port		      "6"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Baro"
+	      Position		      [665, 248, 695, 262]
+	      Port		      "7"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Pitot"
+	      Position		      [665, 283, 695, 297]
+	      Port		      "8"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Temp"
+	      Position		      [665, 318, 695, 332]
+	      Port		      "9"
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      Name		      "Accel y"
+	      Labels		      [0, 1]
+	      SrcBlock		      "Demux"
+	      SrcPort		      1
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "Accel z"
+	      Labels		      [0, 1]
+	      SrcBlock		      "Demux"
+	      SrcPort		      2
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      2
+	    }
+	    Line {
+	      Name		      "GyroX"
+	      Labels		      [0, 1]
+	      SrcBlock		      "Demux"
+	      SrcPort		      3
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      3
+	    }
+	    Line {
+	      Name		      "IDGRef"
+	      Labels		      [0, 1]
+	      SrcBlock		      "Demux"
+	      SrcPort		      4
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      4
+	    }
+	    Line {
+	      Name		      "Gyro y"
+	      Labels		      [0, 1]
+	      SrcBlock		      "Demux"
+	      SrcPort		      5
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      5
+	    }
+	    Line {
+	      Name		      "Accel X"
+	      Labels		      [0, 1]
+	      SrcBlock		      "Demux"
+	      SrcPort		      6
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      6
+	    }
+	    Line {
+	      Name		      "Gyro Z"
+	      Labels		      [0, 1]
+	      SrcBlock		      "Demux"
+	      SrcPort		      7
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      7
+	    }
+	    Line {
+	      Name		      "ADX Ref"
+	      Labels		      [0, 1]
+	      SrcBlock		      "Demux"
+	      SrcPort		      8
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      8
+	    }
+	    Line {
+	      Name		      "Mag23"
+	      Labels		      [0, 1]
+	      SrcBlock		      "Demux"
+	      SrcPort		      9
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      9
+	    }
+	    Line {
+	      Name		      "Mag01"
+	      Labels		      [0, 1]
+	      SrcBlock		      "Demux"
+	      SrcPort		      10
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      10
+	    }
+	    Line {
+	      Name		      "Mag Z"
+	      Labels		      [0, 1]
+	      SrcBlock		      "Demux"
+	      SrcPort		      11
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      11
+	    }
+	    Line {
+	      Name		      "Baro"
+	      Labels		      [0, 1]
+	      SrcBlock		      "Demux"
+	      SrcPort		      12
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      12
+	    }
+	    Line {
+	      Name		      "Pitot"
+	      Labels		      [0, 1]
+	      SrcBlock		      "Demux"
+	      SrcPort		      13
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      13
+	    }
+	    Line {
+	      Name		      "Thermistor"
+	      Labels		      [0, 1]
+	      SrcBlock		      "Demux"
+	      SrcPort		      14
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      14
+	    }
+	    Line {
+	      Name		      "Power"
+	      Labels		      [0, 1]
+	      SrcBlock		      "Demux"
+	      SrcPort		      15
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      15
+	    }
+	    Line {
+	      SrcBlock		      "Bus\nCreator"
+	      SrcPort		      1
+	      DstBlock		      "Bus\nSelector"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<GyroX>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      1
+	      Points		      [70, 0]
+	      DstBlock		      "Data Type Conversion4"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<Gyro y>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      2
+	      Points		      [0, 5]
+	      DstBlock		      "Data Type Conversion5"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<Gyro Z>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      3
+	      Points		      [70, 0]
+	      DstBlock		      "Data Type Conversion6"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Low Pass Filter"
+	      SrcPort		      1
+	      DstBlock		      "Data Type Conversion1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Low Pass Filter1"
+	      SrcPort		      1
+	      DstBlock		      "Data Type Conversion2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion4"
+	      SrcPort		      1
+	      DstBlock		      "Low Pass Filter"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion5"
+	      SrcPort		      1
+	      DstBlock		      "Low Pass Filter1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Analog Sensors"
+	      SrcPort		      1
+	      DstBlock		      "Demux"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion6"
+	      SrcPort		      1
+	      DstBlock		      "Low Pass Filter2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Low Pass Filter2"
+	      SrcPort		      1
+	      DstBlock		      "Data Type Conversion3"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Low Pass Filter3"
+	      SrcPort		      1
+	      DstBlock		      "Data Type Conversion7"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Low Pass Filter4"
+	      SrcPort		      1
+	      DstBlock		      "Data Type Conversion8"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion10"
+	      SrcPort		      1
+	      DstBlock		      "Low Pass Filter3"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion11"
+	      SrcPort		      1
+	      DstBlock		      "Low Pass Filter4"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion12"
+	      SrcPort		      1
+	      DstBlock		      "Low Pass Filter5"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Low Pass Filter5"
+	      SrcPort		      1
+	      DstBlock		      "Data Type Conversion9"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<Accel X>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      4
+	      Points		      [55, 0; 0, 55]
+	      DstBlock		      "Data Type Conversion10"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<Accel y>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      5
+	      Points		      [50, 0; 0, 80]
+	      DstBlock		      "Data Type Conversion11"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<Accel z>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      6
+	      Points		      [45, 0; 0, 105]
+	      DstBlock		      "Data Type Conversion12"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Low Pass Filter7"
+	      SrcPort		      1
+	      DstBlock		      "Data Type Conversion17"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion14"
+	      SrcPort		      1
+	      DstBlock		      "Low Pass Filter7"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion15"
+	      SrcPort		      1
+	      DstBlock		      "Low Pass Filter8"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Low Pass Filter8"
+	      SrcPort		      1
+	      DstBlock		      "Data Type Conversion18"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<Baro>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      7
+	      Points		      [35, 0; 0, 130]
+	      DstBlock		      "Data Type Conversion13"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<Pitot>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      8
+	      Points		      [25, 0; 0, 150; 45, 0]
+	      DstBlock		      "Data Type Conversion14"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<Thermistor>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      9
+	      Points		      [20, 0; 0, 180]
+	      DstBlock		      "Data Type Conversion15"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion13"
+	      SrcPort		      1
+	      DstBlock		      "Low Pass Filter6"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Low Pass Filter6"
+	      SrcPort		      1
+	      DstBlock		      "Data Type Conversion16"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion1"
+	      SrcPort		      1
+	      DstBlock		      "Gyro X"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion2"
+	      SrcPort		      1
+	      DstBlock		      "Gyro Y"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion3"
+	      SrcPort		      1
+	      DstBlock		      "Gyro Z"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion7"
+	      SrcPort		      1
+	      DstBlock		      "Accel X"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion8"
+	      SrcPort		      1
+	      DstBlock		      "Accel Y"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion9"
+	      SrcPort		      1
+	      DstBlock		      "Accel Z"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion16"
+	      SrcPort		      1
+	      DstBlock		      "Baro"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion17"
+	      SrcPort		      1
+	      DstBlock		      "Pitot"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion18"
+	      SrcPort		      1
+	      DstBlock		      "Temp"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Sensors"
+	  Position		  [200, 95, 230, 109]
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "Sensor Suite"
+	  SrcPort		  1
+	  DstBlock		  "Pack"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sensor Suite"
+	  SrcPort		  2
+	  DstBlock		  "Pack"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Sensor Suite"
+	  SrcPort		  3
+	  DstBlock		  "Pack"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Sensor Suite"
+	  SrcPort		  4
+	  DstBlock		  "Pack"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Sensor Suite"
+	  SrcPort		  5
+	  DstBlock		  "Pack"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "Sensor Suite"
+	  SrcPort		  6
+	  DstBlock		  "Pack"
+	  DstPort		  6
+	}
+	Line {
+	  SrcBlock		  "Sensor Suite"
+	  SrcPort		  7
+	  DstBlock		  "Pack"
+	  DstPort		  7
+	}
+	Line {
+	  SrcBlock		  "Sensor Suite"
+	  SrcPort		  8
+	  DstBlock		  "Pack"
+	  DstPort		  8
+	}
+	Line {
+	  SrcBlock		  "Sensor Suite"
+	  SrcPort		  9
+	  DstBlock		  "Pack"
+	  DstPort		  9
+	}
+	Line {
+	  SrcBlock		  "Pack"
+	  SrcPort		  1
+	  DstBlock		  "Sensors"
+	  DstPort		  1
+	}
       }
     }
     Block {
@@ -1438,7 +2615,7 @@ Model {
     Line {
       SrcBlock		      "Get GPS"
       SrcPort		      1
-      Points		      [30, 0]
+      Points		      [50, 0]
       DstBlock		      "Mux"
       DstPort		      1
     }
@@ -1449,11 +2626,18 @@ Model {
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Compute Load1"
+      SrcBlock		      "Compute Load"
       SrcPort		      1
-      Points		      [30, 0]
+      Points		      [20, 0; 0, -30]
       DstBlock		      "Mux"
       DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Raw Sensors"
+      SrcPort		      1
+      Points		      [50, 0]
+      DstBlock		      "Mux"
+      DstPort		      3
     }
     Annotation {
       Name		      "GPS Reader/Decoder"
