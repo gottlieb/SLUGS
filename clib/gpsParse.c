@@ -51,7 +51,7 @@ float degMinToDeg(unsigned char degrees, float minutes){
 void parseRMC(unsigned char* stream){
 	// declare the local vars
 	char * token;
-	char tmp [2] ={0}, tmp3[3]={0};
+	char tmp [3] ={0,0,'\0'}, tmp3[4]={0,0,0,'\0'};
 	unsigned char chTmp = 0;
 	
 	// initialize tokenizer, let go first token which holds the msg type
@@ -93,7 +93,7 @@ void parseRMC(unsigned char* stream){
 			printf("\nToken :%d\n", token[0]);
 			printf("\nToken Len:%d\n", strlen(token));
 		#endif
-		if (strlen(token)>0){
+		if (strlen(token)==1){
 			// set the sign of the float value
 			gpsData.lat.flData *= gpSmbl((char)token[0]);
 		}
@@ -118,7 +118,7 @@ void parseRMC(unsigned char* stream){
 			printf("\nToken :%d\n", token[0]);
 			printf("\nToken Len:%d\n", strlen(token));
 		#endif
-		if (strlen(token)>0){
+		if (strlen(token)==1){
 			// set the sign of the float value
 			gpsData.lon.flData *= gpSmbl((char)token[0]);
 		}
@@ -160,7 +160,7 @@ void parseRMC(unsigned char* stream){
 void parseGGA(unsigned char* stream){
 	// declare the local vars
 	char * token;
-	char tmp [2] ={0}, tmp3[3]={0};
+	char tmp [3] ={0,0,'\0'}, tmp3[4]={0,0,0,'\0'};
 	unsigned char chTmp = 0;
 	
 	// initialize tokenizer, let go first token which holds the msg type
@@ -194,7 +194,7 @@ void parseGGA(unsigned char* stream){
 			printf("\nToken :%d\n", token[0]);
 			printf("\nToken Len:%d\n", strlen(token));
 		#endif
-		if (strlen(token)>0){
+		if (strlen(token)==1){
 			// set the sign of the float value
 			gpsData.lat.flData *= gpSmbl((char)token[0]);
 		}
@@ -268,7 +268,7 @@ void gpsParse(unsigned char* inStream, unsigned char * parsedData){
 				parseRMC(inStream);
 				break;
 			case GGAID:
-				parseGGA(inStream);
+				//parseGGA(inStream);
 				break;
 			default:
 				break;

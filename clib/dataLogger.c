@@ -6,7 +6,7 @@
 
 struct CircBuffer com2Buffer;
 CBRef logBuffer;
-unsigned int BufferA[8] __attribute__((space(dma))) = {'1','2','3','4','5','6','7','8'};
+unsigned int BufferA[LOGSEND] __attribute__((space(dma))) = {0};
 
 void loggerInit (void){
 	// initialize the circular buffer
@@ -40,11 +40,6 @@ void loggerInit (void){
 	IFS0bits.DMA0IF  = 0;			// Clear DMA Interrupt Flag
 	IEC0bits.DMA0IE  = 1;			// Enable DMA interrupt
 	
-	//DMA0CONbits.CHEN == 1;
-	// Init the transmission
-	//DMA0REQbits.FORCE == 1;
-	
-	
 	// Configure and open the port;
 	// U2MODE Register
 	// ==============
@@ -69,7 +64,7 @@ void loggerInit (void){
 	U2MODEbits.UARTEN	= 1;		// Enable the port	
 	U2STAbits.UTXEN		= 1;		// Enable TX
 		
-	IEC4bits.U2EIE = 0;	
+	IEC4bits.U2EIE 		= 0;	
 }
 
 void assembleMsg(unsigned char* rawData, unsigned char size, char type, unsigned char * protMsg){
@@ -83,8 +78,8 @@ void assembleMsg(unsigned char* rawData, unsigned char size, char type, unsigned
 	{
 		protMsg[i+4] = rawData[i];
 	}
-	protMsg[size+3] = STAR;
-	protMsg[size+4] = getChecksum(protMsg, (size+5));	
+	protMsg[size+4] = STAR;
+	protMsg[size+5] = getChecksum(protMsg, (size+5));	
 }
 
 void copyBufferToDMA (void){
@@ -95,19 +90,48 @@ void copyBufferToDMA (void){
 	}
 }
 
+
+/*
+	logData is the implementation of the outgoing Comunications 		
+	protocol it is geared to prepare the data either for the data 
+	logger or the communications device (radio modem). It uses a 
+	static variable to monitor at which samples the outgoing messages 
+	are queued in the circular buffer for DMA transmision.
+*/
 void logData (unsigned char* rawData){
-	unsigned char tmpBuf [GPSMSG_LEN + 5] ={0}, i;
+	// sample period variable
+	static unsigned char samplePeriod = 0;
+	// temp var to store the assembled message
+	unsigned char tmpBuf [MAXLOGLEN] ={0}, i, newData= 0;
 	
-	// assemble the data for protocol sending
-	assembleMsg(rawData, GPSMSG_LEN, GPSMSG_ID, tmpBuf);
 	
-	// add it to the circular buffer
-	for( i = 0; i < GPSMSG_LEN+5; i += 1 ){
-		writeBack(logBuffer,tmpBuf[i]);
+	switch (samplePeriod){
+		case 2:
+			// assemble the data for protocol sending
+			assembleMsg(&rawData[LOAD_START], LOADMSG_LEN, LOADMSG_ID, tmpBuf);
+			for( i = 0; i < LOADMSG_LEN+6; i += 1 ){
+				writeBack(logBuffer,tmpBuf[i]);
+			}
+			// since the data is less than the actual minimum length to transmit no 
+			// new data, wait for next update
+			newData = 0;
+		case 4:
+			// assemble the data for protocol sending
+			assembleMsg(&rawData[GPS_START], GPSMSG_LEN, GPSMSG_ID, tmpBuf);
+			// add it to the circular buffer
+			for( i = 0; i < GPSMSG_LEN+6; i += 1 ){
+				writeBack(logBuffer,tmpBuf[i]);
+			}
+			newData = 1;
 	}
 	
+	// increment/overflow the samplePeriod counter
+	samplePeriod = (samplePeriod >= 4)? 0: samplePeriod + 1;
+	
+	
 	// if the interrupt catched up with the circularBuffer
-	if(DMA0CONbits.CHEN == 0){
+	// and new data was added then turn on the 
+	if(!DMA0CONbits.CHEN && newData){
 		copyBufferToDMA();
 		// Enable the DMA
 		DMA0CONbits.CHEN = 1;

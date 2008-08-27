@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.34"
+    ComputedModelVersion    "1.45"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ASL_Lab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Aug 25 19:07:31 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:34>"
+  LastModifiedDate	  "Tue Aug 26 16:58:45 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:45>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -108,7 +108,7 @@ Model {
 	  StartTime		  "0.0"
 	  StopTime		  "10.0"
 	  AbsTol		  "auto"
-	  FixedStep		  "0.001"
+	  FixedStep		  "0.01"
 	  InitialStep		  "auto"
 	  MaxNumMinSteps	  "-1"
 	  MaxOrder		  5
@@ -571,7 +571,7 @@ Model {
 	PropName		"Components"
       }
       Name		      "Configuration"
-      CurrentDlgPage	      "Real-Time Workshop/DsPIC options"
+      CurrentDlgPage	      "Solver"
     }
     PropName		    "ConfigurationSets"
   }
@@ -592,18 +592,6 @@ Model {
     ShowName		    on
   }
   BlockParameterDefaults {
-    Block {
-      BlockType		      BusCreator
-      Inputs		      "4"
-      DisplayOption	      "none"
-      UseBusObject	      off
-      BusObject		      "BusObject"
-      NonVirtualBus	      off
-    }
-    Block {
-      BlockType		      BusSelector
-      OutputAsBus	      off
-    }
     Block {
       BlockType		      Constant
       Value		      "1"
@@ -634,22 +622,6 @@ Model {
       BusSelectionMode	      off
     }
     Block {
-      BlockType		      Gain
-      Gain		      "1"
-      Multiplication	      "Element-wise(K.*u)"
-      ParameterDataTypeMode   "Same as input"
-      ParameterDataType	      "sfix(16)"
-      ParameterScalingMode    "Best Precision: Matrix-wise"
-      ParameterScaling	      "2^0"
-      OutDataTypeMode	      "Same as input"
-      OutDataType	      "sfix(16)"
-      OutScaling	      "2^0"
-      LockScale		      off
-      RndMeth		      "Floor"
-      SaturateOnIntegerOverflow	on
-      SampleTime	      "-1"
-    }
-    Block {
       BlockType		      Ground
     }
     Block {
@@ -668,6 +640,14 @@ Model {
       LatchByDelayingOutsideSignal off
       LatchByCopyingInsideSignal off
       Interpolate	      on
+    }
+    Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      NonVirtualBus	      off
     }
     Block {
       BlockType		      Outport
@@ -698,6 +678,11 @@ Model {
       LockScale		      off
       RndMeth		      "Zero"
       SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Rounding
+      Operator		      "floor"
       SampleTime	      "-1"
     }
     Block {
@@ -791,7 +776,7 @@ Model {
   }
   System {
     Name		    "GPSReadLog"
-    Location		    [284, 173, 1112, 721]
+    Location		    [284, 173, 1142, 554]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -806,42 +791,18 @@ Model {
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
     Block {
-      BlockType		      BusCreator
-      Name		      "Bus\nCreator"
-      Ports		      [15, 1]
-      Position		      [470, 290, 475, 430]
-      ShowName		      off
-      Inputs		      "15"
-      DisplayOption	      "bar"
-    }
-    Block {
-      BlockType		      BusSelector
-      Name		      "Bus\nSelector"
-      Ports		      [1, 1]
-      Position		      [505, 341, 510, 379]
-      ShowName		      off
-      OutputSignals	      "hr"
-      Port {
-	PortNumber		1
-	Name			"<hr>"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-    }
-    Block {
       BlockType		      SubSystem
-      Name		      "Compute Load"
+      Name		      "Compute Load1"
       Ports		      [0, 1]
-      Position		      [660, 123, 740, 167]
-      Orientation	      "left"
+      Position		      [50, 293, 130, 337]
       BackgroundColor	      "orange"
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
       MaskHideContents	      off
       System {
-	Name			"Compute Load"
-	Location		[338, 369, 793, 461]
+	Name			"Compute Load1"
+	Location		[338, 369, 968, 477]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -862,15 +823,33 @@ Model {
 	  Position		  [25, 25, 150, 65]
 	  SourceBlock		  "dsPICdrivers/OTHERS/Calculus Time Step"
 	  SourceType		  "Calculation Time"
-	  SampleTime		  ".005"
+	  SampleTime		  "0.01"
 	  PR1chk		  on
 	}
 	Block {
 	  BlockType		  DataTypeConversion
-	  Name			  "Data Type Conversion12"
-	  Position		  [340, 32, 375, 58]
+	  Name			  "Data Type Conversion1"
+	  Position		  [255, 42, 290, 68]
 	  ShowName		  off
-	  OutDataTypeMode	  "uint16"
+	  OutDataTypeMode	  "single"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion12"
+	  Position		  [475, 32, 510, 58]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint8"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion2"
+	  Position		  [185, 22, 220, 48]
+	  ShowName		  off
+	  OutDataTypeMode	  "single"
 	  RndMeth		  "Floor"
 	  SaturateOnIntegerOverflow off
 	}
@@ -878,7 +857,7 @@ Model {
 	  BlockType		  Product
 	  Name			  "Divide"
 	  Ports			  [2, 1]
-	  Position		  [225, 27, 255, 58]
+	  Position		  [345, 27, 375, 58]
 	  Inputs		  "*/"
 	  CollapseMode		  "All dimensions"
 	  InputSameDT		  off
@@ -888,20 +867,41 @@ Model {
 	  SaturateOnIntegerOverflow off
 	}
 	Block {
-	  BlockType		  Gain
-	  Name			  "Gain3"
-	  Position		  [285, 30, 315, 60]
-	  Gain			  "100"
-	  ParameterDataTypeMode	  "Inherit via internal rule"
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  SaturateOnIntegerOverflow off
+	  BlockType		  Rounding
+	  Name			  "Rounding\nFunction"
+	  Position		  [415, 30, 445, 60]
+	  ShowName		  off
 	}
 	Block {
 	  BlockType		  Outport
 	  Name			  "Load (%)"
-	  Position		  [400, 38, 430, 52]
+	  Position		  [545, 38, 575, 52]
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "Calculus Time Step"
+	  SrcPort		  1
+	  DstBlock		  "Data Type Conversion2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Calculus Time Step"
+	  SrcPort		  2
+	  DstBlock		  "Data Type Conversion1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Divide"
+	  SrcPort		  1
+	  DstBlock		  "Rounding\nFunction"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rounding\nFunction"
+	  SrcPort		  1
+	  DstBlock		  "Data Type Conversion12"
+	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "Data Type Conversion12"
@@ -910,26 +910,14 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Gain3"
+	  SrcBlock		  "Data Type Conversion1"
 	  SrcPort		  1
-	  DstBlock		  "Data Type Conversion12"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Divide"
-	  SrcPort		  1
-	  DstBlock		  "Gain3"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Calculus Time Step"
-	  SrcPort		  2
 	  Points		  [0, -5]
 	  DstBlock		  "Divide"
 	  DstPort		  2
 	}
 	Line {
-	  SrcBlock		  "Calculus Time Step"
+	  SrcBlock		  "Data Type Conversion2"
 	  SrcPort		  1
 	  DstBlock		  "Divide"
 	  DstPort		  1
@@ -951,13 +939,13 @@ Model {
       Name		      "Data Logger"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [1]
-      Position		      [410, 472, 515, 508]
+      Position		      [230, 267, 335, 303]
       List {
 	ListType		RTWdata
 	FctDeclaration		"extern void logData(uint8_T* u1);"
 	FctCall			"logData(*%u1);"
 	fctName			"logData"
-	INPUT_SIZE		"27"
+	INPUT_SIZE		"28"
 	OUTPUT_SIZE		"1"
 	NBR_INPUT		"1"
 	NBR_OUTPUT		"0"
@@ -965,7 +953,7 @@ Model {
       SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
       SourceType	      "C Function Call"
       fctName		      "'logData'"
-      INPUT_SIZE	      "27"
+      INPUT_SIZE	      "28"
       INPUT1		      "uint8"
       INPUT2		      "--"
       INPUT3		      "--"
@@ -988,26 +976,6 @@ Model {
       SaturateOnIntegerOverflow	off
     }
     Block {
-      BlockType		      Demux
-      Name		      "Demux"
-      Ports		      [1, 2]
-      Position		      [175, 256, 180, 294]
-      BackgroundColor	      "black"
-      ShowName		      off
-      Outputs		      "[25 1]"
-      DisplayOption	      "bar"
-    }
-    Block {
-      BlockType		      Demux
-      Name		      "Demux1"
-      Ports		      [1, 2]
-      Position		      [365, 226, 370, 264]
-      BackgroundColor	      "black"
-      ShowName		      off
-      Outputs		      "[1 24]"
-      DisplayOption	      "bar"
-    }
-    Block {
       BlockType		      Reference
       Name		      "Digital Output Write"
       Tag		      "dsPIC_Digital_Output"
@@ -1017,108 +985,9 @@ Model {
       Priority		      "5"
       SourceBlock	      "dsPICdrivers/Digital I//O/Digital Output Write"
       SourceType	      ""
-      PORT		      "A"
-      Pin		      "[ 5]"
+      PORT		      "G"
+      Pin		      "[ 14]"
       Simultaneous	      off
-      OrderingInOutPopup      "None"
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "GPS Read"
-      Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      [0, 1]
-      Position		      [40, 257, 145, 293]
-      List {
-	ListType		RTWdata
-	FctDeclaration		"extern void gpsRead(uint8_T* y1);"
-	FctCall			"gpsRead(*%y1);"
-	fctName			"gpsRead"
-	INPUT_SIZE		"1"
-	OUTPUT_SIZE		"26"
-	NBR_INPUT		"0"
-	NBR_OUTPUT		"1"
-      }
-      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-      SourceType	      "C Function Call"
-      fctName		      "'gpsRead'"
-      INPUT_SIZE	      "1"
-      INPUT1		      "--"
-      INPUT2		      "--"
-      INPUT3		      "--"
-      OUTPUT_SIZE	      "26"
-      OUTPUT1		      "uint8"
-      SampleTime	      "-1"
-      InputType		      "[ ]"
-      OutputType	      "[ 2 ]"
-      FctDeclaration	      "extern void gpsRead(uint8_T* y1);"
-      FctCall		      "gpsRead(*%y1);"
-      OrderingInOutPopup      "None"
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "GPS Sentence\nParser"
-      Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      [1, 1]
-      Position		      [250, 342, 355, 378]
-      List {
-	ListType		RTWdata
-	FctDeclaration		"extern void gpsParse(uint8_T* u1,uint8_T* y1)"
-";"
-	FctCall			"gpsParse(*%u1, *%y1);"
-	fctName			"gpsParse"
-	INPUT_SIZE		"127"
-	OUTPUT_SIZE		"27"
-	NBR_INPUT		"1"
-	NBR_OUTPUT		"1"
-      }
-      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-      SourceType	      "C Function Call"
-      fctName		      "'gpsParse'"
-      INPUT_SIZE	      "127"
-      INPUT1		      "uint8"
-      INPUT2		      "--"
-      INPUT3		      "--"
-      OUTPUT_SIZE	      "27"
-      OUTPUT1		      "uint8"
-      SampleTime	      "-1"
-      InputType		      "[ 2 ]"
-      OutputType	      "[ 2 ]"
-      FctDeclaration	      "extern void gpsParse(uint8_T* u1,uint8_T* y1);"
-      FctCall		      "gpsParse(*%u1, *%y1);"
-      OrderingInOutPopup      "None"
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "GPS Sentence Split"
-      Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      [1, 1]
-      Position		      [235, 262, 340, 298]
-      List {
-	ListType		RTWdata
-	FctDeclaration		"extern void gpsSeparate(uint8_T* u1,uint8_T* "
-"y1);"
-	FctCall			"gpsSeparate(*%u1, *%y1);"
-	fctName			"gpsSeparate"
-	INPUT_SIZE		"25"
-	OUTPUT_SIZE		"127"
-	NBR_INPUT		"1"
-	NBR_OUTPUT		"1"
-      }
-      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-      SourceType	      "C Function Call"
-      fctName		      "'gpsSeparate'"
-      INPUT_SIZE	      "25"
-      INPUT1		      "uint8"
-      INPUT2		      "--"
-      INPUT3		      "--"
-      OUTPUT_SIZE	      "127"
-      OUTPUT1		      "uint8"
-      SampleTime	      "-1"
-      InputType		      "[ 2 ]"
-      OutputType	      "[ 2 ]"
-      FctDeclaration	      "extern void gpsSeparate(uint8_T* u1,uint8_T* y1"
-");"
-      FctCall		      "gpsSeparate(*%u1, *%y1);"
       OrderingInOutPopup      "None"
     }
     Block {
@@ -1130,6 +999,231 @@ Model {
       SourceBlock	      "dsPICdrivers/Simulink Configuration/Generate Co"
 "de"
       SourceType	      ""
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Get GPS"
+      Ports		      [0, 1]
+      Position		      [25, 238, 130, 272]
+      BackgroundColor	      "orange"
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      MaskHideContents	      off
+      System {
+	Name			"Get GPS"
+	Location		[299, 373, 840, 627]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux"
+	  Ports			  [1, 2]
+	  Position		  [160, 56, 165, 94]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  Outputs		  "[25 1]"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux1"
+	  Ports			  [1, 2]
+	  Position		  [350, 26, 355, 64]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  Outputs		  "[1 24]"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "GPS Read"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [0, 1]
+	  Position		  [25, 57, 130, 93]
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void gpsRead(uint8_T* y1);"
+	    FctCall		    "gpsRead(*%y1);"
+	    fctName		    "gpsRead"
+	    INPUT_SIZE		    "1"
+	    OUTPUT_SIZE		    "26"
+	    NBR_INPUT		    "0"
+	    NBR_OUTPUT		    "1"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'gpsRead'"
+	  INPUT_SIZE		  "1"
+	  INPUT1		  "--"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "26"
+	  OUTPUT1		  "uint8"
+	  SampleTime		  "-1"
+	  InputType		  "[ ]"
+	  OutputType		  "[ 2 ]"
+	  FctDeclaration	  "extern void gpsRead(uint8_T* y1);"
+	  FctCall		  "gpsRead(*%y1);"
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "GPS Sentence\nParser"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [1, 1]
+	  Position		  [235, 142, 340, 178]
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void gpsParse(uint8_T* u1,uint8_T*"
+" y1);"
+	    FctCall		    "gpsParse(*%u1, *%y1);"
+	    fctName		    "gpsParse"
+	    INPUT_SIZE		    "127"
+	    OUTPUT_SIZE		    "27"
+	    NBR_INPUT		    "1"
+	    NBR_OUTPUT		    "1"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'gpsParse'"
+	  INPUT_SIZE		  "127"
+	  INPUT1		  "uint8"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "27"
+	  OUTPUT1		  "uint8"
+	  SampleTime		  "-1"
+	  InputType		  "[ 2 ]"
+	  OutputType		  "[ 2 ]"
+	  FctDeclaration	  "extern void gpsParse(uint8_T* u1,uint8_T* y"
+"1);"
+	  FctCall		  "gpsParse(*%u1, *%y1);"
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "GPS Sentence Split"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [1, 1]
+	  Position		  [220, 62, 325, 98]
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void gpsSeparate(uint8_T* u1,uint8"
+"_T* y1);"
+	    FctCall		    "gpsSeparate(*%u1, *%y1);"
+	    fctName		    "gpsSeparate"
+	    INPUT_SIZE		    "25"
+	    OUTPUT_SIZE		    "127"
+	    NBR_INPUT		    "1"
+	    NBR_OUTPUT		    "1"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'gpsSeparate'"
+	  INPUT_SIZE		  "25"
+	  INPUT1		  "uint8"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "127"
+	  OUTPUT1		  "uint8"
+	  SampleTime		  "-1"
+	  InputType		  "[ 2 ]"
+	  OutputType		  "[ 2 ]"
+	  FctDeclaration	  "extern void gpsSeparate(uint8_T* u1,uint8_T"
+"* y1);"
+	  FctCall		  "gpsSeparate(*%u1, *%y1);"
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator"
+	  Position		  [135, 105, 155, 125]
+	  Orientation		  "left"
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator1"
+	  Position		  [370, 45, 390, 65]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator2"
+	  Position		  [395, 25, 415, 45]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "GPS\nStream"
+	  Position		  [365, 153, 395, 167]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "GPS Sentence Split"
+	  SrcPort		  1
+	  Points		  [0, 40; -130, 0; 0, 40]
+	  DstBlock		  "GPS Sentence\nParser"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "GPS Read"
+	  SrcPort		  1
+	  DstBlock		  "Demux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  1
+	  Points		  [10, 0]
+	  Branch {
+	    Points		    [0, 15]
+	    DstBlock		    "GPS Sentence Split"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -20]
+	    DstBlock		    "Demux1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  2
+	  DstBlock		  "Terminator"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux1"
+	  SrcPort		  2
+	  DstBlock		  "Terminator1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux1"
+	  SrcPort		  1
+	  DstBlock		  "Terminator2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "GPS Sentence\nParser"
+	  SrcPort		  1
+	  DstBlock		  "GPS\nStream"
+	  DstPort		  1
+	}
+      }
     }
     Block {
       BlockType		      Reference
@@ -1214,32 +1308,41 @@ Model {
       TimeStepType	      "Timer1"
       picType		      "33fJ256MC710"
       fcy		      "40000000"
-      Quartz_33f	      "8e6"
+      Quartz_33f	      "12e6"
       PLLActive_33f	      on
       fcyDesired_33f	      "40e6"
-      tmr1		      "[1  39999  0]"
-      tmr1Info		      "Time Step : 0.001  ;   Error : 0%  PR1=39999"
+      tmr1		      "[8  49999  0]"
+      tmr1Info		      "Time Step : 0.01  ;   Error : 0%  PR1=49999"
       tmr2345		      "[0  0  0  0  0  0  0  0]"
       tmr2345cfg	      "[-1 -1 -1 -1 -1 -1 -1 -1]"
       IOautoConf	      on
-      typePort		      "[ 0   0   0   0   0  10  10  10   0   0   0   0"
+      typePort		      "[ 0   0   0   0   0   0   0   0   0   0   0   0"
 "   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 "
 "  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0  "
 " 0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   "
 "0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0"
 "   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 "
-"  0   0   0   0 ]"
-      TRIS		      "[ 65311  65535  65535  65535  65535  65535  655"
-"35 ]"
-      ADPCFG		      "12582912"
-      MasterBusyPort	      "A7"
-      MasterOverloadPort      "A6"
+"  0   0  10   0 ]"
+      TRIS		      "[ 65535  65535  65535  65535  65535  65535  491"
+"51 ]"
+      ADPCFG		      "0"
+      MasterBusyPort	      "None"
+      MasterOverloadPort      "None"
       FOSC		      "Quartz (XT - HS)"
       TempProtection_33f      "TEMP_ON"
       FPBOR		      "<empty>"
       PWRT		      "disable"
       MCLR		      "<empty>"
       PowerSave		      off
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux"
+      Ports		      [2, 1]
+      Position		      [180, 266, 185, 304]
+      ShowName		      off
+      Inputs		      "2"
+      DisplayOption	      "bar"
     }
     Block {
       BlockType		      Reference
@@ -1262,140 +1365,6 @@ Model {
       Port {
 	PortNumber		1
 	Name			"1Hz"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-    }
-    Block {
-      BlockType		      Terminator
-      Name		      "Terminator"
-      Position		      [150, 305, 170, 325]
-      Orientation	      "left"
-      ShowName		      off
-    }
-    Block {
-      BlockType		      Terminator
-      Name		      "Terminator1"
-      Position		      [400, 245, 420, 265]
-      ShowName		      off
-    }
-    Block {
-      BlockType		      Terminator
-      Name		      "Terminator2"
-      Position		      [460, 225, 480, 245]
-      ShowName		      off
-    }
-    Block {
-      BlockType		      Terminator
-      Name		      "Terminator3"
-      Position		      [530, 350, 550, 370]
-      ShowName		      off
-    }
-    Block {
-      BlockType		      Terminator
-      Name		      "Terminator4"
-      Position		      [600, 185, 620, 205]
-      ShowName		      off
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Unpack"
-      Ports		      [1, 15]
-      Position		      [385, 290, 430, 430]
-      SourceBlock	      "xpclib/UDP/Unpack"
-      SourceType	      "xpcbyte2any"
-      dimensions	      "{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}"
-      datatypes		      "{'uint8', 'uint8', 'uint8', 'uint8', 'uint8', '"
-"uint8', 'single', 'single','single','uint16', 'uint16', 'uint16', 'uint8','ui"
-"nt8', 'uint8'}"
-      byteAlign		      "1"
-      Port {
-	PortNumber		1
-	Name			"yr"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-      Port {
-	PortNumber		2
-	Name			"mon"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-      Port {
-	PortNumber		3
-	Name			"dy"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-      Port {
-	PortNumber		4
-	Name			"hr"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-      Port {
-	PortNumber		5
-	Name			"min"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-      Port {
-	PortNumber		6
-	Name			"sec"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-      Port {
-	PortNumber		7
-	Name			"lat"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-      Port {
-	PortNumber		8
-	Name			"lon"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-      Port {
-	PortNumber		9
-	Name			"hei"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-      Port {
-	PortNumber		10
-	Name			"cog"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-      Port {
-	PortNumber		11
-	Name			"sog"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-      Port {
-	PortNumber		12
-	Name			"hdop"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-      Port {
-	PortNumber		13
-	Name			"fix"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-      Port {
-	PortNumber		14
-	Name			"sats"
-	RTWStorageClass		"Auto"
-	DataLoggingNameMode	"SignalName"
-      }
-      Port {
-	PortNumber		15
-	Name			"new"
 	RTWStorageClass		"Auto"
 	DataLoggingNameMode	"SignalName"
       }
@@ -1467,205 +1436,24 @@ Model {
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Compute Load"
+      SrcBlock		      "Get GPS"
       SrcPort		      1
-      Points		      [-85, 0; 0, 50]
-      DstBlock		      "Terminator4"
+      Points		      [30, 0]
+      DstBlock		      "Mux"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "GPS Sentence Split"
+      SrcBlock		      "Mux"
       SrcPort		      1
-      Points		      [0, 40; -130, 0; 0, 40]
-      DstBlock		      "GPS Sentence\nParser"
+      DstBlock		      "Data Logger"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "GPS Sentence\nParser"
+      SrcBlock		      "Compute Load1"
       SrcPort		      1
-      Points		      [5, 0]
-      Branch {
-	DstBlock		"Unpack"
-	DstPort			1
-      }
-      Branch {
-	Points			[0, 130]
-	DstBlock		"Data Logger"
-	DstPort			1
-      }
-    }
-    Line {
-      Name		      "yr"
-      Labels		      [0, 0]
-      SrcBlock		      "Unpack"
-      SrcPort		      1
-      DstBlock		      "Bus\nCreator"
-      DstPort		      1
-    }
-    Line {
-      Name		      "mon"
-      Labels		      [0, 0]
-      SrcBlock		      "Unpack"
-      SrcPort		      2
-      DstBlock		      "Bus\nCreator"
+      Points		      [30, 0]
+      DstBlock		      "Mux"
       DstPort		      2
-    }
-    Line {
-      Name		      "dy"
-      Labels		      [0, 0]
-      SrcBlock		      "Unpack"
-      SrcPort		      3
-      DstBlock		      "Bus\nCreator"
-      DstPort		      3
-    }
-    Line {
-      Name		      "hr"
-      Labels		      [0, 0]
-      SrcBlock		      "Unpack"
-      SrcPort		      4
-      DstBlock		      "Bus\nCreator"
-      DstPort		      4
-    }
-    Line {
-      Name		      "min"
-      Labels		      [0, 0]
-      SrcBlock		      "Unpack"
-      SrcPort		      5
-      DstBlock		      "Bus\nCreator"
-      DstPort		      5
-    }
-    Line {
-      Name		      "sec"
-      Labels		      [0, 0]
-      SrcBlock		      "Unpack"
-      SrcPort		      6
-      DstBlock		      "Bus\nCreator"
-      DstPort		      6
-    }
-    Line {
-      Name		      "lat"
-      Labels		      [0, 0]
-      SrcBlock		      "Unpack"
-      SrcPort		      7
-      DstBlock		      "Bus\nCreator"
-      DstPort		      7
-    }
-    Line {
-      Name		      "lon"
-      Labels		      [0, 0]
-      SrcBlock		      "Unpack"
-      SrcPort		      8
-      DstBlock		      "Bus\nCreator"
-      DstPort		      8
-    }
-    Line {
-      Name		      "hei"
-      Labels		      [0, 0]
-      SrcBlock		      "Unpack"
-      SrcPort		      9
-      DstBlock		      "Bus\nCreator"
-      DstPort		      9
-    }
-    Line {
-      Name		      "cog"
-      Labels		      [0, 0]
-      SrcBlock		      "Unpack"
-      SrcPort		      10
-      DstBlock		      "Bus\nCreator"
-      DstPort		      10
-    }
-    Line {
-      Name		      "sog"
-      Labels		      [0, 0]
-      SrcBlock		      "Unpack"
-      SrcPort		      11
-      DstBlock		      "Bus\nCreator"
-      DstPort		      11
-    }
-    Line {
-      Name		      "hdop"
-      Labels		      [0, 0]
-      SrcBlock		      "Unpack"
-      SrcPort		      12
-      DstBlock		      "Bus\nCreator"
-      DstPort		      12
-    }
-    Line {
-      Name		      "fix"
-      Labels		      [0, 0]
-      SrcBlock		      "Unpack"
-      SrcPort		      13
-      DstBlock		      "Bus\nCreator"
-      DstPort		      13
-    }
-    Line {
-      Name		      "sats"
-      Labels		      [0, 0]
-      SrcBlock		      "Unpack"
-      SrcPort		      14
-      DstBlock		      "Bus\nCreator"
-      DstPort		      14
-    }
-    Line {
-      SrcBlock		      "Bus\nCreator"
-      SrcPort		      1
-      DstBlock		      "Bus\nSelector"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "GPS Read"
-      SrcPort		      1
-      DstBlock		      "Demux"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Demux"
-      SrcPort		      1
-      Points		      [10, 0]
-      Branch {
-	Points			[0, 15]
-	DstBlock		"GPS Sentence Split"
-	DstPort			1
-      }
-      Branch {
-	Points			[0, -20]
-	DstBlock		"Demux1"
-	DstPort			1
-      }
-    }
-    Line {
-      SrcBlock		      "Demux"
-      SrcPort		      2
-      DstBlock		      "Terminator"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Demux1"
-      SrcPort		      2
-      DstBlock		      "Terminator1"
-      DstPort		      1
-    }
-    Line {
-      Name		      "new"
-      Labels		      [0, 0]
-      SrcBlock		      "Unpack"
-      SrcPort		      15
-      DstBlock		      "Bus\nCreator"
-      DstPort		      15
-    }
-    Line {
-      SrcBlock		      "Demux1"
-      SrcPort		      1
-      DstBlock		      "Terminator2"
-      DstPort		      1
-    }
-    Line {
-      Name		      "<hr>"
-      Labels		      [0, 0]
-      SrcBlock		      "Bus\nSelector"
-      SrcPort		      1
-      DstBlock		      "Terminator3"
-      DstPort		      1
     }
     Annotation {
       Name		      "GPS Reader/Decoder"

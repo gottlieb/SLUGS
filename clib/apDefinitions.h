@@ -34,14 +34,18 @@ and data types.
 // Data Logger Values
 // ================
 #define LOGSEND			8
+#define MAXLOGLEN		33
 
 #define GPS_START 		0
-#define IMU_START 		27
+#define LOAD_START		28
+#define IMU_START 		29
 
 // Message Protocol Lengths and IDs
 // ================================
 #define GPSMSG_ID		1
 #define GPSMSG_LEN		27
+#define LOADMSG_ID		2
+#define LOADMSG_LEN		1
 
 // Standard characters used in the parsing of messages
 // ===================================================
