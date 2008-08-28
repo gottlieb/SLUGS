@@ -57,6 +57,11 @@ and data types.
 #define LF				10
 #define AT				64
 
+// Interprocessor Communication
+// ============================
+#define BEGINSPI		0xFFFF
+#define ENDSPI			0x00FF
+
 // Standard Units
 // ==============
 #define KTS2MPS 		0.514444444

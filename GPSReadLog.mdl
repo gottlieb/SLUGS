@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.46"
+    ComputedModelVersion    "1.50"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -15,7 +15,7 @@ Model {
   SampleTimeColors	  on
   LibraryLinkDisplay	  "none"
   WideLines		  on
-  ShowLineDimensions	  off
+  ShowLineDimensions	  on
   ShowPortDataTypes	  off
   ShowLoopsOnError	  on
   IgnoreBidirectionalLines off
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ASL_Lab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Aug 27 13:15:08 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:46>"
+  LastModifiedDate	  "Wed Aug 27 16:04:40 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:50>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -797,7 +797,7 @@ Model {
   }
   System {
     Name		    "GPSReadLog"
-    Location		    [284, 173, 1142, 779]
+    Location		    [284, 173, 1079, 627]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -960,7 +960,7 @@ Model {
       Name		      "Data Logger"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [1]
-      Position		      [230, 267, 335, 303]
+      Position		      [260, 237, 365, 273]
       List {
 	ListType		RTWdata
 	FctDeclaration		"extern void logData(uint8_T* u1);"
@@ -985,6 +985,38 @@ Model {
       OutputType	      "[ ]"
       FctDeclaration	      "extern void logData(uint8_T* u1);"
       FctCall		      "logData(*%u1);"
+      OrderingInOutPopup      "None"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Data Logger1"
+      Tag		      "dsPIC_dsPIC_CFunctionCall"
+      Ports		      [1]
+      Position		      [340, 342, 445, 378]
+      List {
+	ListType		RTWdata
+	FctDeclaration		"extern void spiSend(uint8_T* u1);"
+	FctCall			"spiSend(*%u1);"
+	fctName			"spiSend"
+	INPUT_SIZE		"47"
+	OUTPUT_SIZE		"1"
+	NBR_INPUT		"1"
+	NBR_OUTPUT		"0"
+      }
+      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+      SourceType	      "C Function Call"
+      fctName		      "'spiSend'"
+      INPUT_SIZE	      "47"
+      INPUT1		      "uint8"
+      INPUT2		      "--"
+      INPUT3		      "--"
+      OUTPUT_SIZE	      "1"
+      OUTPUT1		      "--"
+      SampleTime	      "-1"
+      InputType		      "[ 2 ]"
+      OutputType	      "[ ]"
+      FctDeclaration	      "extern void spiSend(uint8_T* u1);"
+      FctCall		      "spiSend(*%u1);"
       OrderingInOutPopup      "None"
     }
     Block {
@@ -1024,8 +1056,8 @@ Model {
     Block {
       BlockType		      SubSystem
       Name		      "Get GPS"
-      Ports		      [0, 1]
-      Position		      [25, 238, 130, 272]
+      Ports		      [0, 2]
+      Position		      [25, 240, 130, 275]
       BackgroundColor	      "orange"
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
@@ -1102,7 +1134,7 @@ Model {
 	  BlockType		  Reference
 	  Name			  "GPS Sentence\nParser"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
-	  Ports			  [1, 1]
+	  Ports			  [1, 2]
 	  Position		  [235, 142, 340, 178]
 	  List {
 	    ListType		    RTWdata
@@ -1130,7 +1162,7 @@ Model {
 	  FctDeclaration	  "extern void gpsParse(uint8_T* u1,uint8_T* y"
 "1);"
 	  FctCall		  "gpsParse(*%u1, *%y1);"
-	  OrderingInOutPopup	  "None"
+	  OrderingInOutPopup	  "Output"
 	}
 	Block {
 	  BlockType		  Reference
@@ -1188,7 +1220,15 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "GPS\nStream"
-	  Position		  [365, 153, 395, 167]
+	  Position		  [380, 143, 410, 157]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Sync Pulse"
+	  Position		  [375, 193, 405, 207]
+	  Port			  "2"
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
 	}
@@ -1242,6 +1282,13 @@ Model {
 	  SrcBlock		  "GPS Sentence\nParser"
 	  SrcPort		  1
 	  DstBlock		  "GPS\nStream"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "GPS Sentence\nParser"
+	  SrcPort		  2
+	  Points		  [5, 0; 0, 30]
+	  DstBlock		  "Sync Pulse"
 	  DstPort		  1
 	}
       }
@@ -1338,8 +1385,8 @@ Model {
       tmr2345cfg	      "[-1 -1 -1 -1 -1 -1 -1 -1]"
       IOautoConf	      on
       typePort		      "[ 0   0   0   0   0   0   0   0   0   0   0   0"
-"   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 "
-"  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0  "
+"   0   0   0   0   8   8   0   8   8   8   8   8   8   8   8   8   8   8   0 "
+"  8   0   8   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0  "
 " 0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   "
 "0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0"
 "   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 "
@@ -1363,6 +1410,15 @@ Model {
       Position		      [200, 266, 205, 304]
       ShowName		      off
       Inputs		      "3"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux1"
+      Ports		      [2, 1]
+      Position		      [305, 341, 310, 379]
+      ShowName		      off
+      Inputs		      "2"
       DisplayOption	      "bar"
     }
     Block {
@@ -2547,6 +2603,12 @@ Model {
       }
     }
     Block {
+      BlockType		      Terminator
+      Name		      "Terminator"
+      Position		      [155, 258, 165, 272]
+      ShowName		      off
+    }
+    Block {
       BlockType		      Reference
       Name		      "dbl-click to open\nGraphical interface"
       Ports		      []
@@ -2598,6 +2660,13 @@ Model {
       FctCall		      "gpsInit();"
       OrderingInOutPopup      "None"
     }
+    Block {
+      BlockType		      Constant
+      Name		      "inputSize"
+      Position		      [250, 330, 275, 350]
+      Value		      "46"
+      OutDataTypeMode	      "uint8"
+    }
     Line {
       Name		      "1Hz"
       Labels		      [1, 1]
@@ -2622,8 +2691,17 @@ Model {
     Line {
       SrcBlock		      "Mux"
       SrcPort		      1
-      DstBlock		      "Data Logger"
-      DstPort		      1
+      Points		      [15, 0]
+      Branch {
+	Points			[20, 0]
+	DstBlock		"Data Logger"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 85]
+	DstBlock		"Mux1"
+	DstPort			2
+      }
     }
     Line {
       SrcBlock		      "Compute Load"
@@ -2638,6 +2716,25 @@ Model {
       Points		      [50, 0]
       DstBlock		      "Mux"
       DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Get GPS"
+      SrcPort		      2
+      DstBlock		      "Terminator"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Mux1"
+      SrcPort		      1
+      DstBlock		      "Data Logger1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "inputSize"
+      SrcPort		      1
+      Points		      [5, 0; 0, 10]
+      DstBlock		      "Mux1"
+      DstPort		      1
     }
     Annotation {
       Name		      "GPS Reader/Decoder"

@@ -71,7 +71,7 @@
 		// return the buffer pointer
 		return (cB);
 		
-		printf("No Jala");
+		//printf("No Jala");
 	}
 
 	// this function frees the Circular Buffer CB Ref
