@@ -27,8 +27,7 @@ unsigned int spiRxBuf[3][SPIBUFSIZE];
 unsigned char currentBuffer = 0, lastBuffer =2;
 
 
-void cfgSpiSlave(void)
-{
+void cfgSpiSlave(void){
     // SPI1CON1 Register Settings
     SPI1CON1bits.DISSCK = 0;    //Internal Serial Clock is Enabled.
     SPI1CON1bits.DISSDO = 0;    //SDOx pin is controlled by the module.
@@ -59,8 +58,7 @@ void cfgSpiSlave(void)
     IEC0bits.SPI1IE		= 1; 
 }
 
-void cfgSpiMaster(void)
-{
+void cfgSpiMaster(void){
     // SPI1CON1 Register Settings
     SPI1CON1bits.DISSCK = 0;    //Internal Serial Clock is Enabled.
     SPI1CON1bits.DISSDO = 0;    //SDOx pin is controlled by the module.
@@ -95,7 +93,7 @@ void spiSend(unsigned char * data2Send){
 	// that we are done, keep sending the requested
 	// index 
 	while (rcvdIdx != ENDSPI){
-		WriteSPI1(data2Send[rcvdIdx-1]);
+		WriteSPI1(data2Send[rcvdIdx]);
 		while(!DataRdySPI1());
 		rcvdIdx = ReadSPI1();	
 	}	
@@ -103,29 +101,46 @@ void spiSend(unsigned char * data2Send){
 
 // Interrupt service routine for SPI1 Slave 
 void __attribute__((__interrupt__, no_auto_psv)) _SPI1Interrupt(void){
- 	static unsigned int spiBufIdx = 0; 
+ 	static unsigned int spiBufIdx = 1; 
  	unsigned int dataRead;
+	
+	// get the next index ready for writting
+	// if the SPI index is less than the size of the buffer
+	if (spiBufIdx < SPIBUFSIZE){ 
+		// request the next data
+		WriteSPI1(spiBufIdx);
+	}else{
+		// if it is equals to the size of the buffer
+		if (spiBufIdx == SPIBUFSIZE ){
+			// signal that this is the end
+			WriteSPI1(ENDSPI);
+		} else {
+			// if it is greater than the buffer, then write a zero 
+			// no more data will be comming for this cycle after this
+			// interrupt
+			WriteSPI1(0x0000);
+		}	
+	}
 	
  	// read the received data 
 	dataRead = ReadSPI1();
 	
 	// if the received data is the begin indication
-	if (dataRead = BEGINSPI){
-		// write 1
-		// put it in the outbuffer
-		WriteSPI1(0x0001);
-	} else { // a valid data was received
-		spiRxBuf[currentBuffer][spiBufIdx++] = dataRead;
-		// if that was the last data
-		if (spiBufIdx>=SPIBUFSIZE){
+	if (dataRead == BEGINSPI){
+		// just increment the outbuffer, discard the data read
+		spiBufIdx++;
+	} else{ // a data was received
+		// Post-increment the SPIBUF index and assign the data 
+		// accordingly
+		spiRxBuf[currentBuffer][(spiBufIdx++) -2] = dataRead; 
+		// if you reach the limit
+		if (spiBufIdx > SPIBUFSIZE){
+			// Reset the index
+			spiBufIdx = 1;
 			// switch the working buffers
 			lastBuffer = currentBuffer;
-			currentBuffer = currentBuffer > 2? 0:currentBuffer+1;
-			WriteSPI1(0x0000);
-		}else{
-			WriteSPI1(spiBufIdx);
+			currentBuffer = currentBuffer > 2? 0:currentBuffer+1;			
 		}
-
 	}
 	// clear the interrupt
 	 IFS0bits.SPI1IF = 0;

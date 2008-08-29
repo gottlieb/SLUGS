@@ -60,7 +60,7 @@ and data types.
 // Interprocessor Communication
 // ============================
 #define BEGINSPI		0xFFFF
-#define ENDSPI			0x00FF
+#define ENDSPI			0xBEEF
 
 // Standard Units
 // ==============
