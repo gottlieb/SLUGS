@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.68"
+    ComputedModelVersion    "1.72"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ASL_Lab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sun Aug 31 13:18:39 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:68>"
+  LastModifiedDate	  "Sun Aug 31 15:06:43 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:72>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -572,7 +572,7 @@ Model {
 	PropName		"Components"
       }
       Name		      "Configuration"
-      CurrentDlgPage	      "Real-Time Workshop/Custom Code"
+      CurrentDlgPage	      "Solver"
     }
     PropName		    "ConfigurationSets"
   }
@@ -798,7 +798,7 @@ Model {
   }
   System {
     Name		    "sensorMCU"
-    Location		    [115, 247, 910, 701]
+    Location		    [229, 288, 1024, 742]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -966,7 +966,7 @@ Model {
     Block {
       BlockType		      Constant
       Name		      "Constant1"
-      Position		      [225, 305, 255, 335]
+      Position		      [245, 345, 275, 375]
       ShowName		      off
       Value		      "0"
       OutDataTypeMode	      "boolean"
@@ -975,7 +975,7 @@ Model {
     Block {
       BlockType		      Constant
       Name		      "Constant2"
-      Position		      [605, 245, 635, 275]
+      Position		      [625, 285, 655, 315]
       Orientation	      "left"
       ShowName		      off
       OutDataTypeMode	      "boolean"
@@ -1017,7 +1017,7 @@ Model {
       Name		      "Data Logger1"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [2, 1]
-      Position		      [430, 292, 535, 328]
+      Position		      [450, 332, 555, 368]
       List {
 	ListType		RTWdata
 	FctDeclaration		"extern void spiSend(uint8_T* u1);"
@@ -1088,7 +1088,7 @@ Model {
       Name		      "Drive SSL High1"
       Tag		      "dsPIC_Digital_Output"
       Ports		      [1, 1]
-      Position		      [275, 300, 375, 340]
+      Position		      [295, 340, 395, 380]
       BackgroundColor	      "darkGreen"
       Priority		      "5"
       SourceBlock	      "dsPICdrivers/Digital I//O/Digital Output Write"
@@ -1103,7 +1103,7 @@ Model {
       Name		      "Drive SSL High2"
       Tag		      "dsPIC_Digital_Output"
       Ports		      [2]
-      Position		      [600, 280, 700, 320]
+      Position		      [620, 320, 720, 360]
       BackgroundColor	      "darkGreen"
       Priority		      "5"
       SourceBlock	      "dsPICdrivers/Digital I//O/Digital Output Write"
@@ -1193,7 +1193,7 @@ Model {
 	  INPUT3		  "--"
 	  OUTPUT_SIZE		  "26"
 	  OUTPUT1		  "uint8"
-	  SampleTime		  "-1"
+	  SampleTime		  ".01"
 	  InputType		  "[ ]"
 	  OutputType		  "[ 2 ]"
 	  FctDeclaration	  "extern void gpsRead(uint8_T* y1);"
@@ -2713,6 +2713,12 @@ Model {
       ShowName		      off
     }
     Block {
+      BlockType		      Terminator
+      Name		      "Terminator1"
+      Position		      [410, 213, 420, 227]
+      ShowName		      off
+    }
+    Block {
       BlockType		      Reference
       Name		      "dbl-click to open\nGraphical interface"
       Ports		      []
@@ -2819,6 +2825,20 @@ Model {
       DstPort		      1
     }
     Line {
+      SrcBlock		      "Data Logger"
+      SrcPort		      1
+      Points		      [15, 0]
+      Branch {
+	DstBlock		"Terminator1"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 40; 25, 0; 0, 80]
+	DstBlock		"Data Logger1"
+	DstPort			1
+      }
+    }
+    Line {
       SrcBlock		      "Constant1"
       SrcPort		      1
       DstBlock		      "Drive SSL High1"
@@ -2842,13 +2862,6 @@ Model {
       SrcPort		      1
       DstBlock		      "Drive SSL High2"
       DstPort		      2
-    }
-    Line {
-      SrcBlock		      "Data Logger"
-      SrcPort		      1
-      Points		      [20, 0; 0, 80]
-      DstBlock		      "Data Logger1"
-      DstPort		      1
     }
   }
 }
