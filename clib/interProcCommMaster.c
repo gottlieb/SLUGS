@@ -61,20 +61,13 @@ void spiMasterInit(void){
 void spiSend(unsigned char * data2Send){
 	unsigned char i;
 	unsigned int rcvdIdx = 0;
-	static unsigned char sendSPIData = 1; 
-	// First send a dummy value to let know the 
-	// slave that you are ready to transmit
-	WriteSPI1(sendSPIData++);
-	while(!DataRdySPI1());
-	rcvdIdx = ReadSPI1();
+	//static unsigned char sendSPIData = 1; 
 	
-	// While we do not receive the flag indicating
-	// that we are done, keep sending the requested
-	// index 
-	/*while (rcvdIdx != ENDSPI){
-		WriteSPI1(data2Send[rcvdIdx]);
+	// Send the amount of data received via SPI
+	for(i = 1; i <= data2Send[0]; i += 1 )
+	{
+		WriteSPI1(data2Send[i]);
 		while(!DataRdySPI1());
-		rcvdIdx = ReadSPI1();	
+		rcvdIdx = ReadSPI1();		
 	}
-	*/	
 }

@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.71"
+    ComputedModelVersion    "1.77"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ASL_Lab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sun Aug 31 11:19:46 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:71>"
+  LastModifiedDate	  "Sun Aug 31 13:45:52 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:77>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -325,7 +325,7 @@ Model {
 	  ConfigAtBuild		  off
 	  CustomHeaderCode	  "\n"
 	  CustomSource		  "clib\\circBuffer.c\nclib\\gpsSplit.c\nclib"
-"\\sbrk.c\nclib\\dataLogger.c\nclib\\interProcCommSlave.c"
+"\\sbrk.c\nclib\\interProcCommSlave.c\nclib\\sendProtocol.c"
 	  IncludeHyperlinkInReport on
 	  LaunchReport		  on
 	  TargetLang		  "C"
@@ -571,7 +571,7 @@ Model {
 	PropName		"Components"
       }
       Name		      "Configuration"
-      CurrentDlgPage	      "Solver"
+      CurrentDlgPage	      "Real-Time Workshop/Custom Code"
     }
     PropName		    "ConfigurationSets"
   }
@@ -748,7 +748,7 @@ Model {
   }
   System {
     Name		    "controlMCU"
-    Location		    [215, 76, 1010, 530]
+    Location		    [266, 409, 1061, 863]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -766,7 +766,7 @@ Model {
       BlockType		      Reference
       Name		      "Configure Model \nfor dsPIC"
       Ports		      []
-      Position		      [15, 69, 127, 125]
+      Position		      [20, 19, 132, 75]
       BackgroundColor	      "yellow"
       SourceBlock	      "dsPICdrivers/Simulink Configuration/Configure M"
 "odel \nfor dsPIC"
@@ -775,7 +775,7 @@ Model {
     Block {
       BlockType		      DataTypeConversion
       Name		      "Data Type Conversion2"
-      Position		      [590, 63, 640, 87]
+      Position		      [590, 23, 640, 47]
       ShowName		      off
       OutDataTypeMode	      "boolean"
       RndMeth		      "Floor"
@@ -785,10 +785,10 @@ Model {
       BlockType		      Demux
       Name		      "Demux"
       Ports		      [1, 2]
-      Position		      [235, 271, 240, 309]
+      Position		      [235, 336, 240, 374]
       BackgroundColor	      "black"
       ShowName		      off
-      Outputs		      "[1 9]"
+      Outputs		      "[1 33]"
       DisplayOption	      "bar"
     }
     Block {
@@ -796,7 +796,7 @@ Model {
       Name		      "Digital Input"
       Tag		      "dsPIC_Digital_Input"
       Ports		      [0, 1]
-      Position		      [430, 165, 545, 205]
+      Position		      [535, 75, 650, 115]
       SourceBlock	      "dsPICdrivers/Digital I//O/Digital Input"
       SourceType	      ""
       PORT		      "B"
@@ -809,7 +809,7 @@ Model {
       Name		      "Digital Output Write"
       Tag		      "dsPIC_Digital_Output"
       Ports		      [1]
-      Position		      [660, 55, 760, 95]
+      Position		      [660, 15, 760, 55]
       BackgroundColor	      "darkGreen"
       Priority		      "5"
       SourceBlock	      "dsPICdrivers/Digital I//O/Digital Output Write"
@@ -823,7 +823,7 @@ Model {
       BlockType		      Reference
       Name		      "Generate Code"
       Ports		      []
-      Position		      [145, 69, 257, 125]
+      Position		      [150, 19, 262, 75]
       BackgroundColor	      "yellow"
       SourceBlock	      "dsPICdrivers/Simulink Configuration/Generate Co"
 "de"
@@ -834,7 +834,7 @@ Model {
       Name		      "Initialize Data \nLogger"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      []
-      Position		      [25, 162, 130, 198]
+      Position		      [30, 112, 135, 148]
       BackgroundColor	      "yellow"
       List {
 	ListType		RTWdata
@@ -864,10 +864,10 @@ Model {
     }
     Block {
       BlockType		      Reference
-      Name		      "Initialize Data \nLogger1"
+      Name		      "Initialize Data \nfrom IPC"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [0, 1]
-      Position		      [40, 272, 145, 308]
+      Position		      [40, 337, 145, 373]
       BackgroundColor	      "yellow"
       List {
 	ListType		RTWdata
@@ -875,7 +875,7 @@ Model {
 	FctCall			"readIpc(*%y1);"
 	fctName			"readIpc"
 	INPUT_SIZE		"1"
-	OUTPUT_SIZE		"10"
+	OUTPUT_SIZE		"34"
 	NBR_INPUT		"0"
 	NBR_OUTPUT		"1"
       }
@@ -886,7 +886,7 @@ Model {
       INPUT1		      "--"
       INPUT2		      "--"
       INPUT3		      "--"
-      OUTPUT_SIZE	      "10"
+      OUTPUT_SIZE	      "34"
       OUTPUT1		      "uint8"
       SampleTime	      ".01"
       InputType		      "[ ]"
@@ -897,10 +897,43 @@ Model {
     }
     Block {
       BlockType		      Reference
+      Name		      "Initialize the \nComm Protocol\nSender"
+      Tag		      "dsPIC_dsPIC_CFunctionCall"
+      Ports		      []
+      Position		      [155, 112, 260, 148]
+      BackgroundColor	      "yellow"
+      List {
+	ListType		RTWdata
+	FctDeclaration		"extern void commProtInit();"
+	FctCall			"commProtInit();"
+	fctName			"commProtInit"
+	INPUT_SIZE		"1"
+	OUTPUT_SIZE		"1"
+	NBR_INPUT		"0"
+	NBR_OUTPUT		"0"
+      }
+      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+      SourceType	      "C Function Call"
+      fctName		      "'commProtInit'"
+      INPUT_SIZE	      "1"
+      INPUT1		      "--"
+      INPUT2		      "--"
+      INPUT3		      "--"
+      OUTPUT_SIZE	      "1"
+      OUTPUT1		      "--"
+      SampleTime	      "inf"
+      InputType		      "[ ]"
+      OutputType	      "[ ]"
+      FctDeclaration	      "extern void commProtInit();"
+      FctCall		      "commProtInit();"
+      OrderingInOutPopup      "None"
+    }
+    Block {
+      BlockType		      Reference
       Name		      "Master"
       Tag		      "dsPIC_MASTER"
       Ports		      []
-      Position		      [284, 70, 385, 127]
+      Position		      [289, 20, 390, 77]
       BackgroundColor	      "yellow"
       Priority		      "1"
       List {
@@ -924,7 +957,7 @@ Model {
 "   0   0   0   0   0   0   9   0   0   0   0  10   0   0   0   0   0   0   0 "
 "  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0  "
 " 0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   "
-"0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   4   5   0   0   0"
+"0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0"
 "   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 "
 "  0   0   0   0 ]"
       TRIS		      "[ 65535  65407  65535  65535  65535  65535  655"
@@ -943,7 +976,7 @@ Model {
       BlockType		      Reference
       Name		      "Pilot"
       Ports		      [0, 1]
-      Position		      [535, 60, 565, 90]
+      Position		      [535, 20, 565, 50]
       BackgroundColor	      "orange"
       SourceBlock	      "simulink/Sources/Counter\nLimited"
       SourceType	      "Counter Limited"
@@ -966,83 +999,52 @@ Model {
     }
     Block {
       BlockType		      Reference
-      Name		      "TX Output Multiplexed\nfor Matlab / Labview"
-      Tag		      "dsPIC_TX_Multiplexed"
+      Name		      "Send Data to Radio\nModem"
+      Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [1]
-      Position		      [375, 259, 515, 301]
-      Priority		      "5"
-      SourceBlock	      "dsPICdrivers/Serial PORT/TX Output Multiplexed"
-"\nfor Matlab // Labview"
-      SourceType	      "send structured data frame to Matlab / Labview"
-      UART		      "2"
-      CleverSpreadingChk      on
-      CleverSpreading	      "1"
-      CHANNEL		      "[0]"
-      CHANNELBLOCKED	      "[]"
-      CHANNELBLOCKED_BITEWISE "0"
-      Status		      "OK"
+      Position		      [255, 232, 360, 268]
+      BackgroundColor	      "yellow"
+      List {
+	ListType		RTWdata
+	FctDeclaration		"extern void txProtocol(uint8_T* u1);"
+	FctCall			"txProtocol(*%u1);"
+	fctName			"txProtocol"
+	INPUT_SIZE		"34"
+	OUTPUT_SIZE		"1"
+	NBR_INPUT		"1"
+	NBR_OUTPUT		"0"
+      }
+      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+      SourceType	      "C Function Call"
+      fctName		      "'txProtocol'"
+      INPUT_SIZE	      "34"
+      INPUT1		      "uint8"
+      INPUT2		      "--"
+      INPUT3		      "--"
+      OUTPUT_SIZE	      "1"
+      OUTPUT1		      "--"
+      SampleTime	      "-1"
+      InputType		      "[ 2 ]"
+      OutputType	      "[ ]"
+      FctDeclaration	      "extern void txProtocol(uint8_T* u1);"
+      FctCall		      "txProtocol(*%u1);"
+      OrderingInOutPopup      "None"
     }
     Block {
       BlockType		      Terminator
       Name		      "Terminator"
-      Position		      [295, 295, 315, 315]
+      Position		      [295, 360, 315, 380]
+    }
+    Block {
+      BlockType		      Terminator
+      Name		      "Terminator1"
+      Position		      [375, 335, 395, 355]
     }
     Block {
       BlockType		      Terminator
       Name		      "Terminator4"
-      Position		      [585, 175, 605, 195]
+      Position		      [690, 85, 710, 105]
       ShowName		      off
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "UART Configuration"
-      Tag		      "dsPIC_config_UART"
-      Ports		      []
-      Position		      [160, 153, 260, 203]
-      BackgroundColor	      "yellow"
-      Priority		      "2"
-      List {
-	ListType		RTWdata
-	RxBufferSize		"32"
-      }
-      SourceBlock	      "dsPICdrivers/Serial PORT/UART Configuration"
-      SourceType	      "Configure UART"
-      UART		      "2"
-      proposed_BAUD	      "57600"
-      ALT_TX_RX		      off
-      InterruptTxWhen	      "When Transmit Buffer has one empty space (conta"
-"in 3 characters)"
-      TXInterruptPri	      "1"
-      TxBufferSize	      "32"
-      TXEN		      on
-      InterruptRxWhen	      "When Receive Buffer is 3/4 full (contain 3 char"
-"acters)"
-      RXInterruptPri	      "2"
-      RxBufferSize	      "32"
-      BAUD		      "57600"
-      UxBRG		      "42"
-      Info		      "UxBRG = 42   ||  Real Baud : 58140   ||  % erro"
-"r : 0.93669  ||  max 58.1395 Bytes / Step"
-      RealBaud		      "0"
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "dbl-click to open\nGraphical interface"
-      Ports		      []
-      Position		      [300, 153, 400, 203]
-      BackgroundColor	      "yellow"
-      SourceBlock	      "dsPICdrivers/Serial PORT/dbl-click to open\nGra"
-"phical interface"
-      SourceType	      ""
-      ShowPortLabels	      "FromPortIcon"
-      SystemSampleTime	      "-1"
-      FunctionWithSeparateData off
-      RTWMemSecFuncInitTerm   "Inherit from model"
-      RTWMemSecFuncExecute    "Inherit from model"
-      RTWMemSecDataConstants  "Inherit from model"
-      RTWMemSecDataInternal   "Inherit from model"
-      RTWMemSecDataParameters "Inherit from model"
-      Nothing		      "0"
     }
     Line {
       Name		      "1Hz"
@@ -1059,15 +1061,23 @@ Model {
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Initialize Data \nLogger1"
+      SrcBlock		      "Initialize Data \nfrom IPC"
       SrcPort		      1
-      DstBlock		      "Demux"
-      DstPort		      1
+      Points		      [45, 0]
+      Branch {
+	DstBlock		"Demux"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, -105]
+	DstBlock		"Send Data to Radio\nModem"
+	DstPort			1
+      }
     }
     Line {
       SrcBlock		      "Demux"
       SrcPort		      1
-      DstBlock		      "TX Output Multiplexed\nfor Matlab / Labview"
+      DstBlock		      "Terminator1"
       DstPort		      1
     }
     Line {
@@ -1082,13 +1092,6 @@ Model {
       SrcPort		      1
       DstBlock		      "Terminator4"
       DstPort		      1
-    }
-    Annotation {
-      Name		      "GPS Reader/Decoder"
-      Position		      [391, 26]
-      ForegroundColor	      "yellow"
-      BackgroundColor	      "blue"
-      FontSize		      14
     }
   }
 }

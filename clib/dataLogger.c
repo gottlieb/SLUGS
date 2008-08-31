@@ -112,7 +112,7 @@ void copyBufferToDMA (void){
 	static variable to monitor at which samples the outgoing messages 
 	are queued in the circular buffer for DMA transmision.
 */
-void logData (unsigned char* rawData){
+void logData (unsigned char* rawData, unsigned char* data4SPI){
 	// sample period variable
 	static unsigned char samplePeriod = 0;
 	// temp var to store the assembled message
@@ -121,27 +121,39 @@ void logData (unsigned char* rawData){
 	
 	switch (samplePeriod){
 		case 2:
-			// assemble the CPU load data for protocol sending
-
+			// assemble the CPU load data for protocol sending	
 			assembleMsg(&rawData[LOAD_START], LOADMSG_LEN, LOADMSG_ID, tmpBuf);
+			// set the total data out for SPI
+			data4SPI[0] = LOADMSG_LEN+6 + RAWMSG_LEN+6; 
+			
+			// add it to the circular buffer and SPI queue
 			for( i = 0; i < LOADMSG_LEN+6; i += 1 ){
 				writeBack(logBuffer,tmpBuf[i]);
+				data4SPI[i+1] = tmpBuf[i];
 			}
-
+			// assemble the Raw Sensor data for protocol sending	
 			assembleMsg(&rawData[RAW_START], RAWMSG_LEN, RAWMSG_ID, tmpBuf);
+			// add it to the circular buffer and SPI queue
 			for( i = 0; i < RAWMSG_LEN+6; i += 1 ){
 				writeBack(logBuffer,tmpBuf[i]);
+				data4SPI[i+8] = tmpBuf[i];
 			}
 			newData = 1;
 			break;
 		case 4:
+		/*
 			// assemble the data for protocol sending
 			assembleMsg(&rawData[GPS_START], GPSMSG_LEN, GPSMSG_ID, tmpBuf);
-			// add it to the circular buffer
+			// set the total data out for SPI
+			data4SPI[0] = GPSMSG_LEN+6; 
+
+			// add it to the circular buffer and SPI queue
 			for( i = 0; i < GPSMSG_LEN+6; i += 1 ){
 				writeBack(logBuffer,tmpBuf[i]);
+				data4SPI[i+1] = tmpBuf[i];
 			}
 			newData = 1;
+		*/	
 			break;
 	}
 	

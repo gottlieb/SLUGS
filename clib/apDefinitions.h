@@ -13,7 +13,7 @@ and data types.
 
 // Circular Buffer Size
 // ===================
-#define BSIZE			127
+#define BSIZE			200
 
 // GPS Checksum Messages
 // =====================
@@ -171,5 +171,18 @@ typedef struct tGpsData{
 	unsigned char 			sats;	
 	unsigned char			new;
 }tGpsData;
+
+typedef struct tRawData{
+	tUnsignedIntToChar 		gyroX;
+	tUnsignedIntToChar 		gyroY;
+	tUnsignedIntToChar 		gyroZ;
+	tUnsignedIntToChar 		accelX;
+	tUnsignedIntToChar 		accelY;
+	tUnsignedIntToChar 		accelZ;
+	tUnsignedIntToChar 		baro;
+	tUnsignedIntToChar 		pitot;
+	tUnsignedIntToChar 		temp;
+}tRawData;
+
 
 #endif /* _APDEFINITIONS_H_ */
