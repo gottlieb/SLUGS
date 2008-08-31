@@ -61,6 +61,7 @@ and data types.
 // ============================
 #define BEGINSPI		0xFFFF
 #define ENDSPI			0xBEEF
+#define SPIBUFSIZE		46
 
 // Standard Units
 // ==============

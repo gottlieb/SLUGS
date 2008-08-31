@@ -23,18 +23,28 @@ struct CircBuffer com1Buffer;
 CBRef uartBuffer;
 
 void gpsSentenceConfig(void){
-	int i;
+	int i,j;
 	unsigned char chMsgs [] = "$PMTK314,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*28\r\n\0";
 	unsigned char chBaudRt [] = "$PMTK251,19200*22\r\n\0";
+	
+	// Put some huge delays to wait for GPS power-up without the need of a timer
+	for( i = 0; i < 250; i += 1 ){
+		for( j = 0; j < 32700; j += 1 )
+		{
+			Nop();
+		}
+	}
 	
 	putsUART1((unsigned int *)chMsgs);
 	while(BusyUART1());	
 
-	for( i = 0; i < 32700; i += 1 )
-	{
-		Nop();
+	// Put some huge delays to wait for GPS power-up without the need of a timer
+	for( i = 0; i < 150; i += 1 ){
+		for( j = 0; j < 32700; j += 1 )
+		{
+			Nop();
+		}
 	}
-	
 	putsUART1((unsigned int *)chBaudRt);
 	while(BusyUART1());
 	

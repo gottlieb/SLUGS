@@ -1,12 +1,12 @@
 Model {
-  Name			  "GPSReadLog"
+  Name			  "sensorMCU"
   Version		  6.6
   MdlSubVersion		  0
   GraphicalInterface {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.53"
+    ComputedModelVersion    "1.65"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ASL_Lab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Aug 29 10:26:53 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:53>"
+  LastModifiedDate	  "Sun Aug 31 11:10:38 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:65>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -326,7 +326,7 @@ Model {
 	  CustomHeaderCode	  "\n"
 	  CustomSource		  "clib\\circBuffer.c\nclib\\gpsParse.c\nclib"
 "\\gpsSplit.c\nclib\\sbrk.c\nclib\\bufferedUART.c\nclib\\dataLogger.c\nclib\\i"
-"nterProcComm.c"
+"nterProcCommMaster.c"
 	  IncludeHyperlinkInReport on
 	  LaunchReport		  on
 	  TargetLang		  "C"
@@ -797,8 +797,8 @@ Model {
     FontAngle		    "normal"
   }
   System {
-    Name		    "GPSReadLog"
-    Location		    [284, 173, 1079, 627]
+    Name		    "sensorMCU"
+    Location		    [115, 247, 910, 701]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -957,6 +957,30 @@ Model {
       SourceType	      ""
     }
     Block {
+      BlockType		      Constant
+      Name		      "Constant"
+      Position		      [615, 170, 645, 200]
+      ShowName		      off
+      OutDataTypeMode	      "boolean"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant1"
+      Position		      [220, 340, 250, 370]
+      ShowName		      off
+      Value		      "0"
+      OutDataTypeMode	      "boolean"
+      SampleTime	      ".01"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant2"
+      Position		      [600, 280, 630, 310]
+      Orientation	      "left"
+      ShowName		      off
+      OutDataTypeMode	      "boolean"
+    }
+    Block {
       BlockType		      Reference
       Name		      "Data Logger"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
@@ -989,6 +1013,38 @@ Model {
       OrderingInOutPopup      "None"
     }
     Block {
+      BlockType		      Reference
+      Name		      "Data Logger1"
+      Tag		      "dsPIC_dsPIC_CFunctionCall"
+      Ports		      [2, 1]
+      Position		      [410, 327, 515, 363]
+      List {
+	ListType		RTWdata
+	FctDeclaration		"extern void spiSend(uint8_T* u1);"
+	FctCall			"spiSend(*%u1);"
+	fctName			"spiSend"
+	INPUT_SIZE		"46"
+	OUTPUT_SIZE		"1"
+	NBR_INPUT		"1"
+	NBR_OUTPUT		"0"
+      }
+      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+      SourceType	      "C Function Call"
+      fctName		      "'spiSend'"
+      INPUT_SIZE	      "46"
+      INPUT1		      "uint8"
+      INPUT2		      "--"
+      INPUT3		      "--"
+      OUTPUT_SIZE	      "1"
+      OUTPUT1		      "--"
+      SampleTime	      "-1"
+      InputType		      "[ 2 ]"
+      OutputType	      "[ ]"
+      FctDeclaration	      "extern void spiSend(uint8_T* u1);"
+      FctCall		      "spiSend(*%u1);"
+      OrderingInOutPopup      "Input & Output"
+    }
+    Block {
       BlockType		      DataTypeConversion
       Name		      "Data Type Conversion2"
       Position		      [590, 63, 640, 87]
@@ -1011,6 +1067,51 @@ Model {
       Pin		      "[ 14]"
       Simultaneous	      off
       OrderingInOutPopup      "None"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Drive SSL High"
+      Tag		      "dsPIC_Digital_Output"
+      Ports		      [1]
+      Position		      [665, 165, 765, 205]
+      BackgroundColor	      "darkGreen"
+      Priority		      "5"
+      SourceBlock	      "dsPICdrivers/Digital I//O/Digital Output Write"
+      SourceType	      ""
+      PORT		      "B"
+      Pin		      "[ 2]"
+      Simultaneous	      off
+      OrderingInOutPopup      "None"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Drive SSL High1"
+      Tag		      "dsPIC_Digital_Output"
+      Ports		      [1, 1]
+      Position		      [270, 335, 370, 375]
+      BackgroundColor	      "darkGreen"
+      Priority		      "5"
+      SourceBlock	      "dsPICdrivers/Digital I//O/Digital Output Write"
+      SourceType	      ""
+      PORT		      "B"
+      Pin		      "[ 2]"
+      Simultaneous	      off
+      OrderingInOutPopup      "Output"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Drive SSL High2"
+      Tag		      "dsPIC_Digital_Output"
+      Ports		      [2]
+      Position		      [595, 315, 695, 355]
+      BackgroundColor	      "darkGreen"
+      Priority		      "5"
+      SourceBlock	      "dsPICdrivers/Digital I//O/Digital Output Write"
+      SourceType	      ""
+      PORT		      "B"
+      Pin		      "[ 2]"
+      Simultaneous	      off
+      OrderingInOutPopup      "Input"
     }
     Block {
       BlockType		      Reference
@@ -1267,7 +1368,7 @@ Model {
       Name		      "Initialize Data \nLogger"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      []
-      Position		      [370, 162, 475, 198]
+      Position		      [250, 162, 355, 198]
       BackgroundColor	      "yellow"
       List {
 	ListType		RTWdata
@@ -1297,10 +1398,10 @@ Model {
     }
     Block {
       BlockType		      Reference
-      Name		      "Initialize SPI\nMaster"
+      Name		      "Initialize Data \nLogger1"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      []
-      Position		      [500, 162, 605, 198]
+      Position		      [375, 162, 480, 198]
       BackgroundColor	      "yellow"
       List {
 	ListType		RTWdata
@@ -1333,7 +1434,7 @@ Model {
       Name		      "Initialize UART 1 for\nGPS"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      []
-      Position		      [255, 162, 360, 198]
+      Position		      [135, 162, 240, 198]
       BackgroundColor	      "yellow"
       List {
 	ListType		RTWdata
@@ -1387,7 +1488,7 @@ Model {
       tmr2345cfg	      "[-1 -1 -1 -1 -1 -1 -1 -1]"
       IOautoConf	      on
       typePort		      "[ 0   0   0   0   0   0   0   0   0   0   0   0"
-"   0   0   0   0   8   8   0   8   8   8   8   8   8   8   8   8   8   8   0 "
+"   0   0   0   0   8   8  10   8   8   8   8   8   8   8   8   8   8   8   0 "
 "  8   0   8   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0  "
 " 0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   "
 "0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0"
@@ -1401,7 +1502,7 @@ Model {
       FOSC		      "Quartz (XT - HS)"
       TempProtection_33f      "TEMP_ON"
       FPBOR		      "<empty>"
-      PWRT		      "disable"
+      PWRT		      "64ms"
       MCLR		      "<empty>"
       PowerSave		      off
     }
@@ -2606,38 +2707,6 @@ Model {
       }
     }
     Block {
-      BlockType		      Reference
-      Name		      "Send Data via SPI"
-      Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      [1]
-      Position		      [270, 302, 375, 338]
-      List {
-	ListType		RTWdata
-	FctDeclaration		"extern void spiSend(uint8_T* u1);"
-	FctCall			"spiSend(*%u1);"
-	fctName			"spiSend"
-	INPUT_SIZE		"46"
-	OUTPUT_SIZE		"1"
-	NBR_INPUT		"1"
-	NBR_OUTPUT		"0"
-      }
-      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-      SourceType	      "C Function Call"
-      fctName		      "'spiSend'"
-      INPUT_SIZE	      "46"
-      INPUT1		      "uint8"
-      INPUT2		      "--"
-      INPUT3		      "--"
-      OUTPUT_SIZE	      "1"
-      OUTPUT1		      "--"
-      SampleTime	      "-1"
-      InputType		      "[ 2 ]"
-      OutputType	      "[ ]"
-      FctDeclaration	      "extern void spiSend(uint8_T* u1);"
-      FctCall		      "spiSend(*%u1);"
-      OrderingInOutPopup      "None"
-    }
-    Block {
       BlockType		      Terminator
       Name		      "Terminator"
       Position		      [155, 258, 165, 272]
@@ -2667,7 +2736,7 @@ Model {
       Name		      "gpsParser Init"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      []
-      Position		      [140, 162, 245, 198]
+      Position		      [20, 162, 125, 198]
       BackgroundColor	      "yellow"
       List {
 	ListType		RTWdata
@@ -2719,15 +2788,14 @@ Model {
     Line {
       SrcBlock		      "Mux"
       SrcPort		      1
-      Points		      [15, 0]
+      Points		      [35, 0]
       Branch {
-	Points			[20, 0]
 	DstBlock		"Data Logger"
 	DstPort			1
       }
       Branch {
-	Points			[0, 35]
-	DstBlock		"Send Data via SPI"
+	Points			[15, 0; 0, 10; 135, 0]
+	DstBlock		"Data Logger1"
 	DstPort			1
       }
     }
@@ -2751,12 +2819,36 @@ Model {
       DstBlock		      "Terminator"
       DstPort		      1
     }
-    Annotation {
-      Name		      "GPS Reader/Decoder"
-      Position		      [391, 26]
-      ForegroundColor	      "yellow"
-      BackgroundColor	      "blue"
-      FontSize		      14
+    Line {
+      SrcBlock		      "Constant"
+      SrcPort		      1
+      DstBlock		      "Drive SSL High"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant1"
+      SrcPort		      1
+      DstBlock		      "Drive SSL High1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Drive SSL High1"
+      SrcPort		      1
+      DstBlock		      "Data Logger1"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Constant2"
+      SrcPort		      1
+      Points		      [-15, 0]
+      DstBlock		      "Drive SSL High2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Data Logger1"
+      SrcPort		      1
+      DstBlock		      "Drive SSL High2"
+      DstPort		      2
     }
   }
 }

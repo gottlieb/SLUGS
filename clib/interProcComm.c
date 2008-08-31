@@ -27,7 +27,7 @@ unsigned int spiRxBuf[3][SPIBUFSIZE];
 unsigned char currentBuffer = 0, lastBuffer =2;
 
 
-void cfgSpiSlave(void){
+void spiSlaveInit(void){
     // SPI1CON1 Register Settings
     SPI1CON1bits.DISSCK = 0;    //Internal Serial Clock is Enabled.
     SPI1CON1bits.DISSDO = 0;    //SDOx pin is controlled by the module.
@@ -58,7 +58,7 @@ void cfgSpiSlave(void){
     IEC0bits.SPI1IE		= 1; 
 }
 
-void cfgSpiMaster(void){
+void spiMasterInit(void){
     // SPI1CON1 Register Settings
     SPI1CON1bits.DISSCK = 0;    //Internal Serial Clock is Enabled.
     SPI1CON1bits.DISSDO = 0;    //SDOx pin is controlled by the module.
