@@ -120,7 +120,7 @@ void logData (unsigned char* rawData){
 	
 	
 	switch (samplePeriod){
-		case 2:
+		case 15:
 			// assemble the CPU load data for protocol sending
 
 			assembleMsg(&rawData[LOAD_START], LOADMSG_LEN, LOADMSG_ID, tmpBuf);
@@ -141,12 +141,13 @@ void logData (unsigned char* rawData){
 			for( i = 0; i < GPSMSG_LEN+6; i += 1 ){
 				writeBack(logBuffer,tmpBuf[i]);
 			}
+			writeBack(logBuffer,getLength(logBuffer));
 			newData = 1;
 			break;
 	}
 	
 	// increment/overflow the samplePeriod counter
-	samplePeriod = (samplePeriod >= 4)? 0: samplePeriod + 1;
+	samplePeriod = (samplePeriod >= 9)? 0: samplePeriod + 1;
 	
 	
 	// if the interrupt catched up with the circularBuffer

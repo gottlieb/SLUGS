@@ -76,8 +76,8 @@ and data types.
 #define UCSCAP_UBRGF 	129
 #define UCSCAP_UBRGI 	520
 
-#define LOGBAUD			57600
-#define LOG_UBRG		42
+#define LOGBAUD			115200
+#define LOG_UBRG		21
 
 // ifdef switches for debugging and conditional inclusion
 // ======================================================
