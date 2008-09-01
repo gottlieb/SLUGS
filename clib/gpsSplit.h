@@ -26,6 +26,6 @@ out_stream [m+1]	...	Byte indicating wether there is a valid message
 
 void gpsInit(void);
 void gpsSeparate(unsigned char* inStream, unsigned char* outStream);
-
+unsigned char getChecksum(unsigned char* sentence, unsigned char size);
 #endif /* _GPSSPLIT_H_ */
 

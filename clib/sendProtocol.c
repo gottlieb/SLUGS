@@ -66,11 +66,19 @@ void commProtInit (void){
 	IEC4bits.U2EIE 		= 0;	
 }
 
+void copyBufferToDMA (void){
+	unsigned char i;
+	for(  i = 0; i < LOGSEND; i += 1 )
+	{
+		BufferA[i] = (unsigned int) readFront(commProtBuffer);
+	}
+}
+
 void txProtocol(unsigned char* protData){
 	unsigned char newData,i;
 	
 	// update the newData flag if there are enough bytes to start the DMA
-	newData = protData>LOGSEND?1:0;
+	newData = protData[0]>LOGSEND?1:0;
 	
 	// add the data to the circular buffer
 	for(i = 1; i <= protData[0]; i += 1 )
@@ -89,14 +97,6 @@ void txProtocol(unsigned char* protData){
 	}
 }
 
-
-void copyBufferToDMA (void){
-	unsigned char i;
-	for(  i = 0; i < LOGSEND; i += 1 )
-	{
-		BufferA[i] = (unsigned int) readFront(commProtBuffer);
-	}
-}
 
 void __attribute__((interrupt, no_auto_psv)) _DMA0Interrupt(void)
 {
