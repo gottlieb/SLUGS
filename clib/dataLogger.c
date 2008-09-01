@@ -15,6 +15,7 @@
 
 #include "apDefinitions.h"
 #include "circBuffer.h"
+#include "gpsSplit.h"
 #include <p33fxxxx.h>
 #include <uart.h>
 
@@ -81,19 +82,19 @@ void loggerInit (void){
 	IEC4bits.U2EIE 		= 0;	
 }
 
-void assembleMsg(unsigned char* rawData, unsigned char size, char type, unsigned char * protMsg){
+void assembleMsg(unsigned char* rawData , unsigned char size, char type, unsigned char* protMsg ){
 	unsigned char i;
 	// start the header
-	protMsg[0] = DOLLAR;
-	protMsg[1] = AT;
-	protMsg[2] = type;
-	protMsg[3] = size;
+	*(protMsg+0) = DOLLAR;
+	*(protMsg+1) = AT;
+	*(protMsg+2) = type;
+	*(protMsg+3) = size;
 	for( i = 0; i < size; i += 1 )
 	{
-		protMsg[i+4] = rawData[i];
+		*(protMsg+i+4) = *(rawData +i);
 	}
-	protMsg[size+4] = STAR;
-	protMsg[size+5] = getChecksum(protMsg, (size+5));	
+	*(protMsg+size+4) = STAR;
+	*(protMsg+size+5) = getChecksum(protMsg, (size+5));	
 }
 
 void copyBufferToDMA (void){
@@ -116,11 +117,11 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 	// sample period variable
 	static unsigned char samplePeriod = 0;
 	// temp var to store the assembled message
-	unsigned char tmpBuf [MAXLOGLEN] ={0}, i, newData= 0;
+	unsigned char tmpBuf [MAXLOGLEN] ={0}, tmpParameter[MAXLOGLEN] ={0}, i, newData= 0;
 	
 	
 	switch (samplePeriod){
-		case 5:
+		case 8:
 			// assemble the CPU load data for protocol sending	
 			assembleMsg(&rawData[LOAD_START], LOADMSG_LEN, LOADMSG_ID, tmpBuf);
 			// set the total data out for SPI
@@ -133,19 +134,23 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 			}
 			newData = (getLength(logBuffer)>= LOGSEND)?1:0;
 			break;
-		case 6:			
+		case 5:			
+			for( i = 0; i < RAWMSG_LEN; i += 1 ){
+				tmpParameter[i] = rawData[RAW_START+i];
+			}
 			// assemble the Raw Sensor data for protocol sending	
-			assembleMsg(&rawData[RAW_START], RAWMSG_LEN, RAWMSG_ID, tmpBuf);
-			// set the total data out for SPI
+			assembleMsg(tmpParameter, RAWMSG_LEN, RAWMSG_ID, tmpBuf);
+			// set the total data out for SPI			
 			data4SPI[0] = RAWMSG_LEN+6; 			
 			// add it to the circular buffer and SPI queue
 			for( i = 0; i < RAWMSG_LEN+6; i += 1 ){
 				writeBack(logBuffer,tmpBuf[i]);
 				data4SPI[i+1] = tmpBuf[i];
 			}
-			newData = 1;
+			newData = (getLength(logBuffer)>= LOGSEND)?1:0;
+			
 			break;
-		case 1:
+		case 10:
 			// assemble the data for protocol sending
 			assembleMsg(&rawData[GPS_START], GPSMSG_LEN, GPSMSG_ID, tmpBuf);
 			// set the total data out for SPI
@@ -155,12 +160,13 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 				writeBack(logBuffer,tmpBuf[i]);
 				data4SPI[i+1] = tmpBuf[i];
 			}
+			writeBack(logBuffer,getLength(logBuffer));			
 			newData = 1;		
 			break;
 	}
 	
 	// increment/overflow the samplePeriod counter
-	samplePeriod = (samplePeriod >= 4)? 0: samplePeriod + 1;
+	samplePeriod = (samplePeriod >= 6)? 0: samplePeriod + 1;
 	
 	
 	// if the interrupt catched up with the circularBuffer
@@ -185,6 +191,7 @@ void __attribute__((interrupt, no_auto_psv)) _DMA0Interrupt(void)
 	// if there are more bytes to send
 	if(getLength(logBuffer)>= LOGSEND)
 	{
+		//putsUART2((unsigned int *)"Transmision in interrupt\n\r\0");
 		copyBufferToDMA();
 		// Enable the DMA
 		DMA0CONbits.CHEN = 1;

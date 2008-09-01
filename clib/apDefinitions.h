@@ -33,12 +33,12 @@ and data types.
 
 // Data Logger Values
 // ================
-#define LOGSEND			16
+#define LOGSEND			8
 #define MAXLOGLEN		33
 
 #define GPS_START 		0
-#define LOAD_START		28
-#define RAW_START 		29
+#define LOAD_START		27
+#define RAW_START 		28
 
 // Message Protocol Lengths and IDs
 // ================================
@@ -76,8 +76,8 @@ and data types.
 #define UCSCAP_UBRGF 	129
 #define UCSCAP_UBRGI 	520
 
-#define LOGBAUD			57600
-#define LOG_UBRG		42
+#define LOGBAUD			115200
+#define LOG_UBRG		21
 
 // ifdef switches for debugging and conditional inclusion
 // ======================================================

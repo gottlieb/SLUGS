@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.72"
+    ComputedModelVersion    "1.78"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ASL_Lab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sun Aug 31 15:06:43 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:72>"
+  LastModifiedDate	  "Sun Aug 31 19:57:40 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:78>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -89,7 +89,7 @@ Model {
   ExtModeSkipDownloadWhenConnect off
   ExtModeLogAll		  on
   ExtModeAutoUpdateStatusClock on
-  BufferReuse		  on
+  BufferReuse		  off
   ProdHWDeviceType	  "16-bit Generic"
   ShowModelReferenceBlockVersion off
   ShowModelReferenceBlockIO off
@@ -160,18 +160,18 @@ Model {
 	Simulink.OptimizationCC {
 	  $ObjectID		  4
 	  Version		  "1.2.0"
-	  BlockReduction	  on
+	  BlockReduction	  off
 	  BooleanDataType	  on
 	  ConditionallyExecuteInputs on
 	  InlineParams		  on
 	  InlineInvariantSignals  off
-	  OptimizeBlockIOStorage  on
-	  BufferReuse		  on
+	  OptimizeBlockIOStorage  off
+	  BufferReuse		  off
 	  EnforceIntegerDowncast  on
-	  ExpressionFolding	  on
+	  ExpressionFolding	  off
 	  ExpressionDepthLimit	  2147483647
 	  FoldNonRolledExpr	  on
-	  LocalBlockOutputs	  on
+	  LocalBlockOutputs	  off
 	  RollThreshold		  5
 	  SystemCodeInlineAuto	  off
 	  StateBitsets		  off
@@ -181,7 +181,7 @@ Model {
 	  ZeroInternalMemoryAtStartup on
 	  InitFltsAndDblsToZero	  on
 	  NoFixptDivByZeroProtection off
-	  EfficientFloat2IntCast  off
+	  EfficientFloat2IntCast  on
 	  OptimizeModelRefInitCode on
 	  LifeSpan		  "1"
 	  BufferReusableBoundary  on
@@ -572,7 +572,7 @@ Model {
 	PropName		"Components"
       }
       Name		      "Configuration"
-      CurrentDlgPage	      "Solver"
+      CurrentDlgPage	      "Optimization"
     }
     PropName		    "ConfigurationSets"
   }
@@ -985,7 +985,7 @@ Model {
       Name		      "Data Logger"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [1, 1]
-      Position		      [265, 202, 370, 238]
+      Position		      [320, 202, 425, 238]
       List {
 	ListType		RTWdata
 	FctDeclaration		"extern void logData(uint8_T* u1,uint8_T* y1);"
@@ -1126,8 +1126,8 @@ Model {
     Block {
       BlockType		      SubSystem
       Name		      "Get GPS"
-      Ports		      [0, 2]
-      Position		      [30, 205, 135, 240]
+      Ports		      [0, 1]
+      Position		      [30, 207, 135, 243]
       BackgroundColor	      "orange"
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
@@ -1204,7 +1204,7 @@ Model {
 	  BlockType		  Reference
 	  Name			  "GPS Sentence\nParser"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
-	  Ports			  [1, 2]
+	  Ports			  [1, 1]
 	  Position		  [235, 142, 340, 178]
 	  List {
 	    ListType		    RTWdata
@@ -1232,7 +1232,7 @@ Model {
 	  FctDeclaration	  "extern void gpsParse(uint8_T* u1,uint8_T* y"
 "1);"
 	  FctCall		  "gpsParse(*%u1, *%y1);"
-	  OrderingInOutPopup	  "Output"
+	  OrderingInOutPopup	  "None"
 	}
 	Block {
 	  BlockType		  Reference
@@ -1294,14 +1294,6 @@ Model {
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
 	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "Sync Pulse"
-	  Position		  [375, 193, 405, 207]
-	  Port			  "2"
-	  IconDisplay		  "Port number"
-	  BusOutputAsStruct	  off
-	}
 	Line {
 	  SrcBlock		  "GPS Sentence Split"
 	  SrcPort		  1
@@ -1351,14 +1343,8 @@ Model {
 	Line {
 	  SrcBlock		  "GPS Sentence\nParser"
 	  SrcPort		  1
+	  Points		  [0, -10]
 	  DstBlock		  "GPS\nStream"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "GPS Sentence\nParser"
-	  SrcPort		  2
-	  Points		  [5, 0; 0, 30]
-	  DstBlock		  "Sync Pulse"
 	  DstPort		  1
 	}
       }
@@ -1507,15 +1493,6 @@ Model {
       PowerSave		      off
     }
     Block {
-      BlockType		      Mux
-      Name		      "Mux"
-      Ports		      [3, 1]
-      Position		      [205, 231, 210, 269]
-      ShowName		      off
-      Inputs		      "3"
-      DisplayOption	      "bar"
-    }
-    Block {
       BlockType		      Reference
       Name		      "Pilot"
       Ports		      [0, 1]
@@ -1552,7 +1529,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Raw Sensors"
-	Location		[324, 524, 579, 724]
+	Location		[324, 505, 631, 727]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -2640,7 +2617,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Sensors"
-	  Position		  [200, 93, 230, 107]
+	  Position		  [220, 93, 250, 107]
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
 	}
@@ -2708,14 +2685,8 @@ Model {
     }
     Block {
       BlockType		      Terminator
-      Name		      "Terminator"
-      Position		      [160, 223, 170, 237]
-      ShowName		      off
-    }
-    Block {
-      BlockType		      Terminator
       Name		      "Terminator1"
-      Position		      [410, 213, 420, 227]
+      Position		      [525, 213, 535, 227]
       ShowName		      off
     }
     Block {
@@ -2770,6 +2741,134 @@ Model {
       FctCall		      "gpsInit();"
       OrderingInOutPopup      "None"
     }
+    Block {
+      BlockType		      SubSystem
+      Name		      "myMux Fun"
+      Ports		      [3, 1]
+      Position		      [180, 256, 250, 304]
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      MaskHideContents	      off
+      MaskType		      "Stateflow"
+      MaskDescription	      "Embedded MATLAB block"
+      MaskDisplay	      "disp('myMux');"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      off
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"myMux Fun"
+	Location		[257, 457, 812, 717]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "u1"
+	  Position		  [20, 101, 40, 119]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "u2"
+	  Position		  [20, 136, 40, 154]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "u3"
+	  Position		  [20, 171, 40, 189]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  " Demux "
+	  Ports			  [1, 1]
+	  Position		  [270, 180, 320, 220]
+	  Outputs		  "1"
+	}
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  " SFunction "
+	  Tag			  "Stateflow S-Function sensorMCU 2"
+	  Ports			  [3, 2]
+	  Position		  [180, 100, 230, 180]
+	  FunctionName		  "sf_sfun"
+	  PortCounts		  "[3 2]"
+	  Port {
+	    PortNumber		    2
+	    Name		    "y"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  " Terminator "
+	  Position		  [460, 191, 480, 209]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "y"
+	  Position		  [460, 101, 480, 119]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  " SFunction "
+	  SrcPort		  1
+	  Points		  [0, 80]
+	  DstBlock		  " Demux "
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  " Demux "
+	  SrcPort		  1
+	  DstBlock		  " Terminator "
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "u1"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "y"
+	  Labels		  [0, 0]
+	  SrcBlock		  " SFunction "
+	  SrcPort		  2
+	  DstBlock		  "y"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "u2"
+	  SrcPort		  1
+	  Points		  [120, 0]
+	  DstBlock		  " SFunction "
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "u3"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  3
+	}
+      }
+    }
     Line {
       Name		      "1Hz"
       Labels		      [1, 1]
@@ -2785,40 +2884,6 @@ Model {
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Get GPS"
-      SrcPort		      1
-      Points		      [50, 0]
-      DstBlock		      "Mux"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Mux"
-      SrcPort		      1
-      Points		      [35, 0]
-      DstBlock		      "Data Logger"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Compute Load"
-      SrcPort		      1
-      Points		      [20, 0; 0, -30]
-      DstBlock		      "Mux"
-      DstPort		      2
-    }
-    Line {
-      SrcBlock		      "Raw Sensors"
-      SrcPort		      1
-      Points		      [50, 0]
-      DstBlock		      "Mux"
-      DstPort		      3
-    }
-    Line {
-      SrcBlock		      "Get GPS"
-      SrcPort		      2
-      DstBlock		      "Terminator"
-      DstPort		      1
-    }
-    Line {
       SrcBlock		      "Constant"
       SrcPort		      1
       DstBlock		      "Drive SSL High"
@@ -2827,13 +2892,13 @@ Model {
     Line {
       SrcBlock		      "Data Logger"
       SrcPort		      1
-      Points		      [15, 0]
+      Points		      [10, 0]
       Branch {
 	DstBlock		"Terminator1"
 	DstPort			1
       }
       Branch {
-	Points			[0, 40; 25, 0; 0, 80]
+	Points			[0, 40; -25, 0; 0, 80]
 	DstBlock		"Data Logger1"
 	DstPort			1
       }
@@ -2863,5 +2928,235 @@ Model {
       DstBlock		      "Drive SSL High2"
       DstPort		      2
     }
+    Line {
+      SrcBlock		      "Get GPS"
+      SrcPort		      1
+      Points		      [20, 0; 0, 40]
+      DstBlock		      "myMux Fun"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Compute Load"
+      SrcPort		      1
+      DstBlock		      "myMux Fun"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Raw Sensors"
+      SrcPort		      1
+      Points		      [15, 0; 0, -60]
+      DstBlock		      "myMux Fun"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "myMux Fun"
+      SrcPort		      1
+      Points		      [25, 0; 0, -60]
+      DstBlock		      "Data Logger"
+      DstPort		      1
+    }
   }
+}
+
+# Finite State Machines
+#
+#    Stateflow Version 6.6 (R2007a) dated Jan 30 2007, 03:33:34
+#
+#
+
+Stateflow {
+
+	machine {
+		id                   		1
+		name                 		"sensorMCU"
+		created              		"31-Aug-2008 19:55:28"
+		isLibrary            		0
+		firstTarget          		11
+		sfVersion            		66014000
+	}
+
+	chart {
+		id                                        		2
+		name                                      		"myMux Fun"
+		windowPosition                            		[281.813 329.45 200.25 189.75]
+		viewLimits                                		[0 156.75 0 153.75]
+		screen                                    		[1 1 1280 1024 1.333333333333333]
+		treeNode                                  		[0 3 0 0]
+		firstTransition                           		5
+		firstJunction                             		4
+		viewObj                                   		2
+		machine                                   		1
+		subviewS {
+		}
+		decomposition                             		CLUSTER_CHART
+		type                                      		EML_CHART
+		firstData                                 		6
+		chartFileNumber                           		2
+		disableImplicitCasting                    		1
+		eml {
+			name       		"myMux"
+		}
+	}
+
+	state {
+		id                           		3
+		labelString                  		"eML_blk_kernel()"
+		position                     		[18 64.5 118 66]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 0 0]
+		superState                   		SUBCHART
+		subviewer                    		2
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			isEML                    		1
+			script                   		"function y = myMux(u1, u2, u3)\n"
+						"% This block supports an embeddable subset of the MATLAB la"
+						"nguage.\n"
+						"% See the help menu for details. \n"
+						"\n"
+						"y = [u1(:); u2(:); u3(:)];"
+			editorLayout             		"100 M4x1[146 214 671 364]"
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	junction {
+		id         		4
+		position   		[23.5747 49.5747 7]
+		chart      		2
+		linkNode   		[2 0 0]
+		subviewer  		2
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		5
+		labelString    		"{eML_blk_kernel();}"
+		labelPosition  		[32.125 19.875 102.544 14.964]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 23.5747 14.625 0 0]
+		}
+		dst {
+			id          		4
+			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
+		}
+		midPoint       		[23.5747 24.9468]
+		chart          		2
+		linkNode       		[2 0 0]
+		dataLimits     		[23.575 23.575 14.625 34.575]
+		subviewer      		2
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	data {
+		id                            		6
+		name                          		"u1"
+		linkNode                      		[2 0 7]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		7
+		name                          		"y"
+		linkNode                      		[2 6 8]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		8
+		name                          		"u2"
+		linkNode                      		[2 7 9]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		9
+		name                          		"u3"
+		linkNode                      		[2 8 0]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	instance {
+		id     		10
+		name   		"myMux Fun"
+		machine		1
+		chart  		2
+	}
+
+	target {
+		id                        		11
+		name                      		"sfun"
+		description               		"Default Simulink S-Function Target."
+		machine                   		1
+		linkNode                  		[1 0 0]
+	}
 }
