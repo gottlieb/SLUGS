@@ -7,7 +7,8 @@
 // at a predefined baud rate, then initializes a circular buffer,
 // configures the DMA and starts the service. 
 // The main function logData writes data to UART2 in the predefined
-// comm protocol. 
+// comm protocol and returns data in the comm protocol to be sent
+// via SPI to the second MCU. 
 // 
 // Code by: Mariano I. Lizarraga
 // First Revision: Aug 26 2008 @ 21:15
@@ -117,16 +118,15 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 	// sample period variable
 	static unsigned char samplePeriod = 0;
 	// temp var to store the assembled message
-	unsigned char tmpBuf [MAXLOGLEN] ={0}, tmpParameter[MAXLOGLEN] ={0}, i, newData= 0;
+	unsigned char tmpBuf [MAXLOGLEN] ={0}, i, newData= 0;
 	
 	
 	switch (samplePeriod){
-		case 8:
+		case 0:
 			// assemble the CPU load data for protocol sending	
 			assembleMsg(&rawData[LOAD_START], LOADMSG_LEN, LOADMSG_ID, tmpBuf);
 			// set the total data out for SPI
-			data4SPI[0] = LOADMSG_LEN+6; 
-			
+			data4SPI[0] = LOADMSG_LEN+6; 			
 			// add it to the circular buffer and SPI queue
 			for( i = 0; i < LOADMSG_LEN+6; i += 1 ){
 				writeBack(logBuffer,tmpBuf[i]);
@@ -134,12 +134,9 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 			}
 			newData = (getLength(logBuffer)>= LOGSEND)?1:0;
 			break;
-		case 5:			
-			for( i = 0; i < RAWMSG_LEN; i += 1 ){
-				tmpParameter[i] = rawData[RAW_START+i];
-			}
+		case 1:			
 			// assemble the Raw Sensor data for protocol sending	
-			assembleMsg(tmpParameter, RAWMSG_LEN, RAWMSG_ID, tmpBuf);
+			assembleMsg(&rawData[RAW_START], RAWMSG_LEN, RAWMSG_ID, tmpBuf);
 			// set the total data out for SPI			
 			data4SPI[0] = RAWMSG_LEN+6; 			
 			// add it to the circular buffer and SPI queue
@@ -150,8 +147,8 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 			newData = (getLength(logBuffer)>= LOGSEND)?1:0;
 			
 			break;
-		case 10:
-			// assemble the data for protocol sending
+		case 2:
+			// assemble the GPS data for protocol sending
 			assembleMsg(&rawData[GPS_START], GPSMSG_LEN, GPSMSG_ID, tmpBuf);
 			// set the total data out for SPI
 			data4SPI[0] = GPSMSG_LEN+6; 
@@ -159,14 +156,16 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 			for( i = 0; i < GPSMSG_LEN+6; i += 1 ){
 				writeBack(logBuffer,tmpBuf[i]);
 				data4SPI[i+1] = tmpBuf[i];
-			}
-			writeBack(logBuffer,getLength(logBuffer));			
-			newData = 1;		
+			}		
+			newData = (getLength(logBuffer)>= LOGSEND)?1:0;		
+			break;
+		default:
+			data4SPI[0] = 0;
 			break;
 	}
 	
 	// increment/overflow the samplePeriod counter
-	samplePeriod = (samplePeriod >= 6)? 0: samplePeriod + 1;
+	samplePeriod = (samplePeriod >= 4)? 0: samplePeriod + 1;
 	
 	
 	// if the interrupt catched up with the circularBuffer

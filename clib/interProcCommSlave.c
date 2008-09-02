@@ -1,22 +1,17 @@
 // ==============================================================
-// interProcComm.c
+// interProcCommSlave.c
 // This is code implements via SPI the interprocessor communications
 // to be used in the UCSC Autopilot project. It makes use of the 
 // circular buffer data structure circBuffer.c. It has been 
 // written to be implemented in Simulink. It configures SPI1 as slave
-// for the control MCU and master for the sensor MCU, both 
-// at 10 MHZ; it then initializes a circular buffer. 
-// The main functions are: 1.- spiSend writes data to SPI1 in the predefined
-// comm protocol. This will be implemented in the master (sensor) MCU.
+// for the control MCU at 10 MHZ; it then initializes a circular buffer. 
+// The main functions are: 1.- readIpc which reads the circularBuffer
+// filled by the SPI interrupt and sends the data for processing.
 // 2.- SPI1 interrupt gets bytes from the master MCU. It stores bytes in
-// two buffers in ping-pong mode (ala DMA) 
-// Note that by the nature of the SPI buses BOTH modules (slave and master)
-// send and receive data simultaneously. This is advantage is used to 
-// let the slave know what byte the master is expecting thus allowing an
-// efective two-way communication
+// a circular buffer
 // 
 // Code by: Mariano I. Lizarraga
-// First Revision: Aug 27 2008 @ 21:15
+// First Revision: Sep 1st 2008 @ 21:15
 // =========================================================
 #include "apDefinitions.h"
 #include "circBuffer.h"
@@ -59,8 +54,8 @@ void spiSlaveInit(void){
     SPI1CON1bits.SSEN   = 1;    // SS Used in slave mode    
     SPI1CON1bits.MSTEN  = 0;    //Slave Mode Enabled
     
-    // Configure the clock for 5 MHz
-    SPI1CON1bits.SPRE   = 7;    //Secondary prescaler to 2:1
+    // Configure the clock for 10 MHz
+    SPI1CON1bits.SPRE   = 7;    //Secondary prescaler to 1:1
     SPI1CON1bits.PPRE   = 2;    //Primary prescaler 4:1
     
     
@@ -95,8 +90,6 @@ void readIpc (unsigned char* bufferedData){
 void __attribute__((__interrupt__, no_auto_psv)) _SPI1Interrupt(void){
  	static unsigned char spiBufIdx = 1; 
  	unsigned char dataRead;
-	//dataRead = SP1BUF;
-	//spiRxBuf[0][0] = dataRead;
 		
  	// if we received a byte
  	if (SPI1STATbits.SPIRBF == 1){
