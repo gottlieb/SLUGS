@@ -1,22 +1,15 @@
 // ==============================================================
-// interProcComm.c
+// interProcCommMaster.c
 // This is code implements via SPI the interprocessor communications
 // to be used in the UCSC Autopilot project. It makes use of the 
 // circular buffer data structure circBuffer.c. It has been 
-// written to be implemented in Simulink. It configures SPI1 as slave
-// for the control MCU and master for the sensor MCU, both 
-// at 10 MHZ; it then initializes a circular buffer. 
-// The main functions are: 1.- spiSend writes data to SPI1 in the predefined
-// comm protocol. This will be implemented in the master (sensor) MCU.
-// 2.- SPI1 interrupt gets bytes from the master MCU. It stores bytes in
-// two buffers in ping-pong mode (ala DMA) 
-// Note that by the nature of the SPI buses BOTH modules (slave and master)
-// send and receive data simultaneously. This is advantage is used to 
-// let the slave know what byte the master is expecting thus allowing an
-// efective two-way communication
+// written to be implemented in Simulink. It configures SPI1 as master
+// for the sensor MCU  at 10 MHZ; 
+//  1.- spiSend writes data to SPI1 in the predefined
+// comm protocol. 
 // 
 // Code by: Mariano I. Lizarraga
-// First Revision: Aug 27 2008 @ 21:15
+// First Revision: Aug 31 2008 @ 22:45
 // =========================================================
 #include "apDefinitions.h"
 #include "circBuffer.h"

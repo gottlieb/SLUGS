@@ -1,3 +1,18 @@
+// ==============================================================
+// dataLogger.c
+// This is code implements a fully DMA driven UART writer to
+// be used in the UCSC Autopilot project. It makes use of the 
+// circular buffer data structure circBuffer.c. It has been 
+// written to be implemented in Simulink. It configures UART 2
+// at a predefined baud rate, then initializes a circular buffer,
+// configures the DMA and starts the service. 
+// The main function logData writes data to UART2 in the predefined
+// comm protocol. 
+// 
+// Code by: Mariano I. Lizarraga
+// First Revision: Sep 1st 2008 @ 13:21
+// =========================================================
+
 #include "apDefinitions.h"
 #include "circBuffer.h"
 #include <p33fxxxx.h>
@@ -102,7 +117,6 @@ void __attribute__((interrupt, no_auto_psv)) _DMA0Interrupt(void)
 {
     // Clear the DMA0 Interrupt Flag;
     IFS0bits.DMA0IF  = 0;		
-	//putsUART2((unsigned int *)"Transmision in interrupt\n\r\0");
 	
 	// if there are more bytes to send
 	if(getLength(commProtBuffer)>= LOGSEND)
