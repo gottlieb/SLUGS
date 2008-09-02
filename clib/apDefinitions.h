@@ -37,8 +37,8 @@ and data types.
 #define MAXLOGLEN		33
 
 #define GPS_START 		0
-#define LOAD_START		28
-#define RAW_START 		29
+#define LOAD_START		27
+#define RAW_START 		28
 
 // Message Protocol Lengths and IDs
 // ================================
@@ -171,5 +171,18 @@ typedef struct tGpsData{
 	unsigned char 			sats;	
 	unsigned char			new;
 }tGpsData;
+
+typedef struct tRawData{
+	tUnsignedIntToChar 		gyroX;
+	tUnsignedIntToChar 		gyroY;
+	tUnsignedIntToChar 		gyroZ;
+	tUnsignedIntToChar 		accelX;
+	tUnsignedIntToChar 		accelY;
+	tUnsignedIntToChar 		accelZ;
+	tUnsignedIntToChar 		baro;
+	tUnsignedIntToChar 		pitot;
+	tUnsignedIntToChar 		temp;
+}tRawData;
+
 
 #endif /* _APDEFINITIONS_H_ */
