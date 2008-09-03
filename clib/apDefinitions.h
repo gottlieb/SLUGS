@@ -164,24 +164,39 @@ typedef struct tGpsData{
 	tFloatToChar 			lat;
 	tFloatToChar 			lon;
 	tFloatToChar 			height;
-	tIntToChar				cog;
-	tIntToChar				sog;
-	tIntToChar				hdop;	
+	tUnsignedShortToChar	cog;
+	tUnsignedShortToChar	sog;
+	tUnsignedShortToChar	hdop;	
 	unsigned char			fix;
 	unsigned char 			sats;	
 	unsigned char			new;
 }tGpsData;
 
 typedef struct tRawData{
-	tUnsignedIntToChar 		gyroX;
-	tUnsignedIntToChar 		gyroY;
-	tUnsignedIntToChar 		gyroZ;
-	tUnsignedIntToChar 		accelX;
-	tUnsignedIntToChar 		accelY;
-	tUnsignedIntToChar 		accelZ;
-	tUnsignedIntToChar 		baro;
-	tUnsignedIntToChar 		pitot;
-	tUnsignedIntToChar 		temp;
+	tUnsignedShortToChar 	gyroX;
+	tUnsignedShortToChar 	gyroY;
+	tUnsignedShortToChar 	gyroZ;
+	tUnsignedShortToChar 	accelX;
+	tUnsignedShortToChar 	accelY;
+	tUnsignedShortToChar 	accelZ;
+	tUnsignedShortToChar 	magX;
+	tUnsignedShortToChar 	magY;
+	tUnsignedShortToChar 	magZ;
+}tRawData;
+
+typedef struct tAttitudeData{
+	tFloatToChar			roll;
+	tFloatToChar			pitch;
+	tFloatToChar			yaw;
+	tFloatToChar			p;
+	tFloatToChar			q;
+	tFloatToChar			r;
+}tAttitudeData;
+
+typedef struct tSensStatus{
+	char					load;
+	char					vdetect;
+	tUnsignedShortToChar	battVoltage;
 }tRawData;
 
 

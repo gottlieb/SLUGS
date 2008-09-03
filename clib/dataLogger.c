@@ -106,7 +106,6 @@ void copyBufferToDMA (void){
 	}
 }
 
-
 /*
 	logData is the implementation of the outgoing Comunications 		
 	protocol it is geared to prepare the data either for the data 
@@ -145,8 +144,7 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 				writeBack(logBuffer,tmpBuf[i]);
 				data4SPI[i+1] = tmpBuf[i];
 			}
-			newData = (getLength(logBuffer)>= LOGSEND)?1:0;
-			
+			newData = (getLength(logBuffer)>= LOGSEND)?1:0;			
 			break;
 		case 2:
 			// assemble the GPS data for protocol sending
