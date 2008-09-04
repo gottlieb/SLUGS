@@ -197,7 +197,7 @@ typedef struct tSensStatus{
 	char					load;
 	char					vdetect;
 	tUnsignedShortToChar	battVoltage;
-}tRawData;
+}tSensStatus;
 
 
 #endif /* _APDEFINITIONS_H_ */
