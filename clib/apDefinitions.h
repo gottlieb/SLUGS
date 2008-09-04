@@ -196,8 +196,14 @@ typedef struct tAttitudeData{
 typedef struct tSensStatus{
 	char					load;
 	char					vdetect;
-	tUnsignedShortToChar	battVoltage;
-}tRawData;
+	tUnsignedShortToChar	bVolt;
+}tSensStatus;
+
+typedef struct tDynTempData{
+	tFloatToChar	dynamic;
+	tFloatToChar	stat;
+	tShortToChar	temp;
+}tDynTempData;
 
 
 #endif /* _APDEFINITIONS_H_ */
