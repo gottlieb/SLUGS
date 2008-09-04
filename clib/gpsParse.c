@@ -128,14 +128,14 @@ void parseRMC(unsigned char* stream){
 	// xx.xx
 	token = strtok(NULL, ",");	
 	if (strlen(token)>0){
-		gpsData.sog.shData = (unsigned short) (atof(token)*KTS2MPS*100.0);	
+		gpsData.sog.usData = (unsigned short) (atof(token)*KTS2MPS*100.0);	
 	}
 	
 	// 8.- COG in degrees
 	// xxx.xxx
 	token = strtok(NULL, ",");	
 	if (strlen(token)>0){
-		gpsData.cog.shData = (unsigned short) atof(token);	
+		gpsData.cog.usData = (unsigned short) atof(token);	
 	}
 	
 	// 9.- UTC Date
@@ -243,7 +243,7 @@ void parseGGA(unsigned char* stream){
 	// xx.xx
 	token = strtok(NULL, ",");	
 	if (strlen(token)>0){
-		gpsData.hdop.shData = (unsigned short) (atof(token)*10.0);	
+		gpsData.hdop.usData = (unsigned short) (atof(token)*10.0);	
 	}
 	
 	// 9.- Altitude above mean sea level given in meters
