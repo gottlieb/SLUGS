@@ -13,6 +13,7 @@
 #include "apDefinitions.h"
 #include "circBuffer.h"
 #include "gpsSplit.h"
+#include <stdio.h>
 
 struct CircBuffer protParseBuffer;
 CBRef ppBuffer;
@@ -191,20 +192,22 @@ void protParseDecode(unsigned char* fromSPI){
 		if(peak(ppBuffer)==STAR){
 			// read the star and the checksum
 			prevBuffer[indexLast++] = readFront(ppBuffer);
-			prevBuffer[indexLast] = readFront(ppBuffer);		
-			
-			// get everything ready to start all-over
-			previousComplete =1;
-			indexLast = 0;
-			
+			prevBuffer[indexLast] = readFront(ppBuffer);
+
 			// Compute the checksum
 			tmpChksum= getChecksum(prevBuffer, indexLast-1);
-		
+
 			// if the checksum is valid
 			if (tmpChksum ==prevBuffer[indexLast]){
 				// update the states depending on the message
 				updateStates(&prevBuffer[0]);
 			}
+
+            // get everything ready to start all-over
+			previousComplete =1;
+			indexLast = 0;
+            headerFound = 0;
+
 	
 		}else { // you ran out of bytes
 			// No More Bytes

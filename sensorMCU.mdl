@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.80"
+    ComputedModelVersion    "1.83"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ASL_Lab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Sep 02 17:15:28 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:80>"
+  LastModifiedDate	  "Thu Sep 04 11:51:33 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:83>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -816,7 +816,7 @@ Model {
       BlockType		      SubSystem
       Name		      "Compute Load"
       Ports		      [0, 1]
-      Position		      [55, 258, 135, 302]
+      Position		      [30, 258, 110, 302]
       BackgroundColor	      "orange"
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
@@ -824,7 +824,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Compute Load"
-	Location		[338, 369, 968, 477]
+	Location		[338, 369, 997, 572]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -847,6 +847,29 @@ Model {
 	  SourceType		  "Calculation Time"
 	  SampleTime		  "0.01"
 	  PR1chk		  on
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant1"
+	  Position		  [475, 65, 505, 95]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint8"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant2"
+	  Position		  [475, 100, 505, 130]
+	  ShowName		  off
+	  Value			  "2"
+	  OutDataTypeMode	  "uint8"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant3"
+	  Position		  [475, 135, 505, 165]
+	  ShowName		  off
+	  Value			  "3"
+	  OutDataTypeMode	  "uint8"
 	}
 	Block {
 	  BlockType		  DataTypeConversion
@@ -889,6 +912,14 @@ Model {
 	  SaturateOnIntegerOverflow off
 	}
 	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  Ports			  [4, 1]
+	  Position		  [565, 27, 570, 168]
+	  ShowName		  off
+	  DisplayOption		  "bar"
+	}
+	Block {
 	  BlockType		  Rounding
 	  Name			  "Rounding\nFunction"
 	  Position		  [415, 30, 445, 60]
@@ -897,7 +928,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Load (%)"
-	  Position		  [545, 38, 575, 52]
+	  Position		  [615, 93, 645, 107]
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
 	}
@@ -926,12 +957,6 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Data Type Conversion12"
-	  SrcPort		  1
-	  DstBlock		  "Load (%)"
-	  DstPort		  1
-	}
-	Line {
 	  SrcBlock		  "Data Type Conversion1"
 	  SrcPort		  1
 	  Points		  [0, -5]
@@ -942,6 +967,36 @@ Model {
 	  SrcBlock		  "Data Type Conversion2"
 	  SrcPort		  1
 	  DstBlock		  "Divide"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion12"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Constant1"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Constant2"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Constant3"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  DstBlock		  "Load (%)"
 	  DstPort		  1
 	}
       }
@@ -991,7 +1046,7 @@ Model {
 	FctDeclaration		"extern void logData(uint8_T* u1,uint8_T* y1);"
 	FctCall			"logData(*%u1, *%y1);"
 	fctName			"logData"
-	INPUT_SIZE		"46"
+	INPUT_SIZE		"49"
 	OUTPUT_SIZE		"34"
 	NBR_INPUT		"1"
 	NBR_OUTPUT		"1"
@@ -999,7 +1054,7 @@ Model {
       SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
       SourceType	      "C Function Call"
       fctName		      "'logData'"
-      INPUT_SIZE	      "46"
+      INPUT_SIZE	      "49"
       INPUT1		      "uint8"
       INPUT2		      "--"
       INPUT3		      "--"

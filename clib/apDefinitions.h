@@ -38,14 +38,14 @@ and data types.
 
 #define GPS_START 		0
 #define LOAD_START		27
-#define RAW_START 		28
+#define RAW_START 		31
 
 // Message Protocol Lengths and IDs
 // ================================
 #define GPSMSG_ID		1
 #define GPSMSG_LEN		27
 #define LOADMSG_ID		2
-#define LOADMSG_LEN		1
+#define LOADMSG_LEN		4
 #define RAWMSG_ID		3
 #define RAWMSG_LEN		18
 
