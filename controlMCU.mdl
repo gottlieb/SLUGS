@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.89"
+    ComputedModelVersion    "1.94"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ASL_Lab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Sep 04 12:09:47 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:89>"
+  LastModifiedDate	  "Fri Sep 05 09:43:28 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:94>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -784,43 +784,10 @@ Model {
     }
     Block {
       BlockType		      Reference
-      Name		      "Decode and Update\nthe data Structures"
-      Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      [1]
-      Position		      [260, 177, 365, 213]
-      BackgroundColor	      "yellow"
-      List {
-	ListType		RTWdata
-	FctDeclaration		"extern void protParseDecode(uint8_T* u1);"
-	FctCall			"protParseDecode(*%u1);"
-	fctName			"protParseDecode"
-	INPUT_SIZE		"34"
-	OUTPUT_SIZE		"1"
-	NBR_INPUT		"1"
-	NBR_OUTPUT		"0"
-      }
-      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-      SourceType	      "C Function Call"
-      fctName		      "'protParseDecode'"
-      INPUT_SIZE	      "34"
-      INPUT1		      "uint8"
-      INPUT2		      "--"
-      INPUT3		      "--"
-      OUTPUT_SIZE	      "1"
-      OUTPUT1		      "--"
-      SampleTime	      "-1"
-      InputType		      "[ 2 ]"
-      OutputType	      "[ ]"
-      FctDeclaration	      "extern void protParseDecode(uint8_T* u1);"
-      FctCall		      "protParseDecode(*%u1);"
-      OrderingInOutPopup      "None"
-    }
-    Block {
-      BlockType		      Reference
       Name		      "Decode and Update\nthe data Structures1"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [0, 1]
-      Position		      [395, 242, 500, 278]
+      Position		      [425, 227, 530, 263]
       BackgroundColor	      "yellow"
       List {
 	ListType		RTWdata
@@ -862,7 +829,7 @@ Model {
       BlockType		      Demux
       Name		      "Demux1"
       Ports		      [1, 3]
-      Position		      [540, 241, 545, 279]
+      Position		      [555, 226, 560, 264]
       BackgroundColor	      "black"
       ShowName		      off
       Outputs		      "3"
@@ -976,8 +943,8 @@ Model {
       BlockType		      Reference
       Name		      "Initialize Data \nfrom IPC"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      [0, 1]
-      Position		      [40, 337, 145, 373]
+      Ports		      [0, 2]
+      Position		      [25, 337, 130, 373]
       BackgroundColor	      "yellow"
       List {
 	ListType		RTWdata
@@ -1003,7 +970,7 @@ Model {
       OutputType	      "[ 2 ]"
       FctDeclaration	      "extern void readIpc(uint8_T* y1);"
       FctCall		      "readIpc(*%y1);"
-      OrderingInOutPopup      "None"
+      OrderingInOutPopup      "Output"
     }
     Block {
       BlockType		      Reference
@@ -1112,7 +1079,7 @@ Model {
       Name		      "Send Data to Radio\nModem"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [1]
-      Position		      [255, 247, 360, 283]
+      Position		      [215, 252, 320, 288]
       BackgroundColor	      "yellow"
       List {
 	ListType		RTWdata
@@ -1145,7 +1112,7 @@ Model {
       Name		      "TX Output Multiplexed\nfor Matlab / Labview"
       Tag		      "dsPIC_TX_Multiplexed"
       Ports		      [3]
-      Position		      [575, 217, 705, 303]
+      Position		      [645, 211, 775, 299]
       Priority		      "5"
       SourceBlock	      "dsPICdrivers/Serial PORT/TX Output Multiplexed"
 "\nfor Matlab // Labview"
@@ -1153,7 +1120,7 @@ Model {
       UART		      "1"
       CleverSpreadingChk      on
       CleverSpreading	      "1"
-      CHANNEL		      "[0 1 2]"
+      CHANNEL		      "[0 1 2 ]"
       CHANNELBLOCKED	      "[]"
       CHANNELBLOCKED_BITEWISE "0"
       Status		      "OK"
@@ -1245,22 +1212,15 @@ Model {
     Line {
       SrcBlock		      "Initialize Data \nfrom IPC"
       SrcPort		      1
-      Points		      [45, 0]
+      Points		      [0, 10; 20, 0]
       Branch {
 	DstBlock		"Demux"
 	DstPort			1
       }
       Branch {
-	Points			[0, -90]
-	Branch {
-	  DstBlock		  "Send Data to Radio\nModem"
-	  DstPort		  1
-	}
-	Branch {
-	  Points		  [0, -70]
-	  DstBlock		  "Decode and Update\nthe data Structures"
-	  DstPort		  1
-	}
+	Points			[0, -85]
+	DstBlock		"Send Data to Radio\nModem"
+	DstPort			1
       }
     }
     Line {
@@ -1291,20 +1251,21 @@ Model {
     Line {
       SrcBlock		      "Demux1"
       SrcPort		      1
-      Points		      [5, 0; 0, -20]
+      Points		      [35, 0; 0, -10]
       DstBlock		      "TX Output Multiplexed\nfor Matlab / Labview"
       DstPort		      1
     }
     Line {
       SrcBlock		      "Demux1"
       SrcPort		      2
+      Points		      [50, 0; 0, 10]
       DstBlock		      "TX Output Multiplexed\nfor Matlab / Labview"
       DstPort		      2
     }
     Line {
       SrcBlock		      "Demux1"
       SrcPort		      3
-      Points		      [10, 0]
+      Points		      [25, 0; 0, 30]
       DstBlock		      "TX Output Multiplexed\nfor Matlab / Labview"
       DstPort		      3
     }

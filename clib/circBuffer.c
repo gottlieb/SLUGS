@@ -164,8 +164,9 @@ unsigned char readFront (CBRef cB){
 			cB->length--;
 			return retVal;
 		}
+		return 128;
 	}
-	return 0;
+	return 255;
 }
 
 // writes one byte at the end of the circular buffer, returns 1 if overflow occured

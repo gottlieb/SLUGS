@@ -34,7 +34,7 @@ and data types.
 // Data Logger Values
 // ================
 #define LOGSEND			8
-#define MAXLOGLEN		33
+#define MAXLOGLEN		34
 
 #define GPS_START 		0
 #define LOAD_START		27
