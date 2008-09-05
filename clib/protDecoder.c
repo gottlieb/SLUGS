@@ -14,6 +14,7 @@
 #include "circBuffer.h"
 #include "gpsSplit.h"
 #include <stdio.h>
+#include <string.h>
 
 struct CircBuffer protParseBuffer;
 CBRef ppBuffer;
@@ -117,6 +118,7 @@ void updateStates(unsigned char * completeSentence){
 			attitudeControlData.r.chData[2]	= completeSentence[26];
 			attitudeControlData.r.chData[3]	= completeSentence[27];			
 		break;
+        case 5:
 			dynTempControlData.dynamic.chData[0]	= completeSentence[4];
 			dynTempControlData.dynamic.chData[1]	= completeSentence[5];
 			dynTempControlData.dynamic.chData[2]	= completeSentence[6];
@@ -142,15 +144,18 @@ void protParseDecode(unsigned char* fromSPI){
 	// local variables 
 	unsigned char i;
 	unsigned char tmpChksum = 0, headerFound=0, noMoreBytes = 1;
-	unsigned char isValid = 0;
+	unsigned char trailerFound = 0;
 	
 	// Add the received bytes to the protocol parsing circular buffer
-	for(i = 1; i < fromSPI[0]; i += 1 )
+    for(i = 1; i <= fromSPI[0]; i += 1 )
+    //   for(i = 0; i < 35; i += 1 )
 	{
 		writeBack(ppBuffer, fromSPI[i]);
 	}
+	
 	// update the noMoreBytes flag accordingly
-	noMoreBytes = (fromSPI[0]>0)?0:1;
+    noMoreBytes = (fromSPI[0]>0)?0:1;
+    //    noMoreBytes = 0;
 	
 	while (!noMoreBytes){
 		// if the previous message was complete then read from the circular buffer
@@ -158,21 +163,21 @@ void protParseDecode(unsigned char* fromSPI){
 		if(previousComplete){
 			while (!headerFound && !noMoreBytes) {
 				// move along until you find a dollar sign or run out of bytes
-				while (getLength(ppBuffer)>0 && peak(ppBuffer)!=DOLLAR){
+				while (getLength(ppBuffer)>1 && peak(ppBuffer)!=DOLLAR){
 					readFront(ppBuffer);
 				}			
 				// if you found a dollar then make sure the next one is an AT
-				if(peak(ppBuffer) == DOLLAR){
+				if(getLength(ppBuffer)>1 && peak(ppBuffer) == DOLLAR){
 					// read it
-					prevBuffer[indexLast++] = readFront(ppBuffer);				
-					// if next is a at sign
+					prevBuffer[indexLast++] = readFront(ppBuffer);
+                                        // if next is a at sign
 					if (peak(ppBuffer) == AT){
 						// read it
 						prevBuffer[indexLast++] = readFront(ppBuffer);
 						// and signal you found a header
 						headerFound = 1;
-						// and do not complete the sentece
-						previousComplete = 0;
+                         // and set as  incomplete the sentece
+                         previousComplete = 0;
 					}
 				} else {
 					noMoreBytes = 1;
@@ -183,20 +188,40 @@ void protParseDecode(unsigned char* fromSPI){
 		// At this point either you found a header from a previous complete
 		// or you are reading from a message that was incomplete the last time
 		// in any of those two cases, keep reading until you run out of bytes
-		// or find a star
-		while (getLength(ppBuffer)>0 && peak(ppBuffer)!=STAR){
-			prevBuffer[indexLast++] = readFront(ppBuffer);
+		// or find a STAR and an AT
+		while (!trailerFound && !noMoreBytes){
+			while (getLength(ppBuffer)>2 && peak(ppBuffer)!=STAR){
+				prevBuffer[indexLast++] = readFront(ppBuffer);
+			}
+			// if you found a STAR (42) and stil have bytes
+			if (getLength(ppBuffer)>2 && peak(ppBuffer)==STAR){
+				// read it
+				prevBuffer[indexLast++] = readFront(ppBuffer);
+				// if you still have 2 bytes
+				if (getLength(ppBuffer)>1){
+					// and the next byte is an AT sign
+					if (peak(ppBuffer)==AT){
+						// then you found a trailer
+						trailerFound =1;
+					}
+				} else {
+					noMoreBytes =1;
+				}
+			} else {
+				// no more bytes
+				noMoreBytes =1;
+			} 
 		}
 		
-		// if you found a star
-		if(peak(ppBuffer)==STAR){
-			// read the star and the checksum
+		// if you found a trailer, then the message is done
+		if(trailerFound){
+			// read the AT and the checksum
 			prevBuffer[indexLast++] = readFront(ppBuffer);
 			prevBuffer[indexLast] = readFront(ppBuffer);
 
 			// Compute the checksum
 			tmpChksum= getChecksum(prevBuffer, indexLast-1);
-
+	
 			// if the checksum is valid
 			if (tmpChksum ==prevBuffer[indexLast]){
 				// update the states depending on the message
@@ -207,8 +232,9 @@ void protParseDecode(unsigned char* fromSPI){
 			previousComplete =1;
 			indexLast = 0;
             headerFound = 0;
+            trailerFound = 0;
+            memset(prevBuffer, 0, sizeof(prevBuffer));
 
-	
 		}else { // you ran out of bytes
 			// No More Bytes
 			noMoreBytes = 1;

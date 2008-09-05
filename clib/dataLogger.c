@@ -83,7 +83,7 @@ void loggerInit (void){
 	IEC4bits.U2EIE 		= 0;	
 }
 
-void assembleMsg(unsigned char* rawData , unsigned char size, char type, unsigned char* protMsg ){
+void assembleMsg(unsigned char* rawData , unsigned char size, unsigned char type, unsigned char* protMsg ){
 	unsigned char i;
 	// start the header
 	*(protMsg+0) = DOLLAR;
@@ -95,7 +95,8 @@ void assembleMsg(unsigned char* rawData , unsigned char size, char type, unsigne
 		*(protMsg+i+4) = *(rawData +i);
 	}
 	*(protMsg+size+4) = STAR;
-	*(protMsg+size+5) = getChecksum(protMsg, (size+5));	
+	*(protMsg+size+5) = AT;
+	*(protMsg+size+6) = getChecksum(protMsg, (size+5));	
 }
 
 void copyBufferToDMA (void){
@@ -126,9 +127,9 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 
 			assembleMsg(&rawData[LOAD_START], LOADMSG_LEN, LOADMSG_ID, tmpBuf);
 			// set the total data out for SPI
-			data4SPI[0] = LOADMSG_LEN+6; 			
+			data4SPI[0] = LOADMSG_LEN+7; 			
 			// add it to the circular buffer and SPI queue
-			for( i = 0; i < LOADMSG_LEN+6; i += 1 ){
+			for( i = 0; i < LOADMSG_LEN+7; i += 1 ){
 				writeBack(logBuffer,tmpBuf[i]);
 				data4SPI[i+1] = tmpBuf[i];
 			}
@@ -138,9 +139,9 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 			// assemble the Raw Sensor data for protocol sending	
 			assembleMsg(&rawData[RAW_START], RAWMSG_LEN, RAWMSG_ID, tmpBuf);
 			// set the total data out for SPI			
-			data4SPI[0] = RAWMSG_LEN+6; 			
+			data4SPI[0] = RAWMSG_LEN+7; 			
 			// add it to the circular buffer and SPI queue
-			for( i = 0; i < RAWMSG_LEN+6; i += 1 ){
+			for( i = 0; i < RAWMSG_LEN+7; i += 1 ){
 				writeBack(logBuffer,tmpBuf[i]);
 				data4SPI[i+1] = tmpBuf[i];
 			}
@@ -150,12 +151,16 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 			// assemble the GPS data for protocol sending
 			assembleMsg(&rawData[GPS_START], GPSMSG_LEN, GPSMSG_ID, tmpBuf);
 			// set the total data out for SPI
-			data4SPI[0] = GPSMSG_LEN+6; 
+			data4SPI[0] = GPSMSG_LEN+7; 
 			// add it to the circular buffer and SPI queue
-			for( i = 0; i < GPSMSG_LEN+6; i += 1 ){
+			for( i = 0; i < GPSMSG_LEN+7; i += 1 ){
 				writeBack(logBuffer,tmpBuf[i]);
 				data4SPI[i+1] = tmpBuf[i];
-			}		
+			}
+			/*for (i=0; i<data4SPI[0]; i+=1){
+    			    tmpBuf[i] = 255;
+    			    tmpBuf[i] = data4SPI[i+1];
+             } */					
 			newData = (getLength(logBuffer)>= LOGSEND)?1:0;		
 			break;
 		default:
