@@ -15,6 +15,7 @@
 
 #include "apDefinitions.h"
 #include "circBuffer.h"
+#include "protDecoder.h"
 #include <p33fxxxx.h>
 #include <uart.h>
 
@@ -110,6 +111,8 @@ void txProtocol(unsigned char* protData){
 		// Init the transmission
 		DMA0REQbits.FORCE = 1;
 	}
+	
+	protParseDecode(protData);
 }
 
 
