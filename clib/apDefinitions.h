@@ -34,18 +34,18 @@ and data types.
 // Data Logger Values
 // ================
 #define LOGSEND			8
-#define MAXLOGLEN		33
+#define MAXLOGLEN		34
 
 #define GPS_START 		0
 #define LOAD_START		27
-#define RAW_START 		28
+#define RAW_START 		31
 
 // Message Protocol Lengths and IDs
 // ================================
 #define GPSMSG_ID		1
 #define GPSMSG_LEN		27
 #define LOADMSG_ID		2
-#define LOADMSG_LEN		1
+#define LOADMSG_LEN		4
 #define RAWMSG_ID		3
 #define RAWMSG_LEN		18
 
@@ -196,8 +196,14 @@ typedef struct tAttitudeData{
 typedef struct tSensStatus{
 	char					load;
 	char					vdetect;
-	tUnsignedShortToChar	battVoltage;
+	tUnsignedShortToChar	bVolt;
 }tSensStatus;
+
+typedef struct tDynTempData{
+	tFloatToChar	dynamic;
+	tFloatToChar	stat;
+	tShortToChar	temp;
+}tDynTempData;
 
 
 #endif /* _APDEFINITIONS_H_ */

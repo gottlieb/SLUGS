@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.79"
+    ComputedModelVersion    "1.94"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ASL_Lab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Sep 04 12:37:04 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:79>"
+  LastModifiedDate	  "Fri Sep 05 09:43:28 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:94>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -325,7 +325,8 @@ Model {
 	  ConfigAtBuild		  off
 	  CustomHeaderCode	  "\n"
 	  CustomSource		  "clib\\circBuffer.c\nclib\\gpsSplit.c\nclib"
-"\\sbrk.c\nclib\\interProcCommSlave.c\nclib\\sendProtocol.c"
+"\\sbrk.c\nclib\\interProcCommSlave.c\nclib\\sendProtocol.c\nclib\\protDecoder"
+".c"
 	  IncludeHyperlinkInReport on
 	  LaunchReport		  on
 	  TargetLang		  "C"
@@ -782,6 +783,39 @@ Model {
       SaturateOnIntegerOverflow	off
     }
     Block {
+      BlockType		      Reference
+      Name		      "Decode and Update\nthe data Structures1"
+      Tag		      "dsPIC_dsPIC_CFunctionCall"
+      Ports		      [0, 1]
+      Position		      [425, 227, 530, 263]
+      BackgroundColor	      "yellow"
+      List {
+	ListType		RTWdata
+	FctDeclaration		"extern void getTime(uint8_T* y1);"
+	FctCall			"getTime(*%y1);"
+	fctName			"getTime"
+	INPUT_SIZE		"1"
+	OUTPUT_SIZE		"3"
+	NBR_INPUT		"0"
+	NBR_OUTPUT		"1"
+      }
+      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+      SourceType	      "C Function Call"
+      fctName		      "'getTime'"
+      INPUT_SIZE	      "1"
+      INPUT1		      "--"
+      INPUT2		      "--"
+      INPUT3		      "--"
+      OUTPUT_SIZE	      "3"
+      OUTPUT1		      "uint8"
+      SampleTime	      "0.01"
+      InputType		      "[ ]"
+      OutputType	      "[ 2 ]"
+      FctDeclaration	      "extern void getTime(uint8_T* y1);"
+      FctCall		      "getTime(*%y1);"
+      OrderingInOutPopup      "None"
+    }
+    Block {
       BlockType		      Demux
       Name		      "Demux"
       Ports		      [1, 2]
@@ -789,6 +823,16 @@ Model {
       BackgroundColor	      "black"
       ShowName		      off
       Outputs		      "[1 33]"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Demux
+      Name		      "Demux1"
+      Ports		      [1, 3]
+      Position		      [555, 226, 560, 264]
+      BackgroundColor	      "black"
+      ShowName		      off
+      Outputs		      "3"
       DisplayOption	      "bar"
     }
     Block {
@@ -864,10 +908,43 @@ Model {
     }
     Block {
       BlockType		      Reference
+      Name		      "Initialize Data \nProtocl Parser"
+      Tag		      "dsPIC_dsPIC_CFunctionCall"
+      Ports		      []
+      Position		      [415, 112, 520, 148]
+      BackgroundColor	      "yellow"
+      List {
+	ListType		RTWdata
+	FctDeclaration		"extern void protParserInit();"
+	FctCall			"protParserInit();"
+	fctName			"protParserInit"
+	INPUT_SIZE		"1"
+	OUTPUT_SIZE		"1"
+	NBR_INPUT		"0"
+	NBR_OUTPUT		"0"
+      }
+      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+      SourceType	      "C Function Call"
+      fctName		      "'protParserInit'"
+      INPUT_SIZE	      "1"
+      INPUT1		      "--"
+      INPUT2		      "--"
+      INPUT3		      "--"
+      OUTPUT_SIZE	      "1"
+      OUTPUT1		      "--"
+      SampleTime	      "inf"
+      InputType		      "[ ]"
+      OutputType	      "[ ]"
+      FctDeclaration	      "extern void protParserInit();"
+      FctCall		      "protParserInit();"
+      OrderingInOutPopup      "None"
+    }
+    Block {
+      BlockType		      Reference
       Name		      "Initialize Data \nfrom IPC"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      [0, 1]
-      Position		      [40, 337, 145, 373]
+      Ports		      [0, 2]
+      Position		      [25, 337, 130, 373]
       BackgroundColor	      "yellow"
       List {
 	ListType		RTWdata
@@ -893,7 +970,7 @@ Model {
       OutputType	      "[ 2 ]"
       FctDeclaration	      "extern void readIpc(uint8_T* y1);"
       FctCall		      "readIpc(*%y1);"
-      OrderingInOutPopup      "None"
+      OrderingInOutPopup      "Output"
     }
     Block {
       BlockType		      Reference
@@ -957,7 +1034,7 @@ Model {
 "   0   0   0   0   0   0   9   0   0   0   0  10   0   0   0   0   0   0   0 "
 "  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0  "
 " 0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   "
-"0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0"
+"0   0   0   0   0   0   0   0   0   0   0   0   0   4   5   0   0   0   0   0"
 "   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 "
 "  0   0   0   0 ]"
       TRIS		      "[ 65535  65407  65535  65535  65535  65535  655"
@@ -1002,7 +1079,7 @@ Model {
       Name		      "Send Data to Radio\nModem"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [1]
-      Position		      [255, 232, 360, 268]
+      Position		      [215, 252, 320, 288]
       BackgroundColor	      "yellow"
       List {
 	ListType		RTWdata
@@ -1031,20 +1108,92 @@ Model {
       OrderingInOutPopup      "None"
     }
     Block {
+      BlockType		      Reference
+      Name		      "TX Output Multiplexed\nfor Matlab / Labview"
+      Tag		      "dsPIC_TX_Multiplexed"
+      Ports		      [3]
+      Position		      [645, 211, 775, 299]
+      Priority		      "5"
+      SourceBlock	      "dsPICdrivers/Serial PORT/TX Output Multiplexed"
+"\nfor Matlab // Labview"
+      SourceType	      "send structured data frame to Matlab / Labview"
+      UART		      "1"
+      CleverSpreadingChk      on
+      CleverSpreading	      "1"
+      CHANNEL		      "[0 1 2 ]"
+      CHANNELBLOCKED	      "[]"
+      CHANNELBLOCKED_BITEWISE "0"
+      Status		      "OK"
+    }
+    Block {
       BlockType		      Terminator
       Name		      "Terminator"
       Position		      [295, 360, 315, 380]
+      ShowName		      off
     }
     Block {
       BlockType		      Terminator
       Name		      "Terminator1"
       Position		      [375, 335, 395, 355]
+      ShowName		      off
     }
     Block {
       BlockType		      Terminator
       Name		      "Terminator4"
       Position		      [690, 85, 710, 105]
       ShowName		      off
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "UART Configuration"
+      Tag		      "dsPIC_config_UART"
+      Ports		      []
+      Position		      [295, 98, 395, 148]
+      BackgroundColor	      "lightBlue"
+      DropShadow	      on
+      Priority		      "2"
+      List {
+	ListType		RTWdata
+	RxBufferSize		"32"
+      }
+      SourceBlock	      "dsPICdrivers/Serial PORT/UART Configuration"
+      SourceType	      "Configure UART"
+      UART		      "1"
+      proposed_BAUD	      "115200"
+      ALT_TX_RX		      on
+      InterruptTxWhen	      "When Transmit Buffer is empty"
+      TXInterruptPri	      "1"
+      TxBufferSize	      "32"
+      TXEN		      on
+      InterruptRxWhen	      "When Receive Buffer is full (contain 4 characte"
+"rs)"
+      RXInterruptPri	      "2"
+      RxBufferSize	      "32"
+      BAUD		      "115200"
+      UxBRG		      "21"
+      Info		      "UxBRG = 21   ||  Real Baud : 113636   ||  % err"
+"or : -1.3573  ||  max 113.6364 Bytes / Step"
+      RealBaud		      "0"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "dbl-click to open\nGraphical interface"
+      Ports		      []
+      Position		      [405, 23, 505, 73]
+      BackgroundColor	      "cyan"
+      DropShadow	      on
+      SourceBlock	      "dsPICdrivers/Serial PORT/dbl-click to open\nGra"
+"phical interface"
+      SourceType	      ""
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      Nothing		      "0"
     }
     Line {
       Name		      "1Hz"
@@ -1063,13 +1212,13 @@ Model {
     Line {
       SrcBlock		      "Initialize Data \nfrom IPC"
       SrcPort		      1
-      Points		      [45, 0]
+      Points		      [0, 10; 20, 0]
       Branch {
 	DstBlock		"Demux"
 	DstPort			1
       }
       Branch {
-	Points			[0, -105]
+	Points			[0, -85]
 	DstBlock		"Send Data to Radio\nModem"
 	DstPort			1
       }
@@ -1092,6 +1241,33 @@ Model {
       SrcPort		      1
       DstBlock		      "Terminator4"
       DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Decode and Update\nthe data Structures1"
+      SrcPort		      1
+      DstBlock		      "Demux1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux1"
+      SrcPort		      1
+      Points		      [35, 0; 0, -10]
+      DstBlock		      "TX Output Multiplexed\nfor Matlab / Labview"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux1"
+      SrcPort		      2
+      Points		      [50, 0; 0, 10]
+      DstBlock		      "TX Output Multiplexed\nfor Matlab / Labview"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Demux1"
+      SrcPort		      3
+      Points		      [25, 0; 0, 30]
+      DstBlock		      "TX Output Multiplexed\nfor Matlab / Labview"
+      DstPort		      3
     }
   }
 }
