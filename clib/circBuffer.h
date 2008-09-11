@@ -14,6 +14,10 @@
 
 #include "apDefinitions.h"
 
+#ifdef __cplusplus
+       extern "C"{
+#endif
+
 # if __IN_DSPIC__
 	typedef struct CircBuffer{
 		unsigned char buffer[BSIZE];
@@ -86,6 +90,10 @@ void makeEmpty (CBRef cB);
 	// prints the circular buffer, used for debug
 	void printCircBuf(CBRef cB);
 #endif /* DEBUG */
+
+#ifdef __cplusplus
+       }
+#endif
 
 #endif /* _CIRCBUFFER_H_ */
 

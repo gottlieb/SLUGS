@@ -13,11 +13,9 @@
 #include "apDefinitions.h"
 #include "circBuffer.h"
 #include "gpsSplit.h"
+#include "protDecoder.h"
 #include <stdio.h>
 #include <string.h>
-
-struct CircBuffer protParseBuffer;
-CBRef ppBuffer;
 
 // These are the global data structures that hold the state
 // there are accessor methods to read data off them
@@ -27,6 +25,9 @@ tRawData 		rawControlData;
 tSensStatus		statusControlData;
 tAttitudeData	attitudeControlData;
 tDynTempData	dynTempControlData;
+
+struct CircBuffer protParseBuffer;
+CBRef ppBuffer;
 
 
 void protParserInit(void){
@@ -64,7 +65,7 @@ void updateStates(unsigned char * completeSentence){
 			gpsControlData.hdop.chData[1]	= completeSentence[27];	
 			gpsControlData.fix				= completeSentence[28];	
 			gpsControlData.sats				= completeSentence[29];	
-			gpsControlData.new				= completeSentence[30];	
+			gpsControlData.newValue		 	= completeSentence[30];	
 		break;
 		case 2:
 			statusControlData.load		 	= completeSentence[4];
@@ -245,6 +246,10 @@ void protParseDecode(unsigned char* fromSPI){
 // ===============================================
 // Accesor Methods for the Global Data Structures
 // ===============================================
+tGpsData getGpsStruct(void){
+ return gpsControlData;
+}
+
 
 void getTime (unsigned char * values){
 	values[0] = gpsControlData.hour;
