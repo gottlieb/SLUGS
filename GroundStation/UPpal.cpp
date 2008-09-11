@@ -77,6 +77,10 @@ void __fastcall TFPpal::FormClose(TObject *Sender, TCloseAction &Action)
   tb_config->Post();
 
  tb_config->Close();
+
+ if (cp_serial->Open == true){
+    cp_serial->Open = false;
+ }
 }
 //---------------------------------------------------------------------------
 
@@ -110,6 +114,7 @@ void __fastcall TFPpal::bt_ppKmlClick(TObject *Sender)
 
 void __fastcall TFPpal::bt_gearthClick(TObject *Sender)
 {
+ createBlankKML(1);
  Timer1->Enabled = True;
 }
 //---------------------------------------------------------------------------
@@ -170,23 +175,9 @@ void TFPpal::addAndAppendNode(char* name, char* value, TiXmlNode* appendTo){
 }
 
 
-void __fastcall TFPpal::BitBtn1Click(TObject *Sender)
-{
-  createBlankKML(1);
-  BYTE tmp = GetRValue(cb_color1->Selected);
-  tmp = GetGValue(cb_color1->Selected);
-  tmp = GetBValue(cb_color1->Selected);
-  ShowMessage(IntToHex(tmp,4));
-}
-//---------------------------------------------------------------------------
 
 
 
-void __fastcall TFPpal::BitBtn2Click(TObject *Sender)
-{
-   cb_color1->Selected = RGB(255,0,0);
-}
-//---------------------------------------------------------------------------
 
 void __fastcall TFPpal::cb_color1Exit(TObject *Sender)
 {
@@ -226,11 +217,13 @@ void __fastcall TFPpal::bt_serialClick(TObject *Sender)
    bt_serial->Tag = 1;
    bt_serial->Caption = "Close Serial Port";
    ld_serial->StatusInt = 1;
+   Timer2->Enabled = true;
  } else {
    cp_serial->Open = False;
    bt_serial->Tag = 0;
    bt_serial->Caption = "Open Serial Port";
    ld_serial->StatusInt = 0;
+   Timer2->Enabled = false;
  }
 }
 //---------------------------------------------------------------------------
@@ -242,7 +235,13 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
      gpsSamples[i+1] = gpsSamples[i];
    }
    gpsSamples[0] = getGpsStruct();
+   rawSample = getRawStruct();
 
+   updateGPSLabels();
+   updateRawLabels();
+}
+//---------------------------------------------------------------------------
+void TFPpal::updateGPSLabels(void){
    // update the display
    // ========= GPS =============
    et_date->Caption = IntToStr(gpsSamples[0].month) + "/" +
@@ -262,9 +261,27 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    et_hdop->Caption = IntToStr(gpsSamples[0].hdop.usData);
    et_fix->Caption = (gpsSamples[0].fix == 1)? "Yes": "No";
 
-   et_sats->Caption = IntToStr(gpsSamples[0].sats);   
+   et_sats->Caption = IntToStr(gpsSamples[0].sats);
+
 }
-//---------------------------------------------------------------------------
+
+void TFPpal::updateRawLabels(void){
+   // update the display
+   // ========= Raw =============
+   et_accelx->Caption = IntToStr(rawSample.accelX.usData);
+   et_accely->Caption = IntToStr(rawSample.accelY.usData);
+   et_accelz->Caption = IntToStr(rawSample.accelZ.usData);
+
+   et_gyrox->Caption = IntToStr(rawSample.gyroX.usData);
+   et_gyroy->Caption = IntToStr(rawSample.gyroY.usData);
+   et_gyroz->Caption = IntToStr(rawSample.gyroZ.usData);
+
+   et_magx->Caption = IntToStr(rawSample.magX.usData);
+   et_magy->Caption = IntToStr(rawSample.magY.usData);
+   et_magz->Caption = IntToStr(rawSample.magZ.usData);
+
+
+}
 
 void __fastcall TFPpal::cp_serialTriggerAvail(TObject *CP, WORD Count)
 {
@@ -281,23 +298,18 @@ void __fastcall TFPpal::cp_serialTriggerAvail(TObject *CP, WORD Count)
 
 void __fastcall TFPpal::Timer1Timer(TObject *Sender)
 {
-// Timer 1 Updates Google Earth Data;
-    
+   // Timer 1 Updates Google Earth Data;
+   updateKML();
 }
 //---------------------------------------------------------------------------
 
 void TFPpal::updateKML(void){
-  // freeze the data in case the interrup changes at mid update
-  tGpsData tmpPos[15];
-  for (int i = 0; i< tb_configtailLength->AsInteger; i++){
-     tmpPos[i] = gpsSamples[i];
-  }
+   String tmp ="";
 
-  TiXmlDocument doc;
+   TiXmlDocument doc;
 
    // Create the document header
    TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "", "" );
-
 
    // Create the document root
    TiXmlElement * kmlRoot = new TiXmlElement( "kml" );
@@ -315,61 +327,106 @@ void TFPpal::updateKML(void){
    TiXmlElement * lineStyleTag = new TiXmlElement("LineStyle");
 
    // Add the sytles
-   addAndAppendNode("color",getHexColor(1), lineStyleTag);
+   tmp =  getHexColor(1);
+   addAndAppendNode("color",tmp.c_str(), lineStyleTag);
+   addAndAppendNode("width","4", lineStyleTag);
+   styleTag->LinkEndChild(lineStyleTag);
 
+   // create the Poly Style
+   TiXmlElement * polyStyleTag = new TiXmlElement("PolyStyle");
+   // add the color
+   tmp = getHexColor(2);
+   addAndAppendNode("color",tmp.c_str(), polyStyleTag);
+   styleTag->LinkEndChild(polyStyleTag);
 
-   /*
-   // add the basic structure
-   addAndAppendNode("name","UAV Path", netTag);
-   addAndAppendNode("open","1", netTag);
-   addAndAppendNode("description","Path of the UAV as it Flies", netTag);
-   addAndAppendNode("flyToView","0", netTag);
+   // Add them to the document
+   docTag->LinkEndChild(styleTag);
 
-   // create the link tag
-   TiXmlElement * linkTag = new TiXmlElement("Link");
-   // add the basic structure
-   addAndAppendNode("refreshMode","onInterval", linkTag);
-   addAndAppendNode("refreshInterval", tb_configupdateRate->AsString.c_str(), linkTag);
-   addAndAppendNode("refreshVisibility", "1", linkTag);
-   addAndAppendNode("href",tb_configplanePathFile->AsString.c_str(), linkTag);
+   // create the Placemark node
+   TiXmlElement * placemarkTag = new TiXmlElement("Placemark");
+   // add the Name
+   addAndAppendNode("name","UAV Path", placemarkTag);
+   // add the style used to plot tha trajectory
+   addAndAppendNode("StyleUrl","#planeTrajectory", placemarkTag);
 
-   // add the link tag to the net tag
-   netTag->LinkEndChild(linkTag);
+   // Add the line string
+   TiXmlElement * lineStringTag = new TiXmlElement("LineString");
+   // configure the lineString
+   addAndAppendNode("tessalate",tb_configtessellate->AsString.c_str(), lineStringTag);
+   addAndAppendNode("extrude","1", lineStringTag);
+   addAndAppendNode("altitudeMode","absolute", lineStringTag);
+   tmp = getPlaneCoordinates();
+   addAndAppendNode("coordinates",tmp.c_str(), lineStringTag);
 
-   // link it to the root
-   kmlRoot->LinkEndChild(netTag);
+   // add the lineString to the placemark
+   placemarkTag->LinkEndChild(lineStringTag);
+   // add the placemark to the document
+   docTag->LinkEndChild(placemarkTag);
+   // add the document to the root
+   kmlRoot->LinkEndChild(docTag);
 
-   // Form the document
-   doc.LinkEndChild( decl );
-   doc.LinkEndChild( kmlRoot );
+   // include the declaration in the document
+   doc.LinkEndChild(decl);
+   // include the root in the document
+   doc.LinkEndChild(kmlRoot);
 
-   // Write it
-   doc.SaveFile( tb_configkmlFile->AsString.c_str() );
-    */
+   // write the file
+   doc.SaveFile(tb_configplanePathFile->AsString.c_str() );
 
 }
 //---------------------------------------------------------------------------
 
-unsigned char * TFPpal::getHexColor(unsigned char whichColor){
-   String retVal = "";
+String TFPpal::getHexColor(unsigned char whichColor){
+   String strVal = "";
    switch (whichColor){
        case 1: // AC Trajectory
-            retVal = IntToHex(255,2) +
+            strVal = IntToHex(255,2) +
                      IntToHex(tb_configtrajectoryColorB->AsInteger,2) +
                      IntToHex(tb_configtrajectoryColorG->AsInteger,2) +
                      IntToHex(tb_configtrajectoryColorR->AsInteger,2);
        break;
        case 2:
-            retVal = IntToHex(tb_configTransparency->AsInteger,2) +
-                     IntToHex(tb_configtrajectoryColorB->AsInteger,2) +
-                     IntToHex(tb_configtrajectoryColorG->AsInteger,2) +
-                     IntToHex(tb_configtrajectoryColorR->AsInteger,2);
+            strVal = IntToHex(tb_configtessalateTransparency->AsInteger,2) +
+                     IntToHex(tb_configtessalateColorB->AsInteger,2) +
+                     IntToHex(tb_configtessalateColorG->AsInteger,2) +
+                     IntToHex(tb_configtessalateColorR->AsInteger,2);
 
        break;
    }
 
-   return retVal.c_str();
+   return strVal;
 
+}
+//---------------------------------------------------------------------------
+
+String TFPpal::getPlaneCoordinates(void){
+  // freeze the data in case the interrup changes at mid update
+  tGpsData tmpPos[15];
+  String strVal = "";
+  char i;
+
+  for (i = 0; i< tb_configtailLength->AsInteger; i++){
+     tmpPos[i] = gpsSamples[i];
+  }
+
+  for (i = 0; i< tb_configtailLength->AsInteger; i++){
+     strVal = strVal + FloatToStr(tmpPos[i].lon.flData)  + ","
+              + FloatToStr(tmpPos[i].lat.flData)  + "," +
+               FloatToStr(tmpPos[i].height.flData)  + " ";
+  }
+
+
+
+  return strVal;
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::rg_tailExit(TObject *Sender)
+{
+ if (tb_config->State == dsEdit){
+    tb_config->Post();
+ }
 }
 //---------------------------------------------------------------------------
 
