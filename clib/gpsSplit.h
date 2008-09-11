@@ -24,8 +24,17 @@ out_stream [m+1]	...	Byte indicating wether there is a valid message
 #ifndef _GPSSPLIT_H_
 #define _GPSSPLIT_H_
 
+#ifdef __cplusplus
+       extern "C"{
+#endif
+
 void gpsInit(void);
 void gpsSeparate(unsigned char* inStream, unsigned char* outStream);
 unsigned char getChecksum(unsigned char* sentence, unsigned char size);
+
+#ifdef __cplusplus
+       }
+#endif
+
 #endif /* _GPSSPLIT_H_ */
 

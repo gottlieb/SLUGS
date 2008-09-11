@@ -9,6 +9,10 @@ and data types.
 #ifndef _APDEFINITIONS_H_
 #define _APDEFINITIONS_H_
 
+#ifdef __cplusplus
+       extern "C"{
+#endif
+
 // =========== Global Definitions ==========
 
 // Circular Buffer Size
@@ -169,7 +173,7 @@ typedef struct tGpsData{
 	tUnsignedShortToChar	hdop;	
 	unsigned char			fix;
 	unsigned char 			sats;	
-	unsigned char			new;
+	unsigned char			newValue;
 }tGpsData;
 
 typedef struct tRawData{
@@ -205,5 +209,9 @@ typedef struct tDynTempData{
 	tShortToChar	temp;
 }tDynTempData;
 
+
+#ifdef __cplusplus
+      }
+#endif
 
 #endif /* _APDEFINITIONS_H_ */
