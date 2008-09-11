@@ -250,6 +250,9 @@ tGpsData getGpsStruct(void){
  return gpsControlData;
 }
 
+tRawData getRawStruct(void){
+ return rawControlData;
+}
 
 void getTime (unsigned char * values){
 	values[0] = gpsControlData.hour;
