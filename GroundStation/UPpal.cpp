@@ -13,6 +13,7 @@
 #pragma link "_GClass"
 #pragma link "AbLED"
 #pragma link "AbOpHour"
+#pragma link "AbMTrend"
 #pragma resource "*.dfm"
 TFPpal *FPpal;
 //---------------------------------------------------------------------------
@@ -52,9 +53,9 @@ void __fastcall TFPpal::FormCreate(TObject *Sender)
 
  // initialize the GPS position history with zeros.
  memset(gpsSamples,0,sizeof(gpsSamples));
+ //memset(rawSample,0,sizeof(rawSample));
 
-// telemPort = (struct CircBuffer*)&mainSerial;
-// newCircBuffer(telemPort);
+ protParserInit ();
 }
 //---------------------------------------------------------------------------
 
@@ -218,12 +219,18 @@ void __fastcall TFPpal::bt_serialClick(TObject *Sender)
    bt_serial->Caption = "Close Serial Port";
    ld_serial->StatusInt = 1;
    Timer2->Enabled = true;
+   mt_x->Flow = true;
+   mt_y->Flow = true;
+   mt_z->Flow = true;
  } else {
    cp_serial->Open = False;
    bt_serial->Tag = 0;
    bt_serial->Caption = "Open Serial Port";
    ld_serial->StatusInt = 0;
    Timer2->Enabled = false;
+   mt_x->Flow = false;
+   mt_y->Flow = false;
+   mt_z->Flow = false;
  }
 }
 //---------------------------------------------------------------------------
@@ -239,6 +246,7 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
 
    updateGPSLabels();
    updateRawLabels();
+   updatePlots();
 }
 //---------------------------------------------------------------------------
 void TFPpal::updateGPSLabels(void){
@@ -279,13 +287,31 @@ void TFPpal::updateRawLabels(void){
    et_magx->Caption = IntToStr(rawSample.magX.usData);
    et_magy->Caption = IntToStr(rawSample.magY.usData);
    et_magz->Caption = IntToStr(rawSample.magZ.usData);
+}
 
-
+void TFPpal::updatePlots(void){
+  switch (rg_plot->ItemIndex){
+     case 0:
+        mt_x->DigitCh1 = rawSample.accelX.usData;
+        mt_y->DigitCh1 = rawSample.accelY.usData;
+        mt_z->DigitCh1 = rawSample.accelZ.usData;
+     break;
+     case 1:
+        mt_x->DigitCh1 = rawSample.gyroX.usData;
+        mt_y->DigitCh1 = rawSample.gyroY.usData;
+        mt_z->DigitCh1 = rawSample.gyroZ.usData;
+     break;
+     case 2:
+        mt_x->DigitCh1 = rawSample.magX.usData;
+        mt_y->DigitCh1 = rawSample.magY.usData;
+        mt_z->DigitCh1 = rawSample.magZ.usData;
+     break;
+  }
 }
 
 void __fastcall TFPpal::cp_serialTriggerAvail(TObject *CP, WORD Count)
 {
-  unsigned char fromSerial[128];
+  unsigned char fromSerial[BSIZE];
 
   for (int i=1;i<=Count;i++) {
     fromSerial[i] = cp_serial->GetChar();
@@ -429,4 +455,7 @@ void __fastcall TFPpal::rg_tailExit(TObject *Sender)
  }
 }
 //---------------------------------------------------------------------------
+
+
+
 

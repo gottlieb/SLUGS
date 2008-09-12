@@ -28,7 +28,7 @@ void gpsSentenceConfig(void){
 	unsigned char chBaudRt [] = "$PMTK251,19200*22\r\n\0";
 	
 	// Put some huge delays to wait for GPS power-up without the need of a timer
-	for( i = 0; i < 250; i += 1 ){
+	for( i = 0; i < 750; i += 1 ){
 		for( j = 0; j < 32700; j += 1 )
 		{
 			Nop();

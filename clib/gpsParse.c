@@ -154,7 +154,7 @@ void parseRMC(unsigned char* stream){
 	}
 	
 	// turn the flag on of new data
-	gpsData.new = 1;
+	gpsData.newValue = 1;
 }
 
 void parseGGA(unsigned char* stream){
@@ -254,7 +254,7 @@ void parseGGA(unsigned char* stream){
 	}
 	
 	// turn the flag on of new data
-	gpsData.new = 1;
+	gpsData.newValue = 1;
 }
 
 void gpsParse(unsigned char* inStream, unsigned char * parsedData){
@@ -275,7 +275,7 @@ void gpsParse(unsigned char* inStream, unsigned char * parsedData){
 		}
 	}else{
 		// turn the flag on of new data
-		gpsData.new = 0;
+		gpsData.newValue = 0;
 	}
 		// write the output data;
 		parsedData[0]  = gpsData.year;					
@@ -304,6 +304,6 @@ void gpsParse(unsigned char* inStream, unsigned char * parsedData){
 		parsedData[23] = gpsData.hdop.chData[1];
 		parsedData[24]  = gpsData.fix;
 		parsedData[25]  = gpsData.sats;									
-		parsedData[26]  = gpsData.new;									
+		parsedData[26]  = gpsData.newValue;									
 }
 

@@ -17,7 +17,11 @@ and data types.
 
 // Circular Buffer Size
 // ===================
-#define BSIZE			127
+#ifdef __cplusplus
+       #define BSIZE			500
+#else
+       #define BSIZE			127
+#endif
 
 // GPS Checksum Messages
 // =====================
@@ -38,7 +42,14 @@ and data types.
 // Data Logger Values
 // ================
 #define LOGSEND			8
-#define MAXLOGLEN		34
+
+#ifdef __cplusplus
+       #define MAXLOGLEN		500
+#else
+       #define MAXLOGLEN		34
+#endif
+
+
 
 #define GPS_START 		0
 #define LOAD_START		27
