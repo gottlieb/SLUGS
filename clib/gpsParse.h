@@ -22,7 +22,14 @@ in_stream [0] 			...	GPS Sentence Type
 in_stream[n]			... IsValid flag
 */
 
+#ifdef __cplusplus
+       extern "C"{
+#endif
+       	
 void gpsParse(unsigned char* inStream, unsigned char * parsedData);
 
-
+#ifdef __cplusplus
+       }
+#endif
+       
 #endif /* _GPSPARSE_H_ */

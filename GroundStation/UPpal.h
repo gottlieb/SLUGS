@@ -26,6 +26,7 @@
 #include "_GClass.hpp"
 #include "AbLED.hpp"
 #include "AbOpHour.hpp"
+#include "AbMTrend.hpp"
 
 //---------------------------------------------------------------------------
 class TFPpal : public TForm
@@ -127,6 +128,10 @@ __published:	// IDE-managed Components
     TStaticText *et_magy;
     TLabel *Label27;
     TStaticText *et_magz;
+    TRadioGroup *rg_plot;
+    TAbMiniTrend *mt_x;
+    TAbMiniTrend *mt_y;
+    TAbMiniTrend *mt_z;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -153,6 +158,7 @@ public:		// User declarations
         tRawData rawSample;
         void updateGPSLabels(void);
         void updateRawLabels(void);
+        void updatePlots(void);        
 //        CircBuffer mainSerial;
 //        CBRef telemPort;
 };

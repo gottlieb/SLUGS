@@ -32,9 +32,9 @@ object FPpal: TFPpal
     Top = 0
     Width = 424
     Height = 598
-    ActivePage = ts_ge
+    ActivePage = TabSheet1
     Align = alClient
-    TabIndex = 0
+    TabIndex = 3
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth Config'
@@ -1229,6 +1229,149 @@ object FPpal: TFPpal
     object TabSheet1: TTabSheet
       Caption = 'Data Plots'
       ImageIndex = 3
+      object mt_x: TAbMiniTrend
+        Left = 0
+        Top = 72
+        Width = 400
+        Height = 159
+        CaptionFont.Charset = DEFAULT_CHARSET
+        CaptionFont.Color = clWindowText
+        CaptionFont.Height = -19
+        CaptionFont.Name = 'Arial'
+        CaptionFont.Style = [fsUnderline]
+        BevelInner.Style = bsLowered
+        BevelInner.Spacing = 0
+        BevelInner.BevelLine = blNone
+        BevelInner.Width = 2
+        BevelInner.SurfaceGrad.Visible = False
+        BevelInner.SurfaceGrad.Style = gsHorizontal1
+        BevelOuter.Style = bsRaised
+        BevelOuter.Spacing = 10
+        BevelOuter.BevelLine = blOuter
+        BevelOuter.Width = 2
+        BevelOuter.SurfaceGrad.Visible = False
+        BevelOuter.SurfaceGrad.Style = gsHorizontal1
+        DigitCh1 = 0
+        DigitCh2 = 0
+        SignalSettingsCh1.DigitalTo = 4096
+        SignalSettingsCh1.Name1 = 'Name1'
+        SignalSettingsCh1.Name2 = 'Name2'
+        SignalSettingsCh1.ValueFormat = '0000'
+        SignalSettingsCh1.ValueTo = 4096
+        SignalSettingsCh1.ValueUnit = ' '
+        SignalSettingsCh2.Name1 = 'Name1'
+        SignalSettingsCh2.Name2 = 'Name2'
+        SignalSettingsCh2.ValueFormat = '##0'
+        SignalSettingsCh2.ValueTo = 4096
+        SignalSettingsCh2.ValueUnit = 'Abs'
+        TimeScale = 1
+        Options = [opBevelInner, opCaption, opScaleCh1, opTimeLine]
+        SignalColorCh2 = clBlack
+        Caption = 'X Axis'
+        Flow = False
+      end
+      object mt_y: TAbMiniTrend
+        Left = 0
+        Top = 240
+        Width = 400
+        Height = 159
+        CaptionFont.Charset = DEFAULT_CHARSET
+        CaptionFont.Color = clWindowText
+        CaptionFont.Height = -19
+        CaptionFont.Name = 'Arial'
+        CaptionFont.Style = [fsUnderline]
+        BevelInner.Style = bsLowered
+        BevelInner.Spacing = 0
+        BevelInner.BevelLine = blNone
+        BevelInner.Width = 2
+        BevelInner.SurfaceGrad.Visible = False
+        BevelInner.SurfaceGrad.Style = gsHorizontal1
+        BevelOuter.Style = bsRaised
+        BevelOuter.Spacing = 10
+        BevelOuter.BevelLine = blOuter
+        BevelOuter.Width = 2
+        BevelOuter.SurfaceGrad.Visible = False
+        BevelOuter.SurfaceGrad.Style = gsHorizontal1
+        DigitCh1 = 0
+        DigitCh2 = 0
+        SignalSettingsCh1.DigitalTo = 4096
+        SignalSettingsCh1.Name1 = 'Name1'
+        SignalSettingsCh1.Name2 = 'Name2'
+        SignalSettingsCh1.ValueFormat = '0000'
+        SignalSettingsCh1.ValueTo = 4096
+        SignalSettingsCh1.ValueUnit = ' '
+        SignalSettingsCh2.Name1 = 'Name1'
+        SignalSettingsCh2.Name2 = 'Name2'
+        SignalSettingsCh2.ValueFormat = '##0'
+        SignalSettingsCh2.ValueTo = 4096
+        SignalSettingsCh2.ValueUnit = 'Abs'
+        TimeScale = 1
+        Options = [opBevelInner, opCaption, opScaleCh1, opTimeLine]
+        SignalColorCh2 = clBlack
+        Caption = 'Y Axis'
+        Flow = False
+      end
+      object mt_z: TAbMiniTrend
+        Left = 0
+        Top = 400
+        Width = 400
+        Height = 159
+        CaptionFont.Charset = DEFAULT_CHARSET
+        CaptionFont.Color = clWindowText
+        CaptionFont.Height = -19
+        CaptionFont.Name = 'Arial'
+        CaptionFont.Style = [fsUnderline]
+        BevelInner.Style = bsLowered
+        BevelInner.Spacing = 0
+        BevelInner.BevelLine = blNone
+        BevelInner.Width = 2
+        BevelInner.SurfaceGrad.Visible = False
+        BevelInner.SurfaceGrad.Style = gsHorizontal1
+        BevelOuter.Style = bsRaised
+        BevelOuter.Spacing = 10
+        BevelOuter.BevelLine = blOuter
+        BevelOuter.Width = 2
+        BevelOuter.SurfaceGrad.Visible = False
+        BevelOuter.SurfaceGrad.Style = gsHorizontal1
+        DigitCh1 = 0
+        DigitCh2 = 0
+        SignalSettingsCh1.DigitalTo = 4096
+        SignalSettingsCh1.Name1 = 'Name1'
+        SignalSettingsCh1.Name2 = 'Name2'
+        SignalSettingsCh1.ValueFormat = '0000'
+        SignalSettingsCh1.ValueTo = 4096
+        SignalSettingsCh1.ValueUnit = ' '
+        SignalSettingsCh2.Name1 = 'Name1'
+        SignalSettingsCh2.Name2 = 'Name2'
+        SignalSettingsCh2.ValueFormat = '##0'
+        SignalSettingsCh2.ValueTo = 4096
+        SignalSettingsCh2.ValueUnit = 'Abs'
+        TimeScale = 1
+        Options = [opBevelInner, opCaption, opScaleCh1, opTimeLine]
+        SignalColorCh2 = clBlack
+        Caption = 'Z Axis'
+        Flow = False
+      end
+      object rg_plot: TRadioGroup
+        Left = 8
+        Top = 8
+        Width = 393
+        Height = 57
+        Caption = ' Select Sensor to Plot '
+        Columns = 3
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ItemIndex = 0
+        Items.Strings = (
+          'Accelerometers'
+          'Gyros'
+          'Magnetometers')
+        ParentFont = False
+        TabOrder = 0
+      end
     end
   end
   object Panel1: TPanel
@@ -1382,6 +1525,7 @@ object FPpal: TFPpal
   object cp_serial: TApdComPort
     Baud = 115200
     AutoOpen = False
+    DTR = False
     RTS = False
     Tracing = tlOn
     TraceName = 'APRO.TRC'
