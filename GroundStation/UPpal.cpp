@@ -345,7 +345,8 @@ void TFPpal::updateKML(void){
    // create the Document tag
    TiXmlElement * docTag = new TiXmlElement("Document");
 
-   // create the Plane Trajectory Style
+   // ============== DOCUMENT STYLES ===========================
+   // ----------- Trajectory Style------------------
    TiXmlElement * styleTag = new TiXmlElement("Style");
    styleTag->SetAttribute("id", "planeTrajectory");
 
@@ -368,6 +369,22 @@ void TFPpal::updateKML(void){
    // Add them to the document
    docTag->LinkEndChild(styleTag);
 
+   // ----------- Icon Style------------------
+   TiXmlElement * iconStyleTag = new TiXmlElement("Style");
+   iconStyleTag->SetAttribute("id", "planeIcon");
+
+   addAndAppendNode("scale","1.0", iconStyleTag);
+
+   // Create the icon tag
+   TiXmlElement * iconTag = new TiXmlElement("Icon");
+   addAndAppendNode("href",tb_configiconFile->AsString.c_str(), iconTag);
+
+   // Add the icon to the iconstyle
+   iconStyleTag->LinkEndChild(iconTag);
+   // Add the iconStyle to the document
+   docTag->LinkEndChild(iconStyleTag);
+
+   // ============== PLANE TRAJECTORY ==================
    // create the Placemark node
    TiXmlElement * placemarkTag = new TiXmlElement("Placemark");
    // add the Name
@@ -388,6 +405,34 @@ void TFPpal::updateKML(void){
    placemarkTag->LinkEndChild(lineStringTag);
    // add the placemark to the document
    docTag->LinkEndChild(placemarkTag);
+
+
+   // ============== AIRPLANE ICON ===========================
+   // create the UAV Icon Placemark node
+   TiXmlElement * iconPlacemarkTag = new TiXmlElement("Placemark");
+   // add the Name
+   addAndAppendNode("name","", iconPlacemarkTag);
+   // add the style used to plot the last known position
+   addAndAppendNode("StyleUrl","#planeIcon", iconPlacemarkTag);
+
+   // Add the line string
+   TiXmlElement * pointTag = new TiXmlElement("Point");
+
+   // configure the Point
+   addAndAppendNode("altitudeMode","absolute", pointTag);
+   tmp = FloatToStr(gpsSamples[0].lon.flData)  + ", "
+         + FloatToStr(gpsSamples[0].lat.flData)  + ", " +
+         FloatToStr(gpsSamples[0].height.flData);
+
+   addAndAppendNode("coordinates",tmp.c_str(), pointTag);
+
+   // add the lineString to the placemark
+   iconPlacemarkTag->LinkEndChild(pointTag);
+   // add the placemark to the document
+   docTag->LinkEndChild(iconPlacemarkTag);
+
+
+   // ==================  DOCUMENT ========================
    // add the document to the root
    kmlRoot->LinkEndChild(docTag);
 
@@ -436,9 +481,10 @@ String TFPpal::getPlaneCoordinates(void){
   }
 
   for (i = 0; i< tb_configtailLength->AsInteger; i++){
-     strVal = strVal + FloatToStr(tmpPos[i].lon.flData)  + ","
-              + FloatToStr(tmpPos[i].lat.flData)  + "," +
+     strVal = strVal + FloatToStr(tmpPos[i].lon.flData)  + ", "
+              + FloatToStr(tmpPos[i].lat.flData)  + ", " +
                FloatToStr(tmpPos[i].height.flData)  + " ";
+//               250  + " ";
   }
 
 

@@ -1,11 +1,11 @@
 object FPpal: TFPpal
-  Left = 296
-  Top = 133
+  Left = 295
+  Top = 187
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 'UCSC - AP Ground Station'
-  ClientHeight = 617
-  ClientWidth = 625
+  ClientHeight = 616
+  ClientWidth = 626
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,8 +20,8 @@ object FPpal: TFPpal
   TextHeight = 13
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 598
-    Width = 625
+    Top = 597
+    Width = 626
     Height = 19
     Panels = <>
     SimplePanel = False
@@ -30,11 +30,11 @@ object FPpal: TFPpal
   object pc_main: TPageControl
     Left = 201
     Top = 0
-    Width = 424
-    Height = 598
-    ActivePage = TabSheet1
+    Width = 425
+    Height = 597
+    ActivePage = ts_ge
     Align = alClient
-    TabIndex = 3
+    TabIndex = 0
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth Config'
@@ -1253,11 +1253,13 @@ object FPpal: TFPpal
         BevelOuter.SurfaceGrad.Style = gsHorizontal1
         DigitCh1 = 0
         DigitCh2 = 0
-        SignalSettingsCh1.DigitalTo = 4096
+        SignalSettingsCh1.DigitalFrom = 1045
+        SignalSettingsCh1.DigitalTo = 3090
         SignalSettingsCh1.Name1 = 'Name1'
         SignalSettingsCh1.Name2 = 'Name2'
         SignalSettingsCh1.ValueFormat = '0000'
-        SignalSettingsCh1.ValueTo = 4096
+        SignalSettingsCh1.ValueFrom = 1045
+        SignalSettingsCh1.ValueTo = 3090
         SignalSettingsCh1.ValueUnit = ' '
         SignalSettingsCh2.Name1 = 'Name1'
         SignalSettingsCh2.Name2 = 'Name2'
@@ -1294,11 +1296,13 @@ object FPpal: TFPpal
         BevelOuter.SurfaceGrad.Style = gsHorizontal1
         DigitCh1 = 0
         DigitCh2 = 0
-        SignalSettingsCh1.DigitalTo = 4096
+        SignalSettingsCh1.DigitalFrom = 1045
+        SignalSettingsCh1.DigitalTo = 3090
         SignalSettingsCh1.Name1 = 'Name1'
         SignalSettingsCh1.Name2 = 'Name2'
         SignalSettingsCh1.ValueFormat = '0000'
-        SignalSettingsCh1.ValueTo = 4096
+        SignalSettingsCh1.ValueFrom = 1045
+        SignalSettingsCh1.ValueTo = 3090
         SignalSettingsCh1.ValueUnit = ' '
         SignalSettingsCh2.Name1 = 'Name1'
         SignalSettingsCh2.Name2 = 'Name2'
@@ -1335,11 +1339,13 @@ object FPpal: TFPpal
         BevelOuter.SurfaceGrad.Style = gsHorizontal1
         DigitCh1 = 0
         DigitCh2 = 0
-        SignalSettingsCh1.DigitalTo = 4096
+        SignalSettingsCh1.DigitalFrom = 1045
+        SignalSettingsCh1.DigitalTo = 3090
         SignalSettingsCh1.Name1 = 'Name1'
         SignalSettingsCh1.Name2 = 'Name2'
         SignalSettingsCh1.ValueFormat = '0000'
-        SignalSettingsCh1.ValueTo = 4096
+        SignalSettingsCh1.ValueFrom = 1045
+        SignalSettingsCh1.ValueTo = 3090
         SignalSettingsCh1.ValueUnit = ' '
         SignalSettingsCh2.Name1 = 'Name1'
         SignalSettingsCh2.Name2 = 'Name2'
@@ -1378,7 +1384,7 @@ object FPpal: TFPpal
     Left = 0
     Top = 0
     Width = 201
-    Height = 598
+    Height = 597
     Align = alLeft
     TabOrder = 2
     object Label1: TLabel
@@ -1528,11 +1534,12 @@ object FPpal: TFPpal
     DTR = False
     RTS = False
     Tracing = tlOn
-    TraceName = 'APRO.TRC'
+    TraceName = '.\APRO.TRC'
     TraceAllHex = True
+    Logging = tlOn
     LogSize = 100000
     LogName = '.\ApLogHex.log'
-    LogHex = False
+    LogAllHex = True
     OnTriggerAvail = cp_serialTriggerAvail
     Left = 40
     Top = 328
