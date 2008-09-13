@@ -268,7 +268,7 @@ void gpsParse(unsigned char* inStream, unsigned char * parsedData){
 				parseRMC(inStream);
 				break;
 			case GGAID:
-				//parseGGA(inStream);
+				parseGGA(inStream);
 				break;
 			default:
 				break;
