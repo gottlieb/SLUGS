@@ -27,6 +27,10 @@
 #include "AbLED.hpp"
 #include "AbOpHour.hpp"
 #include "AbMTrend.hpp"
+#include <math.h>
+#include <exception.h>
+
+#define  DISLIMIT      30.0
 
 //---------------------------------------------------------------------------
 class TFPpal : public TForm
@@ -81,7 +85,6 @@ __published:	// IDE-managed Components
     TIntegerField *tb_configtessalateColorR;
     TIntegerField *tb_configtessalateColorG;
     TIntegerField *tb_configtessalateColorB;
-    TSmallintField *tb_configtessalateTransparency;
     TStringField *tb_configiconFile;
     TStringField *tb_configwaypointFile;
     TApdComPort *cp_serial;
@@ -132,6 +135,18 @@ __published:	// IDE-managed Components
     TAbMiniTrend *mt_x;
     TAbMiniTrend *mt_y;
     TAbMiniTrend *mt_z;
+    TGroupBox *GroupBox3;
+    TDBEdit *DBEdit4;
+    TLabel *Label28;
+    TLabel *Label29;
+    TDBEdit *DBEdit5;
+    TLabel *Label30;
+    TDBEdit *DBEdit6;
+    TSpeedButton *bt_gspos;
+    TFloatField *tb_configlatGS;
+    TFloatField *tb_configlonGS;
+    TFloatField *tb_configheightGS;
+    TIntegerField *tb_configtessalateTransparency;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -146,6 +161,7 @@ __published:	// IDE-managed Components
     void __fastcall cp_serialTriggerAvail(TObject *CP, WORD Count);
     void __fastcall Timer1Timer(TObject *Sender);
     void __fastcall rg_tailExit(TObject *Sender);
+    void __fastcall bt_gsposClick(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TFPpal(TComponent* Owner);
@@ -158,7 +174,9 @@ public:		// User declarations
         tRawData rawSample;
         void updateGPSLabels(void);
         void updateRawLabels(void);
-        void updatePlots(void);        
+        void updatePlots(void);
+        float computeDistance(float lat, float lon);
+        float deg2Rad(float mDeg);
 //        CircBuffer mainSerial;
 //        CBRef telemPort;
 };

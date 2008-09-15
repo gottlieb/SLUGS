@@ -18,7 +18,7 @@ and data types.
 // Circular Buffer Size
 // ===================
 #ifdef __cplusplus
-       #define BSIZE			500
+       #define BSIZE			1024
 #else
        #define BSIZE			127
 #endif
@@ -81,6 +81,8 @@ and data types.
 // Standard Units
 // ==============
 #define KTS2MPS 		0.514444444
+#define EARTHRADIUS     6378.135 // km
+#define PI              3.141592653589793
 
 // Periphereal Configurations
 // ==========================
