@@ -1,6 +1,6 @@
 object FPpal: TFPpal
-  Left = 295
-  Top = 187
+  Left = 292
+  Top = 174
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 'UCSC - AP Ground Station'
@@ -422,6 +422,118 @@ object FPpal: TFPpal
         DataField = 'waypointFile'
         DataSource = fte_config
         TabOrder = 9
+      end
+      object GroupBox3: TGroupBox
+        Left = 8
+        Top = 424
+        Width = 385
+        Height = 97
+        Caption = ' Ground Station Location '
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 10
+        object Label28: TLabel
+          Left = 8
+          Top = 24
+          Width = 80
+          Height = 13
+          Caption = 'Latitude (deg)'
+        end
+        object Label29: TLabel
+          Left = 136
+          Top = 24
+          Width = 90
+          Height = 13
+          Caption = 'Longitude (deg)'
+        end
+        object Label30: TLabel
+          Left = 260
+          Top = 23
+          Width = 59
+          Height = 13
+          Caption = 'Height (m)'
+        end
+        object bt_gspos: TSpeedButton
+          Left = 8
+          Top = 72
+          Width = 369
+          Height = 22
+          Caption = 'Grab Current AP Position as Location'
+          Flat = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000130B0000130B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003333330B7FFF
+            FFB0333333777F3333773333330B7FFFFFB0333333777F3333773333330B7FFF
+            FFB0333333777F3333773333330B7FFFFFB03FFFFF777FFFFF77000000000077
+            007077777777777777770FFFFFFFF00077B07F33333337FFFF770FFFFFFFF000
+            7BB07F3FF3FFF77FF7770F00F000F00090077F77377737777F770FFFFFFFF039
+            99337F3FFFF3F7F777FF0F0000F0F09999937F7777373777777F0FFFFFFFF999
+            99997F3FF3FFF77777770F00F000003999337F773777773777F30FFFF0FF0339
+            99337F3FF7F3733777F30F08F0F0337999337F7737F73F7777330FFFF0039999
+            93337FFFF7737777733300000033333333337777773333333333}
+          NumGlyphs = 2
+          ParentFont = False
+          OnClick = bt_gsposClick
+        end
+        object DBEdit4: TDBEdit
+          Left = 8
+          Top = 40
+          Width = 121
+          Height = 21
+          DataField = 'latGS'
+          DataSource = fte_config
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 0
+        end
+        object DBEdit5: TDBEdit
+          Left = 136
+          Top = 40
+          Width = 121
+          Height = 21
+          DataField = 'lonGS'
+          DataSource = fte_config
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 1
+        end
+        object DBEdit6: TDBEdit
+          Left = 260
+          Top = 39
+          Width = 121
+          Height = 21
+          DataField = 'heightGS'
+          DataSource = fte_config
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 2
+        end
       end
     end
     object ts_telemetry: TTabSheet
@@ -1458,6 +1570,80 @@ object FPpal: TFPpal
     SessionName = 'Default'
     InMemory = False
     ReadOnly = False
+    StoreDefs = True
+    FieldDefs = <
+      item
+        Name = 'kmlFile'
+        DataType = ftString
+        Size = 500
+      end
+      item
+        Name = 'planePathFile'
+        DataType = ftString
+        Size = 500
+      end
+      item
+        Name = 'updateRate'
+        DataType = ftSmallint
+      end
+      item
+        Name = 'tessellate'
+        DataType = ftSmallint
+      end
+      item
+        Name = 'trajectoryColorR'
+        DataType = ftInteger
+      end
+      item
+        Name = 'trajectoryColorG'
+        DataType = ftInteger
+      end
+      item
+        Name = 'trajectoryColorB'
+        DataType = ftInteger
+      end
+      item
+        Name = 'tailLength'
+        DataType = ftSmallint
+      end
+      item
+        Name = 'tessalateColorR'
+        DataType = ftInteger
+      end
+      item
+        Name = 'tessalateColorG'
+        DataType = ftInteger
+      end
+      item
+        Name = 'tessalateColorB'
+        DataType = ftInteger
+      end
+      item
+        Name = 'tessalateTransparency'
+        DataType = ftInteger
+      end
+      item
+        Name = 'iconFile'
+        DataType = ftString
+        Size = 500
+      end
+      item
+        Name = 'waypointFile'
+        DataType = ftString
+        Size = 500
+      end
+      item
+        Name = 'latGS'
+        DataType = ftFloat
+      end
+      item
+        Name = 'lonGS'
+        DataType = ftFloat
+      end
+      item
+        Name = 'heightGS'
+        DataType = ftFloat
+      end>
     TableName = 'configuration'
     Exclusive = False
     Left = 88
@@ -1488,6 +1674,9 @@ object FPpal: TFPpal
     object tb_configtailLength: TSmallintField
       FieldName = 'tailLength'
     end
+    object tb_configtessalateTransparency: TIntegerField
+      FieldName = 'tessalateTransparency'
+    end
     object tb_configtessalateColorR: TIntegerField
       FieldName = 'tessalateColorR'
     end
@@ -1497,9 +1686,6 @@ object FPpal: TFPpal
     object tb_configtessalateColorB: TIntegerField
       FieldName = 'tessalateColorB'
     end
-    object tb_configtessalateTransparency: TSmallintField
-      FieldName = 'tessalateTransparency'
-    end
     object tb_configiconFile: TStringField
       FieldName = 'iconFile'
       Size = 500
@@ -1507,6 +1693,15 @@ object FPpal: TFPpal
     object tb_configwaypointFile: TStringField
       FieldName = 'waypointFile'
       Size = 500
+    end
+    object tb_configlatGS: TFloatField
+      FieldName = 'latGS'
+    end
+    object tb_configlonGS: TFloatField
+      FieldName = 'lonGS'
+    end
+    object tb_configheightGS: TFloatField
+      FieldName = 'heightGS'
     end
   end
   object fte_config: TDataSource

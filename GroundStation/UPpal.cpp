@@ -237,16 +237,21 @@ void __fastcall TFPpal::bt_serialClick(TObject *Sender)
 
 void __fastcall TFPpal::Timer2Timer(TObject *Sender)
 {
-   //replace the history
-   for (int i = 13; i>=0; i--){
-     gpsSamples[i+1] = gpsSamples[i];
+   tGpsData temp = getGpsStruct();
+
+   if (computeDistance(temp.lat.flData, temp.lon.flData) < DISLIMIT ){
+      //replace the history
+      for (int i = 13; i>=0; i--){
+          gpsSamples[i+1] = gpsSamples[i];
+      }
    }
-   gpsSamples[0] = getGpsStruct();
+   gpsSamples[0] = temp;
    rawSample = getRawStruct();
 
    updateGPSLabels();
    updateRawLabels();
    updatePlots();
+
 }
 //---------------------------------------------------------------------------
 void TFPpal::updateGPSLabels(void){
@@ -313,12 +318,17 @@ void __fastcall TFPpal::cp_serialTriggerAvail(TObject *CP, WORD Count)
 {
   unsigned char fromSerial[BSIZE];
 
-  for (int i=1;i<=Count;i++) {
-    fromSerial[i] = cp_serial->GetChar();
+  try {
+
+    cp_serial->GetBlock(&fromSerial[1], Count);
+    fromSerial[0] = Count;
+    protParseDecode (&fromSerial[0]);
+
+  }
+   catch (exception& EBufferIsEmpty) {
+      mm_diagnose->Lines->Add("Exception Caught");
   }
 
-  fromSerial[0] = Count;
-  protParseDecode (&fromSerial[0]);
 }
 //---------------------------------------------------------------------------
 
@@ -390,7 +400,7 @@ void TFPpal::updateKML(void){
    // add the Name
    addAndAppendNode("name","UAV Path", placemarkTag);
    // add the style used to plot tha trajectory
-   addAndAppendNode("StyleUrl","#planeTrajectory", placemarkTag);
+   addAndAppendNode("styleUrl","#planeTrajectory", placemarkTag);
 
    // Add the line string
    TiXmlElement * lineStringTag = new TiXmlElement("LineString");
@@ -413,7 +423,7 @@ void TFPpal::updateKML(void){
    // add the Name
    addAndAppendNode("name","", iconPlacemarkTag);
    // add the style used to plot the last known position
-   addAndAppendNode("StyleUrl","#planeIcon", iconPlacemarkTag);
+   addAndAppendNode("styleUrl","#planeIcon", iconPlacemarkTag);
 
    // Add the line string
    TiXmlElement * pointTag = new TiXmlElement("Point");
@@ -461,7 +471,6 @@ String TFPpal::getHexColor(unsigned char whichColor){
                      IntToHex(tb_configtessalateColorB->AsInteger,2) +
                      IntToHex(tb_configtessalateColorG->AsInteger,2) +
                      IntToHex(tb_configtessalateColorR->AsInteger,2);
-
        break;
    }
 
@@ -504,4 +513,36 @@ void __fastcall TFPpal::rg_tailExit(TObject *Sender)
 
 
 
+
+void __fastcall TFPpal::bt_gsposClick(TObject *Sender)
+{
+ tb_config->Edit();
+ tb_configlatGS->AsFloat = gpsSamples[0].lat.flData;
+ tb_configlonGS->AsFloat = gpsSamples[0].lon.flData;
+ tb_configheightGS->AsFloat = gpsSamples[0].height.flData;
+ tb_config->Post();
+}
+//---------------------------------------------------------------------------
+
+float TFPpal::computeDistance(float lat, float lon){
+ float lat2 = tb_configlatGS->AsFloat;
+ float lon2 = tb_configlonGS->AsFloat;
+
+ try{
+
+     return EARTHRADIUS*acos(cos(deg2Rad(90.0-lat))*cos(deg2Rad(90.0-lat2))+
+     sin(deg2Rad(90.0-lat))*sin(deg2Rad(90.0-lat2))*cos(deg2Rad(lon-lon2)));
+ }
+ catch (...) {
+     mm_diagnose->Lines->Add("ComputeDistance exception");
+     return DISLIMIT + 1.0;
+ }
+
+}
+
+float TFPpal::deg2Rad(float mDeg){
+ return mDeg*PI/180.0;
+}
+
+//---------------------------------------------------------------------------
 
