@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.253"
+    ComputedModelVersion    "1.261"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ASL_Lab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Sep 19 11:32:57 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:253>"
+  LastModifiedDate	  "Fri Sep 19 20:05:27 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:261>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -106,7 +106,7 @@ Model {
 	  $ObjectID		  2
 	  Version		  "1.2.0"
 	  StartTime		  "0.0"
-	  StopTime		  "200"
+	  StopTime		  "600"
 	  AbsTol		  "auto"
 	  FixedStep		  "SampleT"
 	  InitialStep		  "auto"
@@ -533,6 +533,10 @@ Model {
       BusSelectionMode	      off
     }
     Block {
+      BlockType		      Derivative
+      LinearizePole	      "inf"
+    }
+    Block {
       BlockType		      DiscreteIntegrator
       IntegratorMethod	      "Integration: Forward Euler"
       gainval		      "1.0"
@@ -936,7 +940,7 @@ Model {
   }
   System {
     Name		    "AttitudeINS"
-    Location		    [38, 135, 1269, 843]
+    Location		    [38, 135, 1269, 699]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -1103,7 +1107,7 @@ Model {
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
       relop		      ">="
-      const		      "4"
+      const		      "8"
       LogicOutDataTypeMode    "uint8"
       ZeroCross		      off
     }
@@ -1320,7 +1324,7 @@ Model {
 	    Line {
 	      SrcBlock		      "P_k1_k"
 	      SrcPort		      1
-	      Points		      [-10, 0; 0, -40]
+	      Points		      [-10, 0; 0, -35]
 	      DstBlock		      "Product1"
 	      DstPort		      2
 	    }
@@ -2109,21 +2113,21 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "Lat, deg"
-	  Position		  [40, 80, 70, 94]
+	  Position		  [40, 78, 70, 92]
 	  Port			  "2"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
 	  Name			  "Lon, deg"
-	  Position		  [40, 115, 70, 129]
+	  Position		  [40, 113, 70, 127]
 	  Port			  "3"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
 	  Name			  "Height, m"
-	  Position		  [45, 155, 75, 169]
+	  Position		  [45, 153, 75, 167]
 	  Port			  "4"
 	  IconDisplay		  "Port number"
 	}
@@ -2213,10 +2217,10 @@ Model {
 	Block {
 	  BlockType		  BusSelector
 	  Name			  "Bus\nSelector1"
-	  Ports			  [1, 3]
+	  Ports			  [1, 5]
 	  Position		  [405, 221, 410, 259]
 	  ShowName		  off
-	  OutputSignals		  "x,y,z"
+	  OutputSignals		  "x,xdot,y,ydot,z"
 	  Port {
 	    PortNumber		    1
 	    Name		    "<x>"
@@ -2225,12 +2229,24 @@ Model {
 	  }
 	  Port {
 	    PortNumber		    2
-	    Name		    "<y>"
+	    Name		    "<xdot>"
 	    RTWStorageClass	    "Auto"
 	    DataLoggingNameMode	    "SignalName"
 	  }
 	  Port {
 	    PortNumber		    3
+	    Name		    "<y>"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    4
+	    Name		    "<ydot>"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    5
 	    Name		    "<z>"
 	    RTWStorageClass	    "Auto"
 	    DataLoggingNameMode	    "SignalName"
@@ -2243,6 +2259,30 @@ Model {
 	  Orientation		  "left"
 	  ShowName		  off
 	  Value			  "[0 , 37.0004768371582, -122.061897277832]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Discrete Derivative"
+	  Ports			  [1, 1]
+	  Position		  [415, 387, 475, 423]
+	  SourceBlock		  "simulink/Discrete/Discrete Derivative"
+	  SourceType		  "Discrete Derivative"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  gainval		  "1.0"
+	  ICPrevScaledInput	  "0.0"
+	  OutputDataTypeScalingMode "Inherit via internal rule"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^-10"
+	  LockScale		  off
+	  RndMeth		  "Floor"
+	  DoSatur		  off
 	}
 	Block {
 	  BlockType		  SubSystem
@@ -2453,6 +2493,7 @@ Model {
 	      Name		      "phi"
 	      Position		      [460, 101, 480, 119]
 	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
 	    }
 	    Block {
 	      BlockType		      Outport
@@ -2460,6 +2501,7 @@ Model {
 	      Position		      [460, 136, 480, 154]
 	      Port		      "2"
 	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
 	    }
 	    Line {
 	      SrcBlock		      " Demux "
@@ -4534,7 +4576,7 @@ Model {
 	  System {
 	    Name		    "Interpolate Data"
 	    Location		    [208, 448, 608, 624]
-	    Open		    off
+	    Open		    on
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -4549,7 +4591,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "NEU. m"
-	      Position		      [25, 85, 55, 99]
+	      Position		      [25, 83, 55, 97]
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
@@ -4625,7 +4667,7 @@ Model {
 	      }
 	      System {
 		Name			"Subsystem"
-		Location		[225, 719, 1184, 950]
+		Location		[184, 480, 1143, 711]
 		Open			off
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
@@ -4850,6 +4892,7 @@ Model {
 		    Position		    [460, 136, 480, 154]
 		    Port		    "2"
 		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
 		    }
 		    Block {
 		    BlockType		    Outport
@@ -4857,6 +4900,7 @@ Model {
 		    Position		    [460, 171, 480, 189]
 		    Port		    "3"
 		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
 		    }
 		    Line {
 		    SrcBlock		    "clock"
@@ -5822,6 +5866,7 @@ Model {
 		    Position		    [460, 136, 480, 154]
 		    Port		    "2"
 		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
 		    }
 		    Block {
 		    BlockType		    Outport
@@ -5829,6 +5874,7 @@ Model {
 		    Position		    [460, 171, 480, 189]
 		    Port		    "3"
 		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
 		    }
 		    Line {
 		    Name		    "ddotData"
@@ -6794,6 +6840,7 @@ Model {
 		    Position		    [460, 136, 480, 154]
 		    Port		    "2"
 		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
 		    }
 		    Block {
 		    BlockType		    Outport
@@ -6801,6 +6848,7 @@ Model {
 		    Position		    [460, 171, 480, 189]
 		    Port		    "3"
 		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
 		    }
 		    Line {
 		    SrcBlock		    "clock"
@@ -7513,8 +7561,9 @@ Model {
 	    Block {
 	      BlockType		      Outport
 	      Name		      "GPS Bus"
-	      Position		      [345, 85, 375, 99]
+	      Position		      [345, 83, 375, 97]
 	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
 	    }
 	    Line {
 	      Labels		      [0, 0]
@@ -7671,10 +7720,10 @@ Model {
 	  Ports			  [3]
 	  Position		  [835, 238, 865, 272]
 	  Floating		  off
-	  Location		  [-1018, 305, 6, 1020]
+	  Location		  [-1023, 308, 1, 1023]
 	  Open			  on
 	  NumInputPorts		  "3"
-	  ZoomMode		  "xonly"
+	  ZoomMode		  "yonly"
 	  List {
 	    ListType		    AxesTitles
 	    axes1		    "%<SignalLabel>"
@@ -7694,13 +7743,61 @@ Model {
 	Block {
 	  BlockType		  Scope
 	  Name			  "Scope1"
-	  Ports			  [3]
-	  Position		  [440, 223, 470, 257]
+	  Ports			  [5]
+	  Position		  [455, 218, 480, 272]
 	  Floating		  off
-	  Location		  [-1018, 305, 6, 1020]
+	  Location		  [127, 238, 1151, 953]
+	  Open			  off
+	  NumInputPorts		  "5"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	    axes2		    "%<SignalLabel>"
+	    axes3		    "%<SignalLabel>"
+	    axes4		    "%<SignalLabel>"
+	    axes5		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "100"
+	  YMin			  "-35000~-35000~-30000~-35000~0"
+	  YMax			  "10000~15000~10000~10000~3500"
+	  SaveName		  "ScopeData20"
+	  DataFormat		  "StructureWithTime"
+	  LimitDataPoints	  off
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "Scope2"
+	  Ports			  [1]
+	  Position		  [305, 293, 335, 327]
+	  Floating		  off
+	  Location		  [-1025, 331, -1, 1046]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "100"
+	  YMin			  "-35000"
+	  YMax			  "10000"
+	  SaveName		  "ScopeData21"
+	  DataFormat		  "StructureWithTime"
+	  LimitDataPoints	  off
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "Scope3"
+	  Ports			  [3]
+	  Position		  [505, 399, 535, 431]
+	  Floating		  off
+	  Location		  [-1084, 341, -60, 1056]
 	  Open			  off
 	  NumInputPorts		  "3"
-	  ZoomMode		  "xonly"
+	  ZoomMode		  "yonly"
 	  List {
 	    ListType		    AxesTitles
 	    axes1		    "%<SignalLabel>"
@@ -7708,11 +7805,9 @@ Model {
 	    axes3		    "%<SignalLabel>"
 	  }
 	  TimeRange		  "100"
-	  YMin			  "0.7259255282020796~-3.108808290155366~-45.1"
-"1960330819439"
-	  YMax			  "2.143413245993161~13.47150259067365~-44.904"
-"16476041266"
-	  SaveName		  "ScopeData20"
+	  YMin			  "15.02859137158039~-2.308786813068686~-300"
+	  YMax			  "27.01280571290499~3.103439018497255~300"
+	  SaveName		  "ScopeData22"
 	  DataFormat		  "StructureWithTime"
 	  LimitDataPoints	  off
 	  SampleTime		  "0"
@@ -7744,7 +7839,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "GPS Bus"
-	      Position		      [25, 40, 55, 54]
+	      Position		      [25, 38, 55, 52]
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
@@ -7779,8 +7874,9 @@ Model {
 	    Block {
 	      BlockType		      Outport
 	      Name		      "Psi"
-	      Position		      [190, 40, 220, 54]
+	      Position		      [190, 38, 220, 52]
 	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
 	    }
 	    Line {
 	      Name		      "<ydot>"
@@ -7815,8 +7911,9 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "z_k"
-	  Position		  [860, 155, 890, 169]
+	  Position		  [860, 153, 890, 167]
 	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
 	}
 	Line {
 	  SrcBlock		  "Constant"
@@ -7828,8 +7925,16 @@ Model {
 	Line {
 	  SrcBlock		  "Geod2LTP2"
 	  SrcPort		  1
-	  DstBlock		  "Interpolate Data"
-	  DstPort		  1
+	  Points		  [10, 0]
+	  Branch {
+	    DstBlock		    "Interpolate Data"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 190]
+	    DstBlock		    "Scope2"
+	    DstPort		    1
+	  }
 	}
 	Line {
 	  SrcBlock		  "Interpolate Data"
@@ -7999,24 +8104,66 @@ Model {
 	  Labels		  [0, 0]
 	  SrcBlock		  "Bus\nSelector1"
 	  SrcPort		  1
-	  DstBlock		  "Scope1"
-	  DstPort		  1
+	  Points		  [10, 0]
+	  Branch {
+	    Points		    [15, 0]
+	    DstBlock		    "Scope1"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [-25, 0]
+	    DstBlock		    "Discrete Derivative"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  Name			  "<xdot>"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Bus\nSelector1"
+	  SrcPort		  2
+	  Points		  [20, 0]
+	  Branch {
+	    DstBlock		    "Scope1"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, 180]
+	    DstBlock		    "Scope3"
+	    DstPort		    2
+	  }
 	}
 	Line {
 	  Name			  "<y>"
 	  Labels		  [0, 0]
 	  SrcBlock		  "Bus\nSelector1"
-	  SrcPort		  2
+	  SrcPort		  3
+	  Points		  [25, 0]
 	  DstBlock		  "Scope1"
-	  DstPort		  2
+	  DstPort		  3
+	}
+	Line {
+	  Name			  "<ydot>"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Bus\nSelector1"
+	  SrcPort		  4
+	  Points		  [25, 0]
+	  DstBlock		  "Scope1"
+	  DstPort		  4
 	}
 	Line {
 	  Name			  "<z>"
 	  Labels		  [0, 0]
 	  SrcBlock		  "Bus\nSelector1"
-	  SrcPort		  3
+	  SrcPort		  5
+	  Points		  [25, 0]
 	  DstBlock		  "Scope1"
-	  DstPort		  3
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "Discrete Derivative"
+	  SrcPort		  1
+	  DstBlock		  "Scope3"
+	  DstPort		  1
 	}
       }
     }
@@ -8024,7 +8171,7 @@ Model {
       BlockType		      SubSystem
       Name		      "Gyro Convert"
       Ports		      [1, 1]
-      Position		      [470, 164, 560, 206]
+      Position		      [445, 164, 535, 206]
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
@@ -8302,7 +8449,7 @@ Model {
 	  System {
 	    Name		    "Plant"
 	    Location		    [97, 139, 1174, 813]
-	    Open		    off
+	    Open		    on
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -10073,6 +10220,11 @@ Model {
 		  DstPort		  1
 		}
 	      }
+	    }
+	    Block {
+	      BlockType		      Derivative
+	      Name		      "Derivative"
+	      Position		      [505, 30, 535, 60]
 	    }
 	    Block {
 	      BlockType		      Display
@@ -19113,6 +19265,25 @@ Model {
 	      SampleTime	      "0"
 	    }
 	    Block {
+	      BlockType		      Scope
+	      Name		      "Scope2"
+	      Ports		      [1]
+	      Position		      [575, 29, 605, 61]
+	      Floating		      off
+	      Location		      [951, 619, 1275, 858]
+	      Open		      on
+	      NumInputPorts	      "1"
+	      List {
+		ListType		AxesTitles
+		axes1			"%<SignalLabel>"
+	      }
+	      YMin		      "350"
+	      YMax		      "650"
+	      SaveName		      "ScopeData23"
+	      DataFormat	      "StructureWithTime"
+	      SampleTime	      "0"
+	    }
+	    Block {
 	      BlockType		      Reference
 	      Name		      "Second Order\nLinear Actuator5"
 	      Ports		      [1, 1]
@@ -19447,14 +19618,22 @@ Model {
 	      Branch {
 		Points			[0, -40]
 		Branch {
-		  Points		  [-260, 0]
-		  DstBlock		  "ISA Atmosphere & Winds"
-		  DstPort		  1
-		}
-		Branch {
 		  Labels		  [0, 0]
 		  DstBlock		  "Get GPS"
 		  DstPort		  1
+		}
+		Branch {
+		  Points		  [-200, 0]
+		  Branch {
+		    Points		    [-60, 0]
+		    DstBlock		    "ISA Atmosphere & Winds"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, -80]
+		    DstBlock		    "Derivative"
+		    DstPort		    1
+		  }
 		}
 	      }
 	      Branch {
@@ -19759,6 +19938,12 @@ Model {
 	      DstBlock		      "A_b"
 	      DstPort		      1
 	    }
+	    Line {
+	      SrcBlock		      "Derivative"
+	      SrcPort		      1
+	      DstBlock		      "Scope2"
+	      DstPort		      1
+	    }
 	  }
 	}
 	Block {
@@ -19767,7 +19952,7 @@ Model {
 	  Ports			  [1]
 	  Position		  [355, 624, 385, 656]
 	  Floating		  off
-	  Location		  [1, 453, 1281, 786]
+	  Location		  [1, 52, 1281, 1023]
 	  Open			  off
 	  NumInputPorts		  "1"
 	  ZoomMode		  "yonly"
@@ -20527,13 +20712,13 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "x_k_k"
-	  Position		  [25, 148, 55, 162]
+	  Position		  [25, 143, 55, 157]
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
 	  Name			  "omega"
-	  Position		  [25, 188, 55, 202]
+	  Position		  [25, 173, 55, 187]
 	  Port			  "2"
 	  IconDisplay		  "Port number"
 	}
@@ -21085,7 +21270,7 @@ Model {
 	Line {
 	  SrcBlock		  "x_k_k"
 	  SrcPort		  1
-	  Points		  [55, 0]
+	  Points		  [0, 5; 55, 0]
 	  Branch {
 	    DstBlock		    "f(x,w)"
 	    DstPort		    1
@@ -21105,7 +21290,7 @@ Model {
 	Line {
 	  SrcBlock		  "omega"
 	  SrcPort		  1
-	  Points		  [0, -15; 30, 0]
+	  Points		  [30, 0]
 	  Branch {
 	    DstBlock		    "f(x,w)"
 	    DstPort		    2
@@ -21179,7 +21364,7 @@ Model {
       Position		      [1145, 63, 1175, 97]
       Floating		      off
       Location		      [-1023, 308, 1, 1023]
-      Open		      on
+      Open		      off
       NumInputPorts	      "1"
       ZoomMode		      "yonly"
       List {
@@ -21187,9 +21372,31 @@ Model {
 	axes1			"%<SignalLabel>"
       }
       TimeRange		      "100"
-      YMin		      "0.725926"
-      YMax		      "2.14341"
+      YMin		      "-170"
+      YMax		      "50"
       SaveName		      "ScopeData17"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope1"
+      Ports		      [1]
+      Position		      [935, 368, 965, 402]
+      Floating		      off
+      Location		      [6, 303, 1030, 1018]
+      Open		      off
+      NumInputPorts	      "1"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      TimeRange		      "100"
+      YMin		      "-170"
+      YMax		      "50"
+      SaveName		      "ScopeData24"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
       SampleTime	      "0"
@@ -21565,9 +21772,16 @@ Model {
     Line {
       SrcBlock		      "Switch"
       SrcPort		      1
-      Points		      [0, -170; -80, 0; 0, -135]
-      DstBlock		      "Correction"
-      DstPort		      2
+      Points		      [0, -65]
+      Branch {
+	Points			[0, -105; -80, 0; 0, -135]
+	DstBlock		"Correction"
+	DstPort			2
+      }
+      Branch {
+	DstBlock		"Scope1"
+	DstPort			1
+      }
     }
     Line {
       SrcBlock		      "Compare\nTo Constant"
@@ -21625,8 +21839,8 @@ MatData {
 "         \"0    @            (0 X    P    !@    @    &          4    (       "
 "        !          D         #@   #     &    \"     8         !0    @        "
 "       $         \"0         .    .     8    (    !@         %    \"     $   "
-" !     0         )    \"            @A #@   #@    &    \"     8         !0   "
-" @    !     0    $         \"0    @        P *B@0 X    P    !@    @    &     "
+" !     0         )    \"         !  @A #@   #@    &    \"     8         !0   "
+" @    !     0    $         \"0    @        , ._@0 X    P    !@    @    &     "
 "     4    (               !          D         "
   }
   DataRecord {
@@ -21832,8 +22046,6 @@ Stateflow {
 		created              		"18-Sep-2008 12:14:47"
 		isLibrary            		0
 		firstTarget          		99
-		debug {
-		}
 		sfVersion            		66014000
 	}
 
@@ -21884,13 +22096,13 @@ Stateflow {
 						"3);\n"
 						"                   pqr(1)   0           pqr(3)      -pqr(2)"
 						";\n"
-						"                   pqr(2)   pqr(3)      0           pqr(1);"
-						"\n"
+						"                   pqr(2)   -pqr(3)      0           pqr(1)"
+						";\n"
 						"                   pqr(3)   pqr(2)      -pqr(1)     0];\n"
 						"               \n"
 						"F_k (1:4,5:7) = 0.5*[x(2)   x(3)    x(4);\n"
 						"                     -x(1)  x(4)    -x(3);\n"
-						"                     x(4)   -x(1)   x(2);\n"
+						"                     -x(4)   -x(1)   x(2);\n"
 						"                     x(3)   -x(2)   -x(1)];\n"
 						"                   "
 			editorLayout             		"100 M4x1[146 214 751 503]"
@@ -22052,8 +22264,8 @@ Stateflow {
 						";\n"
 						"                   pqr(1)   0           pqr(3)      -pqr(2)"
 						";\n"
-						"                   pqr(2)   pqr(3)      0           pqr(1);"
-						"\n"
+						"                   pqr(2)   -pqr(3)      0           pqr(1)"
+						";\n"
 						"                   pqr(3)   pqr(2)      -pqr(1)     0]*x(1:"
 						"4);\n"
 						"                   "
@@ -22238,7 +22450,7 @@ Stateflow {
 						"%dotCoef(2) = PolyCoef(2);\n"
 						"\n"
 						"%ddotCoef = dotCoef(1);"
-			editorLayout             		"100 M4x1[146 214 671 364]"
+			editorLayout             		"100 M4x1[336 341 1288 1032]"
 			treatIntsAsFixpt         		0
 		}
 	}
@@ -22426,11 +22638,11 @@ Stateflow {
 						"*a   q(4)+2*q(3)*a       q(3)];\n"
 						"H_k(2,1:4) =     (2/(sqrt(1-gamma^2)))*[q(3)     -q(4)     "
 						"      q(1)                -q(2)];\n"
-						"H_k(3,1:4) = (2*beta/(alpha^2+beta^2))*[q(4)     -q(3)     "
-						"      q(2)+2*q(3)*alpha   -q(1)+ 2*q(4)*alpha];\n"
+						"H_k(3,1:4) = (2*beta/(alpha^2+beta^2))*[q(4)     q(3)      "
+						"     q(2)+2*q(3)*alpha   q(1)+ 2*q(4)*alpha];\n"
 						"\n"
 						"                   "
-			editorLayout             		"100 M4x1[336 341 751 503]"
+			editorLayout             		"100 M4x1[336 341 1288 1032]"
 			treatIntsAsFixpt         		0
 		}
 	}
@@ -22565,7 +22777,7 @@ Stateflow {
 						"dotData = 2*polyCoef(1)*clock + polyCoef(2);\n"
 						"\n"
 						"ddotData = polyCoef(1);"
-			editorLayout             		"100 M4x1[146 214 784 405]"
+			editorLayout             		"100 M4x1[336 341 1288 1032]"
 			treatIntsAsFixpt         		0
 		}
 	}
@@ -22734,8 +22946,6 @@ Stateflow {
 		firstJunction                             		46
 		viewObj                                   		44
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		48
@@ -22941,8 +23151,6 @@ Stateflow {
 		firstJunction                             		56
 		viewObj                                   		54
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		58
@@ -23148,8 +23356,6 @@ Stateflow {
 		firstJunction                             		65
 		viewObj                                   		63
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		67
@@ -23355,8 +23561,6 @@ Stateflow {
 		firstJunction                             		75
 		viewObj                                   		73
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		77
@@ -23563,8 +23767,6 @@ Stateflow {
 		firstJunction                             		84
 		viewObj                                   		82
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		86
@@ -23723,8 +23925,6 @@ Stateflow {
 		firstJunction                             		92
 		viewObj                                   		90
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		94
@@ -23765,7 +23965,7 @@ Stateflow {
 						" + S_r^2);\n"
 						"\n"
 						"phi = atan2(-S_phi*R(2) + A(2), S_phi*S_r);"
-			editorLayout             		"100 M4x1[195 445 784 405]"
+			editorLayout             		"100 M4x1[195 445 1288 1032]"
 			treatIntsAsFixpt         		0
 		}
 	}
