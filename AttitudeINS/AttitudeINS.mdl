@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.261"
+    ComputedModelVersion    "1.264"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ASL_Lab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Sep 19 20:05:27 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:261>"
+  LastModifiedDate	  "Fri Sep 19 20:31:48 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:264>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -639,6 +639,11 @@ Model {
       BlockType		      Ground
     }
     Block {
+      BlockType		      InitialCondition
+      Value		      "1"
+      SampleTime	      "-1"
+    }
+    Block {
       BlockType		      Inport
       Port		      "1"
       UseBusObject	      off
@@ -940,7 +945,7 @@ Model {
   }
   System {
     Name		    "AttitudeINS"
-    Location		    [38, 135, 1269, 699]
+    Location		    [52, 219, 1283, 783]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -2092,7 +2097,7 @@ Model {
       System {
 	Name			"Get Measurement"
 	Location		[112, 302, 1110, 883]
-	Open			on
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -4576,7 +4581,7 @@ Model {
 	  System {
 	    Name		    "Interpolate Data"
 	    Location		    [208, 448, 608, 624]
-	    Open		    on
+	    Open		    off
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -20696,8 +20701,8 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Prediction"
-	Location		[299, 234, 991, 645]
-	Open			off
+	Location		[490, 165, 1182, 576]
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -20712,20 +20717,20 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "x_k_k"
-	  Position		  [25, 143, 55, 157]
+	  Position		  [20, 78, 50, 92]
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
 	  Name			  "omega"
-	  Position		  [25, 173, 55, 187]
+	  Position		  [20, 228, 50, 242]
 	  Port			  "2"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
 	  Name			  "P_k_k"
-	  Position		  [300, 303, 330, 317]
+	  Position		  [300, 273, 330, 287]
 	  Port			  "3"
 	  IconDisplay		  "Port number"
 	}
@@ -20733,7 +20738,7 @@ Model {
 	  BlockType		  Demux
 	  Name			  "Demux"
 	  Ports			  [1, 2]
-	  Position		  [370, 151, 375, 189]
+	  Position		  [475, 116, 480, 154]
 	  BackgroundColor	  "black"
 	  ShowName		  off
 	  Outputs		  "[4 3]"
@@ -20743,41 +20748,17 @@ Model {
 	  BlockType		  Demux
 	  Name			  "Demux1"
 	  Ports			  [1, 2]
-	  Position		  [380, 31, 385, 69]
+	  Position		  [485, 41, 490, 79]
 	  BackgroundColor	  "black"
 	  ShowName		  off
 	  Outputs		  "[4 3]"
 	  DisplayOption		  "bar"
 	}
 	Block {
-	  BlockType		  DiscreteIntegrator
-	  Name			  "Discrete-Time\nIntegrator"
-	  Ports			  [1, 1]
-	  Position		  [280, 154, 315, 186]
-	  ShowName		  off
-	  IntegratorMethod	  "Integration: Forward Euler"
-	  ExternalReset		  "none"
-	  InitialConditionSource  "internal"
-	  InitialCondition	  "X0"
-	  SampleTime		  "-1"
-	  LimitOutput		  on
-	  UpperSaturationLimit	  "500"
-	  LowerSaturationLimit	  "-500"
-	  IgnoreLimit		  off
-	  ICPrevOutput		  "DiscIntNeverNeededParam"
-	  ICPrevScaledInput	  "DiscIntNeverNeededParam"
-	  Port {
-	    PortNumber		    1
-	    Name		    "x_k1_k"
-	    RTWStorageClass	    "Auto"
-	    DataLoggingNameMode	    "SignalName"
-	  }
-	}
-	Block {
 	  BlockType		  SubSystem
 	  Name			  "F_k"
 	  Ports			  [2, 1]
-	  Position		  [210, 227, 325, 278]
+	  Position		  [210, 197, 325, 248]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
@@ -20893,19 +20874,48 @@ Model {
 	  }
 	}
 	Block {
+	  BlockType		  Gain
+	  Name			  "Gain"
+	  Position		  [405, 105, 435, 135]
+	  Orientation		  "up"
+	  ShowName		  off
+	  Gain			  "SampleT"
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  InitialCondition
+	  Name			  "IC"
+	  Position		  [70, 63, 100, 107]
+	  Value			  "X0"
+	}
+	Block {
 	  BlockType		  Mux
 	  Name			  "Mux"
 	  Ports			  [2, 1]
-	  Position		  [485, 31, 490, 69]
+	  Position		  [590, 41, 595, 79]
 	  ShowName		  off
 	  Inputs		  "2"
 	  DisplayOption		  "bar"
 	}
 	Block {
+	  BlockType		  Product
+	  Name			  "Product"
+	  Ports			  [2, 1]
+	  Position		  [365, 143, 410, 187]
+	  ShowName		  off
+	  Multiplication	  "Matrix(*)"
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
 	  BlockType		  Reference
 	  Name			  "Quaternion\nNormalize"
 	  Ports			  [1, 1]
-	  Position		  [410, 18, 465, 62]
+	  Position		  [515, 28, 570, 72]
 	  ShowName		  off
 	  SourceBlock		  "aerolibutil/Quaternion\nNormalize"
 	  SourceType		  "Quaternion Normalize"
@@ -20919,135 +20929,29 @@ Model {
 	  RTWMemSecDataParameters "Inherit from model"
 	}
 	Block {
-	  BlockType		  Terminator
-	  Name			  "Terminator"
-	  Position		  [395, 173, 410, 187]
+	  BlockType		  Sum
+	  Name			  "Sum"
+	  Ports			  [2, 1]
+	  Position		  [410, 60, 430, 80]
 	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|++"
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
 	}
 	Block {
-	  BlockType		  SubSystem
-	  Name			  "f(x,w)"
-	  Ports			  [2, 1]
-	  Position		  [135, 142, 250, 193]
-	  MinAlgLoopOccurrences	  off
-	  RTWSystemCode		  "Auto"
-	  FunctionWithSeparateData off
-	  Array {
-	    Type		    "Handle"
-	    Dimension		    0
-	    PropName		    "AvailSigsLoadSave"
-	  }
-	  MaskHideContents	  off
-	  MaskType		  "Stateflow"
-	  MaskDescription	  "Embedded MATLAB block"
-	  MaskDisplay		  "disp('f');"
-	  MaskSelfModifiable	  on
-	  MaskIconFrame		  on
-	  MaskIconOpaque	  off
-	  MaskIconRotate	  "none"
-	  MaskIconUnits		  "autoscale"
-	  System {
-	    Name		    "f(x,w)"
-	    Location		    [257, 457, 812, 717]
-	    Open		    off
-	    ModelBrowserVisibility  off
-	    ModelBrowserWidth	    200
-	    ScreenColor		    "white"
-	    PaperOrientation	    "landscape"
-	    PaperPositionMode	    "auto"
-	    PaperType		    "usletter"
-	    PaperUnits		    "inches"
-	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
-	    TiledPageScale	    1
-	    ShowPageBoundaries	    off
-	    ZoomFactor		    "100"
-	    Block {
-	      BlockType		      Inport
-	      Name		      "x"
-	      Position		      [20, 101, 40, 119]
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Inport
-	      Name		      "omega"
-	      Position		      [20, 136, 40, 154]
-	      Port		      "2"
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Demux
-	      Name		      " Demux "
-	      Ports		      [1, 1]
-	      Position		      [270, 160, 320, 200]
-	      Outputs		      "1"
-	    }
-	    Block {
-	      BlockType		      "S-Function"
-	      Name		      " SFunction "
-	      Tag		      "Stateflow S-Function AttitudeINS 2"
-	      Ports		      [2, 2]
-	      Position		      [180, 100, 230, 160]
-	      FunctionName	      "sf_sfun"
-	      PortCounts	      "[2 2]"
-	      Port {
-		PortNumber		2
-		Name			"x_dot"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	    }
-	    Block {
-	      BlockType		      Terminator
-	      Name		      " Terminator "
-	      Position		      [460, 171, 480, 189]
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "x_dot"
-	      Position		      [460, 101, 480, 119]
-	      IconDisplay	      "Port number"
-	      BusOutputAsStruct	      off
-	    }
-	    Line {
-	      SrcBlock		      " SFunction "
-	      SrcPort		      1
-	      Points		      [0, 65]
-	      DstBlock		      " Demux "
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      " Demux "
-	      SrcPort		      1
-	      DstBlock		      " Terminator "
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "x"
-	      SrcPort		      1
-	      DstBlock		      " SFunction "
-	      DstPort		      1
-	    }
-	    Line {
-	      Name		      "x_dot"
-	      Labels		      [0, 0]
-	      SrcBlock		      " SFunction "
-	      SrcPort		      2
-	      DstBlock		      "x_dot"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "omega"
-	      SrcPort		      1
-	      DstBlock		      " SFunction "
-	      DstPort		      2
-	    }
-	  }
+	  BlockType		  Terminator
+	  Name			  "Terminator"
+	  Position		  [500, 138, 515, 152]
+	  ShowName		  off
 	}
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "get P_k1_k"
 	  Ports			  [2, 1]
-	  Position		  [400, 242, 505, 298]
+	  Position		  [400, 212, 505, 268]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
@@ -21191,7 +21095,7 @@ Model {
 	  BlockType		  Reference
 	  Name			  "h(x_k1_k)"
 	  Ports			  [1, 1]
-	  Position		  [415, 138, 505, 182]
+	  Position		  [520, 103, 610, 147]
 	  SourceBlock		  "aerolibtransform2/Quaternions to Euler Angl"
 "es"
 	  SourceType		  "Quaternion2Euler"
@@ -21207,14 +21111,14 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "z_tilde_k"
-	  Position		  [530, 153, 560, 167]
+	  Position		  [635, 118, 665, 132]
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
 	}
 	Block {
 	  BlockType		  Outport
 	  Name			  "x_k1_k"
-	  Position		  [535, 43, 565, 57]
+	  Position		  [640, 53, 670, 67]
 	  Port			  "2"
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
@@ -21222,38 +21126,24 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "P_k1_k"
-	  Position		  [555, 263, 585, 277]
+	  Position		  [555, 233, 585, 247]
 	  Port			  "3"
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
 	}
 	Line {
-	  SrcBlock		  "f(x,w)"
-	  SrcPort		  1
-	  DstBlock		  "Discrete-Time\nIntegrator"
-	  DstPort		  1
-	}
-	Line {
-	  Name			  "x_k1_k"
-	  Labels		  [0, 0]
-	  SrcBlock		  "Discrete-Time\nIntegrator"
-	  SrcPort		  1
-	  Points		  [20, 0]
-	  Branch {
-	    DstBlock		    "Demux"
-	    DstPort		    1
-	  }
-	  Branch {
-	    Points		    [0, -120]
-	    DstBlock		    "Demux1"
-	    DstPort		    1
-	  }
-	}
-	Line {
 	  SrcBlock		  "F_k"
 	  SrcPort		  1
-	  DstBlock		  "get P_k1_k"
-	  DstPort		  1
+	  Points		  [10, 0]
+	  Branch {
+	    DstBlock		    "get P_k1_k"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -70]
+	    DstBlock		    "Product"
+	    DstPort		    1
+	  }
 	}
 	Line {
 	  SrcBlock		  "Demux"
@@ -21270,16 +21160,8 @@ Model {
 	Line {
 	  SrcBlock		  "x_k_k"
 	  SrcPort		  1
-	  Points		  [0, 5; 55, 0]
-	  Branch {
-	    DstBlock		    "f(x,w)"
-	    DstPort		    1
-	  }
-	  Branch {
-	    Points		    [0, 85]
-	    DstBlock		    "F_k"
-	    DstPort		    1
-	  }
+	  DstBlock		  "IC"
+	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "h(x_k1_k)"
@@ -21290,16 +21172,8 @@ Model {
 	Line {
 	  SrcBlock		  "omega"
 	  SrcPort		  1
-	  Points		  [30, 0]
-	  Branch {
-	    DstBlock		    "f(x,w)"
-	    DstPort		    2
-	  }
-	  Branch {
-	    Points		    [0, 85]
-	    DstBlock		    "F_k"
-	    DstPort		    2
-	  }
+	  DstBlock		  "F_k"
+	  DstPort		  2
 	}
 	Line {
 	  SrcBlock		  "get P_k1_k"
@@ -21339,6 +21213,56 @@ Model {
 	  DstBlock		  "Mux"
 	  DstPort		  1
 	}
+	Line {
+	  SrcBlock		  "Product"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  DstBlock		  "Gain"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain"
+	  SrcPort		  1
+	  DstBlock		  "Sum"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Sum"
+	  SrcPort		  1
+	  Points		  [15, 0]
+	  Branch {
+	    Points		    [0, -10]
+	    DstBlock		    "Demux1"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 65]
+	    DstBlock		    "Demux"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "IC"
+	  SrcPort		  1
+	  Points		  [10, 0]
+	  Branch {
+	    Points		    [0, -15]
+	    DstBlock		    "Sum"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 40; 0, 85; 65, 0]
+	    Branch {
+	      DstBlock		      "F_k"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [0, -35]
+	      DstBlock		      "Product"
+	      DstPort		      2
+	    }
+	  }
+	}
       }
     }
     Block {
@@ -21364,16 +21288,16 @@ Model {
       Position		      [1145, 63, 1175, 97]
       Floating		      off
       Location		      [-1023, 308, 1, 1023]
-      Open		      off
+      Open		      on
       NumInputPorts	      "1"
-      ZoomMode		      "yonly"
+      ZoomMode		      "xonly"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
-      TimeRange		      "100"
-      YMin		      "-170"
-      YMax		      "50"
+      TimeRange		      "600"
+      YMin		      "-60"
+      YMax		      "30"
       SaveName		      "ScopeData17"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
@@ -22045,7 +21969,9 @@ Stateflow {
 		name                 		"AttitudeINS"
 		created              		"18-Sep-2008 12:14:47"
 		isLibrary            		0
-		firstTarget          		99
+		firstTarget          		91
+		debug {
+		}
 		sfVersion            		66014000
 	}
 
@@ -22104,6 +22030,7 @@ Stateflow {
 						"                     -x(1)  x(4)    -x(3);\n"
 						"                     -x(4)   -x(1)   x(2);\n"
 						"                     x(3)   -x(2)   -x(1)];\n"
+						"                 \n"
 						"                   "
 			editorLayout             		"100 M4x1[146 214 751 503]"
 			treatIntsAsFixpt         		0
@@ -22219,8 +22146,8 @@ Stateflow {
 
 	chart {
 		id                                        		10
-		name                                      		"Prediction/f(x,w)"
-		windowPosition                            		[281.813 329.45 200.25 189.75]
+		name                                      		"Get Measurement/Interpolate Data/Subsystem/Lagrange Interpolation"
+		windowPosition                            		[311.813 299.45 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 11 0 0]
@@ -22231,10 +22158,10 @@ Stateflow {
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		14
-		chartFileNumber                           		2
+		chartFileNumber                           		3
 		disableImplicitCasting                    		1
 		eml {
-			name       		"f"
+			name       		"lagrInt"
 		}
 	}
 
@@ -22251,25 +22178,42 @@ Stateflow {
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function x_dot  = f(x,omega)\n"
+			script                   		"function polyCoef = lagrInt(y3, y2, y1)\n"
 						"% This block supports an embeddable subset of the MATLAB la"
 						"nguage.\n"
 						"% See the help menu for details. \n"
 						"\n"
-						"x_dot = zeros(7,1);\n"
+						"polyCoef = [0 0 0];\n"
+						"%dotCoef = [0 0];\n"
+						"%ddotCoef = 0;\n"
+						"x1 = -2;\n"
+						"x2 = -1;\n"
+						"x3 = 0;\n"
 						"\n"
-						"pqr = omega - x(5:7);\n"
+						"%(1/(x2-x1)/(x2-x3)*y2+1/(x1-x2)/(x1-x3)*y1+1/(x3-x1)/(x3-x"
+						"2)*y3)*x^2\n"
+						"%((-x2-x3)/(x1-x2)/(x1-x3)*y1+(-x1-x3)/(x2-x1)/(x2-x3)*y2+("
+						"-x1-x2)/(x3-x1)/(x3-x2)*y3)*x\n"
+						"% x2*x3/(x1-x2)/(x1-x3)*y1+x1*x2/(x3-x1)/(x3-x2)*y3+x1*x3/("
+						"x2-x1)/(x2-x3)*y2\n"
 						"\n"
-						"x_dot (1:4) = 0.5*[0        -pqr(1)     -pqr(2)     -pqr(3)"
-						";\n"
-						"                   pqr(1)   0           pqr(3)      -pqr(2)"
-						";\n"
-						"                   pqr(2)   -pqr(3)      0           pqr(1)"
-						";\n"
-						"                   pqr(3)   pqr(2)      -pqr(1)     0]*x(1:"
-						"4);\n"
-						"                   "
-			editorLayout             		"100 M4x1[295 351 751 503]"
+						"polyCoef(1) = (1/(x2-x1)/(x2-x3)*y2+1/(x1-x2)/(x1-x3)*y1+1/"
+						"(x3-x1)/(x3-x2)*y3);\n"
+						"polyCoef(2) = ((-x2-x3)/(x1-x2)/(x1-x3)*y1+(-x1-x3)/(x2-x1)"
+						"/(x2-x3)*y2+(-x1-x2)/(x3-x1)/(x3-x2)*y3);\n"
+						"polyCoef(3) = x2*x3/(x1-x2)/(x1-x3)*y1+x1*x2/(x3-x1)/(x3-x2"
+						")*y3+x1*x3/(x2-x1)/(x2-x3)*y2;\n"
+						"\n"
+						"%(2/(x1-x2)/(x1-x3)*y1+2/(x2-x1)/(x2-x3)*y2+2/(x3-x1)/(x3-x"
+						"2)*y3)*x\n"
+						"%(-x2-x3)/(x1-x2)/(x1-x3)*y1+(-x1-x3)/(x2-x1)/(x2-x3)*y2+(-"
+						"x1-x2)/(x3-x1)/(x3-x2)*y3\n"
+						"\n"
+						"%dotCoef(1) = 2*PolyCoef(1);\n"
+						"%dotCoef(2) = PolyCoef(2);\n"
+						"\n"
+						"%ddotCoef = dotCoef(1);"
+			editorLayout             		"100 M4x1[336 341 1288 1032]"
 			treatIntsAsFixpt         		0
 		}
 	}
@@ -22306,7 +22250,7 @@ Stateflow {
 
 	data {
 		id                            		14
-		name                          		"x"
+		name                          		"y3"
 		linkNode                      		[10 0 15]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -22329,7 +22273,7 @@ Stateflow {
 
 	data {
 		id                            		15
-		name                          		"x_dot"
+		name                          		"polyCoef"
 		linkNode                      		[10 14 16]
 		scope                         		OUTPUT_DATA
 		machine                       		1
@@ -22353,8 +22297,31 @@ Stateflow {
 
 	data {
 		id                            		16
-		name                          		"omega"
-		linkNode                      		[10 15 0]
+		name                          		"y2"
+		linkNode                      		[10 15 17]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		17
+		name                          		"y1"
+		linkNode                      		[10 16 0]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -22375,230 +22342,26 @@ Stateflow {
 	}
 
 	instance {
-		id     		17
-		name   		"Prediction/f(x,w)"
+		id     		18
+		name   		"Get Measurement/Interpolate Data/Subsystem/Lagrange Interpolation"
 		machine		1
 		chart  		10
 	}
 
 	chart {
-		id                                        		18
-		name                                      		"Get Measurement/Interpolate Data/Subsystem/Lagrange Interpolation"
-		windowPosition                            		[311.813 299.45 200.25 189.75]
-		viewLimits                                		[0 156.75 0 153.75]
-		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 19 0 0]
-		firstTransition                           		21
-		firstJunction                             		20
-		viewObj                                   		18
-		machine                                   		1
-		decomposition                             		CLUSTER_CHART
-		type                                      		EML_CHART
-		firstData                                 		22
-		chartFileNumber                           		3
-		disableImplicitCasting                    		1
-		eml {
-			name       		"lagrInt"
-		}
-	}
-
-	state {
-		id                           		19
-		labelString                  		"eML_blk_kernel()"
-		position                     		[18 64.5 118 66]
-		fontSize                     		12
-		chart                        		18
-		treeNode                     		[18 0 0 0]
-		superState                   		SUBCHART
-		subviewer                    		18
-		type                         		FUNC_STATE
-		decomposition                		CLUSTER_STATE
-		eml {
-			isEML                    		1
-			script                   		"function polyCoef = lagrInt(y3, y2, y1)\n"
-						"% This block supports an embeddable subset of the MATLAB la"
-						"nguage.\n"
-						"% See the help menu for details. \n"
-						"\n"
-						"polyCoef = [0 0 0];\n"
-						"%dotCoef = [0 0];\n"
-						"%ddotCoef = 0;\n"
-						"x1 = -2;\n"
-						"x2 = -1;\n"
-						"x3 = 0;\n"
-						"\n"
-						"%(1/(x2-x1)/(x2-x3)*y2+1/(x1-x2)/(x1-x3)*y1+1/(x3-x1)/(x3-x"
-						"2)*y3)*x^2\n"
-						"%((-x2-x3)/(x1-x2)/(x1-x3)*y1+(-x1-x3)/(x2-x1)/(x2-x3)*y2+("
-						"-x1-x2)/(x3-x1)/(x3-x2)*y3)*x\n"
-						"% x2*x3/(x1-x2)/(x1-x3)*y1+x1*x2/(x3-x1)/(x3-x2)*y3+x1*x3/("
-						"x2-x1)/(x2-x3)*y2\n"
-						"\n"
-						"polyCoef(1) = (1/(x2-x1)/(x2-x3)*y2+1/(x1-x2)/(x1-x3)*y1+1/"
-						"(x3-x1)/(x3-x2)*y3);\n"
-						"polyCoef(2) = ((-x2-x3)/(x1-x2)/(x1-x3)*y1+(-x1-x3)/(x2-x1)"
-						"/(x2-x3)*y2+(-x1-x2)/(x3-x1)/(x3-x2)*y3);\n"
-						"polyCoef(3) = x2*x3/(x1-x2)/(x1-x3)*y1+x1*x2/(x3-x1)/(x3-x2"
-						")*y3+x1*x3/(x2-x1)/(x2-x3)*y2;\n"
-						"\n"
-						"%(2/(x1-x2)/(x1-x3)*y1+2/(x2-x1)/(x2-x3)*y2+2/(x3-x1)/(x3-x"
-						"2)*y3)*x\n"
-						"%(-x2-x3)/(x1-x2)/(x1-x3)*y1+(-x1-x3)/(x2-x1)/(x2-x3)*y2+(-"
-						"x1-x2)/(x3-x1)/(x3-x2)*y3\n"
-						"\n"
-						"%dotCoef(1) = 2*PolyCoef(1);\n"
-						"%dotCoef(2) = PolyCoef(2);\n"
-						"\n"
-						"%ddotCoef = dotCoef(1);"
-			editorLayout             		"100 M4x1[336 341 1288 1032]"
-			treatIntsAsFixpt         		0
-		}
-	}
-
-	junction {
-		id         		20
-		position   		[23.5747 49.5747 7]
-		chart      		18
-		linkNode   		[18 0 0]
-		subviewer  		18
-		type       		CONNECTIVE_JUNCTION
-	}
-
-	transition {
-		id             		21
-		labelString    		"{eML_blk_kernel();}"
-		labelPosition  		[32.125 19.875 102.544 14.964]
-		fontSize       		12
-		src {
-			intersection		[0 0 1 0 23.5747 14.625 0 0]
-		}
-		dst {
-			id          		20
-			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
-		}
-		midPoint       		[23.5747 24.9468]
-		chart          		18
-		linkNode       		[18 0 0]
-		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		18
-		drawStyle      		SMART
-		executionOrder 		1
-	}
-
-	data {
-		id                            		22
-		name                          		"y3"
-		linkNode                      		[18 0 23]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		23
-		name                          		"polyCoef"
-		linkNode                      		[18 22 24]
-		scope                         		OUTPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_NO
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		24
-		name                          		"y2"
-		linkNode                      		[18 23 25]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
-		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		25
-		name                          		"y1"
-		linkNode                      		[18 24 0]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
-		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	instance {
-		id     		26
-		name   		"Get Measurement/Interpolate Data/Subsystem/Lagrange Interpolation"
-		machine		1
-		chart  		18
-	}
-
-	chart {
-		id                                        		27
+		id                                        		19
 		name                                      		"Correction/H_k"
 		windowPosition                            		[326.813 284.45 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 28 0 0]
-		firstTransition                           		30
-		firstJunction                             		29
-		viewObj                                   		27
+		treeNode                                  		[0 20 0 0]
+		firstTransition                           		22
+		firstJunction                             		21
+		viewObj                                   		19
 		machine                                   		1
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		31
+		firstData                                 		23
 		chartFileNumber                           		4
 		disableImplicitCasting                    		1
 		eml {
@@ -22607,14 +22370,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		28
+		id                           		20
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		27
-		treeNode                     		[27 0 0 0]
+		chart                        		19
+		treeNode                     		[19 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		27
+		subviewer                    		19
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -22648,16 +22411,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		29
+		id         		21
 		position   		[23.5747 49.5747 7]
-		chart      		27
-		linkNode   		[27 0 0]
-		subviewer  		27
+		chart      		19
+		linkNode   		[19 0 0]
+		subviewer  		19
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		30
+		id             		22
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -22665,22 +22428,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		29
+			id          		21
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		27
-		linkNode       		[27 0 0]
+		chart          		19
+		linkNode       		[19 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		27
+		subviewer      		19
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		31
+		id                            		23
 		name                          		"x_k_k"
-		linkNode                      		[27 0 32]
+		linkNode                      		[19 0 24]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -22702,9 +22465,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		32
+		id                            		24
 		name                          		"H_k"
-		linkNode                      		[27 31 0]
+		linkNode                      		[19 23 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -22725,26 +22488,26 @@ Stateflow {
 	}
 
 	instance {
-		id     		33
+		id     		25
 		name   		"Correction/H_k"
 		machine		1
-		chart  		27
+		chart  		19
 	}
 
 	chart {
-		id                                        		34
+		id                                        		26
 		name                                      		"Get Measurement/Interpolate Data/Subsystem/Evaluate Poly"
 		windowPosition                            		[326.813 284.45 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 35 0 0]
-		firstTransition                           		37
-		firstJunction                             		36
-		viewObj                                   		34
+		treeNode                                  		[0 27 0 0]
+		firstTransition                           		29
+		firstJunction                             		28
+		viewObj                                   		26
 		machine                                   		1
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		38
+		firstData                                 		30
 		chartFileNumber                           		5
 		disableImplicitCasting                    		1
 		eml {
@@ -22753,14 +22516,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		35
+		id                           		27
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		34
-		treeNode                     		[34 0 0 0]
+		chart                        		26
+		treeNode                     		[26 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		34
+		subviewer                    		26
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -22783,16 +22546,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		36
+		id         		28
 		position   		[23.5747 49.5747 7]
-		chart      		34
-		linkNode   		[34 0 0]
-		subviewer  		34
+		chart      		26
+		linkNode   		[26 0 0]
+		subviewer  		26
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		37
+		id             		29
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -22800,22 +22563,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		36
+			id          		28
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		34
-		linkNode       		[34 0 0]
+		chart          		26
+		linkNode       		[26 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		34
+		subviewer      		26
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		38
+		id                            		30
 		name                          		"clock"
-		linkNode                      		[34 0 39]
+		linkNode                      		[26 0 31]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -22836,9 +22599,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		39
+		id                            		31
 		name                          		"polyCoef"
-		linkNode                      		[34 38 40]
+		linkNode                      		[26 30 32]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -22860,9 +22623,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		40
+		id                            		32
 		name                          		"intData"
-		linkNode                      		[34 39 41]
+		linkNode                      		[26 31 33]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -22883,9 +22646,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		41
+		id                            		33
 		name                          		"dotData"
-		linkNode                      		[34 40 42]
+		linkNode                      		[26 32 34]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -22906,9 +22669,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		42
+		id                            		34
 		name                          		"ddotData"
-		linkNode                      		[34 41 0]
+		linkNode                      		[26 33 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -22929,26 +22692,26 @@ Stateflow {
 	}
 
 	instance {
-		id     		43
+		id     		35
 		name   		"Get Measurement/Interpolate Data/Subsystem/Evaluate Poly"
 		machine		1
-		chart  		34
+		chart  		26
 	}
 
 	chart {
-		id                                        		44
+		id                                        		36
 		name                                      		"Get Measurement/Interpolate Data/Subsystem1/Evaluate Poly"
 		windowPosition                            		[341.813 269.45 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 45 0 0]
-		firstTransition                           		47
-		firstJunction                             		46
-		viewObj                                   		44
+		treeNode                                  		[0 37 0 0]
+		firstTransition                           		39
+		firstJunction                             		38
+		viewObj                                   		36
 		machine                                   		1
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		48
+		firstData                                 		40
 		chartFileNumber                           		6
 		disableImplicitCasting                    		1
 		eml {
@@ -22957,14 +22720,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		45
+		id                           		37
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		44
-		treeNode                     		[44 0 0 0]
+		chart                        		36
+		treeNode                     		[36 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		44
+		subviewer                    		36
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -22987,16 +22750,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		46
+		id         		38
 		position   		[23.5747 49.5747 7]
-		chart      		44
-		linkNode   		[44 0 0]
-		subviewer  		44
+		chart      		36
+		linkNode   		[36 0 0]
+		subviewer  		36
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		47
+		id             		39
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -23004,22 +22767,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		46
+			id          		38
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		44
-		linkNode       		[44 0 0]
+		chart          		36
+		linkNode       		[36 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		44
+		subviewer      		36
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		48
+		id                            		40
 		name                          		"clock"
-		linkNode                      		[44 0 49]
+		linkNode                      		[36 0 41]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -23040,9 +22803,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		49
+		id                            		41
 		name                          		"polyCoef"
-		linkNode                      		[44 48 50]
+		linkNode                      		[36 40 42]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -23064,9 +22827,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		50
+		id                            		42
 		name                          		"intData"
-		linkNode                      		[44 49 51]
+		linkNode                      		[36 41 43]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -23087,9 +22850,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		51
+		id                            		43
 		name                          		"dotData"
-		linkNode                      		[44 50 52]
+		linkNode                      		[36 42 44]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -23110,9 +22873,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		52
+		id                            		44
 		name                          		"ddotData"
-		linkNode                      		[44 51 0]
+		linkNode                      		[36 43 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -23133,27 +22896,27 @@ Stateflow {
 	}
 
 	instance {
-		id     		53
+		id     		45
 		name   		"Get Measurement/Interpolate Data/Subsystem1/Evaluate Poly"
 		machine		1
-		chart  		44
+		chart  		36
 	}
 
 	chart {
-		id                                        		54
+		id                                        		46
 		name                                      		"Get Measurement/Interpolate Data/Subsystem1/Lagrange Interpolatio"
 					"n"
 		windowPosition                            		[326.813 284.45 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 55 0 0]
-		firstTransition                           		57
-		firstJunction                             		56
-		viewObj                                   		54
+		treeNode                                  		[0 47 0 0]
+		firstTransition                           		49
+		firstJunction                             		48
+		viewObj                                   		46
 		machine                                   		1
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		58
+		firstData                                 		50
 		chartFileNumber                           		7
 		disableImplicitCasting                    		1
 		eml {
@@ -23162,14 +22925,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		55
+		id                           		47
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		54
-		treeNode                     		[54 0 0 0]
+		chart                        		46
+		treeNode                     		[46 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		54
+		subviewer                    		46
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -23215,16 +22978,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		56
+		id         		48
 		position   		[23.5747 49.5747 7]
-		chart      		54
-		linkNode   		[54 0 0]
-		subviewer  		54
+		chart      		46
+		linkNode   		[46 0 0]
+		subviewer  		46
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		57
+		id             		49
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -23232,22 +22995,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		56
+			id          		48
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		54
-		linkNode       		[54 0 0]
+		chart          		46
+		linkNode       		[46 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		54
+		subviewer      		46
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		58
+		id                            		50
 		name                          		"y3"
-		linkNode                      		[54 0 59]
+		linkNode                      		[46 0 51]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -23268,9 +23031,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		59
+		id                            		51
 		name                          		"polyCoef"
-		linkNode                      		[54 58 60]
+		linkNode                      		[46 50 52]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -23282,6 +23045,164 @@ Stateflow {
 			}
 			complexity           		SF_COMPLEX_INHERITED
 			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		52
+		name                          		"y2"
+		linkNode                      		[46 51 53]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		53
+		name                          		"y1"
+		linkNode                      		[46 52 0]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	instance {
+		id     		54
+		name   		"Get Measurement/Interpolate Data/Subsystem1/Lagrange Interpolatio"
+					"n"
+		machine		1
+		chart  		46
+	}
+
+	chart {
+		id                                        		55
+		name                                      		"Get Measurement/Interpolate Data/Subsystem2/Evaluate Poly"
+		windowPosition                            		[356.813 254.45 200.25 189.75]
+		viewLimits                                		[0 156.75 0 153.75]
+		screen                                    		[1 1 1280 1024 1.333333333333333]
+		treeNode                                  		[0 56 0 0]
+		firstTransition                           		58
+		firstJunction                             		57
+		viewObj                                   		55
+		machine                                   		1
+		decomposition                             		CLUSTER_CHART
+		type                                      		EML_CHART
+		firstData                                 		59
+		chartFileNumber                           		8
+		disableImplicitCasting                    		1
+		eml {
+			name       		"evalPoly"
+		}
+	}
+
+	state {
+		id                           		56
+		labelString                  		"eML_blk_kernel()"
+		position                     		[18 64.5 118 66]
+		fontSize                     		12
+		chart                        		55
+		treeNode                     		[55 0 0 0]
+		superState                   		SUBCHART
+		subviewer                    		55
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			isEML                    		1
+			script                   		"function [intData,dotData,ddotData] = evalPoly(clock, polyC"
+						"oef)\n"
+						"% This block supports an embeddable subset of the MATLAB la"
+						"nguage.\n"
+						"% See the help menu for details. \n"
+						"%clock = clock +1;\n"
+						"intData = polyCoef(1)*clock^2 + polyCoef(2)*clock + polyCoe"
+						"f(3);\n"
+						"\n"
+						"dotData = 2*polyCoef(1)*clock + polyCoef(2);\n"
+						"\n"
+						"ddotData = polyCoef(1);"
+			editorLayout             		"100 M4x1[146 214 671 364]"
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	junction {
+		id         		57
+		position   		[23.5747 49.5747 7]
+		chart      		55
+		linkNode   		[55 0 0]
+		subviewer  		55
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		58
+		labelString    		"{eML_blk_kernel();}"
+		labelPosition  		[32.125 19.875 102.544 14.964]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 23.5747 14.625 0 0]
+		}
+		dst {
+			id          		57
+			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
+		}
+		midPoint       		[23.5747 24.9468]
+		chart          		55
+		linkNode       		[55 0 0]
+		dataLimits     		[23.575 23.575 14.625 34.575]
+		subviewer      		55
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	data {
+		id                            		59
+		name                          		"clock"
+		linkNode                      		[55 0 60]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
 		}
 		dataType                      		"inherited"
 		fixptType {
@@ -23293,8 +23214,8 @@ Stateflow {
 
 	data {
 		id                            		60
-		name                          		"y2"
-		linkNode                      		[54 59 61]
+		name                          		"polyCoef"
+		linkNode                      		[55 59 61]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -23303,180 +23224,22 @@ Stateflow {
 			}
 			type {
 				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
 			}
 			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
+			frame                		SF_FRAME_NO
 		}
 		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
 		complexity                    		SF_COMPLEX_INHERITED
 	}
 
 	data {
 		id                            		61
-		name                          		"y1"
-		linkNode                      		[54 60 0]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
-		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	instance {
-		id     		62
-		name   		"Get Measurement/Interpolate Data/Subsystem1/Lagrange Interpolatio"
-					"n"
-		machine		1
-		chart  		54
-	}
-
-	chart {
-		id                                        		63
-		name                                      		"Get Measurement/Interpolate Data/Subsystem2/Evaluate Poly"
-		windowPosition                            		[356.813 254.45 200.25 189.75]
-		viewLimits                                		[0 156.75 0 153.75]
-		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 64 0 0]
-		firstTransition                           		66
-		firstJunction                             		65
-		viewObj                                   		63
-		machine                                   		1
-		decomposition                             		CLUSTER_CHART
-		type                                      		EML_CHART
-		firstData                                 		67
-		chartFileNumber                           		8
-		disableImplicitCasting                    		1
-		eml {
-			name       		"evalPoly"
-		}
-	}
-
-	state {
-		id                           		64
-		labelString                  		"eML_blk_kernel()"
-		position                     		[18 64.5 118 66]
-		fontSize                     		12
-		chart                        		63
-		treeNode                     		[63 0 0 0]
-		superState                   		SUBCHART
-		subviewer                    		63
-		type                         		FUNC_STATE
-		decomposition                		CLUSTER_STATE
-		eml {
-			isEML                    		1
-			script                   		"function [intData,dotData,ddotData] = evalPoly(clock, polyC"
-						"oef)\n"
-						"% This block supports an embeddable subset of the MATLAB la"
-						"nguage.\n"
-						"% See the help menu for details. \n"
-						"%clock = clock +1;\n"
-						"intData = polyCoef(1)*clock^2 + polyCoef(2)*clock + polyCoe"
-						"f(3);\n"
-						"\n"
-						"dotData = 2*polyCoef(1)*clock + polyCoef(2);\n"
-						"\n"
-						"ddotData = polyCoef(1);"
-			editorLayout             		"100 M4x1[146 214 671 364]"
-			treatIntsAsFixpt         		0
-		}
-	}
-
-	junction {
-		id         		65
-		position   		[23.5747 49.5747 7]
-		chart      		63
-		linkNode   		[63 0 0]
-		subviewer  		63
-		type       		CONNECTIVE_JUNCTION
-	}
-
-	transition {
-		id             		66
-		labelString    		"{eML_blk_kernel();}"
-		labelPosition  		[32.125 19.875 102.544 14.964]
-		fontSize       		12
-		src {
-			intersection		[0 0 1 0 23.5747 14.625 0 0]
-		}
-		dst {
-			id          		65
-			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
-		}
-		midPoint       		[23.5747 24.9468]
-		chart          		63
-		linkNode       		[63 0 0]
-		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		63
-		drawStyle      		SMART
-		executionOrder 		1
-	}
-
-	data {
-		id                            		67
-		name                          		"clock"
-		linkNode                      		[63 0 68]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		68
-		name                          		"polyCoef"
-		linkNode                      		[63 67 69]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_NO
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		69
 		name                          		"intData"
-		linkNode                      		[63 68 70]
+		linkNode                      		[55 60 62]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -23497,9 +23260,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		70
+		id                            		62
 		name                          		"dotData"
-		linkNode                      		[63 69 71]
+		linkNode                      		[55 61 63]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -23520,9 +23283,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		71
+		id                            		63
 		name                          		"ddotData"
-		linkNode                      		[63 70 0]
+		linkNode                      		[55 62 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -23543,27 +23306,27 @@ Stateflow {
 	}
 
 	instance {
-		id     		72
+		id     		64
 		name   		"Get Measurement/Interpolate Data/Subsystem2/Evaluate Poly"
 		machine		1
-		chart  		63
+		chart  		55
 	}
 
 	chart {
-		id                                        		73
+		id                                        		65
 		name                                      		"Get Measurement/Interpolate Data/Subsystem2/Lagrange Interpolatio"
 					"n"
 		windowPosition                            		[341.813 269.45 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 74 0 0]
-		firstTransition                           		76
-		firstJunction                             		75
-		viewObj                                   		73
+		treeNode                                  		[0 66 0 0]
+		firstTransition                           		68
+		firstJunction                             		67
+		viewObj                                   		65
 		machine                                   		1
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		77
+		firstData                                 		69
 		chartFileNumber                           		9
 		disableImplicitCasting                    		1
 		eml {
@@ -23572,14 +23335,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		74
+		id                           		66
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		73
-		treeNode                     		[73 0 0 0]
+		chart                        		65
+		treeNode                     		[65 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		73
+		subviewer                    		65
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -23625,16 +23388,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		75
+		id         		67
 		position   		[23.5747 49.5747 7]
-		chart      		73
-		linkNode   		[73 0 0]
-		subviewer  		73
+		chart      		65
+		linkNode   		[65 0 0]
+		subviewer  		65
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		76
+		id             		68
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -23642,22 +23405,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		75
+			id          		67
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		73
-		linkNode       		[73 0 0]
+		chart          		65
+		linkNode       		[65 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		73
+		subviewer      		65
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		77
+		id                            		69
 		name                          		"y3"
-		linkNode                      		[73 0 78]
+		linkNode                      		[65 0 70]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -23678,9 +23441,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		78
+		id                            		70
 		name                          		"polyCoef"
-		linkNode                      		[73 77 79]
+		linkNode                      		[65 69 71]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -23702,9 +23465,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		79
+		id                            		71
 		name                          		"y2"
-		linkNode                      		[73 78 80]
+		linkNode                      		[65 70 72]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -23725,9 +23488,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		80
+		id                            		72
 		name                          		"y1"
-		linkNode                      		[73 79 0]
+		linkNode                      		[65 71 0]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -23748,18 +23511,176 @@ Stateflow {
 	}
 
 	instance {
-		id     		81
+		id     		73
 		name   		"Get Measurement/Interpolate Data/Subsystem2/Lagrange Interpolatio"
 					"n"
 		machine		1
-		chart  		73
+		chart  		65
+	}
+
+	chart {
+		id                                        		74
+		name                                      		"Get Measurement/Embedded\n"
+					"MATLAB Function"
+		windowPosition                            		[281.813 329.45 200.25 189.75]
+		viewLimits                                		[0 156.75 0 153.75]
+		screen                                    		[1 1 1280 1024 1.333333333333333]
+		treeNode                                  		[0 75 0 0]
+		firstTransition                           		77
+		firstJunction                             		76
+		viewObj                                   		74
+		machine                                   		1
+		decomposition                             		CLUSTER_CHART
+		type                                      		EML_CHART
+		firstData                                 		78
+		chartFileNumber                           		10
+		disableImplicitCasting                    		1
+		eml {
+			name       		"getR"
+		}
+	}
+
+	state {
+		id                           		75
+		labelString                  		"eML_blk_kernel()"
+		position                     		[18 64.5 118 66]
+		fontSize                     		12
+		chart                        		74
+		treeNode                     		[74 0 0 0]
+		superState                   		SUBCHART
+		subviewer                    		74
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			isEML                    		1
+			script                   		"function R = getR(psi, Agps)\n"
+						"% This block supports an embeddable subset of the MATLAB la"
+						"nguage.\n"
+						"% See the help menu for details. \n"
+						"\n"
+						"R = [0 0 0];\n"
+						"\n"
+						"R(1) = -(cos(psi)*Agps(1) + sin(psi)*Agps(2));\n"
+						"R(2) = -(-sin(psi)*Agps(1) + cos(psi)*Agps(2));\n"
+						"R(3) = 9.81 - Agps(3);"
+			editorLayout             		"100 M4x1[146 214 784 405]"
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	junction {
+		id         		76
+		position   		[23.5747 49.5747 7]
+		chart      		74
+		linkNode   		[74 0 0]
+		subviewer  		74
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		77
+		labelString    		"{eML_blk_kernel();}"
+		labelPosition  		[32.125 19.875 102.544 14.964]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 23.5747 14.625 0 0]
+		}
+		dst {
+			id          		76
+			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
+		}
+		midPoint       		[23.5747 24.9468]
+		chart          		74
+		linkNode       		[74 0 0]
+		dataLimits     		[23.575 23.575 14.625 34.575]
+		subviewer      		74
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	data {
+		id                            		78
+		name                          		"psi"
+		linkNode                      		[74 0 79]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		79
+		name                          		"Agps"
+		linkNode                      		[74 78 80]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		80
+		name                          		"R"
+		linkNode                      		[74 79 0]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	instance {
+		id     		81
+		name   		"Get Measurement/Embedded\n"
+					"MATLAB Function"
+		machine		1
+		chart  		74
 	}
 
 	chart {
 		id                                        		82
 		name                                      		"Get Measurement/Embedded\n"
-					"MATLAB Function"
-		windowPosition                            		[281.813 329.45 200.25 189.75]
+					"MATLAB Function1"
+		windowPosition                            		[296.813 314.45 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 83 0 0]
@@ -23770,10 +23691,10 @@ Stateflow {
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		86
-		chartFileNumber                           		10
+		chartFileNumber                           		11
 		disableImplicitCasting                    		1
 		eml {
-			name       		"getR"
+			name       		"getRP"
 		}
 	}
 
@@ -23790,17 +23711,24 @@ Stateflow {
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function R = getR(psi, Agps)\n"
+			script                   		"function [phi,theta] = getRP(R, A)\n"
 						"% This block supports an embeddable subset of the MATLAB la"
 						"nguage.\n"
 						"% See the help menu for details. \n"
 						"\n"
-						"R = [0 0 0];\n"
+						"% S = [S_r S_theta S_phi]\n"
 						"\n"
-						"R(1) = -(cos(psi)*Agps(1) + sin(psi)*Agps(2));\n"
-						"R(2) = -(-sin(psi)*Agps(1) + cos(psi)*Agps(2));\n"
-						"R(3) = 9.81 - Agps(3);"
-			editorLayout             		"100 M4x1[146 214 784 405]"
+						"S_theta = (R(1)*A(1) + R(3)*sqrt(R(1)^2+R(3)^2-A(1)^2))/(R("
+						"1)^2+R(3)^2);\n"
+						"theta = atan2(S_theta*R(1)-A(1), S_theta*R(3));\n"
+						"\n"
+						"S_r = R(1)*sin(theta) + R(3)*cos(theta);\n"
+						"\n"
+						"S_phi = (R(2)*A(2) + S_r*sqrt(R(2)^2+S_r^2-A(2)^2))/(R(2)^2"
+						" + S_r^2);\n"
+						"\n"
+						"phi = atan2(-S_phi*R(2) + A(2), S_phi*S_r);"
+			editorLayout             		"100 M4x1[195 445 1288 1032]"
 			treatIntsAsFixpt         		0
 		}
 	}
@@ -23837,7 +23765,7 @@ Stateflow {
 
 	data {
 		id                            		86
-		name                          		"psi"
+		name                          		"R"
 		linkNode                      		[82 0 87]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -23847,20 +23775,21 @@ Stateflow {
 			}
 			type {
 				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
 			}
 			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
+			frame                		SF_FRAME_NO
 		}
 		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
 		complexity                    		SF_COMPLEX_INHERITED
 	}
 
 	data {
 		id                            		87
-		name                          		"Agps"
+		name                          		"A"
 		linkNode                      		[82 86 88]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -23870,172 +23799,6 @@ Stateflow {
 			}
 			type {
 				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		88
-		name                          		"R"
-		linkNode                      		[82 87 0]
-		scope                         		OUTPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_NO
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	instance {
-		id     		89
-		name   		"Get Measurement/Embedded\n"
-					"MATLAB Function"
-		machine		1
-		chart  		82
-	}
-
-	chart {
-		id                                        		90
-		name                                      		"Get Measurement/Embedded\n"
-					"MATLAB Function1"
-		windowPosition                            		[296.813 314.45 200.25 189.75]
-		viewLimits                                		[0 156.75 0 153.75]
-		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 91 0 0]
-		firstTransition                           		93
-		firstJunction                             		92
-		viewObj                                   		90
-		machine                                   		1
-		decomposition                             		CLUSTER_CHART
-		type                                      		EML_CHART
-		firstData                                 		94
-		chartFileNumber                           		11
-		disableImplicitCasting                    		1
-		eml {
-			name       		"getRP"
-		}
-	}
-
-	state {
-		id                           		91
-		labelString                  		"eML_blk_kernel()"
-		position                     		[18 64.5 118 66]
-		fontSize                     		12
-		chart                        		90
-		treeNode                     		[90 0 0 0]
-		superState                   		SUBCHART
-		subviewer                    		90
-		type                         		FUNC_STATE
-		decomposition                		CLUSTER_STATE
-		eml {
-			isEML                    		1
-			script                   		"function [phi,theta] = getRP(R, A)\n"
-						"% This block supports an embeddable subset of the MATLAB la"
-						"nguage.\n"
-						"% See the help menu for details. \n"
-						"\n"
-						"% S = [S_r S_theta S_phi]\n"
-						"\n"
-						"S_theta = (R(1)*A(1) + R(3)*sqrt(R(1)^2+R(3)^2-A(1)^2))/(R("
-						"1)^2+R(3)^2);\n"
-						"theta = atan2(S_theta*R(1)-A(1), S_theta*R(3));\n"
-						"\n"
-						"S_r = R(1)*sin(theta) + R(3)*cos(theta);\n"
-						"\n"
-						"S_phi = (R(2)*A(2) + S_r*sqrt(R(2)^2+S_r^2-A(2)^2))/(R(2)^2"
-						" + S_r^2);\n"
-						"\n"
-						"phi = atan2(-S_phi*R(2) + A(2), S_phi*S_r);"
-			editorLayout             		"100 M4x1[195 445 1288 1032]"
-			treatIntsAsFixpt         		0
-		}
-	}
-
-	junction {
-		id         		92
-		position   		[23.5747 49.5747 7]
-		chart      		90
-		linkNode   		[90 0 0]
-		subviewer  		90
-		type       		CONNECTIVE_JUNCTION
-	}
-
-	transition {
-		id             		93
-		labelString    		"{eML_blk_kernel();}"
-		labelPosition  		[32.125 19.875 102.544 14.964]
-		fontSize       		12
-		src {
-			intersection		[0 0 1 0 23.5747 14.625 0 0]
-		}
-		dst {
-			id          		92
-			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
-		}
-		midPoint       		[23.5747 24.9468]
-		chart          		90
-		linkNode       		[90 0 0]
-		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		90
-		drawStyle      		SMART
-		executionOrder 		1
-	}
-
-	data {
-		id                            		94
-		name                          		"R"
-		linkNode                      		[90 0 95]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_NO
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		95
-		name                          		"A"
-		linkNode                      		[90 94 96]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
 				primitive 		SF_DOUBLE_TYPE
 				isSigned  		1
 				wordLength		"16"
@@ -24048,9 +23811,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		96
+		id                            		88
 		name                          		"phi"
-		linkNode                      		[90 95 97]
+		linkNode                      		[82 87 89]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -24071,9 +23834,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		97
+		id                            		89
 		name                          		"theta"
-		linkNode                      		[90 96 0]
+		linkNode                      		[82 88 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -24094,15 +23857,15 @@ Stateflow {
 	}
 
 	instance {
-		id     		98
+		id     		90
 		name   		"Get Measurement/Embedded\n"
 					"MATLAB Function1"
 		machine		1
-		chart  		90
+		chart  		82
 	}
 
 	target {
-		id                        		99
+		id                        		91
 		name                      		"sfun"
 		description               		"Default Simulink S-Function Target."
 		machine                   		1
