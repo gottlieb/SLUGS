@@ -20,7 +20,7 @@ and data types.
 #ifdef __cplusplus
        #define BSIZE			1024
 #else
-       #define BSIZE			127
+       #define BSIZE			200
 #endif
 
 // GPS Checksum Messages
@@ -46,7 +46,7 @@ and data types.
 #ifdef __cplusplus
        #define MAXLOGLEN		500
 #else
-       #define MAXLOGLEN		34
+       #define MAXLOGLEN		73
 #endif
 
 
@@ -54,6 +54,8 @@ and data types.
 #define GPS_START 		0
 #define LOAD_START		27
 #define RAW_START 		31
+#define ATT_START		49
+#define XYZ_START		61
 
 // Message Protocol Lengths and IDs
 // ================================
@@ -63,6 +65,11 @@ and data types.
 #define LOADMSG_LEN		4
 #define RAWMSG_ID		3
 #define RAWMSG_LEN		18
+#define ATTMSG_ID		4
+#define ATTMSG_LEN		12
+#define XYZMSG_ID		11
+#define XYZMSG_LEN		12
+
 
 // Standard characters used in the parsing of messages
 // ===================================================
