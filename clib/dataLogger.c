@@ -119,55 +119,84 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 	static unsigned char samplePeriod = 0;
 	// temp var to store the assembled message
 	unsigned char tmpBuf [MAXLOGLEN] ={0}, i, newData= 0;
+	unsigned char len2SPI=0;
 	
 	
 	switch (samplePeriod){
 		case 0:
 			// assemble the CPU load data for protocol sending	
-
 			assembleMsg(&rawData[LOAD_START], LOADMSG_LEN, LOADMSG_ID, tmpBuf);
 			// set the total data out for SPI
-			data4SPI[0] = LOADMSG_LEN+7; 			
+			len2SPI = LOADMSG_LEN+7; 			
 			// add it to the circular buffer and SPI queue
 			for( i = 0; i < LOADMSG_LEN+7; i += 1 ){
 				writeBack(logBuffer,tmpBuf[i]);
 				data4SPI[i+1] = tmpBuf[i];
 			}
-			newData = (getLength(logBuffer)>= LOGSEND)?1:0;
+
 			break;
 		case 1:			
 			// assemble the Raw Sensor data for protocol sending	
 			assembleMsg(&rawData[RAW_START], RAWMSG_LEN, RAWMSG_ID, tmpBuf);
 			// set the total data out for SPI			
-			data4SPI[0] = RAWMSG_LEN+7; 			
+			len2SPI = RAWMSG_LEN+7; 			
 			// add it to the circular buffer and SPI queue
 			for( i = 0; i < RAWMSG_LEN+7; i += 1 ){
 				writeBack(logBuffer,tmpBuf[i]);
 				data4SPI[i+1] = tmpBuf[i];
 			}
-			newData = (getLength(logBuffer)>= LOGSEND)?1:0;			
+		
 			break;
 		case 2:
 			// assemble the GPS data for protocol sending
 			assembleMsg(&rawData[GPS_START], GPSMSG_LEN, GPSMSG_ID, tmpBuf);
 			// set the total data out for SPI
-			data4SPI[0] = GPSMSG_LEN+7; 
+			len2SPI = GPSMSG_LEN+7; 
 			// add it to the circular buffer and SPI queue
 			for( i = 0; i < GPSMSG_LEN+7; i += 1 ){
 				writeBack(logBuffer,tmpBuf[i]);
 				data4SPI[i+1] = tmpBuf[i];
-			}
-			/*for (i=0; i<data4SPI[0]; i+=1){
-    			    tmpBuf[i] = 255;
-    			    tmpBuf[i] = data4SPI[i+1];
-             } */					
-			newData = (getLength(logBuffer)>= LOGSEND)?1:0;		
+			}					
+
 			break;
 		default:
 			data4SPI[0] = 0;
 			break;
 	}
 	
+	// Attitude data. Gets included every sample time
+	// ==============================================
+	
+	// assemble the Attitude data for protocol sending
+	assembleMsg(&rawData[ATT_START], ATTMSG_LEN, ATTMSG_ID, tmpBuf);
+	
+	// add it to the circular buffer and SPI queue
+	for( i = 0; i < ATTMSG_LEN+7; i += 1 ){
+		writeBack(logBuffer,tmpBuf[i]);
+		data4SPI[i+1+len2SPI] = tmpBuf[i];
+	}					
+	
+	// increment the data counter for SPI
+	len2SPI += ATTMSG_LEN+7; 
+	
+	// XYZ data. Gets included every sample time
+	// ==============================================
+	
+	// assemble the XYZ data for protocol sending
+	assembleMsg(&rawData[XYZ_START], XYZMSG_LEN, XYZMSG_ID, tmpBuf);
+	// add it to the circular buffer and SPI queue
+	for( i = 0; i < XYZMSG_LEN+7; i += 1 ){
+		writeBack(logBuffer,tmpBuf[i]);
+		data4SPI[i+1+len2SPI] = tmpBuf[i];
+	}
+	
+    // set the total data out for SPI
+	data4SPI[0] = len2SPI + XYZMSG_LEN+7; 
+	
+	// Flag the data
+	newData = (getLength(logBuffer)>= LOGSEND)?1:0;		
+	
+
 	// increment/overflow the samplePeriod counter
 	samplePeriod = (samplePeriod >= 9)? 0: samplePeriod + 1;
 	
