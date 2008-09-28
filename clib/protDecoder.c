@@ -25,6 +25,7 @@ tRawData 		rawControlData;
 tSensStatus		statusControlData;
 tAttitudeData	attitudeControlData;
 tDynTempData	dynTempControlData;
+tXYZData		xyzControlData;
 
 struct CircBuffer protParseBuffer;
 CBRef ppBuffer;
@@ -131,6 +132,20 @@ void updateStates(unsigned char * completeSentence){
 			dynTempControlData.temp.chData[1]	= completeSentence[12];	  
 			dynTempControlData.temp.chData[0]	= completeSentence[13];	  
 		break;
+		case 11:
+			xyzControlData.Xcoord.chData[0]	= completeSentence[4];
+			xyzControlData.Xcoord.chData[1]	= completeSentence[5];
+			xyzControlData.Xcoord.chData[2]	= completeSentence[6];
+			xyzControlData.Xcoord.chData[3]	= completeSentence[7];
+			xyzControlData.Ycoord.chData[0]	= completeSentence[8];
+			xyzControlData.Ycoord.chData[1]	= completeSentence[9];
+			xyzControlData.Ycoord.chData[2]	= completeSentence[10];
+			xyzControlData.Ycoord.chData[3]	= completeSentence[11];
+			xyzControlData.Zcoord.chData[0]	= completeSentence[12];
+			xyzControlData.Zcoord.chData[1]	= completeSentence[13];
+			xyzControlData.Zcoord.chData[2]	= completeSentence[14];
+			xyzControlData.Zcoord.chData[3]	= completeSentence[15];
+		break;		
 		default:
 		break;
 	}
@@ -149,7 +164,6 @@ void protParseDecode(unsigned char* fromSPI){
 	
 	// Add the received bytes to the protocol parsing circular buffer
     for(i = 1; i <= fromSPI[0]; i += 1 )
-    //   for(i = 0; i < 35; i += 1 )
 	{
 		writeBack(ppBuffer, fromSPI[i]);
 	}
@@ -228,7 +242,9 @@ void protParseDecode(unsigned char* fromSPI){
 				// update the states depending on the message
 				updateStates(&prevBuffer[0]);
 			}
-
+            else{
+             indexLast = 1; // just to stop debugger
+            }
             // get everything ready to start all-over
 			previousComplete =1;
 			indexLast = 0;
@@ -252,6 +268,14 @@ tGpsData getGpsStruct(void){
 
 tRawData getRawStruct(void){
  return rawControlData;
+}
+
+tXYZData getXYZStruct(void){
+ return xyzControlData;
+}
+
+tAttitudeData getAttStruct(void){
+ return attitudeControlData;
 }
 
 void getTime (unsigned char * values){

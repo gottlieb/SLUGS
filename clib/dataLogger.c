@@ -14,15 +14,12 @@
 // First Revision: Aug 26 2008 @ 21:15
 // =========================================================
 
-#include "apDefinitions.h"
-#include "circBuffer.h"
-#include "gpsSplit.h"
-#include <p33fxxxx.h>
-#include <uart.h>
+#include "dataLogger.h"
+
 
 struct CircBuffer com2Buffer;
 CBRef logBuffer;
-unsigned int BufferA[LOGSEND] __attribute__((space(dma))) = {0};
+unsigned int BufferA[MAXSEND] __attribute__((space(dma))) = {0};
 
 void loggerInit (void){
 	// initialize the circular buffer
@@ -99,9 +96,9 @@ void assembleMsg(unsigned char* rawData , unsigned char size, unsigned char type
 	*(protMsg+size+6) = getChecksum(protMsg, (size+5));	
 }
 
-void copyBufferToDMA (void){
+void copyBufferToDMA (unsigned char size){
 	unsigned char i;
-	for(  i = 0; i < LOGSEND; i += 1 )
+	for(  i = 0; i < size; i += 1 )
 	{
 		BufferA[i] = (unsigned int) readFront(logBuffer);
 	}
@@ -117,13 +114,16 @@ void copyBufferToDMA (void){
 void logData (unsigned char* rawData, unsigned char* data4SPI){
 	// sample period variable
 	static unsigned char samplePeriod = 0;
-	// temp var to store the assembled message
-	unsigned char tmpBuf [MAXLOGLEN] ={0}, i, newData= 0;
-	unsigned char len2SPI=0;
+	static unsigned char tmpBuf [MAXLOGLEN] ={0};
 	
+	
+	// temp var to store the assembled message
+	unsigned char i;
+	unsigned char len2SPI=0;
+	unsigned char bufLen = 0;
 	
 	switch (samplePeriod){
-		case 0:
+		case 2:
 			// assemble the CPU load data for protocol sending	
 			assembleMsg(&rawData[LOAD_START], LOADMSG_LEN, LOADMSG_ID, tmpBuf);
 			// set the total data out for SPI
@@ -135,7 +135,7 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 			}
 
 			break;
-		case 1:			
+		case 3:			
 			// assemble the Raw Sensor data for protocol sending	
 			assembleMsg(&rawData[RAW_START], RAWMSG_LEN, RAWMSG_ID, tmpBuf);
 			// set the total data out for SPI			
@@ -147,7 +147,7 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 			}
 		
 			break;
-		case 2:
+		case 1:
 			// assemble the GPS data for protocol sending
 			assembleMsg(&rawData[GPS_START], GPSMSG_LEN, GPSMSG_ID, tmpBuf);
 			// set the total data out for SPI
@@ -157,7 +157,6 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 				writeBack(logBuffer,tmpBuf[i]);
 				data4SPI[i+1] = tmpBuf[i];
 			}					
-
 			break;
 		default:
 			data4SPI[0] = 0;
@@ -179,6 +178,7 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 	// increment the data counter for SPI
 	len2SPI += ATTMSG_LEN+7; 
 	
+	
 	// XYZ data. Gets included every sample time
 	// ==============================================
 	
@@ -193,18 +193,20 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
     // set the total data out for SPI
 	data4SPI[0] = len2SPI + XYZMSG_LEN+7; 
 	
-	// Flag the data
-	newData = (getLength(logBuffer)>= LOGSEND)?1:0;		
-	
 
 	// increment/overflow the samplePeriod counter
-	samplePeriod = (samplePeriod >= 9)? 0: samplePeriod + 1;
+	samplePeriod = (samplePeriod >= 4)? 0: samplePeriod + 1;
 	
+	// get the Length of the logBuffer
+	bufLen = getLength(logBuffer);
 	
 	// if the interrupt catched up with the circularBuffer
-	// and new data was added then turn on the 
-	if(!DMA0CONbits.CHEN && newData){
-		copyBufferToDMA();
+	//  then turn on the DMA
+	if(!(DMA0CONbits.CHEN) && bufLen> 0){
+		// Configure the bytes to send
+		DMA0CNT =  bufLen<= (MAXSEND-1)? bufLen-1: MAXSEND-1;		
+		// copy the buffer to the DMA channel outgoing buffer	
+		copyBufferToDMA((unsigned char) DMA0CNT);
 		// Enable the DMA
 		DMA0CONbits.CHEN = 1;
 		// Init the transmission
@@ -216,21 +218,33 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 
 void __attribute__((interrupt, no_auto_psv)) _DMA0Interrupt(void)
 {
+	unsigned char bufLen;
+	
     // Clear the DMA0 Interrupt Flag;
     IFS0bits.DMA0IF  = 0;		
-	//putsUART2((unsigned int *)"Transmision in interrupt\n\r\0");
+	/*
+	if(getLength(logBuffer)> 0)
+	{
+    	putsUART2((unsigned int *)"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\0");
+	}
+	*/
 	
 	// if there are more bytes to send
-	if(getLength(logBuffer)>= LOGSEND)
-	{
-		//putsUART2((unsigned int *)"Transmision in interrupt\n\r\0");
-		copyBufferToDMA();
+	// get the Length of the logBuffer
+	/*bufLen = getLength(logBuffer);
+	
+	// if the interrupt catched up with the circularBuffer
+	//  then turn on the DMA
+	if(!(DMA0CONbits.CHEN) && bufLen> 0){
+		// Configure the bytes to send
+		DMA0CNT = bufLen<= (MAXSEND-1)? bufLen-1: MAXSEND-1;		
+		// copy the buffer to the DMA channel outgoing buffer	
+		copyBufferToDMA((unsigned char) DMA0CNT);
 		// Enable the DMA
 		DMA0CONbits.CHEN = 1;
 		// Init the transmission
 		DMA0REQbits.FORCE = 1;
-	}
-    
+	} */
 }
 
 void __attribute__ ((interrupt, no_auto_psv)) _U2ErrInterrupt(void)

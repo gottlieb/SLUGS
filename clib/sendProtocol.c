@@ -21,7 +21,7 @@
 
 struct CircBuffer com2Buffer;
 CBRef commProtBuffer;
-unsigned int BufferA[LOGSEND] __attribute__((space(dma))) = {0};
+unsigned int BufferA[MAXSEND] __attribute__((space(dma))) = {0};
 
 void commProtInit (void){
 	// initialize the circular buffer
@@ -82,30 +82,33 @@ void commProtInit (void){
 	IEC4bits.U2EIE 		= 0;	
 }
 
-void copyBufferToDMA (void){
+void copyBufferToDMA (unsigned char size){
 	unsigned char i;
-	for(  i = 0; i < LOGSEND; i += 1 )
+	for(  i = 0; i < size; i += 1 )
 	{
 		BufferA[i] = (unsigned int) readFront(commProtBuffer);
 	}
 }
 
 void txProtocol(unsigned char* protData){
-	unsigned char newData,i;
-	
-	// update the newData flag if there are enough bytes to start the DMA
-	newData = protData[0]>LOGSEND?1:0;
-	
+	unsigned char bufLen,i;
+		
 	// add the data to the circular buffer
 	for(i = 1; i <= protData[0]; i += 1 )
 	{
 		writeBack(commProtBuffer, protData[i] );
 	}
 	
+	// get the Length of the logBuffer
+	bufLen = getLength(commProtBuffer);
+
 	// if the interrupt catched up with the circularBuffer
 	// and new data was added then turn on the DMA 
-	if(!DMA0CONbits.CHEN && newData){
-		copyBufferToDMA();
+	if(!(DMA0CONbits.CHEN) && (bufLen>0)){
+		// Configure the bytes to send
+		DMA0CNT =  bufLen<= (MAXSEND-1)? bufLen-1: MAXSEND-1;	
+		// copy the buffer to the DMA channel outgoing buffer
+		copyBufferToDMA((unsigned char) DMA0CNT);
 		// Enable the DMA
 		DMA0CONbits.CHEN = 1;
 		// Init the transmission
@@ -122,7 +125,7 @@ void __attribute__((interrupt, no_auto_psv)) _DMA0Interrupt(void)
     IFS0bits.DMA0IF  = 0;		
 	
 	// if there are more bytes to send
-	if(getLength(commProtBuffer)>= LOGSEND)
+	/*if(getLength(commProtBuffer)>= LOGSEND)
 	{
 		copyBufferToDMA();
 		// Enable the DMA
@@ -130,7 +133,7 @@ void __attribute__((interrupt, no_auto_psv)) _DMA0Interrupt(void)
 		// Init the transmission
 		DMA0REQbits.FORCE = 1;
 	}
-    
+    */
 }
 
 void __attribute__ ((interrupt, no_auto_psv)) _U2ErrInterrupt(void)

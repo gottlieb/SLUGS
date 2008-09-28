@@ -14,6 +14,7 @@
 #pragma link "AbLED"
 #pragma link "AbOpHour"
 #pragma link "AbMTrend"
+#pragma link "AbVCInd"
 #pragma resource "*.dfm"
 TFPpal *FPpal;
 //---------------------------------------------------------------------------
@@ -247,10 +248,12 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    }
    gpsSamples[0] = temp;
    rawSample = getRawStruct();
+   attitudeSample = getAttStruct();
 
    updateGPSLabels();
    updateRawLabels();
    updatePlots();
+   //updateAttitude();
 
 }
 //---------------------------------------------------------------------------
@@ -546,3 +549,10 @@ float TFPpal::deg2Rad(float mDeg){
 
 //---------------------------------------------------------------------------
 
+void TFPpal::updateAttitude(void)
+{
+  ai_att->Roll = RAD2DEG*attitudeSample.roll.flData;
+  ai_att->Pitch = RAD2DEG*attitudeSample.pitch.flData;
+  //ai_att->Course = RAD2DEG*attitudeSample.yaw.flData;
+}
+//---------------------------------------------------------------------------
