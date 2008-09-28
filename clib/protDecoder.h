@@ -12,6 +12,8 @@ void protParseDecode (unsigned char* fromSPI);
 void getTime (unsigned char * values);
 tGpsData getGpsStruct(void);
 tRawData getRawStruct(void);
+tXYZData getXYZStruct(void);
+tAttitudeData getAttStruct(void);
 
 #ifdef __cplusplus
        }

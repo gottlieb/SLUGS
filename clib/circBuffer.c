@@ -159,14 +159,15 @@ unsigned char readFront (CBRef cB){
 		if (cB->length > 0){
 			retVal = cB->buffer[cB->head];
 			// increase the head and wrap around if needed
-			cB->head = cB->head < (cB->size -1)? cB->head+1: 0;
+			//cB->head = cB->head < (cB->size -1)? cB->head+1: 0;
 			// // decrease the amount of data available
+			if (++cB->head == cB->size) cB->head = 0;
 			cB->length--;
 			return retVal;
 		}
 		return 128;
 	}
-	return 255;
+	return 254;
 }
 
 // writes one byte at the end of the circular buffer, returns 1 if overflow occured

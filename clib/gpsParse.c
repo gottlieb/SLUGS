@@ -287,7 +287,8 @@ void gpsParse(unsigned char* inStream, unsigned char * parsedData){
 		parsedData[6]  = gpsData.lat.chData[0];
 		parsedData[7]  = gpsData.lat.chData[1];
 		parsedData[8]  = gpsData.lat.chData[2];					
-		parsedData[9]  = gpsData.lat.chData[3];					
+		parsedData[9]  = gpsData.lat.chData[3];
+							
 		parsedData[10] = gpsData.lon.chData[0];
 		parsedData[11] = gpsData.lon.chData[1];
 		parsedData[12] = gpsData.lon.chData[2];					
@@ -300,6 +301,7 @@ void gpsParse(unsigned char* inStream, unsigned char * parsedData){
 		parsedData[19] = gpsData.cog.chData[1];									
 		parsedData[20] = gpsData.sog.chData[0];					
 		parsedData[21] = gpsData.sog.chData[1];
+		
 		parsedData[22] = gpsData.hdop.chData[0];					
 		parsedData[23] = gpsData.hdop.chData[1];
 		parsedData[24]  = gpsData.fix;

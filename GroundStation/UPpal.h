@@ -29,6 +29,7 @@
 #include "AbMTrend.hpp"
 #include <math.h>
 #include <exception.h>
+#include "AbVCInd.hpp"
 
 #define  DISLIMIT      30.0
 
@@ -147,6 +148,7 @@ __published:	// IDE-managed Components
     TFloatField *tb_configlonGS;
     TFloatField *tb_configheightGS;
     TIntegerField *tb_configtessalateTransparency;
+    TAbVCInd *ai_att;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -170,11 +172,16 @@ public:		// User declarations
         void addAndAppendNode(char* name, char* value, TiXmlNode* appendTo);
         String getHexColor(unsigned char whichColor);
         String getPlaneCoordinates(void);
+
         tGpsData gpsSamples[15];
         tRawData rawSample;
+        tAttitudeData attitudeSample;
+        tXYZData xyzSample;
+
         void updateGPSLabels(void);
         void updateRawLabels(void);
         void updatePlots(void);
+        void updateAttitude(void);
         float computeDistance(float lat, float lon);
         float deg2Rad(float mDeg);
 //        CircBuffer mainSerial;

@@ -41,12 +41,13 @@ and data types.
 
 // Data Logger Values
 // ================
-#define LOGSEND			8
+#define LOGSEND					8
+#define MAXSEND					103
 
 #ifdef __cplusplus
        #define MAXLOGLEN		500
 #else
-       #define MAXLOGLEN		73
+       #define MAXLOGLEN		85
 #endif
 
 
@@ -55,18 +56,18 @@ and data types.
 #define LOAD_START		27
 #define RAW_START 		31
 #define ATT_START		49
-#define XYZ_START		61
+#define XYZ_START		73
 
 // Message Protocol Lengths and IDs
 // ================================
 #define GPSMSG_ID		1
-#define GPSMSG_LEN		27
+#define GPSMSG_LEN		27 
 #define LOADMSG_ID		2
 #define LOADMSG_LEN		4
 #define RAWMSG_ID		3
 #define RAWMSG_LEN		18
 #define ATTMSG_ID		4
-#define ATTMSG_LEN		12
+#define ATTMSG_LEN		24
 #define XYZMSG_ID		11
 #define XYZMSG_LEN		12
 
@@ -90,11 +91,14 @@ and data types.
 #define KTS2MPS 		0.514444444
 #define EARTHRADIUS     6378.135 // km
 #define PI              3.141592653589793
+#define DEG2RAD			0.017453292519943
+#define RAD2DEG			57.29577951308232
 
 // Periphereal Configurations
 // ==========================
 #define APFCY			40000000
 
+	
 #define GPSBAUDF		19200
 #define GPSBAUDI		4800
 #define UCSCAP_UBRGF 	129
@@ -228,6 +232,12 @@ typedef struct tDynTempData{
 	tFloatToChar	stat;
 	tShortToChar	temp;
 }tDynTempData;
+
+typedef struct tXYZData{
+	tFloatToChar	Xcoord;
+	tFloatToChar	Ycoord;
+	tFloatToChar	Zcoord;	
+}tXYZData;
 
 
 #ifdef __cplusplus

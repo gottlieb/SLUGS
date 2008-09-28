@@ -73,7 +73,7 @@ void spiSlaveInit(void){
 void readIpc (unsigned char* bufferedData){
 	// fix the data length so if the interrupt adds data
 	// during execution of this block, it will be read
-	// until the next radIpc
+	// until the next readIpc
 	unsigned char tmpLen = getLength(protBuffer), i=0;
 	
 	// Set the output size accordingly
