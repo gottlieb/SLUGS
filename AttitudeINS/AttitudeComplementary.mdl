@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.363"
+    ComputedModelVersion    "1.377"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ASL_Lab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Oct 01 18:14:27 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:363>"
+  LastModifiedDate	  "Thu Oct 02 13:52:36 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:377>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -106,7 +106,7 @@ Model {
 	  $ObjectID		  2
 	  Version		  "1.2.0"
 	  StartTime		  "0.0"
-	  StopTime		  "500"
+	  StopTime		  "300"
 	  AbsTol		  "auto"
 	  FixedStep		  "SampleT"
 	  InitialStep		  "auto"
@@ -581,6 +581,15 @@ Model {
       Realization	      "auto"
     }
     Block {
+      BlockType		      DiscreteZeroPole
+      Zeros		      "[1]"
+      Poles		      "[0 1]"
+      Gain		      "[1]"
+      SampleTime	      "1"
+      StateMustResolveToSignalObject off
+      RTWStateStorageClass    "Auto"
+    }
+    Block {
       BlockType		      Display
       Format		      "short"
       Decimation	      "10"
@@ -935,7 +944,7 @@ Model {
   }
   System {
     Name		    "AttitudeComplementary"
-    Location		    [79, 168, 1149, 865]
+    Location		    [-68, 122, 1149, 819]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -951,6 +960,1533 @@ Model {
     ReportName		    "simulink-default.rpt"
     Block {
       BlockType		      SubSystem
+      Name		      "Accel Comp"
+      Ports		      [4, 2]
+      Position		      [885, 196, 985, 259]
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      MaskHideContents	      off
+      System {
+	Name			"Accel Comp"
+	Location		[138, 469, 1105, 873]
+	Open			on
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Euler_hat"
+	  Position		  [910, 208, 940, 222]
+	  Orientation		  "left"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "omega"
+	  Position		  [835, 23, 865, 37]
+	  Orientation		  "left"
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "A"
+	  Position		  [15, 88, 45, 102]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Vned"
+	  Position		  [840, 278, 870, 292]
+	  Orientation		  "left"
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "3vector LPF"
+	  Ports			  [1, 1]
+	  Position		  [680, 15, 765, 65]
+	  Orientation		  "left"
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  MaskPromptString	  "LowPass Freq"
+	  MaskStyleString	  "edit"
+	  MaskTunableValueString  "on"
+	  MaskEnableString	  "on"
+	  MaskVisibilityString	  "on"
+	  MaskToolTipString	  "on"
+	  MaskVariables		  "flpf=@1;"
+	  MaskDisplay		  "droots([],-flpf,flpf)"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "3"
+	  System {
+	    Name		    "3vector LPF"
+	    Location		    [537, 579, 847, 761]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [255, 38, 285, 52]
+	      Orientation	      "left"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Demux
+	      Name		      "Demux"
+	      Ports		      [1, 3]
+	      Position		      [225, 26, 230, 64]
+	      Orientation	      "left"
+	      BackgroundColor	      "black"
+	      ShowName		      off
+	      Outputs		      "3"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Low Pass1"
+	      Ports		      [1, 1]
+	      Position		      [120, 15, 190, 55]
+	      Orientation	      "left"
+	      ShowName		      off
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      MaskType		      "DiscretizedZeroPole"
+	      MaskDescription	      "Continuous mask uses c2d to transform p"
+"arameters onto the Discrete Zero-Pole block inside."
+	      MaskPromptString	      "Zeros (enter in s-main:)|Poles (enter i"
+"n s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:|Metho"
+"d:|Critical Frequency (Hz):"
+	      MaskStyleString	      "edit,edit,edit,edit,edit,popup(zoh|foh|"
+"tustin|prewarp|matched),edit"
+	      MaskTunableValueString  "on,on,on,on,on,on,on"
+	      MaskCallbackString      "|||||hidecrit|"
+	      MaskEnableString	      "on,on,on,on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on,on,on,off"
+	      MaskToolTipString	      "on,on,on,on,on,on,on"
+	      MaskVarAliasString      ",,,,,,"
+	      MaskVariables	      "Zeros=@1;Poles=@2;Gain=@3;AbsTol=&4;Sam"
+"pleTime=@5;method=&6;Wc=@7;"
+	      MaskInitialization      "st=SampleTime;\nif length(st)>1\n    st"
+"=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil('discz"
+"pk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,'maskv"
+"alues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eval(zero"
+"ss);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('initzpkma"
+"sk', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance', AbsT"
+"ol);\nend"
+	      MaskDisplay	      "droots(zeross,poless,gainss)\ntext( 0.5"
+", 1.0, method, 'verticalAlignment','top')"
+	      MaskSelfModifiable      on
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "port"
+	      MaskIconUnits	      "normalized"
+	      MaskValueString	      "[]|[-flpf]|flpf|auto|SampleT|tustin|1"
+	      MaskTabNameString	      ",,,,,,"
+	      System {
+		Name			"Low Pass1"
+		Location		[499, 349, 791, 606]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [60, 103, 90, 117]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  DiscreteZeroPole
+		  Name			  "Discrete\nZero-Pole"
+		  Position		  [115, 92, 200, 128]
+		  Zeros			  "zerosd"
+		  Poles			  "polesd"
+		  Gain			  "gaind"
+		  SampleTime		  "SampleTime"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [235, 103, 265, 117]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Discrete\nZero-Pole"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Discrete\nZero-Pole"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Low Pass2"
+	      Ports		      [1, 1]
+	      Position		      [120, 70, 190, 110]
+	      Orientation	      "left"
+	      ShowName		      off
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      MaskType		      "DiscretizedZeroPole"
+	      MaskDescription	      "Continuous mask uses c2d to transform p"
+"arameters onto the Discrete Zero-Pole block inside."
+	      MaskPromptString	      "Zeros (enter in s-main:)|Poles (enter i"
+"n s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:|Metho"
+"d:|Critical Frequency (Hz):"
+	      MaskStyleString	      "edit,edit,edit,edit,edit,popup(zoh|foh|"
+"tustin|prewarp|matched),edit"
+	      MaskTunableValueString  "on,on,on,on,on,on,on"
+	      MaskCallbackString      "|||||hidecrit|"
+	      MaskEnableString	      "on,on,on,on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on,on,on,off"
+	      MaskToolTipString	      "on,on,on,on,on,on,on"
+	      MaskVarAliasString      ",,,,,,"
+	      MaskVariables	      "Zeros=@1;Poles=@2;Gain=@3;AbsTol=&4;Sam"
+"pleTime=@5;method=&6;Wc=@7;"
+	      MaskInitialization      "st=SampleTime;\nif length(st)>1\n    st"
+"=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil('discz"
+"pk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,'maskv"
+"alues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eval(zero"
+"ss);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('initzpkma"
+"sk', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance', AbsT"
+"ol);\nend"
+	      MaskDisplay	      "droots(zeross,poless,gainss)\ntext( 0.5"
+", 1.0, method, 'verticalAlignment','top')"
+	      MaskSelfModifiable      on
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "port"
+	      MaskIconUnits	      "normalized"
+	      MaskValueString	      "[]|[-flpf]|flpf|auto|SampleT|tustin|1"
+	      MaskTabNameString	      ",,,,,,"
+	      System {
+		Name			"Low Pass2"
+		Location		[499, 349, 791, 606]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [60, 103, 90, 117]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  DiscreteZeroPole
+		  Name			  "Discrete\nZero-Pole"
+		  Position		  [115, 92, 200, 128]
+		  Zeros			  "zerosd"
+		  Poles			  "polesd"
+		  Gain			  "gaind"
+		  SampleTime		  "SampleTime"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [235, 103, 265, 117]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Discrete\nZero-Pole"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Discrete\nZero-Pole"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Low Pass3"
+	      Ports		      [1, 1]
+	      Position		      [120, 119, 195, 161]
+	      Orientation	      "left"
+	      ShowName		      off
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      MaskType		      "DiscretizedZeroPole"
+	      MaskDescription	      "Continuous mask uses c2d to transform p"
+"arameters onto the Discrete Zero-Pole block inside."
+	      MaskPromptString	      "Zeros (enter in s-main:)|Poles (enter i"
+"n s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:|Metho"
+"d:|Critical Frequency (Hz):"
+	      MaskStyleString	      "edit,edit,edit,edit,edit,popup(zoh|foh|"
+"tustin|prewarp|matched),edit"
+	      MaskTunableValueString  "on,on,on,on,on,on,on"
+	      MaskCallbackString      "|||||hidecrit|"
+	      MaskEnableString	      "on,on,on,on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on,on,on,off"
+	      MaskToolTipString	      "on,on,on,on,on,on,on"
+	      MaskVarAliasString      ",,,,,,"
+	      MaskVariables	      "Zeros=@1;Poles=@2;Gain=@3;AbsTol=&4;Sam"
+"pleTime=@5;method=&6;Wc=@7;"
+	      MaskInitialization      "st=SampleTime;\nif length(st)>1\n    st"
+"=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil('discz"
+"pk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,'maskv"
+"alues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eval(zero"
+"ss);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('initzpkma"
+"sk', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance', AbsT"
+"ol);\nend"
+	      MaskDisplay	      "droots(zeross,poless,gainss)\ntext( 0.5"
+", 1.0, method, 'verticalAlignment','top')"
+	      MaskSelfModifiable      on
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "port"
+	      MaskIconUnits	      "normalized"
+	      MaskValueString	      "[]|[-flpf]|flpf|auto|SampleT|tustin|1"
+	      MaskTabNameString	      ",,,,,,"
+	      System {
+		Name			"Low Pass3"
+		Location		[499, 349, 791, 606]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [60, 103, 90, 117]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  DiscreteZeroPole
+		  Name			  "Discrete\nZero-Pole"
+		  Position		  [115, 92, 200, 128]
+		  Zeros			  "zerosd"
+		  Poles			  "polesd"
+		  Gain			  "gaind"
+		  SampleTime		  "SampleTime"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [235, 103, 265, 117]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Discrete\nZero-Pole"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Discrete\nZero-Pole"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Mux
+	      Name		      "Mux"
+	      Ports		      [3, 1]
+	      Position		      [80, 61, 85, 99]
+	      Orientation	      "left"
+	      ShowName		      off
+	      Inputs		      "3"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [25, 73, 55, 87]
+	      Orientation	      "left"
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "Mux"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      DstBlock		      "Demux"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Low Pass3"
+	      SrcPort		      1
+	      Points		      [-15, 0]
+	      DstBlock		      "Mux"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Low Pass2"
+	      SrcPort		      1
+	      Points		      [-10, 0; 0, -10]
+	      DstBlock		      "Mux"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Low Pass1"
+	      SrcPort		      1
+	      Points		      [-10, 0; 0, 35]
+	      DstBlock		      "Mux"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      3
+	      Points		      [-5, 0; 0, 85]
+	      DstBlock		      "Low Pass3"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      2
+	      Points		      [-15, 0]
+	      DstBlock		      "Low Pass2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      1
+	      DstBlock		      "Low Pass1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "3x3 Cross Product"
+	  Ports			  [2, 1]
+	  Position		  [425, 25, 500, 85]
+	  Orientation		  "left"
+	  SourceBlock		  "aerolibutil/3x3 Cross Product"
+	  SourceType		  "CrossProduct"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  Port {
+	    PortNumber		    1
+	    Name		    "w x Vb"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant"
+	  Position		  [20, 120, 50, 150]
+	  Value			  "[0 0  -0.4]"
+	}
+	Block {
+	  BlockType		  DiscreteIntegrator
+	  Name			  "Discrete-Time\nIntegrator1"
+	  Ports			  [1, 1]
+	  Position		  [120, 139, 155, 171]
+	  ShowName		  off
+	  IntegratorMethod	  "Integration: Forward Euler"
+	  ExternalReset		  "none"
+	  InitialConditionSource  "internal"
+	  SampleTime		  "SampleT"
+	  IgnoreLimit		  off
+	  ICPrevOutput		  "DiscIntNeverNeededParam"
+	  ICPrevScaledInput	  "DiscIntNeverNeededParam"
+	}
+	Block {
+	  BlockType		  DiscreteIntegrator
+	  Name			  "Discrete-Time\nIntegrator2"
+	  Ports			  [1, 1]
+	  Position		  [290, 139, 325, 171]
+	  ShowName		  off
+	  IntegratorMethod	  "Integration: Forward Euler"
+	  ExternalReset		  "none"
+	  InitialConditionSource  "internal"
+	  SampleTime		  "SampleT"
+	  IgnoreLimit		  off
+	  ICPrevOutput		  "DiscIntNeverNeededParam"
+	  ICPrevScaledInput	  "DiscIntNeverNeededParam"
+	}
+	Block {
+	  BlockType		  DiscreteIntegrator
+	  Name			  "Discrete-Time\nIntegrator3"
+	  Ports			  [1, 1]
+	  Position		  [520, 139, 555, 171]
+	  ShowName		  off
+	  IntegratorMethod	  "Integration: Forward Euler"
+	  ExternalReset		  "none"
+	  InitialConditionSource  "internal"
+	  SampleTime		  "SampleT"
+	  IgnoreLimit		  off
+	  ICPrevOutput		  "DiscIntNeverNeededParam"
+	  ICPrevScaledInput	  "DiscIntNeverNeededParam"
+	  Port {
+	    PortNumber		    1
+	    Name		    "Vb"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain"
+	  Position		  [385, 210, 415, 240]
+	  Orientation		  "up"
+	  ShowName		  off
+	  Gain			  "0.1"
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain1"
+	  Position		  [215, 205, 245, 235]
+	  Orientation		  "up"
+	  ShowName		  off
+	  Gain			  "0"
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain2"
+	  Position		  [60, 205, 90, 235]
+	  Orientation		  "up"
+	  ShowName		  off
+	  Gain			  "0"
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Get Roll, Pitch1"
+	  Ports			  [1, 1]
+	  Position		  [115, 16, 190, 54]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Get Roll, Pitch1"
+	    Location		    [767, 352, 1265, 652]
+	    Open		    on
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Ab"
+	      Position		      [45, 103, 75, 117]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "Fcn"
+	      Position		      [195, 95, 255, 125]
+	      Expr		      "atan2(u(1),-u(3))"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "Fcn1"
+	      Position		      [195, 45, 255, 75]
+	      Expr		      "atan2(u(2),-u(3))"
+	    }
+	    Block {
+	      BlockType		      Mux
+	      Name		      "Mux"
+	      Ports		      [2, 1]
+	      Position		      [390, 86, 395, 124]
+	      ShowName		      off
+	      Inputs		      "2"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Phi, The"
+	      Position		      [430, 98, 460, 112]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "Mux"
+	      SrcPort		      1
+	      DstBlock		      "Phi, The"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Ab"
+	      SrcPort		      1
+	      Points		      [50, 0]
+	      Branch {
+		DstBlock		"Fcn"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, -50]
+		DstBlock		"Fcn1"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Fcn"
+	      SrcPort		      1
+	      Points		      [55, 0; 0, 5]
+	      DstBlock		      "Mux"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Fcn1"
+	      SrcPort		      1
+	      Points		      [55, 0; 0, 35]
+	      DstBlock		      "Mux"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Get Roll, Pitch2"
+	  Ports			  [1, 1]
+	  Position		  [465, 201, 540, 239]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Get Roll, Pitch2"
+	    Location		    [767, 352, 1265, 652]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Ab"
+	      Position		      [45, 103, 75, 117]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "Fcn"
+	      Position		      [195, 95, 255, 125]
+	      Expr		      "atan2(u(1),-u(3))"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "Fcn1"
+	      Position		      [195, 45, 255, 75]
+	      Expr		      "atan2(u(2),-u(3))"
+	    }
+	    Block {
+	      BlockType		      Mux
+	      Name		      "Mux"
+	      Ports		      [2, 1]
+	      Position		      [390, 86, 395, 124]
+	      ShowName		      off
+	      Inputs		      "2"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Phi, The"
+	      Position		      [430, 98, 460, 112]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "Fcn1"
+	      SrcPort		      1
+	      Points		      [55, 0; 0, 35]
+	      DstBlock		      "Mux"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Fcn"
+	      SrcPort		      1
+	      Points		      [55, 0; 0, 5]
+	      DstBlock		      "Mux"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Ab"
+	      SrcPort		      1
+	      Points		      [50, 0]
+	      Branch {
+		Points			[0, -50]
+		DstBlock		"Fcn1"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"Fcn"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Mux"
+	      SrcPort		      1
+	      DstBlock		      "Phi, The"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Integer Delay"
+	  Ports			  [1, 1]
+	  Position		  [560, 58, 595, 92]
+	  Orientation		  "left"
+	  ShowName		  off
+	  SourceBlock		  "simulink/Discrete/Integer Delay"
+	  SourceType		  "Integer Delay"
+	  vinit			  "0.0"
+	  samptime		  "-1"
+	  NumDelays		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Integer Delay1"
+	  Ports			  [1, 1]
+	  Position		  [560, 13, 595, 47]
+	  Orientation		  "left"
+	  ShowName		  off
+	  SourceBlock		  "simulink/Discrete/Integer Delay"
+	  SourceType		  "Integer Delay"
+	  vinit			  "0.0"
+	  samptime		  "-1"
+	  NumDelays		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Integer Delay2"
+	  Ports			  [1, 1]
+	  Position		  [850, 198, 885, 232]
+	  Orientation		  "left"
+	  ShowName		  off
+	  SourceBlock		  "simulink/Discrete/Integer Delay"
+	  SourceType		  "Integer Delay"
+	  vinit			  "0.0"
+	  samptime		  "-1"
+	  NumDelays		  "1"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product"
+	  Ports			  [2, 1]
+	  Position		  [660, 255, 705, 295]
+	  Orientation		  "left"
+	  ShowName		  off
+	  Multiplication	  "Matrix(*)"
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "RB2LTP"
+	  Ports			  [1, 1]
+	  Position		  [775, 196, 830, 234]
+	  Orientation		  "left"
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "RB2LTP"
+	    Location		    [212, 156, 802, 553]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Euler"
+	      Position		      [15, 38, 45, 52]
+	      BackgroundColor	      "green"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "11"
+	      Position		      [110, 34, 385, 56]
+	      Expr		      "cos(u[3])*cos(u[2])"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "12"
+	      Position		      [110, 74, 385, 96]
+	      Expr		      "sin(u[3])*cos(u[2])"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "13"
+	      Position		      [110, 114, 385, 136]
+	      Expr		      "-sin(u[2])"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "21"
+	      Position		      [110, 154, 385, 176]
+	      Expr		      "cos(u[3])*sin(u[2])*sin(u[1])-sin(u[3])"
+"*cos(u[1])"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "22"
+	      Position		      [110, 194, 385, 216]
+	      Expr		      "sin(u[3])*sin(u[2])*sin(u[1])+cos(u[3])"
+"*cos(u[1])"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "23"
+	      Position		      [110, 234, 385, 256]
+	      Expr		      "cos(u[2])*sin(u[1])"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "31"
+	      Position		      [110, 274, 385, 296]
+	      Expr		      "cos(u[3])*sin(u[2])*cos(u[1])+sin(u[3])"
+"*sin(u[1])"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "32"
+	      Position		      [110, 314, 385, 336]
+	      Expr		      "sin(u[3])*sin(u[2])*cos(u[1])-cos(u[3])"
+"*sin(u[1])"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "33"
+	      Position		      [110, 354, 385, 376]
+	      Expr		      "cos(u[2])*cos(u[1])"
+	    }
+	    Block {
+	      BlockType		      Mux
+	      Name		      "Mux2"
+	      Ports		      [9, 1]
+	      Position		      [440, 27, 450, 383]
+	      ShowName		      off
+	      Inputs		      "9"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      Reshape
+	      Name		      "Reshape"
+	      Position		      [475, 193, 505, 217]
+	      OutputDimensionality    "Customize"
+	      OutputDimensions	      "[3,3]"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Rot"
+	      Position		      [535, 198, 565, 212]
+	      BackgroundColor	      "yellow"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "33"
+	      SrcPort		      1
+	      DstBlock		      "Mux2"
+	      DstPort		      9
+	    }
+	    Line {
+	      SrcBlock		      "32"
+	      SrcPort		      1
+	      DstBlock		      "Mux2"
+	      DstPort		      8
+	    }
+	    Line {
+	      SrcBlock		      "31"
+	      SrcPort		      1
+	      DstBlock		      "Mux2"
+	      DstPort		      7
+	    }
+	    Line {
+	      SrcBlock		      "23"
+	      SrcPort		      1
+	      DstBlock		      "Mux2"
+	      DstPort		      6
+	    }
+	    Line {
+	      SrcBlock		      "22"
+	      SrcPort		      1
+	      DstBlock		      "Mux2"
+	      DstPort		      5
+	    }
+	    Line {
+	      SrcBlock		      "21"
+	      SrcPort		      1
+	      DstBlock		      "Mux2"
+	      DstPort		      4
+	    }
+	    Line {
+	      SrcBlock		      "13"
+	      SrcPort		      1
+	      DstBlock		      "Mux2"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "12"
+	      SrcPort		      1
+	      DstBlock		      "Mux2"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "11"
+	      SrcPort		      1
+	      DstBlock		      "Mux2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Mux2"
+	      SrcPort		      1
+	      DstBlock		      "Reshape"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Euler"
+	      SrcPort		      1
+	      Points		      [20, 0]
+	      Branch {
+		DstBlock		"11"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 40]
+		Branch {
+		  Points		  [0, 40]
+		  Branch {
+		    Points		    [0, 40]
+		    Branch {
+		    Points		    [0, 40]
+		    Branch {
+		    Points		    [0, 40]
+		    Branch {
+		    Points		    [0, 40]
+		    Branch {
+		    Points		    [0, 40]
+		    Branch {
+		    Points		    [0, 40]
+		    DstBlock		    "33"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "32"
+		    DstPort		    1
+		    }
+		    }
+		    Branch {
+		    DstBlock		    "31"
+		    DstPort		    1
+		    }
+		    }
+		    Branch {
+		    DstBlock		    "23"
+		    DstPort		    1
+		    }
+		    }
+		    Branch {
+		    DstBlock		    "22"
+		    DstPort		    1
+		    }
+		    }
+		    Branch {
+		    DstBlock		    "21"
+		    DstPort		    1
+		    }
+		  }
+		  Branch {
+		    DstBlock		    "13"
+		    DstPort		    1
+		  }
+		}
+		Branch {
+		  DstBlock		  "12"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Reshape"
+	      SrcPort		      1
+	      DstBlock		      "Rot"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "Scope"
+	  Ports			  [1]
+	  Position		  [230, 14, 260, 46]
+	  Floating		  off
+	  Location		  [74, 113, 697, 468]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "300"
+	  YMin			  "-0.1366487455197132"
+	  YMax			  "0.178763440860215"
+	  SaveName		  "ScopeData17"
+	  DataFormat		  "StructureWithTime"
+	  LimitDataPoints	  off
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "Scope1"
+	  Ports			  [1]
+	  Position		  [520, 89, 550, 121]
+	  Floating		  off
+	  Location		  [85, 171, 921, 629]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "100"
+	  YMin			  "-60"
+	  YMax			  "80"
+	  SaveName		  "ScopeData22"
+	  DataFormat		  "StructureWithTime"
+	  LimitDataPoints	  off
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "Scope2"
+	  Ports			  [1]
+	  Position		  [520, 299, 550, 331]
+	  Floating		  off
+	  Location		  [-993, 329, -398, 607]
+	  Open			  on
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "100"
+	  YMin			  "-40"
+	  YMax			  "100"
+	  SaveName		  "ScopeData3"
+	  DataFormat		  "StructureWithTime"
+	  LimitDataPoints	  off
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "Scope3"
+	  Ports			  [1]
+	  Position		  [675, 324, 705, 356]
+	  Floating		  off
+	  Location		  [5, 47, 1285, 1018]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "100"
+	  YMin			  "-60"
+	  YMax			  "80"
+	  SaveName		  "ScopeData21"
+	  DataFormat		  "StructureWithTime"
+	  LimitDataPoints	  off
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "Scope4"
+	  Ports			  [1]
+	  Position		  [180, 99, 210, 131]
+	  Floating		  off
+	  Location		  [1, 52, 1281, 1023]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  YMin			  "-0.7"
+	  YMax			  "0.9"
+	  SaveName		  "ScopeData26"
+	  DataFormat		  "StructureWithTime"
+	  LimitDataPoints	  off
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum"
+	  Ports			  [3, 1]
+	  Position		  [390, 145, 410, 165]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "+++"
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	  Port {
+	    PortNumber		    1
+	    Name		    "Ab"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum1"
+	  Ports			  [2, 1]
+	  Position		  [220, 145, 240, 165]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|++"
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum2"
+	  Ports			  [2, 1]
+	  Position		  [610, 265, 630, 285]
+	  Orientation		  "left"
+	  NamePlacement		  "alternate"
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "-+|"
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum3"
+	  Ports			  [2, 1]
+	  Position		  [230, 85, 250, 105]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "-+|"
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum4"
+	  Ports			  [2, 1]
+	  Position		  [65, 85, 85, 105]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|+-"
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Transpose"
+	  Ports			  [1, 1]
+	  Position		  [735, 202, 760, 228]
+	  Orientation		  "left"
+	  SourceBlock		  "dspmtrx3/Transpose"
+	  SourceType		  "Transpose"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  Hermitian		  off
+	  overflowFlag		  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Vb_hat"
+	  Position		  [845, 148, 875, 162]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Phi, The"
+	  Position		  [570, 213, 600, 227]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  Name			  "Ab"
+	  SrcBlock		  "Sum"
+	  SrcPort		  1
+	  Points		  [35, 0]
+	  Branch {
+	    Labels		    [1, 0]
+	    DstBlock		    "Discrete-Time\nIntegrator3"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -50]
+	    DstBlock		    "Scope1"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Get Roll, Pitch2"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Sum2"
+	  SrcPort		  1
+	  Points		  [-125, 0]
+	  Branch {
+	    Points		    [-80, 0]
+	    Branch {
+	      DstBlock		      "Gain"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [-170, 0]
+	      Branch {
+		DstBlock		"Gain1"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[-155, 0]
+		DstBlock		"Gain2"
+		DstPort			1
+	      }
+	    }
+	  }
+	  Branch {
+	    Points		    [0, 40]
+	    DstBlock		    "Scope2"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  Name			  "Vb"
+	  Labels		  [1, 0]
+	  SrcBlock		  "Discrete-Time\nIntegrator3"
+	  SrcPort		  1
+	  Points		  [60, 0]
+	  Branch {
+	    Points		    [0, 0]
+	    Branch {
+	      DstBlock		      "Sum2"
+	      DstPort		      1
+	    }
+	    Branch {
+	      DstBlock		      "Vb_hat"
+	      DstPort		      1
+	    }
+	  }
+	  Branch {
+	    Labels		    [1, 0]
+	    Points		    [0, -80]
+	    DstBlock		    "Integer Delay"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Gain2"
+	  SrcPort		  1
+	  Points		  [0, -45]
+	  DstBlock		  "Discrete-Time\nIntegrator1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain1"
+	  SrcPort		  1
+	  DstBlock		  "Sum1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Gain"
+	  SrcPort		  1
+	  DstBlock		  "Sum"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Discrete-Time\nIntegrator1"
+	  SrcPort		  1
+	  DstBlock		  "Sum1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sum1"
+	  SrcPort		  1
+	  DstBlock		  "Discrete-Time\nIntegrator2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Discrete-Time\nIntegrator2"
+	  SrcPort		  1
+	  DstBlock		  "Sum"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Integer Delay1"
+	  SrcPort		  1
+	  Points		  [-20, 0; 0, 10]
+	  DstBlock		  "3x3 Cross Product"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Integer Delay"
+	  SrcPort		  1
+	  Points		  [-20, 0; 0, -5]
+	  DstBlock		  "3x3 Cross Product"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Sum3"
+	  SrcPort		  1
+	  Points		  [145, 0]
+	  DstBlock		  "Sum"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Euler_hat"
+	  SrcPort		  1
+	  DstBlock		  "Integer Delay2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Integer Delay2"
+	  SrcPort		  1
+	  DstBlock		  "RB2LTP"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Product"
+	  SrcPort		  1
+	  Points		  [-10, 0]
+	  Branch {
+	    DstBlock		    "Sum2"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, 65]
+	    DstBlock		    "Scope3"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Transpose"
+	  SrcPort		  1
+	  Points		  [-10, 0]
+	  DstBlock		  "Product"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Vned"
+	  SrcPort		  1
+	  DstBlock		  "Product"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "omega"
+	  SrcPort		  1
+	  Points		  [-10, 0; 0, 10]
+	  DstBlock		  "3vector LPF"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "3vector LPF"
+	  SrcPort		  1
+	  Points		  [-45, 0; 0, -10]
+	  DstBlock		  "Integer Delay1"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "w x Vb"
+	  Labels		  [0, 0]
+	  SrcBlock		  "3x3 Cross Product"
+	  SrcPort		  1
+	  Points		  [-180, 0]
+	  DstBlock		  "Sum3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Get Roll, Pitch1"
+	  SrcPort		  1
+	  Points		  [10, 0; 0, -5]
+	  DstBlock		  "Scope"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Get Roll, Pitch2"
+	  SrcPort		  1
+	  DstBlock		  "Phi, The"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "A"
+	  SrcPort		  1
+	  DstBlock		  "Sum4"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sum4"
+	  SrcPort		  1
+	  Points		  [5, 0; 0, -5]
+	  Branch {
+	    Points		    [0, -55]
+	    DstBlock		    "Get Roll, Pitch1"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 5; 55, 0]
+	    Branch {
+	      DstBlock		      "Sum3"
+	      DstPort		      2
+	    }
+	    Branch {
+	      Points		      [0, 20]
+	      DstBlock		      "Scope4"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "Constant"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  DstBlock		  "Sum4"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "RB2LTP"
+	  SrcPort		  1
+	  DstBlock		  "Transpose"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
       Name		      "Accel Convert"
       Ports		      [1, 1]
       Position		      [470, 144, 560, 186]
@@ -960,7 +2496,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Accel Convert"
-	Location		[557, 244, 887, 376]
+	Location		[209, 312, 926, 823]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -976,20 +2512,432 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "Raw"
-	  Position		  [70, 53, 100, 67]
+	  Position		  [15, 123, 45, 137]
 	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "3vector LPF"
+	  Ports			  [1, 1]
+	  Position		  [70, 101, 120, 149]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  MaskPromptString	  "LowPass Freq"
+	  MaskStyleString	  "edit"
+	  MaskTunableValueString  "on"
+	  MaskEnableString	  "on"
+	  MaskVisibilityString	  "on"
+	  MaskToolTipString	  "on"
+	  MaskVariables		  "flpf=@1;"
+	  MaskDisplay		  "droots([],-flpf,flpf)"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "10"
+	  System {
+	    Name		    "3vector LPF"
+	    Location		    [537, 579, 847, 761]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [255, 38, 285, 52]
+	      Orientation	      "left"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Demux
+	      Name		      "Demux"
+	      Ports		      [1, 3]
+	      Position		      [225, 26, 230, 64]
+	      Orientation	      "left"
+	      BackgroundColor	      "black"
+	      ShowName		      off
+	      Outputs		      "3"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Low Pass1"
+	      Ports		      [1, 1]
+	      Position		      [120, 15, 190, 55]
+	      Orientation	      "left"
+	      ShowName		      off
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      MaskType		      "DiscretizedZeroPole"
+	      MaskDescription	      "Continuous mask uses c2d to transform p"
+"arameters onto the Discrete Zero-Pole block inside."
+	      MaskPromptString	      "Zeros (enter in s-main:)|Poles (enter i"
+"n s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:|Metho"
+"d:|Critical Frequency (Hz):"
+	      MaskStyleString	      "edit,edit,edit,edit,edit,popup(zoh|foh|"
+"tustin|prewarp|matched),edit"
+	      MaskTunableValueString  "on,on,on,on,on,on,on"
+	      MaskCallbackString      "|||||hidecrit|"
+	      MaskEnableString	      "on,on,on,on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on,on,on,off"
+	      MaskToolTipString	      "on,on,on,on,on,on,on"
+	      MaskVarAliasString      ",,,,,,"
+	      MaskVariables	      "Zeros=@1;Poles=@2;Gain=@3;AbsTol=&4;Sam"
+"pleTime=@5;method=&6;Wc=@7;"
+	      MaskInitialization      "st=SampleTime;\nif length(st)>1\n    st"
+"=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil('discz"
+"pk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,'maskv"
+"alues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eval(zero"
+"ss);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('initzpkma"
+"sk', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance', AbsT"
+"ol);\nend"
+	      MaskDisplay	      "droots(zeross,poless,gainss)\ntext( 0.5"
+", 1.0, method, 'verticalAlignment','top')"
+	      MaskSelfModifiable      on
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "port"
+	      MaskIconUnits	      "normalized"
+	      MaskValueString	      "[]|[-flpf]|flpf|auto|SampleT|tustin|1"
+	      MaskTabNameString	      ",,,,,,"
+	      System {
+		Name			"Low Pass1"
+		Location		[499, 349, 791, 606]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [60, 103, 90, 117]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  DiscreteZeroPole
+		  Name			  "Discrete\nZero-Pole"
+		  Position		  [115, 92, 200, 128]
+		  Zeros			  "zerosd"
+		  Poles			  "polesd"
+		  Gain			  "gaind"
+		  SampleTime		  "SampleTime"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [235, 103, 265, 117]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Discrete\nZero-Pole"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Discrete\nZero-Pole"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Low Pass2"
+	      Ports		      [1, 1]
+	      Position		      [120, 70, 190, 110]
+	      Orientation	      "left"
+	      ShowName		      off
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      MaskType		      "DiscretizedZeroPole"
+	      MaskDescription	      "Continuous mask uses c2d to transform p"
+"arameters onto the Discrete Zero-Pole block inside."
+	      MaskPromptString	      "Zeros (enter in s-main:)|Poles (enter i"
+"n s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:|Metho"
+"d:|Critical Frequency (Hz):"
+	      MaskStyleString	      "edit,edit,edit,edit,edit,popup(zoh|foh|"
+"tustin|prewarp|matched),edit"
+	      MaskTunableValueString  "on,on,on,on,on,on,on"
+	      MaskCallbackString      "|||||hidecrit|"
+	      MaskEnableString	      "on,on,on,on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on,on,on,off"
+	      MaskToolTipString	      "on,on,on,on,on,on,on"
+	      MaskVarAliasString      ",,,,,,"
+	      MaskVariables	      "Zeros=@1;Poles=@2;Gain=@3;AbsTol=&4;Sam"
+"pleTime=@5;method=&6;Wc=@7;"
+	      MaskInitialization      "st=SampleTime;\nif length(st)>1\n    st"
+"=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil('discz"
+"pk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,'maskv"
+"alues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eval(zero"
+"ss);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('initzpkma"
+"sk', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance', AbsT"
+"ol);\nend"
+	      MaskDisplay	      "droots(zeross,poless,gainss)\ntext( 0.5"
+", 1.0, method, 'verticalAlignment','top')"
+	      MaskSelfModifiable      on
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "port"
+	      MaskIconUnits	      "normalized"
+	      MaskValueString	      "[]|[-flpf]|flpf|auto|SampleT|tustin|1"
+	      MaskTabNameString	      ",,,,,,"
+	      System {
+		Name			"Low Pass2"
+		Location		[499, 349, 791, 606]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [60, 103, 90, 117]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  DiscreteZeroPole
+		  Name			  "Discrete\nZero-Pole"
+		  Position		  [115, 92, 200, 128]
+		  Zeros			  "zerosd"
+		  Poles			  "polesd"
+		  Gain			  "gaind"
+		  SampleTime		  "SampleTime"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [235, 103, 265, 117]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Discrete\nZero-Pole"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Discrete\nZero-Pole"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Low Pass3"
+	      Ports		      [1, 1]
+	      Position		      [120, 119, 195, 161]
+	      Orientation	      "left"
+	      ShowName		      off
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      MaskType		      "DiscretizedZeroPole"
+	      MaskDescription	      "Continuous mask uses c2d to transform p"
+"arameters onto the Discrete Zero-Pole block inside."
+	      MaskPromptString	      "Zeros (enter in s-main:)|Poles (enter i"
+"n s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:|Metho"
+"d:|Critical Frequency (Hz):"
+	      MaskStyleString	      "edit,edit,edit,edit,edit,popup(zoh|foh|"
+"tustin|prewarp|matched),edit"
+	      MaskTunableValueString  "on,on,on,on,on,on,on"
+	      MaskCallbackString      "|||||hidecrit|"
+	      MaskEnableString	      "on,on,on,on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on,on,on,off"
+	      MaskToolTipString	      "on,on,on,on,on,on,on"
+	      MaskVarAliasString      ",,,,,,"
+	      MaskVariables	      "Zeros=@1;Poles=@2;Gain=@3;AbsTol=&4;Sam"
+"pleTime=@5;method=&6;Wc=@7;"
+	      MaskInitialization      "st=SampleTime;\nif length(st)>1\n    st"
+"=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil('discz"
+"pk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,'maskv"
+"alues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eval(zero"
+"ss);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('initzpkma"
+"sk', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance', AbsT"
+"ol);\nend"
+	      MaskDisplay	      "droots(zeross,poless,gainss)\ntext( 0.5"
+", 1.0, method, 'verticalAlignment','top')"
+	      MaskSelfModifiable      on
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "port"
+	      MaskIconUnits	      "normalized"
+	      MaskValueString	      "[]|[-flpf]|flpf|auto|SampleT|tustin|1"
+	      MaskTabNameString	      ",,,,,,"
+	      System {
+		Name			"Low Pass3"
+		Location		[499, 349, 791, 606]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [60, 103, 90, 117]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  DiscreteZeroPole
+		  Name			  "Discrete\nZero-Pole"
+		  Position		  [115, 92, 200, 128]
+		  Zeros			  "zerosd"
+		  Poles			  "polesd"
+		  Gain			  "gaind"
+		  SampleTime		  "SampleTime"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [235, 103, 265, 117]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Discrete\nZero-Pole"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Discrete\nZero-Pole"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Mux
+	      Name		      "Mux"
+	      Ports		      [3, 1]
+	      Position		      [80, 61, 85, 99]
+	      Orientation	      "left"
+	      ShowName		      off
+	      Inputs		      "3"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [25, 73, 55, 87]
+	      Orientation	      "left"
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      1
+	      DstBlock		      "Low Pass1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      2
+	      Points		      [-15, 0]
+	      DstBlock		      "Low Pass2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      3
+	      Points		      [-5, 0; 0, 85]
+	      DstBlock		      "Low Pass3"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Low Pass1"
+	      SrcPort		      1
+	      Points		      [-10, 0; 0, 35]
+	      DstBlock		      "Mux"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Low Pass2"
+	      SrcPort		      1
+	      Points		      [-10, 0; 0, -10]
+	      DstBlock		      "Mux"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Low Pass3"
+	      SrcPort		      1
+	      Points		      [-15, 0]
+	      DstBlock		      "Mux"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      DstBlock		      "Demux"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Mux"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	  }
 	}
 	Block {
 	  BlockType		  Constant
 	  Name			  "Bias"
-	  Position		  [25, 85, 135, 105]
-	  Value			  "[1866 1981 2042]"
+	  Position		  [55, 190, 165, 210]
+	  Value			  "[2015 2018 2006]"
 	}
 	Block {
 	  BlockType		  Product
 	  Name			  "Divide"
 	  Ports			  [2, 1]
-	  Position		  [220, 52, 250, 83]
+	  Position		  [310, 82, 340, 113]
 	  ShowName		  off
 	  Inputs		  "/*"
 	  CollapseMode		  "All dimensions"
@@ -1002,14 +2950,36 @@ Model {
 	Block {
 	  BlockType		  Constant
 	  Name			  "Gains"
-	  Position		  [80, 25, 175, 45]
-	  Value			  "[-142 142 235]"
+	  Position		  [100, 55, 195, 75]
+	  Value			  "[-41 41 -43]"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "Scope2"
+	  Ports			  [1]
+	  Position		  [415, 139, 445, 171]
+	  Floating		  off
+	  Location		  [5, 47, 1285, 1018]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "100"
+	  YMin			  "-14.06123404388128"
+	  YMax			  "1.094597546893038"
+	  SaveName		  "ScopeData25"
+	  DataFormat		  "StructureWithTime"
+	  LimitDataPoints	  off
+	  SampleTime		  "0"
 	}
 	Block {
 	  BlockType		  Sum
 	  Name			  "Sum"
 	  Ports			  [2, 1]
-	  Position		  [150, 60, 170, 80]
+	  Position		  [170, 120, 190, 140]
 	  ShowName		  off
 	  IconShape		  "round"
 	  Inputs		  "|+-"
@@ -1021,27 +2991,35 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Comp"
-	  Position		  [275, 63, 305, 77]
+	  Position		  [415, 93, 445, 107]
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
 	}
 	Line {
 	  SrcBlock		  "Raw"
 	  SrcPort		  1
-	  Points		  [0, 10]
-	  DstBlock		  "Sum"
+	  Points		  [0, -5]
+	  DstBlock		  "3vector LPF"
 	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "Divide"
 	  SrcPort		  1
-	  DstBlock		  "Comp"
-	  DstPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    DstBlock		    "Comp"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 55]
+	    DstBlock		    "Scope2"
+	    DstPort		    1
+	  }
 	}
 	Line {
 	  SrcBlock		  "Sum"
 	  SrcPort		  1
-	  Points		  [15, 0; 0, 5]
+	  Points		  [15, 0; 0, -25]
 	  DstBlock		  "Divide"
 	  DstPort		  2
 	}
@@ -1055,8 +3033,16 @@ Model {
 	Line {
 	  SrcBlock		  "Bias"
 	  SrcPort		  1
+	  Points		  [10, 0]
 	  DstBlock		  "Sum"
 	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "3vector LPF"
+	  SrcPort		  1
+	  Points		  [0, 5]
+	  DstBlock		  "Sum"
+	  DstPort		  1
 	}
       }
     }
@@ -1064,7 +3050,67 @@ Model {
       BlockType		      Reference
       Name		      "Angle Conversion"
       Ports		      [1, 1]
-      Position		      [870, 90, 960, 120]
+      Position		      [870, 75, 960, 105]
+      SourceBlock	      "aerolibconvert2/Angle Conversion"
+      SourceType	      "Angle Conversion"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      IU		      "rad"
+      OU		      "deg"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Angle Conversion1"
+      Ports		      [1, 1]
+      Position		      [885, 285, 975, 315]
+      SourceBlock	      "aerolibconvert2/Angle Conversion"
+      SourceType	      "Angle Conversion"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      IU		      "deg"
+      OU		      "rad"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Angle Conversion2"
+      Ports		      [1, 1]
+      Position		      [1150, 280, 1180, 370]
+      Orientation	      "down"
+      NamePlacement	      "alternate"
+      ShowName		      off
+      SourceBlock	      "aerolibconvert2/Angle Conversion"
+      SourceType	      "Angle Conversion"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      IU		      "rad"
+      OU		      "deg"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Angle Conversion3"
+      Ports		      [1, 1]
+      Position		      [1110, 365, 1140, 455]
+      Orientation	      "down"
+      NamePlacement	      "alternate"
+      ShowName		      off
       SourceBlock	      "aerolibconvert2/Angle Conversion"
       SourceType	      "Angle Conversion"
       ShowPortLabels	      "FromPortIcon"
@@ -2264,7 +4310,7 @@ Model {
 	  System {
 	    Name		    "Dead Reckoning\np=S(v)1"
 	    Location		    [-1144, 383, 444, 1301]
-	    Open		    on
+	    Open		    off
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -3205,7 +5251,7 @@ Model {
     Block {
       BlockType		      From
       Name		      "From2"
-      Position		      [745, 206, 785, 234]
+      Position		      [745, 276, 785, 304]
       ShowName		      off
       CloseFcn		      "tagdialog Close"
       GotoTag		      "update"
@@ -6580,7 +8626,7 @@ Model {
     Block {
       BlockType		      SubSystem
       Name		      "Gyro Comp"
-      Ports		      [2, 1]
+      Ports		      [2, 2]
       Position		      [730, 84, 830, 126]
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
@@ -6589,7 +8635,7 @@ Model {
       System {
 	Name			"Gyro Comp"
 	Location		[161, 424, 1126, 990]
-	Open			on
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -6610,7 +8656,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "Euler"
-	  Position		  [805, 268, 835, 282]
+	  Position		  [840, 268, 870, 282]
 	  Orientation		  "left"
 	  Port			  "2"
 	  IconDisplay		  "Port number"
@@ -6785,7 +8831,7 @@ Model {
 	  Position		  [385, 210, 415, 240]
 	  Orientation		  "up"
 	  ShowName		  off
-	  Gain			  ".15"
+	  Gain			  ".65"
 	  ParameterDataTypeMode	  "Inherit via internal rule"
 	  OutDataTypeMode	  "Inherit via internal rule"
 	  SaturateOnIntegerOverflow off
@@ -6807,7 +8853,7 @@ Model {
 	  Position		  [60, 205, 90, 235]
 	  Orientation		  "up"
 	  ShowName		  off
-	  Gain			  "0"
+	  Gain			  ".001"
 	  ParameterDataTypeMode	  "Inherit via internal rule"
 	  OutDataTypeMode	  "Inherit via internal rule"
 	  SaturateOnIntegerOverflow off
@@ -6891,7 +8937,15 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "EulerHat"
-	  Position		  [855, 153, 885, 167]
+	  Position		  [845, 148, 875, 162]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "omega"
+	  Position		  [845, 83, 875, 97]
+	  Port			  "2"
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
 	}
@@ -6945,7 +8999,6 @@ Model {
 	  SrcPort		  1
 	  Points		  [120, 0]
 	  Branch {
-	    Points		    [125, 0]
 	    DstBlock		    "EulerHat"
 	    DstPort		    1
 	  }
@@ -7009,16 +9062,24 @@ Model {
 	Line {
 	  SrcBlock		  "Sum"
 	  SrcPort		  1
-	  DstBlock		  "Discrete-Time\nIntegrator3"
-	  DstPort		  1
+	  Points		  [70, 0]
+	  Branch {
+	    DstBlock		    "Discrete-Time\nIntegrator3"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -65]
+	    DstBlock		    "omega"
+	    DstPort		    1
+	  }
 	}
       }
     }
     Block {
       BlockType		      SubSystem
       Name		      "Gyro Comp1"
-      Ports		      [5, 1, 1]
-      Position		      [750, 247, 855, 323]
+      Ports		      [5, 2, 1]
+      Position		      [750, 312, 855, 388]
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
@@ -7060,7 +9121,7 @@ Model {
 	}
 	Block {
 	  BlockType		  Inport
-	  Name			  "Vd"
+	  Name			  "Vdown"
 	  Position		  [75, 133, 105, 147]
 	  Port			  "4"
 	  IconDisplay		  "Port number"
@@ -7082,7 +9143,7 @@ Model {
 	  BlockType		  Reference
 	  Name			  "Angle Conversion"
 	  Ports			  [1, 1]
-	  Position		  [360, 120, 450, 150]
+	  Position		  [360, 80, 450, 110]
 	  SourceBlock		  "aerolibconvert2/Angle Conversion"
 	  SourceType		  "Angle Conversion"
 	  ShowPortLabels	  "FromPortIcon"
@@ -7099,7 +9160,7 @@ Model {
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "Compute Gb"
-	  Ports			  [5, 1]
+	  Ports			  [5, 2]
 	  Position		  [130, 59, 210, 221]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
@@ -7494,6 +9555,14 @@ Model {
 	      IconDisplay	      "Port number"
 	      BusOutputAsStruct	      off
 	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Vned"
+	      Position		      [295, 18, 325, 32]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
 	    Line {
 	      SrcBlock		      "Constant1"
 	      SrcPort		      1
@@ -7566,12 +9635,20 @@ Model {
 	      SrcPort		      1
 	      Points		      [5, 0]
 	      Branch {
-		DstBlock		"Sum1"
+		DstBlock		"Integer Delay"
 		DstPort			1
 	      }
 	      Branch {
-		DstBlock		"Integer Delay"
-		DstPort			1
+		Points			[25, 0]
+		Branch {
+		  DstBlock		  "Sum1"
+		  DstPort		  1
+		}
+		Branch {
+		  Points		  [0, -30]
+		  DstBlock		  "Vned"
+		  DstPort		  1
+		}
 	      }
 	    }
 	    Line {
@@ -7612,7 +9689,7 @@ Model {
 	  BlockType		  SubSystem
 	  Name			  "Get Phi\nTheta"
 	  Ports			  [1, 2]
-	  Position		  [235, 110, 275, 170]
+	  Position		  [235, 70, 275, 130]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
@@ -7773,15 +9850,23 @@ Model {
 	  BlockType		  Mux
 	  Name			  "Mux"
 	  Ports			  [3, 1]
-	  Position		  [320, 116, 325, 154]
+	  Position		  [320, 76, 325, 114]
 	  ShowName		  off
 	  Inputs		  "3"
 	  DisplayOption		  "bar"
 	}
 	Block {
 	  BlockType		  Outport
+	  Name			  "Vned"
+	  Position		  [255, 173, 285, 187]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
 	  Name			  "Euler (rad)"
 	  Position		  [490, 128, 520, 142]
+	  Port			  "2"
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
 	}
@@ -7798,7 +9883,7 @@ Model {
 	  DstPort		  2
 	}
 	Line {
-	  SrcBlock		  "Vd"
+	  SrcBlock		  "Vdown"
 	  SrcPort		  1
 	  DstBlock		  "Compute Gb"
 	  DstPort		  3
@@ -7818,7 +9903,7 @@ Model {
 	    DstPort		    5
 	  }
 	  Branch {
-	    Points		    [0, 40; 180, 0; 0, -95]
+	    Points		    [0, 40; 180, 0; 0, -135]
 	    DstBlock		    "Mux"
 	    DstPort		    3
 	  }
@@ -7851,7 +9936,14 @@ Model {
 	Line {
 	  SrcBlock		  "Angle Conversion"
 	  SrcPort		  1
+	  Points		  [0, 40]
 	  DstBlock		  "Euler (rad)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Compute Gb"
+	  SrcPort		  2
+	  DstBlock		  "Vned"
 	  DstPort		  1
 	}
       }
@@ -7867,7 +9959,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Gyro Convert"
-	Location		[546, 418, 876, 550]
+	Location		[413, 396, 992, 752]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -7883,20 +9975,432 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "Raw"
-	  Position		  [70, 53, 100, 67]
+	  Position		  [30, 143, 60, 157]
 	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "3vector LPF"
+	  Ports			  [1, 1]
+	  Position		  [85, 125, 170, 175]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  MaskPromptString	  "LowPass Freq"
+	  MaskStyleString	  "edit"
+	  MaskTunableValueString  "on"
+	  MaskEnableString	  "on"
+	  MaskVisibilityString	  "on"
+	  MaskToolTipString	  "on"
+	  MaskVariables		  "flpf=@1;"
+	  MaskDisplay		  "droots([],-flpf,flpf)"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "10"
+	  System {
+	    Name		    "3vector LPF"
+	    Location		    [537, 579, 847, 761]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [255, 38, 285, 52]
+	      Orientation	      "left"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Demux
+	      Name		      "Demux"
+	      Ports		      [1, 3]
+	      Position		      [225, 26, 230, 64]
+	      Orientation	      "left"
+	      BackgroundColor	      "black"
+	      ShowName		      off
+	      Outputs		      "3"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Low Pass1"
+	      Ports		      [1, 1]
+	      Position		      [120, 15, 190, 55]
+	      Orientation	      "left"
+	      ShowName		      off
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      MaskType		      "DiscretizedZeroPole"
+	      MaskDescription	      "Continuous mask uses c2d to transform p"
+"arameters onto the Discrete Zero-Pole block inside."
+	      MaskPromptString	      "Zeros (enter in s-main:)|Poles (enter i"
+"n s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:|Metho"
+"d:|Critical Frequency (Hz):"
+	      MaskStyleString	      "edit,edit,edit,edit,edit,popup(zoh|foh|"
+"tustin|prewarp|matched),edit"
+	      MaskTunableValueString  "on,on,on,on,on,on,on"
+	      MaskCallbackString      "|||||hidecrit|"
+	      MaskEnableString	      "on,on,on,on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on,on,on,off"
+	      MaskToolTipString	      "on,on,on,on,on,on,on"
+	      MaskVarAliasString      ",,,,,,"
+	      MaskVariables	      "Zeros=@1;Poles=@2;Gain=@3;AbsTol=&4;Sam"
+"pleTime=@5;method=&6;Wc=@7;"
+	      MaskInitialization      "st=SampleTime;\nif length(st)>1\n    st"
+"=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil('discz"
+"pk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,'maskv"
+"alues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eval(zero"
+"ss);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('initzpkma"
+"sk', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance', AbsT"
+"ol);\nend"
+	      MaskDisplay	      "droots(zeross,poless,gainss)\ntext( 0.5"
+", 1.0, method, 'verticalAlignment','top')"
+	      MaskSelfModifiable      on
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "port"
+	      MaskIconUnits	      "normalized"
+	      MaskValueString	      "[]|[-flpf]|flpf|auto|SampleT|tustin|1"
+	      MaskTabNameString	      ",,,,,,"
+	      System {
+		Name			"Low Pass1"
+		Location		[499, 349, 791, 606]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [60, 103, 90, 117]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  DiscreteZeroPole
+		  Name			  "Discrete\nZero-Pole"
+		  Position		  [115, 92, 200, 128]
+		  Zeros			  "zerosd"
+		  Poles			  "polesd"
+		  Gain			  "gaind"
+		  SampleTime		  "SampleTime"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [235, 103, 265, 117]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Discrete\nZero-Pole"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Discrete\nZero-Pole"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Low Pass2"
+	      Ports		      [1, 1]
+	      Position		      [120, 70, 190, 110]
+	      Orientation	      "left"
+	      ShowName		      off
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      MaskType		      "DiscretizedZeroPole"
+	      MaskDescription	      "Continuous mask uses c2d to transform p"
+"arameters onto the Discrete Zero-Pole block inside."
+	      MaskPromptString	      "Zeros (enter in s-main:)|Poles (enter i"
+"n s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:|Metho"
+"d:|Critical Frequency (Hz):"
+	      MaskStyleString	      "edit,edit,edit,edit,edit,popup(zoh|foh|"
+"tustin|prewarp|matched),edit"
+	      MaskTunableValueString  "on,on,on,on,on,on,on"
+	      MaskCallbackString      "|||||hidecrit|"
+	      MaskEnableString	      "on,on,on,on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on,on,on,off"
+	      MaskToolTipString	      "on,on,on,on,on,on,on"
+	      MaskVarAliasString      ",,,,,,"
+	      MaskVariables	      "Zeros=@1;Poles=@2;Gain=@3;AbsTol=&4;Sam"
+"pleTime=@5;method=&6;Wc=@7;"
+	      MaskInitialization      "st=SampleTime;\nif length(st)>1\n    st"
+"=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil('discz"
+"pk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,'maskv"
+"alues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eval(zero"
+"ss);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('initzpkma"
+"sk', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance', AbsT"
+"ol);\nend"
+	      MaskDisplay	      "droots(zeross,poless,gainss)\ntext( 0.5"
+", 1.0, method, 'verticalAlignment','top')"
+	      MaskSelfModifiable      on
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "port"
+	      MaskIconUnits	      "normalized"
+	      MaskValueString	      "[]|[-flpf]|flpf|auto|SampleT|tustin|1"
+	      MaskTabNameString	      ",,,,,,"
+	      System {
+		Name			"Low Pass2"
+		Location		[499, 349, 791, 606]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [60, 103, 90, 117]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  DiscreteZeroPole
+		  Name			  "Discrete\nZero-Pole"
+		  Position		  [115, 92, 200, 128]
+		  Zeros			  "zerosd"
+		  Poles			  "polesd"
+		  Gain			  "gaind"
+		  SampleTime		  "SampleTime"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [235, 103, 265, 117]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Discrete\nZero-Pole"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Discrete\nZero-Pole"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Low Pass3"
+	      Ports		      [1, 1]
+	      Position		      [120, 119, 195, 161]
+	      Orientation	      "left"
+	      ShowName		      off
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      MaskType		      "DiscretizedZeroPole"
+	      MaskDescription	      "Continuous mask uses c2d to transform p"
+"arameters onto the Discrete Zero-Pole block inside."
+	      MaskPromptString	      "Zeros (enter in s-main:)|Poles (enter i"
+"n s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:|Metho"
+"d:|Critical Frequency (Hz):"
+	      MaskStyleString	      "edit,edit,edit,edit,edit,popup(zoh|foh|"
+"tustin|prewarp|matched),edit"
+	      MaskTunableValueString  "on,on,on,on,on,on,on"
+	      MaskCallbackString      "|||||hidecrit|"
+	      MaskEnableString	      "on,on,on,on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on,on,on,off"
+	      MaskToolTipString	      "on,on,on,on,on,on,on"
+	      MaskVarAliasString      ",,,,,,"
+	      MaskVariables	      "Zeros=@1;Poles=@2;Gain=@3;AbsTol=&4;Sam"
+"pleTime=@5;method=&6;Wc=@7;"
+	      MaskInitialization      "st=SampleTime;\nif length(st)>1\n    st"
+"=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil('discz"
+"pk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,'maskv"
+"alues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eval(zero"
+"ss);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('initzpkma"
+"sk', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance', AbsT"
+"ol);\nend"
+	      MaskDisplay	      "droots(zeross,poless,gainss)\ntext( 0.5"
+", 1.0, method, 'verticalAlignment','top')"
+	      MaskSelfModifiable      on
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "port"
+	      MaskIconUnits	      "normalized"
+	      MaskValueString	      "[]|[-flpf]|flpf|auto|SampleT|tustin|1"
+	      MaskTabNameString	      ",,,,,,"
+	      System {
+		Name			"Low Pass3"
+		Location		[499, 349, 791, 606]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [60, 103, 90, 117]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  DiscreteZeroPole
+		  Name			  "Discrete\nZero-Pole"
+		  Position		  [115, 92, 200, 128]
+		  Zeros			  "zerosd"
+		  Poles			  "polesd"
+		  Gain			  "gaind"
+		  SampleTime		  "SampleTime"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [235, 103, 265, 117]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Discrete\nZero-Pole"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Discrete\nZero-Pole"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Mux
+	      Name		      "Mux"
+	      Ports		      [3, 1]
+	      Position		      [80, 61, 85, 99]
+	      Orientation	      "left"
+	      ShowName		      off
+	      Inputs		      "3"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [25, 73, 55, 87]
+	      Orientation	      "left"
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      1
+	      DstBlock		      "Low Pass1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      2
+	      Points		      [-15, 0]
+	      DstBlock		      "Low Pass2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      3
+	      Points		      [-5, 0; 0, 85]
+	      DstBlock		      "Low Pass3"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Low Pass1"
+	      SrcPort		      1
+	      Points		      [-10, 0; 0, 35]
+	      DstBlock		      "Mux"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Low Pass2"
+	      SrcPort		      1
+	      Points		      [-10, 0; 0, -10]
+	      DstBlock		      "Mux"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Low Pass3"
+	      SrcPort		      1
+	      Points		      [-15, 0]
+	      DstBlock		      "Mux"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      DstBlock		      "Demux"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Mux"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	  }
 	}
 	Block {
 	  BlockType		  Constant
 	  Name			  "Bias"
-	  Position		  [25, 85, 135, 105]
+	  Position		  [85, 250, 195, 270]
 	  Value			  "[1866 1981 2042]"
 	}
 	Block {
 	  BlockType		  Product
 	  Name			  "Divide"
 	  Ports			  [2, 1]
-	  Position		  [220, 52, 250, 83]
+	  Position		  [350, 132, 380, 163]
 	  ShowName		  off
 	  Inputs		  "/*"
 	  CollapseMode		  "All dimensions"
@@ -7909,14 +10413,14 @@ Model {
 	Block {
 	  BlockType		  Constant
 	  Name			  "Gains"
-	  Position		  [80, 25, 175, 45]
+	  Position		  [125, 25, 220, 45]
 	  Value			  "[-142 142 235]"
 	}
 	Block {
 	  BlockType		  Sum
 	  Name			  "Sum"
 	  Ports			  [2, 1]
-	  Position		  [150, 60, 170, 80]
+	  Position		  [210, 145, 230, 165]
 	  ShowName		  off
 	  IconShape		  "round"
 	  Inputs		  "|+-"
@@ -7928,27 +10432,27 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Comp"
-	  Position		  [275, 63, 305, 77]
+	  Position		  [490, 143, 520, 157]
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
 	}
 	Line {
 	  SrcBlock		  "Bias"
 	  SrcPort		  1
+	  Points		  [0, -80]
 	  DstBlock		  "Sum"
 	  DstPort		  2
 	}
 	Line {
 	  SrcBlock		  "Gains"
 	  SrcPort		  1
-	  Points		  [10, 0; 0, 25]
+	  Points		  [25, 0; 0, 105]
 	  DstBlock		  "Divide"
 	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "Sum"
 	  SrcPort		  1
-	  Points		  [15, 0; 0, 5]
 	  DstBlock		  "Divide"
 	  DstPort		  2
 	}
@@ -7961,11 +10465,26 @@ Model {
 	Line {
 	  SrcBlock		  "Raw"
 	  SrcPort		  1
-	  Points		  [0, 10]
+	  DstBlock		  "3vector LPF"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "3vector LPF"
+	  SrcPort		  1
+	  Points		  [20, 0]
 	  DstBlock		  "Sum"
 	  DstPort		  1
 	}
       }
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux"
+      Ports		      [2, 1]
+      Position		      [1045, 236, 1050, 274]
+      ShowName		      off
+      Inputs		      "2"
+      DisplayOption	      "bar"
     }
     Block {
       BlockType		      SubSystem
@@ -19906,6 +22425,28 @@ Model {
 	  SampleTime		  "0"
 	}
 	Block {
+	  BlockType		  Scope
+	  Name			  "Scope3"
+	  Ports			  [1]
+	  Position		  [565, 69, 595, 101]
+	  Floating		  off
+	  Location		  [93, 494, 462, 724]
+	  Open			  on
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "100"
+	  YMin			  "1850"
+	  YMax			  "2050"
+	  SaveName		  "ScopeData24"
+	  DataFormat		  "StructureWithTime"
+	  LimitDataPoints	  off
+	  SampleTime		  "0"
+	}
+	Block {
 	  BlockType		  Terminator
 	  Name			  "Terminator"
 	  Position		  [270, 70, 290, 90]
@@ -20018,7 +22559,7 @@ Model {
 	  dtype_g		  on
 	  w_g			  "190"
 	  z_g			  "0.707"
-	  g_sf_cc		  "[-147 0 0; 0 132 0; 0 0 205]"
+	  g_sf_cc		  "[-142 0 0; 0 142 0; 0 0 235]"
 	  g_bias		  "[1866 1981 2042]"
 	  g_sen			  "[0 0 0]"
 	  g_rand		  on
@@ -20030,7 +22571,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Gyro, raw"
-	  Position		  [495, 143, 525, 157]
+	  Position		  [550, 138, 580, 152]
 	  BackgroundColor	  "yellow"
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
@@ -20177,8 +22718,17 @@ Model {
 	Line {
 	  SrcBlock		  "Three-axis Gyroscope"
 	  SrcPort		  1
-	  DstBlock		  "Gyro, raw"
-	  DstPort		  1
+	  Points		  [30, 0]
+	  Branch {
+	    Points		    [30, 0]
+	    DstBlock		    "Gyro, raw"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -65]
+	    DstBlock		    "Scope3"
+	    DstPort		    1
+	  }
 	}
 	Line {
 	  SrcBlock		  "Plant"
@@ -20271,9 +22821,9 @@ Model {
       BlockType		      Scope
       Name		      "Scope"
       Ports		      [1]
-      Position		      [1015, 84, 1045, 116]
+      Position		      [1015, 69, 1045, 101]
       Floating		      off
-      Location		      [1, 52, 1281, 1023]
+      Location		      [-980, 534, -289, 1002]
       Open		      off
       NumInputPorts	      "1"
       ZoomMode		      "yonly"
@@ -20281,8 +22831,9 @@ Model {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
-      YMin		      "-55"
-      YMax		      "15"
+      TimeRange		      "100"
+      YMin		      "-60"
+      YMax		      "80"
       SaveName		      "ScopeData1"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
@@ -20290,20 +22841,24 @@ Model {
     }
     Block {
       BlockType		      Scope
-      Name		      "Scope1"
-      Ports		      [1]
-      Position		      [920, 154, 950, 186]
+      Name		      "Scope2"
+      Ports		      [2]
+      Position		      [1015, 471, 1045, 504]
+      Orientation	      "left"
       Floating		      off
-      Location		      [1, 52, 1281, 1023]
-      Open		      off
-      NumInputPorts	      "1"
+      Location		      [-582, 500, 87, 1007]
+      Open		      on
+      NumInputPorts	      "2"
+      ZoomMode		      "yonly"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
+	axes2			"%<SignalLabel>"
       }
-      YMin		      "0"
-      YMax		      "8e+020"
-      SaveName		      "ScopeData3"
+      TimeRange		      "250"
+      YMin		      "-200~-50"
+      YMax		      "175~5"
+      SaveName		      "ScopeData20"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
       SampleTime	      "0"
@@ -20573,28 +23128,43 @@ Model {
     Line {
       SrcBlock		      "Accel Convert"
       SrcPort		      1
-      Points		      [165, 0; 0, 90]
-      DstBlock		      "Gyro Comp1"
-      DstPort		      1
+      Points		      [165, 0; 0, 70]
+      Branch {
+	Points			[0, 85]
+	DstBlock		"Gyro Comp1"
+	DstPort			1
+      }
+      Branch {
+	DstBlock		"Accel Comp"
+	DstPort			3
+      }
     }
     Line {
       SrcBlock		      "Get GPS in LTP"
       SrcPort		      2
-      Points		      [80, 0; 0, 5]
-      DstBlock		      "Gyro Comp1"
-      DstPort		      2
+      Points		      [80, 0]
+      Branch {
+	Points			[0, 70]
+	DstBlock		"Gyro Comp1"
+	DstPort			2
+      }
+      Branch {
+	Points			[190, 0; 0, 35]
+	DstBlock		"Angle Conversion1"
+	DstPort			1
+      }
     }
     Line {
       SrcBlock		      "Get GPS in LTP"
       SrcPort		      3
-      Points		      [80, 0; 0, -5]
+      Points		      [45, 0; 0, 60]
       DstBlock		      "Gyro Comp1"
       DstPort		      3
     }
     Line {
       SrcBlock		      "Discrete Derivative"
       SrcPort		      1
-      Points		      [45, 0; 0, -85]
+      Points		      [45, 0; 0, -20]
       DstBlock		      "Gyro Comp1"
       DstPort		      4
     }
@@ -20626,7 +23196,7 @@ Model {
     Line {
       SrcBlock		      "Clock Updates"
       SrcPort		      1
-      Points		      [20, 0; 0, -130]
+      Points		      [20, 0; 0, -65]
       DstBlock		      "Gyro Comp1"
       DstPort		      5
     }
@@ -20638,24 +23208,18 @@ Model {
       DstPort		      enable
     }
     Line {
-      SrcBlock		      "Gyro Comp1"
-      SrcPort		      1
-      Points		      [0, -115]
-      Branch {
-	Points			[0, -25; -145, 0]
-	DstBlock		"Gyro Comp"
-	DstPort			2
-      }
-      Branch {
-	DstBlock		"Scope1"
-	DstPort			1
-      }
-    }
-    Line {
       SrcBlock		      "Gyro Comp"
       SrcPort		      1
-      DstBlock		      "Angle Conversion"
-      DstPort		      1
+      Points		      [0, -5; 15, 0]
+      Branch {
+	DstBlock		"Angle Conversion"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 115]
+	DstBlock		"Accel Comp"
+	DstPort			1
+      }
     }
     Line {
       SrcBlock		      "Angle Conversion"
@@ -20663,6 +23227,69 @@ Model {
       Points		      [35, 0]
       DstBlock		      "Scope"
       DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Gyro Comp1"
+      SrcPort		      1
+      Points		      [0, -80]
+      DstBlock		      "Accel Comp"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Gyro Comp"
+      SrcPort		      2
+      Points		      [5, 0; 0, 105]
+      DstBlock		      "Accel Comp"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Accel Comp"
+      SrcPort		      2
+      DstBlock		      "Mux"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Angle Conversion1"
+      SrcPort		      1
+      Points		      [25, 0; 0, -35]
+      DstBlock		      "Mux"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Gyro Comp1"
+      SrcPort		      2
+      Points		      [235, 0; 0, -30]
+      Branch {
+	Points			[0, -185; -380, 0]
+	DstBlock		"Gyro Comp"
+	DstPort			2
+      }
+      Branch {
+	Points			[30, 0]
+	DstBlock		"Angle Conversion3"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Mux"
+      SrcPort		      1
+      Points		      [110, 0]
+      DstBlock		      "Angle Conversion2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Angle Conversion2"
+      SrcPort		      1
+      Points		      [0, 105]
+      DstBlock		      "Scope2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Angle Conversion3"
+      SrcPort		      1
+      Points		      [0, 35]
+      DstBlock		      "Scope2"
+      DstPort		      2
     }
   }
 }
@@ -20685,8 +23312,8 @@ MatData {
 "        \"0    @            (0 X    P    !@    @    &          4    (        "
 "       !          D         #@   #     &    \"     8         !0    @         "
 "      $         \"0         .    .     8    (    !@         %    \"     $    "
-"!     0         )    \"            @A #@   #@    &    \"     8         !0    "
-"@    !     0    $         \"0    @        P !2C0 X    P    !@    @    &      "
+"!     0         )    \"         !  @A #@   #@    &    \"     8         !0    "
+"@    !     0    $         \"0    @        8 .JZ0 X    P    !@    @    &      "
 "    4    (               !          D         "
   }
   DataRecord {
@@ -20819,62 +23446,62 @@ MatData {
 "    &    \"     8         !0    @    !     @    $         \"0   !            "
 "#POP       / _#@   #     &    \"     0         !0    @    !     @    $       "
 "  $  \" %1,   .    .     8    (    !@         %    \"     $    !     0       "
-"  )    \"        $\" U<! #@   #@    &    \"     8         !0    @    !     0 "
-"   $         \"0    @        X -7 0 X    X    !@    @    &          4    (   "
-"  0    $    !          D    (            $$ .    0     8    (    !@         %"
-"    \"     $    \"     0         )    $                        $ .    ,     8"
-"    (    !          %    \"     $    \"     0         0  ( 5$P   X    X    !@"
-"    @    &          4    (     0    $    !          D    (        ,(#7P$ .   "
-" .     8    (    !@         %    \"     $    !     0         )    \"        "
-"\"@ U\\! #@   #@    &    \"     8         !0    @    !     0    $         \"0"
-"    @            (0 X   !     !@    @    &          4    (     0    (    !   "
-"       D    0            \\+\\       #P/PX    P    !@    @    $          4   "
-" (     0    (    !         !   @!43   #@   #@    &    \"     8         !0    "
-"@    !     0    $         \"0    @        D@-G 0 X    X    !@    @    &      "
-"    4    (     0    $    !          D    (        D #9P$ .    .     8    (   "
-" !@         %    \"     $    !     0         )    \"             ! #@   $    "
-" &    \"     8         !0    @    !     @    $         \"0   !            #PO"
-"P       / _#@   #     &    \"     0         !0    @    !     @    $         $"
-"  \" %1,   .    .     8    (    !@         %    \"     $    !     0         )"
-"    \"        \"2 V\\! #@   #@    &    \"     8         !0    @    !     0   "
-" $         \"0    @        D -O 0 X    X    !@    @    &          4    (     "
-"0    $    !          D    (            \\#\\.    0     8    (    !@         %"
-"    \"     $    \"     0         )    $            /\"_        \\#\\.    ,   "
-"  8    (    !          %    \"     $    \"     0         0  ( 5$P   X    X   "
-" !@    @    &          4    (     0    $    !          D    (        ((#=P$ ."
-"    .     8    (    !@         %    \"     $    !     0         )    \"      "
-"  \"  W<! #@   &@\"   &    \"     (         !0    @    !     0    $         !"
-"0 $  X    !    8@   &1I<W!4:6UE        9&ES<$UO9&4       !M:6Y4:6UE         &"
-"UA>%1I;64         869T97)&:6YA;%-T<@!S86UP;&54:6UE     'IE<F]#<F]S<P         "
-"     #@   $     &    \"     8         !0    @    !     @    $         \"0   !"
-"                       &E #@   #@    &    \"     8         !0    @    !     0"
-"    $         \"0    @           #P/PX    X    !@    @    &          4    (  "
-"   0    $    !          D    (               .    .     8    (    !@         "
-"%    \"     $    !     0         )    \"            &E #@   $     &    \"    "
-" 0         !0    @    !    \"P    $         $     L   !%>'1R87!O;&%T90      #"
-"@   #@    &    \"     8         !0    @    !     0    $         \"0    @     "
-"          X    P    !@    @    $          4    (     0    (    !         !   "
-"@!O;@  #@     $   &    \"     (         !0    @    !     P    $         !0 $ "
-" X    !    .    &%C=&EV941I<W!)9'@ =&EM95)A;F=E      !N86UE             &1I<W"
-"!L87E286YG90  #@   %@    &    \"     8         !0    @    !    !0    $       "
-"  \"0   \"@            40        !!         \"$          0        / _#@   $  "
-"   &    \"     8         !0    @    !     @    $         \"0   !             "
-"          &E #@   $     &    \"     0         !0    @    !    #0    $        "
-" $     T   !!:6QE<F]N(#4@1&5G    #@   $     &    \"     8         !0    @    "
-"!     @    $         \"0   !                       &E #@   %@    &    \"     "
-"8         !0    @    !    !0    $         \"0   \"@            40        !!  "
-"       \"$          0        / _#@   $     &    \"     8         !0    @    !"
-"     @    $         \"0   !                       &E #@   #     &    \"     0"
-"         !0    @    !    !     $         $  $ %1R:6T.    0     8    (    !@  "
-"       %    \"     $    \"     0         )    $                       :4 .   "
-" 6     8    (    !@         %    \"     $    %     0         )    *          "
-"  !1         $$         (0         !         \\#\\.    0     8    (    !@    "
-"     %    \"     $    \"     0         )    $                       :4 .    ."
-"     8    (    !          %    \"     $    (     0         0    \"    $5L979A"
-"=&]R#@   $     &    \"     8         !0    @    !     @    $         \"0   ! "
-"                      &E #@   #@    &    \"     8         !0    @    !     0 "
-"   $         \"0    @             0 X    X    !@    @    &          4    (   "
-"  0    $    !          D    (               "
+"  )    \"        ##@G>! #@   #@    &    \"     8         !0    @    !     0  "
+"  $         \"0    @        PP)W@0 X    X    !@    @    &          4    (    "
+" 0    $    !          D    (            $$ .    0     8    (    !@         % "
+"   \"     $    \"     0         )    $                        $ .    ,     8 "
+"   (    !          %    \"     $    \"     0         0  ( 5$P   X    X    !@ "
+"   @    &          4    (     0    $    !          D    (        ,&\">X$ .   "
+" .     8    (    !@         %    \"     $    !     0         )    \"        #"
+"! GN! #@   #@    &    \"     8         !0    @    !     0    $         \"0   "
+" @            (0 X   !     !@    @    &          4    (     0    (    !      "
+"    D    0            \\+\\       #P/PX    P    !@    @    $          4    ( "
+"    0    (    !         !   @!43   #@   #@    &    \"     8         !0    @  "
+"  !     0    $         \"0    @        PX)[@0 X    X    !@    @    &         "
+" 4    (     0    $    !          D    (        ,,\">X$ .    .     8    (    !"
+"@         %    \"     $    !     0         )    \"             ! #@   $     &"
+"    \"     8         !0    @    !     @    $         \"0   !            #POP "
+"      / _#@   #     &    \"     0         !0    @    !     @    $         $  "
+"\" %1,   .    .     8    (    !@         %    \"     $    !     0         )  "
+"  \"        #!@G^! #@   #@    &    \"     8         !0    @    !     0    $  "
+"       \"0    @        P0)_@0 X    X    !@    @    &          4    (     0   "
+" $    !          D    (            \\#\\.    0     8    (    !@         %    "
+"\"     $    \"     0         )    $            /\"_        \\#\\.    ,     8 "
+"   (    !          %    \"     $    \"     0         0  ( 5$P   X    X    !@ "
+"   @    &          4    (     0    $    !          D    (        ,.\"?X$ .   "
+" .     8    (    !@         %    \"     $    !     0         )    \"        #"
+"# G^! #@   &@\"   &    \"     (         !0    @    !     0    $         !0 $ "
+" X    !    8@   &1I<W!4:6UE        9&ES<$UO9&4       !M:6Y4:6UE         &UA>%"
+"1I;64         869T97)&:6YA;%-T<@!S86UP;&54:6UE     'IE<F]#<F]S<P             "
+" #@   $     &    \"     8         !0    @    !     @    $         \"0   !    "
+"                   &E #@   #@    &    \"     8         !0    @    !     0    "
+"$         \"0    @           #P/PX    X    !@    @    &          4    (     0"
+"    $    !          D    (               .    .     8    (    !@         %   "
+" \"     $    !     0         )    \"            &E #@   $     &    \"     0  "
+"       !0    @    !    \"P    $         $     L   !%>'1R87!O;&%T90      #@   "
+"#@    &    \"     8         !0    @    !     0    $         \"0    @         "
+"      X    P    !@    @    $          4    (     0    (    !         !   @!O;"
+"@  #@     $   &    \"     (         !0    @    !     P    $         !0 $  X  "
+"  !    .    &%C=&EV941I<W!)9'@ =&EM95)A;F=E      !N86UE             &1I<W!L87"
+"E286YG90  #@   %@    &    \"     8         !0    @    !    !0    $         \""
+"0   \"@            40        !!         \"$          0        / _#@   $     &"
+"    \"     8         !0    @    !     @    $         \"0   !                 "
+"      &E #@   $     &    \"     0         !0    @    !    #0    $         $  "
+"   T   !!:6QE<F]N(#4@1&5G    #@   $     &    \"     8         !0    @    !   "
+"  @    $         \"0   !                       &E #@   %@    &    \"     8   "
+"      !0    @    !    !0    $         \"0   \"@            40        !!      "
+"   \"$          0        / _#@   $     &    \"     8         !0    @    !    "
+" @    $         \"0   !                       &E #@   #     &    \"     0    "
+"     !0    @    !    !     $         $  $ %1R:6T.    0     8    (    !@      "
+"   %    \"     $    \"     0         )    $                       :4 .    6  "
+"   8    (    !@         %    \"     $    %     0         )    *            !1"
+"         $$         (0         !         \\#\\.    0     8    (    !@        "
+" %    \"     $    \"     0         )    $                       :4 .    .    "
+" 8    (    !          %    \"     $    (     0         0    \"    $5L979A=&]R"
+"#@   $     &    \"     8         !0    @    !     @    $         \"0   !     "
+"                  &E #@   #@    &    \"     8         !0    @    !     0    $"
+"         \"0    @             0 X    X    !@    @    &          4    (     0 "
+"   $    !          D    (               "
   }
 }
 
@@ -20907,8 +23534,6 @@ Stateflow {
 		firstJunction                             		4
 		viewObj                                   		2
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		6
@@ -21072,8 +23697,6 @@ Stateflow {
 		firstJunction                             		12
 		viewObj                                   		10
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		14
@@ -21208,8 +23831,6 @@ Stateflow {
 		firstJunction                             		19
 		viewObj                                   		17
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		21
