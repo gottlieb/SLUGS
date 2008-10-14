@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.133"
+    ComputedModelVersion    "1.135"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ASL_Lab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sat Sep 27 18:44:30 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:133>"
+  LastModifiedDate	  "Thu Oct 02 21:05:35 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:135>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -935,7 +935,7 @@ Model {
   }
   System {
     Name		    "sensorMCU"
-    Location		    [262, 129, 1069, 739]
+    Location		    [78, 99, 864, 657]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -951,7 +951,7 @@ Model {
     ReportName		    "simulink-default.rpt"
     Block {
       BlockType		      SubSystem
-      Name		      "Compute Load"
+      Name		      "Compute CPU Load"
       Ports		      [0, 1]
       Position		      [180, 278, 260, 322]
       BackgroundColor	      "orange"
@@ -960,7 +960,7 @@ Model {
       FunctionWithSeparateData off
       MaskHideContents	      off
       System {
-	Name			"Compute Load"
+	Name			"Compute CPU Load"
 	Location		[338, 369, 997, 572]
 	Open			off
 	ModelBrowserVisibility	off
@@ -1151,7 +1151,7 @@ Model {
     Block {
       BlockType		      Constant
       Name		      "Constant"
-      Position		      [620, 135, 650, 165]
+      Position		      [615, 85, 645, 115]
       ShowName		      off
       OutDataTypeMode	      "boolean"
     }
@@ -1198,25 +1198,10 @@ Model {
     }
     Block {
       BlockType		      Reference
-      Name		      "Digital Output Write"
+      Name		      "Drive SPI SSL High"
       Tag		      "dsPIC_Digital_Output"
       Ports		      [1]
-      Position		      [665, 20, 765, 60]
-      BackgroundColor	      "darkGreen"
-      Priority		      "5"
-      SourceBlock	      "dsPICdrivers/Digital I//O/Digital Output Write"
-      SourceType	      ""
-      PORT		      "G"
-      Pin		      "[ 14]"
-      Simultaneous	      off
-      OrderingInOutPopup      "None"
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Drive SSL High"
-      Tag		      "dsPIC_Digital_Output"
-      Ports		      [1]
-      Position		      [670, 130, 770, 170]
+      Position		      [665, 80, 765, 120]
       BackgroundColor	      "darkGreen"
       Priority		      "5"
       SourceBlock	      "dsPICdrivers/Digital I//O/Digital Output Write"
@@ -8372,6 +8357,39 @@ Model {
     }
     Block {
       BlockType		      Reference
+      Name		      "Initialize GPS\nDecoder"
+      Tag		      "dsPIC_dsPIC_CFunctionCall"
+      Ports		      []
+      Position		      [25, 127, 130, 163]
+      BackgroundColor	      "yellow"
+      List {
+	ListType		RTWdata
+	FctDeclaration		"extern void gpsInit();"
+	FctCall			"gpsInit();"
+	fctName			"gpsInit"
+	INPUT_SIZE		"1"
+	OUTPUT_SIZE		"1"
+	NBR_INPUT		"0"
+	NBR_OUTPUT		"0"
+      }
+      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+      SourceType	      "C Function Call"
+      fctName		      "'gpsInit'"
+      INPUT_SIZE	      "1"
+      INPUT1		      "--"
+      INPUT2		      "--"
+      INPUT3		      "--"
+      OUTPUT_SIZE	      "1"
+      OUTPUT1		      "--"
+      SampleTime	      "inf"
+      InputType		      "[ ]"
+      OutputType	      "[ ]"
+      FctDeclaration	      "extern void gpsInit();"
+      FctCall		      "gpsInit();"
+      OrderingInOutPopup      "None"
+    }
+    Block {
+      BlockType		      Reference
       Name		      "Initialize SPI Master"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      []
@@ -8513,6 +8531,21 @@ Model {
 	RTWStorageClass		"Auto"
 	DataLoggingNameMode	"SignalName"
       }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Pilot LED"
+      Tag		      "dsPIC_Digital_Output"
+      Ports		      [1]
+      Position		      [665, 20, 765, 60]
+      BackgroundColor	      "darkGreen"
+      Priority		      "5"
+      SourceBlock	      "dsPICdrivers/Digital I//O/Digital Output Write"
+      SourceType	      ""
+      PORT		      "G"
+      Pin		      "[ 14]"
+      Simultaneous	      off
+      OrderingInOutPopup      "None"
     }
     Block {
       BlockType		      SubSystem
@@ -9776,7 +9809,7 @@ Model {
     }
     Block {
       BlockType		      SubSystem
-      Name		      "complimentary filter2"
+      Name		      "complimentary filter"
       Ports		      [4, 1]
       Position		      [350, 374, 455, 496]
       MinAlgLoopOccurrences   off
@@ -9784,7 +9817,7 @@ Model {
       FunctionWithSeparateData off
       MaskHideContents	      off
       System {
-	Name			"complimentary filter2"
+	Name			"complimentary filter"
 	Location		[-79, 278, 1245, 691]
 	Open			off
 	ModelBrowserVisibility	off
@@ -11873,39 +11906,6 @@ Model {
       Nothing		      "0"
     }
     Block {
-      BlockType		      Reference
-      Name		      "gpsParser Init"
-      Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      []
-      Position		      [25, 127, 130, 163]
-      BackgroundColor	      "yellow"
-      List {
-	ListType		RTWdata
-	FctDeclaration		"extern void gpsInit();"
-	FctCall			"gpsInit();"
-	fctName			"gpsInit"
-	INPUT_SIZE		"1"
-	OUTPUT_SIZE		"1"
-	NBR_INPUT		"0"
-	NBR_OUTPUT		"0"
-      }
-      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-      SourceType	      "C Function Call"
-      fctName		      "'gpsInit'"
-      INPUT_SIZE	      "1"
-      INPUT1		      "--"
-      INPUT2		      "--"
-      INPUT3		      "--"
-      OUTPUT_SIZE	      "1"
-      OUTPUT1		      "--"
-      SampleTime	      "inf"
-      InputType		      "[ ]"
-      OutputType	      "[ ]"
-      FctDeclaration	      "extern void gpsInit();"
-      FctCall		      "gpsInit();"
-      OrderingInOutPopup      "None"
-    }
-    Block {
       BlockType		      SubSystem
       Name		      "myMux Fun"
       Ports		      [5, 1]
@@ -12072,13 +12072,13 @@ Model {
     Line {
       SrcBlock		      "Data Type Conversion2"
       SrcPort		      1
-      DstBlock		      "Digital Output Write"
+      DstBlock		      "Pilot LED"
       DstPort		      1
     }
     Line {
       SrcBlock		      "Constant"
       SrcPort		      1
-      DstBlock		      "Drive SSL High"
+      DstBlock		      "Drive SPI SSL High"
       DstPort		      1
     }
     Line {
@@ -12096,7 +12096,7 @@ Model {
       }
     }
     Line {
-      SrcBlock		      "Compute Load"
+      SrcBlock		      "Compute CPU Load"
       SrcPort		      1
       Points		      [25, 0; 0, -35]
       DstBlock		      "myMux Fun"
@@ -12124,25 +12124,25 @@ Model {
     Line {
       SrcBlock		      "Get XYZ in LTP"
       SrcPort		      1
-      DstBlock		      "complimentary filter2"
+      DstBlock		      "complimentary filter"
       DstPort		      4
     }
     Line {
       SrcBlock		      "Raw Sensors"
       SrcPort		      2
       Points		      [30, 0; 0, 20]
-      DstBlock		      "complimentary filter2"
+      DstBlock		      "complimentary filter"
       DstPort		      1
     }
     Line {
       SrcBlock		      "Raw Sensors"
       SrcPort		      3
       Points		      [20, 0; 0, 30]
-      DstBlock		      "complimentary filter2"
+      DstBlock		      "complimentary filter"
       DstPort		      2
     }
     Line {
-      SrcBlock		      "complimentary filter2"
+      SrcBlock		      "complimentary filter"
       SrcPort		      1
       Points		      [30, 0; 0, -75; -130, 0; 0, -55]
       DstBlock		      "myMux Fun"
@@ -12201,7 +12201,7 @@ Model {
     Line {
       SrcBlock		      "Mux2"
       SrcPort		      1
-      DstBlock		      "complimentary filter2"
+      DstBlock		      "complimentary filter"
       DstPort		      3
     }
   }
@@ -13369,7 +13369,7 @@ Stateflow {
 
 	chart {
 		id                                        		55
-		name                                      		"complimentary filter2/get theta, phi from accels"
+		name                                      		"complimentary filter/get theta, phi from accels"
 		windowPosition                            		[433.631 176.325 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
@@ -13499,14 +13499,14 @@ Stateflow {
 
 	instance {
 		id     		61
-		name   		"complimentary filter2/get theta, phi from accels"
+		name   		"complimentary filter/get theta, phi from accels"
 		machine		1
 		chart  		55
 	}
 
 	chart {
 		id                                        		62
-		name                                      		"complimentary filter2/gyros to euler_dot"
+		name                                      		"complimentary filter/gyros to euler_dot"
 		windowPosition                            		[448.631 161.325 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
@@ -13709,7 +13709,7 @@ Stateflow {
 
 	instance {
 		id     		71
-		name   		"complimentary filter2/gyros to euler_dot"
+		name   		"complimentary filter/gyros to euler_dot"
 		machine		1
 		chart  		62
 	}
