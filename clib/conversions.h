@@ -7,6 +7,7 @@
        	
 float bytesToFloat (unsigned char* inBytes);
 void floatToBytes (float inFloat, unsigned char* inBytes);
+unsigned short bytesToUShort (unsigned char* inBytes);
 
 
 #ifdef __cplusplus

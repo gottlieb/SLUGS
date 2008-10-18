@@ -90,7 +90,6 @@ __published:	// IDE-managed Components
     TStringField *tb_configwaypointFile;
     TApdComPort *cp_serial;
     TSpeedButton *bt_serial;
-    TAbLED *ld_serial;
     TTimer *Timer2;
     TGroupBox *GroupBox1;
     TLabel *Label9;
@@ -133,9 +132,6 @@ __published:	// IDE-managed Components
     TLabel *Label27;
     TStaticText *et_magz;
     TRadioGroup *rg_plot;
-    TAbMiniTrend *mt_x;
-    TAbMiniTrend *mt_y;
-    TAbMiniTrend *mt_z;
     TGroupBox *GroupBox3;
     TDBEdit *DBEdit4;
     TLabel *Label28;
@@ -148,7 +144,13 @@ __published:	// IDE-managed Components
     TFloatField *tb_configlonGS;
     TFloatField *tb_configheightGS;
     TIntegerField *tb_configtessalateTransparency;
+    TAbMiniTrend *mt_x;
+    TAbLED *AbLED1;
+    TAbLED *ld_serial;
+    TAbMiniTrend *mt_y;
+    TAbMiniTrend *mt_z;
     TAbVCInd *ai_att;
+    TAbVCInd *ai_copy;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
