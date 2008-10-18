@@ -19,3 +19,10 @@ void floatToBytes (float inFloat, unsigned char* inBytes){
 	inBytes[2] = convert.chData[2];
 	inBytes[3] = convert.chData[3];	
 }
+
+unsigned short bytesToUShort (unsigned char* inBytes){
+	tUnsignedShortToChar convert;
+	convert.chData[0] = inBytes[0];
+	convert.chData[1] = inBytes[1];
+	return convert.usData;
+}

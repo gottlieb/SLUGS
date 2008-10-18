@@ -218,7 +218,7 @@ void __fastcall TFPpal::bt_serialClick(TObject *Sender)
    cp_serial->Open = True;
    bt_serial->Tag = 1;
    bt_serial->Caption = "Close Serial Port";
-   ld_serial->StatusInt = 1;
+  ld_serial->StatusInt = 1;
    Timer2->Enabled = true;
    mt_x->Flow = true;
    mt_y->Flow = true;
@@ -249,11 +249,12 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    gpsSamples[0] = temp;
    rawSample = getRawStruct();
    attitudeSample = getAttStruct();
+   xyzSample = getXYZStruct();
 
-   updateGPSLabels();
+   updateGPSLabels();                 
    updateRawLabels();
    updatePlots();
-   //updateAttitude();
+   updateAttitude();
 
 }
 //---------------------------------------------------------------------------
@@ -300,21 +301,22 @@ void TFPpal::updateRawLabels(void){
 void TFPpal::updatePlots(void){
   switch (rg_plot->ItemIndex){
      case 0:
-        mt_x->DigitCh1 = rawSample.accelX.usData;
-        mt_y->DigitCh1 = rawSample.accelY.usData;
-        mt_z->DigitCh1 = rawSample.accelZ.usData;
-     break;
-     case 1:
-        mt_x->DigitCh1 = rawSample.gyroX.usData;
-        mt_y->DigitCh1 = rawSample.gyroY.usData;
-        mt_z->DigitCh1 = rawSample.gyroZ.usData;
-     break;
-     case 2:
-        mt_x->DigitCh1 = rawSample.magX.usData;
-        mt_y->DigitCh1 = rawSample.magY.usData;
-        mt_z->DigitCh1 = rawSample.magZ.usData;
+       mt_x->DigitCh1 = rawSample.accelX.usData;
+       mt_y->DigitCh1 = rawSample.accelY.usData;
+       mt_z->DigitCh1 = rawSample.accelZ.usData;
+    break;
+    case 1:
+       mt_x->DigitCh1 = rawSample.gyroX.usData;
+       mt_y->DigitCh1 = rawSample.gyroY.usData;
+       mt_z->DigitCh1 = rawSample.gyroZ.usData;
+    break;
+    case 2:
+       mt_x->DigitCh1 = rawSample.magX.usData;
+       mt_y->DigitCh1 = rawSample.magY.usData;
+       mt_z->DigitCh1 = rawSample.magZ.usData;
      break;
   }
+
 }
 
 void __fastcall TFPpal::cp_serialTriggerAvail(TObject *CP, WORD Count)
@@ -551,8 +553,14 @@ float TFPpal::deg2Rad(float mDeg){
 
 void TFPpal::updateAttitude(void)
 {
-  ai_att->Roll = RAD2DEG*attitudeSample.roll.flData;
+  ai_att->Roll = -RAD2DEG*attitudeSample.roll.flData;
   ai_att->Pitch = RAD2DEG*attitudeSample.pitch.flData;
-  //ai_att->Course = RAD2DEG*attitudeSample.yaw.flData;
+  ai_att->Course = RAD2DEG*attitudeSample.yaw.flData;
+
+  ai_copy->Roll = -RAD2DEG*xyzSample.Xcoord.flData;
+  ai_copy->Pitch = RAD2DEG*xyzSample.Ycoord.flData;
+  ai_copy->Course = RAD2DEG*xyzSample.Zcoord.flData;
+
+
 }
 //---------------------------------------------------------------------------

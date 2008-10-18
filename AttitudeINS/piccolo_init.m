@@ -8,6 +8,8 @@
 
 % Sample time
 APtsamp = 0.05;
+tsamp = APtsamp;
+aptsamp = APtsamp;
 
 % Sensors
 SizeSensors = 26;
@@ -277,14 +279,14 @@ demin=-15*deg2rad;
 demax=15*deg2rad;
 drmin=-25*deg2rad;
 drmax=25*deg2rad;
-dtmin=0;
-dtmax=1;
+dtmin=0.25;
+dtmax=0.7;
 dfmin=0*deg2rad;
 dfmax=30*deg2rad;
 
 % trim
 datrim=0*deg2rad;
-detrim=-0.75*deg2rad;
+detrim=-3*deg2rad;
 drtrim=0*deg2rad;
 dttrim=0.35;
 
