@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.154"
+    ComputedModelVersion    "1.156"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ASL_Lab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Oct 17 12:30:30 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:154>"
+  LastModifiedDate	  "Tue Oct 21 14:39:17 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:156>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -1855,7 +1855,7 @@ Model {
       System {
 	Name			"INS Filter"
 	Location		[64, 232, 1180, 753]
-	Open			on
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -5697,7 +5697,7 @@ Model {
 	  System {
 	    Name		    "Clock Updates"
 	    Location		    [287, 390, 952, 654]
-	    Open		    on
+	    Open		    off
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -8758,6 +8758,7 @@ Model {
 	  Position		  [1000, 180, 1030, 210]
 	  SineType		  "Sample based"
 	  Amplitude		  "15*pi/180"
+	  Samples		  "100"
 	  SampleTime		  ".01"
 	}
 	Block {
@@ -8767,6 +8768,7 @@ Model {
 	  Position		  [1005, 220, 1035, 250]
 	  SineType		  "Sample based"
 	  Amplitude		  "10*pi/180"
+	  Samples		  "100"
 	  SampleTime		  ".01"
 	}
 	Block {
@@ -8776,6 +8778,7 @@ Model {
 	  Position		  [1005, 260, 1035, 290]
 	  SineType		  "Sample based"
 	  Amplitude		  "20*pi/180"
+	  Samples		  "100"
 	  SampleTime		  ".01"
 	}
 	Block {
@@ -9444,7 +9447,7 @@ Model {
 	      Name		      "Rate Transition1"
 	      Position		      [290, 104, 330, 146]
 	      ShowName		      off
-	      X0		      ".01"
+	      OutPortSampleTime	      "0.01"
 	    }
 	    Block {
 	      BlockType		      Outport
@@ -9839,7 +9842,7 @@ Model {
 	  BlockType		  SubSystem
 	  Name			  "to Bytes2"
 	  Ports			  [1, 1]
-	  Position		  [535, 14, 635, 56]
+	  Position		  [885, 14, 985, 56]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
@@ -10323,7 +10326,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "XYZ bytes"
-	  Position		  [790, 23, 820, 37]
+	  Position		  [1030, 23, 1060, 37]
 	  Port			  "5"
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
@@ -10467,12 +10470,6 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Attitude FIlter"
-	  SrcPort		  4
-	  DstBlock		  "to Bytes3"
-	  DstPort		  1
-	}
-	Line {
 	  SrcBlock		  "to Bytes1"
 	  SrcPort		  1
 	  DstBlock		  "Euler, bytes"
@@ -10482,13 +10479,6 @@ Model {
 	  SrcBlock		  "to Bytes3"
 	  SrcPort		  1
 	  DstBlock		  "pqr bytes"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Translational Filter"
-	  SrcPort		  1
-	  Points		  [0, -130]
-	  DstBlock		  "to Bytes2"
 	  DstPort		  1
 	}
 	Line {
@@ -10555,9 +10545,23 @@ Model {
 	Line {
 	  SrcBlock		  "Mux"
 	  SrcPort		  1
-	  Points		  [-90, 0; 0, -65]
-	  DstBlock		  "to Bytes1"
-	  DstPort		  1
+	  Points		  [-90, 0]
+	  Branch {
+	    Points		    [0, -65]
+	    Branch {
+	      DstBlock		      "to Bytes1"
+	      DstPort		      1
+	    }
+	    Branch {
+	      DstBlock		      "to Bytes2"
+	      DstPort		      1
+	    }
+	  }
+	  Branch {
+	    Points		    [-40, 0]
+	    DstBlock		    "to Bytes3"
+	    DstPort		    1
+	  }
 	}
       }
     }

@@ -253,6 +253,7 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
 
    updateGPSLabels();                 
    updateRawLabels();
+   updateAttitudeLabels();
    updatePlots();
    updateAttitude();
 
@@ -296,6 +297,22 @@ void TFPpal::updateRawLabels(void){
    et_magx->Caption = IntToStr(rawSample.magX.usData);
    et_magy->Caption = IntToStr(rawSample.magY.usData);
    et_magz->Caption = IntToStr(rawSample.magZ.usData);
+}
+
+void TFPpal::updateAttitudeLabels(void){
+   // update the display
+   // ========= Raw =============
+   et_x->Caption = FloatToStr(xyzSample.Xcoord.flData);
+   et_y->Caption = FloatToStr(xyzSample.Ycoord.flData);
+   et_z->Caption = FloatToStr(xyzSample.Zcoord.flData);
+
+   et_p->Caption = FloatToStr(-RAD2DEG*attitudeSample.p.flData);
+   et_q->Caption = FloatToStr(RAD2DEG*attitudeSample.q.flData);
+   et_r->Caption = FloatToStr(RAD2DEG*attitudeSample.r.flData);
+
+   et_phi->Caption = FloatToStr(-RAD2DEG*attitudeSample.roll.flData);
+   et_theta->Caption = FloatToStr(RAD2DEG*attitudeSample.pitch.flData);
+   et_psi->Caption = FloatToStr(RAD2DEG*attitudeSample.yaw.flData);
 }
 
 void TFPpal::updatePlots(void){
@@ -563,3 +580,4 @@ void TFPpal::updateAttitude(void)
 
 }
 //---------------------------------------------------------------------------
+
