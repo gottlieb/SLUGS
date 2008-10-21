@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "protDecoder.h"
+#include "apDefinitions.h"
 
 	unsigned char msg1 [] = {38,42,21,14,15,42,79,36,64,02,01,12,42,79,36,64,3,
 							 18,12,45,12,12,15,14,18,14,16,03,14,18,17,78,
@@ -46,7 +47,7 @@ int main (int argc, char const* argv[])
         while (i<fileLen-35){
 	        fread(buffer, 35, 1, file);
                 i+=35;
-                protParseDecode(buffer, retV);
+                protParseDecode(buffer);
         }
         fclose(file);
 	//Do what ever with buffer

@@ -1,6 +1,7 @@
 #ifndef _PROTDECODER_H_
 #define _PROTDECODER_H_
 
+#include "apDefinitions.h"
 
 
 #ifdef __cplusplus

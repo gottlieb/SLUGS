@@ -151,6 +151,25 @@ __published:	// IDE-managed Components
     TAbMiniTrend *mt_z;
     TAbVCInd *ai_att;
     TAbVCInd *ai_copy;
+    TGroupBox *GroupBox4;
+    TLabel *Label31;
+    TLabel *Label32;
+    TLabel *Label33;
+    TLabel *Label34;
+    TLabel *Label35;
+    TLabel *Label36;
+    TLabel *Label37;
+    TLabel *Label38;
+    TLabel *Label39;
+    TStaticText *et_x;
+    TStaticText *et_y;
+    TStaticText *et_z;
+    TStaticText *et_phi;
+    TStaticText *et_theta;
+    TStaticText *et_psi;
+    TStaticText *et_p;
+    TStaticText *et_q;
+    TStaticText *et_r;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -182,6 +201,7 @@ public:		// User declarations
 
         void updateGPSLabels(void);
         void updateRawLabels(void);
+        void updateAttitudeLabels(void);
         void updatePlots(void);
         void updateAttitude(void);
         float computeDistance(float lat, float lon);
