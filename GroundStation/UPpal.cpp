@@ -557,10 +557,9 @@ void TFPpal::updateAttitude(void)
   ai_att->Pitch = RAD2DEG*attitudeSample.pitch.flData;
   ai_att->Course = RAD2DEG*attitudeSample.yaw.flData;
 
-  ai_copy->Roll = -RAD2DEG*xyzSample.Xcoord.flData;
-  ai_copy->Pitch = RAD2DEG*xyzSample.Ycoord.flData;
-  ai_copy->Course = RAD2DEG*xyzSample.Zcoord.flData;
-
+  ai_copy->Roll = -RAD2DEG*attitudeSample.p.flData;
+  ai_copy->Pitch = RAD2DEG*attitudeSample.q.flData;
+  ai_copy->Course = RAD2DEG*attitudeSample.r.flData;
 
 }
 //---------------------------------------------------------------------------
