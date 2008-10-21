@@ -1645,6 +1645,7 @@ object FPpal: TFPpal
         RollScale.SubStepLines.Pen.Color = clSilver
         RollScale.SubStepLines.Length = 8
         RollScale.TextAlignment = toMidCenter
+        Pitch = 5
         ScaleHeight = 50
         Color = clBtnFace
         ColorSky = 16760767
