@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.490"
+    ComputedModelVersion    "1.496"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -47,8 +47,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ASL_Lab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Oct 20 17:22:30 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:490>"
+  LastModifiedDate	  "Mon Oct 20 19:39:29 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:496>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -108,7 +108,7 @@ Model {
 	  $ObjectID		  2
 	  Version		  "1.2.0"
 	  StartTime		  "0.0"
-	  StopTime		  "60"
+	  StopTime		  "250"
 	  AbsTol		  "auto"
 	  FixedStep		  "SampleT"
 	  InitialStep		  "auto"
@@ -842,6 +842,19 @@ Model {
       SampleTime	      "-1"
     }
     Block {
+      BlockType		      Sin
+      SineType		      "Time based"
+      TimeSource	      "Use simulation time"
+      Amplitude		      "1"
+      Bias		      "0"
+      Frequency		      "1"
+      Phase		      "0"
+      Samples		      "10"
+      Offset		      "0"
+      SampleTime	      "-1"
+      VectorParams1D	      on
+    }
+    Block {
       BlockType		      Step
       Time		      "1"
       Before		      "0"
@@ -962,7 +975,7 @@ Model {
   }
   System {
     Name		    "PositionComplementary"
-    Location		    [65, 107, 1251, 936]
+    Location		    [15, 87, 1201, 916]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -980,7 +993,7 @@ Model {
       BlockType		      SubSystem
       Name		      "Attitude\nComplementary\nFilter"
       Ports		      [5, 2]
-      Position		      [890, 58, 985, 152]
+      Position		      [890, 53, 985, 147]
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
@@ -1002,12 +1015,12 @@ Model {
       MaskIconOpaque	      on
       MaskIconRotate	      "none"
       MaskIconUnits	      "autoscale"
-      MaskValueString	      "25|0.1|0.01|Euler_0"
+      MaskValueString	      "1.5|0.005|0.01|Euler_0"
       MaskTabNameString	      ",,,"
       System {
 	Name			"Attitude\nComplementary\nFilter"
-	Location		[105, 214, 1178, 618]
-	Open			off
+	Location		[146, 90, 1221, 503]
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1062,7 +1075,7 @@ Model {
 	  BlockType		  SubSystem
 	  Name			  "Embedded\nMATLAB Function"
 	  Ports			  [2, 1]
-	  Position		  [395, 156, 500, 209]
+	  Position		  [405, 156, 510, 209]
 	  ShowName		  off
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
@@ -1302,8 +1315,8 @@ Model {
 	}
 	Block {
 	  BlockType		  From
-	  Name			  "From5"
-	  Position		  [750, 79, 805, 101]
+	  Name			  "From1"
+	  Position		  [325, 124, 380, 146]
 	  BackgroundColor	  "magenta"
 	  ShowName		  off
 	  CloseFcn		  "tagdialog Close"
@@ -1339,7 +1352,8 @@ Model {
 	Block {
 	  BlockType		  Goto
 	  Name			  "Goto1"
-	  Position		  [285, 40, 335, 60]
+	  Position		  [625, 120, 675, 140]
+	  Orientation		  "left"
 	  BackgroundColor	  "cyan"
 	  ShowName		  off
 	  GotoTag		  "Euler"
@@ -1348,7 +1362,7 @@ Model {
 	Block {
 	  BlockType		  Goto
 	  Name			  "Goto2"
-	  Position		  [405, 305, 455, 325]
+	  Position		  [525, 305, 575, 325]
 	  BackgroundColor	  "cyan"
 	  ShowName		  off
 	  GotoTag		  "bg_b"
@@ -1357,15 +1371,50 @@ Model {
 	Block {
 	  BlockType		  InitialCondition
 	  Name			  "IC"
-	  Position		  [740, 183, 780, 227]
+	  Position		  [710, 178, 750, 222]
+	  ShowName		  off
+	  Value			  "P0"
+	  SampleTime		  "T"
+	}
+	Block {
+	  BlockType		  InitialCondition
+	  Name			  "IC1"
+	  Position		  [280, 83, 320, 127]
+	  ShowName		  off
 	  Value			  "P0"
 	  SampleTime		  "T"
 	}
 	Block {
 	  BlockType		  Reference
+	  Name			  "Integer Delay1"
+	  Ports			  [1, 1]
+	  Position		  [700, 118, 725, 142]
+	  Orientation		  "left"
+	  ShowName		  off
+	  SourceBlock		  "simulink/Discrete/Integer Delay"
+	  SourceType		  "Integer Delay"
+	  vinit			  "0.0"
+	  samptime		  "-1"
+	  NumDelays		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Integer Delay2"
+	  Ports			  [1, 1]
+	  Position		  [823, 235, 847, 260]
+	  Orientation		  "down"
+	  ShowName		  off
+	  SourceBlock		  "simulink/Discrete/Integer Delay"
+	  SourceType		  "Integer Delay"
+	  vinit			  "0.0"
+	  samptime		  "-1"
+	  NumDelays		  "1"
+	}
+	Block {
+	  BlockType		  Reference
 	  Name			  "Integer Delay4"
 	  Ports			  [1, 1]
-	  Position		  [660, 213, 685, 237]
+	  Position		  [660, 243, 685, 267]
 	  Orientation		  "left"
 	  ShowName		  off
 	  SourceBlock		  "simulink/Discrete/Integer Delay"
@@ -1390,7 +1439,7 @@ Model {
 	Block {
 	  BlockType		  Gain
 	  Name			  "K1"
-	  Position		  [745, 270, 775, 300]
+	  Position		  [715, 270, 745, 300]
 	  Orientation		  "left"
 	  Gain			  "K1"
 	  ParameterDataTypeMode	  "Inherit via internal rule"
@@ -1400,12 +1449,35 @@ Model {
 	Block {
 	  BlockType		  Gain
 	  Name			  "K2"
-	  Position		  [745, 330, 775, 360]
+	  Position		  [715, 330, 745, 360]
 	  Orientation		  "left"
 	  Gain			  "K2"
 	  ParameterDataTypeMode	  "Inherit via internal rule"
 	  OutDataTypeMode	  "Inherit via internal rule"
 	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "Scope"
+	  Ports			  [1]
+	  Position		  [390, 294, 420, 326]
+	  Orientation		  "left"
+	  Floating		  off
+	  Location		  [-1005, 303, -29, 653]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "60"
+	  YMin			  "-0.05032566998774571"
+	  YMax			  "0.009913287868293486"
+	  SaveName		  "ScopeData13"
+	  DataFormat		  "StructureWithTime"
+	  LimitDataPoints	  off
+	  SampleTime		  "0"
 	}
 	Block {
 	  BlockType		  SubSystem
@@ -1419,7 +1491,7 @@ Model {
 	  MaskHideContents	  off
 	  System {
 	    Name		    "Subsystem"
-	    Location		    [117, 395, 733, 735]
+	    Location		    [555, 606, 1141, 946]
 	    Open		    off
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
@@ -1435,7 +1507,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "bg_{B}"
-	      Position		      [425, 18, 455, 32]
+	      Position		      [390, 18, 420, 32]
 	      Orientation	      "left"
 	      BackgroundColor	      "yellow"
 	      IconDisplay	      "Port number"
@@ -1614,7 +1686,7 @@ Model {
 	    }
 	    Block {
 	      BlockType		      SubSystem
-	      Name		      "Get Roll, Pitch2"
+	      Name		      "Get Roll, Pitch"
 	      Ports		      [1, 1]
 	      Position		      [365, 136, 440, 174]
 	      MinAlgLoopOccurrences   off
@@ -1622,7 +1694,7 @@ Model {
 	      FunctionWithSeparateData off
 	      MaskHideContents	      off
 	      System {
-		Name			"Get Roll, Pitch2"
+		Name			"Get Roll, Pitch"
 		Location		[540, 305, 1227, 616]
 		Open			off
 		ModelBrowserVisibility	off
@@ -1792,7 +1864,7 @@ Model {
 	      BlockType		      Reference
 	      Name		      "Integer Delay5"
 	      Ports		      [1, 1]
-	      Position		      [190, 13, 215, 37]
+	      Position		      [255, 13, 280, 37]
 	      Orientation	      "left"
 	      ShowName		      off
 	      SourceBlock	      "simulink/Discrete/Integer Delay"
@@ -2454,7 +2526,7 @@ Model {
 	    }
 	    Block {
 	      BlockType		      Outport
-	      Name		      "Euler"
+	      Name		      "Euler_sens"
 	      Position		      [520, 173, 550, 187]
 	      BackgroundColor	      "green"
 	      IconDisplay	      "Port number"
@@ -2531,7 +2603,7 @@ Model {
 	      Labels		      [0, 0]
 	      SrcBlock		      "Sum6"
 	      SrcPort		      1
-	      DstBlock		      "Get Roll, Pitch2"
+	      DstBlock		      "Get Roll, Pitch"
 	      DstPort		      1
 	    }
 	    Line {
@@ -2562,7 +2634,7 @@ Model {
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "Get Roll, Pitch2"
+	      SrcBlock		      "Get Roll, Pitch"
 	      SrcPort		      1
 	      Points		      [0, 15]
 	      DstBlock		      "Mux"
@@ -2577,7 +2649,7 @@ Model {
 	    Line {
 	      SrcBlock		      "Mux"
 	      SrcPort		      1
-	      DstBlock		      "Euler"
+	      DstBlock		      "Euler_sens"
 	      DstPort		      1
 	    }
 	    Line {
@@ -2620,13 +2692,20 @@ Model {
 	      DstBlock		      "Terminator"
 	      DstPort		      1
 	    }
+	    Line {
+	      SrcBlock		      "Integer Delay5"
+	      SrcPort		      1
+	      Points		      [-85, 0]
+	      DstBlock		      "Sum7"
+	      DstPort		      1
+	    }
 	  }
 	}
 	Block {
 	  BlockType		  Sum
 	  Name			  "Sum5"
 	  Ports			  [2, 1]
-	  Position		  [825, 195, 845, 215]
+	  Position		  [825, 190, 845, 210]
 	  Orientation		  "down"
 	  ShowName		  off
 	  IconShape		  "round"
@@ -2670,16 +2749,18 @@ Model {
 	  ParameterDataTypeMode	  "Inherit via internal rule"
 	  OutDataTypeMode	  "Inherit via internal rule"
 	  SaturateOnIntegerOverflow off
+	  SampleTime		  "T"
 	}
 	Block {
 	  BlockType		  Gain
 	  Name			  "T4"
-	  Position		  [505, 250, 535, 280]
+	  Position		  [525, 250, 555, 280]
 	  ShowName		  off
 	  Gain			  "T"
 	  ParameterDataTypeMode	  "Inherit via internal rule"
 	  OutDataTypeMode	  "Inherit via internal rule"
 	  SaturateOnIntegerOverflow off
+	  SampleTime		  "T"
 	}
 	Block {
 	  BlockType		  SubSystem
@@ -2830,16 +2911,8 @@ Model {
 	Line {
 	  SrcBlock		  "Subsystem"
 	  SrcPort		  1
-	  Points		  [5, 0]
-	  Branch {
-	    DstBlock		    "Goto1"
-	    DstPort		    1
-	  }
-	  Branch {
-	    Points		    [110, 0]
-	    DstBlock		    "Embedded\nMATLAB Function"
-	    DstPort		    1
-	  }
+	  DstBlock		  "IC1"
+	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "T3"
@@ -2864,40 +2937,20 @@ Model {
 	Line {
 	  SrcBlock		  "Sum8"
 	  SrcPort		  1
-	  Points		  [0, 5; 70, 0]
-	  Branch {
-	    Points		    [0, 20]
-	    DstBlock		    "Integer Delay4"
-	    DstPort		    1
-	  }
-	  Branch {
-	    Points		    [0, -45]
-	    DstBlock		    "Euler_hat"
-	    DstPort		    1
-	  }
-	  Branch {
-	    DstBlock		    "IC"
-	    DstPort		    1
-	  }
-	}
-	Line {
-	  SrcBlock		  "From5"
-	  SrcPort		  1
-	  Points		  [25, 0]
-	  DstBlock		  "Sum5"
-	  DstPort		  2
+	  DstBlock		  "IC"
+	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "Integer Delay4"
 	  SrcPort		  1
-	  Points		  [-65, 0; 0, -10]
+	  Points		  [-65, 0; 0, -40]
 	  DstBlock		  "Sum8"
 	  DstPort		  4
 	}
 	Line {
 	  SrcBlock		  "K1"
 	  SrcPort		  1
-	  Points		  [-160, 0; 0, -80]
+	  Points		  [-130, 0; 0, -80]
 	  DstBlock		  "Sum8"
 	  DstPort		  3
 	}
@@ -2917,15 +2970,8 @@ Model {
 	  }
 	  Branch {
 	    Points		    [0, 35]
-	    Branch {
-	      DstBlock		      "Integer Delay5"
-	      DstPort		      1
-	    }
-	    Branch {
-	      Points		      [0, 5]
-	      DstBlock		      "Goto2"
-	      DstPort		      1
-	    }
+	    DstBlock		    "Integer Delay5"
+	    DstPort		    1
 	  }
 	}
 	Line {
@@ -2945,13 +2991,28 @@ Model {
 	Line {
 	  SrcBlock		  "Embedded\nMATLAB Function1"
 	  SrcPort		  1
-	  DstBlock		  "T4"
-	  DstPort		  1
+	  Points		  [10, 0]
+	  Branch {
+	    Points		    [0, 45]
+	    Branch {
+	      Points		      [0, 5]
+	      DstBlock		      "Goto2"
+	      DstPort		      1
+	    }
+	    Branch {
+	      DstBlock		      "Scope"
+	      DstPort		      1
+	    }
+	  }
+	  Branch {
+	    DstBlock		    "T4"
+	    DstPort		    1
+	  }
 	}
 	Line {
 	  SrcBlock		  "T4"
 	  SrcPort		  1
-	  Points		  [25, 0; 0, -70]
+	  Points		  [5, 0; 0, -70]
 	  DstBlock		  "Sum8"
 	  DstPort		  2
 	}
@@ -2965,7 +3026,7 @@ Model {
 	Line {
 	  SrcBlock		  "K2"
 	  SrcPort		  1
-	  Points		  [-640, 0; 0, -60]
+	  Points		  [-610, 0; 0, -60]
 	  DstBlock		  "inertial to body"
 	  DstPort		  2
 	}
@@ -3013,22 +3074,68 @@ Model {
 	Line {
 	  SrcBlock		  "Sum5"
 	  SrcPort		  1
-	  Points		  [0, 65; 0, 0]
-	  Branch {
-	    DstBlock		    "K1"
-	    DstPort		    1
-	  }
-	  Branch {
-	    Points		    [0, 0; 0, 60]
-	    DstBlock		    "K2"
-	    DstPort		    1
-	  }
+	  DstBlock		  "Integer Delay2"
+	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "IC"
 	  SrcPort		  1
+	  Points		  [30, 0]
+	  Branch {
+	    Points		    [0, 55]
+	    DstBlock		    "Integer Delay4"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Sum5"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -40; -40, 0]
+	    Branch {
+	      DstBlock		      "Euler_hat"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [0, -30]
+	      DstBlock		      "Integer Delay1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "IC1"
+	  SrcPort		  1
+	  Points		  [510, 0]
 	  DstBlock		  "Sum5"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Integer Delay1"
+	  SrcPort		  1
+	  DstBlock		  "Goto1"
 	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From1"
+	  SrcPort		  1
+	  Points		  [0, 35]
+	  DstBlock		  "Embedded\nMATLAB Function"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Integer Delay2"
+	  SrcPort		  1
+	  Points		  [0, 20]
+	  Branch {
+	    Points		    [0, 60]
+	    DstBlock		    "K2"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "K1"
+	    DstPort		    1
+	  }
 	}
       }
     }
@@ -3144,8 +3251,8 @@ Model {
 	axes3			"%<SignalLabel>"
       }
       TimeRange		      "60"
-      YMin		      "-20~-25.33803644914775~-0.3641680926328546"
-      YMax		      "120~112.0265390106658~0.313830848443414"
+      YMin		      "-20~-22.02066011589847~-8.188365650969587"
+      YMax		      "120~110.7583774250439~6.171745152354532"
       SaveName		      "ScopeData20"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
@@ -3157,7 +3264,7 @@ Model {
       Ports		      [3]
       Position		      [985, 544, 1015, 586]
       Floating		      off
-      Location		      [-1045, 307, -21, 1022]
+      Location		      [-1026, 310, -2, 1025]
       Open		      off
       NumInputPorts	      "3"
       ZoomMode		      "yonly"
@@ -3167,9 +3274,9 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      TimeRange		      "200"
-      YMin		      "-50~-350000~-450000"
-      YMax		      "55~450000~350000"
+      TimeRange		      "60"
+      YMin		      "-50~-800~-1.104706778649369"
+      YMax		      "60~800~2.239932163565161"
       SaveName		      "ScopeData8"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
@@ -3240,8 +3347,8 @@ Model {
 	axes3			"%<SignalLabel>"
       }
       TimeRange		      "45"
-      YMin		      "-800~-200~-32.89473684210498"
-      YMax		      "800~1200~32.89473684210498"
+      YMin		      "-800~-200~-0.5002551392331589"
+      YMax		      "800~1200~1.13445837585649"
       SaveName		      "ScopeData2"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
@@ -19395,7 +19502,7 @@ Model {
       MaskIconOpaque	      on
       MaskIconRotate	      "none"
       MaskIconUnits	      "autoscale"
-      MaskValueString	      "50|75|0.1|0.01|Pos_0"
+      MaskValueString	      "1.3|0.5|0.1|0.01|Pos_0"
       MaskTabNameString	      ",,,,"
       System {
 	Name			"Position \nComplementary\nFilter"
@@ -19556,9 +19663,22 @@ Model {
 	  NumDelays		  "1"
 	}
 	Block {
+	  BlockType		  Reference
+	  Name			  "Integer Delay4"
+	  Ports			  [1, 1]
+	  Position		  [978, 275, 1002, 300]
+	  Orientation		  "down"
+	  ShowName		  off
+	  SourceBlock		  "simulink/Discrete/Integer Delay"
+	  SourceType		  "Integer Delay"
+	  vinit			  "0.0"
+	  samptime		  "-1"
+	  NumDelays		  "1"
+	}
+	Block {
 	  BlockType		  Gain
 	  Name			  "K1"
-	  Position		  [720, 275, 750, 305]
+	  Position		  [720, 295, 750, 325]
 	  Orientation		  "left"
 	  Gain			  "K1"
 	  ParameterDataTypeMode	  "Inherit via internal rule"
@@ -19589,7 +19709,7 @@ Model {
 	  BlockType		  Product
 	  Name			  "Product"
 	  Ports			  [2, 1]
-	  Position		  [972, 235, 1003, 265]
+	  Position		  [972, 230, 1003, 260]
 	  Orientation		  "down"
 	  NamePlacement		  "alternate"
 	  ShowName		  off
@@ -20154,7 +20274,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Vb_hat"
-	  Position		  [645, 303, 675, 317]
+	  Position		  [635, 303, 665, 317]
 	  BackgroundColor	  "green"
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
@@ -20338,7 +20458,7 @@ Model {
 	Line {
 	  SrcBlock		  "K1"
 	  SrcPort		  1
-	  Points		  [-55, 0; 0, -80]
+	  Points		  [-30, 0; 0, -35; -25, 0; 0, -65]
 	  DstBlock		  "Sum4"
 	  DstPort		  4
 	}
@@ -20363,23 +20483,8 @@ Model {
 	Line {
 	  SrcBlock		  "Product"
 	  SrcPort		  1
-	  Points		  [0, 20]
-	  Branch {
-	    DstBlock		    "K1"
-	    DstPort		    1
-	  }
-	  Branch {
-	    Points		    [0, 60]
-	    Branch {
-	      DstBlock		      "K2"
-	      DstPort		      1
-	    }
-	    Branch {
-	      Points		      [0, 55]
-	      DstBlock		      "K3"
-	      DstPort		      1
-	    }
-	  }
+	  DstBlock		  "Integer Delay4"
+	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "Update"
@@ -20507,6 +20612,27 @@ Model {
 	    DstPort		    1
 	  }
 	}
+	Line {
+	  SrcBlock		  "Integer Delay4"
+	  SrcPort		  1
+	  Points		  [0, 5]
+	  Branch {
+	    DstBlock		    "K1"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 40; 0, 0]
+	    Branch {
+	      DstBlock		      "K2"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [0, 55]
+	      DstBlock		      "K3"
+	      DstPort		      1
+	    }
+	  }
+	}
       }
     }
     Block {
@@ -20562,7 +20688,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Signal Cond"
-	Location		[395, 440, 650, 589]
+	Location		[395, 421, 1100, 857]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -20584,7 +20710,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "A_raw"
-	  Position		  [25, 98, 55, 112]
+	  Position		  [25, 298, 55, 312]
 	  Port			  "2"
 	  IconDisplay		  "Port number"
 	}
@@ -20592,7 +20718,7 @@ Model {
 	  BlockType		  SubSystem
 	  Name			  "Accel Convert"
 	  Ports			  [1, 1]
-	  Position		  [80, 84, 170, 126]
+	  Position		  [80, 284, 170, 326]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
@@ -21155,6 +21281,26 @@ Model {
 	  }
 	}
 	Block {
+	  BlockType		  Constant
+	  Name			  "Constant"
+	  Position		  [75, 190, 105, 220]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant1"
+	  Position		  [35, 165, 65, 195]
+	  ShowName		  off
+	  Value			  "0"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant2"
+	  Position		  [35, 130, 65, 160]
+	  ShowName		  off
+	  Value			  ".015"
+	}
+	Block {
 	  BlockType		  SubSystem
 	  Name			  "Gyro Convert"
 	  Ports			  [1, 1]
@@ -21689,16 +21835,111 @@ Model {
 	  }
 	}
 	Block {
+	  BlockType		  Reference
+	  Name			  "Manual Switch"
+	  Ports			  [2, 1]
+	  Position		  [135, 177, 165, 213]
+	  ShowName		  off
+	  SourceBlock		  "simulink/Signal\nRouting/Manual Switch"
+	  SourceType		  "Manual Switch"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  sw			  "0"
+	  action		  "0"
+	  varsize		  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Manual Switch1"
+	  Ports			  [2, 1]
+	  Position		  [120, 102, 150, 138]
+	  ShowName		  off
+	  SourceBlock		  "simulink/Signal\nRouting/Manual Switch"
+	  SourceType		  "Manual Switch"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  sw			  "0"
+	  action		  "0"
+	  varsize		  off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product"
+	  Ports			  [2, 1]
+	  Position		  [225, 112, 255, 143]
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "Scope"
+	  Ports			  [1]
+	  Position		  [225, 64, 255, 96]
+	  Floating		  off
+	  Location		  [-1022, 420, -44, 712]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  ZoomMode		  "yonly"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "60"
+	  YMin			  "-0.05"
+	  YMax			  "0.05"
+	  SaveName		  "ScopeData15"
+	  DataFormat		  "StructureWithTime"
+	  LimitDataPoints	  off
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Sin
+	  Name			  "Sine Wave"
+	  Ports			  [0, 1]
+	  Position		  [30, 85, 60, 115]
+	  SineType		  "Time based"
+	  Amplitude		  "0.015"
+	  Frequency		  "0.1"
+	  Samples		  "500"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum"
+	  Ports			  [2, 1]
+	  Position		  [365, 40, 385, 60]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|++"
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
 	  BlockType		  Outport
 	  Name			  "PQR_sen"
-	  Position		  [200, 43, 230, 57]
+	  Position		  [445, 43, 475, 57]
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
 	}
 	Block {
 	  BlockType		  Outport
 	  Name			  "A_sens"
-	  Position		  [195, 98, 225, 112]
+	  Position		  [195, 298, 225, 312]
 	  Port			  "2"
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
@@ -21707,12 +21948,6 @@ Model {
 	  SrcBlock		  "G_raw"
 	  SrcPort		  1
 	  DstBlock		  "Gyro Convert"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Gyro Convert"
-	  SrcPort		  1
-	  DstBlock		  "PQR_sen"
 	  DstPort		  1
 	}
 	Line {
@@ -21726,6 +21961,73 @@ Model {
 	  SrcPort		  1
 	  DstBlock		  "A_sens"
 	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sum"
+	  SrcPort		  1
+	  DstBlock		  "PQR_sen"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Manual Switch1"
+	  SrcPort		  1
+	  Points		  [35, 0]
+	  Branch {
+	    DstBlock		    "Product"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -40]
+	    DstBlock		    "Scope"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Product"
+	  SrcPort		  1
+	  Points		  [115, 0]
+	  DstBlock		  "Sum"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Gyro Convert"
+	  SrcPort		  1
+	  DstBlock		  "Sum"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Manual Switch"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, -60]
+	  DstBlock		  "Product"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Constant"
+	  SrcPort		  1
+	  DstBlock		  "Manual Switch"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Constant1"
+	  SrcPort		  1
+	  Points		  [25, 0; 0, 5]
+	  DstBlock		  "Manual Switch"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sine Wave"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, 10]
+	  DstBlock		  "Manual Switch1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Constant2"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, -15]
+	  DstBlock		  "Manual Switch1"
+	  DstPort		  2
 	}
       }
     }
@@ -43080,7 +43382,7 @@ Model {
     Line {
       SrcBlock		      "From27"
       SrcPort		      1
-      Points		      [25, 0; 0, 10]
+      Points		      [25, 0; 0, 5]
       DstBlock		      "Attitude\nComplementary\nFilter"
       DstPort		      1
     }
@@ -43099,27 +43401,28 @@ Model {
     Line {
       SrcBlock		      "From22"
       SrcPort		      1
-      Points		      [0, -20]
+      Points		      [0, -25]
       DstBlock		      "Attitude\nComplementary\nFilter"
       DstPort		      4
     }
     Line {
       SrcBlock		      "From20"
       SrcPort		      1
+      Points		      [45, 0]
       DstBlock		      "Attitude\nComplementary\nFilter"
       DstPort		      2
     }
     Line {
       SrcBlock		      "From17"
       SrcPort		      1
-      Points		      [0, -10]
+      Points		      [0, -15]
       DstBlock		      "Attitude\nComplementary\nFilter"
       DstPort		      3
     }
     Line {
       SrcBlock		      "From19"
       SrcPort		      1
-      Points		      [35, 0; 0, -30]
+      Points		      [35, 0; 0, -35]
       DstBlock		      "Attitude\nComplementary\nFilter"
       DstPort		      5
     }
