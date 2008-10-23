@@ -163,8 +163,8 @@ void protParseDecode(unsigned char* fromSPI){
 	unsigned char trailerFound = 0;
 	
 	// Add the received bytes to the protocol parsing circular buffer
-    //for(i = 1; i <= fromSPI[0]; i += 1 )
-    for(i = 0; i <= 34; i += 1 )
+    for(i = 1; i <= fromSPI[0]; i += 1 )
+    //for(i = 0; i <= 34; i += 1 )
 	{
 		writeBack(ppBuffer, fromSPI[i]);
 	}
