@@ -114,14 +114,15 @@ void copyBufferToDMA (unsigned char size){
 void logData (unsigned char* rawData, unsigned char* data4SPI){
 	// sample period variable
 	static unsigned char samplePeriod = 0;
-	static unsigned char tmpBuf [MAXLOGLEN] ={0};
-	
+	unsigned char tmpBuf [MAXLOGLEN];
 	
 	// temp var to store the assembled message
 	unsigned char i;
 	unsigned char len2SPI=0;
 	unsigned char bufLen = 0;
-	
+
+	memset(tmpBuf, 0, sizeof(tmpBuf));
+		
 	switch (samplePeriod){
 		case 2:
 			// assemble the CPU load data for protocol sending	
@@ -163,6 +164,8 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 			break;
 	}
 	
+	memset(tmpBuf, 0, sizeof(tmpBuf));
+	
 	// Attitude data. Gets included every sample time
 	// ==============================================
 	
@@ -178,6 +181,7 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 	// increment the data counter for SPI
 	len2SPI += ATTMSG_LEN+7; 
 	
+	memset(tmpBuf, 0, sizeof(tmpBuf));
 	
 	// XYZ data. Gets included every sample time
 	// ==============================================
@@ -192,8 +196,8 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 	
     // set the total data out for SPI
 	data4SPI[0] = len2SPI + XYZMSG_LEN+7; 
-	
 
+	
 	// increment/overflow the samplePeriod counter
 	samplePeriod = (samplePeriod >= 4)? 0: samplePeriod + 1;
 	
@@ -206,7 +210,7 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 		// Configure the bytes to send
 		DMA0CNT =  bufLen<= (MAXSEND-1)? bufLen-1: MAXSEND-1;		
 		// copy the buffer to the DMA channel outgoing buffer	
-		copyBufferToDMA((unsigned char) DMA0CNT);
+		copyBufferToDMA((unsigned char) DMA0CNT+1);
 		// Enable the DMA
 		DMA0CONbits.CHEN = 1;
 		// Init the transmission

@@ -108,7 +108,7 @@ void txProtocol(unsigned char* protData){
 		// Configure the bytes to send
 		DMA0CNT =  bufLen<= (MAXSEND-1)? bufLen-1: MAXSEND-1;	
 		// copy the buffer to the DMA channel outgoing buffer
-		copyBufferToDMA((unsigned char) DMA0CNT);
+		copyBufferToDMA((unsigned char) DMA0CNT+1);
 		// Enable the DMA
 		DMA0CONbits.CHEN = 1;
 		// Init the transmission
