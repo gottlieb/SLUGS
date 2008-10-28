@@ -1471,7 +1471,7 @@ object FPpal: TFPpal
           ShowHint = True
         end
         object Label37: TLabel
-          Left = 8
+          Left = 176
           Top = 70
           Width = 9
           Height = 13
@@ -1490,7 +1490,7 @@ object FPpal: TFPpal
           ShowHint = True
         end
         object Label38: TLabel
-          Left = 8
+          Left = 176
           Top = 86
           Width = 10
           Height = 13
@@ -1509,7 +1509,7 @@ object FPpal: TFPpal
           ShowHint = True
         end
         object Label39: TLabel
-          Left = 8
+          Left = 176
           Top = 102
           Width = 10
           Height = 13
@@ -1518,6 +1518,63 @@ object FPpal: TFPpal
             'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
             ' which such path is refreshed'
           Caption = 'R'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label40: TLabel
+          Left = 8
+          Top = 71
+          Width = 15
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'Vx'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label41: TLabel
+          Left = 8
+          Top = 87
+          Width = 15
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'Vy'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label42: TLabel
+          Left = 8
+          Top = 103
+          Width = 15
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'Vz'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -1642,7 +1699,7 @@ object FPpal: TFPpal
           TabOrder = 5
         end
         object et_p: TStaticText
-          Left = 56
+          Left = 224
           Top = 70
           Width = 105
           Height = 17
@@ -1661,7 +1718,7 @@ object FPpal: TFPpal
           TabOrder = 6
         end
         object et_q: TStaticText
-          Left = 56
+          Left = 224
           Top = 86
           Width = 105
           Height = 17
@@ -1680,7 +1737,7 @@ object FPpal: TFPpal
           TabOrder = 7
         end
         object et_r: TStaticText
-          Left = 56
+          Left = 224
           Top = 102
           Width = 105
           Height = 17
@@ -1697,6 +1754,63 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 8
+        end
+        object et_vx: TStaticText
+          Left = 56
+          Top = 71
+          Width = 105
+          Height = 17
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = 'No Data Available'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 9
+        end
+        object et_vy: TStaticText
+          Left = 56
+          Top = 87
+          Width = 105
+          Height = 17
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = 'No Data Available'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 10
+        end
+        object et_vz: TStaticText
+          Left = 56
+          Top = 103
+          Width = 105
+          Height = 17
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = 'No Data Available'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 11
         end
       end
     end

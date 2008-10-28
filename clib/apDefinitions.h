@@ -237,6 +237,9 @@ typedef struct tXYZData{
 	tFloatToChar	Xcoord;
 	tFloatToChar	Ycoord;
 	tFloatToChar	Zcoord;	
+	tFloatToChar	VX;
+	tFloatToChar	VY;
+	tFloatToChar	VZ;	
 }tXYZData;
 
 
