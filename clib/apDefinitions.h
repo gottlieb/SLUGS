@@ -69,7 +69,7 @@ and data types.
 #define ATTMSG_ID		4
 #define ATTMSG_LEN		24
 #define XYZMSG_ID		11
-#define XYZMSG_LEN		12
+#define XYZMSG_LEN		24
 
 
 // Standard characters used in the parsing of messages
