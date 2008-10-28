@@ -286,9 +286,9 @@ dfmax=30*deg2rad;
 
 % trim
 datrim=0*deg2rad;
-detrim=-3*deg2rad;
+detrim=-1*deg2rad;
 drtrim=0*deg2rad;
-dttrim=0.35;
+dttrim=0.3;
 
 % landing
 dfland=30*deg2rad;
