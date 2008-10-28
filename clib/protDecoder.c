@@ -145,6 +145,18 @@ void updateStates(unsigned char * completeSentence){
 			xyzControlData.Zcoord.chData[1]	= completeSentence[13];
 			xyzControlData.Zcoord.chData[2]	= completeSentence[14];
 			xyzControlData.Zcoord.chData[3]	= completeSentence[15];
+			xyzControlData.VX.chData[0]	= completeSentence[16];
+			xyzControlData.VX.chData[1]	= completeSentence[17];
+			xyzControlData.VX.chData[2]	= completeSentence[18];
+			xyzControlData.VX.chData[3]	= completeSentence[19];
+			xyzControlData.VY.chData[0]	= completeSentence[20];
+			xyzControlData.VY.chData[1]	= completeSentence[21];
+			xyzControlData.VY.chData[2]	= completeSentence[22];
+			xyzControlData.VY.chData[3]	= completeSentence[23];
+			xyzControlData.VZ.chData[0]	= completeSentence[24];
+			xyzControlData.VZ.chData[1]	= completeSentence[25];
+			xyzControlData.VZ.chData[2]	= completeSentence[26];
+			xyzControlData.VZ.chData[3]	= completeSentence[27];
 		break;		
 		default:
 		break;
@@ -171,7 +183,7 @@ void protParseDecode(unsigned char* fromSPI){
 	
 	// update the noMoreBytes flag accordingly
     noMoreBytes = (fromSPI[0]>0)?0:1;
-    //    noMoreBytes = 0;
+
 	
 	while (!noMoreBytes){
 		// if the previous message was complete then read from the circular buffer
@@ -186,7 +198,7 @@ void protParseDecode(unsigned char* fromSPI){
 				if(getLength(ppBuffer)>1 && peak(ppBuffer) == DOLLAR){
 					// read it
 					prevBuffer[indexLast++] = readFront(ppBuffer);
-                                        // if next is a at sign
+                    // if next is a at sign
 					if (peak(ppBuffer) == AT){
 						// read it
 						prevBuffer[indexLast++] = readFront(ppBuffer);

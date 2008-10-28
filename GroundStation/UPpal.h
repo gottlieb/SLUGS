@@ -170,6 +170,12 @@ __published:	// IDE-managed Components
     TStaticText *et_p;
     TStaticText *et_q;
     TStaticText *et_r;
+    TLabel *Label40;
+    TLabel *Label41;
+    TLabel *Label42;
+    TStaticText *et_vx;
+    TStaticText *et_vy;
+    TStaticText *et_vz;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);

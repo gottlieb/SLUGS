@@ -302,9 +302,13 @@ void TFPpal::updateRawLabels(void){
 void TFPpal::updateAttitudeLabels(void){
    // update the display
    // ========= Raw =============
-   et_x->Caption = FloatToStr(xyzSample.Xcoord.flData);
-   et_y->Caption = FloatToStr(xyzSample.Ycoord.flData);
-   et_z->Caption = FloatToStr(xyzSample.Zcoord.flData);
+   et_x->Caption = FloatToStr(-RAD2DEG*xyzSample.Xcoord.flData);
+   et_y->Caption = FloatToStr(RAD2DEG*xyzSample.Ycoord.flData);
+   et_z->Caption = FloatToStr(RAD2DEG*xyzSample.Zcoord.flData);
+
+   et_vx->Caption = FloatToStr(-RAD2DEG*xyzSample.VX.flData);
+   et_vy->Caption = FloatToStr(RAD2DEG*xyzSample.VY.flData);
+   et_vz->Caption = FloatToStr(RAD2DEG*xyzSample.VZ.flData);
 
    et_p->Caption = FloatToStr(-RAD2DEG*attitudeSample.p.flData);
    et_q->Caption = FloatToStr(RAD2DEG*attitudeSample.q.flData);
