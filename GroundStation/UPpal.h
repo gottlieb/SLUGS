@@ -30,6 +30,7 @@
 #include <math.h>
 #include <exception.h>
 #include "AbVCInd.hpp"
+#include "gpsSplit.h"
 
 #define  DISLIMIT      30.0
 
@@ -176,6 +177,7 @@ __published:	// IDE-managed Components
     TStaticText *et_vx;
     TStaticText *et_vy;
     TStaticText *et_vz;
+    TBitBtn *bt_filter;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -191,6 +193,7 @@ __published:	// IDE-managed Components
     void __fastcall Timer1Timer(TObject *Sender);
     void __fastcall rg_tailExit(TObject *Sender);
     void __fastcall bt_gsposClick(TObject *Sender);
+    void __fastcall bt_filterClick(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TFPpal(TComponent* Owner);
@@ -199,6 +202,7 @@ public:		// User declarations
         void addAndAppendNode(char* name, char* value, TiXmlNode* appendTo);
         String getHexColor(unsigned char whichColor);
         String getPlaneCoordinates(void);
+        void assembleMsg(unsigned char* rawData , unsigned char size, unsigned char type, unsigned char* protMsg );
 
         tGpsData gpsSamples[15];
         tRawData rawSample;

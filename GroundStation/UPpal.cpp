@@ -343,12 +343,13 @@ void TFPpal::updatePlots(void){
 void __fastcall TFPpal::cp_serialTriggerAvail(TObject *CP, WORD Count)
 {
   unsigned char fromSerial[BSIZE];
+  unsigned char tmp[2*MAXSEND];
 
   try {
 
     cp_serial->GetBlock(&fromSerial[1], Count);
     fromSerial[0] = Count;
-    protParseDecode (&fromSerial[0]);
+    protParseDecode (&fromSerial[0], &tmp[0]);
 
   }
    catch (exception& EBufferIsEmpty) {
@@ -584,4 +585,37 @@ void TFPpal::updateAttitude(void)
 
 }
 //---------------------------------------------------------------------------
+
+
+void TFPpal::assembleMsg(unsigned char* rawData , unsigned char size, unsigned char type, unsigned char* protMsg ){
+	unsigned char i;
+	// start the header
+	*(protMsg+0) = DOLLAR;
+	*(protMsg+1) = AT;
+	*(protMsg+2) = type;
+	*(protMsg+3) = size;
+	for( i = 0; i < size; i += 1 )
+	{
+		*(protMsg+i+4) = *(rawData +i);
+	}
+	*(protMsg+size+4) = STAR;
+	*(protMsg+size+5) = AT;
+	*(protMsg+size+6) = getChecksum(protMsg, (size+5));
+}
+//---------------------------------------------------------------------------
+void __fastcall TFPpal::bt_filterClick(TObject *Sender)
+{
+ // 32 64 205 1 1 42 64 141
+
+ unsigned char filtMsg[8];
+ unsigned char rawMsg[2];
+
+ rawMsg[0] = 1;
+
+ assembleMsg(&rawMsg[0],FILMSG_LEN,FILMSG_ID,&filtMsg[0]);
+
+ cp_serial->PutBlock(&filtMsg[0],(FILMSG_LEN+7));
+}
+//---------------------------------------------------------------------------
+
 

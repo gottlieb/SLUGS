@@ -1813,6 +1813,15 @@ object FPpal: TFPpal
           TabOrder = 11
         end
       end
+      object bt_filter: TBitBtn
+        Left = 8
+        Top = 400
+        Width = 75
+        Height = 25
+        Caption = 'Filter On/Off'
+        TabOrder = 3
+        OnClick = bt_filterClick
+      end
     end
     object TabSheet3: TTabSheet
       Caption = 'Ap Configuration'
