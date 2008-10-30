@@ -167,8 +167,9 @@ int main (int argc, char const* argv[])
     unsigned long i;
 
     unsigned char mychk;
-    unsigned char myRawData[85];
-    unsigned char myData4SPI[85];
+    unsigned char myRawData[97];
+    unsigned char myData4SPI[97];
+    unsigned char myToLog[97];
 
     logBuffer = (struct CircBuffer* )&com2Buffer;
 	newCircBuffer(logBuffer);
@@ -201,12 +202,12 @@ int main (int argc, char const* argv[])
 
     //====================
 
-    for (i=0;i<10 ;i+=1)
+    /*for (i=0;i<10 ;i+=1)
     {
       logData(myRawData,myData4SPI);
       myData4SPI;
       memset(myData4SPI,0,sizeof(myData4SPI));
-    }
+    }*/
 
     
 	//Open file
@@ -235,10 +236,10 @@ int main (int argc, char const* argv[])
 
 	//Read file contents into buffer
         i = 0;
-        while (i<fileLen-35){
-	        fread(buffer, 35, 1, file);
-                i+=35;
-                protParseDecode(buffer);
+        while (i<fileLen-96){
+	        fread(buffer, 96, 1, file);
+            i+=96;
+            protParseDecode(buffer, myToLog);
         }
         fclose(file);
 	//Do what ever with buffer

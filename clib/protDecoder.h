@@ -9,12 +9,14 @@
 #endif
 
 void protParserInit (void);
-void protParseDecode (unsigned char* fromSPI);
+void protParseDecode (unsigned char* fromSPI, unsigned char* toLog);
 void getTime (unsigned char * values);
-tGpsData getGpsStruct(void);
-tRawData getRawStruct(void);
-tXYZData getXYZStruct(void);
-tAttitudeData getAttStruct(void);
+tGpsData getGpsStruct (void);
+tRawData getRawStruct (void);
+tXYZData getXYZStruct (void);
+tAttitudeData getAttStruct (void);
+tAknData getAknStruct (void);
+void setAknStruct (tAknData* x);
 
 #ifdef __cplusplus
        }

@@ -18,6 +18,7 @@
 #include "protDecoder.h"
 #include <p33fxxxx.h>
 #include <uart.h>
+#include <string.h>
 
 struct CircBuffer com2Buffer;
 CBRef commProtBuffer;
@@ -90,6 +91,31 @@ void copyBufferToDMA (unsigned char size){
 	}
 }
 
+void mergeMessages(unsigned char* dataIn, unsigned char* dataOut){
+
+	unsigned int totalData = 0;
+	 
+	if (dataIn[0]>0){
+		// copy the first data stream
+		memcpy(&dataOut[1],&dataIn[1], dataIn[0]);
+		totalData += dataIn[0];
+	}
+	
+	if(dataIn[GSMSG_IDX]>0){
+		// copy the second stream
+		memcpy(&dataOut[totalData+1], &dataIn[GSMSG_IDX+1], dataIn[GSMSG_IDX]);
+		totalData += dataIn[GSMSG_IDX];
+	}
+	
+	if(dataIn[AKMSG_IDX]>0){
+		// copy the second stream
+		memcpy(&dataOut[totalData+1], &dataIn[AKMSG_IDX+1], dataIn[AKMSG_IDX]);
+		totalData += dataIn[AKMSG_IDX];
+	}
+
+	dataOut[0]= totalData;	
+}
+
 void txProtocol(unsigned char* protData){
 	unsigned char bufLen,i;
 		
@@ -115,7 +141,7 @@ void txProtocol(unsigned char* protData){
 		DMA0REQbits.FORCE = 1;
 	}
 	
-	protParseDecode(protData);
+	//protParseDecode(protData);
 }
 
 

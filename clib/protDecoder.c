@@ -26,6 +26,8 @@ tSensStatus		statusControlData;
 tAttitudeData	attitudeControlData;
 tDynTempData	dynTempControlData;
 tXYZData		xyzControlData;
+unsigned char   filterControlData;
+tAknData		aknControlData;
 
 struct CircBuffer protParseBuffer;
 CBRef ppBuffer;
@@ -35,10 +37,22 @@ void protParserInit(void){
 	// initialize the circular buffer
 	ppBuffer = (struct CircBuffer* )&protParseBuffer;
 	newCircBuffer(ppBuffer);
+	
+	// Initialize all global data structures
+	memset(&gpsControlData, 0, sizeof(tGpsData));
+	memset(&rawControlData, 0, sizeof(tRawData));
+	memset(&statusControlData, 0, sizeof(tSensStatus));
+	memset(&attitudeControlData, 0, sizeof(tAttitudeData));
+	memset(&dynTempControlData, 0, sizeof(tDynTempData));
+	memset(&xyzControlData, 0, sizeof(tXYZData));
+	memset(&aknControlData, 0, sizeof(tAknData));
+	filterControlData = 0;
 }
 
 void updateStates(unsigned char * completeSentence){
 	switch (completeSentence[2]){
+		// Sensor MCU sentences
+		// ====================
 		case 1:		// GPS Sentence
 			gpsControlData.year				= completeSentence[4];	
 			gpsControlData.month			= completeSentence[5];	
@@ -124,7 +138,7 @@ void updateStates(unsigned char * completeSentence){
 			dynTempControlData.dynamic.chData[0]	= completeSentence[4];
 			dynTempControlData.dynamic.chData[1]	= completeSentence[5];
 			dynTempControlData.dynamic.chData[2]	= completeSentence[6];
-			dynTempControlData.stat.chData[3]	= completeSentence[7];
+			dynTempControlData.dynamic.chData[3]	= completeSentence[7];
 			dynTempControlData.stat.chData[0]	= completeSentence[8];
 			dynTempControlData.stat.chData[1]	= completeSentence[9];
 			dynTempControlData.stat.chData[2]	= completeSentence[10];
@@ -157,13 +171,21 @@ void updateStates(unsigned char * completeSentence){
 			xyzControlData.VZ.chData[1]	= completeSentence[25];
 			xyzControlData.VZ.chData[2]	= completeSentence[26];
 			xyzControlData.VZ.chData[3]	= completeSentence[27];
-		break;		
+		break;	
+		case 205:
+			// turn the filter on
+			filterControlData = completeSentence[4];
+			
+			// turn on the required Aknowledge flag
+			aknControlData.filOnOff = 1;
+			
+		break;	
 		default:
 		break;
 	}
 }
 
-void protParseDecode(unsigned char* fromSPI){
+void protParseDecode(unsigned char* fromSPI, unsigned char* toLog){
 	// Static variables CAREFUL
 	static unsigned char prevBuffer[2*MAXLOGLEN];
 	static unsigned char previousComplete =1;
@@ -173,17 +195,19 @@ void protParseDecode(unsigned char* fromSPI){
 	unsigned char i;
 	unsigned char tmpChksum = 0, headerFound=0, noMoreBytes = 1;
 	unsigned char trailerFound = 0;
+
+	unsigned char logSize = 0;
 	
 	// Add the received bytes to the protocol parsing circular buffer
     for(i = 1; i <= fromSPI[0]; i += 1 )
-    //for(i = 0; i <= 34; i += 1 )
+    //for(i = 0; i <= 95; i += 1 )
 	{
 		writeBack(ppBuffer, fromSPI[i]);
 	}
 	
 	// update the noMoreBytes flag accordingly
-    noMoreBytes = (fromSPI[0]>0)?0:1;
-
+   noMoreBytes = (fromSPI[0]>0)?0:1;
+   // noMoreBytes = 0;
 	
 	while (!noMoreBytes){
 		// if the previous message was complete then read from the circular buffer
@@ -254,6 +278,10 @@ void protParseDecode(unsigned char* fromSPI){
 			if (tmpChksum ==prevBuffer[indexLast]){
 				// update the states depending on the message
 				updateStates(&prevBuffer[0]);
+				// Copy the data to the out buffer for logging purposes
+				memcpy(&toLog[logSize+1],&prevBuffer[0], indexLast+1);
+				// increment the log size
+				logSize += (indexLast+1);
 			}
             else{
              indexLast = 1; // just to stop debugger
@@ -270,6 +298,7 @@ void protParseDecode(unsigned char* fromSPI){
 			noMoreBytes = 1;
 		}// else no star	
 	} // big outer while (no more bytes)
+	toLog[0] = logSize;
 }
 
 // ===============================================
@@ -291,8 +320,20 @@ tAttitudeData getAttStruct(void){
  return attitudeControlData;
 }
 
+tAknData getAknStruct(void){
+ return aknControlData;
+}
+
+void setAknStruct (tAknData* x){
+	aknControlData = *x;
+}
+
 void getTime (unsigned char * values){
 	values[0] = gpsControlData.hour;
 	values[1] = gpsControlData.min;
 	values[2] = gpsControlData.sec;		
+}
+
+unsigned char getFilterOnOff (void){
+	return aknControlData.filOnOff;
 }

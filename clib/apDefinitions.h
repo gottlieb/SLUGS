@@ -20,7 +20,7 @@ and data types.
 #ifdef __cplusplus
        #define BSIZE			1024
 #else
-       #define BSIZE			200
+       #define BSIZE			250
 #endif
 
 // GPS Checksum Messages
@@ -47,7 +47,7 @@ and data types.
 #ifdef __cplusplus
        #define MAXLOGLEN		500
 #else
-       #define MAXLOGLEN		85
+       #define MAXLOGLEN		103
 #endif
 
 
@@ -60,6 +60,7 @@ and data types.
 
 // Message Protocol Lengths and IDs
 // ================================
+// SENSOR MCU
 #define GPSMSG_ID		1
 #define GPSMSG_LEN		27 
 #define LOADMSG_ID		2
@@ -70,6 +71,14 @@ and data types.
 #define ATTMSG_LEN		24
 #define XYZMSG_ID		11
 #define XYZMSG_LEN		24
+// CONTROL MCU
+#define FILMSG_ID		205
+#define FILMSG_LEN		5	
+
+// Communication Protocol Merging Offsets
+// ======================================
+#define GSMSG_IDX		97
+#define AKMSG_IDX		200
 
 
 // Standard characters used in the parsing of messages
@@ -241,6 +250,14 @@ typedef struct tXYZData{
 	tFloatToChar	VY;
 	tFloatToChar	VZ;	
 }tXYZData;
+
+typedef struct tAknData{
+	unsigned char 	WP;
+	unsigned char 	csCal;
+	unsigned char 	pidCal;
+	unsigned char 	csLimits;
+	unsigned char 	filOnOff;	
+}tAknData;
 
 
 #ifdef __cplusplus
