@@ -72,8 +72,13 @@ and data types.
 #define XYZMSG_ID		11
 #define XYZMSG_LEN		24
 // CONTROL MCU
+#define AKNMSG_ID		105
+#define AKNMSG_LEN		5
+
+// GROUND STATION
 #define FILMSG_ID		205
-#define FILMSG_LEN		5	
+#define FILMSG_LEN		1
+	
 
 // Communication Protocol Merging Offsets
 // ======================================

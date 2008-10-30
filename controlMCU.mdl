@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.114"
+    ComputedModelVersion    "1.116"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ASL_Lab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Oct 29 18:22:38 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:114>"
+  LastModifiedDate	  "Thu Oct 30 13:11:02 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:116>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -756,7 +756,7 @@ Model {
   }
   System {
     Name		    "controlMCU"
-    Location		    [429, 498, 1240, 954]
+    Location		    [155, 248, 966, 704]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -1297,7 +1297,7 @@ Model {
     }
     Block {
       BlockType		      Reference
-      Name		      "Send Data to Radio\nModem"
+      Name		      "Send Data to Logger"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [1]
       Position		      [660, 272, 765, 308]
@@ -1326,6 +1326,39 @@ Model {
       OutputType	      "[ ]"
       FctDeclaration	      "extern void txProtocol(uint8_T* u1);"
       FctCall		      "txProtocol(*%u1);"
+      OrderingInOutPopup      "None"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Send Data to Radio\nModem"
+      Tag		      "dsPIC_dsPIC_CFunctionCall"
+      Ports		      [1]
+      Position		      [660, 332, 765, 368]
+      BackgroundColor	      "darkGreen"
+      List {
+	ListType		RTWdata
+	FctDeclaration		"extern void send2GS(uint8_T* u1);"
+	FctCall			"send2GS(*%u1);"
+	fctName			"send2GS"
+	INPUT_SIZE		"213"
+	OUTPUT_SIZE		"1"
+	NBR_INPUT		"1"
+	NBR_OUTPUT		"0"
+      }
+      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+      SourceType	      "C Function Call"
+      fctName		      "'send2GS'"
+      INPUT_SIZE	      "213"
+      INPUT1		      "uint8"
+      INPUT2		      "--"
+      INPUT3		      "--"
+      OUTPUT_SIZE	      "1"
+      OUTPUT1		      "--"
+      SampleTime	      "-1"
+      InputType		      "[ 2 ]"
+      OutputType	      "[ ]"
+      FctDeclaration	      "extern void send2GS(uint8_T* u1);"
+      FctCall		      "send2GS(*%u1);"
       OrderingInOutPopup      "None"
     }
     Block {
@@ -1376,8 +1409,16 @@ Model {
     Line {
       SrcBlock		      "Merge Sentences\nto Log and GS"
       SrcPort		      1
-      DstBlock		      "Send Data to Radio\nModem"
-      DstPort		      1
+      Points		      [10, 0]
+      Branch {
+	DstBlock		"Send Data to Logger"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 60]
+	DstBlock		"Send Data to Radio\nModem"
+	DstPort			1
+      }
     }
     Line {
       SrcBlock		      "Mux"
