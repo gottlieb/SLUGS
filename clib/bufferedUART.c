@@ -82,7 +82,7 @@ void uartInit (void){
 	
 	// U1STA Register
 	// ==============
-	U1STAbits.URXISEL	= 32;		// RX interrupt when 3 chars are in
+	U1STAbits.URXISEL	= 2;		// RX interrupt when 3 chars are in
 	U1STAbits.OERR		= 0;		// clear overun error
 	
 	// U1BRG Register
