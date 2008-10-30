@@ -172,7 +172,7 @@ void updateStates(unsigned char * completeSentence){
 			xyzControlData.VZ.chData[2]	= completeSentence[26];
 			xyzControlData.VZ.chData[3]	= completeSentence[27];
 		break;	
-		case 105:
+		case 205:
 			// turn the filter on
 			filterControlData = completeSentence[4];
 			
