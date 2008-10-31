@@ -180,4 +180,3 @@ void gpsRead(unsigned char* gpsChunk){
 		gpsChunk[i] = readFront(uartBuffer);
 	}
 }
-
