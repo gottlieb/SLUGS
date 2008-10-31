@@ -619,3 +619,18 @@ void __fastcall TFPpal::bt_filterClick(TObject *Sender)
 //---------------------------------------------------------------------------
 
 
+void __fastcall TFPpal::BitBtn1Click(TObject *Sender)
+{
+ // 32 64 205 1 1 42 64 141
+
+ unsigned char filtMsg[8];
+ unsigned char rawMsg[2];
+
+ rawMsg[0] = 0;
+
+ assembleMsg(&rawMsg[0],FILMSG_LEN,FILMSG_ID,&filtMsg[0]);
+
+ cp_serial->PutBlock(&filtMsg[0],(FILMSG_LEN+7));
+}
+//---------------------------------------------------------------------------
+

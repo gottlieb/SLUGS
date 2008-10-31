@@ -1818,9 +1818,18 @@ object FPpal: TFPpal
         Top = 400
         Width = 75
         Height = 25
-        Caption = 'Filter On/Off'
+        Caption = 'Filter On'
         TabOrder = 3
         OnClick = bt_filterClick
+      end
+      object BitBtn1: TBitBtn
+        Left = 88
+        Top = 400
+        Width = 75
+        Height = 25
+        Caption = 'Filter Off'
+        TabOrder = 4
+        OnClick = BitBtn1Click
       end
     end
     object TabSheet3: TTabSheet
@@ -2550,7 +2559,6 @@ object FPpal: TFPpal
   end
   object Timer2: TTimer
     Enabled = False
-    Interval = 100
     OnTimer = Timer2Timer
     Left = 136
     Top = 400

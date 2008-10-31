@@ -324,8 +324,8 @@ tAknData getAknStruct(void){
  return aknControlData;
 }
 
-void setAknStruct (tAknData* x){
-	aknControlData = *x;
+void setAknFilter (unsigned char value){
+	aknControlData.filOnOff = value;
 }
 
 void getTime (unsigned char * values){
@@ -335,5 +335,5 @@ void getTime (unsigned char * values){
 }
 
 unsigned char getFilterOnOff (void){
-	return aknControlData.filOnOff;
+	return filterControlData;
 }
