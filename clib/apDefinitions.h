@@ -47,7 +47,7 @@ and data types.
 #ifdef __cplusplus
        #define MAXLOGLEN		500
 #else
-       #define MAXLOGLEN		103
+       #define MAXLOGLEN		97
 #endif
 
 

@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.173"
+    ComputedModelVersion    "1.176"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ASL_Lab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Oct 28 15:55:41 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:173>"
+  LastModifiedDate	  "Fri Oct 31 09:21:30 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:176>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -577,7 +577,7 @@ Model {
 	PropName		"Components"
       }
       Name		      "Configuration"
-      CurrentDlgPage	      "Real-Time Workshop/Custom Code"
+      CurrentDlgPage	      "Real-Time Workshop/DsPIC options"
     }
     PropName		    "ConfigurationSets"
   }
@@ -974,7 +974,7 @@ Model {
   }
   System {
     Name		    "sensorMCU"
-    Location		    [186, 126, 969, 686]
+    Location		    [188, 101, 971, 661]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -1287,7 +1287,7 @@ Model {
       System {
 	Name			"Get GPS"
 	Location		[299, 373, 840, 627]
-	Open			on
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -2304,6 +2304,22 @@ Model {
 	  Orientation		  "left"
 	  ShowName		  off
 	  Value			  "[0 , 37.0004768371582, -122.061897277832]"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant1"
+	  Position		  [45, 73, 125, 97]
+	  ShowName		  off
+	  Value			  "[0 0 -9.8]"
+	  SampleTime		  "0.01"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant2"
+	  Position		  [55, 33, 135, 57]
+	  ShowName		  off
+	  Value			  "[0 0 0]"
+	  SampleTime		  "0.01"
 	}
 	Block {
 	  BlockType		  DataTypeConversion
@@ -10228,8 +10244,9 @@ Model {
 	    Block {
 	      BlockType		      Outport
 	      Name		      "Out1"
-	      Position		      [150, 80, 180, 94]
+	      Position		      [150, 78, 180, 92]
 	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
 	    }
 	    Line {
 	      SrcBlock		      "Sine Wave"
@@ -10281,6 +10298,18 @@ Model {
 	  BlockType		  Terminator
 	  Name			  "Terminator3"
 	  Position		  [720, 290, 740, 310]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator4"
+	  Position		  [160, 35, 180, 55]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator5"
+	  Position		  [150, 80, 170, 100]
 	  ShowName		  off
 	}
 	Block {
@@ -11238,23 +11267,9 @@ Model {
 	  DstPort		  enable
 	}
 	Line {
-	  SrcBlock		  "AccelConvert"
-	  SrcPort		  1
-	  Points		  [65, 0; 0, 30]
-	  DstBlock		  "Position/Attitude\nFilter"
-	  DstPort		  2
-	}
-	Line {
 	  SrcBlock		  "Accel_sens"
 	  SrcPort		  1
 	  DstBlock		  "AccelConvert"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Gyro Convert"
-	  SrcPort		  1
-	  Points		  [70, 0; 0, 50]
-	  DstBlock		  "Position/Attitude\nFilter"
 	  DstPort		  1
 	}
 	Line {
@@ -11392,18 +11407,6 @@ Model {
 	}
 	Line {
 	  SrcBlock		  "Position/Attitude\nFilter"
-	  SrcPort		  1
-	  DstBlock		  "to Bytes2"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Position/Attitude\nFilter"
-	  SrcPort		  2
-	  DstBlock		  "to Bytes1"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Position/Attitude\nFilter"
 	  SrcPort		  5
 	  Points		  [35, 0]
 	  Branch {
@@ -11440,6 +11443,49 @@ Model {
 	  SrcBlock		  "Position/Attitude\nFilter"
 	  SrcPort		  7
 	  DstBlock		  "Terminator3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gyro Convert"
+	  SrcPort		  1
+	  Points		  [85, 0; 0, -5]
+	  Branch {
+	    Points		    [0, -15; 205, 0]
+	    DstBlock		    "to Bytes2"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 55]
+	    DstBlock		    "Position/Attitude\nFilter"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "AccelConvert"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, -5]
+	  Branch {
+	    Points		    [0, -40; 265, 0; 0, 65]
+	    DstBlock		    "to Bytes1"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 35]
+	    DstBlock		    "Position/Attitude\nFilter"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "Constant2"
+	  SrcPort		  1
+	  DstBlock		  "Terminator4"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Constant1"
+	  SrcPort		  1
+	  Points		  [0, 5]
+	  DstBlock		  "Terminator5"
 	  DstPort		  1
 	}
       }
