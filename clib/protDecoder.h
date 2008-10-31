@@ -16,7 +16,7 @@ tRawData getRawStruct (void);
 tXYZData getXYZStruct (void);
 tAttitudeData getAttStruct (void);
 tAknData getAknStruct (void);
-void setAknStruct (tAknData* x);
+void setAknFilter (unsigned char value);
 
 #ifdef __cplusplus
        }
