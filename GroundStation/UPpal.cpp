@@ -218,20 +218,20 @@ void __fastcall TFPpal::bt_serialClick(TObject *Sender)
    cp_serial->Open = True;
    bt_serial->Tag = 1;
    bt_serial->Caption = "Close Serial Port";
-  ld_serial->StatusInt = 1;
+   //ld_serial->StatusInt = 1;
    Timer2->Enabled = true;
-   mt_x->Flow = true;
-   mt_y->Flow = true;
-   mt_z->Flow = true;
+   //mt_x->Flow = true;
+   //mt_y->Flow = true;
+   //mt_z->Flow = true;
  } else {
    cp_serial->Open = False;
    bt_serial->Tag = 0;
    bt_serial->Caption = "Open Serial Port";
-   ld_serial->StatusInt = 0;
+   //ld_serial->StatusInt = 0;
    Timer2->Enabled = false;
-   mt_x->Flow = false;
-   mt_y->Flow = false;
-   mt_z->Flow = false;
+   //mt_x->Flow = false;
+   //mt_y->Flow = false;
+   //mt_z->Flow = false;
  }
 }
 //---------------------------------------------------------------------------
@@ -302,7 +302,7 @@ void TFPpal::updateRawLabels(void){
 void TFPpal::updateAttitudeLabels(void){
    // update the display
    // ========= Raw =============
-   et_x->Caption = FloatToStr(-RAD2DEG*xyzSample.Xcoord.flData);
+   /*et_x->Caption = FloatToStr(-RAD2DEG*xyzSample.Xcoord.flData);
    et_y->Caption = FloatToStr(RAD2DEG*xyzSample.Ycoord.flData);
    et_z->Caption = FloatToStr(RAD2DEG*xyzSample.Zcoord.flData);
 
@@ -316,11 +316,28 @@ void TFPpal::updateAttitudeLabels(void){
 
    et_phi->Caption = FloatToStr(-RAD2DEG*attitudeSample.roll.flData);
    et_theta->Caption = FloatToStr(RAD2DEG*attitudeSample.pitch.flData);
-   et_psi->Caption = FloatToStr(RAD2DEG*attitudeSample.yaw.flData);
+   et_psi->Caption = FloatToStr(RAD2DEG*attitudeSample.yaw.flData);*/
+
+   
+   et_x->Caption = FloatToStr(xyzSample.Xcoord.flData);
+   et_y->Caption = FloatToStr(xyzSample.Ycoord.flData);
+   et_z->Caption = FloatToStr(xyzSample.Zcoord.flData);
+
+   et_vx->Caption = FloatToStr(xyzSample.VX.flData);
+   et_vy->Caption = FloatToStr(xyzSample.VY.flData);
+   et_vz->Caption = FloatToStr(xyzSample.VZ.flData);
+
+   et_p->Caption = FloatToStr(attitudeSample.p.flData);
+   et_q->Caption = FloatToStr(attitudeSample.q.flData);
+   et_r->Caption = FloatToStr(attitudeSample.r.flData);
+
+   et_phi->Caption = FloatToStr(attitudeSample.roll.flData);
+   et_theta->Caption = FloatToStr(attitudeSample.pitch.flData);
+   et_psi->Caption = FloatToStr(attitudeSample.yaw.flData);
 }
 
 void TFPpal::updatePlots(void){
-  switch (rg_plot->ItemIndex){
+  /*switch (rg_plot->ItemIndex){
      case 0:
        mt_x->DigitCh1 = rawSample.accelX.usData;
        mt_y->DigitCh1 = rawSample.accelY.usData;
@@ -336,7 +353,7 @@ void TFPpal::updatePlots(void){
        mt_y->DigitCh1 = rawSample.magY.usData;
        mt_z->DigitCh1 = rawSample.magZ.usData;
      break;
-  }
+  } */
 
 }
 
@@ -575,14 +592,14 @@ float TFPpal::deg2Rad(float mDeg){
 
 void TFPpal::updateAttitude(void)
 {
-  ai_att->Roll = -RAD2DEG*attitudeSample.roll.flData;
+/*  ai_att->Roll = -RAD2DEG*attitudeSample.roll.flData;
   ai_att->Pitch = RAD2DEG*attitudeSample.pitch.flData;
   ai_att->Course = RAD2DEG*attitudeSample.yaw.flData;
 
   ai_copy->Roll = -RAD2DEG*attitudeSample.p.flData;
   ai_copy->Pitch = RAD2DEG*attitudeSample.q.flData;
   ai_copy->Course = RAD2DEG*attitudeSample.r.flData;
-
+ */
 }
 //---------------------------------------------------------------------------
 

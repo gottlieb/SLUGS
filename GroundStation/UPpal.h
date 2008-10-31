@@ -145,13 +145,7 @@ __published:	// IDE-managed Components
     TFloatField *tb_configlonGS;
     TFloatField *tb_configheightGS;
     TIntegerField *tb_configtessalateTransparency;
-    TAbMiniTrend *mt_x;
     TAbLED *AbLED1;
-    TAbLED *ld_serial;
-    TAbMiniTrend *mt_y;
-    TAbMiniTrend *mt_z;
-    TAbVCInd *ai_att;
-    TAbVCInd *ai_copy;
     TGroupBox *GroupBox4;
     TLabel *Label31;
     TLabel *Label32;
