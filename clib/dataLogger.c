@@ -114,7 +114,7 @@ void copyBufferToDMA (unsigned char size){
 void logData (unsigned char* rawData, unsigned char* data4SPI){
 	// sample period variable
 	static unsigned char samplePeriod = 0;
-	unsigned char tmpBuf [MAXLOGLEN];
+	static unsigned char tmpBuf [MAXLOGLEN];
 	
 	// temp var to store the assembled message
 	unsigned char i;
