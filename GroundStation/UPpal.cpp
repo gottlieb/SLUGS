@@ -327,13 +327,13 @@ void TFPpal::updateAttitudeLabels(void){
    et_vy->Caption = FloatToStr(xyzSample.VY.flData);
    et_vz->Caption = FloatToStr(xyzSample.VZ.flData);
 
-   et_p->Caption = FloatToStr(attitudeSample.p.flData);
-   et_q->Caption = FloatToStr(attitudeSample.q.flData);
-   et_r->Caption = FloatToStr(attitudeSample.r.flData);
+   et_p->Caption = FloatToStr(RAD2DEG*attitudeSample.p.flData);
+   et_q->Caption = FloatToStr(RAD2DEG*attitudeSample.q.flData);
+   et_r->Caption = FloatToStr(RAD2DEG*attitudeSample.r.flData);
 
-   et_phi->Caption = FloatToStr(attitudeSample.roll.flData);
-   et_theta->Caption = FloatToStr(attitudeSample.pitch.flData);
-   et_psi->Caption = FloatToStr(attitudeSample.yaw.flData);
+   et_phi->Caption = FloatToStr(RAD2DEG*attitudeSample.roll.flData);
+   et_theta->Caption = FloatToStr(RAD2DEG*attitudeSample.pitch.flData);
+   et_psi->Caption = FloatToStr(RAD2DEG*attitudeSample.yaw.flData);
 }
 
 void TFPpal::updatePlots(void){
