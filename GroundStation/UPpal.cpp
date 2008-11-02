@@ -15,6 +15,7 @@
 #pragma link "AbOpHour"
 #pragma link "AbMTrend"
 #pragma link "AbVCInd"
+#pragma link "AbCBitBt"
 #pragma resource "*.dfm"
 TFPpal *FPpal;
 //---------------------------------------------------------------------------
@@ -218,7 +219,7 @@ void __fastcall TFPpal::bt_serialClick(TObject *Sender)
    cp_serial->Open = True;
    bt_serial->Tag = 1;
    bt_serial->Caption = "Close Serial Port";
-   //ld_serial->StatusInt = 1;
+   ld_serial->StatusInt = 1;
    Timer2->Enabled = true;
    //mt_x->Flow = true;
    //mt_y->Flow = true;
@@ -227,7 +228,7 @@ void __fastcall TFPpal::bt_serialClick(TObject *Sender)
    cp_serial->Open = False;
    bt_serial->Tag = 0;
    bt_serial->Caption = "Open Serial Port";
-   //ld_serial->StatusInt = 0;
+   ld_serial->StatusInt = 0;
    Timer2->Enabled = false;
    //mt_x->Flow = false;
    //mt_y->Flow = false;
@@ -592,10 +593,10 @@ float TFPpal::deg2Rad(float mDeg){
 
 void TFPpal::updateAttitude(void)
 {
-/*  ai_att->Roll = -RAD2DEG*attitudeSample.roll.flData;
+  ai_att->Roll = RAD2DEG*attitudeSample.roll.flData;
   ai_att->Pitch = RAD2DEG*attitudeSample.pitch.flData;
   ai_att->Course = RAD2DEG*attitudeSample.yaw.flData;
-
+/*
   ai_copy->Roll = -RAD2DEG*attitudeSample.p.flData;
   ai_copy->Pitch = RAD2DEG*attitudeSample.q.flData;
   ai_copy->Course = RAD2DEG*attitudeSample.r.flData;
@@ -627,27 +628,21 @@ void __fastcall TFPpal::bt_filterClick(TObject *Sender)
  unsigned char filtMsg[8];
  unsigned char rawMsg[2];
 
- rawMsg[0] = 1;
+ rawMsg[0] = bt_filter->Tag?0:1;
+
+ bt_filter->Tag ^=1;
+
+ ld_filter->StatusInt= bt_filter->Tag;
+
+ bt_filter->Caption = bt_filter->Tag? "Filter Off":"Filter On";
 
  assembleMsg(&rawMsg[0],FILMSG_LEN,FILMSG_ID,&filtMsg[0]);
 
  cp_serial->PutBlock(&filtMsg[0],(FILMSG_LEN+7));
+
 }
 //---------------------------------------------------------------------------
 
 
-void __fastcall TFPpal::BitBtn1Click(TObject *Sender)
-{
- // 32 64 205 1 1 42 64 141
 
- unsigned char filtMsg[8];
- unsigned char rawMsg[2];
-
- rawMsg[0] = 0;
-
- assembleMsg(&rawMsg[0],FILMSG_LEN,FILMSG_ID,&filtMsg[0]);
-
- cp_serial->PutBlock(&filtMsg[0],(FILMSG_LEN+7));
-}
-//---------------------------------------------------------------------------
 

@@ -1,10 +1,10 @@
 object FPpal: TFPpal
-  Left = 292
+  Left = 290
   Top = 174
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 'UCSC - AP Ground Station'
-  ClientHeight = 616
+  ClientHeight = 617
   ClientWidth = 626
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -36,10 +36,17 @@ object FPpal: TFPpal
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 597
+    Top = 598
     Width = 626
     Height = 19
-    Panels = <>
+    Panels = <
+      item
+        Text = 'Graphical Components by: Abakus VCL (www.abaecker.biz)'
+        Width = 335
+      end
+      item
+        Width = 50
+      end>
     SimplePanel = False
     SizeGrip = False
   end
@@ -47,10 +54,10 @@ object FPpal: TFPpal
     Left = 201
     Top = 0
     Width = 425
-    Height = 597
-    ActivePage = ts_telemetry
+    Height = 598
+    ActivePage = TabSheet3
     Align = alClient
-    TabIndex = 1
+    TabIndex = 2
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth Config'
@@ -478,7 +485,7 @@ object FPpal: TFPpal
           Top = 72
           Width = 369
           Height = 22
-          Caption = 'Grab Current AP Position as Location'
+          Caption = 'Grab Current AP Position as GS  Location'
           Flat = True
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -577,6 +584,59 @@ object FPpal: TFPpal
           3BB3377333377F33377FBB33333BB33333BB7733333773333377}
         NumGlyphs = 2
         OnClick = bt_serialClick
+      end
+      object ld_serial: TAbLED
+        Left = 138
+        Top = 531
+        Width = 17
+        Height = 33
+        LED_Position = lpLeft
+        Spacing = 5
+        Checked = False
+        Flashing = False
+        Frequency = ff1Hz
+        StatusInt = 0
+        StatusBit = 0
+        GroupIndex = 0
+        Mode = mIndicator
+      end
+      object bt_filter: TSpeedButton
+        Left = 8
+        Top = 401
+        Width = 137
+        Height = 22
+        Caption = 'Filter On'
+        Flat = True
+        Glyph.Data = {
+          76010000424D7601000000000000760000002800000020000000100000000100
+          04000000000000010000120B0000120B00001000000000000000000000000000
+          800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00370777033333
+          3330337F3F7F33333F3787070003333707303F737773333373F7007703333330
+          700077337F3333373777887007333337007733F773F333337733700070333333
+          077037773733333F7F37703707333300080737F373333377737F003333333307
+          78087733FFF3337FFF7F33300033330008073F3777F33F777F73073070370733
+          078073F7F7FF73F37FF7700070007037007837773777F73377FF007777700730
+          70007733FFF77F37377707700077033707307F37773F7FFF7337080777070003
+          3330737F3F7F777F333778080707770333333F7F737F3F7F3333080787070003
+          33337F73FF737773333307800077033333337337773373333333}
+        NumGlyphs = 2
+        OnClick = bt_filterClick
+      end
+      object ld_filter: TAbLED
+        Left = 27
+        Top = 394
+        Width = 17
+        Height = 33
+        LED_Position = lpLeft
+        Spacing = 5
+        Checked = False
+        Flashing = False
+        Frequency = ff1Hz
+        StatusInt = 0
+        StatusBit = 0
+        GroupIndex = 0
+        Mode = mIndicator
       end
       object GroupBox1: TGroupBox
         Left = 8
@@ -1798,28 +1858,171 @@ object FPpal: TFPpal
           TabOrder = 11
         end
       end
-      object bt_filter: TBitBtn
-        Left = 8
-        Top = 400
-        Width = 75
-        Height = 25
-        Caption = 'Filter On'
-        TabOrder = 3
-        OnClick = bt_filterClick
-      end
-      object BitBtn1: TBitBtn
-        Left = 88
-        Top = 400
-        Width = 75
-        Height = 25
-        Caption = 'Filter Off'
-        TabOrder = 4
-        OnClick = BitBtn1Click
-      end
     end
     object TabSheet3: TTabSheet
       Caption = 'Ap Configuration'
       ImageIndex = 2
+      object ai_att: TAbVCInd
+        Left = 64
+        Top = 16
+        Width = 273
+        Height = 273
+        BevelOuter.ColorFrom = clWhite
+        BevelOuter.ColorTo = 7566195
+        BevelOuter.Width = 2
+        BevelMiddle.ColorFrom = 7566195
+        BevelMiddle.ColorTo = clWhite
+        BevelMiddle.Width = 2
+        BevelInner.ColorFrom = clWhite
+        BevelInner.ColorTo = 7566195
+        BevelInner.Width = 2
+        ArrShouldSize = 10
+        ArrShouldOffs = 0
+        ArrShouldCol = clRed
+        ArrowSize = 10
+        CourseScale.Font.Charset = DEFAULT_CHARSET
+        CourseScale.Font.Color = clWhite
+        CourseScale.Font.Height = -24
+        CourseScale.Font.Name = 'Arial'
+        CourseScale.Font.Style = [fsBold]
+        CourseScale.StepLines.Pen.Color = clWhite
+        CourseScale.StepLines.Pen.Width = 2
+        CourseScale.StepLines.Length = 15
+        CourseScale.SubStepLines.Pen.Color = clSilver
+        CourseScale.SubStepLines.Length = 8
+        CourseScale.TextAlignment = toMidCenter
+        HorizonLine.Pen.Color = clWhite
+        HorizonLine.Length = 100
+        PitchLine.Pen.Color = clWhite
+        PitchLine.Length = 50
+        PitchScaleOffs = 10
+        IndDeviation.FormatStr = '##0.0'
+        IndDeviation.Bevel.ColorFrom = 7566195
+        IndDeviation.Bevel.ColorTo = clWhite
+        IndDeviation.Bevel.Width = 2
+        IndDeviation.Caption.Text = 'Dev.'
+        IndDeviation.Caption.Font.Charset = DEFAULT_CHARSET
+        IndDeviation.Caption.Font.Color = clWindowText
+        IndDeviation.Caption.Font.Height = -11
+        IndDeviation.Caption.Font.Name = 'MS Sans Serif'
+        IndDeviation.Caption.Font.Style = []
+        IndDeviation.Caption.OffsetX = 0
+        IndDeviation.Caption.OffsetY = 0
+        IndDeviation.Caption.Pos = toBotCenter
+        IndDeviation.Caption.Visible = True
+        IndDeviation.Color = clBlack
+        IndDeviation.Font.Charset = DEFAULT_CHARSET
+        IndDeviation.Font.Color = clLime
+        IndDeviation.Font.Height = -13
+        IndDeviation.Font.Name = 'Arial'
+        IndDeviation.Font.Style = [fsBold]
+        IndDeviation.OffsetX = 0
+        IndDeviation.OffsetY = 0
+        IndDeviation.Visible = True
+        IndCourse.FormatStr = '##0.0'
+        IndCourse.Bevel.ColorFrom = 7566195
+        IndCourse.Bevel.ColorTo = clWhite
+        IndCourse.Bevel.Width = 2
+        IndCourse.Caption.Text = 'Course'
+        IndCourse.Caption.Font.Charset = DEFAULT_CHARSET
+        IndCourse.Caption.Font.Color = clWindowText
+        IndCourse.Caption.Font.Height = -11
+        IndCourse.Caption.Font.Name = 'MS Sans Serif'
+        IndCourse.Caption.Font.Style = []
+        IndCourse.Caption.OffsetX = 0
+        IndCourse.Caption.OffsetY = 0
+        IndCourse.Caption.Pos = toTopCenter
+        IndCourse.Caption.Visible = True
+        IndCourse.Color = clBlack
+        IndCourse.Font.Charset = DEFAULT_CHARSET
+        IndCourse.Font.Color = clLime
+        IndCourse.Font.Height = -13
+        IndCourse.Font.Name = 'Arial'
+        IndCourse.Font.Style = [fsBold]
+        IndCourse.OffsetX = 0
+        IndCourse.OffsetY = 0
+        IndCourse.Visible = True
+        IndPitch.FormatStr = '##0.0'
+        IndPitch.Bevel.ColorFrom = 7566195
+        IndPitch.Bevel.ColorTo = clWhite
+        IndPitch.Bevel.Width = 2
+        IndPitch.Caption.Text = 'Pitch'
+        IndPitch.Caption.Font.Charset = DEFAULT_CHARSET
+        IndPitch.Caption.Font.Color = clWindowText
+        IndPitch.Caption.Font.Height = -11
+        IndPitch.Caption.Font.Name = 'MS Sans Serif'
+        IndPitch.Caption.Font.Style = []
+        IndPitch.Caption.OffsetX = 0
+        IndPitch.Caption.OffsetY = 0
+        IndPitch.Caption.Pos = toTopCenter
+        IndPitch.Caption.Visible = True
+        IndPitch.Color = clBlack
+        IndPitch.Font.Charset = DEFAULT_CHARSET
+        IndPitch.Font.Color = clLime
+        IndPitch.Font.Height = -13
+        IndPitch.Font.Name = 'Arial'
+        IndPitch.Font.Style = [fsBold]
+        IndPitch.OffsetX = 0
+        IndPitch.OffsetY = 0
+        IndPitch.Visible = True
+        IndRoll.FormatStr = '##0.0'
+        IndRoll.Bevel.ColorFrom = 7566195
+        IndRoll.Bevel.ColorTo = clWhite
+        IndRoll.Bevel.Width = 2
+        IndRoll.Caption.Text = 'Roll'
+        IndRoll.Caption.Font.Charset = DEFAULT_CHARSET
+        IndRoll.Caption.Font.Color = clWindowText
+        IndRoll.Caption.Font.Height = -11
+        IndRoll.Caption.Font.Name = 'MS Sans Serif'
+        IndRoll.Caption.Font.Style = []
+        IndRoll.Caption.OffsetX = 0
+        IndRoll.Caption.OffsetY = 0
+        IndRoll.Caption.Pos = toBotCenter
+        IndRoll.Caption.Visible = True
+        IndRoll.Color = clBlack
+        IndRoll.Font.Charset = DEFAULT_CHARSET
+        IndRoll.Font.Color = clLime
+        IndRoll.Font.Height = -13
+        IndRoll.Font.Name = 'Arial'
+        IndRoll.Font.Style = [fsBold]
+        IndRoll.OffsetX = 0
+        IndRoll.OffsetY = 0
+        IndRoll.Visible = True
+        RollScale.Font.Charset = DEFAULT_CHARSET
+        RollScale.Font.Color = clWhite
+        RollScale.Font.Height = -24
+        RollScale.Font.Name = 'Arial'
+        RollScale.Font.Style = [fsBold]
+        RollScale.StepLines.Pen.Color = clWhite
+        RollScale.StepLines.Pen.Width = 2
+        RollScale.StepLines.Length = 15
+        RollScale.SubStepLines.Pen.Color = clSilver
+        RollScale.SubStepLines.Length = 8
+        RollScale.TextAlignment = toMidCenter
+        ScaleHeight = 50
+        Color = clBtnFace
+        ColorSky = 16760767
+        ColorGround = 36556
+        CourseBkColor = clNavy
+        RollBkColor = clMaroon
+        OuterSpacing = 5
+        InnerSpacing = 5
+        PitchScale.SubStepAt = 1
+        PitchScale.StepMulti = 5
+        PitchScale.SubStepsVis = 15
+        PitchScale.Font.Charset = DEFAULT_CHARSET
+        PitchScale.Font.Color = clWhite
+        PitchScale.Font.Height = -11
+        PitchScale.Font.Name = 'Arial'
+        PitchScale.Font.Style = [fsBold]
+        PitchScale.FormatStr = '##0.#'
+        PitchScale.StepLines.Pen.Color = clWhite
+        PitchScale.StepLines.Pen.Width = 2
+        PitchScale.StepLines.Length = 15
+        PitchScale.SubStepLines.Pen.Color = clGray
+        PitchScale.SubStepLines.Length = 8
+        PitchScale.TextAlignment = toMidCenter
+      end
     end
     object TabSheet1: TTabSheet
       Caption = 'Data Plots'
@@ -1850,7 +2053,7 @@ object FPpal: TFPpal
     Left = 0
     Top = 0
     Width = 201
-    Height = 597
+    Height = 598
     Align = alLeft
     TabOrder = 2
     object Label1: TLabel

@@ -31,6 +31,7 @@
 #include <exception.h>
 #include "AbVCInd.hpp"
 #include "gpsSplit.h"
+#include "AbCBitBt.hpp"
 
 #define  DISLIMIT      30.0
 
@@ -171,8 +172,10 @@ __published:	// IDE-managed Components
     TStaticText *et_vx;
     TStaticText *et_vy;
     TStaticText *et_vz;
-    TBitBtn *bt_filter;
-    TBitBtn *BitBtn1;
+    TAbLED *ld_serial;
+    TSpeedButton *bt_filter;
+    TAbLED *ld_filter;
+    TAbVCInd *ai_att;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -189,7 +192,6 @@ __published:	// IDE-managed Components
     void __fastcall rg_tailExit(TObject *Sender);
     void __fastcall bt_gsposClick(TObject *Sender);
     void __fastcall bt_filterClick(TObject *Sender);
-    void __fastcall BitBtn1Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TFPpal(TComponent* Owner);
