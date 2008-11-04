@@ -16,6 +16,7 @@
 #pragma link "AbMTrend"
 #pragma link "AbVCInd"
 #pragma link "AbCBitBt"
+#pragma link "ToolEdit"
 #pragma resource "*.dfm"
 TFPpal *FPpal;
 //---------------------------------------------------------------------------
@@ -38,6 +39,8 @@ void __fastcall TFPpal::FormShow(TObject *Sender)
 
 
   kb_tessalate->Position = tb_configtessalateTransparency->AsInteger;
+
+  cb_inflightClick(NULL);
 
 }
 //---------------------------------------------------------------------------
@@ -221,18 +224,18 @@ void __fastcall TFPpal::bt_serialClick(TObject *Sender)
    bt_serial->Caption = "Close Serial Port";
    ld_serial->StatusInt = 1;
    Timer2->Enabled = true;
-   //mt_x->Flow = true;
-   //mt_y->Flow = true;
-   //mt_z->Flow = true;
+   mt_x->Flow = true;
+   mt_y->Flow = true;
+   mt_z->Flow = true;
  } else {
    cp_serial->Open = False;
    bt_serial->Tag = 0;
    bt_serial->Caption = "Open Serial Port";
    ld_serial->StatusInt = 0;
    Timer2->Enabled = false;
-   //mt_x->Flow = false;
-   //mt_y->Flow = false;
-   //mt_z->Flow = false;
+   mt_x->Flow = false;
+   mt_y->Flow = false;
+   mt_z->Flow = false;
  }
 }
 //---------------------------------------------------------------------------
@@ -338,7 +341,7 @@ void TFPpal::updateAttitudeLabels(void){
 }
 
 void TFPpal::updatePlots(void){
-  /*switch (rg_plot->ItemIndex){
+  switch (rg_plot->ItemIndex){
      case 0:
        mt_x->DigitCh1 = rawSample.accelX.usData;
        mt_y->DigitCh1 = rawSample.accelY.usData;
@@ -354,7 +357,7 @@ void TFPpal::updatePlots(void){
        mt_y->DigitCh1 = rawSample.magY.usData;
        mt_z->DigitCh1 = rawSample.magZ.usData;
      break;
-  } */
+  } 
 
 }
 
@@ -644,5 +647,110 @@ void __fastcall TFPpal::bt_filterClick(TObject *Sender)
 //---------------------------------------------------------------------------
 
 
+
+
+
+void __fastcall TFPpal::bt_onflightexpClick(TObject *Sender)
+{
+/* if (od_exports->Execute()){
+  tb_config->Edit();
+  switch (((TComponent*)Sender)->Tag){
+         case 0:
+              tb_configExportLocation->AsString = od_exports->FileName;
+         break;
+         case 1:
+              tb_configplanePathFile->AsString = od_mainKml->FileName;
+         break;
+         case 2:
+              tb_configiconFile->AsString = od_mainKml->FileName;
+         break;
+         case 3:
+              tb_configwaypointFile->AsString = od_mainKml->FileName;
+         break;
+  }
+    tb_config->Post();
+ }             */
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::ed_exportAfterDialog(TObject *Sender,
+      AnsiString &Name, bool &Action)
+{
+ tb_config->Edit();
+ tb_configExportLocation->AsString = Name;
+ tb_config->Post();
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::cb_inflightClick(TObject *Sender)
+{
+ if (cb_inflight->Checked){
+    cb_allsentences->Enabled = True;
+    cb_dtprefix->Enabled = True;
+    ed_export->Enabled = True;
+} else {
+    cb_allsentences->Enabled = False;
+    cb_dtprefix->Enabled = False;
+    ed_export->Enabled = False;
+}
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TFPpal::bt_importLogClick(TObject *Sender)
+{
+    FILE* logFile;
+    FILE* matFile;
+
+	unsigned char *buffer;
+	unsigned long fileLen;
+    unsigned long i;
+    unsigned char myToLog[97];
+    //unsigned char amountToRead = 24;
+    String toMatFile;
+
+    //Open files
+	logFile = fopen(ed_importLog->FileName.c_str(), "rb");
+    matFile = fopen(ed_exportMat->FileName.c_str(), "wt");
+
+	if (!logFile)
+	{
+		ShowMessage("Unable to open Log file");
+	}else {
+
+        if (!matFile)
+	    {
+		   ShowMessage("Unable to create CSV file");
+	    } else {
+	       //Get file length
+	       fseek(logFile, 0, SEEK_END);
+	       fileLen=ftell(logFile);
+	       fseek(logFile, 0, SEEK_SET);
+
+	       //Allocate memory
+	       buffer=(unsigned char *)malloc(fileLen+1);
+	       if (!buffer)
+	       {
+		      ShowMessage( "Memory error!");
+              fclose(logFile);
+           }else {
+
+	         //Read file contents into buffer
+             i = 0;
+             while (i<fileLen-96){
+	            fread(buffer, 96, 1, logFile);
+                i+=96;
+                protParseDecode(buffer, myToLog);
+                //fputs(stringStatus, matFile);
+             }
+             fclose(logFile);
+             fclose(matFile);
+             free(buffer);
+           }// else !buffer
+        }// else !matfile
+    } // else !logfile
+}
+//---------------------------------------------------------------------------
 
 

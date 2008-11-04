@@ -1,11 +1,11 @@
 object FPpal: TFPpal
-  Left = 290
-  Top = 174
+  Left = 159
+  Top = 114
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 'UCSC - AP Ground Station'
-  ClientHeight = 617
-  ClientWidth = 626
+  ClientHeight = 636
+  ClientWidth = 618
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -36,8 +36,8 @@ object FPpal: TFPpal
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 598
-    Width = 626
+    Top = 617
+    Width = 618
     Height = 19
     Panels = <
       item
@@ -53,11 +53,12 @@ object FPpal: TFPpal
   object pc_main: TPageControl
     Left = 201
     Top = 0
-    Width = 425
-    Height = 598
-    ActivePage = TabSheet3
+    Width = 417
+    Height = 617
+    ActivePage = TabSheet4
     Align = alClient
-    TabIndex = 2
+    MultiLine = True
+    TabIndex = 5
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth Config'
@@ -1862,8 +1863,165 @@ object FPpal: TFPpal
     object TabSheet3: TTabSheet
       Caption = 'Ap Configuration'
       ImageIndex = 2
+    end
+    object TabSheet1: TTabSheet
+      Caption = 'Data Plots'
+      ImageIndex = 3
+      object mt_x: TAbMiniTrend
+        Left = 0
+        Top = 72
+        Width = 400
+        Height = 161
+        CaptionFont.Charset = DEFAULT_CHARSET
+        CaptionFont.Color = clWindowText
+        CaptionFont.Height = -16
+        CaptionFont.Name = 'Arial'
+        CaptionFont.Style = [fsBold]
+        BevelInner.Style = bsLowered
+        BevelInner.Spacing = 0
+        BevelInner.BevelLine = blNone
+        BevelInner.Width = 2
+        BevelInner.SurfaceGrad.Visible = False
+        BevelInner.SurfaceGrad.Style = gsHorizontal1
+        BevelOuter.Style = bsRaised
+        BevelOuter.Spacing = 10
+        BevelOuter.BevelLine = blNone
+        BevelOuter.Width = 2
+        BevelOuter.SurfaceGrad.Visible = False
+        BevelOuter.SurfaceGrad.Style = gsHorizontal1
+        DigitCh1 = 1500
+        DigitCh2 = 0
+        SignalSettingsCh1.DigitalFrom = 1500
+        SignalSettingsCh1.DigitalTo = 4096
+        SignalSettingsCh1.Name1 = 'Name1'
+        SignalSettingsCh1.Name2 = 'Name2'
+        SignalSettingsCh1.ValueFormat = '##0'
+        SignalSettingsCh1.ValueTo = 100
+        SignalSettingsCh1.ValueUnit = '%'
+        SignalSettingsCh2.Name1 = 'Name1'
+        SignalSettingsCh2.Name2 = 'Name2'
+        SignalSettingsCh2.ValueFormat = '##0'
+        SignalSettingsCh2.ValueTo = 100
+        SignalSettingsCh2.ValueUnit = '%'
+        ValueCh1 = 150
+        TimeScale = 1
+        Options = [opCaption, opScaleCh1, opTimeLine]
+        SignalColorCh2 = clBlack
+        Caption = 'X Axis'
+        Flow = False
+      end
+      object mt_y: TAbMiniTrend
+        Left = 0
+        Top = 240
+        Width = 400
+        Height = 161
+        CaptionFont.Charset = DEFAULT_CHARSET
+        CaptionFont.Color = clWindowText
+        CaptionFont.Height = -16
+        CaptionFont.Name = 'Arial'
+        CaptionFont.Style = [fsBold]
+        BevelInner.Style = bsLowered
+        BevelInner.Spacing = 0
+        BevelInner.BevelLine = blNone
+        BevelInner.Width = 2
+        BevelInner.SurfaceGrad.Visible = False
+        BevelInner.SurfaceGrad.Style = gsHorizontal1
+        BevelOuter.Style = bsRaised
+        BevelOuter.Spacing = 10
+        BevelOuter.BevelLine = blNone
+        BevelOuter.Width = 2
+        BevelOuter.SurfaceGrad.Visible = False
+        BevelOuter.SurfaceGrad.Style = gsHorizontal1
+        DigitCh1 = 1500
+        DigitCh2 = 0
+        SignalSettingsCh1.DigitalFrom = 1500
+        SignalSettingsCh1.DigitalTo = 4096
+        SignalSettingsCh1.Name1 = 'Name1'
+        SignalSettingsCh1.Name2 = 'Name2'
+        SignalSettingsCh1.ValueFormat = '##0'
+        SignalSettingsCh1.ValueTo = 100
+        SignalSettingsCh1.ValueUnit = '%'
+        SignalSettingsCh2.Name1 = 'Name1'
+        SignalSettingsCh2.Name2 = 'Name2'
+        SignalSettingsCh2.ValueFormat = '##0'
+        SignalSettingsCh2.ValueTo = 100
+        SignalSettingsCh2.ValueUnit = '%'
+        ValueCh1 = 150
+        TimeScale = 1
+        Options = [opCaption, opScaleCh1, opTimeLine]
+        SignalColorCh2 = clBlack
+        Caption = 'Y Axis'
+        Flow = False
+      end
+      object mt_z: TAbMiniTrend
+        Left = 0
+        Top = 408
+        Width = 400
+        Height = 161
+        CaptionFont.Charset = DEFAULT_CHARSET
+        CaptionFont.Color = clWindowText
+        CaptionFont.Height = -16
+        CaptionFont.Name = 'Arial'
+        CaptionFont.Style = [fsBold]
+        BevelInner.Style = bsLowered
+        BevelInner.Spacing = 0
+        BevelInner.BevelLine = blNone
+        BevelInner.Width = 2
+        BevelInner.SurfaceGrad.Visible = False
+        BevelInner.SurfaceGrad.Style = gsHorizontal1
+        BevelOuter.Style = bsRaised
+        BevelOuter.Spacing = 10
+        BevelOuter.BevelLine = blNone
+        BevelOuter.Width = 2
+        BevelOuter.SurfaceGrad.Visible = False
+        BevelOuter.SurfaceGrad.Style = gsHorizontal1
+        DigitCh1 = 1500
+        DigitCh2 = 0
+        SignalSettingsCh1.DigitalFrom = 1500
+        SignalSettingsCh1.DigitalTo = 4096
+        SignalSettingsCh1.Name1 = 'Name1'
+        SignalSettingsCh1.Name2 = 'Name2'
+        SignalSettingsCh1.ValueFormat = '##0'
+        SignalSettingsCh1.ValueTo = 100
+        SignalSettingsCh1.ValueUnit = '%'
+        SignalSettingsCh2.Name1 = 'Name1'
+        SignalSettingsCh2.Name2 = 'Name2'
+        SignalSettingsCh2.ValueFormat = '##0'
+        SignalSettingsCh2.ValueTo = 100
+        SignalSettingsCh2.ValueUnit = '%'
+        ValueCh1 = 150
+        TimeScale = 1
+        Options = [opCaption, opScaleCh1, opTimeLine]
+        SignalColorCh2 = clBlack
+        Caption = 'Z Axis'
+        Flow = False
+      end
+      object rg_plot: TRadioGroup
+        Left = 8
+        Top = 8
+        Width = 393
+        Height = 57
+        Caption = ' Select Sensor to Plot '
+        Columns = 3
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ItemIndex = 0
+        Items.Strings = (
+          'Accelerometers'
+          'Gyros'
+          'Magnetometers')
+        ParentFont = False
+        TabOrder = 0
+      end
+    end
+    object TabSheet2: TTabSheet
+      Caption = 'Graphical Instruments'
+      ImageIndex = 4
       object ai_att: TAbVCInd
-        Left = 64
+        Left = 72
         Top = 16
         Width = 273
         Height = 273
@@ -2024,28 +2182,211 @@ object FPpal: TFPpal
         PitchScale.TextAlignment = toMidCenter
       end
     end
-    object TabSheet1: TTabSheet
-      Caption = 'Data Plots'
-      ImageIndex = 3
-      object rg_plot: TRadioGroup
+    object TabSheet4: TTabSheet
+      Caption = 'Export/ Decoding'
+      ImageIndex = 5
+      object GroupBox5: TGroupBox
         Left = 8
         Top = 8
-        Width = 393
-        Height = 57
-        Caption = ' Select Sensor to Plot '
-        Columns = 3
+        Width = 401
+        Height = 129
+        Caption = ' In-Flight Exporting '
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = [fsBold]
-        ItemIndex = 0
-        Items.Strings = (
-          'Accelerometers'
-          'Gyros'
-          'Magnetometers')
         ParentFont = False
         TabOrder = 0
+        object Label43: TLabel
+          Left = 8
+          Top = 85
+          Width = 155
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'Directory for Exported Files'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object cb_inflight: TCheckBox
+          Left = 8
+          Top = 24
+          Width = 273
+          Height = 17
+          Caption = 'Export Telemetry as it Comes from the UAV'
+          TabOrder = 0
+          OnClick = cb_inflightClick
+        end
+        object cb_allsentences: TCheckBox
+          Left = 48
+          Top = 48
+          Width = 161
+          Height = 17
+          Caption = 'Include all Sentences'
+          Enabled = False
+          TabOrder = 1
+        end
+        object cb_dtprefix: TCheckBox
+          Left = 48
+          Top = 67
+          Width = 185
+          Height = 17
+          Caption = 'Add Date-Time as Prefix'
+          Enabled = False
+          TabOrder = 2
+        end
+        object ed_export: TDirectoryEdit
+          Left = 8
+          Top = 100
+          Width = 385
+          Height = 21
+          OnAfterDialog = ed_exportAfterDialog
+          DialogKind = dkWin32
+          DialogText = 'DIalog Text'
+          DialogOptions = [sdAllowCreate]
+          InitialDir = '.'
+          Enabled = False
+          NumGlyphs = 1
+          TabOrder = 3
+          Text = 'Select a Directory'
+        end
+      end
+      object GroupBox6: TGroupBox
+        Left = 8
+        Top = 152
+        Width = 393
+        Height = 145
+        Caption = ' Exporting Log Files '
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 1
+        object Label44: TLabel
+          Left = 8
+          Top = 21
+          Width = 86
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'Select Log File'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object bt_importLog: TSpeedButton
+          Left = 16
+          Top = 112
+          Width = 369
+          Height = 22
+          Caption = 'Process Log File'
+          Flat = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000130B0000130B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+            333333333333333333FF33333333333330003333333333333777333333333333
+            300033FFFFFF3333377739999993333333333777777F3333333F399999933333
+            3300377777733333337733333333333333003333333333333377333333333333
+            3333333333333333333F333333333333330033333F33333333773333C3333333
+            330033337F3333333377333CC3333333333333F77FFFFFFF3FF33CCCCCCCCCC3
+            993337777777777F77F33CCCCCCCCCC399333777777777737733333CC3333333
+            333333377F33333333FF3333C333333330003333733333333777333333333333
+            3000333333333333377733333333333333333333333333333333}
+          NumGlyphs = 2
+          ParentFont = False
+          OnClick = bt_importLogClick
+        end
+        object Label45: TLabel
+          Left = 10
+          Top = 68
+          Width = 163
+          Height = 13
+          Caption = 'Select CSV File To Export to'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object ed_importLog: TFilenameEdit
+          Left = 8
+          Top = 35
+          Width = 377
+          Height = 21
+          Filter = 'Log Files (*.txt)|*.txt'
+          DialogTitle = 'Select Log File...'
+          GlyphKind = gkCustom
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000130B0000130B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF0033333333B333
+            333B33FF33337F3333F73BB3777BB7777BB3377FFFF77FFFF77333B000000000
+            0B3333777777777777333330FFFFFFFF07333337F33333337F333330FFFFFFFF
+            07333337F33333337F333330FFFFFFFF07333337F33333337F333330FFFFFFFF
+            07333FF7F33333337FFFBBB0FFFFFFFF0BB37777F3333333777F3BB0FFFFFFFF
+            0BBB3777F3333FFF77773330FFFF000003333337F333777773333330FFFF0FF0
+            33333337F3337F37F3333330FFFF0F0B33333337F3337F77FF333330FFFF003B
+            B3333337FFFF77377FF333B000000333BB33337777777F3377FF3BB3333BB333
+            3BB33773333773333773B333333B3333333B7333333733333337}
+          NumGlyphs = 2
+          TabOrder = 0
+          Text = '"Select File To Import"'
+        end
+        object ed_exportMat: TFilenameEdit
+          Left = 8
+          Top = 83
+          Width = 377
+          Height = 21
+          Filter = 'CSV Files (*.csv)|*.csv'
+          DialogOptions = [ofOverwritePrompt, ofHideReadOnly, ofPathMustExist]
+          DialogTitle = 'Select Log File...'
+          GlyphKind = gkCustom
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000130B0000130B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF0033333333B333
+            333B33FF33337F3333F73BB3777BB7777BB3377FFFF77FFFF77333B000000000
+            0B3333777777777777333330FFFFFFFF07333337F33333337F333330FFFFFFFF
+            07333337F33333337F333330FFFFFFFF07333337F33333337F333330FFFFFFFF
+            07333FF7F33333337FFFBBB0FFFFFFFF0BB37777F3333333777F3BB0FFFFFFFF
+            0BBB3777F3333FFF77773330FFFF000003333337F333777773333330FFFF0FF0
+            33333337F3337F37F3333330FFFF0F0B33333337F3337F77FF333330FFFF003B
+            B3333337FFFF77377FF333B000000333BB33337777777F3377FF3BB3333BB333
+            3BB33773333773333773B333333B3333333B7333333733333337}
+          NumGlyphs = 2
+          TabOrder = 1
+          Text = '"Select File To Export"'
+        end
       end
     end
   end
@@ -2053,7 +2394,7 @@ object FPpal: TFPpal
     Left = 0
     Top = 0
     Width = 201
-    Height = 598
+    Height = 617
     Align = alLeft
     TabOrder = 2
     object Label1: TLabel
@@ -2071,7 +2412,7 @@ object FPpal: TFPpal
     end
     object bt_clear: TSpeedButton
       Left = 8
-      Top = 568
+      Top = 592
       Width = 185
       Height = 22
       Caption = 'Clear the Diagnose Window'
@@ -2095,8 +2436,8 @@ object FPpal: TFPpal
     object mm_diagnose: TMemo
       Left = 8
       Top = 32
-      Width = 177
-      Height = 529
+      Width = 185
+      Height = 553
       TabOrder = 0
     end
   end
@@ -2104,13 +2445,18 @@ object FPpal: TFPpal
     IniFileName = '.\ap.ini'
     StoredProps.Strings = (
       'mm_diagnose.Lines'
-      'pc_main.ActivePage')
+      'pc_main.ActivePage'
+      'ed_export.Text'
+      'cb_allsentences.Checked'
+      'cb_color1.Color'
+      'cb_color2.Color'
+      'cb_dtprefix.Checked'
+      'cb_inflight.Checked')
     StoredValues = <>
     Left = 32
     Top = 520
   end
   object ad_main: TABSDatabase
-    Connected = True
     CurrentVersion = '5.18 '
     DatabaseFileName = '.\apConfig.ABS'
     DatabaseName = 'apMain'
@@ -2200,6 +2546,11 @@ object FPpal: TFPpal
       item
         Name = 'heightGS'
         DataType = ftFloat
+      end
+      item
+        Name = 'ExportLocation'
+        DataType = ftString
+        Size = 500
       end>
     TableName = 'configuration'
     Exclusive = False
@@ -2259,6 +2610,10 @@ object FPpal: TFPpal
     end
     object tb_configheightGS: TFloatField
       FieldName = 'heightGS'
+    end
+    object tb_configExportLocation: TStringField
+      FieldName = 'ExportLocation'
+      Size = 500
     end
   end
   object fte_config: TDataSource
