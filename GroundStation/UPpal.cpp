@@ -18,6 +18,9 @@
 #pragma link "AbCBitBt"
 #pragma link "ToolEdit"
 #pragma resource "*.dfm"
+
+#define  _IN_PC_       1
+
 TFPpal *FPpal;
 //---------------------------------------------------------------------------
 __fastcall TFPpal::TFPpal(TComponent* Owner)
@@ -61,6 +64,8 @@ void __fastcall TFPpal::FormCreate(TObject *Sender)
  //memset(rawSample,0,sizeof(rawSample));
 
  protParserInit ();
+
+ logIsOpen = false;
 }
 //---------------------------------------------------------------------------
 
@@ -370,7 +375,10 @@ void __fastcall TFPpal::cp_serialTriggerAvail(TObject *CP, WORD Count)
 
     cp_serial->GetBlock(&fromSerial[1], Count);
     fromSerial[0] = Count;
-    protParseDecode (&fromSerial[0], &tmp[0]);
+    if (logIsOpen)
+       protParseDecode (&fromSerial[0], &tmp[0], liveLog);
+    else
+          protParseDecode (&fromSerial[0], &tmp[0], NULL);
 
   }
    catch (exception& EBufferIsEmpty) {
@@ -686,13 +694,23 @@ void __fastcall TFPpal::ed_exportAfterDialog(TObject *Sender,
 void __fastcall TFPpal::cb_inflightClick(TObject *Sender)
 {
  if (cb_inflight->Checked){
-    cb_allsentences->Enabled = True;
-    cb_dtprefix->Enabled = True;
-    ed_export->Enabled = True;
+    String logFileName = ed_liveLog->FileName +
+                           FormatDateTime("_dd_mm_yy_hh_nn_ss", Now());
+    ed_liveLog->Enabled = True;
+    liveLog = fopen(logFileName.c_str(), "wt");
+
+	if (!liveLog)
+	{
+		ShowMessage("Unable to create Live Log file, continuing without logging");
+        cb_inflight->Checked = False;
+        cb_inflightClick(NULL);
+	} else{
+        logIsOpen = true;
+    }
 } else {
-    cb_allsentences->Enabled = False;
-    cb_dtprefix->Enabled = False;
-    ed_export->Enabled = False;
+    ed_liveLog->Enabled = False;
+    if(logIsOpen) fclose(liveLog);
+    logIsOpen = false;
 }
 }
 //---------------------------------------------------------------------------
@@ -741,8 +759,7 @@ void __fastcall TFPpal::bt_importLogClick(TObject *Sender)
              while (i<fileLen-96){
 	            fread(buffer, 96, 1, logFile);
                 i+=96;
-                protParseDecode(buffer, myToLog);
-                //fputs(stringStatus, matFile);
+                protParseDecode(buffer, myToLog, matFile);
              }
              fclose(logFile);
              fclose(matFile);
@@ -753,4 +770,29 @@ void __fastcall TFPpal::bt_importLogClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+
+void __fastcall TFPpal::FormDestroy(TObject *Sender)
+{
+  if(logIsOpen) fclose(liveLog);    
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::ed_liveLogAfterDialog(TObject *Sender,
+      AnsiString &Name, bool &Action)
+{
+    if(logIsOpen) fclose(liveLog);
+    String logFileName = Name +
+                           FormatDateTime("_dd_mm_yy_hh_nn_ss", Now());
+    liveLog = fopen(logFileName.c_str(), "wt");
+
+	if (!liveLog)
+	{
+		ShowMessage("Unable to create Live Log file, continuing without logging");
+        cb_inflight->Checked = False;
+        cb_inflightClick(NULL);
+	} else{
+        logIsOpen = true;
+    }
+}
+//---------------------------------------------------------------------------
 

@@ -33,8 +33,10 @@
 #include "gpsSplit.h"
 #include "AbCBitBt.hpp"
 #include "ToolEdit.hpp"
+#include "gsDefinitions.h"
 
 #define  DISLIMIT      30.0
+
 
 //---------------------------------------------------------------------------
 class TFPpal : public TForm
@@ -184,17 +186,15 @@ __published:	// IDE-managed Components
     TAbVCInd *ai_att;
     TGroupBox *GroupBox5;
     TCheckBox *cb_inflight;
-    TCheckBox *cb_allsentences;
-    TCheckBox *cb_dtprefix;
     TGroupBox *GroupBox6;
     TLabel *Label43;
     TStringField *tb_configExportLocation;
-    TDirectoryEdit *ed_export;
     TFilenameEdit *ed_importLog;
     TLabel *Label44;
     TSpeedButton *bt_importLog;
-    TFilenameEdit *ed_exportMat;
     TLabel *Label45;
+    TFilenameEdit *ed_exportMat;
+    TFilenameEdit *ed_liveLog;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -216,6 +216,9 @@ __published:	// IDE-managed Components
           bool &Action);
     void __fastcall cb_inflightClick(TObject *Sender);
     void __fastcall bt_importLogClick(TObject *Sender);
+    void __fastcall FormDestroy(TObject *Sender);
+    void __fastcall ed_liveLogAfterDialog(TObject *Sender,
+          AnsiString &Name, bool &Action);
 private:	// User declarations
 public:		// User declarations
         __fastcall TFPpal(TComponent* Owner);
@@ -230,6 +233,8 @@ public:		// User declarations
         tRawData rawSample;
         tAttitudeData attitudeSample;
         tXYZData xyzSample;
+        FILE* liveLog;
+        bool logIsOpen;
 
         void updateGPSLabels(void);
         void updateRawLabels(void);

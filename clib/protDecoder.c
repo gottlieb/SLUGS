@@ -10,12 +10,8 @@
 // First Revision: Sep 2 2008 @ 15:03
 // ==========================================================
 
-#include "apDefinitions.h"
-#include "circBuffer.h"
-#include "gpsSplit.h"
 #include "protDecoder.h"
-#include <stdio.h>
-#include <string.h>
+
 
 // These are the global data structures that hold the state
 // there are accessor methods to read data off them
@@ -185,30 +181,34 @@ void updateStates(unsigned char * completeSentence){
 	}
 }
 
-void protParseDecode(unsigned char* fromSPI, unsigned char* toLog){
+#ifdef _IN_PC_
+void protParseDecode (unsigned char* fromSPI, unsigned char* toLog, FILE* outFile){
+#else
+void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
+#endif
 	// Static variables CAREFUL
 	static unsigned char prevBuffer[2*MAXLOGLEN];
 	static unsigned char previousComplete =1;
 	static unsigned char indexLast = 0;
-	
-	// local variables 
+
+	// local variables
 	unsigned char i;
 	unsigned char tmpChksum = 0, headerFound=0, noMoreBytes = 1;
 	unsigned char trailerFound = 0;
 
 	unsigned char logSize = 0;
-	
+
 	// Add the received bytes to the protocol parsing circular buffer
     for(i = 1; i <= fromSPI[0]; i += 1 )
     //for(i = 0; i <= 95; i += 1 )
 	{
 		writeBack(ppBuffer, fromSPI[i]);
 	}
-	
+
 	// update the noMoreBytes flag accordingly
    noMoreBytes = (fromSPI[0]>0)?0:1;
    // noMoreBytes = 0;
-	
+
 	while (!noMoreBytes){
 		// if the previous message was complete then read from the circular buffer
 		// and make sure that you are into the begining of a message
@@ -217,7 +217,7 @@ void protParseDecode(unsigned char* fromSPI, unsigned char* toLog){
 				// move along until you find a dollar sign or run out of bytes
 				while (getLength(ppBuffer)>1 && peak(ppBuffer)!=DOLLAR){
 					readFront(ppBuffer);
-				}			
+				}
 				// if you found a dollar then make sure the next one is an AT
 				if(getLength(ppBuffer)>1 && peak(ppBuffer) == DOLLAR){
 					// read it
@@ -233,10 +233,10 @@ void protParseDecode(unsigned char* fromSPI, unsigned char* toLog){
 					}
 				} else {
 					noMoreBytes = 1;
-				} // else no dollar				
+				} // else no dollar
 			} // while we found header && no more bytes
 		}// if previous complete
-		
+
 		// At this point either you found a header from a previous complete
 		// or you are reading from a message that was incomplete the last time
 		// in any of those two cases, keep reading until you run out of bytes
@@ -262,9 +262,9 @@ void protParseDecode(unsigned char* fromSPI, unsigned char* toLog){
 			} else {
 				// no more bytes
 				noMoreBytes =1;
-			} 
+			}
 		}
-		
+
 		// if you found a trailer, then the message is done
 		if(trailerFound){
 			// read the AT and the checksum
@@ -273,11 +273,14 @@ void protParseDecode(unsigned char* fromSPI, unsigned char* toLog){
 
 			// Compute the checksum
 			tmpChksum= getChecksum(prevBuffer, indexLast-1);
-	
+
 			// if the checksum is valid
 			if (tmpChksum ==prevBuffer[indexLast]){
 				// update the states depending on the message
 				updateStates(&prevBuffer[0]);
+                #ifdef _IN_PC_
+                   if (outFile != NULL) printState(outFile);
+                #endif
 				// Copy the data to the out buffer for logging purposes
 				memcpy(&toLog[logSize+1],&prevBuffer[0], indexLast+1);
 				// increment the log size
@@ -300,6 +303,36 @@ void protParseDecode(unsigned char* fromSPI, unsigned char* toLog){
 	} // big outer while (no more bytes)
 	toLog[0] = logSize;
 }
+
+
+#ifdef _IN_PC_
+void printState (FILE* outFile){
+/*
+tGpsData 		gpsControlData;
+tRawData 		rawControlData;
+tSensStatus		statusControlData;
+tAttitudeData	attitudeControlData;
+tDynTempData	dynTempControlData;
+tXYZData		xyzControlData;
+unsigned char   filterControlData;
+tAknData		aknControlData;
+*/
+    fprintf(outFile, "%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n",
+         attitudeControlData.roll.flData,
+         attitudeControlData.pitch.flData,
+         attitudeControlData.yaw.flData,
+         attitudeControlData.p.flData,
+         attitudeControlData.q.flData,
+         attitudeControlData.r.flData,
+         xyzControlData.Xcoord.flData,
+         xyzControlData.Ycoord.flData,
+         xyzControlData.Zcoord.flData,
+         xyzControlData.VX.flData,
+         xyzControlData.VY.flData,
+         xyzControlData.VZ.flData);
+}
+#endif
+
 
 // ===============================================
 // Accesor Methods for the Global Data Structures
@@ -337,3 +370,5 @@ void getTime (unsigned char * values){
 unsigned char getFilterOnOff (void){
 	return filterControlData;
 }
+
+
