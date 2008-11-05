@@ -15,6 +15,7 @@ object FPpal: TFPpal
   OldCreateOrder = False
   OnClose = FormClose
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -1889,7 +1890,7 @@ object FPpal: TFPpal
         BevelOuter.Width = 2
         BevelOuter.SurfaceGrad.Visible = False
         BevelOuter.SurfaceGrad.Style = gsHorizontal1
-        DigitCh1 = 1500
+        DigitCh1 = 5394
         DigitCh2 = 0
         SignalSettingsCh1.DigitalFrom = 1500
         SignalSettingsCh1.DigitalTo = 4096
@@ -1932,7 +1933,7 @@ object FPpal: TFPpal
         BevelOuter.Width = 2
         BevelOuter.SurfaceGrad.Visible = False
         BevelOuter.SurfaceGrad.Style = gsHorizontal1
-        DigitCh1 = 1500
+        DigitCh1 = 5394
         DigitCh2 = 0
         SignalSettingsCh1.DigitalFrom = 1500
         SignalSettingsCh1.DigitalTo = 4096
@@ -1975,7 +1976,7 @@ object FPpal: TFPpal
         BevelOuter.Width = 2
         BevelOuter.SurfaceGrad.Visible = False
         BevelOuter.SurfaceGrad.Style = gsHorizontal1
-        DigitCh1 = 1500
+        DigitCh1 = 5394
         DigitCh2 = 0
         SignalSettingsCh1.DigitalFrom = 1500
         SignalSettingsCh1.DigitalTo = 4096
@@ -2189,7 +2190,7 @@ object FPpal: TFPpal
         Left = 8
         Top = 8
         Width = 401
-        Height = 129
+        Height = 97
         Caption = ' In-Flight Exporting '
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -2200,7 +2201,7 @@ object FPpal: TFPpal
         TabOrder = 0
         object Label43: TLabel
           Left = 8
-          Top = 85
+          Top = 45
           Width = 155
           Height = 13
           Hint = 
@@ -2226,44 +2227,38 @@ object FPpal: TFPpal
           TabOrder = 0
           OnClick = cb_inflightClick
         end
-        object cb_allsentences: TCheckBox
-          Left = 48
-          Top = 48
-          Width = 161
-          Height = 17
-          Caption = 'Include all Sentences'
-          Enabled = False
-          TabOrder = 1
-        end
-        object cb_dtprefix: TCheckBox
-          Left = 48
-          Top = 67
-          Width = 185
-          Height = 17
-          Caption = 'Add Date-Time as Prefix'
-          Enabled = False
-          TabOrder = 2
-        end
-        object ed_export: TDirectoryEdit
+        object ed_liveLog: TFilenameEdit
           Left = 8
-          Top = 100
+          Top = 59
           Width = 385
           Height = 21
-          OnAfterDialog = ed_exportAfterDialog
-          DialogKind = dkWin32
-          DialogText = 'DIalog Text'
-          DialogOptions = [sdAllowCreate]
-          InitialDir = '.'
+          OnAfterDialog = ed_liveLogAfterDialog
+          Filter = 'Log Files (*.txt)|*.txt'
+          DialogTitle = 'Select Log File...'
           Enabled = False
-          NumGlyphs = 1
-          TabOrder = 3
-          Text = 'Select a Directory'
+          GlyphKind = gkCustom
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000130B0000130B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF0033333333B333
+            333B33FF33337F3333F73BB3777BB7777BB3377FFFF77FFFF77333B000000000
+            0B3333777777777777333330FFFFFFFF07333337F33333337F333330FFFFFFFF
+            07333337F33333337F333330FFFFFFFF07333337F33333337F333330FFFFFFFF
+            07333FF7F33333337FFFBBB0FFFFFFFF0BB37777F3333333777F3BB0FFFFFFFF
+            0BBB3777F3333FFF77773330FFFF000003333337F333777773333330FFFF0FF0
+            33333337F3337F37F3333330FFFF0F0B33333337F3337F77FF333330FFFF003B
+            B3333337FFFF77377FF333B000000333BB33337777777F3377FF3BB3333BB333
+            3BB33773333773333773B333333B3333333B7333333733333337}
+          NumGlyphs = 2
+          TabOrder = 1
+          Text = 'C:\Mariano\UCSC\APCode\GroundStation\FlightLogs\cartTest'
         end
       end
       object GroupBox6: TGroupBox
         Left = 8
         Top = 152
-        Width = 393
+        Width = 400
         Height = 145
         Caption = ' Exporting Log Files '
         Font.Charset = DEFAULT_CHARSET
@@ -2293,7 +2288,7 @@ object FPpal: TFPpal
           ShowHint = True
         end
         object bt_importLog: TSpeedButton
-          Left = 16
+          Left = 19
           Top = 112
           Width = 369
           Height = 22
@@ -2324,9 +2319,9 @@ object FPpal: TFPpal
         object Label45: TLabel
           Left = 10
           Top = 68
-          Width = 163
+          Width = 95
           Height = 13
-          Caption = 'Select CSV File To Export to'
+          Caption = 'CSV Output File '
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -2339,7 +2334,7 @@ object FPpal: TFPpal
         object ed_importLog: TFilenameEdit
           Left = 8
           Top = 35
-          Width = 377
+          Width = 385
           Height = 21
           Filter = 'Log Files (*.txt)|*.txt'
           DialogTitle = 'Select Log File...'
@@ -2362,12 +2357,11 @@ object FPpal: TFPpal
           Text = '"Select File To Import"'
         end
         object ed_exportMat: TFilenameEdit
-          Left = 8
+          Left = 7
           Top = 83
-          Width = 377
+          Width = 385
           Height = 21
           Filter = 'CSV Files (*.csv)|*.csv'
-          DialogOptions = [ofOverwritePrompt, ofHideReadOnly, ofPathMustExist]
           DialogTitle = 'Select Log File...'
           GlyphKind = gkCustom
           Glyph.Data = {
@@ -2385,7 +2379,7 @@ object FPpal: TFPpal
             3BB33773333773333773B333333B3333333B7333333733333337}
           NumGlyphs = 2
           TabOrder = 1
-          Text = '"Select File To Export"'
+          Text = '"Select File To Import"'
         end
       end
     end
@@ -2446,11 +2440,8 @@ object FPpal: TFPpal
     StoredProps.Strings = (
       'mm_diagnose.Lines'
       'pc_main.ActivePage'
-      'ed_export.Text'
-      'cb_allsentences.Checked'
       'cb_color1.Color'
       'cb_color2.Color'
-      'cb_dtprefix.Checked'
       'cb_inflight.Checked')
     StoredValues = <>
     Left = 32
