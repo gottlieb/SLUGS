@@ -183,6 +183,7 @@ void updateStates(unsigned char * completeSentence){
 
 #ifdef _IN_PC_
 void protParseDecode (unsigned char* fromSPI, unsigned char* toLog, FILE* outFile){
+    static unsigned char swSend = 1;
 #else
 void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
 #endif
@@ -278,13 +279,16 @@ void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
 			if (tmpChksum ==prevBuffer[indexLast]){
 				// update the states depending on the message
 				updateStates(&prevBuffer[0]);
-                #ifdef _IN_PC_
-                   if (outFile != NULL) printState(outFile);
-                #endif
 				// Copy the data to the out buffer for logging purposes
 				memcpy(&toLog[logSize+1],&prevBuffer[0], indexLast+1);
 				// increment the log size
 				logSize += (indexLast+1);
+                #ifdef _IN_PC_
+                    if ((outFile != NULL) && (swSend==1)){
+                       printState(outFile);
+                    }
+                    swSend ^= 1;
+                #endif
 			}
             else{
              indexLast = 1; // just to stop debugger
@@ -317,7 +321,8 @@ tXYZData		xyzControlData;
 unsigned char   filterControlData;
 tAknData		aknControlData;
 */
-    fprintf(outFile, "%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n",
+    // Print Attitude and Position
+    fprintf(outFile, "%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,",
          attitudeControlData.roll.flData,
          attitudeControlData.pitch.flData,
          attitudeControlData.yaw.flData,
@@ -330,6 +335,39 @@ tAknData		aknControlData;
          xyzControlData.VX.flData,
          xyzControlData.VY.flData,
          xyzControlData.VZ.flData);
+
+    // Print GPS
+    fprintf(outFile, "%d,%d,%d,%d,%d,%d,%f,%f,%f,%d,%d,%d,%d,%d,%d,",
+         gpsControlData.year,
+         gpsControlData.month,
+         gpsControlData.day,
+         gpsControlData.hour,
+         gpsControlData.min,
+         gpsControlData.sec,
+         gpsControlData.lat.flData,
+         gpsControlData.lon.flData,
+         gpsControlData.height.flData,
+         gpsControlData.cog.usData,
+         gpsControlData.sog.usData,
+         gpsControlData.hdop.usData,
+         gpsControlData.fix,
+         gpsControlData.sats,
+         gpsControlData.newValue);
+
+    // Print Raw Data
+    fprintf(outFile, "%d,%d,%d,%d,%d,%d,%d,%d,%d,",
+         rawControlData.gyroX.usData,
+         rawControlData.gyroY.usData,
+         rawControlData.gyroZ.usData,
+         rawControlData.accelX.usData,
+         rawControlData.accelY.usData,
+         rawControlData.accelZ.usData,
+         rawControlData.magX.usData,
+         rawControlData.magY.usData,
+         rawControlData.magZ.usData);
+
+    // Add new line
+    fprintf(outFile, "\n");
 }
 #endif
 

@@ -93,7 +93,6 @@ __published:	// IDE-managed Components
     TIntegerField *tb_configtessalateColorB;
     TStringField *tb_configiconFile;
     TStringField *tb_configwaypointFile;
-    TApdComPort *cp_serial;
     TSpeedButton *bt_serial;
     TTimer *Timer2;
     TGroupBox *GroupBox1;
@@ -195,6 +194,7 @@ __published:	// IDE-managed Components
     TLabel *Label45;
     TFilenameEdit *ed_exportMat;
     TFilenameEdit *ed_liveLog;
+    TApdComPort *cp_serial;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);

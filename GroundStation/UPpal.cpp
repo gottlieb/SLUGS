@@ -368,20 +368,28 @@ void TFPpal::updatePlots(void){
 
 void __fastcall TFPpal::cp_serialTriggerAvail(TObject *CP, WORD Count)
 {
-  unsigned char fromSerial[BSIZE];
+  unsigned char fromSerial[4096];
   unsigned char tmp[2*MAXSEND];
+  int bytesRemain = Count;
 
   try {
-
-    cp_serial->GetBlock(&fromSerial[1], Count);
-    fromSerial[0] = Count;
-    if (logIsOpen)
-       protParseDecode (&fromSerial[0], &tmp[0], liveLog);
-    else
-          protParseDecode (&fromSerial[0], &tmp[0], NULL);
-
+    while (bytesRemain > 0) {
+       if (bytesRemain <= 4095) {
+         cp_serial->GetBlock(&fromSerial[1], Count);
+         fromSerial[0] = Count;
+         bytesRemain = 0;
+       } else{
+         cp_serial->GetBlock(&fromSerial[1], 4095);
+         fromSerial[0] = 4095;
+         bytesRemain -= 4095;
+       }
+       if (logIsOpen==true)
+         protParseDecode (&fromSerial[0], &tmp[0], liveLog);
+       else
+         protParseDecode (&fromSerial[0], &tmp[0], NULL);
+    }
   }
-   catch (exception& EBufferIsEmpty) {
+   catch (...) {
       mm_diagnose->Lines->Add("Exception Caught");
   }
 
@@ -721,7 +729,7 @@ void __fastcall TFPpal::bt_importLogClick(TObject *Sender)
     FILE* logFile;
     FILE* matFile;
 
-	unsigned char *buffer;
+	unsigned char buffer[97];
 	unsigned long fileLen;
     unsigned long i;
     unsigned char myToLog[97];
@@ -746,27 +754,21 @@ void __fastcall TFPpal::bt_importLogClick(TObject *Sender)
 	       fileLen=ftell(logFile);
 	       fseek(logFile, 0, SEEK_SET);
 
-	       //Allocate memory
-	       buffer=(unsigned char *)malloc(fileLen+1);
-	       if (!buffer)
-	       {
-		      ShowMessage( "Memory error!");
-              fclose(logFile);
-           }else {
+	       //Read file contents into buffer
+           i = 0;
 
-	         //Read file contents into buffer
-             i = 0;
-             while (i<fileLen-96){
-	            fread(buffer, 96, 1, logFile);
-                i+=96;
-                protParseDecode(buffer, myToLog, matFile);
-             }
-             fclose(logFile);
-             fclose(matFile);
-             free(buffer);
-           }// else !buffer
+           while (i<fileLen-96){
+	         fread(&(buffer[0]) + 1, sizeof(unsigned char), 96, logFile);
+             i+=96;
+             buffer[0] = 96;
+             protParseDecode(buffer, myToLog, matFile);
+           }
+           fclose(logFile);
+           fclose(matFile);
         }// else !matfile
     } // else !logfile
+    // E:\LOG4.TXT
+    // C:\Mariano\UCSC\APCode\GroundStation\FlightLogs\ST.csv
 }
 //---------------------------------------------------------------------------
 
