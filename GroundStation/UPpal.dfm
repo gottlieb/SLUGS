@@ -1,6 +1,6 @@
 object FPpal: TFPpal
-  Left = 159
-  Top = 114
+  Left = 1290
+  Top = -132
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 'UCSC - AP Ground Station'
@@ -2354,7 +2354,7 @@ object FPpal: TFPpal
             3BB33773333773333773B333333B3333333B7333333733333337}
           NumGlyphs = 2
           TabOrder = 0
-          Text = '"Select File To Import"'
+          Text = 'E:\LOG4.TXT'
         end
         object ed_exportMat: TFilenameEdit
           Left = 7
@@ -2379,7 +2379,7 @@ object FPpal: TFPpal
             3BB33773333773333773B333333B3333333B7333333733333337}
           NumGlyphs = 2
           TabOrder = 1
-          Text = '"Select File To Import"'
+          Text = 'C:\Mariano\UCSC\APCode\GroundStation\FlightLogs\ST.csv'
         end
       end
     end
@@ -2626,27 +2626,20 @@ object FPpal: TFPpal
     Left = 24
     Top = 400
   end
-  object cp_serial: TApdComPort
-    Baud = 115200
-    AutoOpen = False
-    DTR = False
-    RTS = False
-    Tracing = tlOn
-    TraceName = '.\APRO.TRC'
-    TraceAllHex = True
-    Logging = tlOn
-    LogSize = 100000
-    LogName = '.\ApLogHex.log'
-    LogAllHex = True
-    OnTriggerAvail = cp_serialTriggerAvail
-    Left = 40
-    Top = 328
-  end
   object Timer2: TTimer
     Enabled = False
     Interval = 100
     OnTimer = Timer2Timer
     Left = 136
     Top = 400
+  end
+  object cp_serial: TApdComPort
+    Baud = 115200
+    AutoOpen = False
+    TraceName = 'APRO.TRC'
+    LogName = 'APRO.LOG'
+    OnTriggerAvail = cp_serialTriggerAvail
+    Left = 64
+    Top = 272
   end
 end
