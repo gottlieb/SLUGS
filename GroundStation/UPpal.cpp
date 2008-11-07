@@ -258,11 +258,19 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    gpsSamples[0] = temp;
    rawSample = getRawStruct();
    attitudeSample = getAttStruct();
-   xyzSample = getXYZStruct();
+   xyzSample  = getXYZStruct();
+   dynSample  = getDynStruct();
+   biasSample = getBiasStruct();
+   diagSample = getDiagStruct();
 
    updateGPSLabels();                 
    updateRawLabels();
    updateAttitudeLabels();
+
+   updateBiasLabels();
+   updateDynLabels();
+   updateDiagLabels();
+
    updatePlots();
    updateAttitude();
 
@@ -327,7 +335,7 @@ void TFPpal::updateAttitudeLabels(void){
    et_theta->Caption = FloatToStr(RAD2DEG*attitudeSample.pitch.flData);
    et_psi->Caption = FloatToStr(RAD2DEG*attitudeSample.yaw.flData);*/
 
-   
+
    et_x->Caption = FloatToStr(xyzSample.Xcoord.flData);
    et_y->Caption = FloatToStr(xyzSample.Ycoord.flData);
    et_z->Caption = FloatToStr(xyzSample.Zcoord.flData);
@@ -365,6 +373,30 @@ void TFPpal::updatePlots(void){
   } 
 
 }
+
+void TFPpal::updateBiasLabels(void){
+  et_axb->Caption = FloatToStr(biasSample.axb.flData);
+  et_ayb->Caption = FloatToStr(biasSample.ayb.flData);
+  et_azb->Caption = FloatToStr(biasSample.azb.flData);
+  et_gxb->Caption = FloatToStr(biasSample.gxb.flData);
+  et_gyb->Caption = FloatToStr(biasSample.gyb.flData);
+  et_gzb->Caption = FloatToStr(biasSample.gzb.flData);
+
+}
+void TFPpal::updateDynLabels(void){
+  et_dyn->Caption = FloatToStr( dynSample.dynamic.flData);
+  et_sta->Caption = FloatToStr( dynSample.stat.flData);
+  et_temp->Caption = IntToStr( dynSample.temp.shData);
+}
+void TFPpal::updateDiagLabels(void){
+  et_fl1->Caption = FloatToStr(diagSample.fl1.flData);
+  et_fl2->Caption = FloatToStr(diagSample.fl2.flData);
+  et_fl3->Caption = FloatToStr(diagSample.fl3.flData);
+  et_sh1->Caption = IntToStr( diagSample.sh1.shData);
+  et_sh2->Caption = IntToStr( diagSample.sh2.shData);
+  et_sh3->Caption = IntToStr( diagSample.sh3.shData);
+}
+
 
 void __fastcall TFPpal::cp_serialTriggerAvail(TObject *CP, WORD Count)
 {

@@ -8,7 +8,9 @@
 float bytesToFloat (unsigned char* inBytes);
 void floatToBytes (float inFloat, unsigned char* inBytes);
 unsigned short bytesToUShort (unsigned char* inBytes);
-
+void uShortToBytes (unsigned short inUShort, unsigned char* inBytes);
+short bytesToShort (unsigned char* inBytes);
+void shortToBytes (short inShort, unsigned char* inBytes);
 
 #ifdef __cplusplus
        }

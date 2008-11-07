@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.588"
+    ComputedModelVersion    "1.590"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -47,8 +47,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ASL_Lab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Nov 05 21:50:20 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:588>"
+  LastModifiedDate	  "Thu Nov 06 10:27:40 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:590>"
   ConfigurationManager	  "None"
   SimulationMode	  "accelerator"
   LinearizationMsg	  "none"
@@ -1001,7 +1001,7 @@ Model {
   }
   System {
     Name		    "PositionComplementary4"
-    Location		    [1037, -179, 2313, 739]
+    Location		    [1020, -169, 2296, 749]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -21358,8 +21358,8 @@ Model {
       Ports		      [4]
       Position		      [1025, 374, 1055, 431]
       Floating		      off
-      Location		      [1, 52, 1025, 767]
-      Open		      on
+      Location		      [5, 47, 1029, 762]
+      Open		      off
       NumInputPorts	      "4"
       ZoomMode		      "yonly"
       List {
@@ -21386,7 +21386,7 @@ Model {
       Location		      [5, 47, 1029, 762]
       Open		      off
       NumInputPorts	      "4"
-      ZoomMode		      "yonly"
+      ZoomMode		      "xonly"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
@@ -21434,7 +21434,7 @@ Model {
       Position		      [925, 672, 955, 733]
       Floating		      off
       Location		      [5, 47, 1029, 762]
-      Open		      on
+      Open		      off
       NumInputPorts	      "4"
       ZoomMode		      "yonly"
       List {
@@ -21484,7 +21484,7 @@ Model {
       Position		      [1025, 475, 1055, 530]
       Floating		      off
       Location		      [5, 47, 1029, 762]
-      Open		      on
+      Open		      off
       NumInputPorts	      "4"
       ZoomMode		      "yonly"
       List {
@@ -26649,7 +26649,7 @@ Model {
       RTWMemSecDataConstants  "Inherit from model"
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
-      sw		      "0"
+      sw		      "1"
       action		      "0"
       varsize		      off
     }
@@ -38817,8 +38817,8 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Position/Attitude\nFilter"
-	Location		[188, 96, 836, 672]
-	Open			on
+	Location		[1271, -106, 1919, 470]
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -38930,7 +38930,7 @@ Model {
 	  MaskTabNameString	  ",,,,"
 	  System {
 	    Name		    "Attitude\nComplementary\nFilter"
-	    Location		    [1154, -40, 2218, 477]
+	    Location		    [1123, -71, 2187, 446]
 	    Open		    off
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
@@ -38993,7 +38993,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "Update"
-	      Position		      [890, 208, 920, 222]
+	      Position		      [975, 183, 1005, 197]
 	      Orientation	      "left"
 	      BackgroundColor	      "yellow"
 	      Port		      "7"
@@ -39426,6 +39426,12 @@ Model {
 	      }
 	    }
 	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant"
+	      Position		      [980, 120, 1010, 150]
+	      Orientation	      "left"
+	    }
+	    Block {
 	      BlockType		      SubSystem
 	      Name		      "Embedded\nMATLAB Function"
 	      Ports		      [2, 1]
@@ -39820,6 +39826,16 @@ Model {
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
+	      BlockType		      Mux
+	      Name		      "Mux"
+	      Ports		      [3, 1]
+	      Position		      [940, 136, 945, 174]
+	      Orientation	      "left"
+	      ShowName		      off
+	      Inputs		      "3"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
 	      BlockType		      Product
 	      Name		      "Product"
 	      Ports		      [2, 1]
@@ -39867,7 +39883,7 @@ Model {
 	      MaskHideContents	      off
 	      System {
 		Name			"Subsystem"
-		Location		[1232, 39, 1920, 552]
+		Location		[168, 127, 856, 640]
 		Open			off
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
@@ -42390,18 +42406,39 @@ Model {
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "Update"
-	      SrcPort		      1
-	      Points		      [-35, 0]
-	      DstBlock		      "Product"
-	      DstPort		      2
-	    }
-	    Line {
 	      SrcBlock		      "COG, deg"
 	      SrcPort		      1
 	      Points		      [35, 0; 0, -5]
 	      DstBlock		      "Subsystem"
 	      DstPort		      8
+	    }
+	    Line {
+	      SrcBlock		      "Constant"
+	      SrcPort		      1
+	      Points		      [-5, 0; 0, 10]
+	      Branch {
+		DstBlock		"Mux"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 10]
+		DstBlock		"Mux"
+		DstPort			2
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Update"
+	      SrcPort		      1
+	      Points		      [-5, 0; 0, -25]
+	      DstBlock		      "Mux"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Mux"
+	      SrcPort		      1
+	      Points		      [-85, 0]
+	      DstBlock		      "Product"
+	      DstPort		      2
 	    }
 	  }
 	}
@@ -47077,11 +47114,11 @@ Model {
       SrcPort		      1
       Points		      [40, 0]
       Branch {
-	DstBlock		"Sum4"
+	DstBlock		"Compare \nVned"
 	DstPort			1
       }
       Branch {
-	DstBlock		"Compare \nVned"
+	DstBlock		"Sum4"
 	DstPort			1
       }
     }

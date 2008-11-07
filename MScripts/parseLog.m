@@ -1,6 +1,7 @@
-load ('ST7');
-data = ST7;
+%load ('ST7');
+%data = cart1;
 
+drange = 5900:37947; 
 %% Extract the columns 
 roll    = data(:,1);
 pitch   = data(:,2);
@@ -42,50 +43,50 @@ mZ      = data(:,36);
 %% some plots
 
 figure(1)
-plot(lat(1193:4510))
+plot(lat(drange))
 
 figure(2)
-plot(lon(1193:4510))
+plot(lon(drange))
 
 figure(3)
-plot(gX(1193:4510))
+plot(gX(drange))
 
 figure(4)
-plot(gY(1193:4510))
+plot(gY(drange))
 
 figure(5)
-plot(gZ(1193:4510))
+plot(gZ(drange))
 
 figure(6)
-plot(aX(1193:4510))
+plot(aX(drange))
 
 figure(7)
-plot(aY(1193:4510))
+plot(aY(drange))
 
 figure(8)
-plot(aZ(1193:4510))
+plot(aZ(drange))
 
 figure(9)
-plot(cog(1193:4510))
+plot(cog(drange))
 
 figure(10)
-plot(sog(1193:4510))
+plot(sog(drange))
 
 
 figure(11)
-plot(x(1193:4510))
+plot(x(drange))
 
 figure(12)
-plot(y(1193:4510))
+plot(y(drange))
 
 figure(13)
-plot(z(1193:4510))
+plot(z(drange))
 
 figure(14)
-plot(vx(1193:4510))
+plot(vx(drange))
 
 figure(15)
-plot(vy(1193:4510))
+plot(vy(drange))
 
 figure(16)
-plot(vz(1193:4510))
+plot(vz(drange))
