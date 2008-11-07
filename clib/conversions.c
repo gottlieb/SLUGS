@@ -26,3 +26,26 @@ unsigned short bytesToUShort (unsigned char* inBytes){
 	convert.chData[1] = inBytes[1];
 	return convert.usData;
 }
+
+void uShortToBytes (unsigned short inUShort, unsigned char* inBytes){
+	tUnsignedShortToChar convert;
+	convert.usData = inUShort;
+	
+	inBytes[0] = convert.chData[0];
+	inBytes[1] = convert.chData[1];
+}
+
+short bytesToShort (unsigned char* inBytes){
+	tShortToChar convert;
+	convert.chData[0] = inBytes[0];
+	convert.chData[1] = inBytes[1];
+	return convert.shData;
+}
+
+void shortToBytes (short inShort, unsigned char* inBytes){
+	tShortToChar convert;
+	convert.shData = inShort;
+	
+	inBytes[0] = convert.chData[0];
+	inBytes[1] = convert.chData[1];
+}

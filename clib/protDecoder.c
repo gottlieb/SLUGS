@@ -21,6 +21,8 @@ tRawData 		rawControlData;
 tSensStatus		statusControlData;
 tAttitudeData	attitudeControlData;
 tDynTempData	dynTempControlData;
+tBiasData		biasControlData;
+tDiagData		diagControlData;
 tXYZData		xyzControlData;
 unsigned char   filterControlData;
 tAknData		aknControlData;
@@ -40,6 +42,8 @@ void protParserInit(void){
 	memset(&statusControlData, 0, sizeof(tSensStatus));
 	memset(&attitudeControlData, 0, sizeof(tAttitudeData));
 	memset(&dynTempControlData, 0, sizeof(tDynTempData));
+	memset(&biasControlData, 0, sizeof(tBiasData));
+	memset(&diagControlData, 0, sizeof(tDiagData));
 	memset(&xyzControlData, 0, sizeof(tXYZData));
 	memset(&aknControlData, 0, sizeof(tAknData));
 	filterControlData = 0;
@@ -49,7 +53,7 @@ void updateStates(unsigned char * completeSentence){
 	switch (completeSentence[2]){
 		// Sensor MCU sentences
 		// ====================
-		case 1:		// GPS Sentence
+		case GPSMSG_ID:		// GPS Sentence
 			gpsControlData.year				= completeSentence[4];	
 			gpsControlData.month			= completeSentence[5];	
 			gpsControlData.day				= completeSentence[6];	
@@ -78,13 +82,13 @@ void updateStates(unsigned char * completeSentence){
 			gpsControlData.sats				= completeSentence[29];	
 			gpsControlData.newValue		 	= completeSentence[30];	
 		break;
-		case 2:
+		case LOADMSG_ID:
 			statusControlData.load		 	= completeSentence[4];
 			statusControlData.vdetect	 	= completeSentence[5];
 			statusControlData.bVolt.chData[0] 	= completeSentence[6];
 			statusControlData.bVolt.chData[1] 	= completeSentence[7];
 		break;
-		case 3: // Sensor Raw data, this one is done for demo. I will not fly
+		case RAWMSG_ID: // Sensor Raw data, this one is done for demo. I will not fly
 			rawControlData.gyroX.chData[0]	= completeSentence[4];	
 			rawControlData.gyroX.chData[1]	= completeSentence[5]; 	
 			rawControlData.gyroY.chData[0]	= completeSentence[6];		 	
@@ -104,7 +108,7 @@ void updateStates(unsigned char * completeSentence){
 			rawControlData.magZ.chData[0]	= completeSentence[20];	  
 			rawControlData.magZ.chData[1]	= completeSentence[21];	  
 		break;
-		case 4:
+		case ATTMSG_ID:
 			attitudeControlData.roll.chData[0]	= completeSentence[4];
 			attitudeControlData.roll.chData[1]	= completeSentence[5];
 			attitudeControlData.roll.chData[2]	= completeSentence[6];
@@ -130,7 +134,7 @@ void updateStates(unsigned char * completeSentence){
 			attitudeControlData.r.chData[2]	= completeSentence[26];
 			attitudeControlData.r.chData[3]	= completeSentence[27];			
 		break;
-        case 5:
+        case DYNMSG_ID:
 			dynTempControlData.dynamic.chData[0]	= completeSentence[4];
 			dynTempControlData.dynamic.chData[1]	= completeSentence[5];
 			dynTempControlData.dynamic.chData[2]	= completeSentence[6];
@@ -142,7 +146,53 @@ void updateStates(unsigned char * completeSentence){
 			dynTempControlData.temp.chData[1]	= completeSentence[12];	  
 			dynTempControlData.temp.chData[0]	= completeSentence[13];	  
 		break;
-		case 11:
+		case BIAMSG_ID:
+			biasControlData.axb.chData[0]	= completeSentence[4];
+			biasControlData.axb.chData[1]	= completeSentence[5];
+			biasControlData.axb.chData[2]	= completeSentence[6];
+			biasControlData.axb.chData[3]	= completeSentence[7];
+			biasControlData.ayb.chData[0]	= completeSentence[8];
+			biasControlData.ayb.chData[1]	= completeSentence[9];
+			biasControlData.ayb.chData[2]	= completeSentence[10];
+			biasControlData.ayb.chData[3]	= completeSentence[11];
+			biasControlData.azb.chData[0]	= completeSentence[12];
+			biasControlData.azb.chData[1]	= completeSentence[13];
+			biasControlData.azb.chData[2]	= completeSentence[14];
+			biasControlData.azb.chData[3]	= completeSentence[15];
+			biasControlData.gxb.chData[0]	= completeSentence[16];
+			biasControlData.gxb.chData[1]	= completeSentence[17];
+			biasControlData.gxb.chData[2]	= completeSentence[18];
+			biasControlData.gxb.chData[3]	= completeSentence[19];
+			biasControlData.gyb.chData[0]	= completeSentence[20];
+			biasControlData.gyb.chData[1]	= completeSentence[21];
+			biasControlData.gyb.chData[2]	= completeSentence[22];
+			biasControlData.gyb.chData[3]	= completeSentence[23];
+			biasControlData.gzb.chData[0]	= completeSentence[24];
+			biasControlData.gzb.chData[1]	= completeSentence[25];
+			biasControlData.gzb.chData[2]	= completeSentence[26];
+			biasControlData.gzb.chData[3]	= completeSentence[27];			
+		break;		
+		case DIAMSG_ID:
+			diagControlData.fl1.chData[0]	= completeSentence[4];
+			diagControlData.fl1.chData[1]	= completeSentence[5];
+			diagControlData.fl1.chData[2]	= completeSentence[6];
+			diagControlData.fl1.chData[3]	= completeSentence[7];
+			diagControlData.fl2.chData[0]	= completeSentence[8];
+			diagControlData.fl2.chData[1]	= completeSentence[9];
+			diagControlData.fl2.chData[2]	= completeSentence[10];
+			diagControlData.fl2.chData[3]	= completeSentence[11];
+			diagControlData.fl3.chData[0]	= completeSentence[12];
+			diagControlData.fl3.chData[1]	= completeSentence[13];
+			diagControlData.fl3.chData[2]	= completeSentence[14];
+			diagControlData.fl3.chData[3]	= completeSentence[15];
+			diagControlData.sh1.chData[0]	= completeSentence[16];
+			diagControlData.sh1.chData[1]	= completeSentence[17];
+			diagControlData.sh2.chData[0]	= completeSentence[18];
+			diagControlData.sh2.chData[1]	= completeSentence[19];
+			diagControlData.sh3.chData[0]	= completeSentence[20];
+			diagControlData.sh3.chData[1]	= completeSentence[21];		
+		break;
+		case XYZMSG_ID:
 			xyzControlData.Xcoord.chData[0]	= completeSentence[4];
 			xyzControlData.Xcoord.chData[1]	= completeSentence[5];
 			xyzControlData.Xcoord.chData[2]	= completeSentence[6];
@@ -168,7 +218,7 @@ void updateStates(unsigned char * completeSentence){
 			xyzControlData.VZ.chData[2]	= completeSentence[26];
 			xyzControlData.VZ.chData[3]	= completeSentence[27];
 		break;	
-		case 205:
+		case FILMSG_ID:
 			// turn the filter on
 			filterControlData = completeSentence[4];
 			
@@ -177,7 +227,7 @@ void updateStates(unsigned char * completeSentence){
 			
 		break;	
 		default:
-		break;
+		break;   
 	}
 }
 
@@ -366,6 +416,32 @@ tAknData		aknControlData;
          rawControlData.magY.usData,
          rawControlData.magZ.usData);
 
+
+    // Print Bias Data
+    fprintf(outFile, "%f,%f,%f,%f,%f,%f,",
+         biasControlData.axb.flData,
+         biasControlData.ayb.flData,
+         biasControlData.azb.flData,
+         biasControlData.gxb.flData,
+         biasControlData.gyb.flData,
+         biasControlData.gzb.flData);
+
+    // Print Air Data
+    fprintf(outFile, "%f,%f,%d,",
+         dynTempControlData.dynamic.flData,
+         dynTempControlData.stat.flData,
+         dynTempControlData.temp.shData);
+
+    // Print Diagnostic Data
+    fprintf(outFile, "%f,%f,%f,%d,%d,%d,",
+         diagControlData.fl1.flData,
+         diagControlData.fl2.flData,
+         diagControlData.fl3.flData,
+         diagControlData.sh1.shData,
+         diagControlData.sh2.shData,
+         diagControlData.sh3.shData);
+
+
     // Add new line
     fprintf(outFile, "\n");
 }
@@ -391,6 +467,18 @@ tAttitudeData getAttStruct(void){
  return attitudeControlData;
 }
 
+tBiasData getBiasStruct(void){
+ return biasControlData;
+}
+
+tDiagData getDiagStruct (void){
+ return diagControlData;
+}
+
+tDynTempData getDynStruct (void){
+ return dynTempControlData;
+}
+
 tAknData getAknStruct(void){
  return aknControlData;
 }
@@ -402,11 +490,10 @@ void setAknFilter (unsigned char value){
 void getTime (unsigned char * values){
 	values[0] = gpsControlData.hour;
 	values[1] = gpsControlData.min;
-	values[2] = gpsControlData.sec;		
+	values[2] = gpsControlData.sec;
 }
 
 unsigned char getFilterOnOff (void){
 	return filterControlData;
 }
-
 

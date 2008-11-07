@@ -47,35 +47,59 @@ and data types.
 #ifdef __cplusplus
        #define MAXLOGLEN		500
 #else
-       #define MAXLOGLEN		97
+       #define MAXLOGLEN		99
 #endif
 
 
 
-#define GPS_START 		0
-#define LOAD_START		27
-#define RAW_START 		31
-#define ATT_START		49
-#define XYZ_START		73
+
 
 // Message Protocol Lengths and IDs
 // ================================
+
 // SENSOR MCU
+// ==========
+#define GPS_START 		0
 #define GPSMSG_ID		1
 #define GPSMSG_LEN		27 
+
+#define LOAD_START		27
 #define LOADMSG_ID		2
 #define LOADMSG_LEN		4
+
+#define RAW_START 		31
 #define RAWMSG_ID		3
 #define RAWMSG_LEN		18
+
+#define ATT_START		49
 #define ATTMSG_ID		4
 #define ATTMSG_LEN		24
+
+#define XYZ_START		73
 #define XYZMSG_ID		11
 #define XYZMSG_LEN		24
+
+#define DYN_START		97
+#define DYNMSG_ID		5
+#define DYNMSG_LEN		10
+
+#define BIA_START		107
+#define BIAMSG_ID		6
+#define BIAMSG_LEN		24
+
+#define DIA_START		131
+#define DIAMSG_ID		7
+#define DIAMSG_LEN		18
+
+
 // CONTROL MCU
+// ===========
 #define AKNMSG_ID		105
 #define AKNMSG_LEN		5
 
+
 // GROUND STATION
+// ==============
 #define FILMSG_ID		205
 #define FILMSG_LEN		1
 	
@@ -246,6 +270,24 @@ typedef struct tDynTempData{
 	tFloatToChar	stat;
 	tShortToChar	temp;
 }tDynTempData;
+
+typedef struct tBiasData{
+	tFloatToChar			axb;
+	tFloatToChar			ayb;
+	tFloatToChar			azb;
+	tFloatToChar			gxb;
+	tFloatToChar			gyb;
+	tFloatToChar			gzb;	
+}tBiasData;
+
+typedef struct tDiagData{
+	tFloatToChar			fl1;
+	tFloatToChar			fl2;
+	tFloatToChar			fl3;
+	tShortToChar			sh1;
+	tShortToChar			sh2;
+	tShortToChar			sh3;	
+}tDiagData;
 
 typedef struct tXYZData{
 	tFloatToChar	Xcoord;

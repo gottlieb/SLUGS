@@ -195,6 +195,39 @@ __published:	// IDE-managed Components
     TFilenameEdit *ed_exportMat;
     TFilenameEdit *ed_liveLog;
     TApdComPort *cp_serial;
+    TGroupBox *GroupBox7;
+    TLabel *Label46;
+    TLabel *Label47;
+    TLabel *Label48;
+    TLabel *Label49;
+    TLabel *Label50;
+    TLabel *Label51;
+    TStaticText *et_axb;
+    TStaticText *et_ayb;
+    TStaticText *et_azb;
+    TStaticText *et_gxb;
+    TStaticText *et_gyb;
+    TStaticText *et_gzb;
+    TGroupBox *GroupBox8;
+    TLabel *Fl1;
+    TLabel *Label53;
+    TLabel *Label54;
+    TLabel *Label55;
+    TLabel *Label56;
+    TLabel *Label57;
+    TStaticText *et_fl1;
+    TStaticText *et_fl2;
+    TStaticText *et_fl3;
+    TStaticText *et_sh1;
+    TStaticText *et_sh2;
+    TStaticText *et_sh3;
+    TGroupBox *GroupBox9;
+    TLabel *Label58;
+    TLabel *Label59;
+    TLabel *Label60;
+    TStaticText *et_dyn;
+    TStaticText *et_temp;
+    TStaticText *et_sta;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -233,6 +266,11 @@ public:		// User declarations
         tRawData rawSample;
         tAttitudeData attitudeSample;
         tXYZData xyzSample;
+        tDynTempData dynSample;
+        tBiasData biasSample;
+        tDiagData diagSample;
+
+
         FILE* liveLog;
         bool logIsOpen;
 
@@ -241,6 +279,11 @@ public:		// User declarations
         void updateAttitudeLabels(void);
         void updatePlots(void);
         void updateAttitude(void);
+
+        void updateBiasLabels(void);
+        void updateDynLabels(void);
+        void updateDiagLabels(void);
+
         float computeDistance(float lat, float lon);
         float deg2Rad(float mDeg);
 //        CircBuffer mainSerial;
