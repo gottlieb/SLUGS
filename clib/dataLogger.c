@@ -150,7 +150,7 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 			// set the total data out for SPI
 			len2SPI = LOADMSG_LEN+7; 	
 			
-			// clear the buffer
+			/*// clear the buffer
 			memset(tmpBuf, 0, sizeof(tmpBuf));		
 			
 			// assemble the Diagnostic data for protocol sending	
@@ -163,7 +163,7 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 			}
 
 			// set the total data out for SPI
-			len2SPI += (DIAMSG_LEN+7); 			
+			len2SPI += (DIAMSG_LEN+7); 			*/
 			break;
 		case 3:			
 			// assemble the Raw Sensor data for protocol sending	
@@ -206,6 +206,20 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 			len2SPI = BIAMSG_LEN+7; 			
 
 			break;
+		case 6:
+		    // assemble the Diagnostic data for protocol sending	
+			assembleMsg(&rawData[DIA_START], DIAMSG_LEN, DIAMSG_ID, tmpBuf);
+			
+			// add it to the circular buffer and SPI queue
+			for( i = 0; i < DIAMSG_LEN+7; i += 1 ){
+				writeBack(logBuffer,tmpBuf[i]);
+				data4SPI[i+1] = tmpBuf[i];
+			}
+
+			// set the total data out for SPI
+			len2SPI = (DIAMSG_LEN+7); 			
+		break;
+
 		default:
 			data4SPI[0] = 0;
 			break;

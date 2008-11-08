@@ -34,6 +34,7 @@
 #include "AbCBitBt.hpp"
 #include "ToolEdit.hpp"
 #include "gsDefinitions.h"
+#include <string>
 
 #define  DISLIMIT      30.0
 
@@ -228,6 +229,8 @@ __published:	// IDE-managed Components
     TStaticText *et_dyn;
     TStaticText *et_temp;
     TStaticText *et_sta;
+    TLabel *Label52;
+    TStaticText *et_timeStamp;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -283,6 +286,8 @@ public:		// User declarations
         void updateBiasLabels(void);
         void updateDynLabels(void);
         void updateDiagLabels(void);
+
+        void printFileHeader(void);
 
         float computeDistance(float lat, float lon);
         float deg2Rad(float mDeg);
