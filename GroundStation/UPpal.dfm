@@ -1,6 +1,6 @@
 object FPpal: TFPpal
-  Left = 387
-  Top = 28
+  Left = 207
+  Top = 83
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 'UCSC - AP Ground Station'
@@ -56,10 +56,10 @@ object FPpal: TFPpal
     Top = 0
     Width = 417
     Height = 632
-    ActivePage = ts_telemetry
+    ActivePage = TabSheet4
     Align = alClient
     MultiLine = True
-    TabIndex = 1
+    TabIndex = 5
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth Config'
@@ -1218,6 +1218,25 @@ object FPpal: TFPpal
           ParentShowHint = False
           ShowHint = True
         end
+        object Label52: TLabel
+          Left = 176
+          Top = 86
+          Width = 40
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'TimeSt'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
         object et_accelx: TStaticText
           Left = 56
           Top = 16
@@ -1388,6 +1407,25 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 8
+        end
+        object et_timeStamp: TStaticText
+          Left = 224
+          Top = 86
+          Width = 105
+          Height = 17
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = 'No Data Available'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 9
         end
       end
       object GroupBox4: TGroupBox

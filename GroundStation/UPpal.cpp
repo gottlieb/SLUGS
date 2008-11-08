@@ -351,6 +351,8 @@ void TFPpal::updateAttitudeLabels(void){
    et_phi->Caption = FloatToStr(RAD2DEG*attitudeSample.roll.flData);
    et_theta->Caption = FloatToStr(RAD2DEG*attitudeSample.pitch.flData);
    et_psi->Caption = FloatToStr(RAD2DEG*attitudeSample.yaw.flData);
+
+   et_timeStamp->Caption =  IntToStr(attitudeSample.timeStamp.usData);
 }
 
 void TFPpal::updatePlots(void){
@@ -746,6 +748,7 @@ void __fastcall TFPpal::cb_inflightClick(TObject *Sender)
         cb_inflightClick(NULL);
 	} else{
         logIsOpen = true;
+        printFileHeader();
     }
 } else {
     ed_liveLog->Enabled = False;
@@ -807,7 +810,7 @@ void __fastcall TFPpal::bt_importLogClick(TObject *Sender)
 
 void __fastcall TFPpal::FormDestroy(TObject *Sender)
 {
-  if(logIsOpen) fclose(liveLog);    
+  if(logIsOpen) fclose(liveLog);
 }
 //---------------------------------------------------------------------------
 
@@ -829,4 +832,61 @@ void __fastcall TFPpal::ed_liveLogAfterDialog(TObject *Sender,
     }
 }
 //---------------------------------------------------------------------------
+
+void TFPpal::printFileHeader(void){
+		   fprintf(liveLog,"% This is a log File for the UCSC AP data is organized as follows:\n" );
+           fprintf(liveLog,"%\n" );
+           fprintf(liveLog,"% (1)Time Stamp in Ticks (multiply by AP Sampling time to get Seconds) \n" );
+           fprintf(liveLog,"% (2)Roll (rad)  \n" );
+           fprintf(liveLog,"% (3)Pitch (rad)  \n" );
+           fprintf(liveLog,"% (4)Yaw (rad)   \n" );
+           fprintf(liveLog,"% (5)P (rad)   \n" );
+           fprintf(liveLog,"% (6)Q (rad)   \n" );
+           fprintf(liveLog,"% (7)R (rad)   \n" );
+           fprintf(liveLog,"% (8)X (m)   \n" );
+           fprintf(liveLog,"% (9)Y (m)  \n" );
+           fprintf(liveLog,"% (10)Z (m)   \n" );
+           fprintf(liveLog,"% (11)Vx (m/s)  \n" );
+           fprintf(liveLog,"% (12)Vy (m/s)  \n" );
+           fprintf(liveLog,"% (13)Vz (m/s)  \n" );
+           fprintf(liveLog,"% (14)GPS Year   \n" );
+           fprintf(liveLog,"% (15)GPS Month  \n" );
+           fprintf(liveLog,"% (16)GPS Day  \n" );
+           fprintf(liveLog,"% (17)GPS Hour   \n" );
+           fprintf(liveLog,"% (18)GPS min  \n" );
+           fprintf(liveLog,"% (19)GPS sec  \n" );
+           fprintf(liveLog,"% (20)GPS Lat (deg)  \n" );
+           fprintf(liveLog,"% (21)GPS Lon (deg) \n" );
+           fprintf(liveLog,"% (22)GPS Height (m)  \n" );
+           fprintf(liveLog,"% (23)GPS COG (deg)  \n" );
+           fprintf(liveLog,"% (24)GPS SOG (m/s)  \n" );
+           fprintf(liveLog,"% (25)GPS Hdop (in hundreths of unit)  \n" );
+           fprintf(liveLog,"% (26)GPS fix? (yes or no) \n" );
+           fprintf(liveLog,"% (27)GPS Number of Sats Used  \n" );
+           fprintf(liveLog,"% (28)GPS New Val? \n" );
+           fprintf(liveLog,"% (29)Raw Gyro X  \n" );
+           fprintf(liveLog,"% (30)Raw Gyro Y \n" );
+           fprintf(liveLog,"% (31)Raw Gyro Z  \n" );
+           fprintf(liveLog,"% (32)Raw Accel X  \n" );
+           fprintf(liveLog,"% (33)Raw Accel Y  \n" );
+           fprintf(liveLog,"% (34)Raw Accel Z  \n" );
+           fprintf(liveLog,"% (35)Raw Mag X  \n" );
+           fprintf(liveLog,"% (36)Raw Mag Y \n" );
+           fprintf(liveLog,"% (37)Raw Mag Z \n" );
+           fprintf(liveLog,"% (38)Bias Accel X (m/s) \n" );
+           fprintf(liveLog,"% (39)Bias Accel Y (m/s) \n" );
+           fprintf(liveLog,"% (40)Bias Accel Z (m/s) \n" );
+           fprintf(liveLog,"% (41)Bias Gyro X  (rad/s) \n" );
+           fprintf(liveLog,"% (42)Bias Gyro Y  (rad/s) \n" );
+           fprintf(liveLog,"% (43)Bias Gyro Z  (rad/s) \n" );
+           fprintf(liveLog,"% (44)Dynamic Pressure (Pa) \n" );
+           fprintf(liveLog,"% (45)Static Pressure (Pa)  \n" );
+           fprintf(liveLog,"% (46)Temperature (C)  \n" );
+           fprintf(liveLog,"% (47)Diagnostic Float 1  \n" );
+           fprintf(liveLog,"% (48)Diagnostic Float 2  \n" );
+           fprintf(liveLog,"% (49)Diagnostic Float 3  \n" );
+           fprintf(liveLog,"% (50)Diagnositc Short 1   \n" );
+           fprintf(liveLog,"% (51)Diagnostic Short 2   \n" );
+           fprintf(liveLog,"% (52)Diagnostic Short 3 \n%\n%\n%\n");
+}
 

@@ -73,21 +73,21 @@ and data types.
 
 #define ATT_START		49
 #define ATTMSG_ID		4
-#define ATTMSG_LEN		24
+#define ATTMSG_LEN		26
 
-#define XYZ_START		73
+#define XYZ_START		75
 #define XYZMSG_ID		11
 #define XYZMSG_LEN		24
 
-#define DYN_START		97
+#define DYN_START		99
 #define DYNMSG_ID		5
 #define DYNMSG_LEN		10
 
-#define BIA_START		107
+#define BIA_START		109
 #define BIAMSG_ID		6
 #define BIAMSG_LEN		24
 
-#define DIA_START		131
+#define DIA_START		133
 #define DIAMSG_ID		7
 #define DIAMSG_LEN		18
 
@@ -257,6 +257,7 @@ typedef struct tAttitudeData{
 	tFloatToChar			p;
 	tFloatToChar			q;
 	tFloatToChar			r;
+	tUnsignedShortToChar	timeStamp;
 }tAttitudeData;
 
 typedef struct tSensStatus{

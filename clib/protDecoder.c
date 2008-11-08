@@ -133,6 +133,8 @@ void updateStates(unsigned char * completeSentence){
 			attitudeControlData.r.chData[1]	= completeSentence[25];
 			attitudeControlData.r.chData[2]	= completeSentence[26];
 			attitudeControlData.r.chData[3]	= completeSentence[27];			
+			attitudeControlData.timeStamp.chData[0]	= completeSentence[28];			
+			attitudeControlData.timeStamp.chData[1]	= completeSentence[29];			
 		break;
         case DYNMSG_ID:
 			dynTempControlData.dynamic.chData[0]	= completeSentence[4];
@@ -233,7 +235,6 @@ void updateStates(unsigned char * completeSentence){
 
 #ifdef _IN_PC_
 void protParseDecode (unsigned char* fromSPI, unsigned char* toLog, FILE* outFile){
-    static unsigned char swSend = 1;
 #else
 void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
 #endif
@@ -334,10 +335,10 @@ void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
 				// increment the log size
 				logSize += (indexLast+1);
                 #ifdef _IN_PC_
-                    if ((outFile != NULL) && (swSend==1)){
+                    if ((outFile != NULL)){
                        printState(outFile);
                     }
-                    swSend ^= 1;
+
                 #endif
 			}
             else{
@@ -353,7 +354,7 @@ void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
 		}else { // you ran out of bytes
 			// No More Bytes
 			noMoreBytes = 1;
-		}// else no star	
+		}// else no star
 	} // big outer while (no more bytes)
 	toLog[0] = logSize;
 }
@@ -361,89 +362,108 @@ void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
 
 #ifdef _IN_PC_
 void printState (FILE* outFile){
-/*
-tGpsData 		gpsControlData;
-tRawData 		rawControlData;
-tSensStatus		statusControlData;
-tAttitudeData	attitudeControlData;
-tDynTempData	dynTempControlData;
-tXYZData		xyzControlData;
-unsigned char   filterControlData;
-tAknData		aknControlData;
-*/
-    // Print Attitude and Position
-    fprintf(outFile, "%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,",
-         attitudeControlData.roll.flData,
-         attitudeControlData.pitch.flData,
-         attitudeControlData.yaw.flData,
-         attitudeControlData.p.flData,
-         attitudeControlData.q.flData,
-         attitudeControlData.r.flData,
-         xyzControlData.Xcoord.flData,
-         xyzControlData.Ycoord.flData,
-         xyzControlData.Zcoord.flData,
-         xyzControlData.VX.flData,
-         xyzControlData.VY.flData,
-         xyzControlData.VZ.flData);
+static tGpsData 		cpgpsControlData;
+static tRawData 		cprawControlData;
+static tSensStatus		cpstatusControlData;
+static tAttitudeData	cpattitudeControlData;
+static tDynTempData	    cpdynTempControlData;
+static tBiasData		cpbiasControlData;
+static tDiagData		cpdiagControlData;
+static tXYZData		    cpxyzControlData;
+static unsigned char    cpfilterControlData;
+static tAknData		    cpaknControlData;
 
-    // Print GPS
-    fprintf(outFile, "%d,%d,%d,%d,%d,%d,%f,%f,%f,%d,%d,%d,%d,%d,%d,",
-         gpsControlData.year,
-         gpsControlData.month,
-         gpsControlData.day,
-         gpsControlData.hour,
-         gpsControlData.min,
-         gpsControlData.sec,
-         gpsControlData.lat.flData,
-         gpsControlData.lon.flData,
-         gpsControlData.height.flData,
-         gpsControlData.cog.usData,
-         gpsControlData.sog.usData,
-         gpsControlData.hdop.usData,
-         gpsControlData.fix,
-         gpsControlData.sats,
-         gpsControlData.newValue);
+	if (cpattitudeControlData.timeStamp.usData != attitudeControlData.timeStamp.usData) {
+		// the time changed, so print the known state in the last sample time
+	    // Print Attitude and Position
+	    fprintf(outFile, "%hu,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,",
+	         cpattitudeControlData.timeStamp.usData,
+	         cpattitudeControlData.roll.flData,
+	         cpattitudeControlData.pitch.flData,
+	         cpattitudeControlData.yaw.flData,
+	         cpattitudeControlData.p.flData,
+	         cpattitudeControlData.q.flData,
+	         cpattitudeControlData.r.flData,
+	         cpxyzControlData.Xcoord.flData,
+	         cpxyzControlData.Ycoord.flData,
+	         cpxyzControlData.Zcoord.flData,
+	         cpxyzControlData.VX.flData,
+	         cpxyzControlData.VY.flData,
+	         cpxyzControlData.VZ.flData);
 
-    // Print Raw Data
-    fprintf(outFile, "%d,%d,%d,%d,%d,%d,%d,%d,%d,",
-         rawControlData.gyroX.usData,
-         rawControlData.gyroY.usData,
-         rawControlData.gyroZ.usData,
-         rawControlData.accelX.usData,
-         rawControlData.accelY.usData,
-         rawControlData.accelZ.usData,
-         rawControlData.magX.usData,
-         rawControlData.magY.usData,
-         rawControlData.magZ.usData);
+	    // Print GPS
+	    fprintf(outFile, "%d,%d,%d,%d,%d,%d,%f,%f,%f,%d,%d,%d,%d,%d,%d,",
+	         cpgpsControlData.year,
+	         cpgpsControlData.month,
+	         cpgpsControlData.day,
+	         cpgpsControlData.hour,
+	         cpgpsControlData.min,
+	         cpgpsControlData.sec,
+	         cpgpsControlData.lat.flData,
+	         cpgpsControlData.lon.flData,
+	         cpgpsControlData.height.flData,
+	         cpgpsControlData.cog.usData,
+	         cpgpsControlData.sog.usData,
+	         cpgpsControlData.hdop.usData,
+	         cpgpsControlData.fix,
+	         cpgpsControlData.sats,
+	         cpgpsControlData.newValue);
 
-
-    // Print Bias Data
-    fprintf(outFile, "%f,%f,%f,%f,%f,%f,",
-         biasControlData.axb.flData,
-         biasControlData.ayb.flData,
-         biasControlData.azb.flData,
-         biasControlData.gxb.flData,
-         biasControlData.gyb.flData,
-         biasControlData.gzb.flData);
-
-    // Print Air Data
-    fprintf(outFile, "%f,%f,%d,",
-         dynTempControlData.dynamic.flData,
-         dynTempControlData.stat.flData,
-         dynTempControlData.temp.shData);
-
-    // Print Diagnostic Data
-    fprintf(outFile, "%f,%f,%f,%d,%d,%d,",
-         diagControlData.fl1.flData,
-         diagControlData.fl2.flData,
-         diagControlData.fl3.flData,
-         diagControlData.sh1.shData,
-         diagControlData.sh2.shData,
-         diagControlData.sh3.shData);
+	    // Print Raw Data
+	    fprintf(outFile, "%d,%d,%d,%d,%d,%d,%d,%d,%d,",
+	         cprawControlData.gyroX.usData,
+	         cprawControlData.gyroY.usData,
+	         cprawControlData.gyroZ.usData,
+	         cprawControlData.accelX.usData,
+	         cprawControlData.accelY.usData,
+	         cprawControlData.accelZ.usData,
+	         cprawControlData.magX.usData,
+	         cprawControlData.magY.usData,
+	         cprawControlData.magZ.usData);
 
 
-    // Add new line
-    fprintf(outFile, "\n");
+	    // Print Bias Data
+	    fprintf(outFile, "%f,%f,%f,%f,%f,%f,",
+	         cpbiasControlData.axb.flData,
+	         cpbiasControlData.ayb.flData,
+	         cpbiasControlData.azb.flData,
+	         cpbiasControlData.gxb.flData,
+	         cpbiasControlData.gyb.flData,
+	         cpbiasControlData.gzb.flData);
+
+	    // Print Air Data
+	    fprintf(outFile, "%f,%f,%d,",
+	         cpdynTempControlData.dynamic.flData,
+	         cpdynTempControlData.stat.flData,
+	         cpdynTempControlData.temp.shData);
+
+	    // Print Diagnostic Data
+	    fprintf(outFile, "%f,%f,%f,%d,%d,%d,",
+	         cpdiagControlData.fl1.flData,
+	         cpdiagControlData.fl2.flData,
+	         cpdiagControlData.fl3.flData,
+	         cpdiagControlData.sh1.shData,
+	         cpdiagControlData.sh2.shData,
+	         cpdiagControlData.sh3.shData);
+
+
+	    // Add new line
+	    fprintf(outFile, "\n");
+
+	}// if
+
+    cpgpsControlData 		= gpsControlData;
+	cprawControlData 		= rawControlData;
+	cpstatusControlData 	= statusControlData;
+	cpattitudeControlData	= attitudeControlData;
+	cpdynTempControlData 	= dynTempControlData;
+	cpbiasControlData		= biasControlData;
+	cpdiagControlData		= diagControlData;
+	cpxyzControlData		= xyzControlData;
+	cpfilterControlData		= filterControlData;
+	cpaknControlData		= aknControlData;
+
+
 }
 #endif
 
