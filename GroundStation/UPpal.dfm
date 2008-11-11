@@ -1,11 +1,13 @@
 object FPpal: TFPpal
-  Left = 207
+  Left = 204
   Top = 83
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
-  Caption = 'UCSC - AP Ground Station'
+  Caption = 
+    '                                                       UCSC - AP' +
+    ' Ground Station'
   ClientHeight = 651
-  ClientWidth = 618
+  ClientWidth = 573
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -38,15 +40,15 @@ object FPpal: TFPpal
   object StatusBar1: TStatusBar
     Left = 0
     Top = 632
-    Width = 618
+    Width = 573
     Height = 19
     Panels = <
       item
-        Text = 'Graphical Components by: Abakus VCL (www.abaecker.biz)'
-        Width = 335
+        Width = 200
       end
       item
-        Width = 50
+        Text = 'Graphical Components by: Abakus VCL (www.abaecker.biz)'
+        Width = 355
       end>
     SimplePanel = False
     SizeGrip = False
@@ -54,7 +56,7 @@ object FPpal: TFPpal
   object pc_main: TPageControl
     Left = 201
     Top = 0
-    Width = 417
+    Width = 372
     Height = 632
     ActivePage = TabSheet4
     Align = alClient
@@ -83,7 +85,7 @@ object FPpal: TFPpal
         ShowHint = True
       end
       object bt_mainKml: TSpeedButton
-        Left = 360
+        Left = 338
         Top = 32
         Width = 23
         Height = 21
@@ -125,7 +127,7 @@ object FPpal: TFPpal
       end
       object bt_ppKml: TSpeedButton
         Tag = 1
-        Left = 360
+        Left = 338
         Top = 72
         Width = 23
         Height = 21
@@ -149,7 +151,7 @@ object FPpal: TFPpal
       object bt_gearth: TSpeedButton
         Left = 8
         Top = 544
-        Width = 377
+        Width = 350
         Height = 22
         Caption = 'Generate Files and Start Updating Google Earth with Telemetry'
         Flat = True
@@ -172,13 +174,13 @@ object FPpal: TFPpal
       object Label4: TLabel
         Left = 8
         Top = 200
-        Width = 136
+        Width = 111
         Height = 13
         Hint = 
           'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
           'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
           ' which such path is refreshed'
-        Caption = 'Aircraft Trajectory Color'
+        Caption = 'AC Trajectory Color'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -208,7 +210,7 @@ object FPpal: TFPpal
         ShowHint = True
       end
       object Label6: TLabel
-        Left = 184
+        Left = 151
         Top = 256
         Width = 137
         Height = 13
@@ -247,7 +249,7 @@ object FPpal: TFPpal
       end
       object bt_icon: TSpeedButton
         Tag = 2
-        Left = 360
+        Left = 333
         Top = 344
         Width = 23
         Height = 21
@@ -289,7 +291,7 @@ object FPpal: TFPpal
       end
       object SpeedButton3: TSpeedButton
         Tag = 3
-        Left = 360
+        Left = 333
         Top = 392
         Width = 23
         Height = 21
@@ -313,7 +315,7 @@ object FPpal: TFPpal
       object DBEdit1: TDBEdit
         Left = 8
         Top = 32
-        Width = 353
+        Width = 330
         Height = 21
         DataField = 'kmlFile'
         DataSource = fte_config
@@ -322,7 +324,7 @@ object FPpal: TFPpal
       object DBEdit2: TDBEdit
         Left = 8
         Top = 72
-        Width = 353
+        Width = 330
         Height = 21
         DataField = 'planePathFile'
         DataSource = fte_config
@@ -331,7 +333,7 @@ object FPpal: TFPpal
       object rg_uprate: TDBRadioGroup
         Left = 8
         Top = 104
-        Width = 377
+        Width = 345
         Height = 49
         Caption = ' Update Period (in Secs) '
         Columns = 5
@@ -373,7 +375,7 @@ object FPpal: TFPpal
       object cb_color1: TColorBox
         Left = 8
         Top = 216
-        Width = 145
+        Width = 113
         Height = 22
         NoneColorColor = clWhite
         Style = [cbStandardColors, cbExtendedColors]
@@ -384,7 +386,7 @@ object FPpal: TFPpal
       object cb_color2: TColorBox
         Left = 8
         Top = 272
-        Width = 145
+        Width = 113
         Height = 22
         NoneColorColor = clWhite
         Style = [cbStandardColors, cbExtendedColors]
@@ -393,9 +395,9 @@ object FPpal: TFPpal
         OnExit = cb_color2Exit
       end
       object kb_tessalate: TTrackBar
-        Left = 168
+        Left = 135
         Top = 272
-        Width = 225
+        Width = 212
         Height = 45
         Max = 255
         Orientation = trHorizontal
@@ -411,14 +413,14 @@ object FPpal: TFPpal
       object DBEdit3: TDBEdit
         Left = 8
         Top = 344
-        Width = 353
+        Width = 326
         Height = 21
         DataField = 'iconFile'
         DataSource = fte_config
         TabOrder = 7
       end
       object rg_tail: TDBRadioGroup
-        Left = 168
+        Left = 135
         Top = 192
         Width = 193
         Height = 49
@@ -442,7 +444,7 @@ object FPpal: TFPpal
       object bt_wp: TDBEdit
         Left = 8
         Top = 392
-        Width = 353
+        Width = 326
         Height = 21
         DataField = 'waypointFile'
         DataSource = fte_config
@@ -451,7 +453,7 @@ object FPpal: TFPpal
       object GroupBox3: TGroupBox
         Left = 8
         Top = 424
-        Width = 385
+        Width = 353
         Height = 97
         Caption = ' Ground Station Location '
         Font.Charset = DEFAULT_CHARSET
@@ -469,14 +471,14 @@ object FPpal: TFPpal
           Caption = 'Latitude (deg)'
         end
         object Label29: TLabel
-          Left = 136
+          Left = 119
           Top = 24
           Width = 90
           Height = 13
           Caption = 'Longitude (deg)'
         end
         object Label30: TLabel
-          Left = 260
+          Left = 232
           Top = 23
           Width = 59
           Height = 13
@@ -485,7 +487,7 @@ object FPpal: TFPpal
         object bt_gspos: TSpeedButton
           Left = 8
           Top = 72
-          Width = 369
+          Width = 339
           Height = 22
           Caption = 'Grab Current AP Position as GS  Location'
           Flat = True
@@ -514,7 +516,7 @@ object FPpal: TFPpal
         object DBEdit4: TDBEdit
           Left = 8
           Top = 40
-          Width = 121
+          Width = 106
           Height = 21
           DataField = 'latGS'
           DataSource = fte_config
@@ -528,9 +530,9 @@ object FPpal: TFPpal
           TabOrder = 0
         end
         object DBEdit5: TDBEdit
-          Left = 136
+          Left = 119
           Top = 40
-          Width = 121
+          Width = 106
           Height = 21
           DataField = 'lonGS'
           DataSource = fte_config
@@ -544,9 +546,9 @@ object FPpal: TFPpal
           TabOrder = 1
         end
         object DBEdit6: TDBEdit
-          Left = 260
+          Left = 232
           Top = 39
-          Width = 121
+          Width = 106
           Height = 21
           DataField = 'heightGS'
           DataSource = fte_config
@@ -565,7 +567,7 @@ object FPpal: TFPpal
       Caption = 'Telemetry'
       ImageIndex = 1
       object bt_serial: TSpeedButton
-        Left = 216
+        Left = 164
         Top = 561
         Width = 193
         Height = 22
@@ -588,7 +590,7 @@ object FPpal: TFPpal
         OnClick = bt_serialClick
       end
       object ld_serial: TAbLED
-        Left = 242
+        Left = 190
         Top = 556
         Width = 17
         Height = 33
@@ -643,7 +645,7 @@ object FPpal: TFPpal
       object GroupBox1: TGroupBox
         Left = 8
         Top = 2
-        Width = 401
+        Width = 350
         Height = 103
         Caption = ' GPS Data '
         Font.Charset = DEFAULT_CHARSET
@@ -1015,9 +1017,9 @@ object FPpal: TFPpal
           TabOrder = 8
         end
         object et_sats: TStaticText
-          Left = 288
+          Left = 284
           Top = 64
-          Width = 73
+          Width = 59
           Height = 17
           AutoSize = False
           BevelInner = bvNone
@@ -1037,7 +1039,7 @@ object FPpal: TFPpal
       object GroupBox2: TGroupBox
         Left = 7
         Top = 111
-        Width = 401
+        Width = 350
         Height = 107
         Caption = ' Raw Sensor Data '
         Font.Charset = DEFAULT_CHARSET
@@ -1431,7 +1433,7 @@ object FPpal: TFPpal
       object GroupBox4: TGroupBox
         Left = 7
         Top = 223
-        Width = 401
+        Width = 350
         Height = 124
         Caption = 'Position and Attitude '
         Font.Charset = DEFAULT_CHARSET
@@ -1901,7 +1903,7 @@ object FPpal: TFPpal
       object GroupBox7: TGroupBox
         Left = 8
         Top = 350
-        Width = 401
+        Width = 350
         Height = 72
         Caption = ' Sensor Biases '
         Font.Charset = DEFAULT_CHARSET
@@ -2143,7 +2145,7 @@ object FPpal: TFPpal
       object GroupBox8: TGroupBox
         Left = 8
         Top = 480
-        Width = 401
+        Width = 350
         Height = 72
         Caption = ' Diagnostic Messages'
         Font.Charset = DEFAULT_CHARSET
@@ -2385,7 +2387,7 @@ object FPpal: TFPpal
       object GroupBox9: TGroupBox
         Left = 8
         Top = 424
-        Width = 401
+        Width = 350
         Height = 52
         Caption = ' Air Data '
         Font.Charset = DEFAULT_CHARSET
@@ -2838,8 +2840,8 @@ object FPpal: TFPpal
       ImageIndex = 5
       object GroupBox5: TGroupBox
         Left = 8
-        Top = 8
-        Width = 401
+        Top = 16
+        Width = 353
         Height = 97
         Caption = ' In-Flight Exporting '
         Font.Charset = DEFAULT_CHARSET
@@ -2880,7 +2882,7 @@ object FPpal: TFPpal
         object ed_liveLog: TFilenameEdit
           Left = 8
           Top = 59
-          Width = 385
+          Width = 329
           Height = 21
           OnAfterDialog = ed_liveLogAfterDialog
           Filter = 'Log Files (*.txt)|*.txt'
@@ -2908,7 +2910,7 @@ object FPpal: TFPpal
       object GroupBox6: TGroupBox
         Left = 8
         Top = 152
-        Width = 400
+        Width = 353
         Height = 145
         Caption = ' Exporting Log Files '
         Font.Charset = DEFAULT_CHARSET
@@ -2938,9 +2940,9 @@ object FPpal: TFPpal
           ShowHint = True
         end
         object bt_importLog: TSpeedButton
-          Left = 19
+          Left = 7
           Top = 112
-          Width = 369
+          Width = 330
           Height = 22
           Caption = 'Process Log File'
           Flat = True
@@ -2984,7 +2986,7 @@ object FPpal: TFPpal
         object ed_importLog: TFilenameEdit
           Left = 8
           Top = 35
-          Width = 385
+          Width = 329
           Height = 21
           Filter = 'Log Files (*.txt)|*.txt'
           DialogTitle = 'Select Log File...'
@@ -3009,7 +3011,7 @@ object FPpal: TFPpal
         object ed_exportMat: TFilenameEdit
           Left = 7
           Top = 83
-          Width = 385
+          Width = 330
           Height = 21
           Filter = 'CSV Files (*.csv)|*.csv'
           DialogTitle = 'Select Log File...'

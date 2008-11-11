@@ -291,6 +291,9 @@ public:		// User declarations
 
         float computeDistance(float lat, float lon);
         float deg2Rad(float mDeg);
+
+        char compare_float(float f1, float f2);
+                
 //        CircBuffer mainSerial;
 //        CBRef telemPort;
 };
