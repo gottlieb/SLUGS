@@ -127,7 +127,6 @@ and data types.
 // Standard Units
 // ==============
 #define KTS2MPS 		0.514444444
-#define EARTHRADIUS     6378.135 // km
 #define PI              3.141592653589793
 #define DEG2RAD			0.017453292519943
 #define RAD2DEG			57.29577951308232

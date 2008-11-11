@@ -19,7 +19,6 @@
 #pragma link "ToolEdit"
 #pragma resource "*.dfm"
 
-#define  _IN_PC_       1
 
 TFPpal *FPpal;
 //---------------------------------------------------------------------------
@@ -185,10 +184,7 @@ void TFPpal::addAndAppendNode(char* name, char* value, TiXmlNode* appendTo){
    appendTo->LinkEndChild(currentTag);
 }
 
-
-
-
-
+//---------------------------------------------------------------------------
 
 void __fastcall TFPpal::cb_color1Exit(TObject *Sender)
 {
@@ -249,12 +245,24 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
 {
    tGpsData temp = getGpsStruct();
 
+   // if the lat and lon are withing the distance limit
    if (computeDistance(temp.lat.flData, temp.lon.flData) < DISLIMIT ){
-      //replace the history
-      for (int i = 13; i>=0; i--){
-          gpsSamples[i+1] = gpsSamples[i];
+      // if there was a change in lat or lon
+      if (!compare_float(temp.lat.flData, gpsSamples[0].lat.flData) ||
+          !compare_float(temp.lon.flData, gpsSamples[0].lon.flData)){
+           //replace the history
+          for (int i = 13; i>=0; i--){
+             gpsSamples[i+1] = gpsSamples[i];
+          }
+      } else {// if update
+         // mm_diagnose->Lines->Add("Failed update " + FloatToStr(temp.lat.flData)
+         //  + " " + FloatToStr(gpsSamples[0].lat.flData));
       }
+   } else {//if within distance
+      //mm_diagnose->Lines->Add("Distance bigger than 30 Km: " +
+      //FloatToStr(computeDistance(temp.lat.flData, temp.lon.flData)));
    }
+
    gpsSamples[0] = temp;
    rawSample = getRawStruct();
    attitudeSample = getAttStruct();
@@ -505,7 +513,8 @@ void TFPpal::updateKML(void){
    // configure the lineString
    addAndAppendNode("tessalate",tb_configtessellate->AsString.c_str(), lineStringTag);
    addAndAppendNode("extrude","1", lineStringTag);
-   addAndAppendNode("altitudeMode","absolute", lineStringTag);
+//   addAndAppendNode("altitudeMode","absolute", lineStringTag);
+   addAndAppendNode("altitudeMode","clampToGround", lineStringTag);
    tmp = getPlaneCoordinates();
    addAndAppendNode("coordinates",tmp.c_str(), lineStringTag);
 
@@ -578,7 +587,7 @@ String TFPpal::getHexColor(unsigned char whichColor){
 //---------------------------------------------------------------------------
 
 String TFPpal::getPlaneCoordinates(void){
-  // freeze the data in case the interrup changes at mid update
+  // freeze the data in case the interrupt changes at mid update
   tGpsData tmpPos[15];
   String strVal = "";
   char i;
@@ -621,7 +630,8 @@ void __fastcall TFPpal::bt_gsposClick(TObject *Sender)
  tb_config->Post();
 }
 //---------------------------------------------------------------------------
-
+// formula from:
+// http://www.codeguru.com/cpp/cpp/algorithms/article.php/c5115
 float TFPpal::computeDistance(float lat, float lon){
  float lat2 = tb_configlatGS->AsFloat;
  float lon2 = tb_configlonGS->AsFloat;
@@ -888,5 +898,35 @@ void TFPpal::printFileHeader(void){
            fprintf(liveLog,"% (50)Diagnositc Short 1   \n" );
            fprintf(liveLog,"% (51)Diagnostic Short 2   \n" );
            fprintf(liveLog,"% (52)Diagnostic Short 3 \n%\n%\n%\n");
+}
+
+/*
+It is very usual for the C programming language beginners to compare a floating
+point number using the "==" operator. Floating point numbers must not be
+compared with the "==" operator.
+
+That is mainly because when you compute a float number you will get a result
+like 1.543645274878272 and if you compare 1.543645274878272 with 1.5436,
+the result will always be false
+
+http://howto.wikia.com/wiki/Howto_compare_floating_point_numbers_in_the_C_programming_language
+
+*/
+
+//---------------------------------------------------------------------------
+
+ //compares if the float f1 is equal with f2 and returns 1 if true and 0 if false
+char TFPpal::compare_float(float f1, float f2){
+  float precision = 0.00001;
+
+  if (((f1 - FLPRECISION) < f2) &&
+      ((f1 + FLPRECISION) > f2))
+   {
+    return 1;
+   }
+  else
+   {
+    return 0;
+   }
 }
 
