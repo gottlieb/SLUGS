@@ -58,10 +58,10 @@ object FPpal: TFPpal
     Top = 0
     Width = 372
     Height = 632
-    ActivePage = TabSheet4
+    ActivePage = ts_telemetry
     Align = alClient
     MultiLine = True
-    TabIndex = 5
+    TabIndex = 1
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth Config'
