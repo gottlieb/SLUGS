@@ -7,7 +7,7 @@ object FPpal: TFPpal
     '                                                       UCSC - AP' +
     ' Ground Station'
   ClientHeight = 651
-  ClientWidth = 573
+  ClientWidth = 576
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -40,7 +40,7 @@ object FPpal: TFPpal
   object StatusBar1: TStatusBar
     Left = 0
     Top = 632
-    Width = 573
+    Width = 576
     Height = 19
     Panels = <
       item
@@ -56,12 +56,12 @@ object FPpal: TFPpal
   object pc_main: TPageControl
     Left = 201
     Top = 0
-    Width = 372
+    Width = 375
     Height = 632
-    ActivePage = ts_telemetry
+    ActivePage = TabSheet1
     Align = alClient
     MultiLine = True
-    TabIndex = 1
+    TabIndex = 3
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth Config'
@@ -2523,7 +2523,7 @@ object FPpal: TFPpal
       object mt_x: TAbMiniTrend
         Left = 0
         Top = 72
-        Width = 400
+        Width = 365
         Height = 161
         CaptionFont.Charset = DEFAULT_CHARSET
         CaptionFont.Color = clWindowText
@@ -2566,7 +2566,7 @@ object FPpal: TFPpal
       object mt_y: TAbMiniTrend
         Left = 0
         Top = 240
-        Width = 400
+        Width = 365
         Height = 161
         CaptionFont.Charset = DEFAULT_CHARSET
         CaptionFont.Color = clWindowText
@@ -2609,7 +2609,7 @@ object FPpal: TFPpal
       object mt_z: TAbMiniTrend
         Left = 0
         Top = 408
-        Width = 400
+        Width = 365
         Height = 161
         CaptionFont.Charset = DEFAULT_CHARSET
         CaptionFont.Color = clWindowText
@@ -2652,7 +2652,7 @@ object FPpal: TFPpal
       object rg_plot: TRadioGroup
         Left = 8
         Top = 8
-        Width = 393
+        Width = 359
         Height = 57
         Caption = ' Select Sensor to Plot '
         Columns = 3
