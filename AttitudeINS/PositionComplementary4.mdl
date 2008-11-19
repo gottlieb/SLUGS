@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.597"
+    ComputedModelVersion    "1.599"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -47,8 +47,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ASL_Lab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Nov 19 09:29:17 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:597>"
+  LastModifiedDate	  "Wed Nov 19 14:23:06 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:599>"
   ConfigurationManager	  "None"
   SimulationMode	  "accelerator"
   LinearizationMsg	  "none"
@@ -571,6 +571,15 @@ Model {
       VectorParams1D	      on
     }
     Block {
+      BlockType		      DiscreteTransferFcn
+      Numerator		      "[1]"
+      Denominator	      "[1 0.5]"
+      SampleTime	      "1"
+      StateMustResolveToSignalObject off
+      RTWStateStorageClass    "Auto"
+      Realization	      "auto"
+    }
+    Block {
       BlockType		      DiscreteZeroPole
       Zeros		      "[1]"
       Poles		      "[0 1]"
@@ -620,6 +629,9 @@ Model {
     Block {
       BlockType		      Goto
       IconDisplay	      "Tag"
+    }
+    Block {
+      BlockType		      Ground
     }
     Block {
       BlockType		      If
@@ -777,14 +789,19 @@ Model {
       SampleTime	      "-1"
     }
     Block {
+      BlockType		      RandomNumber
+      Mean		      "0"
+      Variance		      "1"
+      Seed		      "0"
+      SampleTime	      "-1"
+      VectorParams1D	      on
+    }
+    Block {
       BlockType		      RateTransition
       Integrity		      on
       Deterministic	      on
       X0		      "0"
       OutPortSampleTime	      "-1"
-    }
-    Block {
-      BlockType		      Reference
     }
     Block {
       BlockType		      RelationalOperator
@@ -843,6 +860,21 @@ Model {
       FunctionName	      "system"
       SFunctionModules	      "''"
       PortCounts	      "[]"
+    }
+    Block {
+      BlockType		      SignalSpecification
+      Dimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+    }
+    Block {
+      BlockType		      Signum
+      ZeroCross		      on
+      SampleTime	      "-1"
     }
     Block {
       BlockType		      Sin
@@ -913,10 +945,40 @@ Model {
       Realization	      "auto"
     }
     Block {
+      BlockType		      TransportDelay
+      DelayTime		      "1"
+      InitialOutput	      "0"
+      BufferSize	      "1024"
+      FixedBuffer	      off
+      TransDelayFeedthrough   off
+      PadeOrder		      "0"
+    }
+    Block {
+      BlockType		      TriggerPort
+      TriggerType	      "rising"
+      StatesWhenEnabling      "inherit"
+      ShowOutputPort	      off
+      OutputDataType	      "auto"
+      SampleTimeType	      "triggered"
+      SampleTime	      "1"
+      ZeroCross		      on
+    }
+    Block {
       BlockType		      Trigonometry
       Operator		      "sin"
       OutputSignalType	      "auto"
       SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      UnitDelay
+      X0		      "0"
+      SampleTime	      "1"
+      StateMustResolveToSignalObject off
+      RTWStateStorageClass    "Auto"
+    }
+    Block {
+      BlockType		      ZeroOrderHold
+      SampleTime	      "1"
     }
   }
   AnnotationDefaults {
@@ -939,7 +1001,7 @@ Model {
   }
   System {
     Name		    "PositionComplementary4"
-    Location		    [6, 82, 1274, 1000]
+    Location		    [24, 83, 1292, 1001]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -1220,7 +1282,7 @@ Model {
 	      SourceType	      "Air System"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -1759,7 +1821,7 @@ Model {
 		  SourceType		  "Loop Switch"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -1778,7 +1840,7 @@ Model {
 		  SourceType		  "Saturation"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -1994,7 +2056,7 @@ Model {
 		    SourceType		    "Zero Protect"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -2535,7 +2597,7 @@ Model {
 		  SourceType		  "PID Controller"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -2824,7 +2886,7 @@ Model {
 		    SourceType		    "Saturation"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -3128,10 +3190,10 @@ Model {
 		    DropShadow		    on
 		    SourceBlock		    "piccolo_library/Derivatives/dx//d"
 "t with TD"
-		    SourceType		    "Unknown"
+		    SourceType		    ""
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -3342,7 +3404,7 @@ Model {
 		  SourceType		  "Discrete time rate limiter"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -3368,7 +3430,7 @@ Model {
 		  SourceType		  "Saturation"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -4909,7 +4971,7 @@ Model {
 		  SourceType		  "Loop Switch"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -4940,7 +5002,7 @@ Model {
 		  SourceType		  "Discrete time rate limiter"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -4960,7 +5022,7 @@ Model {
 		  SourceType		  "Saturation"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -5478,7 +5540,7 @@ Model {
 		  SourceType		  "Distance on Earth"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -5505,7 +5567,7 @@ Model {
 		  SourceType		  "Glideslope controller"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -5535,7 +5597,7 @@ Model {
 		  SourceType		  "ECEF Position"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -5554,7 +5616,7 @@ Model {
 		  SourceType		  "ECEF Position"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -5573,7 +5635,7 @@ Model {
 		  SourceType		  "ECEF Position"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -5592,7 +5654,7 @@ Model {
 		  SourceType		  "LLA to Orbit"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -5656,7 +5718,7 @@ Model {
 		  SourceType		  "NED to ECEF"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -5675,7 +5737,7 @@ Model {
 		  SourceType		  "NED to ECEF"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -5703,7 +5765,7 @@ Model {
 		  SourceType		  "Saturation"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -6795,7 +6857,7 @@ Model {
 		  SourceType		  "Turn rate limits"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -6990,7 +7052,7 @@ Model {
 		    SourceType		    "ECEF to Track"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -7009,7 +7071,7 @@ Model {
 		    SourceType		    "ECEF to Track"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -7028,7 +7090,7 @@ Model {
 		    SourceType		    "ECEF to Track"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -7563,7 +7625,7 @@ Model {
 		    SourceType		    "PID Controller"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -7584,7 +7646,7 @@ Model {
 		    SourceType		    "Heading difference"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -7603,7 +7665,7 @@ Model {
 		    SourceType		    "Heading difference"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -7622,7 +7684,7 @@ Model {
 		    SourceType		    "Heading difference"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -7700,7 +7762,7 @@ Model {
 		    SourceType		    "Track Frame"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -7718,7 +7780,7 @@ Model {
 		    SourceType		    "Vector norm-2"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -7736,7 +7798,7 @@ Model {
 		    SourceType		    "Vector norm-2"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -7755,7 +7817,7 @@ Model {
 		    SourceType		    "Heading error correction"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -7774,7 +7836,7 @@ Model {
 		    SourceType		    "Heading error correction"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -7792,7 +7854,7 @@ Model {
 		    SourceType		    "pi bound"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -9196,7 +9258,7 @@ Model {
 		  SourceType		  "SubSystem"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -9223,7 +9285,7 @@ Model {
 		  SourceType		  "SubSystem"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -9397,7 +9459,7 @@ Model {
 		    SourceType		    "Saturation"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -9442,7 +9504,7 @@ Model {
 		    SourceType		    "Saturation"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -9461,7 +9523,7 @@ Model {
 		    SourceType		    "Saturation"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -10013,7 +10075,7 @@ Model {
 		    SourceType		    "Extended Integrator"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -10087,10 +10149,10 @@ Model {
 		    DropShadow		    on
 		    SourceBlock		    "piccolo_library/Derivatives/dx//d"
 "t with TD"
-		    SourceType		    "Unknown"
+		    SourceType		    ""
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -10287,7 +10349,7 @@ Model {
 		    SourceType		    "Discrete time rate limiter"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -10506,7 +10568,7 @@ Model {
 		    SourceType		    "Low-pass filter"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -10786,7 +10848,7 @@ Model {
 		  SourceType		  "Saturation"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -11136,7 +11198,7 @@ Model {
 		  SourceType		  "Dynamic pressure to True Airspeed"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -11155,7 +11217,7 @@ Model {
 		  SourceType		  "Dynamic pressure to True Airspeed"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -11174,7 +11236,7 @@ Model {
 		  SourceType		  "Turn compensator"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -11958,7 +12020,7 @@ Model {
 		    SourceType		    "Extended Integrator"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -11984,7 +12046,7 @@ Model {
 		    SourceType		    "Low-pass filter"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -12775,7 +12837,7 @@ Model {
 		  SourceType		  "Saturation"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -13180,7 +13242,7 @@ Model {
 		    SourceType		    "Extended Integrator"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -13256,10 +13318,10 @@ Model {
 		    DropShadow		    on
 		    SourceBlock		    "piccolo_library/Derivatives/dx//d"
 "t with TD"
-		    SourceType		    "Unknown"
+		    SourceType		    ""
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -13464,7 +13526,7 @@ Model {
 		  SourceType		  "SubSystem"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -13483,7 +13545,7 @@ Model {
 		  SourceType		  "Turn to bank"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -13508,7 +13570,7 @@ Model {
 		  SourceType		  "Turn to yaw"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -14078,7 +14140,7 @@ Model {
 		  SourceType		  "Saturation"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -14297,7 +14359,7 @@ Model {
 		  SourceType		  "Turn to yaw"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -14316,7 +14378,7 @@ Model {
 		  SourceType		  "PID Controller"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -14337,7 +14399,7 @@ Model {
 		  SourceType		  "SubSystem"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -18198,7 +18260,7 @@ Model {
 	      SourceType	      "Dynamic Pressure"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -18214,7 +18276,7 @@ Model {
 	      SourceType	      "Dynamic Pressure"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -18236,7 +18298,7 @@ Model {
 	      SourceType	      "Dynamic Pressure"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -18258,7 +18320,7 @@ Model {
 	      SourceType	      "Dynamic Pressure"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -19435,7 +19497,7 @@ Model {
 		  SourceType		  "Flat Earth to LLA"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -19591,7 +19653,7 @@ Model {
 		  SourceType		  "SubSystem"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -21296,7 +21358,7 @@ Model {
       Ports		      [4]
       Position		      [1025, 374, 1055, 431]
       Floating		      off
-      Location		      [-1020, 310, 4, 1025]
+      Location		      [-1017, 302, 7, 1017]
       Open		      on
       NumInputPorts	      "4"
       ZoomMode		      "yonly"
@@ -22141,7 +22203,7 @@ Model {
 	      SourceType	      "Difference"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -22151,9 +22213,9 @@ Model {
 	      OutputDataTypeScalingMode	"Inherit via internal rule"
 	      OutDataType	      "sfix(16)"
 	      OutScaling	      "2^-10"
-	      LockScale		      "off"
+	      LockScale		      off
 	      RndMeth		      "Floor"
-	      DoSatur		      "off"
+	      DoSatur		      off
 	    }
 	    Block {
 	      BlockType		      Saturate
@@ -22243,7 +22305,7 @@ Model {
 	      SourceType	      "Difference"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -22253,9 +22315,9 @@ Model {
 	      OutputDataTypeScalingMode	"Inherit via internal rule"
 	      OutDataType	      "sfix(16)"
 	      OutScaling	      "2^-10"
-	      LockScale		      "off"
+	      LockScale		      off
 	      RndMeth		      "Floor"
-	      DoSatur		      "off"
+	      DoSatur		      off
 	    }
 	    Block {
 	      BlockType		      Saturate
@@ -22345,7 +22407,7 @@ Model {
 	      SourceType	      "Difference"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -22355,9 +22417,9 @@ Model {
 	      OutputDataTypeScalingMode	"Inherit via internal rule"
 	      OutDataType	      "sfix(16)"
 	      OutScaling	      "2^-10"
-	      LockScale		      "off"
+	      LockScale		      off
 	      RndMeth		      "Floor"
-	      DoSatur		      "off"
+	      DoSatur		      off
 	    }
 	    Block {
 	      BlockType		      Saturate
@@ -22553,7 +22615,7 @@ Model {
 	  SourceType		  "Compare To Constant"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -22562,7 +22624,7 @@ Model {
 	  relop			  "<="
 	  const			  "deadLimit"
 	  LogicOutDataTypeMode	  "uint8"
-	  ZeroCross		  "off"
+	  ZeroCross		  off
 	}
 	Block {
 	  BlockType		  Constant
@@ -22735,7 +22797,7 @@ Model {
 	  SourceType		  "Calculate Range"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -22752,7 +22814,7 @@ Model {
 	  SourceType		  "Compare To Constant"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -22761,7 +22823,7 @@ Model {
 	  relop			  "<="
 	  const			  "deadLimit"
 	  LogicOutDataTypeMode	  "uint8"
-	  ZeroCross		  "off"
+	  ZeroCross		  off
 	}
 	Block {
 	  BlockType		  Outport
@@ -22851,7 +22913,7 @@ Model {
 	  SourceType		  "Angle Conversion"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -22870,7 +22932,7 @@ Model {
 	  SourceType		  "Angle Conversion"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -22916,7 +22978,7 @@ Model {
 	  SourceType		  "Discrete Derivative"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -22927,9 +22989,9 @@ Model {
 	  OutputDataTypeScalingMode "Inherit via internal rule"
 	  OutDataType		  "sfix(16)"
 	  OutScaling		  "2^-10"
-	  LockScale		  "off"
+	  LockScale		  off
 	  RndMeth		  "Floor"
-	  DoSatur		  "off"
+	  DoSatur		  off
 	}
 	Block {
 	  BlockType		  SubSystem
@@ -22941,6 +23003,11 @@ Model {
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    0
+	    PropName		    "AvailSigsLoadSave"
+	  }
 	  MaskHideContents	  off
 	  MaskType		  "Stateflow"
 	  MaskDescription	  "Embedded MATLAB block"
@@ -25163,7 +25230,7 @@ Model {
 	      SourceType	      "Sample and Hold"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -25171,7 +25238,7 @@ Model {
 	      RTWMemSecDataParameters "Inherit from model"
 	      trig		      "Either edge"
 	      initCond		      "0"
-	      latchinput	      "off"
+	      latchinput	      off
 	    }
 	    Block {
 	      BlockType		      Outport
@@ -25276,7 +25343,7 @@ Model {
 	      SourceType	      "Sample and Hold"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -25284,7 +25351,7 @@ Model {
 	      RTWMemSecDataParameters "Inherit from model"
 	      trig		      "Either edge"
 	      initCond		      "0"
-	      latchinput	      "off"
+	      latchinput	      off
 	    }
 	    Block {
 	      BlockType		      Outport
@@ -25389,7 +25456,7 @@ Model {
 	      SourceType	      "Sample and Hold"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -25397,7 +25464,7 @@ Model {
 	      RTWMemSecDataParameters "Inherit from model"
 	      trig		      "Either edge"
 	      initCond		      "0"
-	      latchinput	      "off"
+	      latchinput	      off
 	    }
 	    Block {
 	      BlockType		      Outport
@@ -25502,7 +25569,7 @@ Model {
 	      SourceType	      "Sample and Hold"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -25510,7 +25577,7 @@ Model {
 	      RTWMemSecDataParameters "Inherit from model"
 	      trig		      "Either edge"
 	      initCond		      "0"
-	      latchinput	      "off"
+	      latchinput	      off
 	    }
 	    Block {
 	      BlockType		      Outport
@@ -25615,7 +25682,7 @@ Model {
 	      SourceType	      "Sample and Hold"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -25623,7 +25690,7 @@ Model {
 	      RTWMemSecDataParameters "Inherit from model"
 	      trig		      "Either edge"
 	      initCond		      "0"
-	      latchinput	      "off"
+	      latchinput	      off
 	    }
 	    Block {
 	      BlockType		      Outport
@@ -25916,7 +25983,7 @@ Model {
 	  SourceType		  "Discrete Derivative"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -25927,9 +25994,9 @@ Model {
 	  OutputDataTypeScalingMode "Inherit via internal rule"
 	  OutDataType		  "sfix(16)"
 	  OutScaling		  "2^-10"
-	  LockScale		  "off"
+	  LockScale		  off
 	  RndMeth		  "Floor"
-	  DoSatur		  "off"
+	  DoSatur		  off
 	}
 	Block {
 	  BlockType		  Gain
@@ -25950,7 +26017,7 @@ Model {
 	  SourceType		  "Pressure Altitude"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -26068,6 +26135,11 @@ Model {
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    0
+	    PropName		    "AvailSigsLoadSave"
+	  }
 	  MaskHideContents	  off
 	  MaskType		  "Stateflow"
 	  MaskDescription	  "Embedded MATLAB block"
@@ -26527,8 +26599,8 @@ Model {
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
       low		      "150"
-      gain		      "500"
-      high		      "900"
+      gain		      "150"
+      high		      "1500"
     }
     Block {
       BlockType		      Reference
@@ -26643,7 +26715,7 @@ Model {
 	  SourceType		  "Angle Conversion"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -26662,7 +26734,7 @@ Model {
 	  SourceType		  "Angle Conversion"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -26681,7 +26753,7 @@ Model {
 	  SourceType		  "Angle Conversion"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -26700,7 +26772,7 @@ Model {
 	  SourceType		  "Angle Conversion"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -29049,7 +29121,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -31255,7 +31327,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -31282,7 +31354,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -31508,7 +31580,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -31534,7 +31606,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -31560,7 +31632,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -31691,7 +31763,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -31711,7 +31783,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -32449,7 +32521,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -32469,7 +32541,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -32489,7 +32561,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -32551,7 +32623,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -32571,7 +32643,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -33220,7 +33292,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -33631,7 +33703,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -33651,7 +33723,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -33671,7 +33743,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -34084,7 +34156,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -34232,7 +34304,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -34252,7 +34324,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -34272,7 +34344,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -34292,7 +34364,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -34586,7 +34658,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -34750,7 +34822,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -34776,7 +34848,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -34802,7 +34874,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -36858,7 +36930,7 @@ Model {
 		  SourceType		  "Angle Conversion"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -36896,7 +36968,7 @@ Model {
 		  SourceType		  "Flat Earth to LLA"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -37218,13 +37290,13 @@ Model {
 "odel"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
 		  RTWMemSecDataInternal	  "Inherit from model"
 		  RTWMemSecDataParameters "Inherit from model"
-		  custom		  "off"
+		  custom		  off
 		  g			  "9.80665"
 		  gamma			  "1.4"
 		  R			  "287.0531"
@@ -37400,7 +37472,7 @@ Model {
 		  SourceType		  "Compare To Zero"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -37408,7 +37480,7 @@ Model {
 		  RTWMemSecDataParameters "Inherit from model"
 		  relop			  ">="
 		  LogicOutDataTypeMode	  "uint8"
-		  ZeroCross		  "off"
+		  ZeroCross		  off
 		}
 		Block {
 		  BlockType		  Logic
@@ -38345,7 +38417,7 @@ Model {
 	  SourceType		  "Three-axis Accelerometer"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -38353,13 +38425,13 @@ Model {
 	  RTWMemSecDataParameters "Inherit from model"
 	  units			  "Metric (MKS)"
 	  acc			  "[0 0 0]"
-	  gtype			  "off"
-	  dtype_a		  "on"
+	  gtype			  off
+	  dtype_a		  on
 	  w_a			  "190"
 	  z_a			  "0.707"
 	  a_sf_cc		  "[-41 0 0; 0 41 0; 0 0 -43]"
 	  a_bias		  "[2015 2018 2006]"
-	  a_rand		  "on"
+	  a_rand		  on
 	  a_seeds		  "[23093 23094 23095]"
 	  a_pow			  "[0.008 0.008 0.008]"
 	  a_sat			  "[-inf  -inf  -inf  inf inf inf]"
@@ -38374,19 +38446,19 @@ Model {
 	  SourceType		  "Three-axis Gyroscope"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
 	  RTWMemSecDataInternal	  "Inherit from model"
 	  RTWMemSecDataParameters "Inherit from model"
-	  dtype_g		  "on"
+	  dtype_g		  on
 	  w_g			  "190"
 	  z_g			  "0.707"
 	  g_sf_cc		  "[-142 0 0; 0 142 0; 0 0 235]"
 	  g_bias		  "[1866 1981 2042]"
 	  g_sen			  "[0 0 0]"
-	  g_rand		  "on"
+	  g_rand		  on
 	  g_seeds		  "[23093 23094 23095]"
 	  g_pow			  "[0.008 0.008 0.008]"
 	  g_sat			  "[-inf  -inf  -inf  inf inf inf]"
@@ -38835,12 +38907,12 @@ Model {
 	  MaskIconOpaque	  on
 	  MaskIconRotate	  "none"
 	  MaskIconUnits		  "autoscale"
-	  MaskValueString	  "0.7|0.05|0.01|Euler_0|1"
+	  MaskValueString	  "0.7|0.05|0.01|Euler_0|5"
 	  MaskTabNameString	  ",,,,"
 	  System {
 	    Name		    "Attitude\nComplementary\nFilter"
-	    Location		    [108, 253, 1253, 790]
-	    Open		    on
+	    Location		    [292, 300, 1437, 837]
+	    Open		    off
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -38942,7 +39014,7 @@ Model {
 	      MaskIconOpaque	      on
 	      MaskIconRotate	      "none"
 	      MaskIconUnits	      "autoscale"
-	      MaskValueString	      "3|T"
+	      MaskValueString	      "15|T"
 	      MaskTabNameString	      ","
 	      System {
 		Name			"3vector LPF1"
@@ -39770,6 +39842,11 @@ Model {
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
+	      Array {
+		Type			"Handle"
+		Dimension		0
+		PropName		"AvailSigsLoadSave"
+	      }
 	      MaskHideContents	      off
 	      MaskType		      "Stateflow"
 	      MaskDescription	      "Embedded MATLAB block"
@@ -39883,12 +39960,17 @@ Model {
 	      BlockType		      SubSystem
 	      Name		      "Embedded\nMATLAB Function1"
 	      Ports		      [2, 1]
-	      Position		      [335, 300, 435, 355]
+	      Position		      [375, 300, 475, 355]
 	      ShowName		      off
 	      PermitHierarchicalResolution "ExplicitOnly"
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
+	      Array {
+		Type			"Handle"
+		Dimension		0
+		PropName		"AvailSigsLoadSave"
+	      }
 	      MaskHideContents	      off
 	      MaskType		      "Stateflow"
 	      MaskDescription	      "Embedded MATLAB block"
@@ -40113,7 +40195,7 @@ Model {
 	      BlockType		      Reference
 	      Name		      "Integer Delay5"
 	      Ports		      [1, 1]
-	      Position		      [270, 363, 295, 387]
+	      Position		      [290, 388, 315, 412]
 	      Orientation	      "left"
 	      ShowName		      off
 	      SourceBlock	      "simulink/Discrete/Integer Delay"
@@ -40170,9 +40252,9 @@ Model {
 	    Block {
 	      BlockType		      Saturate
 	      Name		      "Saturation"
-	      Position		      [455, 315, 485, 345]
-	      UpperLimit	      "2.0"
-	      LowerLimit	      "-2.0"
+	      Position		      [295, 325, 325, 355]
+	      UpperLimit	      "1.5"
+	      LowerLimit	      "-1.5"
 	    }
 	    Block {
 	      BlockType		      Scope
@@ -40197,6 +40279,28 @@ Model {
 	      SampleTime	      "0"
 	    }
 	    Block {
+	      BlockType		      Scope
+	      Name		      "Scope1"
+	      Ports		      [1]
+	      Position		      [390, 369, 420, 401]
+	      Floating		      off
+	      Location		      [6, 303, 982, 653]
+	      Open		      off
+	      NumInputPorts	      "1"
+	      ZoomMode		      "yonly"
+	      List {
+		ListType		AxesTitles
+		axes1			"%<SignalLabel>"
+	      }
+	      TimeRange		      "60"
+	      YMin		      "-0.07116438310879042"
+	      YMax		      "0.01417979172834782"
+	      SaveName		      "ScopeData30"
+	      DataFormat	      "StructureWithTime"
+	      LimitDataPoints	      off
+	      SampleTime	      "0"
+	    }
+	    Block {
 	      BlockType		      SubSystem
 	      Name		      "Subsystem"
 	      Ports		      [8, 3]
@@ -40208,8 +40312,8 @@ Model {
 	      MaskHideContents	      off
 	      System {
 		Name			"Subsystem"
-		Location		[168, 127, 894, 764]
-		Open			on
+		Location		[415, 210, 1158, 866]
+		Open			off
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
@@ -40225,7 +40329,7 @@ Model {
 		Block {
 		  BlockType		  Inport
 		  Name			  "bg_{B}"
-		  Position		  [405, 18, 435, 32]
+		  Position		  [470, 133, 500, 147]
 		  Orientation		  "left"
 		  BackgroundColor	  "yellow"
 		  IconDisplay		  "Port number"
@@ -40233,7 +40337,7 @@ Model {
 		Block {
 		  BlockType		  Inport
 		  Name			  "pqr_sens"
-		  Position		  [25, 58, 55, 72]
+		  Position		  [35, 168, 65, 182]
 		  BackgroundColor	  "yellow"
 		  Port			  "2"
 		  IconDisplay		  "Port number"
@@ -40241,7 +40345,7 @@ Model {
 		Block {
 		  BlockType		  Inport
 		  Name			  "b_{B}"
-		  Position		  [30, 298, 60, 312]
+		  Position		  [40, 408, 70, 422]
 		  BackgroundColor	  "yellow"
 		  Port			  "3"
 		  IconDisplay		  "Port number"
@@ -40249,7 +40353,7 @@ Model {
 		Block {
 		  BlockType		  Inport
 		  Name			  "Vb_hat"
-		  Position		  [25, 113, 55, 127]
+		  Position		  [35, 223, 65, 237]
 		  BackgroundColor	  "yellow"
 		  Port			  "4"
 		  IconDisplay		  "Port number"
@@ -40257,7 +40361,7 @@ Model {
 		Block {
 		  BlockType		  Inport
 		  Name			  "A_sens"
-		  Position		  [30, 253, 60, 267]
+		  Position		  [40, 363, 70, 377]
 		  BackgroundColor	  "yellow"
 		  Port			  "5"
 		  IconDisplay		  "Port number"
@@ -40273,7 +40377,7 @@ Model {
 		Block {
 		  BlockType		  Inport
 		  Name			  "gpsAlive"
-		  Position		  [25, 153, 55, 167]
+		  Position		  [35, 263, 65, 277]
 		  BackgroundColor	  "yellow"
 		  Port			  "7"
 		  IconDisplay		  "Port number"
@@ -40281,7 +40385,7 @@ Model {
 		Block {
 		  BlockType		  Inport
 		  Name			  "COG"
-		  Position		  [275, 318, 305, 332]
+		  Position		  [285, 428, 315, 442]
 		  BackgroundColor	  "yellow"
 		  Port			  "8"
 		  IconDisplay		  "Port number"
@@ -40290,7 +40394,7 @@ Model {
 		  BlockType		  SubSystem
 		  Name			  "3vector LPF"
 		  Ports			  [1, 1]
-		  Position		  [190, 107, 240, 143]
+		  Position		  [200, 217, 250, 253]
 		  MinAlgLoopOccurrences	  off
 		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
@@ -40708,7 +40812,7 @@ Model {
 		  BlockType		  Reference
 		  Name			  "Angle Conversion"
 		  Ports			  [1, 1]
-		  Position		  [345, 310, 435, 340]
+		  Position		  [355, 420, 445, 450]
 		  SourceBlock		  "aerolibconvert2/Angle Conversion"
 		  SourceType		  "Angle Conversion"
 		  ShowPortLabels	  "FromPortIcon"
@@ -40721,6 +40825,14 @@ Model {
 		  RTWMemSecDataParameters "Inherit from model"
 		  IU			  "deg"
 		  OU			  "rad"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant1"
+		  Position		  [580, 45, 610, 75]
+		  Orientation		  "left"
+		  ShowName		  off
+		  SampleTime		  "T"
 		}
 		Block {
 		  BlockType		  Demux
@@ -40742,6 +40854,11 @@ Model {
 		  MinAlgLoopOccurrences	  off
 		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
+		  Array {
+		    Type		    "Handle"
+		    Dimension		    0
+		    PropName		    "AvailSigsLoadSave"
+		  }
 		  MaskHideContents	  off
 		  MaskType		  "Stateflow"
 		  MaskDescription	  "Embedded MATLAB block"
@@ -40910,7 +41027,7 @@ Model {
 		  BlockType		  SubSystem
 		  Name			  "Enabled\nSubsystem1"
 		  Ports			  [1, 1, 1]
-		  Position		  [205, 247, 240, 273]
+		  Position		  [215, 357, 250, 383]
 		  BackgroundColor	  "black"
 		  ShowName		  off
 		  TreatAsAtomicUnit	  on
@@ -40965,14 +41082,14 @@ Model {
 		  BlockType		  SubSystem
 		  Name			  "Freeze\nNegative \nGravity"
 		  Ports			  [1, 1]
-		  Position		  [145, 187, 200, 213]
+		  Position		  [155, 301, 210, 329]
 		  MinAlgLoopOccurrences	  off
 		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
 		  MaskHideContents	  off
 		  System {
 		    Name		    "Freeze\nNegative \nGravity"
-		    Location		    [258, 334, 553, 447]
+		    Location		    [258, 334, 607, 520]
 		    Open		    off
 		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
@@ -40997,7 +41114,7 @@ Model {
 		    BlockType		    Reference
 		    Name		    "Compare\nTo Constant"
 		    Ports		    [1, 1]
-		    Position		    [175, 30, 215, 60]
+		    Position		    [190, 30, 230, 60]
 		    SourceBlock		    "simulink/Logic and Bit\nOperation"
 "s/Compare\nTo Constant"
 		    SourceType		    "Compare To Constant"
@@ -41009,73 +41126,45 @@ Model {
 		    RTWMemSecDataConstants  "Inherit from model"
 		    RTWMemSecDataInternal   "Inherit from model"
 		    RTWMemSecDataParameters "Inherit from model"
-		    relop		    ">="
-		    const		    "0.8"
+		    relop		    "<="
+		    const		    "-7"
 		    LogicOutDataTypeMode    "uint8"
 		    ZeroCross		    off
 		    }
 		    Block {
-		    BlockType		    Reference
-		    Name		    "Dot Product"
-		    Ports		    [2, 1]
-		    Position		    [70, 27, 100, 58]
-		    SourceBlock		    "simulink/Math\nOperations/Dot Pro"
-"duct"
-		    SourceType		    "Dot Product"
-		    InputSameDT		    on
-		    OutputDataTypeScalingMode "Inherit via internal rule"
-		    OutDataType		    "sfix(16)"
-		    OutScaling		    "2^-10"
-		    LockScale		    off
-		    RndMeth		    "Floor"
-		    DoSatur		    off
-		    }
-		    Block {
-		    BlockType		    Math
-		    Name		    "Math\nFunction"
-		    Ports		    [1, 1]
-		    Position		    [120, 30, 150, 60]
+		    BlockType		    Demux
+		    Name		    "Demux"
+		    Ports		    [1, 3]
+		    Position		    [95, 16, 100, 54]
+		    BackgroundColor	    "black"
 		    ShowName		    off
-		    Operator		    "sqrt"
+		    Outputs		    "3"
+		    DisplayOption	    "bar"
 		    }
 		    Block {
 		    BlockType		    Outport
 		    Name		    "Enab"
-		    Position		    [240, 38, 270, 52]
+		    Position		    [255, 38, 285, 52]
 		    IconDisplay		    "Port number"
 		    BusOutputAsStruct	    off
 		    }
 		    Line {
-		    SrcBlock		    "Dot Product"
+		    SrcBlock		    "Compare\nTo Constant"
 		    SrcPort		    1
-		    DstBlock		    "Math\nFunction"
+		    DstBlock		    "Enab"
 		    DstPort		    1
 		    }
 		    Line {
-		    SrcBlock		    "Math\nFunction"
-		    SrcPort		    1
+		    SrcBlock		    "Demux"
+		    SrcPort		    3
 		    DstBlock		    "Compare\nTo Constant"
 		    DstPort		    1
 		    }
 		    Line {
 		    SrcBlock		    "As"
 		    SrcPort		    1
-		    Points		    [0, -15]
-		    Branch {
-		    Points		    [0, -20]
-		    DstBlock		    "Dot Product"
-		    DstPort		    1
-		    }
-		    Branch {
-		    Points		    [0, -5]
-		    DstBlock		    "Dot Product"
-		    DstPort		    2
-		    }
-		    }
-		    Line {
-		    SrcBlock		    "Compare\nTo Constant"
-		    SrcPort		    1
-		    DstBlock		    "Enab"
+		    Points		    [0, -35]
+		    DstBlock		    "Demux"
 		    DstPort		    1
 		    }
 		  }
@@ -41084,7 +41173,7 @@ Model {
 		  BlockType		  SubSystem
 		  Name			  "Get Roll, Pitch"
 		  Ports			  [1, 1]
-		  Position		  [370, 241, 445, 279]
+		  Position		  [380, 351, 455, 389]
 		  MinAlgLoopOccurrences	  off
 		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
@@ -41248,7 +41337,7 @@ Model {
 		  BlockType		  Reference
 		  Name			  "Integer Delay4"
 		  Ports			  [1, 1]
-		  Position		  [130, 293, 155, 317]
+		  Position		  [140, 403, 165, 427]
 		  ShowName		  off
 		  SourceBlock		  "simulink/Discrete/Integer Delay"
 		  SourceType		  "Integer Delay"
@@ -41260,7 +41349,7 @@ Model {
 		  BlockType		  Reference
 		  Name			  "Integer Delay5"
 		  Ports			  [1, 1]
-		  Position		  [255, 13, 280, 37]
+		  Position		  [265, 123, 290, 147]
 		  Orientation		  "left"
 		  ShowName		  off
 		  SourceBlock		  "simulink/Discrete/Integer Delay"
@@ -41273,7 +41362,7 @@ Model {
 		  BlockType		  Mux
 		  Name			  "Mux"
 		  Ports			  [2, 1]
-		  Position		  [495, 266, 500, 304]
+		  Position		  [505, 376, 510, 414]
 		  ShowName		  off
 		  Inputs		  "2"
 		  DisplayOption		  "bar"
@@ -41282,7 +41371,20 @@ Model {
 		  BlockType		  Product
 		  Name			  "Product"
 		  Ports			  [2, 1]
-		  Position		  [140, 112, 170, 143]
+		  Position		  [150, 222, 180, 253]
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product1"
+		  Ports			  [2, 1]
+		  Position		  [410, 117, 440, 148]
+		  Orientation		  "left"
+		  NamePlacement		  "alternate"
+		  ShowName		  off
 		  CollapseMode		  "All dimensions"
 		  InputSameDT		  off
 		  OutDataTypeMode	  "Inherit via internal rule"
@@ -41291,35 +41393,35 @@ Model {
 		Block {
 		  BlockType		  RateTransition
 		  Name			  "Rate Transition1"
-		  Position		  [80, 146, 105, 174]
+		  Position		  [90, 256, 115, 284]
 		  ShowName		  off
 		  OutPortSampleTime	  "T"
 		}
 		Block {
 		  BlockType		  RateTransition
 		  Name			  "Rate Transition2"
-		  Position		  [80, 51, 105, 79]
+		  Position		  [90, 161, 115, 189]
 		  ShowName		  off
 		  OutPortSampleTime	  "T"
 		}
 		Block {
 		  BlockType		  RateTransition
 		  Name			  "Rate Transition4"
-		  Position		  [85, 291, 110, 319]
+		  Position		  [95, 401, 120, 429]
 		  ShowName		  off
 		  OutPortSampleTime	  "T"
 		}
 		Block {
 		  BlockType		  RateTransition
 		  Name			  "Rate Transition5"
-		  Position		  [80, 106, 105, 134]
+		  Position		  [90, 216, 115, 244]
 		  ShowName		  off
 		  OutPortSampleTime	  "T"
 		}
 		Block {
 		  BlockType		  RateTransition
 		  Name			  "Rate Transition6"
-		  Position		  [85, 246, 110, 274]
+		  Position		  [95, 356, 120, 384]
 		  ShowName		  off
 		  OutPortSampleTime	  "T"
 		}
@@ -41331,10 +41433,34 @@ Model {
 		  OutPortSampleTime	  "T"
 		}
 		Block {
+		  BlockType		  Scope
+		  Name			  "Scope1"
+		  Ports			  [2]
+		  Position		  [40, 315, 70, 350]
+		  Orientation		  "left"
+		  Floating		  off
+		  Location		  [1, 52, 1281, 1023]
+		  Open			  off
+		  NumInputPorts		  "2"
+		  ZoomMode		  "yonly"
+		  List {
+		    ListType		    AxesTitles
+		    axes1		    "%<SignalLabel>"
+		    axes2		    "%<SignalLabel>"
+		  }
+		  TimeRange		  "700"
+		  YMin			  "0.103926~0"
+		  YMax			  "28.7875~1"
+		  SaveName		  "ScopeData31"
+		  DataFormat		  "StructureWithTime"
+		  LimitDataPoints	  off
+		  SampleTime		  "0"
+		}
+		Block {
 		  BlockType		  Sum
 		  Name			  "Sum5"
 		  Ports			  [2, 1]
-		  Position		  [265, 250, 285, 270]
+		  Position		  [275, 360, 295, 380]
 		  ShowName		  off
 		  IconShape		  "round"
 		  Inputs		  "|+-"
@@ -41353,7 +41479,7 @@ Model {
 		  BlockType		  Sum
 		  Name			  "Sum6"
 		  Ports			  [2, 1]
-		  Position		  [320, 250, 340, 270]
+		  Position		  [330, 360, 350, 380]
 		  ShowName		  off
 		  IconShape		  "round"
 		  Inputs		  "-+|"
@@ -41372,7 +41498,7 @@ Model {
 		  BlockType		  Sum
 		  Name			  "Sum7"
 		  Ports			  [2, 1]
-		  Position		  [155, 75, 175, 95]
+		  Position		  [165, 185, 185, 205]
 		  ShowName		  off
 		  IconShape		  "round"
 		  Inputs		  "-+|"
@@ -41397,7 +41523,7 @@ Model {
 		  BlockType		  SubSystem
 		  Name			  "get Centripetal"
 		  Ports			  [2, 1]
-		  Position		  [265, 74, 315, 121]
+		  Position		  [275, 184, 325, 231]
 		  MinAlgLoopOccurrences	  off
 		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
@@ -41858,7 +41984,7 @@ Model {
 		    SourceType		    "CrossProduct"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -41953,9 +42079,159 @@ Model {
 		  LatchByCopyingInsideSignal off
 		}
 		Block {
+		  BlockType		  InportShadow
+		  Name			  "gpsAlive2"
+		  Position		  [580, 98, 610, 112]
+		  Orientation		  "left"
+		  BackgroundColor	  "yellow"
+		  Port			  "7"
+		  IconDisplay		  "Port number"
+		  LatchByDelayingOutsideSignal off
+		  LatchByCopyingInsideSignal off
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "myMux Fun1"
+		  Ports			  [3, 1]
+		  Position		  [530, 76, 535, 114]
+		  Orientation		  "left"
+		  BackgroundColor	  "black"
+		  ShowName		  off
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Auto"
+		  FunctionWithSeparateData off
+		  Array {
+		    Type		    "Handle"
+		    Dimension		    0
+		    PropName		    "AvailSigsLoadSave"
+		  }
+		  MaskHideContents	  off
+		  MaskType		  "Stateflow"
+		  MaskDescription	  "Embedded MATLAB block"
+		  MaskDisplay		  "disp('myMux');"
+		  MaskSelfModifiable	  on
+		  MaskIconFrame		  on
+		  MaskIconOpaque	  off
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  System {
+		    Name		    "myMux Fun1"
+		    Location		    [257, 457, 812, 717]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "u1"
+		    Position		    [20, 101, 40, 119]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Inport
+		    Name		    "u2"
+		    Position		    [20, 136, 40, 154]
+		    Port		    "2"
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Inport
+		    Name		    "u3"
+		    Position		    [20, 171, 40, 189]
+		    Port		    "3"
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Demux
+		    Name		    " Demux "
+		    Ports		    [1, 1]
+		    Position		    [270, 220, 320, 260]
+		    Outputs		    "1"
+		    }
+		    Block {
+		    BlockType		    "S-Function"
+		    Name		    " SFunction "
+		    Tag			    "Stateflow S-Function PositionComp"
+"lementary4 16"
+		    Ports		    [3, 2]
+		    Position		    [180, 100, 230, 220]
+		    FunctionName	    "sf_sfun"
+		    PortCounts		    "[3 2]"
+		    Port {
+		    PortNumber		    2
+		    Name		    "y"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Terminator
+		    Name		    " Terminator "
+		    Position		    [460, 231, 480, 249]
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "y"
+		    Position		    [460, 101, 480, 119]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "u3"
+		    SrcPort		    1
+		    DstBlock		    " SFunction "
+		    DstPort		    3
+		    }
+		    Line {
+		    SrcBlock		    "u2"
+		    SrcPort		    1
+		    Points		    [120, 0]
+		    DstBlock		    " SFunction "
+		    DstPort		    2
+		    }
+		    Line {
+		    Name		    "y"
+		    Labels		    [0, 0]
+		    SrcBlock		    " SFunction "
+		    SrcPort		    2
+		    DstBlock		    "y"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "u1"
+		    SrcPort		    1
+		    Points		    [120, 0]
+		    DstBlock		    " SFunction "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    " Demux "
+		    SrcPort		    1
+		    DstBlock		    " Terminator "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    " SFunction "
+		    SrcPort		    1
+		    Points		    [0, 110]
+		    DstBlock		    " Demux "
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
 		  BlockType		  Outport
 		  Name			  "Euler_sens"
-		  Position		  [525, 278, 555, 292]
+		  Position		  [535, 388, 565, 402]
 		  BackgroundColor	  "green"
 		  IconDisplay		  "Port number"
 		  BusOutputAsStruct	  off
@@ -41963,7 +42239,7 @@ Model {
 		Block {
 		  BlockType		  Outport
 		  Name			  "pqr_hat"
-		  Position		  [315, 38, 345, 52]
+		  Position		  [325, 148, 355, 162]
 		  BackgroundColor	  "green"
 		  Port			  "2"
 		  IconDisplay		  "Port number"
@@ -41972,7 +42248,7 @@ Model {
 		Block {
 		  BlockType		  Outport
 		  Name			  "pqr_wb"
-		  Position		  [125, 13, 155, 27]
+		  Position		  [135, 123, 165, 137]
 		  BackgroundColor	  "green"
 		  Port			  "3"
 		  IconDisplay		  "Port number"
@@ -42007,8 +42283,15 @@ Model {
 		  }
 		  Branch {
 		    Labels		    [0, 0]
+		    Points		    [0, -30]
+		    Branch {
 		    DstBlock		    "Freeze\nNegative \nGravity"
 		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Scope1"
+		    DstPort		    2
+		    }
 		  }
 		}
 		Line {
@@ -42088,7 +42371,7 @@ Model {
 		  DstPort		  1
 		}
 		Line {
-		  SrcBlock		  "bg_{B}"
+		  SrcBlock		  "Product1"
 		  SrcPort		  1
 		  DstBlock		  "Integer Delay5"
 		  DstPort		  1
@@ -42194,8 +42477,15 @@ Model {
 		  SrcBlock		  "Freeze\nNegative \nGravity"
 		  SrcPort		  1
 		  Points		  [15, 0]
-		  DstBlock		  "Enabled\nSubsystem1"
-		  DstPort		  enable
+		  Branch {
+		    DstBlock		    "Enabled\nSubsystem1"
+		    DstPort		    enable
+		  }
+		  Branch {
+		    Points		    [0, -25; -110, 0; 0, 35]
+		    DstBlock		    "Scope1"
+		    DstPort		    1
+		  }
 		}
 		Line {
 		  SrcBlock		  "Rate Transition1"
@@ -42215,6 +42505,39 @@ Model {
 		  SrcPort		  1
 		  DstBlock		  "Product"
 		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "gpsAlive2"
+		  SrcPort		  1
+		  DstBlock		  "myMux Fun1"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Constant1"
+		  SrcPort		  1
+		  Points		  [-10, 0; 0, 25; -5, 0]
+		  Branch {
+		    Points		    [0, 10]
+		    DstBlock		    "myMux Fun1"
+		    DstPort		    2
+		  }
+		  Branch {
+		    DstBlock		    "myMux Fun1"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "myMux Fun1"
+		  SrcPort		  1
+		  Points		  [-60, 0; 0, 30]
+		  DstBlock		  "Product1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "bg_{B}"
+		  SrcPort		  1
+		  DstBlock		  "Product1"
+		  DstPort		  2
 		}
 	      }
 	    }
@@ -42289,6 +42612,11 @@ Model {
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
+	      Array {
+		Type			"Handle"
+		Dimension		0
+		PropName		"AvailSigsLoadSave"
+	      }
 	      MaskHideContents	      off
 	      MaskType		      "Stateflow"
 	      MaskDescription	      "Embedded MATLAB block"
@@ -42395,6 +42723,11 @@ Model {
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
+	      Array {
+		Type			"Handle"
+		Dimension		0
+		PropName		"AvailSigsLoadSave"
+	      }
 	      MaskHideContents	      off
 	      MaskType		      "Stateflow"
 	      MaskDescription	      "Embedded MATLAB block"
@@ -42501,6 +42834,11 @@ Model {
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
+	      Array {
+		Type			"Handle"
+		Dimension		0
+		PropName		"AvailSigsLoadSave"
+	      }
 	      MaskHideContents	      off
 	      MaskType		      "Stateflow"
 	      MaskDescription	      "Embedded MATLAB block"
@@ -42622,7 +42960,7 @@ Model {
 	    Block {
 	      BlockType		      Outport
 	      Name		      "pqr_hat"
-	      Position		      [285, 158, 315, 172]
+	      Position		      [285, 163, 315, 177]
 	      BackgroundColor	      "green"
 	      Port		      "2"
 	      IconDisplay	      "Port number"
@@ -42684,16 +43022,8 @@ Model {
 	    Line {
 	      SrcBlock		      "Sum6"
 	      SrcPort		      1
-	      Points		      [50, 0]
-	      Branch {
-		DstBlock		"Embedded\nMATLAB Function1"
-		DstPort			2
-	      }
-	      Branch {
-		Points			[-10, 0]
-		DstBlock		"Integer Delay5"
-		DstPort			1
-	      }
+	      DstBlock		      "Saturation"
+	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "From6"
@@ -42712,8 +43042,16 @@ Model {
 	    Line {
 	      SrcBlock		      "Embedded\nMATLAB Function1"
 	      SrcPort		      1
-	      DstBlock		      "Saturation"
-	      DstPort		      1
+	      Points		      [30, 0]
+	      Branch {
+		DstBlock		"T4"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[-5, 0]
+		DstBlock		"3vector LPF1"
+		DstPort			1
+	      }
 	    }
 	    Line {
 	      SrcBlock		      "T4"
@@ -42725,7 +43063,7 @@ Model {
 	    Line {
 	      SrcBlock		      "Integer Delay5"
 	      SrcPort		      1
-	      Points		      [-10, 0]
+	      Points		      [-30, 0]
 	      DstBlock		      "Sum6"
 	      DstPort		      2
 	    }
@@ -42818,7 +43156,7 @@ Model {
 	    Line {
 	      SrcBlock		      "Subsystem"
 	      SrcPort		      3
-	      Points		      [0, -40]
+	      Points		      [65, 0; 0, -40]
 	      DstBlock		      "Embedded\nMATLAB Function"
 	      DstPort		      2
 	    }
@@ -42909,6 +43247,12 @@ Model {
 	      DstPort		      2
 	    }
 	    Line {
+	      SrcBlock		      "3vector LPF2"
+	      SrcPort		      1
+	      DstBlock		      "Sum6"
+	      DstPort		      1
+	    }
+	    Line {
 	      SrcBlock		      "3vector LPF1"
 	      SrcPort		      1
 	      Points		      [0, 10; 45, 0]
@@ -42928,23 +43272,24 @@ Model {
 	      }
 	    }
 	    Line {
-	      SrcBlock		      "3vector LPF2"
-	      SrcPort		      1
-	      DstBlock		      "Sum6"
-	      DstPort		      1
-	    }
-	    Line {
 	      SrcBlock		      "Saturation"
 	      SrcPort		      1
 	      Points		      [20, 0]
 	      Branch {
-		DstBlock		"T4"
-		DstPort			1
+		DstBlock		"Embedded\nMATLAB Function1"
+		DstPort			2
 	      }
 	      Branch {
-		Points			[-5, 0]
-		DstBlock		"3vector LPF1"
-		DstPort			1
+		Points			[0, 45]
+		Branch {
+		  Points		  [0, 15]
+		  DstBlock		  "Integer Delay5"
+		  DstPort		  1
+		}
+		Branch {
+		  DstBlock		  "Scope1"
+		  DstPort		  1
+		}
 	      }
 	    }
 	  }
@@ -44225,14 +44570,14 @@ Model {
 		  SourceType		  "Transpose"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
 		  RTWMemSecDataInternal	  "Inherit from model"
 		  RTWMemSecDataParameters "Inherit from model"
-		  Hermitian		  "off"
-		  overflowFlag		  "off"
+		  Hermitian		  off
+		  overflowFlag		  off
 		}
 		Block {
 		  BlockType		  SubSystem
@@ -45047,7 +45392,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Euler_hat"
-	  Position		  [370, 108, 400, 122]
+	  Position		  [370, 113, 400, 127]
 	  BackgroundColor	  "green"
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
@@ -45055,7 +45400,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "PQR_hat"
-	  Position		  [370, 178, 400, 192]
+	  Position		  [370, 183, 400, 197]
 	  BackgroundColor	  "green"
 	  Port			  "2"
 	  IconDisplay		  "Port number"
@@ -45064,7 +45409,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Gyro Bias"
-	  Position		  [375, 248, 405, 262]
+	  Position		  [375, 253, 405, 267]
 	  BackgroundColor	  "green"
 	  Port			  "3"
 	  IconDisplay		  "Port number"
@@ -45118,6 +45463,7 @@ Model {
 	  SrcPort		  1
 	  Points		  [0, -5; 10, 0]
 	  Branch {
+	    Points		    [0, 5]
 	    DstBlock		    "Euler_hat"
 	    DstPort		    1
 	  }
@@ -45137,7 +45483,6 @@ Model {
 	Line {
 	  SrcBlock		  "Attitude\nComplementary\nFilter"
 	  SrcPort		  2
-	  Points		  [0, -5]
 	  DstBlock		  "PQR_hat"
 	  DstPort		  1
 	}
@@ -45159,7 +45504,6 @@ Model {
 	Line {
 	  SrcBlock		  "Attitude\nComplementary\nFilter"
 	  SrcPort		  3
-	  Points		  [0, -5]
 	  DstBlock		  "Gyro Bias"
 	  DstPort		  1
 	}
@@ -46548,6 +46892,7 @@ Model {
 	    Line {
 	      SrcBlock		      "3vector LPF"
 	      SrcPort		      1
+	      Points		      [20, 0]
 	      DstBlock		      "Sum"
 	      DstPort		      1
 	    }
@@ -46563,7 +46908,7 @@ Model {
 	  SourceType		  "Manual Switch"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -46571,7 +46916,7 @@ Model {
 	  RTWMemSecDataParameters "Inherit from model"
 	  sw			  "0"
 	  action		  "0"
-	  varsize		  "off"
+	  varsize		  off
 	}
 	Block {
 	  BlockType		  Reference
@@ -46583,7 +46928,7 @@ Model {
 	  SourceType		  "Manual Switch"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -46591,7 +46936,7 @@ Model {
 	  RTWMemSecDataParameters "Inherit from model"
 	  sw			  "1"
 	  action		  "0"
-	  varsize		  "off"
+	  varsize		  off
 	}
 	Block {
 	  BlockType		  Product
@@ -46609,7 +46954,7 @@ Model {
 	  Ports			  [0, 1]
 	  Position		  [30, 85, 60, 115]
 	  SineType		  "Time based"
-	  Amplitude		  ".01*pi/180"
+	  Amplitude		  ".02*pi/180"
 	  Bias			  ".02*pi/180"
 	  Frequency		  "2*pi*(1/600)"
 	  Samples		  "500"
@@ -46832,7 +47177,7 @@ Model {
 	  SourceType		  "Angle Conversion"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -46851,7 +47196,7 @@ Model {
 	  SourceType		  "Angle Conversion"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -46870,7 +47215,7 @@ Model {
 	  SourceType		  "Angle Conversion"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -47033,7 +47378,7 @@ Model {
 	  SourceType		  "Angle Conversion"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -47052,7 +47397,7 @@ Model {
 	  SourceType		  "Angle Conversion"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -47071,7 +47416,7 @@ Model {
 	  SourceType		  "Angle Conversion"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -47361,7 +47706,7 @@ Model {
 	  SourceType		  "Angle Conversion"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -47380,7 +47725,7 @@ Model {
 	  SourceType		  "Angle Conversion"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -47399,7 +47744,7 @@ Model {
 	  SourceType		  "Angle Conversion"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -48523,7 +48868,7 @@ Stateflow {
 		name                 		"PositionComplementary4"
 		created              		"18-Sep-2008 12:14:47"
 		isLibrary            		0
-		firstTarget          		65
+		firstTarget          		74
 		sfVersion            		66014000
 	}
 
@@ -49807,21 +50152,208 @@ Stateflow {
 		chart  		58
 	}
 
-	target {
-		id                        		65
-		name                      		"sfun"
-		description               		"Default Simulink S-Function Target."
-		machine                   		1
-		linkNode                  		[1 0 66]
+	chart {
+		id                                        		65
+		name                                      		"Position/Attitude\n"
+					"Filter/Attitude\n"
+					"Complementary\n"
+					"Filter/Subsystem/myMux Fun1"
+		windowPosition                            		[279.45 300 200.25 189.75]
+		viewLimits                                		[0 156.75 0 153.75]
+		screen                                    		[1 1 1280 1024 1.333333333333333]
+		treeNode                                  		[0 66 0 0]
+		firstTransition                           		68
+		firstJunction                             		67
+		viewObj                                   		65
+		machine                                   		1
+		subviewS {
+		}
+		decomposition                             		CLUSTER_CHART
+		type                                      		EML_CHART
+		firstData                                 		69
+		chartFileNumber                           		16
+		disableImplicitCasting                    		1
+		eml {
+			name       		"myMux"
+			noDebugging		1
+		}
+	}
+
+	state {
+		id                           		66
+		labelString                  		"eML_blk_kernel()"
+		position                     		[18 64.5 118 66]
+		fontSize                     		12
+		chart                        		65
+		treeNode                     		[65 0 0 0]
+		superState                   		SUBCHART
+		subviewer                    		65
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			isEML                    		1
+			script                   		"function y = myMux(u1, u2, u3)\n"
+						"% This block supports an embeddable subset of the MATLAB la"
+						"nguage.\n"
+						"% See the help menu for details. \n"
+						"\n"
+						"y = zeros(3,1);\n"
+						"y(1) = u1;\n"
+						"y(2) = u2;\n"
+						"y(3) = u3;"
+			editorLayout             		"100 M4x1[1386 497 671 364]"
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	junction {
+		id         		67
+		position   		[23.5747 49.5747 7]
+		chart      		65
+		linkNode   		[65 0 0]
+		subviewer  		65
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		68
+		labelString    		"{eML_blk_kernel();}"
+		labelPosition  		[32.125 19.875 102.544 14.964]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 23.5747 14.625 0 0]
+		}
+		dst {
+			id          		67
+			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
+		}
+		midPoint       		[23.5747 24.9468]
+		chart          		65
+		linkNode       		[65 0 0]
+		dataLimits     		[23.575 23.575 14.625 34.575]
+		subviewer      		65
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	data {
+		id                            		69
+		name                          		"u1"
+		linkNode                      		[65 0 70]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		70
+		name                          		"y"
+		linkNode                      		[65 69 71]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		71
+		name                          		"u2"
+		linkNode                      		[65 70 72]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		72
+		name                          		"u3"
+		linkNode                      		[65 71 0]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	instance {
+		id     		73
+		name   		"Position//Attitude\n"
+					"Filter/Attitude\n"
+					"Complementary\n"
+					"Filter/Subsystem/myMux Fun1"
+		machine		1
+		chart  		65
 	}
 
 	target {
-		id                        		66
+		id                        		74
+		name                      		"sfun"
+		description               		"Default Simulink S-Function Target."
+		machine                   		1
+		linkNode                  		[1 0 75]
+	}
+
+	target {
+		id                        		75
 		name                      		"rtw"
 		codeFlags                 		" comments=1 statebitsets=1 databitsets=1 emitlogicalops=1 el"
 						"seifdetection=1 constantfolding=1 redundantloadelimination=0"
 						" preservenames=0 preservenameswithparent=0 exportcharts=0"
 		machine                   		1
-		linkNode                  		[1 65 0]
+		linkNode                  		[1 74 0]
 	}
 }
