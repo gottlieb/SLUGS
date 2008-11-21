@@ -446,6 +446,11 @@ static tAknData		    cpaknControlData;
 	         cpdiagControlData.sh2.shData,
 	         cpdiagControlData.sh3.shData);
 
+        // Print Sensor MCU Load
+       fprintf(outFile, "%d,%d,%d,",
+	         cpstatusControlData.load,
+	         cpstatusControlData.vdetect,
+	         cpstatusControlData.bVolt.usData);
 
 	    // Add new line
 	    fprintf(outFile, "\n");
@@ -497,6 +502,10 @@ tDiagData getDiagStruct (void){
 
 tDynTempData getDynStruct (void){
  return dynTempControlData;
+}
+
+tSensStatus getSensStruct (void){
+ return statusControlData;
 }
 
 tAknData getAknStruct(void){

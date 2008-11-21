@@ -231,6 +231,13 @@ __published:	// IDE-managed Components
     TStaticText *et_sta;
     TLabel *Label52;
     TStaticText *et_timeStamp;
+    TGroupBox *GroupBox10;
+    TLabel *Label61;
+    TLabel *Label62;
+    TLabel *Label63;
+    TStaticText *et_load;
+    TStaticText *et_volt;
+    TStaticText *et_vdetect;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -272,6 +279,7 @@ public:		// User declarations
         tDynTempData dynSample;
         tBiasData biasSample;
         tDiagData diagSample;
+        tSensStatus	statusSample;
 
 
         FILE* liveLog;

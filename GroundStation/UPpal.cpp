@@ -270,6 +270,7 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    dynSample  = getDynStruct();
    biasSample = getBiasStruct();
    diagSample = getDiagStruct();
+   statusSample = getSensStruct();
 
    updateGPSLabels();                 
    updateRawLabels();
@@ -397,6 +398,11 @@ void TFPpal::updateDynLabels(void){
   et_dyn->Caption = FloatToStr( dynSample.dynamic.flData);
   et_sta->Caption = FloatToStr( dynSample.stat.flData);
   et_temp->Caption = IntToStr( dynSample.temp.shData);
+
+  // sensor mcu status
+  et_load->Caption = IntToStr(statusSample.load);
+  et_vdetect->Caption = IntToStr(statusSample.vdetect);
+  et_volt->Caption = IntToStr(statusSample.bVolt.usData);
 }
 void TFPpal::updateDiagLabels(void){
   et_fl1->Caption = FloatToStr(diagSample.fl1.flData);
