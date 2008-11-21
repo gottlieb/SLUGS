@@ -34,6 +34,7 @@ tAknData getAknStruct (void);
 tBiasData getBiasStruct(void);
 tDynTempData getDynStruct (void);
 tDiagData getDiagStruct (void);
+tSensStatus getSensStruct (void);
 void setAknFilter (unsigned char value);
 
 #ifdef __cplusplus
