@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.266"
+    ComputedModelVersion    "1.275"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ASL_Lab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Nov 20 15:30:07 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:266>"
+  LastModifiedDate	  "Fri Nov 21 13:35:10 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:275>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -952,7 +952,7 @@ Model {
   }
   System {
     Name		    "sensorMCU"
-    Location		    [1227, -71, 2094, 689]
+    Location		    [91, 4, 933, 764]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -1210,6 +1210,15 @@ Model {
       Position		      [595, 28, 645, 52]
       ShowName		      off
       OutDataTypeMode	      "boolean"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      DataTypeConversion
+      Name		      "Data Type Conversion3"
+      Position		      [315, 630, 390, 650]
+      ShowName		      off
+      OutDataTypeMode	      "int16"
       RndMeth		      "Floor"
       SaturateOnIntegerOverflow	off
     }
@@ -2960,7 +2969,7 @@ Model {
       BlockType		      Mux
       Name		      "Mux2"
       Ports		      [2, 1]
-      Position		      [460, 461, 465, 494]
+      Position		      [460, 471, 465, 504]
       ShowName		      off
       Inputs		      "2"
       DisplayOption	      "bar"
@@ -3008,7 +3017,7 @@ Model {
     Block {
       BlockType		      SubSystem
       Name		      "Position-Attitude Filter"
-      Ports		      [5, 11]
+      Ports		      [5, 10]
       Position		      [285, 375, 410, 565]
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
@@ -3016,7 +3025,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Position-Attitude Filter"
-	Location		[1124, -46, 2076, 610]
+	Location		[36, 56, 988, 712]
 	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -3213,15 +3222,6 @@ Model {
 	}
 	Block {
 	  BlockType		  DataTypeConversion
-	  Name			  "Data Type Conversion2"
-	  Position		  [220, 540, 295, 560]
-	  ShowName		  off
-	  OutDataTypeMode	  "int16"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  DataTypeConversion
 	  Name			  "Data Type Conversion3"
 	  Position		  [215, 575, 290, 595]
 	  ShowName		  off
@@ -3240,16 +3240,6 @@ Model {
 	}
 	Block {
 	  BlockType		  Demux
-	  Name			  "Demux"
-	  Ports			  [1, 3]
-	  Position		  [155, 566, 160, 604]
-	  BackgroundColor	  "black"
-	  ShowName		  off
-	  Outputs		  "3"
-	  DisplayOption		  "bar"
-	}
-	Block {
-	  BlockType		  Demux
 	  Name			  "Demux1"
 	  Ports			  [1, 3]
 	  Position		  [170, 251, 175, 289]
@@ -3260,6 +3250,15 @@ Model {
 	}
 	Block {
 	  BlockType		  From
+	  Name			  "From1"
+	  Position		  [110, 572, 180, 598]
+	  BackgroundColor	  "cyan"
+	  ShowName		  off
+	  CloseFcn		  "tagdialog Close"
+	  GotoTag		  "gpsAlive"
+	}
+	Block {
+	  BlockType		  From
 	  Name			  "From12"
 	  Position		  [305, 372, 375, 398]
 	  BackgroundColor	  "cyan"
@@ -3267,6 +3266,15 @@ Model {
 	  CloseFcn		  "tagdialog Close"
 	  GotoTag		  "XYZ_hat"
 	  TagVisibility		  "global"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From2"
+	  Position		  [110, 607, 180, 633]
+	  BackgroundColor	  "cyan"
+	  ShowName		  off
+	  CloseFcn		  "tagdialog Close"
+	  GotoTag		  "gpsValid"
 	}
 	Block {
 	  BlockType		  From
@@ -15422,19 +15430,10 @@ Model {
 	}
 	Block {
 	  BlockType		  Outport
-	  Name			  "update_log"
-	  Position		  [335, 543, 365, 557]
-	  BackgroundColor	  "green"
-	  Port			  "9"
-	  IconDisplay		  "Port number"
-	  BusOutputAsStruct	  off
-	}
-	Block {
-	  BlockType		  Outport
 	  Name			  "alive_log"
 	  Position		  [335, 578, 365, 592]
 	  BackgroundColor	  "green"
-	  Port			  "10"
+	  Port			  "9"
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
 	}
@@ -15443,7 +15442,7 @@ Model {
 	  Name			  "valid_log"
 	  Position		  [330, 613, 360, 627]
 	  BackgroundColor	  "green"
-	  Port			  "11"
+	  Port			  "10"
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
 	}
@@ -15685,12 +15684,6 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Data Type Conversion2"
-	  SrcPort		  1
-	  DstBlock		  "update_log"
-	  DstPort		  1
-	}
-	Line {
 	  SrcBlock		  "Data Type Conversion3"
 	  SrcPort		  1
 	  DstBlock		  "alive_log"
@@ -15709,38 +15702,11 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  1
-	  Points		  [20, 0; 0, -25]
-	  DstBlock		  "Data Type Conversion2"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  2
-	  DstBlock		  "Data Type Conversion3"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  3
-	  Points		  [15, 0; 0, 25]
-	  DstBlock		  "Data Type Conversion4"
-	  DstPort		  1
-	}
-	Line {
 	  SrcBlock		  "Mags"
 	  SrcPort		  1
 	  Points		  [25, 0; 0, 5]
-	  Branch {
-	    Points		    [0, 105]
-	    DstBlock		    "Demux"
-	    DstPort		    1
-	  }
-	  Branch {
-	    DstBlock		    "mag differencer"
-	    DstPort		    1
-	  }
+	  DstBlock		  "mag differencer"
+	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "mag differencer"
@@ -15756,13 +15722,25 @@ Model {
 	    DstPort		    7
 	  }
 	}
+	Line {
+	  SrcBlock		  "From1"
+	  SrcPort		  1
+	  DstBlock		  "Data Type Conversion3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From2"
+	  SrcPort		  1
+	  DstBlock		  "Data Type Conversion4"
+	  DstPort		  1
+	}
       }
     }
     Block {
       BlockType		      SubSystem
       Name		      "Raw Sensors"
-      Ports		      [0, 6]
-      Position		      [120, 350, 205, 410]
+      Ports		      [0, 7]
+      Position		      [115, 349, 200, 431]
       BackgroundColor	      "orange"
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
@@ -15770,7 +15748,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Raw Sensors"
-	Location		[-7, 82, 726, 596]
+	Location		[145, 127, 878, 641]
 	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -15903,15 +15881,15 @@ Model {
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "Sensor Suite"
-	  Ports			  [0, 16]
-	  Position		  [45, 25, 105, 430]
+	  Ports			  [0, 17]
+	  Position		  [45, 25, 105, 445]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
 	  MaskHideContents	  off
 	  System {
 	    Name		    "Sensor Suite"
-	    Location		    [1010, -86, 2103, 673]
+	    Location		    [1064, -85, 2140, 674]
 	    Open		    on
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
@@ -16175,22 +16153,22 @@ Model {
 	      Ports		      [1, 3]
 	      Position		      [380, 352, 385, 388]
 	      ShowName		      off
-	      OutputSignals	      "Mag01,Mag23,Mag Z"
+	      OutputSignals	      "Baro,Pitot,Thermistor"
 	      Port {
 		PortNumber		1
-		Name			"<Mag01>"
+		Name			"<Baro>"
 		RTWStorageClass		"Auto"
 		DataLoggingNameMode	"SignalName"
 	      }
 	      Port {
 		PortNumber		2
-		Name			"<Mag23>"
+		Name			"<Pitot>"
 		RTWStorageClass		"Auto"
 		DataLoggingNameMode	"SignalName"
 	      }
 	      Port {
 		PortNumber		3
-		Name			"<Mag Z>"
+		Name			"<Thermistor>"
 		RTWStorageClass		"Auto"
 		DataLoggingNameMode	"SignalName"
 	      }
@@ -16255,6 +16233,430 @@ Model {
 	      }
 	    }
 	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Compute Height"
+	      Ports		      [1, 2]
+	      Position		      [715, 333, 825, 382]
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      MaskDescription	      "Produces Altitude in meters from Raw Ba"
+"ro Altimeter. Altitude is valid from MSL to 6000 ft.\n\nThe method implemente"
+"d here was developed by Ren Curry"
+	      MaskPromptString	      "Barometer Gain|Barometer Bias|Base Stat"
+"ion Pressure (Pa)|Base Station Temperature (K)|Lapse Rate (C/ft)|Base Station"
+" Known Height (m)"
+	      MaskStyleString	      "edit,edit,edit,edit,edit,edit"
+	      MaskTunableValueString  "on,on,on,on,on,on"
+	      MaskCallbackString      "|||||"
+	      MaskEnableString	      "on,on,on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on,on,on"
+	      MaskToolTipString	      "on,on,on,on,on,on"
+	      MaskVarAliasString      ",,,,,"
+	      MaskVariables	      "bGain=@1;bBias=@2;basePressure=@3;baseT"
+"emp=@4;LapseRate=@5;baseHeight=@6;"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      MaskValueString	      "28.508|4664.3|99880|288.215|-0.00198122"
+"|121"
+	      MaskTabNameString	      ",,,,,"
+	      System {
+		Name			"Compute Height"
+		Location		[-11, 226, 1062, 575]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "Baro, raw"
+		  Position		  [40, 68, 70, 82]
+		  BackgroundColor	  "green"
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant1"
+		  Position		  [700, 210, 775, 240]
+		  Value			  "baseHeight"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant2"
+		  Position		  [510, 250, 650, 280]
+		  ShowName		  off
+		  Value			  "baseTemp/(-LapseRate)"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant3"
+		  Position		  [450, 96, 535, 124]
+		  ShowName		  off
+		  Value			  "9.350253e-2"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant4"
+		  Position		  [450, 161, 535, 189]
+		  ShowName		  off
+		  Value			  "-1.888933e-1"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant5"
+		  Position		  [445, 199, 535, 231]
+		  ShowName		  off
+		  Value			  "2.180313e-5"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant6"
+		  Position		  [210, 95, 285, 125]
+		  Value			  "basePressure"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Divide"
+		  Ports			  [2, 1]
+		  Position		  [375, 52, 405, 83]
+		  ShowName		  off
+		  Inputs		  "*/"
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  OutScaling		  "2^-10"
+		  RndMeth		  "Floor"
+		  SaturateOnIntegerOverflow off
+		  Port {
+		    PortNumber		    1
+		    Name		    "x"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		  }
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Divide1"
+		  Ports			  [2, 1]
+		  Position		  [560, 72, 590, 103]
+		  ShowName		  off
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  OutScaling		  "2^-10"
+		  RndMeth		  "Floor"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Divide2"
+		  Ports			  [2, 1]
+		  Position		  [560, 137, 590, 168]
+		  ShowName		  off
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  OutScaling		  "2^-10"
+		  RndMeth		  "Floor"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Divide3"
+		  Ports			  [2, 1]
+		  Position		  [700, 122, 730, 153]
+		  ShowName		  off
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  OutScaling		  "2^-10"
+		  RndMeth		  "Floor"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain"
+		  Position		  [105, 60, 135, 90]
+		  Gain			  "bGain"
+		  ParameterDataTypeMode	  "Inherit via internal rule"
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Length Conversion"
+		  Ports			  [1, 1]
+		  Position		  [805, 125, 895, 155]
+		  SourceBlock		  "aerolibconvert2/Length Conversion"
+		  SourceType		  "Length Conversion"
+		  ShowPortLabels	  "FromPortIcon"
+		  SystemSampleTime	  "-1"
+		  FunctionWithSeparateData off
+		  RTWMemSecFuncInitTerm	  "Inherit from model"
+		  RTWMemSecFuncExecute	  "Inherit from model"
+		  RTWMemSecDataConstants  "Inherit from model"
+		  RTWMemSecDataInternal	  "Inherit from model"
+		  RTWMemSecDataParameters "Inherit from model"
+		  IU			  "ft"
+		  OU			  "m"
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "Math\nFunction"
+		  Ports			  [1, 1]
+		  Position		  [470, 55, 500, 85]
+		  ShowName		  off
+		  Operator		  "square"
+		  Port {
+		    PortNumber		    1
+		    Name		    "x^2"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		  }
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum"
+		  Ports			  [2, 1]
+		  Position		  [175, 65, 195, 85]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "|++"
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum1"
+		  Ports			  [2, 1]
+		  Position		  [950, 130, 970, 150]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "|++"
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum2"
+		  Ports			  [2, 1]
+		  Position		  [315, 65, 335, 85]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "|+-"
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum3"
+		  Ports			  [3, 1]
+		  Position		  [640, 115, 660, 145]
+		  ShowName		  off
+		  Inputs		  "3"
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "bias"
+		  Position		  [60, 120, 135, 150]
+		  Value			  "bBias"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Altitude, m"
+		  Position		  [1010, 133, 1040, 147]
+		  BackgroundColor	  "yellow"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Pressure, Pa"
+		  Position		  [270, 13, 300, 27]
+		  BackgroundColor	  "yellow"
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Length Conversion"
+		  SrcPort		  1
+		  DstBlock		  "Sum1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Sum2"
+		  SrcPort		  1
+		  Points		  [10, 0; 0, -15]
+		  DstBlock		  "Divide"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Sum1"
+		  SrcPort		  1
+		  DstBlock		  "Altitude, m"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Divide3"
+		  SrcPort		  1
+		  DstBlock		  "Length Conversion"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Constant2"
+		  SrcPort		  1
+		  Points		  [15, 0; 0, -120]
+		  DstBlock		  "Divide3"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Sum3"
+		  SrcPort		  1
+		  DstBlock		  "Divide3"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Constant5"
+		  SrcPort		  1
+		  Points		  [85, 0]
+		  DstBlock		  "Sum3"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Divide2"
+		  SrcPort		  1
+		  Points		  [15, 0; 0, -25]
+		  DstBlock		  "Sum3"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Divide1"
+		  SrcPort		  1
+		  Points		  [15, 0; 0, 30]
+		  DstBlock		  "Sum3"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Constant4"
+		  SrcPort		  1
+		  Points		  [0, -15]
+		  DstBlock		  "Divide2"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Constant3"
+		  SrcPort		  1
+		  Points		  [0, -15]
+		  DstBlock		  "Divide1"
+		  DstPort		  2
+		}
+		Line {
+		  Name			  "x^2"
+		  Labels		  [0, 0]
+		  SrcBlock		  "Math\nFunction"
+		  SrcPort		  1
+		  Points		  [40, 0]
+		  DstBlock		  "Divide1"
+		  DstPort		  1
+		}
+		Line {
+		  Name			  "x"
+		  Labels		  [0, 0]
+		  SrcBlock		  "Divide"
+		  SrcPort		  1
+		  Points		  [15, 0]
+		  Branch {
+		    Labels		    [2, 0]
+		    Points		    [0, 75]
+		    DstBlock		    "Divide2"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Labels		    [1, 0]
+		    DstBlock		    "Math\nFunction"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Constant6"
+		  SrcPort		  1
+		  Points		  [35, 0]
+		  Branch {
+		    Points		    [35, 0]
+		    DstBlock		    "Divide"
+		    DstPort		    2
+		  }
+		  Branch {
+		    DstBlock		    "Sum2"
+		    DstPort		    2
+		  }
+		}
+		Line {
+		  SrcBlock		  "Constant1"
+		  SrcPort		  1
+		  Points		  [180, 0]
+		  DstBlock		  "Sum1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Baro, raw"
+		  SrcPort		  1
+		  DstBlock		  "Gain"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Sum"
+		  SrcPort		  1
+		  Points		  [20, 0]
+		  Branch {
+		    DstBlock		    "Sum2"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, -55]
+		    DstBlock		    "Pressure, Pa"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Gain"
+		  SrcPort		  1
+		  DstBlock		  "Sum"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "bias"
+		  SrcPort		  1
+		  Points		  [45, 0]
+		  DstBlock		  "Sum"
+		  DstPort		  2
+		}
+	      }
+	    }
+	    Block {
 	      BlockType		      DataTypeConversion
 	      Name		      "Data Type Conversion1"
 	      Position		      [450, 727, 500, 743]
@@ -16284,7 +16686,7 @@ Model {
 	    Block {
 	      BlockType		      DataTypeConversion
 	      Name		      "Data Type Conversion20"
-	      Position		      [710, 352, 765, 368]
+	      Position		      [865, 362, 920, 378]
 	      ShowName		      off
 	      OutDataTypeMode	      "single"
 	      RndMeth		      "Floor"
@@ -16511,7 +16913,7 @@ Model {
 	      BlockType		      SubSystem
 	      Name		      "Low Pass1"
 	      Ports		      [1, 1]
-	      Position		      [640, 489, 700, 531]
+	      Position		      [620, 339, 680, 381]
 	      ShowName		      off
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
@@ -16547,7 +16949,7 @@ Model {
 	      MaskIconOpaque	      on
 	      MaskIconRotate	      "port"
 	      MaskIconUnits	      "normalized"
-	      MaskValueString	      "[]|[-150]|150|auto|T|tustin|1"
+	      MaskValueString	      "[]|[-10]|10|auto|T|tustin|1"
 	      MaskTabNameString	      ",,,,,,"
 	      System {
 		Name			"Low Pass1"
@@ -16588,15 +16990,15 @@ Model {
 		  BusOutputAsStruct	  off
 		}
 		Line {
-		  SrcBlock		  "Discrete\nZero-Pole"
-		  SrcPort		  1
-		  DstBlock		  "Out1"
-		  DstPort		  1
-		}
-		Line {
 		  SrcBlock		  "In1"
 		  SrcPort		  1
 		  DstBlock		  "Discrete\nZero-Pole"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Discrete\nZero-Pole"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
 		  DstPort		  1
 		}
 	      }
@@ -16605,7 +17007,7 @@ Model {
 	      BlockType		      SubSystem
 	      Name		      "Low Pass10"
 	      Ports		      [1, 1]
-	      Position		      [620, 429, 680, 471]
+	      Position		      [570, 714, 630, 756]
 	      ShowName		      off
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
@@ -16641,7 +17043,7 @@ Model {
 	      MaskIconOpaque	      on
 	      MaskIconRotate	      "port"
 	      MaskIconUnits	      "normalized"
-	      MaskValueString	      "[]|[-150]|150|auto|T|tustin|1"
+	      MaskValueString	      "[]|[-10]|10|auto|T|tustin|1"
 	      MaskTabNameString	      ",,,,,,"
 	      System {
 		Name			"Low Pass10"
@@ -16682,15 +17084,15 @@ Model {
 		  BusOutputAsStruct	  off
 		}
 		Line {
-		  SrcBlock		  "In1"
-		  SrcPort		  1
-		  DstBlock		  "Discrete\nZero-Pole"
-		  DstPort		  1
-		}
-		Line {
 		  SrcBlock		  "Discrete\nZero-Pole"
 		  SrcPort		  1
 		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Discrete\nZero-Pole"
 		  DstPort		  1
 		}
 	      }
@@ -16699,7 +17101,7 @@ Model {
 	      BlockType		      SubSystem
 	      Name		      "Low Pass2"
 	      Ports		      [1, 1]
-	      Position		      [525, 524, 585, 566]
+	      Position		      [620, 384, 680, 426]
 	      ShowName		      off
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
@@ -16735,7 +17137,7 @@ Model {
 	      MaskIconOpaque	      on
 	      MaskIconRotate	      "port"
 	      MaskIconUnits	      "normalized"
-	      MaskValueString	      "[]|[-150]|150|auto|T|tustin|1"
+	      MaskValueString	      "[]|[-30]|30|auto|T|tustin|1"
 	      MaskTabNameString	      ",,,,,,"
 	      System {
 		Name			"Low Pass2"
@@ -16776,15 +17178,15 @@ Model {
 		  BusOutputAsStruct	  off
 		}
 		Line {
-		  SrcBlock		  "In1"
-		  SrcPort		  1
-		  DstBlock		  "Discrete\nZero-Pole"
-		  DstPort		  1
-		}
-		Line {
 		  SrcBlock		  "Discrete\nZero-Pole"
 		  SrcPort		  1
 		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Discrete\nZero-Pole"
 		  DstPort		  1
 		}
 	      }
@@ -16793,7 +17195,7 @@ Model {
 	      BlockType		      SubSystem
 	      Name		      "Low Pass3"
 	      Ports		      [1, 1]
-	      Position		      [635, 559, 695, 601]
+	      Position		      [640, 489, 700, 531]
 	      ShowName		      off
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
@@ -16829,7 +17231,7 @@ Model {
 	      MaskIconOpaque	      on
 	      MaskIconRotate	      "port"
 	      MaskIconUnits	      "normalized"
-	      MaskValueString	      "[]|[-150]|150|auto|T|tustin|1"
+	      MaskValueString	      "[]|[-125]|125|auto|T|tustin|1"
 	      MaskTabNameString	      ",,,,,,"
 	      System {
 		Name			"Low Pass3"
@@ -16887,7 +17289,7 @@ Model {
 	      BlockType		      SubSystem
 	      Name		      "Low Pass4"
 	      Ports		      [1, 1]
-	      Position		      [525, 594, 585, 636]
+	      Position		      [520, 524, 580, 566]
 	      ShowName		      off
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
@@ -16923,7 +17325,7 @@ Model {
 	      MaskIconOpaque	      on
 	      MaskIconRotate	      "port"
 	      MaskIconUnits	      "normalized"
-	      MaskValueString	      "[]|[-150]|150|auto|T|tustin|1"
+	      MaskValueString	      "[]|[-125]|125|auto|T|tustin|1"
 	      MaskTabNameString	      ",,,,,,"
 	      System {
 		Name			"Low Pass4"
@@ -16981,7 +17383,7 @@ Model {
 	      BlockType		      SubSystem
 	      Name		      "Low Pass5"
 	      Ports		      [1, 1]
-	      Position		      [625, 629, 685, 671]
+	      Position		      [635, 559, 695, 601]
 	      ShowName		      off
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
@@ -17017,7 +17419,7 @@ Model {
 	      MaskIconOpaque	      on
 	      MaskIconRotate	      "port"
 	      MaskIconUnits	      "normalized"
-	      MaskValueString	      "[]|[-150]|150|auto|T|tustin|1"
+	      MaskValueString	      "[]|[-125]|125|auto|T|tustin|1"
 	      MaskTabNameString	      ",,,,,,"
 	      System {
 		Name			"Low Pass5"
@@ -17075,7 +17477,7 @@ Model {
 	      BlockType		      SubSystem
 	      Name		      "Low Pass6"
 	      Ports		      [1, 1]
-	      Position		      [525, 664, 585, 706]
+	      Position		      [525, 594, 585, 636]
 	      ShowName		      off
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
@@ -17111,7 +17513,7 @@ Model {
 	      MaskIconOpaque	      on
 	      MaskIconRotate	      "port"
 	      MaskIconUnits	      "normalized"
-	      MaskValueString	      "[]|[-150]|150|auto|T|tustin|1"
+	      MaskValueString	      "[]|[-125]|125|auto|T|tustin|1"
 	      MaskTabNameString	      ",,,,,,"
 	      System {
 		Name			"Low Pass6"
@@ -17169,7 +17571,7 @@ Model {
 	      BlockType		      SubSystem
 	      Name		      "Low Pass7"
 	      Ports		      [1, 1]
-	      Position		      [575, 714, 635, 756]
+	      Position		      [625, 629, 685, 671]
 	      ShowName		      off
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
@@ -17205,7 +17607,7 @@ Model {
 	      MaskIconOpaque	      on
 	      MaskIconRotate	      "port"
 	      MaskIconUnits	      "normalized"
-	      MaskValueString	      "[]|[-150]|150|auto|T|tustin|1"
+	      MaskValueString	      "[]|[-125]|125|auto|T|tustin|1"
 	      MaskTabNameString	      ",,,,,,"
 	      System {
 		Name			"Low Pass7"
@@ -17263,7 +17665,7 @@ Model {
 	      BlockType		      SubSystem
 	      Name		      "Low Pass8"
 	      Ports		      [1, 1]
-	      Position		      [620, 339, 680, 381]
+	      Position		      [620, 429, 680, 471]
 	      ShowName		      off
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
@@ -17299,7 +17701,7 @@ Model {
 	      MaskIconOpaque	      on
 	      MaskIconRotate	      "port"
 	      MaskIconUnits	      "normalized"
-	      MaskValueString	      "[]|[-150]|150|auto|T|tustin|1"
+	      MaskValueString	      "[]|[-10]|10|auto|T|tustin|1"
 	      MaskTabNameString	      ",,,,,,"
 	      System {
 		Name			"Low Pass8"
@@ -17357,7 +17759,7 @@ Model {
 	      BlockType		      SubSystem
 	      Name		      "Low Pass9"
 	      Ports		      [1, 1]
-	      Position		      [620, 384, 680, 426]
+	      Position		      [525, 664, 585, 706]
 	      ShowName		      off
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
@@ -17393,7 +17795,7 @@ Model {
 	      MaskIconOpaque	      on
 	      MaskIconRotate	      "port"
 	      MaskIconUnits	      "normalized"
-	      MaskValueString	      "[]|[-150]|150|auto|T|tustin|1"
+	      MaskValueString	      "[]|[-125]|125|auto|T|tustin|1"
 	      MaskTabNameString	      ",,,,,,"
 	      System {
 		Name			"Low Pass9"
@@ -17434,15 +17836,15 @@ Model {
 		  BusOutputAsStruct	  off
 		}
 		Line {
-		  SrcBlock		  "Discrete\nZero-Pole"
-		  SrcPort		  1
-		  DstBlock		  "Out1"
-		  DstPort		  1
-		}
-		Line {
 		  SrcBlock		  "In1"
 		  SrcPort		  1
 		  DstBlock		  "Discrete\nZero-Pole"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Discrete\nZero-Pole"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
 		  DstPort		  1
 		}
 	      }
@@ -17473,401 +17875,6 @@ Model {
 	      ShowName		      off
 	      Inputs		      "3"
 	      DisplayOption	      "bar"
-	    }
-	    Block {
-	      BlockType		      SubSystem
-	      Name		      "baro2alt"
-	      Ports		      [1, 1]
-	      Position		      [790, 345, 900, 375]
-	      MinAlgLoopOccurrences   off
-	      RTWSystemCode	      "Auto"
-	      FunctionWithSeparateData off
-	      MaskHideContents	      off
-	      MaskDescription	      "Produces Altitude in meters from Raw Ba"
-"ro Altimeter"
-	      MaskPromptString	      "Barometer Gain|Barometer Bias"
-	      MaskStyleString	      "edit,edit"
-	      MaskTunableValueString  "on,on"
-	      MaskCallbackString      "|"
-	      MaskEnableString	      "on,on"
-	      MaskVisibilityString    "on,on"
-	      MaskToolTipString	      "on,on"
-	      MaskVarAliasString      ","
-	      MaskVariables	      "bGain=@1;bBias=@2;"
-	      MaskIconFrame	      on
-	      MaskIconOpaque	      on
-	      MaskIconRotate	      "none"
-	      MaskIconUnits	      "autoscale"
-	      MaskValueString	      "28.548|4527.7"
-	      MaskTabNameString	      ","
-	      System {
-		Name			"baro2alt"
-		Location		[400, 293, 805, 448]
-		Open			off
-		ModelBrowserVisibility	off
-		ModelBrowserWidth	200
-		ScreenColor		"white"
-		PaperOrientation	"landscape"
-		PaperPositionMode	"auto"
-		PaperType		"usletter"
-		PaperUnits		"inches"
-		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
-"00]"
-		TiledPageScale		1
-		ShowPageBoundaries	off
-		ZoomFactor		"100"
-		Block {
-		  BlockType		  Inport
-		  Name			  "Baro, raw"
-		  Position		  [25, 38, 55, 52]
-		  IconDisplay		  "Port number"
-		}
-		Block {
-		  BlockType		  SubSystem
-		  Name			  "Baro to Altitude"
-		  Ports			  [1, 1]
-		  Position		  [205, 28, 305, 62]
-		  MinAlgLoopOccurrences	  off
-		  RTWSystemCode		  "Auto"
-		  FunctionWithSeparateData off
-		  MaskHideContents	  off
-		  System {
-		    Name		    "Baro to Altitude"
-		    Location		    [201, 188, 709, 420]
-		    Open		    off
-		    ModelBrowserVisibility  off
-		    ModelBrowserWidth	    200
-		    ScreenColor		    "white"
-		    PaperOrientation	    "landscape"
-		    PaperPositionMode	    "auto"
-		    PaperType		    "usletter"
-		    PaperUnits		    "inches"
-		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
-"500000]"
-		    TiledPageScale	    1
-		    ShowPageBoundaries	    off
-		    ZoomFactor		    "100"
-		    Block {
-		    BlockType		    Inport
-		    Name		    "Baro, Pa"
-		    Position		    [135, 68, 165, 82]
-		    IconDisplay		    "Port number"
-		    }
-		    Block {
-		    BlockType		    SubSystem
-		    Name		    "Air Data"
-		    Ports		    [2, 1]
-		    Position		    [220, 54, 290, 136]
-		    BackgroundColor	    "green"
-		    AncestorBlock	    "piccolo_library/Flight Mechanics/"
-"Air Data"
-		    MinAlgLoopOccurrences   off
-		    RTWSystemCode	    "Auto"
-		    FunctionWithSeparateData off
-		    MaskHideContents	    off
-		    System {
-		    Name		    "Air Data"
-		    Location		    [249, 352, 818, 696]
-		    Open		    off
-		    ModelBrowserVisibility  off
-		    ModelBrowserWidth	    200
-		    ScreenColor		    "white"
-		    PaperOrientation	    "landscape"
-		    PaperPositionMode	    "auto"
-		    PaperType		    "usletter"
-		    PaperUnits		    "inches"
-		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
-"500000]"
-		    TiledPageScale	    1
-		    ShowPageBoundaries	    off
-		    ZoomFactor		    "100"
-		    Block {
-		    BlockType		    Inport
-		    Name		    "Pstat"
-		    Position		    [25, 28, 55, 42]
-		    IconDisplay		    "Port number"
-		    }
-		    Block {
-		    BlockType		    Inport
-		    Name		    "PSL"
-		    Position		    [25, 68, 55, 82]
-		    Port		    "2"
-		    IconDisplay		    "Port number"
-		    }
-		    Block {
-		    BlockType		    Constant
-		    Name		    "Gas Constant"
-		    Position		    [25, 159, 65, 181]
-		    Value		    "287.3"
-		    OutDataTypeMode	    "single"
-		    }
-		    Block {
-		    BlockType		    Constant
-		    Name		    "One"
-		    Position		    [25, 279, 65, 301]
-		    OutDataTypeMode	    "single"
-		    }
-		    Block {
-		    BlockType		    Product
-		    Name		    "R theta_h to g"
-		    Ports		    [3, 1]
-		    Position		    [185, 160, 215, 210]
-		    Inputs		    "**/"
-		    CollapseMode	    "All dimensions"
-		    RndMeth		    "Floor"
-		    }
-		    Block {
-		    BlockType		    Sum
-		    Name		    "Sum"
-		    Ports		    [2, 1]
-		    Position		    [355, 44, 380, 91]
-		    ShowName		    off
-		    Inputs		    "-+"
-		    CollapseMode	    "All dimensions"
-		    }
-		    Block {
-		    BlockType		    Constant
-		    Name		    "TSL (Ranin)"
-		    Position		    [25, 119, 65, 141]
-		    Value		    "288.15"
-		    OutDataTypeMode	    "single"
-		    }
-		    Block {
-		    BlockType		    Constant
-		    Name		    "g"
-		    Position		    [25, 239, 65, 261]
-		    Value		    "9.81"
-		    OutDataTypeMode	    "single"
-		    }
-		    Block {
-		    BlockType		    Product
-		    Name		    "h"
-		    Ports		    [3, 1]
-		    Position		    [415, 60, 445, 110]
-		    Inputs		    "**/"
-		    CollapseMode	    "All dimensions"
-		    RndMeth		    "Floor"
-		    }
-		    Block {
-		    BlockType		    Product
-		    Name		    "p to pSL"
-		    Ports		    [2, 1]
-		    Position		    [185, 27, 215, 58]
-		    Inputs		    "*/"
-		    CollapseMode	    "All dimensions"
-		    RndMeth		    "Floor"
-		    }
-		    Block {
-		    BlockType		    Math
-		    Name		    "ppSL to R thetah g"
-		    Ports		    [2, 1]
-		    Position		    [265, 37, 295, 68]
-		    Operator		    "pow"
-		    }
-		    Block {
-		    BlockType		    Constant
-		    Name		    "thetah"
-		    Position		    [25, 199, 65, 221]
-		    Value		    "0.00651"
-		    OutDataTypeMode	    "single"
-		    }
-		    Block {
-		    BlockType		    Outport
-		    Name		    "Alt"
-		    Position		    [490, 78, 520, 92]
-		    IconDisplay		    "Port number"
-		    BusOutputAsStruct	    off
-		    }
-		    Line {
-		    SrcBlock		    "g"
-		    SrcPort		    1
-		    Points		    [85, 0; 0, -50]
-		    DstBlock		    "R theta_h to g"
-		    DstPort		    3
-		    }
-		    Line {
-		    SrcBlock		    "p to pSL"
-		    SrcPort		    1
-		    DstBlock		    "ppSL to R thetah g"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "R theta_h to g"
-		    SrcPort		    1
-		    Points		    [10, 0; 0, -125]
-		    DstBlock		    "ppSL to R thetah g"
-		    DstPort		    2
-		    }
-		    Line {
-		    SrcBlock		    "ppSL to R thetah g"
-		    SrcPort		    1
-		    DstBlock		    "Sum"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "One"
-		    SrcPort		    1
-		    Points		    [265, 0; 0, -210]
-		    DstBlock		    "Sum"
-		    DstPort		    2
-		    }
-		    Line {
-		    SrcBlock		    "Sum"
-		    SrcPort		    1
-		    DstBlock		    "h"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "TSL (Ranin)"
-		    SrcPort		    1
-		    Points		    [320, 0; 0, -45]
-		    DstBlock		    "h"
-		    DstPort		    2
-		    }
-		    Line {
-		    SrcBlock		    "thetah"
-		    SrcPort		    1
-		    Points		    [75, 0; 0, -25]
-		    Branch {
-		    Points		    [0, -45; 255, 0]
-		    DstBlock		    "h"
-		    DstPort		    3
-		    }
-		    Branch {
-		    DstBlock		    "R theta_h to g"
-		    DstPort		    2
-		    }
-		    }
-		    Line {
-		    SrcBlock		    "h"
-		    SrcPort		    1
-		    DstBlock		    "Alt"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Pstat"
-		    SrcPort		    1
-		    DstBlock		    "p to pSL"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Gas Constant"
-		    SrcPort		    1
-		    DstBlock		    "R theta_h to g"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "PSL"
-		    SrcPort		    1
-		    Points		    [105, 0; 0, -25]
-		    DstBlock		    "p to pSL"
-		    DstPort		    2
-		    }
-		    }
-		    }
-		    Block {
-		    BlockType		    Constant
-		    Name		    "Constant"
-		    Position		    [105, 104, 190, 126]
-		    ShowName		    off
-		    Value		    "101325"
-		    OutDataTypeMode	    "single"
-		    }
-		    Block {
-		    BlockType		    Outport
-		    Name		    "Baro Alt"
-		    Position		    [335, 88, 365, 102]
-		    IconDisplay		    "Port number"
-		    BusOutputAsStruct	    off
-		    }
-		    Line {
-		    SrcBlock		    "Air Data"
-		    SrcPort		    1
-		    DstBlock		    "Baro Alt"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Baro, Pa"
-		    SrcPort		    1
-		    DstBlock		    "Air Data"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Constant"
-		    SrcPort		    1
-		    DstBlock		    "Air Data"
-		    DstPort		    2
-		    }
-		  }
-		}
-		Block {
-		  BlockType		  Constant
-		  Name			  "Constant"
-		  Position		  [45, 90, 120, 120]
-		  Value			  "bBias"
-		  OutDataTypeMode	  "single"
-		}
-		Block {
-		  BlockType		  Gain
-		  Name			  "Gain"
-		  Position		  [90, 30, 120, 60]
-		  Gain			  "bGain"
-		  ParameterDataTypeMode	  "Inherit via internal rule"
-		  OutDataTypeMode	  "Inherit via internal rule"
-		  SaturateOnIntegerOverflow off
-		}
-		Block {
-		  BlockType		  Sum
-		  Name			  "Sum"
-		  Ports			  [2, 1]
-		  Position		  [160, 35, 180, 55]
-		  ShowName		  off
-		  IconShape		  "round"
-		  Inputs		  "|++"
-		  CollapseMode		  "All dimensions"
-		  InputSameDT		  off
-		  OutDataTypeMode	  "Inherit via internal rule"
-		  SaturateOnIntegerOverflow off
-		}
-		Block {
-		  BlockType		  Outport
-		  Name			  "Altitude, m"
-		  Position		  [350, 38, 380, 52]
-		  IconDisplay		  "Port number"
-		  BusOutputAsStruct	  off
-		}
-		Line {
-		  SrcBlock		  "Constant"
-		  SrcPort		  1
-		  Points		  [45, 0]
-		  DstBlock		  "Sum"
-		  DstPort		  2
-		}
-		Line {
-		  SrcBlock		  "Gain"
-		  SrcPort		  1
-		  DstBlock		  "Sum"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "Sum"
-		  SrcPort		  1
-		  DstBlock		  "Baro to Altitude"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "Baro, raw"
-		  SrcPort		  1
-		  DstBlock		  "Gain"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "Baro to Altitude"
-		  SrcPort		  1
-		  DstBlock		  "Altitude, m"
-		  DstPort		  1
-		}
-	      }
 	    }
 	    Block {
 	      BlockType		      Outport
@@ -17960,8 +17967,8 @@ Model {
 	    }
 	    Block {
 	      BlockType		      Outport
-	      Name		      "Baro"
-	      Position		      [930, 353, 960, 367]
+	      Name		      "Static"
+	      Position		      [955, 378, 985, 392]
 	      BackgroundColor	      "green"
 	      Port		      "11"
 	      IconDisplay	      "Port number"
@@ -17970,7 +17977,7 @@ Model {
 	    Block {
 	      BlockType		      Outport
 	      Name		      "Therm"
-	      Position		      [790, 443, 820, 457]
+	      Position		      [805, 443, 835, 457]
 	      BackgroundColor	      "green"
 	      Port		      "12"
 	      IconDisplay	      "Port number"
@@ -18009,6 +18016,15 @@ Model {
 	      Position		      [815, 258, 845, 272]
 	      BackgroundColor	      "green"
 	      Port		      "16"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Baro Alt"
+	      Position		      [960, 328, 990, 342]
+	      BackgroundColor	      "green"
+	      Port		      "17"
 	      IconDisplay	      "Port number"
 	      BusOutputAsStruct	      off
 	    }
@@ -18170,17 +18186,17 @@ Model {
 	    Line {
 	      SrcBlock		      "Data Type Conversion19"
 	      SrcPort		      1
-	      DstBlock		      "Low Pass8"
+	      DstBlock		      "Low Pass1"
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "Low Pass8"
+	      SrcBlock		      "Low Pass1"
 	      SrcPort		      1
-	      DstBlock		      "Data Type Conversion20"
+	      DstBlock		      "Compute Height"
 	      DstPort		      1
 	    }
 	    Line {
-	      Name		      "<Mag01>"
+	      Name		      "<Baro>"
 	      Labels		      [0, 0]
 	      SrcBlock		      "Bus\nSelector1"
 	      SrcPort		      1
@@ -18188,7 +18204,7 @@ Model {
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "Low Pass2"
+	      SrcBlock		      "Low Pass4"
 	      SrcPort		      1
 	      DstBlock		      "Mux1"
 	      DstPort		      2
@@ -18196,30 +18212,30 @@ Model {
 	    Line {
 	      SrcBlock		      "Data Type Conversion27"
 	      SrcPort		      1
-	      DstBlock		      "Low Pass1"
+	      DstBlock		      "Low Pass3"
 	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "Data Type Conversion28"
 	      SrcPort		      1
-	      DstBlock		      "Low Pass2"
+	      DstBlock		      "Low Pass4"
 	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "Data Type Conversion29"
 	      SrcPort		      1
-	      DstBlock		      "Low Pass3"
+	      DstBlock		      "Low Pass5"
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "Low Pass4"
+	      SrcBlock		      "Low Pass6"
 	      SrcPort		      1
 	      Points		      [155, 0; 0, 25]
 	      DstBlock		      "Mux"
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "Low Pass5"
+	      SrcBlock		      "Low Pass7"
 	      SrcPort		      1
 	      DstBlock		      "Mux"
 	      DstPort		      2
@@ -18227,23 +18243,23 @@ Model {
 	    Line {
 	      SrcBlock		      "Data Type Conversion22"
 	      SrcPort		      1
-	      DstBlock		      "Low Pass4"
+	      DstBlock		      "Low Pass6"
 	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "Data Type Conversion23"
 	      SrcPort		      1
-	      DstBlock		      "Low Pass5"
+	      DstBlock		      "Low Pass7"
 	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "Data Type Conversion24"
 	      SrcPort		      1
-	      DstBlock		      "Low Pass6"
+	      DstBlock		      "Low Pass9"
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "Low Pass6"
+	      SrcBlock		      "Low Pass9"
 	      SrcPort		      1
 	      Points		      [155, 0; 0, -25]
 	      DstBlock		      "Mux"
@@ -18418,14 +18434,14 @@ Model {
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "Low Pass1"
+	      SrcBlock		      "Low Pass3"
 	      SrcPort		      1
 	      Points		      [40, 0; 0, 25]
 	      DstBlock		      "Mux1"
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "Low Pass3"
+	      SrcBlock		      "Low Pass5"
 	      SrcPort		      1
 	      Points		      [45, 0; 0, -25]
 	      DstBlock		      "Mux1"
@@ -18434,11 +18450,11 @@ Model {
 	    Line {
 	      SrcBlock		      "Data Type Conversion1"
 	      SrcPort		      1
-	      DstBlock		      "Low Pass7"
+	      DstBlock		      "Low Pass10"
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "Low Pass7"
+	      SrcBlock		      "Low Pass10"
 	      SrcPort		      1
 	      DstBlock		      "Data Type Conversion2"
 	      DstPort		      1
@@ -18460,11 +18476,11 @@ Model {
 	    Line {
 	      SrcBlock		      "Data Type Conversion3"
 	      SrcPort		      1
-	      DstBlock		      "Low Pass9"
+	      DstBlock		      "Low Pass2"
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "Low Pass9"
+	      SrcBlock		      "Low Pass2"
 	      SrcPort		      1
 	      DstBlock		      "Data Type Conversion4"
 	      DstPort		      1
@@ -18472,11 +18488,11 @@ Model {
 	    Line {
 	      SrcBlock		      "Data Type Conversion5"
 	      SrcPort		      1
-	      DstBlock		      "Low Pass10"
+	      DstBlock		      "Low Pass8"
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "Low Pass10"
+	      SrcBlock		      "Low Pass8"
 	      SrcPort		      1
 	      DstBlock		      "Data Type Conversion6"
 	      DstPort		      1
@@ -18488,7 +18504,7 @@ Model {
 	      DstPort		      1
 	    }
 	    Line {
-	      Name		      "<Mag23>"
+	      Name		      "<Pitot>"
 	      Labels		      [0, 0]
 	      SrcBlock		      "Bus\nSelector1"
 	      SrcPort		      2
@@ -18497,7 +18513,7 @@ Model {
 	      DstPort		      1
 	    }
 	    Line {
-	      Name		      "<Mag Z>"
+	      Name		      "<Thermistor>"
 	      Labels		      [0, 0]
 	      SrcBlock		      "Bus\nSelector1"
 	      SrcPort		      3
@@ -18512,15 +18528,9 @@ Model {
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "Data Type Conversion20"
-	      SrcPort		      1
-	      DstBlock		      "baro2alt"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "baro2alt"
-	      SrcPort		      1
-	      DstBlock		      "Baro"
+	      SrcBlock		      "Compute Height"
+	      SrcPort		      2
+	      DstBlock		      "Data Type Conversion20"
 	      DstPort		      1
 	    }
 	    Line {
@@ -18548,6 +18558,20 @@ Model {
 	      SrcBlock		      "Mux2"
 	      SrcPort		      1
 	      DstBlock		      "Mag"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Compute Height"
+	      SrcPort		      1
+	      Points		      [90, 0; 0, -10]
+	      DstBlock		      "Baro Alt"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion20"
+	      SrcPort		      1
+	      Points		      [15, 0]
+	      DstBlock		      "Static"
 	      DstPort		      1
 	    }
 	  }
@@ -18736,57 +18760,75 @@ Model {
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
 	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Baro Alt"
+	  Position		  [175, 453, 205, 467]
+	  BackgroundColor	  "green"
+	  Port			  "7"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
 	Line {
 	  SrcBlock		  "Sensor Suite"
 	  SrcPort		  1
+	  Points		  [0, 5]
 	  DstBlock		  "Pack"
 	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "Sensor Suite"
 	  SrcPort		  2
+	  Points		  [0, 5]
 	  DstBlock		  "Pack"
 	  DstPort		  2
 	}
 	Line {
 	  SrcBlock		  "Sensor Suite"
 	  SrcPort		  3
+	  Points		  [0, 5]
 	  DstBlock		  "Pack"
 	  DstPort		  3
 	}
 	Line {
 	  SrcBlock		  "Sensor Suite"
 	  SrcPort		  4
+	  Points		  [0, 5]
 	  DstBlock		  "Pack"
 	  DstPort		  4
 	}
 	Line {
 	  SrcBlock		  "Sensor Suite"
 	  SrcPort		  5
+	  Points		  [0, 5]
 	  DstBlock		  "Pack"
 	  DstPort		  5
 	}
 	Line {
 	  SrcBlock		  "Sensor Suite"
 	  SrcPort		  6
+	  Points		  [0, 5]
 	  DstBlock		  "Pack"
 	  DstPort		  6
 	}
 	Line {
 	  SrcBlock		  "Sensor Suite"
 	  SrcPort		  7
+	  Points		  [0, 5]
 	  DstBlock		  "Pack"
 	  DstPort		  7
 	}
 	Line {
 	  SrcBlock		  "Sensor Suite"
 	  SrcPort		  8
+	  Points		  [0, 5]
 	  DstBlock		  "Pack"
 	  DstPort		  8
 	}
 	Line {
 	  SrcBlock		  "Sensor Suite"
 	  SrcPort		  9
+	  Points		  [0, 5]
 	  DstBlock		  "Pack"
 	  DstPort		  9
 	}
@@ -18805,6 +18847,7 @@ Model {
 	Line {
 	  SrcBlock		  "Sensor Suite"
 	  SrcPort		  14
+	  Points		  [0, 5]
 	  DstBlock		  "Gyro"
 	  DstPort		  1
 	}
@@ -18850,20 +18893,29 @@ Model {
 	Line {
 	  SrcBlock		  "Sensor Suite"
 	  SrcPort		  10
+	  Points		  [0, 5]
 	  DstBlock		  "C Function Call"
 	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "Sensor Suite"
 	  SrcPort		  11
-	  Points		  [0, 5]
+	  Points		  [0, 10]
 	  DstBlock		  "C Function Call1"
 	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "Sensor Suite"
 	  SrcPort		  16
+	  Points		  [0, 5]
 	  DstBlock		  "Mag"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sensor Suite"
+	  SrcPort		  17
+	  Points		  [25, 0; 0, 25]
+	  DstBlock		  "Baro Alt"
 	  DstPort		  1
 	}
       }
@@ -18894,6 +18946,15 @@ Model {
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
       Nothing		      "0"
+    }
+    Block {
+      BlockType		      Gain
+      Name		      "m2cm"
+      Position		      [255, 625, 285, 655]
+      Gain		      "100"
+      ParameterDataTypeMode   "Inherit via internal rule"
+      OutDataTypeMode	      "Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
     }
     Block {
       BlockType		      SubSystem
@@ -19225,7 +19286,7 @@ Model {
       BlockType		      SubSystem
       Name		      "myMux Fun2"
       Ports		      [3, 1]
-      Position		      [425, 386, 430, 434]
+      Position		      [430, 376, 435, 424]
       BackgroundColor	      "black"
       ShowName		      off
       MinAlgLoopOccurrences   off
@@ -19389,7 +19450,7 @@ Model {
     Line {
       SrcBlock		      "Raw Sensors"
       SrcPort		      2
-      Points		      [140, 0; 0, -90]
+      Points		      [145, 0; 0, -95]
       DstBlock		      "myMux Fun"
       DstPort		      3
     }
@@ -19447,6 +19508,7 @@ Model {
     Line {
       SrcBlock		      "Position-Attitude Filter"
       SrcPort		      5
+      Points		      [0, -5]
       DstBlock		      "Mux1"
       DstPort		      2
     }
@@ -19480,28 +19542,28 @@ Model {
     Line {
       SrcBlock		      "Raw Sensors"
       SrcPort		      1
-      Points		      [15, 0; 0, -25]
+      Points		      [20, 0; 0, -30]
       DstBlock		      "Load Msg"
       DstPort		      3
     }
     Line {
       SrcBlock		      "Raw Sensors"
       SrcPort		      3
-      Points		      [0, -5; 60, 0]
+      Points		      [65, 0]
       DstBlock		      "Position-Attitude Filter"
       DstPort		      1
     }
     Line {
       SrcBlock		      "Raw Sensors"
       SrcPort		      4
-      Points		      [45, 0; 0, 20; 15, 0]
+      Points		      [50, 0; 0, 15; 15, 0]
       DstBlock		      "Position-Attitude Filter"
       DstPort		      2
     }
     Line {
       SrcBlock		      "Raw Sensors"
       SrcPort		      5
-      Points		      [40, 0; 0, 190; 225, 0; 0, -265]
+      Points		      [45, 0; 0, 185; 225, 0; 0, -265]
       DstBlock		      "myMux Fun"
       DstPort		      6
     }
@@ -19514,13 +19576,14 @@ Model {
     Line {
       SrcBlock		      "Position-Attitude Filter"
       SrcPort		      7
+      Points		      [0, -5]
       DstBlock		      "Mux2"
       DstPort		      2
     }
     Line {
       SrcBlock		      "Mux2"
       SrcPort		      1
-      Points		      [10, 0; 0, -145]
+      Points		      [10, 0; 0, -155]
       DstBlock		      "myMux Fun"
       DstPort		      7
     }
@@ -19541,21 +19604,14 @@ Model {
     Line {
       SrcBlock		      "Position-Attitude Filter"
       SrcPort		      9
-      Points		      [0, 125]
-      DstBlock		      "Diagnostic \nMsg"
-      DstPort		      2
-    }
-    Line {
-      SrcBlock		      "Position-Attitude Filter"
-      SrcPort		      10
-      Points		      [0, 135]
+      Points		      [10, 0; 0, 125]
       DstBlock		      "Diagnostic \nMsg"
       DstPort		      3
     }
     Line {
       SrcBlock		      "Position-Attitude Filter"
-      SrcPort		      11
-      Points		      [0, 145]
+      SrcPort		      10
+      Points		      [0, 130]
       DstBlock		      "Diagnostic \nMsg"
       DstPort		      4
     }
@@ -19580,7 +19636,7 @@ Model {
     Line {
       SrcBlock		      "myMux Fun2"
       SrcPort		      1
-      Points		      [5, 0; 0, -120]
+      Points		      [0, -110]
       DstBlock		      "myMux Fun"
       DstPort		      4
     }
@@ -19605,9 +19661,28 @@ Model {
     Line {
       SrcBlock		      "Raw Sensors"
       SrcPort		      6
-      Points		      [0, 105]
+      Points		      [20, 0; 0, 100]
       DstBlock		      "Position-Attitude Filter"
       DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Raw Sensors"
+      SrcPort		      7
+      Points		      [15, 0; 0, 220]
+      DstBlock		      "m2cm"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Data Type Conversion3"
+      SrcPort		      1
+      DstBlock		      "Diagnostic \nMsg"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "m2cm"
+      SrcPort		      1
+      DstBlock		      "Data Type Conversion3"
+      DstPort		      1
     }
   }
 }
@@ -20961,8 +21036,6 @@ Stateflow {
 		firstJunction                             		68
 		viewObj                                   		66
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		70
@@ -22660,8 +22733,6 @@ Stateflow {
 		firstJunction                             		153
 		viewObj                                   		151
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		155
