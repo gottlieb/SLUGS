@@ -145,8 +145,8 @@ void updateStates(unsigned char * completeSentence){
 			dynTempControlData.stat.chData[1]	= completeSentence[9];
 			dynTempControlData.stat.chData[2]	= completeSentence[10];
 			dynTempControlData.stat.chData[3]	= completeSentence[11];
-			dynTempControlData.temp.chData[1]	= completeSentence[12];	  
-			dynTempControlData.temp.chData[0]	= completeSentence[13];	  
+			dynTempControlData.temp.chData[0]	= completeSentence[12];	  
+			dynTempControlData.temp.chData[1]	= completeSentence[13];	  
 		break;
 		case BIAMSG_ID:
 			biasControlData.axb.chData[0]	= completeSentence[4];
