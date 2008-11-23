@@ -19,12 +19,19 @@
 
 struct CircBuffer com2Buffer;
 CBRef logBuffer;
+
+struct CircBuffer com2BufferIn;
+CBRef uartBufferIn;
+
 unsigned int BufferA[MAXSEND] __attribute__((space(dma))) = {0};
 
 void loggerInit (void){
-	// initialize the circular buffer
+	// initialize the circular buffers
 	logBuffer = (struct CircBuffer* )&com2Buffer;
 	newCircBuffer(logBuffer);
+
+	uartBufferIn = (struct CircBuffer* )&com2BufferIn;
+	newCircBuffer(uartBufferIn);
 	
 	// DMA0REQ Register
 	// ================
@@ -61,18 +68,23 @@ void loggerInit (void){
 	U2MODEbits.STSEL	= 0;		// 1 stop bit
 	U2MODEbits.BRGH 	= 0;		// Low speed mode
 	
+	// U2STA Register
+	// ==============
+	U2STAbits.UTXISEL0	= 0;		// generate interrupt on every char
+	U2STAbits.UTXISEL1	= 0;		// for the DMA
+	U2STAbits.URXISEL	= 2;		// RX interrupt with 3 chars
+	U2STAbits.OERR		= 0;		// clear overun error
+
 	// U1BRG Register
 	// ==============
 	U2BRG = LOG_UBRG;				// Set the baud rate for data logger
 
-
-	// U1STA Register
-	// ==============
-	U2STAbits.UTXISEL0	= 0;		// generate interrupt on every char
-	U2STAbits.UTXISEL1	= 0;		// for the DMA
-	U2STAbits.URXISEL	= 0;		// RX interrupt irrelevant
-	U2STAbits.OERR		= 0;		// clear overun error
-	
+	// Initialize the Interrupt  
+  	// ========================
+	IPC7bits.U2RXIP   = 5;    		// Interrupt priority 6  
+  	IFS1bits.U1RXIF   = 0;    		// Clear the interrupt flag
+  	IEC1bits.U1RXIE   = 1;    		// Enable interrupts
+  		
 	// Enable the port;
 	U2MODEbits.UARTEN	= 1;		// Enable the port	
 	U2STAbits.UTXEN		= 1;		// Enable TX
@@ -311,6 +323,24 @@ void __attribute__((interrupt, no_auto_psv)) _DMA0Interrupt(void)
 		// Init the transmission
 		DMA0REQbits.FORCE = 1;
 	} */
+}
+
+// Interrupt service routine for U1 GS protocol port
+void __attribute__((__interrupt__, no_auto_psv)) _U2RXInterrupt(void){
+ 
+	// Read the buffer while it has data
+	// and add it to the circular buffer
+	while(U2STAbits.URXDA == 1){
+		writeBack(uartBufferIn, (unsigned char)U2RXREG);
+	}
+	
+	// If there was an overun error clear it and continue
+	if (U2STAbits.OERR == 1){
+		U2STAbits.OERR = 0;
+	}
+	
+	// clear the interrupt
+	IFS1bits.U2RXIF = 0;
 }
 
 void __attribute__ ((interrupt, no_auto_psv)) _U2ErrInterrupt(void)
