@@ -28,7 +28,7 @@
 void assembleMsg (unsigned char* rawData , unsigned char size, unsigned char type, unsigned char* protMsg );
 void copyBufferToDMA (unsigned char size);
 void logData (unsigned char* rawData, unsigned char* data4SPI);
-
+void hilRead (unsigned char* hilChunk);
 
 #endif /* _DATALOGGER_H_ */
 

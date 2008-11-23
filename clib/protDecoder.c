@@ -526,3 +526,44 @@ unsigned char getFilterOnOff (void){
 	return filterControlData;
 }
 
+void hil_getRawRead(unsigned short * rawData){
+	// data for the bus is as follows:
+	// Accel Y
+	// Accel Z
+	// Gyro X
+	// IDG Ref
+	// Gyro Y
+	// Accel X
+	// Gyro Z
+	// ADX Ref
+	// Mag23
+	// Mag01
+	// Mag Z
+	// Baro
+	// Pitot
+	// Thermistor
+	// Power
+/*
+	
+	*/
+	rawData[0] =  	attitudeControlData.accelY.usData;
+	rawData[1] =  	attitudeControlData.accelZ.usData;
+	rawData[2] =  	attitudeControlData.gyroX.usData;
+	rawData[3] = 	0;
+	rawData[4] = 	attitudeControlData.gyroY.usData;
+	rawData[5] = 	attitudeControlData.accelX.usData;
+	rawData[6] = 	attitudeControlData.gyroZ.usData;
+	rawData[7] = 	0;
+	rawData[8] = 	attitudeControlData.magY.usData;
+	rawData[9] = 	attitudeControlData.magX.usData;
+	rawData[10] = 	attitudeControlData.magZ.usData;
+	rawData[11] = 	(unsigned short)dynTempControlData.dynamic.flData;
+	rawData[12] = 	(unsigned short)dynTempControlData.stat.flData;;
+	rawData[13] = 	(unsigned short)dynTempControlData.temp.shData;
+	rawData[14] = 	770;
+	
+}
+
+void hil_getGPSRead (unsigned char * gpsMsg){
+	
+}
