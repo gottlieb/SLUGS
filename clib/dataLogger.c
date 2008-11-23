@@ -82,8 +82,8 @@ void loggerInit (void){
 	// Initialize the Interrupt  
   	// ========================
 	IPC7bits.U2RXIP   = 5;    		// Interrupt priority 6  
-  	IFS1bits.U1RXIF   = 0;    		// Clear the interrupt flag
-  	IEC1bits.U1RXIE   = 1;    		// Enable interrupts
+  	IFS1bits.U2RXIF   = 0;    		// Clear the interrupt flag
+  	IEC1bits.U2RXIE   = 1;    		// Enable interrupts
   		
 	// Enable the port;
 	U2MODEbits.UARTEN	= 1;		// Enable the port	
@@ -293,39 +293,32 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 
 }
 
+void hilRead(unsigned char* hilChunk){
+	// fix the data length so if the interrupt adds data
+	// during execution of this block, it will be read
+	// until the next hilRead
+	unsigned char tmpLen = getLength(uartBufferIn), i=0;
+	
+	// if the buffer has more data than the max size, set it to max,
+	// otherwise set it to the length
+	hilChunk[0] =  (tmpLen > MAXSEND -1)? MAXSEND -1: tmpLen;
+	
+	// read the data 
+	for(i = 1; i <= hilChunk[0]; i += 1 )
+	{
+		hilChunk[i] = readFront(uartBufferIn);
+	}
+}
 
 void __attribute__((interrupt, no_auto_psv)) _DMA0Interrupt(void)
 {
-	unsigned char bufLen;
 	
     // Clear the DMA0 Interrupt Flag;
     IFS0bits.DMA0IF  = 0;		
-	/*
-	if(getLength(logBuffer)> 0)
-	{
-    	putsUART2((unsigned int *)"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\0");
-	}
-	*/
-	
-	// if there are more bytes to send
-	// get the Length of the logBuffer
-	/*bufLen = getLength(logBuffer);
-	
-	// if the interrupt catched up with the circularBuffer
-	//  then turn on the DMA
-	if(!(DMA0CONbits.CHEN) && bufLen> 0){
-		// Configure the bytes to send
-		DMA0CNT = bufLen<= (MAXSEND-1)? bufLen-1: MAXSEND-1;		
-		// copy the buffer to the DMA channel outgoing buffer	
-		copyBufferToDMA((unsigned char) DMA0CNT);
-		// Enable the DMA
-		DMA0CONbits.CHEN = 1;
-		// Init the transmission
-		DMA0REQbits.FORCE = 1;
-	} */
+
 }
 
-// Interrupt service routine for U1 GS protocol port
+// Interrupt service routine for U2 HIL protocol port
 void __attribute__((__interrupt__, no_auto_psv)) _U2RXInterrupt(void){
  
 	// Read the buffer while it has data

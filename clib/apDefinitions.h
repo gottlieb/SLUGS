@@ -100,9 +100,13 @@ and data types.
 
 // GROUND STATION
 // ==============
+// NOTE: for HIL simulator the GS uses the same IDs for the 
+// simulated sensor readings, i.e. GPS, Raw, Air Data, etc. Than
+// for the actual readings.
+
 #define FILMSG_ID		205
 #define FILMSG_LEN		1
-	
+
 
 // Communication Protocol Merging Offsets
 // ======================================

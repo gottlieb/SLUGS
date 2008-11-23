@@ -31,11 +31,13 @@ tRawData getRawStruct (void);
 tXYZData getXYZStruct (void);
 tAttitudeData getAttStruct (void);
 tAknData getAknStruct (void);
-tBiasData getBiasStruct(void);
+tBiasData getBiasStruct (void);
 tDynTempData getDynStruct (void);
 tDiagData getDiagStruct (void);
 tSensStatus getSensStruct (void);
 void setAknFilter (unsigned char value);
+void hil_getRawRead (unsigned short * rawData);
+void hil_getGPSRead (unsigned char * gpsMsg);
 
 #ifdef __cplusplus
        }
