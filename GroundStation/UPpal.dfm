@@ -1,6 +1,6 @@
 object FPpal: TFPpal
-  Left = 1564
-  Top = -91
+  Left = 538
+  Top = 64
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 
@@ -58,10 +58,10 @@ object FPpal: TFPpal
     Top = 0
     Width = 375
     Height = 697
-    ActivePage = ts_telemetry
+    ActivePage = tsHil
     Align = alClient
     MultiLine = True
-    TabIndex = 1
+    TabIndex = 6
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth Config'
@@ -3163,6 +3163,161 @@ object FPpal: TFPpal
         end
       end
     end
+    object tsHil: TTabSheet
+      Caption = 'HIl Config'
+      ImageIndex = 6
+      object GroupBox11: TGroupBox
+        Left = 8
+        Top = 112
+        Width = 353
+        Height = 97
+        Caption = ' UDP Send  Connection '
+        TabOrder = 0
+        object et_connSend: TLabel
+          Left = 8
+          Top = 54
+          Width = 75
+          Height = 13
+          Caption = 'Not Connected '
+        end
+        object Label64: TLabel
+          Left = 224
+          Top = 27
+          Width = 44
+          Height = 13
+          Caption = 'UDP port'
+        end
+        object Label65: TLabel
+          Left = 232
+          Top = 51
+          Width = 31
+          Height = 13
+          Caption = 'Server'
+        end
+        object et_sent: TLabel
+          Left = 8
+          Top = 70
+          Width = 65
+          Height = 13
+          Caption = 'No Data Sent'
+        end
+        object bt_startSend: TButton
+          Left = 8
+          Top = 24
+          Width = 75
+          Height = 25
+          Caption = '&Start'
+          Default = True
+          TabOrder = 0
+          OnClick = bt_startSendClick
+        end
+        object bt_stopSend: TButton
+          Left = 88
+          Top = 24
+          Width = 75
+          Height = 25
+          Caption = 'S&top'
+          TabOrder = 1
+          OnClick = bt_stopSendClick
+        end
+        object ed_portSend: TEdit
+          Left = 280
+          Top = 24
+          Width = 57
+          Height = 21
+          TabOrder = 2
+          Text = '5678'
+        end
+        object ed_hostSend: TEdit
+          Left = 280
+          Top = 48
+          Width = 57
+          Height = 21
+          TabOrder = 3
+          Text = '255.255.255.255'
+        end
+      end
+      object GroupBox12: TGroupBox
+        Left = 8
+        Top = 8
+        Width = 353
+        Height = 97
+        Caption = ' UDP Receive  Connection '
+        TabOrder = 1
+        object DataAvailableLabel: TLabel
+          Left = 8
+          Top = 72
+          Width = 86
+          Height = 13
+          Caption = 'No Data Available'
+        end
+        object InfoLabel: TLabel
+          Left = 8
+          Top = 56
+          Width = 75
+          Height = 13
+          Caption = 'Not Connected '
+        end
+        object Label66: TLabel
+          Left = 224
+          Top = 27
+          Width = 44
+          Height = 13
+          Caption = 'UDP port'
+        end
+        object Label67: TLabel
+          Left = 232
+          Top = 51
+          Width = 31
+          Height = 13
+          Caption = 'Server'
+        end
+        object StartButton: TButton
+          Left = 8
+          Top = 24
+          Width = 75
+          Height = 25
+          Caption = '&Start'
+          Default = True
+          TabOrder = 0
+          OnClick = StartButtonClick
+        end
+        object StopButton: TButton
+          Left = 88
+          Top = 24
+          Width = 75
+          Height = 25
+          Caption = 'S&top'
+          TabOrder = 1
+          OnClick = StopButtonClick
+        end
+        object PortEdit: TEdit
+          Left = 280
+          Top = 24
+          Width = 57
+          Height = 21
+          TabOrder = 2
+          Text = '5679'
+        end
+        object ServerEdit: TEdit
+          Left = 280
+          Top = 48
+          Width = 57
+          Height = 21
+          TabOrder = 3
+          Text = '172.20.89.85'
+        end
+        object AnyServerCheckBox: TCheckBox
+          Left = 280
+          Top = 72
+          Width = 49
+          Height = 17
+          Caption = 'Any'
+          TabOrder = 4
+          OnClick = AnyServerCheckBoxClick
+        end
+      end
+    end
   end
   object Panel1: TPanel
     Left = 0
@@ -3421,5 +3576,72 @@ object FPpal: TFPpal
     OnTriggerAvail = cp_serialTriggerAvail
     Left = 64
     Top = 272
+  end
+  object skt_send: TWSocket
+    LineMode = False
+    LineLimit = 65536
+    LineEnd = #13#10
+    LineEcho = False
+    LineEdit = False
+    Addr = '0.0.0.0'
+    Port = '600'
+    Proto = 'udp'
+    LocalAddr = '0.0.0.0'
+    LocalPort = '0'
+    LastError = 0
+    MultiThreaded = False
+    MultiCast = False
+    MultiCastIpTTL = 1
+    ReuseAddr = False
+    ComponentOptions = []
+    ListenBacklog = 5
+    ReqVerLow = 1
+    ReqVerHigh = 1
+    FlushTimeout = 60
+    SendFlags = wsSendNormal
+    LingerOnOff = wsLingerOn
+    LingerTimeout = 0
+    KeepAliveOnOff = wsKeepAliveOnSystem
+    KeepAliveTime = 30000
+    KeepAliveInterval = 1000
+    SocksLevel = '5'
+    SocksAuthentication = socksNoAuthentication
+    Left = 128
+    Top = 168
+  end
+  object skt_rcv: TWSocket
+    LineMode = False
+    LineLimit = 65536
+    LineEnd = #13#10
+    LineEcho = False
+    LineEdit = False
+    Addr = '0.0.0.0'
+    Port = '600'
+    Proto = 'udp'
+    LocalAddr = '0.0.0.0'
+    LocalPort = '0'
+    LastError = 0
+    MultiThreaded = False
+    MultiCast = False
+    MultiCastIpTTL = 1
+    ReuseAddr = False
+    ComponentOptions = []
+    ListenBacklog = 5
+    ReqVerLow = 1
+    ReqVerHigh = 1
+    OnDataAvailable = skt_rcvDataAvailable
+    OnSessionClosed = skt_rcvSessionClosed
+    OnSessionConnected = skt_rcvSessionConnected
+    FlushTimeout = 60
+    SendFlags = wsSendNormal
+    LingerOnOff = wsLingerOn
+    LingerTimeout = 0
+    KeepAliveOnOff = wsKeepAliveOnSystem
+    KeepAliveTime = 30000
+    KeepAliveInterval = 1000
+    SocksLevel = '5'
+    SocksAuthentication = socksNoAuthentication
+    Left = 136
+    Top = 64
   end
 end

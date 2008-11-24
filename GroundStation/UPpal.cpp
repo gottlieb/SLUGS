@@ -17,6 +17,8 @@
 #pragma link "AbVCInd"
 #pragma link "AbCBitBt"
 #pragma link "ToolEdit"
+#pragma link "WSocket"
+#pragma link "OoMisc"
 #pragma resource "*.dfm"
 
 
@@ -935,4 +937,112 @@ char TFPpal::compare_float(float f1, float f2){
     return 0;
    }
 }
+
+void __fastcall TFPpal::skt_rcvSessionClosed(TObject *Sender, WORD ErrCode)
+{
+    StartButton->Enabled        = TRUE;
+    StopButton->Enabled         = FALSE;
+    PortEdit->Enabled           = TRUE;
+    ServerEdit->Enabled         = TRUE;
+    AnyServerCheckBox->Enabled  = TRUE;
+    InfoLabel->Caption          = "Disconnected";
+    DataAvailableLabel->Caption = "";    
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::skt_rcvSessionConnected(TObject *Sender,
+      WORD ErrCode)
+{
+   StartButton->Enabled = FALSE;
+    StopButton->Enabled  = TRUE;
+    InfoLabel->Caption   = "Connected";    
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::skt_rcvDataAvailable(TObject *Sender, WORD ErrCode)
+{
+    char        Buffer[1024]={0};
+    int         Len;
+    TSockAddrIn Src;
+    int         SrcLen;
+
+    SrcLen = sizeof(Src);
+    Len    = skt_rcv->ReceiveFrom(Buffer, sizeof(Buffer), Src, SrcLen);
+    if (Len >= 0) {
+        if ((FServerAddr.s_addr == INADDR_ANY) ||
+            (FServerAddr.s_addr == Src.sin_addr.s_addr)) {
+            //processUdpMsg(&Buffer[0]);
+            DataAvailableLabel->Caption =
+                IntToStr(atoi(DataAvailableLabel->Caption.c_str()) + 1) +
+                " Packets Received";
+        }
+        //TxCanMsg ();
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::StartButtonClick(TObject *Sender)
+{
+    FServerAddr                = WSocketResolveHost(ServerEdit->Text);
+    if (FServerAddr.s_addr == htonl(INADDR_LOOPBACK)) {
+        // Replace loopback address by real localhost IP addr
+        FServerAddr            = WSocketResolveHost(LocalHostName());
+    }
+    skt_rcv->Proto             = "udp";
+    skt_rcv->Addr              = "0.0.0.0";
+    skt_rcv->Port              = PortEdit->Text;
+    skt_rcv->Listen();
+    PortEdit->Enabled          = FALSE;
+    ServerEdit->Enabled        = FALSE;
+    AnyServerCheckBox->Enabled = FALSE;
+    
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::StopButtonClick(TObject *Sender)
+{
+    StartButton->Enabled       = TRUE;
+    StopButton->Enabled        = FALSE;
+    PortEdit->Enabled          = TRUE;
+    ServerEdit->Enabled        = TRUE;
+    AnyServerCheckBox->Enabled = TRUE;
+    skt_rcv->Close();    
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::bt_startSendClick(TObject *Sender)
+{
+    skt_send->Proto = "udp";
+    skt_send->Addr  = ed_hostSend->Text;
+    skt_send->Port  = ed_portSend->Text;
+    skt_send->Connect();
+    bt_startSend->Enabled = FALSE;
+    bt_stopSend->Enabled  = TRUE;
+    ed_portSend->Enabled = FALSE;
+    ed_hostSend->Enabled = FALSE;
+    et_connSend->Caption   = "Connected";
+    
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::bt_stopSendClick(TObject *Sender)
+{
+    skt_send->Close();
+    bt_startSend->Enabled        = TRUE;
+    bt_stopSend->Enabled         = FALSE;
+    ed_portSend->Enabled         = TRUE;
+    ed_hostSend->Enabled         = TRUE;
+    ed_portSend->Enabled         = TRUE;
+    ed_hostSend->Enabled         = TRUE;
+    et_connSend->Caption         = "Disconnected";
+    et_sent->Caption             = "";    
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::AnyServerCheckBoxClick(TObject *Sender)
+{
+    if (AnyServerCheckBox->Checked)
+        ServerEdit->Text = "0.0.0.0";      
+}
+//---------------------------------------------------------------------------
 

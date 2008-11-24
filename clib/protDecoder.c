@@ -546,17 +546,17 @@ void hil_getRawRead(unsigned short * rawData){
 /*
 	
 	*/
-	rawData[0] =  	attitudeControlData.accelY.usData;
-	rawData[1] =  	attitudeControlData.accelZ.usData;
-	rawData[2] =  	attitudeControlData.gyroX.usData;
+	rawData[0] =  	rawControlData.accelY.usData;
+	rawData[1] =  	rawControlData.accelZ.usData;
+	rawData[2] =  	rawControlData.gyroX.usData;
 	rawData[3] = 	0;
-	rawData[4] = 	attitudeControlData.gyroY.usData;
-	rawData[5] = 	attitudeControlData.accelX.usData;
-	rawData[6] = 	attitudeControlData.gyroZ.usData;
+	rawData[4] = 	rawControlData.gyroY.usData;
+	rawData[5] = 	rawControlData.accelX.usData;
+	rawData[6] = 	rawControlData.gyroZ.usData;
 	rawData[7] = 	0;
-	rawData[8] = 	attitudeControlData.magY.usData;
-	rawData[9] = 	attitudeControlData.magX.usData;
-	rawData[10] = 	attitudeControlData.magZ.usData;
+	rawData[8] = 	rawControlData.magY.usData;
+	rawData[9] = 	rawControlData.magX.usData;
+	rawData[10] = 	rawControlData.magZ.usData;
 	rawData[11] = 	(unsigned short)dynTempControlData.dynamic.flData;
 	rawData[12] = 	(unsigned short)dynTempControlData.stat.flData;;
 	rawData[13] = 	(unsigned short)dynTempControlData.temp.shData;
@@ -565,5 +565,32 @@ void hil_getRawRead(unsigned short * rawData){
 }
 
 void hil_getGPSRead (unsigned char * gpsMsg){
-	
+		// write the output data;
+		gpsMsg[0]  = gpsControlData.year;					
+		gpsMsg[1]  = gpsControlData.month;					
+		gpsMsg[2]  = gpsControlData.day;	
+		gpsMsg[3]  = gpsControlData.hour;
+		gpsMsg[4]  = gpsControlData.min;
+		gpsMsg[5]  = gpsControlData.sec;
+		gpsMsg[6]  = gpsControlData.lat.chData[0];
+		gpsMsg[7]  = gpsControlData.lat.chData[1];
+		gpsMsg[8]  = gpsControlData.lat.chData[2];					
+		gpsMsg[9]  = gpsControlData.lat.chData[3];
+		gpsMsg[10] = gpsControlData.lon.chData[0];
+		gpsMsg[11] = gpsControlData.lon.chData[1];
+		gpsMsg[12] = gpsControlData.lon.chData[2];					
+		gpsMsg[13] = gpsControlData.lon.chData[3];					
+		gpsMsg[14] = gpsControlData.height.chData[0];
+		gpsMsg[15] = gpsControlData.height.chData[1];
+		gpsMsg[16] = gpsControlData.height.chData[2];					
+		gpsMsg[17] = gpsControlData.height.chData[3];					
+		gpsMsg[18] = gpsControlData.cog.chData[0];					
+		gpsMsg[19] = gpsControlData.cog.chData[1];									
+		gpsMsg[20] = gpsControlData.sog.chData[0];					
+		gpsMsg[21] = gpsControlData.sog.chData[1];
+		gpsMsg[22] = gpsControlData.hdop.chData[0];					
+		gpsMsg[23] = gpsControlData.hdop.chData[1];
+		gpsMsg[24] = gpsControlData.fix;
+		gpsMsg[25] = gpsControlData.sats;									
+		gpsMsg[26] = gpsControlData.newValue;								
 }

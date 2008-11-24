@@ -34,6 +34,7 @@
 #include "AbCBitBt.hpp"
 #include "ToolEdit.hpp"
 #include "gsDefinitions.h"
+#include "WSocket.hpp"
 #include <string>
 
 #define  DISLIMIT      30.0
@@ -238,6 +239,28 @@ __published:	// IDE-managed Components
     TStaticText *et_load;
     TStaticText *et_volt;
     TStaticText *et_vdetect;
+    TTabSheet *tsHil;
+    TGroupBox *GroupBox11;
+    TLabel *et_connSend;
+    TLabel *Label64;
+    TLabel *Label65;
+    TLabel *et_sent;
+    TButton *bt_startSend;
+    TButton *bt_stopSend;
+    TEdit *ed_portSend;
+    TEdit *ed_hostSend;
+    TWSocket *skt_send;
+    TWSocket *skt_rcv;
+    TGroupBox *GroupBox12;
+    TLabel *DataAvailableLabel;
+    TLabel *InfoLabel;
+    TLabel *Label66;
+    TLabel *Label67;
+    TButton *StartButton;
+    TButton *StopButton;
+    TEdit *PortEdit;
+    TEdit *ServerEdit;
+    TCheckBox *AnyServerCheckBox;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -262,6 +285,14 @@ __published:	// IDE-managed Components
     void __fastcall FormDestroy(TObject *Sender);
     void __fastcall ed_liveLogAfterDialog(TObject *Sender,
           AnsiString &Name, bool &Action);
+    void __fastcall skt_rcvSessionClosed(TObject *Sender, WORD ErrCode);
+    void __fastcall skt_rcvSessionConnected(TObject *Sender, WORD ErrCode);
+    void __fastcall skt_rcvDataAvailable(TObject *Sender, WORD ErrCode);
+    void __fastcall StartButtonClick(TObject *Sender);
+    void __fastcall StopButtonClick(TObject *Sender);
+    void __fastcall bt_startSendClick(TObject *Sender);
+    void __fastcall bt_stopSendClick(TObject *Sender);
+    void __fastcall AnyServerCheckBoxClick(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TFPpal(TComponent* Owner);
@@ -280,7 +311,6 @@ public:		// User declarations
         tBiasData biasSample;
         tDiagData diagSample;
         tSensStatus	statusSample;
-
 
         FILE* liveLog;
         bool logIsOpen;
@@ -301,6 +331,8 @@ public:		// User declarations
         float deg2Rad(float mDeg);
 
         char compare_float(float f1, float f2);
+
+        Winsock::TInAddr      FServerAddr;
                 
 //        CircBuffer mainSerial;
 //        CBRef telemPort;
