@@ -100,7 +100,7 @@ void mergeMessages(unsigned char* dataIn, unsigned char* dataOut){
 		memcpy(&dataOut[1],&dataIn[1], dataIn[0]);
 		totalData += dataIn[0];
 	}
-	
+/*	
 	if(dataIn[GSMSG_IDX]>0){
 		// copy the second stream
 		memcpy(&dataOut[totalData+1], &dataIn[GSMSG_IDX+1], dataIn[GSMSG_IDX]);
@@ -112,7 +112,7 @@ void mergeMessages(unsigned char* dataIn, unsigned char* dataOut){
 		memcpy(&dataOut[totalData+1], &dataIn[AKMSG_IDX+1], dataIn[AKMSG_IDX]);
 		totalData += dataIn[AKMSG_IDX];
 	}
-
+*/
 	dataOut[0]= totalData;	
 }
 

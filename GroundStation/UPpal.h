@@ -261,6 +261,10 @@ __published:	// IDE-managed Components
     TEdit *PortEdit;
     TEdit *ServerEdit;
     TCheckBox *AnyServerCheckBox;
+    TApdComPort *cp_hil;
+    TButton *Button1;
+    TLabel *et_fail;
+    TLabel *et_count;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -293,6 +297,7 @@ __published:	// IDE-managed Components
     void __fastcall bt_startSendClick(TObject *Sender);
     void __fastcall bt_stopSendClick(TObject *Sender);
     void __fastcall AnyServerCheckBoxClick(TObject *Sender);
+    void __fastcall Button1Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TFPpal(TComponent* Owner);
@@ -311,6 +316,8 @@ public:		// User declarations
         tBiasData biasSample;
         tDiagData diagSample;
         tSensStatus	statusSample;
+
+        int csFail;
 
         FILE* liveLog;
         bool logIsOpen;
@@ -332,7 +339,9 @@ public:		// User declarations
 
         char compare_float(float f1, float f2);
 
+        // HIL
         Winsock::TInAddr      FServerAddr;
+        void processUdpMsg(unsigned char * buffer);
                 
 //        CircBuffer mainSerial;
 //        CBRef telemPort;
