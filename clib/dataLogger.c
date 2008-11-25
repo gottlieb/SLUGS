@@ -72,7 +72,7 @@ void loggerInit (void){
 	// ==============
 	U2STAbits.UTXISEL0	= 0;		// generate interrupt on every char
 	U2STAbits.UTXISEL1	= 0;		// for the DMA
-	U2STAbits.URXISEL	= 2;		// RX interrupt with 3 chars
+	U2STAbits.URXISEL	= 0;		// RX interrupt with every char
 	U2STAbits.OERR		= 0;		// clear overun error
 
 	// U1BRG Register
@@ -278,17 +278,20 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 	// get the Length of the logBuffer
 	bufLen = getLength(logBuffer);
 	
-	// if the interrupt catched up with the circularBuffer
-	//  then turn on the DMA
-	if(!(DMA0CONbits.CHEN) && bufLen> 0){
-		// Configure the bytes to send
-		DMA0CNT =  bufLen<= (MAXSEND-1)? bufLen-1: MAXSEND-1;		
-		// copy the buffer to the DMA channel outgoing buffer	
-		copyBufferToDMA((unsigned char) DMA0CNT+1);
-		// Enable the DMA
-		DMA0CONbits.CHEN = 1;
-		// Init the transmission
-		DMA0REQbits.FORCE = 1;
+	// if HIL is do not transmit diagnostic data in the diagnostic port
+	if (rawData[HIL_START]!= 1){		
+		// if the interrupt catched up with the circularBuffer
+		//  then turn on the DMA
+		if(!(DMA0CONbits.CHEN) && bufLen> 0){
+			// Configure the bytes to send
+			DMA0CNT =  bufLen<= (MAXSEND-1)? bufLen-1: MAXSEND-1;		
+			// copy the buffer to the DMA channel outgoing buffer	
+			copyBufferToDMA((unsigned char) DMA0CNT+1);
+			// Enable the DMA
+			DMA0CONbits.CHEN = 1;
+			// Init the transmission
+			DMA0REQbits.FORCE = 1;
+		}
 	}
 
 }

@@ -234,7 +234,7 @@ void updateStates(unsigned char * completeSentence){
 }
 
 #ifdef _IN_PC_
-void protParseDecode (unsigned char* fromSPI, unsigned char* toLog, FILE* outFile){
+int protParseDecode (unsigned char* fromSPI, unsigned char* toLog, FILE* outFile){
 #else
 void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
 #endif
@@ -242,6 +242,10 @@ void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
 	static unsigned char prevBuffer[2*MAXLOGLEN];
 	static unsigned char previousComplete =1;
 	static unsigned char indexLast = 0;
+    #ifdef _IN_PC_
+         static int checkSumFail = 0;
+    #endif
+
 
 	// local variables
 	unsigned char i;
@@ -342,7 +346,11 @@ void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
                 #endif
 			}
             else{
-             indexLast = 1; // just to stop debugger
+                 #ifdef _IN_PC_
+                     //if (prevBuffer[2]!= 11)
+                     //   checkSumFail = prevBuffer[2];
+                    checkSumFail++;
+                 #endif
             }
             // get everything ready to start all-over
 			previousComplete =1;
@@ -357,6 +365,9 @@ void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
 		}// else no star
 	} // big outer while (no more bytes)
 	toLog[0] = logSize;
+    #ifdef _IN_PC_
+       return checkSumFail;
+    #endif
 }
 
 

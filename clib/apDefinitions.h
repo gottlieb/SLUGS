@@ -91,6 +91,9 @@ and data types.
 #define DIAMSG_ID		7
 #define DIAMSG_LEN		18
 
+#define HIL_START		151
+
+
 
 // CONTROL MCU
 // ===========
@@ -110,8 +113,8 @@ and data types.
 
 // Communication Protocol Merging Offsets
 // ======================================
-#define GSMSG_IDX		97
-#define AKMSG_IDX		200
+#define GSMSG_IDX		99
+#define AKMSG_IDX		202
 
 
 // Standard characters used in the parsing of messages

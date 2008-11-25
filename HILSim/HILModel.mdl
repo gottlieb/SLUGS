@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.625"
+    ComputedModelVersion    "1.628"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -47,8 +47,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ASL_Lab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sun Nov 23 18:00:05 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:625>"
+  LastModifiedDate	  "Mon Nov 24 13:30:18 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:628>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -108,7 +108,7 @@ Model {
 	  $ObjectID		  2
 	  Version		  "1.2.0"
 	  StartTime		  "0.0"
-	  StopTime		  "20"
+	  StopTime		  "inf"
 	  AbsTol		  "auto"
 	  FixedStep		  "SampleT"
 	  InitialStep		  "auto"
@@ -457,7 +457,7 @@ Model {
 	PropName		"Components"
       }
       Name		      "Configuration"
-      CurrentDlgPage	      "Diagnostics"
+      CurrentDlgPage	      "Solver"
     }
     PropName		    "ConfigurationSets"
   }
@@ -755,6 +755,13 @@ Model {
       Seed		      "0"
       SampleTime	      "-1"
       VectorParams1D	      on
+    }
+    Block {
+      BlockType		      RateTransition
+      Integrity		      on
+      Deterministic	      on
+      X0		      "0"
+      OutPortSampleTime	      "-1"
     }
     Block {
       BlockType		      RelationalOperator
@@ -17066,6 +17073,7 @@ Model {
 	      Port {
 		PortNumber		1
 		Name			"cmd IAS"
+		PropagatedSignals	"velocity"
 		RTWStorageClass		"Auto"
 		DataLoggingNameMode	"SignalName"
 	      }
@@ -21383,18 +21391,6 @@ Model {
       high		      "1500"
     }
     Block {
-      BlockType		      Reference
-      Name		      "Pack"
-      Ports		      [15, 1]
-      Position		      [640, 64, 705, 726]
-      SourceBlock	      "xpclib/UDP/Pack"
-      SourceType	      "xpcany2byte"
-      datatypes		      "{'uint8','uint8','uint8','uint8','uint8','uint8"
-"', 'single', 'single', 'single', 'uint16', 'uint16', 'uint16', 'uint8', 'uint"
-"8', 'uint8'}"
-      byteAlign		      "1"
-    }
-    Block {
       BlockType		      SubSystem
       Name		      "Plant Model"
       Ports		      [5, 8]
@@ -21539,12 +21535,14 @@ Model {
 	  Position		  [805, 214, 835, 236]
 	  ShowName		  off
 	  Value			  "18"
+	  SampleTime		  "SampleT"
 	}
 	Block {
 	  BlockType		  Constant
 	  Name			  "Constant1"
 	  Position		  [805, 239, 835, 261]
 	  ShowName		  off
+	  SampleTime		  "SampleT"
 	}
 	Block {
 	  BlockType		  Constant
@@ -21552,12 +21550,14 @@ Model {
 	  Position		  [805, 264, 835, 286]
 	  ShowName		  off
 	  Value			  "7"
+	  SampleTime		  "SampleT"
 	}
 	Block {
 	  BlockType		  Constant
 	  Name			  "Constant3"
 	  Position		  [805, 289, 835, 311]
 	  ShowName		  off
+	  SampleTime		  "SampleT"
 	}
 	Block {
 	  BlockType		  SubSystem
@@ -32285,6 +32285,7 @@ Model {
 		  Position		  [220, 325, 280, 355]
 		  MATLABFcn		  "u(1)*clock"
 		  OutputSignalType	  "real"
+		  SampleTime		  "SampleT"
 		}
 		Block {
 		  BlockType		  Gain
@@ -32305,6 +32306,7 @@ Model {
 		  BackgroundColor	  "green"
 		  ShowName		  off
 		  Value			  "0"
+		  SampleTime		  "SampleT"
 		}
 		Block {
 		  BlockType		  Constant
@@ -32312,6 +32314,7 @@ Model {
 		  Position		  [110, 330, 150, 350]
 		  BackgroundColor	  "green"
 		  ShowName		  off
+		  SampleTime		  "SampleT"
 		}
 		Block {
 		  BlockType		  Outport
@@ -34037,20 +34040,20 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "PQR"
-	      Position		      [25, 35, 55, 49]
+	      Position		      [25, 33, 55, 47]
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Inport
 	      Name		      "Ab"
-	      Position		      [35, 90, 65, 104]
+	      Position		      [35, 88, 65, 102]
 	      Port		      "2"
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Inport
 	      Name		      "Mag"
-	      Position		      [25, 165, 55, 179]
+	      Position		      [25, 163, 55, 177]
 	      Port		      "3"
 	      IconDisplay	      "Port number"
 	    }
@@ -34089,7 +34092,7 @@ Model {
 	      MaskIconOpaque	      on
 	      MaskIconRotate	      "none"
 	      MaskIconUnits	      "autoscale"
-	      MaskValueString	      "-70000|70000|0.01|[23341]|0.01|0.005"
+	      MaskValueString	      "-70000|70000|0.01|[23341]|0.01|SampleT"
 	      MaskTabNameString	      ",,,,,"
 	      System {
 		Name			"Three-Axis Magnetometer"
@@ -34821,8 +34824,9 @@ Model {
 	    Block {
 	      BlockType		      Outport
 	      Name		      "Sens"
-	      Position		      [305, 125, 335, 139]
+	      Position		      [305, 123, 335, 137]
 	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
 	    }
 	    Line {
 	      SrcBlock		      "Three-axis Gyroscope"
@@ -35201,6 +35205,1222 @@ Model {
       }
     }
     Block {
+      BlockType		      SubSystem
+      Name		      "To AP"
+      Ports		      [3]
+      Position		      [455, 85, 500, 265]
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      MaskHideContents	      off
+      System {
+	Name			"To AP"
+	Location		[537, 79, 1312, 778]
+	Open			off
+	ModelBrowserVisibility	on
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "GPS"
+	  Position		  [30, 185, 60, 199]
+	  BackgroundColor	  "yellow"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Air Data"
+	  Position		  [30, 395, 60, 409]
+	  BackgroundColor	  "yellow"
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Sens"
+	  Position		  [25, 560, 55, 574]
+	  BackgroundColor	  "yellow"
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Air Data Pack"
+	  Ports			  [3, 1]
+	  Position		  [645, 364, 675, 436]
+	  SourceBlock		  "xpclib/UDP/Pack"
+	  SourceType		  "xpcany2byte"
+	  datatypes		  "{'single', 'single', 'int16'}"
+	  byteAlign		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal1"
+	  Ports			  [1, 1]
+	  Position		  [420, 41, 515, 59]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal10"
+	  Ports			  [1, 1]
+	  Position		  [420, 221, 515, 239]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal11"
+	  Ports			  [1, 1]
+	  Position		  [420, 241, 515, 259]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal12"
+	  Ports			  [1, 1]
+	  Position		  [420, 261, 515, 279]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal13"
+	  Ports			  [1, 1]
+	  Position		  [420, 281, 515, 299]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal14"
+	  Ports			  [1, 1]
+	  Position		  [420, 301, 515, 319]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal15"
+	  Ports			  [1, 1]
+	  Position		  [420, 321, 515, 339]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal16"
+	  Ports			  [1, 1]
+	  Position		  [420, 366, 515, 384]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal17"
+	  Ports			  [1, 1]
+	  Position		  [420, 391, 515, 409]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal18"
+	  Ports			  [1, 1]
+	  Position		  [420, 416, 515, 434]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal19"
+	  Ports			  [1, 1]
+	  Position		  [420, 456, 515, 474]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal2"
+	  Ports			  [1, 1]
+	  Position		  [420, 61, 515, 79]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal20"
+	  Ports			  [1, 1]
+	  Position		  [420, 481, 515, 499]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal21"
+	  Ports			  [1, 1]
+	  Position		  [420, 506, 515, 524]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal22"
+	  Ports			  [1, 1]
+	  Position		  [420, 531, 515, 549]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal23"
+	  Ports			  [1, 1]
+	  Position		  [420, 556, 515, 574]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal24"
+	  Ports			  [1, 1]
+	  Position		  [420, 581, 515, 599]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal25"
+	  Ports			  [1, 1]
+	  Position		  [420, 606, 515, 624]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal26"
+	  Ports			  [1, 1]
+	  Position		  [420, 631, 515, 649]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal27"
+	  Ports			  [1, 1]
+	  Position		  [420, 656, 515, 674]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal3"
+	  Ports			  [1, 1]
+	  Position		  [420, 81, 515, 99]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal4"
+	  Ports			  [1, 1]
+	  Position		  [420, 101, 515, 119]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal5"
+	  Ports			  [1, 1]
+	  Position		  [420, 121, 515, 139]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal6"
+	  Ports			  [1, 1]
+	  Position		  [420, 141, 515, 159]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal7"
+	  Ports			  [1, 1]
+	  Position		  [420, 161, 515, 179]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal8"
+	  Ports			  [1, 1]
+	  Position		  [420, 181, 515, 199]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Byte Reversal9"
+	  Ports			  [1, 1]
+	  Position		  [420, 201, 515, 219]
+	  ShowName		  off
+	  SourceBlock		  "xpclib/UDP/Byte Reversal"
+	  SourceType		  "xpcreverseendian"
+	  numInp		  "1"
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion1"
+	  Position		  [320, 63, 385, 77]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint8"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion10"
+	  Position		  [320, 203, 385, 217]
+	  ShowName		  off
+	  OutDataTypeMode	  "single"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion11"
+	  Position		  [320, 223, 385, 237]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint16"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion12"
+	  Position		  [320, 263, 385, 277]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint16"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion14"
+	  Position		  [320, 283, 385, 297]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint8"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion15"
+	  Position		  [320, 303, 385, 317]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint8"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion16"
+	  Position		  [320, 323, 385, 337]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint8"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion17"
+	  Position		  [320, 368, 385, 382]
+	  ShowName		  off
+	  OutDataTypeMode	  "single"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion18"
+	  Position		  [320, 393, 385, 407]
+	  ShowName		  off
+	  OutDataTypeMode	  "single"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion19"
+	  Position		  [320, 418, 385, 432]
+	  ShowName		  off
+	  OutDataTypeMode	  "int16"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion2"
+	  Position		  [320, 43, 385, 57]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint8"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion20"
+	  Position		  [320, 458, 385, 472]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint16"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion21"
+	  Position		  [320, 483, 385, 497]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint16"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion22"
+	  Position		  [320, 508, 385, 522]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint16"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion23"
+	  Position		  [320, 533, 385, 547]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint16"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion24"
+	  Position		  [320, 558, 385, 572]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint16"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion25"
+	  Position		  [320, 583, 385, 597]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint16"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion26"
+	  Position		  [320, 608, 385, 622]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint16"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion27"
+	  Position		  [320, 633, 385, 647]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint16"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion28"
+	  Position		  [320, 658, 385, 672]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint16"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion3"
+	  Position		  [320, 83, 385, 97]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint8"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion4"
+	  Position		  [320, 103, 385, 117]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint8"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion5"
+	  Position		  [320, 123, 385, 137]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint8"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion6"
+	  Position		  [320, 143, 385, 157]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint8"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion7"
+	  Position		  [320, 243, 385, 257]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint16"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion8"
+	  Position		  [320, 163, 385, 177]
+	  ShowName		  off
+	  OutDataTypeMode	  "single"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion9"
+	  Position		  [320, 183, 385, 197]
+	  ShowName		  off
+	  OutDataTypeMode	  "single"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux"
+	  Ports			  [1, 15]
+	  Position		  [155, 26, 160, 354]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  Outputs		  "15"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux1"
+	  Ports			  [1, 3]
+	  Position		  [155, 365, 160, 435]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  Outputs		  "3"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux2"
+	  Ports			  [1, 9]
+	  Position		  [150, 457, 155, 673]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  Outputs		  "9"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "GPS Pack"
+	  Ports			  [15, 1]
+	  Position		  [645, 32, 680, 348]
+	  SourceBlock		  "xpclib/UDP/Pack"
+	  SourceType		  "xpcany2byte"
+	  datatypes		  "{'uint8','uint8','uint8','uint8','uint8','u"
+"int8', 'single', 'single', 'single', 'uint16', 'uint16', 'uint16', 'uint8', '"
+"uint8', 'uint8'}"
+	  byteAlign		  "1"
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  Ports			  [3, 1]
+	  Position		  [750, 381, 755, 419]
+	  ShowName		  off
+	  Inputs		  "3"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  RateTransition
+	  Name			  "Rate Transition1"
+	  Position		  [85, 379, 125, 421]
+	  ShowName		  off
+	  OutPortSampleTime	  "SampleT*2"
+	}
+	Block {
+	  BlockType		  RateTransition
+	  Name			  "Rate Transition2"
+	  Position		  [80, 544, 120, 586]
+	  ShowName		  off
+	  OutPortSampleTime	  "SampleT*2"
+	}
+	Block {
+	  BlockType		  RateTransition
+	  Name			  "Rate Transition6"
+	  Position		  [90, 169, 130, 211]
+	  ShowName		  off
+	  OutPortSampleTime	  "SampleT*2"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Send"
+	  Ports			  [1]
+	  Position		  [820, 375, 900, 425]
+	  BackgroundColor	  "green"
+	  SourceBlock		  "xpclib/UDP/Send"
+	  SourceType		  "xpcudpbytesend"
+	  ipAddress		  "255.255.255.255"
+	  ipPort		  "5679"
+	  localPort		  "5678"
+	  sampletime		  "SampleT*2"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Sensor Pack"
+	  Ports			  [9, 1]
+	  Position		  [645, 460, 675, 670]
+	  SourceBlock		  "xpclib/UDP/Pack"
+	  SourceType		  "xpcany2byte"
+	  datatypes		  "{'uint16', 'uint16', 'uint16', 'uint16', 'u"
+"int16', 'uint16', 'uint16', 'uint16', 'uint16'}"
+	  byteAlign		  "1"
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  1
+	  DstBlock		  "Data Type Conversion2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  2
+	  DstBlock		  "Data Type Conversion1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  3
+	  DstBlock		  "Data Type Conversion3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  4
+	  DstBlock		  "Data Type Conversion4"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  5
+	  DstBlock		  "Data Type Conversion5"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  6
+	  DstBlock		  "Data Type Conversion6"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  7
+	  DstBlock		  "Data Type Conversion8"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  8
+	  DstBlock		  "Data Type Conversion9"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  9
+	  DstBlock		  "Data Type Conversion10"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  10
+	  DstBlock		  "Data Type Conversion11"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  11
+	  DstBlock		  "Data Type Conversion7"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  12
+	  DstBlock		  "Data Type Conversion12"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  13
+	  DstBlock		  "Data Type Conversion14"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  14
+	  DstBlock		  "Data Type Conversion15"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  15
+	  DstBlock		  "Data Type Conversion16"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux1"
+	  SrcPort		  1
+	  DstBlock		  "Data Type Conversion17"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux1"
+	  SrcPort		  2
+	  DstBlock		  "Data Type Conversion18"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux1"
+	  SrcPort		  3
+	  DstBlock		  "Data Type Conversion19"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux2"
+	  SrcPort		  1
+	  DstBlock		  "Data Type Conversion20"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux2"
+	  SrcPort		  2
+	  DstBlock		  "Data Type Conversion21"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux2"
+	  SrcPort		  3
+	  DstBlock		  "Data Type Conversion22"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux2"
+	  SrcPort		  4
+	  DstBlock		  "Data Type Conversion23"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux2"
+	  SrcPort		  5
+	  DstBlock		  "Data Type Conversion24"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux2"
+	  SrcPort		  6
+	  DstBlock		  "Data Type Conversion25"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux2"
+	  SrcPort		  7
+	  DstBlock		  "Data Type Conversion26"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux2"
+	  SrcPort		  8
+	  DstBlock		  "Data Type Conversion27"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux2"
+	  SrcPort		  9
+	  DstBlock		  "Data Type Conversion28"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  DstBlock		  "Send"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "GPS Pack"
+	  SrcPort		  1
+	  Points		  [5, 0; 0, 200]
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Air Data Pack"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Sensor Pack"
+	  SrcPort		  1
+	  Points		  [55, 0]
+	  DstBlock		  "Mux"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "GPS"
+	  SrcPort		  1
+	  DstBlock		  "Rate Transition6"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Air Data"
+	  SrcPort		  1
+	  DstBlock		  "Rate Transition1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sens"
+	  SrcPort		  1
+	  DstBlock		  "Rate Transition2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion2"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion1"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion3"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion4"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal4"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion5"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal5"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion6"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal6"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion8"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal7"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion9"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal8"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion10"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal9"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion11"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal10"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion7"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal11"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion12"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal12"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion14"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal13"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion15"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal14"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion16"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal15"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion17"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal16"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion18"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal17"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion19"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal18"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion20"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal19"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion21"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal20"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion22"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal21"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion23"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal22"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion24"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal23"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion25"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal24"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion26"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal25"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion27"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal26"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion28"
+	  SrcPort		  1
+	  DstBlock		  "Byte Reversal27"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal1"
+	  SrcPort		  1
+	  DstBlock		  "GPS Pack"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal2"
+	  SrcPort		  1
+	  DstBlock		  "GPS Pack"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal3"
+	  SrcPort		  1
+	  DstBlock		  "GPS Pack"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal4"
+	  SrcPort		  1
+	  DstBlock		  "GPS Pack"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal5"
+	  SrcPort		  1
+	  DstBlock		  "GPS Pack"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal6"
+	  SrcPort		  1
+	  DstBlock		  "GPS Pack"
+	  DstPort		  6
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal7"
+	  SrcPort		  1
+	  DstBlock		  "GPS Pack"
+	  DstPort		  7
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal8"
+	  SrcPort		  1
+	  DstBlock		  "GPS Pack"
+	  DstPort		  8
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal9"
+	  SrcPort		  1
+	  DstBlock		  "GPS Pack"
+	  DstPort		  9
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal10"
+	  SrcPort		  1
+	  DstBlock		  "GPS Pack"
+	  DstPort		  10
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal11"
+	  SrcPort		  1
+	  DstBlock		  "GPS Pack"
+	  DstPort		  11
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal12"
+	  SrcPort		  1
+	  DstBlock		  "GPS Pack"
+	  DstPort		  12
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal13"
+	  SrcPort		  1
+	  DstBlock		  "GPS Pack"
+	  DstPort		  13
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal14"
+	  SrcPort		  1
+	  DstBlock		  "GPS Pack"
+	  DstPort		  14
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal15"
+	  SrcPort		  1
+	  DstBlock		  "GPS Pack"
+	  DstPort		  15
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal16"
+	  SrcPort		  1
+	  DstBlock		  "Air Data Pack"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal17"
+	  SrcPort		  1
+	  DstBlock		  "Air Data Pack"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal18"
+	  SrcPort		  1
+	  DstBlock		  "Air Data Pack"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal19"
+	  SrcPort		  1
+	  DstBlock		  "Sensor Pack"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal20"
+	  SrcPort		  1
+	  DstBlock		  "Sensor Pack"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal21"
+	  SrcPort		  1
+	  DstBlock		  "Sensor Pack"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal22"
+	  SrcPort		  1
+	  DstBlock		  "Sensor Pack"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal23"
+	  SrcPort		  1
+	  DstBlock		  "Sensor Pack"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal24"
+	  SrcPort		  1
+	  DstBlock		  "Sensor Pack"
+	  DstPort		  6
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal25"
+	  SrcPort		  1
+	  DstBlock		  "Sensor Pack"
+	  DstPort		  7
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal26"
+	  SrcPort		  1
+	  DstBlock		  "Sensor Pack"
+	  DstPort		  8
+	}
+	Line {
+	  SrcBlock		  "Byte Reversal27"
+	  SrcPort		  1
+	  DstBlock		  "Sensor Pack"
+	  DstPort		  9
+	}
+	Line {
+	  SrcBlock		  "Rate Transition6"
+	  SrcPort		  1
+	  DstBlock		  "Demux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rate Transition1"
+	  SrcPort		  1
+	  DstBlock		  "Demux1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rate Transition2"
+	  SrcPort		  1
+	  DstBlock		  "Demux2"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
       BlockType		      Reference
       Name		      "Turn Rate \nCommand"
       Ports		      [1, 1]
@@ -35408,6 +36628,24 @@ Model {
       SrcPort		      4
       DstBlock		      "Goto5"
       DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Plant Model"
+      SrcPort		      1
+      DstBlock		      "To AP"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Plant Model"
+      SrcPort		      2
+      DstBlock		      "To AP"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Plant Model"
+      SrcPort		      3
+      DstBlock		      "To AP"
+      DstPort		      3
     }
   }
 }

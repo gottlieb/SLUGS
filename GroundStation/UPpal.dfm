@@ -1,6 +1,6 @@
 object FPpal: TFPpal
-  Left = 538
-  Top = 64
+  Left = 142
+  Top = 73
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 
@@ -58,10 +58,10 @@ object FPpal: TFPpal
     Top = 0
     Width = 375
     Height = 697
-    ActivePage = tsHil
+    ActivePage = ts_telemetry
     Align = alClient
     MultiLine = True
-    TabIndex = 6
+    TabIndex = 1
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth Config'
@@ -606,10 +606,10 @@ object FPpal: TFPpal
       end
       object bt_filter: TSpeedButton
         Left = 7
-        Top = 626
+        Top = 628
         Width = 137
         Height = 22
-        Caption = 'Filter On'
+        Caption = 'HIL On'
         Flat = True
         Glyph.Data = {
           76010000424D7601000000000000760000002800000020000000100000000100
@@ -641,6 +641,20 @@ object FPpal: TFPpal
         StatusBit = 0
         GroupIndex = 0
         Mode = mIndicator
+      end
+      object et_fail: TLabel
+        Left = 0
+        Top = 616
+        Width = 28
+        Height = 13
+        Caption = 'et_fail'
+      end
+      object et_count: TLabel
+        Left = 40
+        Top = 616
+        Width = 28
+        Height = 13
+        Caption = 'et_fail'
       end
       object GroupBox1: TGroupBox
         Left = 8
@@ -2640,6 +2654,16 @@ object FPpal: TFPpal
           TabOrder = 2
         end
       end
+      object Button1: TButton
+        Left = 160
+        Top = 528
+        Width = 75
+        Height = 25
+        Caption = '&Start'
+        Default = True
+        TabOrder = 7
+        OnClick = Button1Click
+      end
     end
     object TabSheet3: TTabSheet
       Caption = 'Ap Configuration'
@@ -3643,5 +3667,15 @@ object FPpal: TFPpal
     SocksAuthentication = socksNoAuthentication
     Left = 136
     Top = 64
+  end
+  object cp_hil: TApdComPort
+    ComNumber = 3
+    Baud = 115200
+    PromptForPort = False
+    AutoOpen = False
+    TraceName = 'APRO.TRC'
+    LogName = 'APRO.LOG'
+    Left = 152
+    Top = 272
   end
 end
