@@ -285,7 +285,7 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    updatePlots();
    updateAttitude();
 
-   et_fail ->Caption = IntToStr(csFail);
+   et_fail ->Caption = FormatFloat("0.0000E+00",csFail);
 }
 //---------------------------------------------------------------------------
 void TFPpal::updateGPSLabels(void){
@@ -419,15 +419,15 @@ void TFPpal::updateDiagLabels(void){
 
 void __fastcall TFPpal::cp_serialTriggerAvail(TObject *CP, WORD Count)
 {
-  int logSize = 1023;
-  unsigned char fromSerial[1023];
-  unsigned char tmp[2*MAXSEND];
+  int logSize = 254;
+  unsigned char fromSerial[254+1];
+  unsigned char tmp[4*MAXSEND];
   int bytesRemain = Count;
   //et_count->Caption = IntToStr(Count);
   try {
     while (bytesRemain > 0) {
        if (bytesRemain <= logSize) {
-         cp_serial->GetBlock(&fromSerial[1], Count);
+         cp_serial->GetBlock(&fromSerial[1], bytesRemain);
          fromSerial[0] = Count;
          bytesRemain = 0;
        } else{

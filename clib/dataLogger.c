@@ -75,7 +75,7 @@ void loggerInit (void){
 	U2STAbits.URXISEL	= 0;		// RX interrupt with every char
 	U2STAbits.OERR		= 0;		// clear overun error
 
-	// U1BRG Register
+	// U2BRG Register
 	// ==============
 	U2BRG = LOG_UBRG;				// Set the baud rate for data logger
 

@@ -38,6 +38,7 @@
 		cB->head = 0;
 		cB->tail = 0;
 		cB->size = BSIZE;
+		cB->overflowCount = 0;
 
 	}
 
@@ -68,6 +69,7 @@
 		cB->head = 0;
 		cB->tail = 0;
 		cB->size = pm_size;
+		cB->overflowCount = 0;
 		
 		// return the buffer pointer
 		return (cB);
@@ -96,8 +98,7 @@
 // ===============
 
 // returns the amount of unread bytes in the circular buffer
-unsigned int getLength (CBRef cB){
-	
+unsigned int getLength (CBRef cB){	
 	// if the circular buffer is not null
 	if (cB != NULL){
 		return (cB->length);
@@ -159,11 +160,15 @@ unsigned char readFront (CBRef cB){
 		// if there are bytes in the buffer
 		if (cB->length > 0){
 			retVal = cB->buffer[cB->head];
-			// increase the head and wrap around if needed
-			//cB->head = cB->head < (cB->size -1)? cB->head+1: 0;
-			// // decrease the amount of data available
-			if (++cB->head == cB->size) cB->head = 0;
+			// decrease the amount of data available
+			// explicitly written to make length racy short
 			cB->length--;
+			// this makes head ALWAYS have a valid value
+			// increase the head and wrap around if needed
+			cB->head = cB->head < (cB->size -1)? cB->head+1: 0;
+			
+			//if (++cB->head == cB->size) cB->head = 0;
+			
 			return retVal;
 		}
 		return 128;
@@ -178,7 +183,13 @@ unsigned char writeBack (CBRef cB, unsigned char data){
 		cB->buffer[cB->tail] = data;
 		cB->tail = cB->tail < (cB->size -1)? cB->tail+1: 0;
 		cB->length = cB->length<cB->size? cB->length+1: cB->size;
-		return (cB->head == cB->tail && cB->length>0);
+		if (cB->head == cB->tail && cB->length>0){
+			cB->overflowCount ++;
+			return 1;
+		} else{
+			return 0;
+		}
+		
 	}
 	else{
 		return 2;
@@ -196,6 +207,13 @@ void makeEmpty(CBRef cB){
 		cB->length = 0;
 		cB->head = 0;
 		cB->tail = 0;
+	}
+}
+
+// returns the amount of times the CB has overflown;
+unsigned char getOverflow(CBRef cB){
+	if (cB != NULL){
+		return cB->overflowCount;
 	}
 }
 

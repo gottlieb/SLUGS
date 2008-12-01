@@ -25,7 +25,9 @@
 		unsigned int head;
 		unsigned int tail;
 		unsigned int size;
+		unsigned char overflowCount;
 	}CircBuffer;
+	
 #else
 	typedef struct CircBuffer{
 		unsigned char* buffer;
@@ -33,13 +35,14 @@
 		unsigned int head;
 		unsigned int tail;
 		unsigned int size;
+		unsigned char overflowCount;
 	}CircBuffer;
 #endif
 
 // Exported Types
 // ==============
 typedef struct CircBuffer* CBRef;
-
+	
 // Constructors - Destructors
 // ==========================
 // this Function returns a pointer to a new Circular Buffer of size pm_size 
@@ -82,6 +85,9 @@ unsigned char writeBack (CBRef cB, unsigned char data);
 
 // empties the circular buffer. It does not change the size. use with caution!!
 void makeEmpty (CBRef cB);
+
+// returns the amount of times the CB has overflown;
+unsigned char getOverflow(CBRef cB);
 
 
 #if DEBUG

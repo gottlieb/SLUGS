@@ -262,9 +262,8 @@ __published:	// IDE-managed Components
     TEdit *ServerEdit;
     TCheckBox *AnyServerCheckBox;
     TApdComPort *cp_hil;
-    TButton *Button1;
     TLabel *et_fail;
-    TLabel *et_count;
+    TLabel *Label68;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -317,7 +316,7 @@ public:		// User declarations
         tDiagData diagSample;
         tSensStatus	statusSample;
 
-        int csFail;
+        float csFail;
 
         FILE* liveLog;
         bool logIsOpen;

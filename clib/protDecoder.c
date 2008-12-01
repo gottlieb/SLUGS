@@ -234,7 +234,7 @@ void updateStates(unsigned char * completeSentence){
 }
 
 #ifdef _IN_PC_
-int protParseDecode (unsigned char* fromSPI, unsigned char* toLog, FILE* outFile){
+float protParseDecode (unsigned char* fromSPI, unsigned char* toLog, FILE* outFile){
 #else
 void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
 #endif
@@ -243,7 +243,10 @@ void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
 	static unsigned char previousComplete =1;
 	static unsigned char indexLast = 0;
     #ifdef _IN_PC_
-         static int checkSumFail = 0;
+         static long long checkSumFail = 0;
+         static long long totalPackets = 0;
+         static float test = 0.0;
+         float alpha = 0.3;
     #endif
 
 
@@ -329,6 +332,9 @@ void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
 
 			// Compute the checksum
 			tmpChksum= getChecksum(prevBuffer, indexLast-1);
+            #ifdef _IN_PC_
+               totalPackets++;
+            #endif
 
 			// if the checksum is valid
 			if (tmpChksum ==prevBuffer[indexLast]){
@@ -342,14 +348,13 @@ void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
                     if ((outFile != NULL)){
                        printState(outFile);
                     }
-
+                    //test = alpha*test;
                 #endif
 			}
             else{
                  #ifdef _IN_PC_
-                     //if (prevBuffer[2]!= 11)
-                     //   checkSumFail = prevBuffer[2];
                     checkSumFail++;
+                    //test = (1.0-alpha) + alpha*test;
                  #endif
             }
             // get everything ready to start all-over
@@ -366,7 +371,14 @@ void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
 	} // big outer while (no more bytes)
 	toLog[0] = logSize;
     #ifdef _IN_PC_
-       return checkSumFail;
+       if (totalPackets>0){
+          //test =  ((float)checkSumFail/(float)totalPackets);
+          test = (float)checkSumFail;
+
+       } else {
+          test = 0.0;
+       }
+       return test;
     #endif
 }
 
