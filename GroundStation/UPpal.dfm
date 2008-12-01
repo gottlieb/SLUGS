@@ -4,8 +4,8 @@ object FPpal: TFPpal
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 
-    '                                                       UCSC - AP' +
-    ' Ground Station'
+    '                                                       SLUGS Gro' +
+    'und Station'
   ClientHeight = 716
   ClientWidth = 576
   Color = clBtnFace
@@ -58,10 +58,10 @@ object FPpal: TFPpal
     Top = 0
     Width = 375
     Height = 697
-    ActivePage = ts_telemetry
+    ActivePage = TabSheet4
     Align = alClient
     MultiLine = True
-    TabIndex = 1
+    TabIndex = 5
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth Config'
@@ -629,7 +629,7 @@ object FPpal: TFPpal
       end
       object ld_filter: TAbLED
         Left = 26
-        Top = 618
+        Top = 623
         Width = 17
         Height = 33
         LED_Position = lpLeft
@@ -643,18 +643,18 @@ object FPpal: TFPpal
         Mode = mIndicator
       end
       object et_fail: TLabel
-        Left = 0
-        Top = 616
-        Width = 28
+        Left = 125
+        Top = 610
+        Width = 58
         Height = 13
-        Caption = 'et_fail'
+        Caption = '0.0000E+00'
       end
-      object et_count: TLabel
-        Left = 40
-        Top = 616
-        Width = 28
+      object Label68: TLabel
+        Left = 13
+        Top = 610
+        Width = 107
         Height = 13
-        Caption = 'et_fail'
+        Caption = 'Lost Packet Function: '
       end
       object GroupBox1: TGroupBox
         Left = 8
@@ -2158,7 +2158,7 @@ object FPpal: TFPpal
       end
       object GroupBox8: TGroupBox
         Left = 8
-        Top = 544
+        Top = 536
         Width = 350
         Height = 72
         Caption = ' Diagnostic Messages'
@@ -2653,16 +2653,6 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 2
         end
-      end
-      object Button1: TButton
-        Left = 160
-        Top = 528
-        Width = 75
-        Height = 25
-        Caption = '&Start'
-        Default = True
-        TabOrder = 7
-        OnClick = Button1Click
       end
     end
     object TabSheet3: TTabSheet

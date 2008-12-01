@@ -19,7 +19,7 @@
 void protParserInit (void);
 
 #ifdef _IN_PC_
-     int protParseDecode (unsigned char* fromSPI, unsigned char* toLog, FILE* outFile);
+     float protParseDecode (unsigned char* fromSPI, unsigned char* toLog, FILE* outFile);
      void printState(FILE* outfile);
 #else
      void protParseDecode (unsigned char* fromSPI, unsigned char* toLog);

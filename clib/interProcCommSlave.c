@@ -15,6 +15,7 @@
 // =========================================================
 #include "apDefinitions.h"
 #include "circBuffer.h"
+#include <string.h>
 #include <p33fxxxx.h>
 #include <spi.h>
 
@@ -75,21 +76,56 @@ void readIpc (unsigned char* bufferedData){
 	// during execution of this block, it will be read
 	// until the next readIpc
 	unsigned char tmpLen = getLength(protBuffer), i=0;
+	unsigned char availBytes = 0;
+	
 	
 	// Set the output size accordingly
-	bufferedData[0] = (tmpLen > MAXLOGLEN)? MAXLOGLEN: tmpLen;
+	bufferedData[0] = (tmpLen > (MAXLOGLEN-1))? (MAXLOGLEN-1): tmpLen;
 	
 	// write the data 
 	for(i = 1; i <= bufferedData[0]; i += 1 )
 	{
 		bufferedData[i] = readFront(protBuffer);
 	}
+	
+	// do a second run just in case
+	tmpLen = getLength(protBuffer);
+	
+	// if more data was written during the reading
+	if (tmpLen > 0 ){
+		// check how many more bytes you can send
+		availBytes = (MAXLOGLEN-1) - bufferedData[0];
+		
+		// if you still have space in this run
+		if (availBytes>0){
+	
+			// write the data 
+			for(i = bufferedData[0]+1; i <= bufferedData[0]+1+availBytes; i += 1 )
+			{
+				bufferedData[i] = readFront(protBuffer);
+			}
+
+			// Set the output size accordingly
+			bufferedData[0] = bufferedData[0]+availBytes;			
+		}
+		
+	}
+	
+	// SPI Debug
+	//memset(&bufferedData[99],0,10);
+	
+	bufferedData[99]  = tmpLen;
+	bufferedData[100] = getLength(protBuffer); 
+	bufferedData[101] = bufferedData[0];
+	bufferedData[102] = bufferedData[1];
+	bufferedData[103] = getOverflow(protBuffer);
+	
 }
 
 // Interrupt service routine for SPI1 Slave 
 void __attribute__((__interrupt__, no_auto_psv)) _SPI1Interrupt(void){
- 	static unsigned char spiBufIdx = 1; 
- 	unsigned char dataRead;
+ 	//static unsigned char spiBufIdx = 1; 
+ 	//unsigned char dataRead;
 		
  	// if we received a byte
  	if (SPI1STATbits.SPIRBF == 1){
