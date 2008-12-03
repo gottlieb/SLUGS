@@ -25,14 +25,25 @@
 //Structure arrays for incomming data
 struct tGpsData gpsDataBuffer [3];
 struct tRawData rawDataBuffer [3];
-unsigned char currentBuffer = 0, lastBuffer =2;
+//unsigned char currentBuffer = 0, lastBuffer =2;
+unsigned char spiDidInit = 0;
 
 // Global Circular buffer
 struct CircBuffer spiBuffer;
 CBRef protBuffer;
 
+void printToUart2 (const char *fmt, ...){
+	va_list ap;
+	char buf [300];
+	
+	va_start(ap, fmt);
+	vsprintf(buf, fmt, ap);
+	va_end (ap);
+	putsUART2((unsigned int*)buf);
+}
+
 void spiSlaveInit(void){
-	// Initialize the circular buffer
+    // Initialize the circular buffer
 	protBuffer = &spiBuffer;
 	newCircBuffer (protBuffer);
 	
@@ -67,24 +78,14 @@ void spiSlaveInit(void){
     SPI1STATbits.SPIROV = 0;    //Clear overflow bit
     SPI1STATbits.SPIEN  = 1;    //Enable SPI Module
 
-	// Disable Nested interrupts NOTE: This affects the whole processor
-	// and not just SPI
-	//INTCON1bits.NSTDIS  = 1;
     
     // Enable the interrupts
     IFS0bits.SPI1IF 	= 0;
-    IPC2bits.SPI1IP 	= 7;
+    IPC2bits.SPI1IP 	= 6;
     IEC0bits.SPI1IE		= 1; 
+    spiDidInit =1;
 }
-void printToUart2 (const char *fmt, ...){
-	va_list ap;
-	char buf [300];
-	
-	va_start(ap, fmt);
-	vsprintf(buf, fmt, ap);
-	va_end (ap);
-	putsUART2((unsigned int*)buf);
-}
+
 
 void readIpc (unsigned char* bufferedData){
 	// fix the data length so if the interrupt adds data
@@ -104,10 +105,11 @@ void readIpc (unsigned char* bufferedData){
 	
 	if ((timeStamp % 1000)== 0){
 		printToUart2("%f\n\r\0",(float) timeStamp*0.01);
+		if (spiDidInit) printToUart2("=== %s ===\n\r", "SPI INIT");
 	}
 	timeStamp++;
 
-	/*if (!(tmpLen == 64 || tmpLen == 75 || tmpLen == 81 
+/*	if (!(tmpLen == 64 || tmpLen == 75 || tmpLen == 81 
 		|| tmpLen == 89 || tmpLen == 95 || tmpLen == 98)){
 			printToUart2("=== %s ===\n\r", "FAILURE");
 			printToUart2("Ts: %f\n\r\0",(float) timeStamp*0.01);
@@ -120,8 +122,8 @@ void readIpc (unsigned char* bufferedData){
 			printToUart2("++ %s++\n\r", "SPI");
 			failureTrue = 1;
 	}
-    */
-	
+    
+*/	
 	// write the data 
 	for(i = 1; i <= bufferedData[0]; i += 1 )
 	{
@@ -228,12 +230,12 @@ void readIpc (unsigned char* bufferedData){
 void __attribute__((__interrupt__, no_auto_psv)) _SPI1Interrupt(void){
  	//static unsigned char spiBufIdx = 1; 
  	//unsigned char dataRead;
-	putsUART2((unsigned int*)"+");	
+	//putsUART2((unsigned int*)"+");	
  	// if we received a byte
  	if (SPI1STATbits.SPIRBF == 1){
  		// put the received data in the circular buffer 
 		writeBack(protBuffer, (unsigned char)SPI1BUF);
-		putsUART2((unsigned int*)".");
+		//putsUART2((unsigned int*)".");
 	}
 	// clear the interrupt
 	 IFS0bits.SPI1IF = 0;
