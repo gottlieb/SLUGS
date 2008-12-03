@@ -6,8 +6,13 @@
 //
 // Comment the DEBUG define int the header prior to compile for dsPIC
 //
+// Convemtion Notes
+// The HEAD, as in any queue points to the next available byte to be READ
+// The TAIL, points to the next available position to be written
+// 
 // Code by: Mariano I. Lizarraga
 // First Revision: Aug 16 2008 @ 00:36
+// Second Revision: Dec 2 2008 @ 12:11
 // ==============================================================
 
 #include <stdlib.h>
@@ -34,7 +39,6 @@
 		}
 				
 		// initialize the data members
-		cB->length = 0;
 		cB->head = 0;
 		cB->tail = 0;
 		cB->size = BSIZE;
@@ -65,7 +69,6 @@
 		cB->buffer = (unsigned char *)calloc(pm_size, sizeof(unsigned char));
 		
 		// initialize the data members
-		cB->length = 0;
 		cB->head = 0;
 		cB->tail = 0;
 		cB->size = pm_size;
@@ -74,7 +77,6 @@
 		// return the buffer pointer
 		return (cB);
 		
-		//printf("No Jala");
 	}
 
 	// this function frees the Circular Buffer CB Ref
@@ -101,10 +103,14 @@
 unsigned int getLength (CBRef cB){	
 	// if the circular buffer is not null
 	if (cB != NULL){
-		return (cB->length);
+		if (cB->head <= cB->tail){
+			return (cB->head-cB->tail);
+		} else{
+			return (cB->size + cB->tail - cB->head);
+		}		
 	}
 	else{
-		return -1;
+		return 0;
 	}
 	
 }
@@ -141,7 +147,7 @@ unsigned char peak(CBRef cB){
 	if (cB != NULL)
 	{	
 		// if there are bytes in the buffer
-		if (cB->length > 0){
+		if (getLength(cB) > 0){
 			return cB->buffer[cB->head];
 		}
 	}
@@ -158,17 +164,11 @@ unsigned char readFront (CBRef cB){
 	{	
 		char retVal;
 		// if there are bytes in the buffer
-		if (cB->length > 0){
+		if (getLength(cB) > 0){
 			retVal = cB->buffer[cB->head];
-			// decrease the amount of data available
-			// explicitly written to make length racy short
-			cB->length--;
 			// this makes head ALWAYS have a valid value
 			// increase the head and wrap around if needed
 			cB->head = cB->head < (cB->size -1)? cB->head+1: 0;
-			
-			//if (++cB->head == cB->size) cB->head = 0;
-			
 			return retVal;
 		}
 		return 128;
@@ -176,23 +176,23 @@ unsigned char readFront (CBRef cB){
 	return 254;
 }
 
-// writes one byte at the end of the circular buffer, returns 1 if overflow occured
+// writes one byte at the end of the circular buffer, 
+// increments overflow count if overflow occurs
 unsigned char writeBack (CBRef cB, unsigned char data){
 	// if the circular buffer is not null
 	if (cB != NULL){
+		// check if an overflow will occur
+		// if the length is size-1 and I am about to add a char then
+		// overflow will occur and I will loose the whole buffer
+		if (getLength (cB) == (cB->size -1)){
+			cB->overflowCount ++;
+		}		
 		cB->buffer[cB->tail] = data;
 		cB->tail = cB->tail < (cB->size -1)? cB->tail+1: 0;
-		cB->length = cB->length<cB->size? cB->length+1: cB->size;
-		if (cB->head == cB->tail && cB->length>0){
-			cB->overflowCount ++;
-			return 1;
-		} else{
-			return 0;
-		}
-		
+		return 0;
 	}
 	else{
-		return 2;
+		return 1;
 	}
 }
 
@@ -204,9 +204,9 @@ void makeEmpty(CBRef cB){
 		{
 			cB->buffer[i]= 0;
 		}
-		cB->length = 0;
 		cB->head = 0;
 		cB->tail = 0;
+		cB->overflowCount = 0;
 	}
 }
 
@@ -232,7 +232,6 @@ void printCircBuf(CBRef cB){
 		}
 		printf("]\n");
 		printf("Size of: %d\n", cB->size );
-		printf("Len. of: %d\n", cB->length );
 		printf("Head at: %d\n", cB->head );
 		printf("Tail at: %d\n\n", cB->tail );
 

@@ -20,7 +20,7 @@ and data types.
 #ifdef __cplusplus
        #define BSIZE			1024
 #else
-       #define BSIZE			250
+       #define BSIZE			512
 #endif
 
 // GPS Checksum Messages

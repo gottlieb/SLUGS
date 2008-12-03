@@ -18,6 +18,9 @@
 #include <string.h>
 #include <p33fxxxx.h>
 #include <spi.h>
+#include <uart.h>
+#include <stdlib.h>
+#include <stdarg.h>
 
 //Structure arrays for incomming data
 struct tGpsData gpsDataBuffer [3];
@@ -64,63 +67,158 @@ void spiSlaveInit(void){
     SPI1STATbits.SPIROV = 0;    //Clear overflow bit
     SPI1STATbits.SPIEN  = 1;    //Enable SPI Module
 
+	// Disable Nested interrupts NOTE: This affects the whole processor
+	// and not just SPI
+	INTCON1bits.NSTDIS  = 1;
     
     // Enable the interrupts
     IFS0bits.SPI1IF 	= 0;
-    IPC2bits.SPI1IP 	= 6;
+    IPC2bits.SPI1IP 	= 7;
     IEC0bits.SPI1IE		= 1; 
+}
+void printToUart2 (const char *fmt, ...){
+	va_list ap;
+	char buf [300];
+	
+	va_start(ap, fmt);
+	vsprintf(buf, fmt, ap);
+	va_end (ap);
+	putsUART2((unsigned int*)buf);
 }
 
 void readIpc (unsigned char* bufferedData){
 	// fix the data length so if the interrupt adds data
 	// during execution of this block, it will be read
 	// until the next readIpc
-	unsigned char tmpLen = getLength(protBuffer), i=0;
-	unsigned char availBytes = 0;
+	unsigned int tmpHead = readHead(protBuffer);
+	unsigned int tmpTail = readTail(protBuffer);
+	unsigned int tmpLen = getLength(protBuffer);
+	unsigned int i=0;
+	unsigned int availBytes = 0, sendMore = 0;
+	unsigned char failureTrue = 0;
 	
+	static unsigned long long timeStamp = 0;
 	
 	// Set the output size accordingly
 	bufferedData[0] = (tmpLen > (MAXLOGLEN-1))? (MAXLOGLEN-1): tmpLen;
+	
+	if ((timeStamp % 1000)== 0){
+		printToUart2("%f\n\r\0",(float) timeStamp*0.01);
+	}
+	timeStamp++;
+
+	if (!(tmpLen == 64 || tmpLen == 75 || tmpLen == 81 
+		|| tmpLen == 89 || tmpLen == 95 || tmpLen == 98)){
+			printToUart2("=== %s ===\n\r", "FAILURE");
+			printToUart2("Ts: %f\n\r\0",(float) timeStamp*0.01);
+			printToUart2("+++ %s +++\n\r", "Buffer Data");
+			printToUart2("TmpLen: %d\n\r", tmpLen);
+			printToUart2("bD[0]: %d\n\r", bufferedData[0]);
+			printToUart2("Head: %d\n\r", tmpHead);
+			printToUart2("Tail: %d\n\r", tmpTail);
+			printToUart2("Ovrfl: %d\n\r", getOverflow(protBuffer));
+			printToUart2("++ %s++\n\r", "SPI");
+			failureTrue = 1;
+	}
+
 	
 	// write the data 
 	for(i = 1; i <= bufferedData[0]; i += 1 )
 	{
 		bufferedData[i] = readFront(protBuffer);
+		if (failureTrue){
+			printToUart2("%d\n\r", bufferedData[i]);
+		}
 	}
-	
+    
+
 	// do a second run just in case
 	tmpLen = getLength(protBuffer);
 	
 	// if more data was written during the reading
 	if (tmpLen > 0 ){
+		
 		// check how many more bytes you can send
 		availBytes = (MAXLOGLEN-1) - bufferedData[0];
 		
+		if (failureTrue){
+			printToUart2("++ %s +\n\r", "2 Run" );
+			printToUart2("TmpLen: %d\n\r", tmpLen);
+			printToUart2("Head: %d\n\r", readHead(protBuffer));
+			printToUart2("Tail: %d\n\r", readTail(protBuffer));
+			printToUart2("Ovrflw: %d\n\r", getOverflow(protBuffer));
+			printToUart2("bD[0]: %d\n\r", bufferedData[0]);
+			printToUart2("avail: %d\n\r", availBytes);
+
+		}
+		
 		// if you still have space in this run
 		if (availBytes>0){
-	
+			
+			// if we have available bytes and are less the the remaining bytes
+			sendMore =  (tmpLen <= availBytes)? tmpLen: availBytes;
+			if (failureTrue){
+				printToUart2("++++ %s +++\n\r", "Avail > 0");
+				printToUart2("Send More: %d\n\r", sendMore);
+				printToUart2("++++ %s +++\n\r", "sent 2");
+			}
+		
 			// write the data 
-			for(i = bufferedData[0]+1; i <= bufferedData[0]+1+availBytes; i += 1 )
+			for(i = bufferedData[0]+1; i <= bufferedData[0]+1+sendMore; i += 1 )
 			{
 				bufferedData[i] = readFront(protBuffer);
+				if (failureTrue){
+					printToUart2("%d\n\r", bufferedData[i]);
+				}
 			}
 
 			// Set the output size accordingly
-			bufferedData[0] = bufferedData[0]+availBytes;			
+			bufferedData[0] = bufferedData[0]+sendMore;			
+			if (failureTrue){
+				printToUart2("+++ %s ++\n\r", "final ");
+				printToUart2("bD[0]: %d\n\r", bufferedData[0]);
+			}
+				
 		}
 		
 	}
+	if (failureTrue){
+		printToUart2("=== %s =====\n\r\n\r\n\r", "END ");
+	}
 	
 	// SPI Debug
-	//memset(&bufferedData[99],0,10);
+	/*memset(&bufferedData[99],0,10);
 	
 	bufferedData[99]  = tmpLen;
 	bufferedData[100] = getLength(protBuffer); 
 	bufferedData[101] = bufferedData[0];
-	bufferedData[102] = bufferedData[1];
-	bufferedData[103] = getOverflow(protBuffer);
+	bufferedData[102] = sendMore;
+	bufferedData[103] = getOverflow(protBuffer);*/
+	
+	
+	if (getOverflow(protBuffer)>0){
+		// disable the SPI module
+		SPI1STATbits.SPIEN  = 0;    
+    
+    	// Disable the interrupts
+    	IFS0bits.SPI1IF 	= 0;
+    	IEC0bits.SPI1IE		= 0; 
+		
+    	// Empty the buffer
+		makeEmpty(protBuffer);
+
+    	// Enable the interrupts
+    	IFS0bits.SPI1IF 	= 0;
+    	IEC0bits.SPI1IE		= 1; 
+
+		// Enable the SPI module
+		SPI1STATbits.SPIEN  = 1;    
+
+	}
 	
 }
+
+
 
 // Interrupt service routine for SPI1 Slave 
 void __attribute__((__interrupt__, no_auto_psv)) _SPI1Interrupt(void){
@@ -131,7 +229,10 @@ void __attribute__((__interrupt__, no_auto_psv)) _SPI1Interrupt(void){
  	if (SPI1STATbits.SPIRBF == 1){
  		// put the received data in the circular buffer 
 		writeBack(protBuffer, (unsigned char)SPI1BUF);
+		putsUART2((unsigned int*)".");
 	}
 	// clear the interrupt
 	 IFS0bits.SPI1IF = 0;
 }
+
+
