@@ -34,7 +34,7 @@
 		}
 				
 		// initialize the data members
-		cB->length = 0;
+		//cB->length = 0;
 		cB->head = 0;
 		cB->tail = 0;
 		cB->size = BSIZE;
@@ -65,7 +65,7 @@
 		cB->buffer = (unsigned char *)calloc(pm_size, sizeof(unsigned char));
 		
 		// initialize the data members
-		cB->length = 0;
+		//cB->length = 0;
 		cB->head = 0;
 		cB->tail = 0;
 		cB->size = pm_size;
@@ -100,35 +100,45 @@
 // returns the amount of unread bytes in the circular buffer
 unsigned int getLength (CBRef cB){	
 	// if the circular buffer is not null
-	if (cB != NULL){
+/*	if (cB != NULL){
 		return (cB->length);
 	}
 	else{
 		return -1;
 	}
-	
+*/
+	if (cB != NULL){
+		if (cB->head <= cB->tail){
+			return (cB->tail-cB->head);
+		} else{
+			return (cB->size + cB->tail - cB->head);
+		}		
+	}
+	else{
+		return 0;
+	}	
 }
 
 // returns the actual index of the head
-unsigned char readHead (CBRef cB){
+unsigned int readHead (CBRef cB){
 	// if the circular buffer is not null
 	if (cB != NULL){
 		return (cB->head);
 	}
 	else{
-		return -1;
+		return 0;
 	}
 
 }
 
 // returns the actual index of the tail
-unsigned char readTail (CBRef cB){
+unsigned int readTail (CBRef cB){
 	// if the circular buffer is not null
 	if (cB != NULL){
 		return (cB->tail);
 	}
 	else{
-		return -1;
+		return 0;
 	}
 
 }
@@ -141,7 +151,8 @@ unsigned char peak(CBRef cB){
 	if (cB != NULL)
 	{	
 		// if there are bytes in the buffer
-		if (cB->length > 0){
+		//if (cB->length > 0){
+		if (getLength(cB) > 0){
 			return cB->buffer[cB->head];
 		}
 	}
@@ -158,11 +169,12 @@ unsigned char readFront (CBRef cB){
 	{	
 		char retVal;
 		// if there are bytes in the buffer
-		if (cB->length > 0){
+		//if (cB->length > 0){
+		if (getLength(cB) > 0){
 			retVal = cB->buffer[cB->head];
 			// decrease the amount of data available
 			// explicitly written to make length racy short
-			cB->length--;
+			//cB->length--;
 			// this makes head ALWAYS have a valid value
 			// increase the head and wrap around if needed
 			cB->head = cB->head < (cB->size -1)? cB->head+1: 0;
@@ -180,16 +192,25 @@ unsigned char readFront (CBRef cB){
 unsigned char writeBack (CBRef cB, unsigned char data){
 	// if the circular buffer is not null
 	if (cB != NULL){
-		cB->buffer[cB->tail] = data;
+		/*cB->buffer[cB->tail] = data;
 		cB->tail = cB->tail < (cB->size -1)? cB->tail+1: 0;
-		cB->length = cB->length<cB->size? cB->length+1: cB->size;
+		//cB->length = cB->length<cB->size? cB->length+1: cB->size;
 		if (cB->head == cB->tail && cB->length>0){
 			cB->overflowCount ++;
 			return 1;
 		} else{
 			return 0;
+		}*/
+			
+		if (getLength (cB) == (cB->size -1)){
+			cB->overflowCount ++;
+			//return 1;
+		} else {		
+			cB->buffer[cB->tail] = data;
+			cB->tail = cB->tail < (cB->size -1)? cB->tail+1: 0;
+			//return 0;
 		}
-		
+		//return 0;
 	}
 	else{
 		return 2;
@@ -204,7 +225,7 @@ void makeEmpty(CBRef cB){
 		{
 			cB->buffer[i]= 0;
 		}
-		cB->length = 0;
+		//cB->length = 0;
 		cB->head = 0;
 		cB->tail = 0;
 	}
@@ -232,7 +253,7 @@ void printCircBuf(CBRef cB){
 		}
 		printf("]\n");
 		printf("Size of: %d\n", cB->size );
-		printf("Len. of: %d\n", cB->length );
+		//printf("Len. of: %d\n", cB->length );
 		printf("Head at: %d\n", cB->head );
 		printf("Tail at: %d\n\n", cB->tail );
 
