@@ -69,7 +69,7 @@ void spiSlaveInit(void){
 
 	// Disable Nested interrupts NOTE: This affects the whole processor
 	// and not just SPI
-	INTCON1bits.NSTDIS  = 1;
+	//INTCON1bits.NSTDIS  = 1;
     
     // Enable the interrupts
     IFS0bits.SPI1IF 	= 0;
@@ -107,7 +107,7 @@ void readIpc (unsigned char* bufferedData){
 	}
 	timeStamp++;
 
-	if (!(tmpLen == 64 || tmpLen == 75 || tmpLen == 81 
+	/*if (!(tmpLen == 64 || tmpLen == 75 || tmpLen == 81 
 		|| tmpLen == 89 || tmpLen == 95 || tmpLen == 98)){
 			printToUart2("=== %s ===\n\r", "FAILURE");
 			printToUart2("Ts: %f\n\r\0",(float) timeStamp*0.01);
@@ -120,7 +120,7 @@ void readIpc (unsigned char* bufferedData){
 			printToUart2("++ %s++\n\r", "SPI");
 			failureTrue = 1;
 	}
-
+    */
 	
 	// write the data 
 	for(i = 1; i <= bufferedData[0]; i += 1 )
@@ -132,7 +132,7 @@ void readIpc (unsigned char* bufferedData){
 	}
     
 
-	// do a second run just in case
+/*	// do a second run just in case
 	tmpLen = getLength(protBuffer);
 	
 	// if more data was written during the reading
@@ -181,10 +181,8 @@ void readIpc (unsigned char* bufferedData){
 				
 		}
 		
-	}
-	if (failureTrue){
-		printToUart2("=== %s =====\n\r\n\r\n\r", "END ");
-	}
+	}*/
+
 	
 	// SPI Debug
 	/*memset(&bufferedData[99],0,10);
@@ -204,6 +202,8 @@ void readIpc (unsigned char* bufferedData){
     	IFS0bits.SPI1IF 	= 0;
     	IEC0bits.SPI1IE		= 0; 
 		
+    	printToUart2("Ovrflw: %d\n\r", getOverflow(protBuffer));
+    	
     	// Empty the buffer
 		makeEmpty(protBuffer);
 
@@ -216,6 +216,10 @@ void readIpc (unsigned char* bufferedData){
 
 	}
 	
+	if (failureTrue){
+		printToUart2("=== %s =====\n\r\n\r\n\r", "END ");
+	}
+	
 }
 
 
@@ -224,7 +228,7 @@ void readIpc (unsigned char* bufferedData){
 void __attribute__((__interrupt__, no_auto_psv)) _SPI1Interrupt(void){
  	//static unsigned char spiBufIdx = 1; 
  	//unsigned char dataRead;
-		
+	putsUART2((unsigned int*)"+");	
  	// if we received a byte
  	if (SPI1STATbits.SPIRBF == 1){
  		// put the received data in the circular buffer 

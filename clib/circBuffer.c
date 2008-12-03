@@ -104,7 +104,7 @@ unsigned int getLength (CBRef cB){
 	// if the circular buffer is not null
 	if (cB != NULL){
 		if (cB->head <= cB->tail){
-			return (cB->head-cB->tail);
+			return (cB->tail-cB->head);
 		} else{
 			return (cB->size + cB->tail - cB->head);
 		}		
@@ -186,9 +186,10 @@ unsigned char writeBack (CBRef cB, unsigned char data){
 		// overflow will occur and I will loose the whole buffer
 		if (getLength (cB) == (cB->size -1)){
 			cB->overflowCount ++;
-		}		
-		cB->buffer[cB->tail] = data;
-		cB->tail = cB->tail < (cB->size -1)? cB->tail+1: 0;
+		} else {		
+			cB->buffer[cB->tail] = data;
+			cB->tail = cB->tail < (cB->size -1)? cB->tail+1: 0;
+		}
 		return 0;
 	}
 	else{
