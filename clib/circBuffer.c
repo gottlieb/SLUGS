@@ -100,13 +100,6 @@
 // returns the amount of unread bytes in the circular buffer
 unsigned int getLength (CBRef cB){	
 	// if the circular buffer is not null
-/*	if (cB != NULL){
-		return (cB->length);
-	}
-	else{
-		return -1;
-	}
-*/
 	if (cB != NULL){
 		if (cB->head <= cB->tail){
 			return (cB->tail-cB->head);
@@ -228,6 +221,7 @@ void makeEmpty(CBRef cB){
 		//cB->length = 0;
 		cB->head = 0;
 		cB->tail = 0;
+		cB->overflowCount = 0;
 	}
 }
 
