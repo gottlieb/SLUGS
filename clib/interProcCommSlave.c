@@ -90,14 +90,21 @@ void readIpc (unsigned char* bufferedData){
 	// fix the data length so if the interrupt adds data
 	// during execution of this block, it will be read
 	// until the next readIpc
-	unsigned int tmpHead = readHead(protBuffer);
-	unsigned int tmpTail = readTail(protBuffer);
-	unsigned int tmpLen = getLength(protBuffer);
+	//unsigned int tmpHead = readHead(protBuffer);
+	//unsigned int tmpTail = readTail(protBuffer);
+	//unsigned int tmpLen = getLength(protBuffer);
+	int tmpHead = protBuffer->head;
+	int tmpTail = protBuffer->tail;
+	signed int tmpLen = tmpTail - tmpHead;
+	
+	
 	unsigned int i=0;
 	unsigned int availBytes = 0, sendMore = 0;
 	unsigned char failureTrue = 0;
 	
 	static unsigned long long timeStamp = 0;
+	
+	if (tmpLen<0) tmpLen+=BSIZE;
 	
 	// Set the output size accordingly
 	bufferedData[0] = (tmpLen > (MAXLOGLEN-1))? (MAXLOGLEN-1): tmpLen;
@@ -107,8 +114,9 @@ void readIpc (unsigned char* bufferedData){
 	}
 	timeStamp++;
 
-/*	if (!(tmpLen == 64 || tmpLen == 75 || tmpLen == 81 
-		|| tmpLen == 89 || tmpLen == 95 || tmpLen == 98)){
+	if (!(tmpLen == 64 || tmpLen == 75 || tmpLen == 81 
+		|| tmpLen == 89 || tmpLen == 95 || tmpLen == 98
+		|| tmpLen == 0	)){
 			printToUart2("=== %s ===\n\r", "FAILURE");
 			printToUart2("Ts: %f\n\r\0",(float) timeStamp*0.01);
 			printToUart2("+++ %s +++\n\r", "Buffer Data");
@@ -121,7 +129,7 @@ void readIpc (unsigned char* bufferedData){
 			failureTrue = 1;
 	}
     
-*/	
+	
 	// write the data 
 	for(i = 1; i <= bufferedData[0]; i += 1 )
 	{
