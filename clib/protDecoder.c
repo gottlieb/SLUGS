@@ -399,7 +399,7 @@ static tAknData		    cpaknControlData;
 	if (cpattitudeControlData.timeStamp.usData != attitudeControlData.timeStamp.usData) {
 		// the time changed, so print the known state in the last sample time
 	    // Print Attitude and Position
-	    fprintf(outFile, "%hu,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,",
+/*	    fprintf(outFile, "%hu,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,",
 	         cpattitudeControlData.timeStamp.usData,
 	         cpattitudeControlData.roll.flData,
 	         cpattitudeControlData.pitch.flData,
@@ -431,7 +431,7 @@ static tAknData		    cpaknControlData;
 	         cpgpsControlData.fix,
 	         cpgpsControlData.sats,
 	         cpgpsControlData.newValue);
-
+*/
 	    // Print Raw Data
 	    fprintf(outFile, "%d,%d,%d,%d,%d,%d,%d,%d,%d,",
 	         cprawControlData.gyroX.usData,
@@ -445,7 +445,7 @@ static tAknData		    cpaknControlData;
 	         cprawControlData.magZ.usData);
 
 
-	    // Print Bias Data
+ /*	    // Print Bias Data
 	    fprintf(outFile, "%f,%f,%f,%f,%f,%f,",
 	         cpbiasControlData.axb.flData,
 	         cpbiasControlData.ayb.flData,
@@ -453,7 +453,7 @@ static tAknData		    cpaknControlData;
 	         cpbiasControlData.gxb.flData,
 	         cpbiasControlData.gyb.flData,
 	         cpbiasControlData.gzb.flData);
-
+*/
 	    // Print Air Data
 	    fprintf(outFile, "%f,%f,%d,",
 	         cpdynTempControlData.dynamic.flData,
@@ -461,14 +461,14 @@ static tAknData		    cpaknControlData;
 	         cpdynTempControlData.temp.shData);
 
 	    // Print Diagnostic Data
-	    fprintf(outFile, "%f,%f,%f,%d,%d,%d,",
+/*	    fprintf(outFile, "%f,%f,%f,%d,%d,%d,",
 	         cpdiagControlData.fl1.flData,
 	         cpdiagControlData.fl2.flData,
 	         cpdiagControlData.fl3.flData,
 	         cpdiagControlData.sh1.shData,
 	         cpdiagControlData.sh2.shData,
 	         cpdiagControlData.sh3.shData);
-
+*/
         // Print Sensor MCU Load
        fprintf(outFile, "%d,%d,%d,",
 	         cpstatusControlData.load,

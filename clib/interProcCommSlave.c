@@ -90,12 +90,9 @@ void readIpc (unsigned char* bufferedData){
 	// fix the data length so if the interrupt adds data
 	// during execution of this block, it will be read
 	// until the next readIpc
-	//unsigned int tmpHead = readHead(protBuffer);
-	//unsigned int tmpTail = readTail(protBuffer);
-	//unsigned int tmpLen = getLength(protBuffer);
-	int tmpHead = protBuffer->head;
-	int tmpTail = protBuffer->tail;
-	signed int tmpLen = tmpTail - tmpHead;
+	//int tmpHead = readHead(protBuffer);
+	//int tmpTail = readTail(protBuffer);
+	unsigned int tmpLen = getLength(protBuffer);
 	
 	
 	unsigned int i=0;
@@ -104,17 +101,17 @@ void readIpc (unsigned char* bufferedData){
 	
 	static unsigned long long timeStamp = 0;
 	
-	if (tmpLen<0) tmpLen+=BSIZE;
 	
 	// Set the output size accordingly
 	bufferedData[0] = (tmpLen > (MAXLOGLEN-1))? (MAXLOGLEN-1): tmpLen;
 	
 	if ((timeStamp % 1000)== 0){
-		printToUart2("%f\n\r\0",(float) timeStamp*0.01);
+		printToUart2("T: %6.0f\n\r\0",(float) timeStamp*0.01);
 	}
 	timeStamp++;
+	
 
-	if (!(tmpLen == 64 || tmpLen == 75 || tmpLen == 81 
+	/*if (!(tmpLen == 64 || tmpLen == 75 || tmpLen == 81 
 		|| tmpLen == 89 || tmpLen == 95 || tmpLen == 98
 		|| tmpLen == 0	)){
 			printToUart2("=== %s ===\n\r", "FAILURE");
@@ -128,15 +125,12 @@ void readIpc (unsigned char* bufferedData){
 			printToUart2("++ %s++\n\r", "SPI");
 			failureTrue = 1;
 	}
-    
+    */
 	
 	// write the data 
 	for(i = 1; i <= bufferedData[0]; i += 1 )
 	{
 		bufferedData[i] = readFront(protBuffer);
-		if (failureTrue){
-			printToUart2("%d\n\r", bufferedData[i]);
-		}
 	}
     
 
@@ -207,13 +201,28 @@ void readIpc (unsigned char* bufferedData){
 		SPI1STATbits.SPIEN  = 0;    
     
     	// Disable the interrupts
-    	IFS0bits.SPI1IF 	= 0;
     	IEC0bits.SPI1IE		= 0; 
+    	IFS0bits.SPI1IF 	= 0;
 		
+    	printToUart2("\n=== %s =====\n\r\n\r\n\r", "BEGIN DUMP ");
+    	printToUart2("Ts: %f\n\r\0",(float) timeStamp*0.01);
     	printToUart2("Ovrflw: %d\n\r", getOverflow(protBuffer));
+ 		printToUart2("Head: %d\n\r", readHead(protBuffer));
+		printToUart2("Tail: %d\n\r", readTail(protBuffer));
+		printToUart2("Len: %d\n\r", getLength(protBuffer));
+		printToUart2("Siz: %d\n\r", protBuffer->size);
+   	
+    	
+    	for(i = 0; i <BSIZE; i ++ )
+    	{
+    		printToUart2("%d ", protBuffer->buffer[i]);
+    	}
+
+    	printToUart2("\n=== %s =====\n\r\n\r\n\r", "END ");
     	
     	// Empty the buffer
 		makeEmpty(protBuffer);
+
 
     	// Enable the interrupts
     	IFS0bits.SPI1IF 	= 0;
@@ -223,11 +232,7 @@ void readIpc (unsigned char* bufferedData){
 		SPI1STATbits.SPIEN  = 1;    
 
 	}
-	
-	if (failureTrue){
-		printToUart2("=== %s =====\n\r\n\r\n\r", "END ");
-	}
-	
+		
 	
 }
 
