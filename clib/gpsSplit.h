@@ -28,9 +28,19 @@ out_stream [m+1]	...	Byte indicating wether there is a valid message
        extern "C"{
 #endif
 
+#include "circBuffer.h"
+#include "apDefinitions.h"
+#include <stdlib.h>
+#include "apUtils.h"
+
+#if DEBUG
+	#include <stdio.h>
+#endif
+
+
 void gpsInit(void);
 void gpsSeparate(unsigned char* inStream, unsigned char* outStream);
-unsigned char getChecksum(unsigned char* sentence, unsigned char size);
+//unsigned char getChecksum(unsigned char* sentence, unsigned char size);
 
 #ifdef __cplusplus
        }

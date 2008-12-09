@@ -9,7 +9,7 @@
 #include <string.h>
 #include "apDefinitions.h"
 #include "circBuffer.h"
-#include "gpsSplit.h"
+#include "apUtils.h"
 
 
 #ifdef __cplusplus
@@ -19,10 +19,10 @@
 void protParserInit (void);
 
 #ifdef _IN_PC_
-     float protParseDecode (unsigned char* fromSPI, unsigned char* toLog, FILE* outFile);
+     float protParseDecode (unsigned char* fromSPI,  FILE* outFile);
      void printState(FILE* outfile);
 #else
-     void protParseDecode (unsigned char* fromSPI, unsigned char* toLog);
+     void protParseDecode (unsigned char* fromSPI);
 #endif
 
 void getTime (unsigned char * values);

@@ -234,9 +234,9 @@ void updateStates(unsigned char * completeSentence){
 }
 
 #ifdef _IN_PC_
-float protParseDecode (unsigned char* fromSPI, unsigned char* toLog, FILE* outFile){
+float protParseDecode (unsigned char* fromSPI,  FILE* outFile){
 #else
-void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
+void protParseDecode (unsigned char* fromSPI){
 #endif
 	// Static variables CAREFUL
 	static unsigned char prevBuffer[2*MAXLOGLEN];
@@ -340,8 +340,6 @@ void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
 			if (tmpChksum ==prevBuffer[indexLast]){
 				// update the states depending on the message
 				updateStates(&prevBuffer[0]);
-				// Copy the data to the out buffer for logging purposes
-				memcpy(&toLog[logSize+1],&prevBuffer[0], indexLast+1);
 				// increment the log size
 				logSize += (indexLast+1);
                 #ifdef _IN_PC_
@@ -369,7 +367,6 @@ void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
 			noMoreBytes = 1;
 		}// else no star
 	} // big outer while (no more bytes)
-	toLog[0] = logSize;
     #ifdef _IN_PC_
        if (totalPackets>0){
           //test =  ((float)checkSumFail/(float)totalPackets);
@@ -548,6 +545,10 @@ void getTime (unsigned char * values){
 unsigned char getFilterOnOff (void){
 	return filterControlData;
 }
+
+// ================================
+//  hardware in the loop methods
+// ================================
 
 void hil_getRawRead(unsigned short * rawData){
 	// data for the bus is as follows:

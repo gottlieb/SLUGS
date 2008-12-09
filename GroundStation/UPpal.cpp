@@ -421,7 +421,6 @@ void __fastcall TFPpal::cp_serialTriggerAvail(TObject *CP, WORD Count)
 {
   int logSize = 254;
   unsigned char fromSerial[254+1];
-  unsigned char tmp[4*MAXSEND];
   int bytesRemain = Count;
   //et_count->Caption = IntToStr(Count);
   try {
@@ -436,9 +435,9 @@ void __fastcall TFPpal::cp_serialTriggerAvail(TObject *CP, WORD Count)
          bytesRemain -= logSize;
        }
        if (logIsOpen==true)
-         csFail = protParseDecode (&fromSerial[0], &tmp[0], liveLog);
+         csFail = protParseDecode (&fromSerial[0], liveLog);
        else
-         csFail = protParseDecode (&fromSerial[0], &tmp[0], NULL);
+         csFail = protParseDecode (&fromSerial[0],  NULL);
     }
   }
    catch (...) {
@@ -794,7 +793,6 @@ void __fastcall TFPpal::bt_importLogClick(TObject *Sender)
 	unsigned char buffer[97];
 	unsigned long fileLen;
     unsigned long i;
-    unsigned char myToLog[97];
     //unsigned char amountToRead = 24;
     String toMatFile;
 
@@ -823,7 +821,7 @@ void __fastcall TFPpal::bt_importLogClick(TObject *Sender)
 	         fread(&(buffer[0]) + 1, sizeof(unsigned char), 96, logFile);
              i+=96;
              buffer[0] = 96;
-             protParseDecode(buffer, myToLog, matFile);
+             protParseDecode(buffer, matFile);
            }
            fclose(logFile);
            fclose(matFile);
@@ -972,7 +970,7 @@ void __fastcall TFPpal::skt_rcvDataAvailable(TObject *Sender, WORD ErrCode)
 {
     char        Buffer[70];
     int         Len;
-    TSockAddrIn Src;
+    Winsock::TSockAddrIn Src;
     int         SrcLen;
 
     memset(&Buffer, 0, 70);

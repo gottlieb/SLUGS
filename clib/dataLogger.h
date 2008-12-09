@@ -19,9 +19,8 @@
 
 #include "apDefinitions.h"
 #include "circBuffer.h"
-#include "gpsSplit.h"
+#include "apUtils.h"
 #include <string.h>
-#include "dataLogger.h"
 #include <p33fxxxx.h>
 #include <uart.h>
 

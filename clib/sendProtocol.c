@@ -29,7 +29,7 @@ void commProtInit (void){
 	commProtBuffer = (struct CircBuffer* )&com2Buffer;
 	newCircBuffer(commProtBuffer);
 	
-	/*// DMA0REQ Register
+	// DMA0REQ Register
 	// ================
 	DMA0REQ = 0x001F;
 	
@@ -55,7 +55,7 @@ void commProtInit (void){
 	// Enable DMA0 TX interrupts
 	IFS0bits.DMA0IF  = 0;			// Clear DMA Interrupt Flag
 	IEC0bits.DMA0IE  = 1;			// Enable DMA interrupt
-	*/
+	
 	// Configure and open the port;
 	// U2MODE Register
 	// ==============

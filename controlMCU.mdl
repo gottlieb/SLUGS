@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.138"
+    ComputedModelVersion    "1.139"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -43,10 +43,10 @@ Model {
   Creator		  "ASL_Lab"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "ASL_Lab"
+  LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Nov 27 13:19:39 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:138>"
+  LastModifiedDate	  "Tue Dec 09 11:19:15 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:139>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -777,7 +777,7 @@ Model {
       Name		      "Data\nfrom GS"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [0, 1]
-      Position		      [55, 307, 160, 343]
+      Position		      [55, 387, 160, 423]
       BackgroundColor	      "orange"
       List {
 	ListType		RTWdata
@@ -1123,18 +1123,17 @@ Model {
       BlockType		      Reference
       Name		      "Parser/Decoder"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      [1, 1]
+      Ports		      [1]
       Position		      [235, 187, 340, 223]
       List {
 	ListType		RTWdata
-	FctDeclaration		"extern void protParseDecode(uint8_T* u1,uint8"
-"_T* y1);"
-	FctCall			"protParseDecode(*%u1, *%y1);"
+	FctDeclaration		"extern void protParseDecode(uint8_T* u1);"
+	FctCall			"protParseDecode(*%u1);"
 	fctName			"protParseDecode"
 	INPUT_SIZE		"99"
-	OUTPUT_SIZE		"99"
+	OUTPUT_SIZE		"1"
 	NBR_INPUT		"1"
-	NBR_OUTPUT		"1"
+	NBR_OUTPUT		"0"
       }
       SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
       SourceType	      "C Function Call"
@@ -1143,14 +1142,13 @@ Model {
       INPUT1		      "uint8"
       INPUT2		      "--"
       INPUT3		      "--"
-      OUTPUT_SIZE	      "99"
-      OUTPUT1		      "uint8"
+      OUTPUT_SIZE	      "1"
+      OUTPUT1		      "--"
       SampleTime	      "-1"
       InputType		      "[ 2 ]"
-      OutputType	      "[ 2 ]"
-      FctDeclaration	      "extern void protParseDecode(uint8_T* u1,uint8_T"
-"* y1);"
-      FctCall		      "protParseDecode(*%u1, *%y1);"
+      OutputType	      "[ ]"
+      FctDeclaration	      "extern void protParseDecode(uint8_T* u1);"
+      FctCall		      "protParseDecode(*%u1);"
       OrderingInOutPopup      "None"
     }
     Block {
@@ -1158,7 +1156,7 @@ Model {
       Name		      "Parser/Decoder1"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [1, 1]
-      Position		      [195, 307, 300, 343]
+      Position		      [195, 387, 300, 423]
       List {
 	ListType		RTWdata
 	FctDeclaration		"extern void protParseDecodeGS(uint8_T* u1,uin"
@@ -1250,7 +1248,7 @@ Model {
       Name		      "Send Data to Radio\nModem"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [1]
-      Position		      [465, 297, 570, 333]
+      Position		      [245, 282, 350, 318]
       BackgroundColor	      "darkGreen"
       List {
 	ListType		RTWdata
@@ -1281,19 +1279,13 @@ Model {
     Block {
       BlockType		      Terminator
       Name		      "Terminator"
-      Position		      [325, 315, 345, 335]
+      Position		      [325, 395, 345, 415]
       ShowName		      off
     }
     Block {
       BlockType		      Terminator
       Name		      "Terminator1"
       Position		      [555, 25, 575, 45]
-      ShowName		      off
-    }
-    Block {
-      BlockType		      Terminator
-      Name		      "Terminator2"
-      Position		      [365, 195, 385, 215]
       ShowName		      off
     }
     Block {
@@ -1321,20 +1313,13 @@ Model {
       SrcPort		      1
       Points		      [30, 0]
       Branch {
-	Points			[235, 0]
-	Branch {
-	  DstBlock		  "Send Data to Logger"
-	  DstPort		  1
-	}
-	Branch {
-	  Points		  [0, 60]
-	  DstBlock		  "Send Data to Radio\nModem"
-	  DstPort		  1
-	}
-      }
-      Branch {
 	Points			[0, -50]
 	DstBlock		"Parser/Decoder"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 45]
+	DstBlock		"Send Data to Radio\nModem"
 	DstPort			1
       }
     }
@@ -1374,12 +1359,6 @@ Model {
       SrcBlock		      "Parser/Decoder1"
       SrcPort		      1
       DstBlock		      "Terminator"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Parser/Decoder"
-      SrcPort		      1
-      DstBlock		      "Terminator2"
       DstPort		      1
     }
   }
