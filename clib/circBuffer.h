@@ -22,9 +22,8 @@
 # if __IN_DSPIC__
 	typedef struct CircBuffer{
 		unsigned char buffer[BSIZE];
-		unsigned int length;
-		unsigned int head;
-		unsigned int tail;
+		int head;
+		int tail;
 		unsigned int size;
 		unsigned char overflowCount;
 	}CircBuffer;
@@ -32,9 +31,8 @@
 #else
 	typedef struct CircBuffer{
 		unsigned char* buffer;
-		unsigned int length;
-		unsigned int head;
-		unsigned int tail;
+		int head;
+		int tail;
 		unsigned int size;
 		unsigned char overflowCount;
 	}CircBuffer;
@@ -65,10 +63,10 @@ void freeCircBuffer (CBRef* cB);
 unsigned int getLength (CBRef cB);
 
 // returns the actual index of the head
-unsigned char readHead (CBRef cB);
+int readHead (CBRef cB);
 
 // returns the actual index of the tail
-unsigned char readTail (CBRef cB);
+int readTail (CBRef cB);
 
 // returns the byte (actual value) that the head points to. this
 // does not mark the byte as read, so succesive calls to peak will
