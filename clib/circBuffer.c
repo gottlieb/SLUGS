@@ -19,7 +19,6 @@
 #endif
 
 
-
 // Constructors - Destructors
 // ==========================
 // this Function returns a pointer to a new Circular Buffer of size pm_size 
@@ -77,6 +76,8 @@
 		//printf("No Jala");
 	}
 
+  
+
 	// this function frees the Circular Buffer CB Ref
 	void freeCircBuffer (CBRef* cB){
 		// if it is already null, nothing to free
@@ -109,11 +110,13 @@ unsigned int getLength (CBRef cB){
 	}
 	else{
 		return 0;
+		
 	}	
 }
 
+
 // returns the actual index of the head
-unsigned int readHead (CBRef cB){
+int readHead (CBRef cB){
 	// if the circular buffer is not null
 	if (cB != NULL){
 		return (cB->head);
@@ -125,7 +128,7 @@ unsigned int readHead (CBRef cB){
 }
 
 // returns the actual index of the tail
-unsigned int readTail (CBRef cB){
+int readTail (CBRef cB){
 	// if the circular buffer is not null
 	if (cB != NULL){
 		return (cB->tail);
