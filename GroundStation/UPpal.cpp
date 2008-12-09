@@ -17,6 +17,8 @@
 #pragma link "AbVCInd"
 #pragma link "AbCBitBt"
 #pragma link "ToolEdit"
+#pragma link "WSocket"
+#pragma link "OoMisc"
 #pragma resource "*.dfm"
 
 
@@ -283,6 +285,7 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    updatePlots();
    updateAttitude();
 
+   et_fail ->Caption = FormatFloat("0.0000E+00",csFail);
 }
 //---------------------------------------------------------------------------
 void TFPpal::updateGPSLabels(void){
@@ -416,25 +419,26 @@ void TFPpal::updateDiagLabels(void){
 
 void __fastcall TFPpal::cp_serialTriggerAvail(TObject *CP, WORD Count)
 {
-  unsigned char fromSerial[4096];
-  unsigned char tmp[2*MAXSEND];
+  int logSize = 254;
+  unsigned char fromSerial[254+1];
+  unsigned char tmp[4*MAXSEND];
   int bytesRemain = Count;
-
+  //et_count->Caption = IntToStr(Count);
   try {
     while (bytesRemain > 0) {
-       if (bytesRemain <= 4095) {
-         cp_serial->GetBlock(&fromSerial[1], Count);
+       if (bytesRemain <= logSize) {
+         cp_serial->GetBlock(&fromSerial[1], bytesRemain);
          fromSerial[0] = Count;
          bytesRemain = 0;
        } else{
-         cp_serial->GetBlock(&fromSerial[1], 4095);
-         fromSerial[0] = 4095;
-         bytesRemain -= 4095;
+         cp_serial->GetBlock(&fromSerial[1], logSize);
+         fromSerial[0] = logSize;
+         bytesRemain -= logSize;
        }
        if (logIsOpen==true)
-         protParseDecode (&fromSerial[0], &tmp[0], liveLog);
+         csFail = protParseDecode (&fromSerial[0], &tmp[0], liveLog);
        else
-         protParseDecode (&fromSerial[0], &tmp[0], NULL);
+         csFail = protParseDecode (&fromSerial[0], &tmp[0], NULL);
     }
   }
    catch (...) {
@@ -662,9 +666,16 @@ float TFPpal::deg2Rad(float mDeg){
 
 void TFPpal::updateAttitude(void)
 {
+try{
+
   ai_att->Roll = RAD2DEG*attitudeSample.roll.flData;
   ai_att->Pitch = RAD2DEG*attitudeSample.pitch.flData;
   ai_att->Course = RAD2DEG*attitudeSample.yaw.flData;
+ }
+ catch (...) {
+     mm_diagnose->Lines->Add("ComputeDistance exception");
+ }
+
 /*
   ai_copy->Roll = -RAD2DEG*attitudeSample.p.flData;
   ai_copy->Pitch = RAD2DEG*attitudeSample.q.flData;
@@ -703,7 +714,7 @@ void __fastcall TFPpal::bt_filterClick(TObject *Sender)
 
  ld_filter->StatusInt= bt_filter->Tag;
 
- bt_filter->Caption = bt_filter->Tag? "Filter Off":"Filter On";
+ bt_filter->Caption = bt_filter->Tag? "HIL Off":"HIL On";
 
  assembleMsg(&rawMsg[0],FILMSG_LEN,FILMSG_ID,&filtMsg[0]);
 
@@ -935,4 +946,192 @@ char TFPpal::compare_float(float f1, float f2){
     return 0;
    }
 }
+
+void __fastcall TFPpal::skt_rcvSessionClosed(TObject *Sender, WORD ErrCode)
+{
+    StartButton->Enabled        = TRUE;
+    StopButton->Enabled         = FALSE;
+    PortEdit->Enabled           = TRUE;
+    ServerEdit->Enabled         = TRUE;
+    AnyServerCheckBox->Enabled  = TRUE;
+    InfoLabel->Caption          = "Disconnected";
+    DataAvailableLabel->Caption = "";    
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::skt_rcvSessionConnected(TObject *Sender,
+      WORD ErrCode)
+{
+   StartButton->Enabled = FALSE;
+    StopButton->Enabled  = TRUE;
+    InfoLabel->Caption   = "Connected";    
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::skt_rcvDataAvailable(TObject *Sender, WORD ErrCode)
+{
+    char        Buffer[70];
+    int         Len;
+    TSockAddrIn Src;
+    int         SrcLen;
+
+    memset(&Buffer, 0, 70);
+
+    SrcLen = sizeof(Src);
+    Len    = skt_rcv->ReceiveFrom(Buffer, sizeof(Buffer), Src, SrcLen);
+    if (Len >= 0) {
+        if ((FServerAddr.s_addr == INADDR_ANY) ||
+            (FServerAddr.s_addr == Src.sin_addr.s_addr)) {
+            if (bt_filter->Tag){
+               processUdpMsg(&Buffer[0]);
+            }
+            DataAvailableLabel->Caption =
+                IntToStr(atoi(DataAvailableLabel->Caption.c_str()) + 1) +
+                " Packets Received";
+        }
+        //TxCanMsg ();
+    }
+}
+//---------------------------------------------------------------------------
+void  TFPpal::processUdpMsg (unsigned char * buffer)
+{
+  unsigned char hilMsg [50];
+
+
+  // GPS Sentence
+  // ============
+
+  // reset message variable
+  memset(&hilMsg,0, 50);
+  // Assemble the message for transmission
+  assembleMsg(&buffer[HIL_GPS_START],GPSMSG_LEN,GPSMSG_ID,&hilMsg[0]);
+  // Send the data
+  cp_hil->PutBlock(&hilMsg[0],(GPSMSG_LEN+7));
+
+
+  // Air Data Sentence
+  // =================
+
+  // reset message variable
+  memset(&hilMsg,0, 50);
+  // Assemble the message for transmission
+  assembleMsg(&buffer[HIL_DYN_START],DYNMSG_LEN,DYNMSG_ID,&hilMsg[0]);
+  // Send the data
+  cp_hil->PutBlock(&hilMsg[0],(DYNMSG_LEN+7));
+
+
+  // Raw Data Sentence
+  // =================
+
+  // reset message variable
+  memset(&hilMsg,0, 50);
+  // Assemble the message for transmission
+  assembleMsg(&buffer[HIL_RAW_START],RAWMSG_LEN,RAWMSG_ID,&hilMsg[0]);
+  // Send the data
+  cp_hil->PutBlock(&hilMsg[0],(RAWMSG_LEN+7));
+
+}
+
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::StartButtonClick(TObject *Sender)
+{
+    FServerAddr                = WSocketResolveHost(ServerEdit->Text);
+    if (FServerAddr.s_addr == htonl(INADDR_LOOPBACK)) {
+        // Replace loopback address by real localhost IP addr
+        FServerAddr            = WSocketResolveHost(LocalHostName());
+    }
+    skt_rcv->Proto             = "udp";
+    skt_rcv->Addr              = "0.0.0.0";
+    skt_rcv->Port              = PortEdit->Text;
+    skt_rcv->Listen();
+    PortEdit->Enabled          = FALSE;
+    ServerEdit->Enabled        = FALSE;
+    AnyServerCheckBox->Enabled = FALSE;
+
+    cp_hil->Open = True;
+
+    if (!bt_filter->Tag) bt_filterClick(Sender);
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::StopButtonClick(TObject *Sender)
+{
+    StartButton->Enabled       = TRUE;
+    StopButton->Enabled        = FALSE;
+    PortEdit->Enabled          = TRUE;
+    ServerEdit->Enabled        = TRUE;
+    AnyServerCheckBox->Enabled = TRUE;
+    skt_rcv->Close();
+
+    if (bt_filter->Tag) bt_filterClick(Sender);
+    cp_hil->Open = False;
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::bt_startSendClick(TObject *Sender)
+{
+    skt_send->Proto = "udp";
+    skt_send->Addr  = ed_hostSend->Text;
+    skt_send->Port  = ed_portSend->Text;
+    skt_send->Connect();
+    bt_startSend->Enabled = FALSE;
+    bt_stopSend->Enabled  = TRUE;
+    ed_portSend->Enabled = FALSE;
+    ed_hostSend->Enabled = FALSE;
+    et_connSend->Caption   = "Connected";
+    
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::bt_stopSendClick(TObject *Sender)
+{
+    skt_send->Close();
+    bt_startSend->Enabled        = TRUE;
+    bt_stopSend->Enabled         = FALSE;
+    ed_portSend->Enabled         = TRUE;
+    ed_hostSend->Enabled         = TRUE;
+    ed_portSend->Enabled         = TRUE;
+    ed_hostSend->Enabled         = TRUE;
+    et_connSend->Caption         = "Disconnected";
+    et_sent->Caption             = "";    
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::AnyServerCheckBoxClick(TObject *Sender)
+{
+    if (AnyServerCheckBox->Checked)
+        ServerEdit->Text = "0.0.0.0";      
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::Button1Click(TObject *Sender)
+{
+     unsigned char hilMsg [50];
+     unsigned char buffer [30];
+
+  static unsigned char sec = 1;
+  // GPS Sentence
+  // ============
+
+  // reset message variable
+  memset(&hilMsg,0, 50);
+  memset(&buffer,0, 30);
+
+  buffer[0] = 8;
+  buffer[1] = 11;
+  buffer[2] = 24;
+  buffer[4] = sec++;
+
+
+
+  // Assemble the message for transmission
+  assembleMsg(&buffer[0],GPSMSG_LEN,GPSMSG_ID,&hilMsg[0]);
+  // Send the data
+  cp_hil->PutBlock(&hilMsg[0],(GPSMSG_LEN+7));
+  //cp_hil->PutBlock(&hilMsg[0],7);
+}
+//---------------------------------------------------------------------------
 

@@ -17,6 +17,8 @@
 #include "circBuffer.h"
 #include <p33fxxxx.h>
 #include <spi.h>
+#include <stdlib.h>
+#include <stdarg.h>
 
 //Structure arrays for incomming data
 struct tGpsData gpsDataBuffer [3];
@@ -68,22 +70,87 @@ void spiSlaveInit(void){
     IFS0bits.SPI1IF 	= 0;
     IPC2bits.SPI1IP 	= 6;
     IEC0bits.SPI1IE		= 1; 
+    
+    INTCON1bits.NSTDIS	= 1;
 }
+
+void printToUart2 (const char *fmt, ...){
+	va_list ap;
+	char buf [300];
+	
+	va_start(ap, fmt);
+	vsprintf(buf, fmt, ap);
+	va_end (ap);
+	putsUART2((unsigned int*)buf);
+}
+
 
 void readIpc (unsigned char* bufferedData){
 	// fix the data length so if the interrupt adds data
 	// during execution of this block, it will be read
 	// until the next readIpc
-	unsigned char tmpLen = getLength(protBuffer), i=0;
+	unsigned int tmpLen = getLength(protBuffer);
+	
+	
+	unsigned int i=0;
+	unsigned int availBytes = 0, sendMore = 0;
+	unsigned char failureTrue = 0;
+	
+	static unsigned long long timeStamp = 0;
+	
 	
 	// Set the output size accordingly
 	bufferedData[0] = (tmpLen > MAXLOGLEN)? MAXLOGLEN: tmpLen;
 	
+	if ((timeStamp % 1000)== 0){
+		printToUart2("T: %6.0f\n\r\0",(float) timeStamp*0.01);
+	}
+	timeStamp++;
+		
 	// write the data 
 	for(i = 1; i <= bufferedData[0]; i += 1 )
 	{
 		bufferedData[i] = readFront(protBuffer);
 	}
+	
+	
+	if (getOverflow(protBuffer)>0){
+		// disable the SPI module
+		SPI1STATbits.SPIEN  = 0;    
+    
+    	// Disable the interrupts
+    	IEC0bits.SPI1IE		= 0; 
+    	IFS0bits.SPI1IF 	= 0;
+		
+    	printToUart2("\n=== %s =====\n\r\n\r\n\r", "BEGIN DUMP ");
+    	printToUart2("Ts: %f\n\r\0",(float) timeStamp*0.01);
+    	printToUart2("Ovrflw: %d\n\r", getOverflow(protBuffer));
+ 		printToUart2("Head: %d\n\r", readHead(protBuffer));
+		printToUart2("Tail: %d\n\r", readTail(protBuffer));
+		printToUart2("Len: %d\n\r", getLength(protBuffer));
+		printToUart2("Siz: %d\n\r", protBuffer->size);
+   	
+    	
+    	for(i = 0; i <BSIZE; i ++ )
+    	{
+    		printToUart2("%d ", protBuffer->buffer[i]);
+    	}
+
+    	printToUart2("\n=== %s =====\n\r\n\r\n\r", "END ");
+    	
+    	// Empty the buffer
+		makeEmpty(protBuffer);
+
+
+    	// Enable the interrupts
+    	IFS0bits.SPI1IF 	= 0;
+    	IEC0bits.SPI1IE		= 1; 
+
+		// Enable the SPI module
+		SPI1STATbits.SPIEN  = 1;    
+
+	}
+		
 }
 
 // Interrupt service routine for SPI1 Slave 

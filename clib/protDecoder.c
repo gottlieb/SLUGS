@@ -234,7 +234,7 @@ void updateStates(unsigned char * completeSentence){
 }
 
 #ifdef _IN_PC_
-void protParseDecode (unsigned char* fromSPI, unsigned char* toLog, FILE* outFile){
+float protParseDecode (unsigned char* fromSPI, unsigned char* toLog, FILE* outFile){
 #else
 void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
 #endif
@@ -242,6 +242,13 @@ void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
 	static unsigned char prevBuffer[2*MAXLOGLEN];
 	static unsigned char previousComplete =1;
 	static unsigned char indexLast = 0;
+    #ifdef _IN_PC_
+         static long long checkSumFail = 0;
+         static long long totalPackets = 0;
+         static float test = 0.0;
+         float alpha = 0.3;
+    #endif
+
 
 	// local variables
 	unsigned char i;
@@ -325,6 +332,9 @@ void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
 
 			// Compute the checksum
 			tmpChksum= getChecksum(prevBuffer, indexLast-1);
+            #ifdef _IN_PC_
+               totalPackets++;
+            #endif
 
 			// if the checksum is valid
 			if (tmpChksum ==prevBuffer[indexLast]){
@@ -338,11 +348,14 @@ void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
                     if ((outFile != NULL)){
                        printState(outFile);
                     }
-
+                    //test = alpha*test;
                 #endif
 			}
             else{
-             indexLast = 1; // just to stop debugger
+                 #ifdef _IN_PC_
+                    checkSumFail++;
+                    //test = (1.0-alpha) + alpha*test;
+                 #endif
             }
             // get everything ready to start all-over
 			previousComplete =1;
@@ -357,6 +370,16 @@ void protParseDecode (unsigned char* fromSPI, unsigned char* toLog){
 		}// else no star
 	} // big outer while (no more bytes)
 	toLog[0] = logSize;
+    #ifdef _IN_PC_
+       if (totalPackets>0){
+          //test =  ((float)checkSumFail/(float)totalPackets);
+          test = (float)checkSumFail;
+
+       } else {
+          test = 0.0;
+       }
+       return test;
+    #endif
 }
 
 
@@ -376,7 +399,7 @@ static tAknData		    cpaknControlData;
 	if (cpattitudeControlData.timeStamp.usData != attitudeControlData.timeStamp.usData) {
 		// the time changed, so print the known state in the last sample time
 	    // Print Attitude and Position
-	    fprintf(outFile, "%hu,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,",
+/*	    fprintf(outFile, "%hu,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,",
 	         cpattitudeControlData.timeStamp.usData,
 	         cpattitudeControlData.roll.flData,
 	         cpattitudeControlData.pitch.flData,
@@ -408,7 +431,7 @@ static tAknData		    cpaknControlData;
 	         cpgpsControlData.fix,
 	         cpgpsControlData.sats,
 	         cpgpsControlData.newValue);
-
+*/
 	    // Print Raw Data
 	    fprintf(outFile, "%d,%d,%d,%d,%d,%d,%d,%d,%d,",
 	         cprawControlData.gyroX.usData,
@@ -422,7 +445,7 @@ static tAknData		    cpaknControlData;
 	         cprawControlData.magZ.usData);
 
 
-	    // Print Bias Data
+ /*	    // Print Bias Data
 	    fprintf(outFile, "%f,%f,%f,%f,%f,%f,",
 	         cpbiasControlData.axb.flData,
 	         cpbiasControlData.ayb.flData,
@@ -430,7 +453,7 @@ static tAknData		    cpaknControlData;
 	         cpbiasControlData.gxb.flData,
 	         cpbiasControlData.gyb.flData,
 	         cpbiasControlData.gzb.flData);
-
+*/
 	    // Print Air Data
 	    fprintf(outFile, "%f,%f,%d,",
 	         cpdynTempControlData.dynamic.flData,
@@ -438,14 +461,14 @@ static tAknData		    cpaknControlData;
 	         cpdynTempControlData.temp.shData);
 
 	    // Print Diagnostic Data
-	    fprintf(outFile, "%f,%f,%f,%d,%d,%d,",
+/*	    fprintf(outFile, "%f,%f,%f,%d,%d,%d,",
 	         cpdiagControlData.fl1.flData,
 	         cpdiagControlData.fl2.flData,
 	         cpdiagControlData.fl3.flData,
 	         cpdiagControlData.sh1.shData,
 	         cpdiagControlData.sh2.shData,
 	         cpdiagControlData.sh3.shData);
-
+*/
         // Print Sensor MCU Load
        fprintf(outFile, "%d,%d,%d,",
 	         cpstatusControlData.load,
@@ -526,3 +549,71 @@ unsigned char getFilterOnOff (void){
 	return filterControlData;
 }
 
+void hil_getRawRead(unsigned short * rawData){
+	// data for the bus is as follows:
+	// Accel Y
+	// Accel Z
+	// Gyro X
+	// IDG Ref
+	// Gyro Y
+	// Accel X
+	// Gyro Z
+	// ADX Ref
+	// Mag23
+	// Mag01
+	// Mag Z
+	// Baro
+	// Pitot
+	// Thermistor
+	// Power
+/*
+	
+	*/
+	rawData[0] =  	rawControlData.accelY.usData;
+	rawData[1] =  	rawControlData.accelZ.usData;
+	rawData[2] =  	rawControlData.gyroX.usData;
+	rawData[3] = 	0;
+	rawData[4] = 	rawControlData.gyroY.usData;
+	rawData[5] = 	rawControlData.accelX.usData;
+	rawData[6] = 	rawControlData.gyroZ.usData;
+	rawData[7] = 	0;
+	rawData[8] = 	rawControlData.magY.usData;
+	rawData[9] = 	rawControlData.magX.usData;
+	rawData[10] = 	rawControlData.magZ.usData;
+	rawData[11] = 	(unsigned short)dynTempControlData.dynamic.flData;
+	rawData[12] = 	(unsigned short)dynTempControlData.stat.flData;;
+	rawData[13] = 	(unsigned short)dynTempControlData.temp.shData;
+	rawData[14] = 	770;
+	
+}
+
+void hil_getGPSRead (unsigned char * gpsMsg){
+		// write the output data;
+		gpsMsg[0]  = gpsControlData.year;					
+		gpsMsg[1]  = gpsControlData.month;					
+		gpsMsg[2]  = gpsControlData.day;	
+		gpsMsg[3]  = gpsControlData.hour;
+		gpsMsg[4]  = gpsControlData.min;
+		gpsMsg[5]  = gpsControlData.sec;
+		gpsMsg[6]  = gpsControlData.lat.chData[0];
+		gpsMsg[7]  = gpsControlData.lat.chData[1];
+		gpsMsg[8]  = gpsControlData.lat.chData[2];					
+		gpsMsg[9]  = gpsControlData.lat.chData[3];
+		gpsMsg[10] = gpsControlData.lon.chData[0];
+		gpsMsg[11] = gpsControlData.lon.chData[1];
+		gpsMsg[12] = gpsControlData.lon.chData[2];					
+		gpsMsg[13] = gpsControlData.lon.chData[3];					
+		gpsMsg[14] = gpsControlData.height.chData[0];
+		gpsMsg[15] = gpsControlData.height.chData[1];
+		gpsMsg[16] = gpsControlData.height.chData[2];					
+		gpsMsg[17] = gpsControlData.height.chData[3];					
+		gpsMsg[18] = gpsControlData.cog.chData[0];					
+		gpsMsg[19] = gpsControlData.cog.chData[1];									
+		gpsMsg[20] = gpsControlData.sog.chData[0];					
+		gpsMsg[21] = gpsControlData.sog.chData[1];
+		gpsMsg[22] = gpsControlData.hdop.chData[0];					
+		gpsMsg[23] = gpsControlData.hdop.chData[1];
+		gpsMsg[24] = gpsControlData.fix;
+		gpsMsg[25] = gpsControlData.sats;									
+		gpsMsg[26] = gpsControlData.newValue;								
+}
