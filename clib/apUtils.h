@@ -4,9 +4,16 @@
 #ifdef __cplusplus
        extern "C"{
 #endif
-#include <math.h>       	
+#ifdef __BORLANDC__ 
+       #include "gsDefinitions.h"
+#endif
 
-float myAtan2(float num, float denom);       	
+#include <math.h>
+#include "apDefinitions.h"
+
+
+
+float myAtan2(float num, float denom);
 unsigned char getChecksum(unsigned char* sentence, unsigned char size);
 void assembleMsg(unsigned char* rawData , unsigned char size, unsigned char type, unsigned char* protMsg );
        	

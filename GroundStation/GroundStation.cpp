@@ -13,7 +13,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
     {
          Application->Initialize();
          Application->CreateForm(__classid(TFPpal), &FPpal);
-         Application->Run();
+                 Application->Run();
     }
     catch (Exception &exception)
     {
