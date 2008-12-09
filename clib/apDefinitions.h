@@ -20,7 +20,7 @@ and data types.
 #ifdef __cplusplus
        #define BSIZE			1024
 #else
-       #define BSIZE			250
+       #define BSIZE			512
 #endif
 
 // GPS Checksum Messages
@@ -91,6 +91,9 @@ and data types.
 #define DIAMSG_ID		7
 #define DIAMSG_LEN		18
 
+#define HIL_START		151
+
+
 
 // CONTROL MCU
 // ===========
@@ -100,14 +103,18 @@ and data types.
 
 // GROUND STATION
 // ==============
+// NOTE: for HIL simulator the GS uses the same IDs for the 
+// simulated sensor readings, i.e. GPS, Raw, Air Data, etc. Than
+// for the actual readings.
+
 #define FILMSG_ID		205
 #define FILMSG_LEN		1
-	
+
 
 // Communication Protocol Merging Offsets
 // ======================================
-#define GSMSG_IDX		97
-#define AKMSG_IDX		200
+#define GSMSG_IDX		99
+#define AKMSG_IDX		202
 
 
 // Standard characters used in the parsing of messages

@@ -8,6 +8,7 @@
 //
 // Code by: Mariano I. Lizarraga
 // First Revision: Aug 16 2008 @ 00:36
+// Second Revision: Dec 2 2008 @ 12:11
 // ==============================================================
 #ifndef _CIRCBUFFER_H_
 #define _CIRCBUFFER_H_
@@ -21,25 +22,26 @@
 # if __IN_DSPIC__
 	typedef struct CircBuffer{
 		unsigned char buffer[BSIZE];
-		unsigned int length;
-		unsigned int head;
-		unsigned int tail;
+		int head;
+		int tail;
 		unsigned int size;
+		unsigned char overflowCount;
 	}CircBuffer;
+	
 #else
 	typedef struct CircBuffer{
 		unsigned char* buffer;
-		unsigned int length;
-		unsigned int head;
-		unsigned int tail;
+		int head;
+		int tail;
 		unsigned int size;
+		unsigned char overflowCount;
 	}CircBuffer;
 #endif
 
 // Exported Types
 // ==============
 typedef struct CircBuffer* CBRef;
-
+	
 // Constructors - Destructors
 // ==========================
 // this Function returns a pointer to a new Circular Buffer of size pm_size 
@@ -61,10 +63,10 @@ void freeCircBuffer (CBRef* cB);
 unsigned int getLength (CBRef cB);
 
 // returns the actual index of the head
-unsigned char readHead (CBRef cB);
+int readHead (CBRef cB);
 
 // returns the actual index of the tail
-unsigned char readTail (CBRef cB);
+int readTail (CBRef cB);
 
 // returns the byte (actual value) that the head points to. this
 // does not mark the byte as read, so succesive calls to peak will
@@ -82,6 +84,9 @@ unsigned char writeBack (CBRef cB, unsigned char data);
 
 // empties the circular buffer. It does not change the size. use with caution!!
 void makeEmpty (CBRef cB);
+
+// returns the amount of times the CB has overflown;
+unsigned char getOverflow(CBRef cB);
 
 
 #if DEBUG

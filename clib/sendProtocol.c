@@ -29,7 +29,7 @@ void commProtInit (void){
 	commProtBuffer = (struct CircBuffer* )&com2Buffer;
 	newCircBuffer(commProtBuffer);
 	
-	// DMA0REQ Register
+	/*// DMA0REQ Register
 	// ================
 	DMA0REQ = 0x001F;
 	
@@ -55,7 +55,7 @@ void commProtInit (void){
 	// Enable DMA0 TX interrupts
 	IFS0bits.DMA0IF  = 0;			// Clear DMA Interrupt Flag
 	IEC0bits.DMA0IE  = 1;			// Enable DMA interrupt
-	
+	*/
 	// Configure and open the port;
 	// U2MODE Register
 	// ==============
@@ -100,7 +100,7 @@ void mergeMessages(unsigned char* dataIn, unsigned char* dataOut){
 		memcpy(&dataOut[1],&dataIn[1], dataIn[0]);
 		totalData += dataIn[0];
 	}
-	
+/*	
 	if(dataIn[GSMSG_IDX]>0){
 		// copy the second stream
 		memcpy(&dataOut[totalData+1], &dataIn[GSMSG_IDX+1], dataIn[GSMSG_IDX]);
@@ -112,7 +112,7 @@ void mergeMessages(unsigned char* dataIn, unsigned char* dataOut){
 		memcpy(&dataOut[totalData+1], &dataIn[AKMSG_IDX+1], dataIn[AKMSG_IDX]);
 		totalData += dataIn[AKMSG_IDX];
 	}
-
+*/
 	dataOut[0]= totalData;	
 }
 

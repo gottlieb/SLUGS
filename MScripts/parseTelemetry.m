@@ -18,9 +18,9 @@ function [M PosAtt GPS Bias Raw AirDiag time] = parseTelemetry (filename, plotDa
 % clear the screen
 clc;
 % parse the comma separated value file
-M_ld = load(filename);
-M = M_ld.M;
-
+%M_ld = load(filename);
+%M = M_ld.M;
+M = filename;
 
 %% Index Definitions
 
