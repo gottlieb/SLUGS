@@ -92,22 +92,6 @@ void loggerInit (void){
 	IEC4bits.U2EIE 		= 0;	
 }
 
-void assembleMsg(unsigned char* rawData , unsigned char size, unsigned char type, unsigned char* protMsg ){
-	unsigned char i;
-	// start the header
-	*(protMsg+0) = DOLLAR;
-	*(protMsg+1) = AT;
-	*(protMsg+2) = type;
-	*(protMsg+3) = size;
-	for( i = 0; i < size; i += 1 )
-	{
-		*(protMsg+i+4) = *(rawData +i);
-	}
-	*(protMsg+size+4) = STAR;
-	*(protMsg+size+5) = AT;
-	*(protMsg+size+6) = getChecksum(protMsg, (size+5));	
-}
-
 void copyBufferToDMA (unsigned char size){
 	unsigned char i;
 	for(  i = 0; i < size; i += 1 )

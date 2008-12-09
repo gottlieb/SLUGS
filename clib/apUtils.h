@@ -5,7 +5,10 @@
        extern "C"{
 #endif
 #include <math.h>       	
+
 float myAtan2(float num, float denom);       	
+unsigned char getChecksum(unsigned char* sentence, unsigned char size);
+void assembleMsg(unsigned char* rawData , unsigned char size, unsigned char type, unsigned char* protMsg );
        	
 #ifdef __cplusplus
       }

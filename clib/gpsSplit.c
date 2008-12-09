@@ -22,13 +22,7 @@ out_stream [m+1]	...	Byte indicating wether there is a valid message
 */
 
 
-#include "circBuffer.h"
-#include "apDefinitions.h"
-#include <stdlib.h>
-
-#if DEBUG
-	#include <stdio.h>
-#endif
+#include "gpsSplit.h"
 
 
 // Global Circular buffer
@@ -45,7 +39,7 @@ void gpsInit(void){
 	#endif
 }
 
-// GPS checksum code based on 
+/*// GPS checksum code based on 
 // http://www.codeproject.com/KB/mobile/WritingGPSApplications2.aspx
 // original code in C# written by Jon Person, author of "GPS.NET" (www.gpsdotnet.com)
 unsigned char getChecksum(unsigned char* sentence, unsigned char size){
@@ -82,7 +76,7 @@ unsigned char getChecksum(unsigned char* sentence, unsigned char size){
     // Return the checksum 
     return checkSum;
 }
-
+*/
 // this function converts one hex ascii character to decimal
 // used for the checksum comparison
 unsigned char hex2char (unsigned char halfhex){
