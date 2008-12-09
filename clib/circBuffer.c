@@ -24,7 +24,6 @@
 #endif
 
 
-
 // Constructors - Destructors
 // ==========================
 // this Function returns a pointer to a new Circular Buffer of size pm_size 
@@ -79,6 +78,8 @@
 		
 	}
 
+  
+
 	// this function frees the Circular Buffer CB Ref
 	void freeCircBuffer (CBRef* cB){
 		// if it is already null, nothing to free
@@ -113,28 +114,29 @@ unsigned int getLength (CBRef cB){
 		return 0;
 	}
 	
+
 }
 
 // returns the actual index of the head
-unsigned char readHead (CBRef cB){
+int readHead (CBRef cB){
 	// if the circular buffer is not null
 	if (cB != NULL){
 		return (cB->head);
 	}
 	else{
-		return -1;
+		return 0;
 	}
 
 }
 
 // returns the actual index of the tail
-unsigned char readTail (CBRef cB){
+int readTail (CBRef cB){
 	// if the circular buffer is not null
 	if (cB != NULL){
 		return (cB->tail);
 	}
 	else{
-		return -1;
+		return 0;
 	}
 
 }
@@ -166,8 +168,6 @@ unsigned char readFront (CBRef cB){
 		// if there are bytes in the buffer
 		if (getLength(cB) > 0){
 			retVal = cB->buffer[cB->head];
-			// this makes head ALWAYS have a valid value
-			// increase the head and wrap around if needed
 			cB->head = cB->head < (cB->size -1)? cB->head+1: 0;
 			return retVal;
 		}
@@ -180,17 +180,16 @@ unsigned char readFront (CBRef cB){
 // increments overflow count if overflow occurs
 unsigned char writeBack (CBRef cB, unsigned char data){
 	// if the circular buffer is not null
-	if (cB != NULL){
-		// check if an overflow will occur
-		// if the length is size-1 and I am about to add a char then
-		// overflow will occur and I will loose the whole buffer
+	if (cB != NULL){			
 		if (getLength (cB) == (cB->size -1)){
 			cB->overflowCount ++;
+			//return 1;
 		} else {		
 			cB->buffer[cB->tail] = data;
 			cB->tail = cB->tail < (cB->size -1)? cB->tail+1: 0;
+			//return 0;
 		}
-		return 0;
+		//return 0;
 	}
 	else{
 		return 1;
