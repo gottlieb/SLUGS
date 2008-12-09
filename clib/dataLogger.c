@@ -206,27 +206,17 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 			break;
 
 		case 5:			
-//			// assemble the Raw Sensor data for protocol sending	
-//			assembleMsg(&rawData[BIA_START], BIAMSG_LEN, BIAMSG_ID, tmpBuf);
-//
-//			// add it to the circular buffer and SPI queue
-//			for( i = 0; i < BIAMSG_LEN+7; i += 1 ){
-//				writeBack(logBuffer,tmpBuf[i]);
-//				data4SPI[i+1] = tmpBuf[i];
-//			}		
-//			// set the total data out for SPI			
-//			len2SPI = BIAMSG_LEN+7; 			
+			// assemble the Raw Sensor data for protocol sending	
+			assembleMsg(&rawData[BIA_START], BIAMSG_LEN, BIAMSG_ID, tmpBuf);
 
-			// assemble the XYZ data for protocol sending
-			assembleMsg(&rawData[XYZ_START], XYZMSG_LEN, XYZMSG_ID, tmpBuf);
 			// add it to the circular buffer and SPI queue
-			for( i = 0; i < XYZMSG_LEN+7; i += 1 ){
+			for( i = 0; i < BIAMSG_LEN+7; i += 1 ){
 				writeBack(logBuffer,tmpBuf[i]);
-				data4SPI[i+1+len2SPI] = tmpBuf[i];
-			}
-			
-		    // set the total data out for SPI
-			len2SPI = XYZMSG_LEN+7; 
+				data4SPI[i+1] = tmpBuf[i];
+			}		
+			// set the total data out for SPI			
+			len2SPI = BIAMSG_LEN+7; 			
+
 
 			break;
 		case 6:
@@ -271,27 +261,15 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 	// ==============================================
 	
 	// assemble the XYZ data for protocol sending
-//	assembleMsg(&rawData[XYZ_START], XYZMSG_LEN, XYZMSG_ID, tmpBuf);
-//	// add it to the circular buffer and SPI queue
-//	for( i = 0; i < XYZMSG_LEN+7; i += 1 ){
-//		writeBack(logBuffer,tmpBuf[i]);
-//		data4SPI[i+1+len2SPI] = tmpBuf[i];
-//	}
-//	
-//    // set the total data out for SPI
-//	data4SPI[0] = len2SPI + XYZMSG_LEN+7; 
-
-	// assemble the Raw Sensor data for protocol sending	
-	assembleMsg(&rawData[BIA_START], BIAMSG_LEN, BIAMSG_ID, tmpBuf);
-
+	assembleMsg(&rawData[XYZ_START], XYZMSG_LEN, XYZMSG_ID, tmpBuf);
 	// add it to the circular buffer and SPI queue
-	for( i = 0; i < BIAMSG_LEN+7; i += 1 ){
+	for( i = 0; i < XYZMSG_LEN+7; i += 1 ){
 		writeBack(logBuffer,tmpBuf[i]);
 		data4SPI[i+1+len2SPI] = tmpBuf[i];
-	}		
-	// set the total data out for SPI			
-	data4SPI[0] = len2SPI + XYZMSG_LEN+7; 			
-
+	}
+	
+    // set the total data out for SPI
+	data4SPI[0] = len2SPI + XYZMSG_LEN+7; 
 	
 	// increment/overflow the samplePeriod counter
 	// configured for 10 Hz in non vital messages
