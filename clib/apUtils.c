@@ -1,7 +1,13 @@
 #include "apUtils.h"
 
+
+
 float myAtan2(float num, float denom){
+     #ifdef _IN_PC_
+        return atan2(num,denom);
+     #else
 	return atan2f(num,denom);
+     #endif
 }
 
 // GPS checksum code based on 

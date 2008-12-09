@@ -35,6 +35,7 @@
 #include "ToolEdit.hpp"
 #include "gsDefinitions.h"
 #include "WSocket.hpp"
+#include "apUtils.h"
 #include <string>
 
 #define  DISLIMIT      30.0
