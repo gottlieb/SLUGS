@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.585"
+    ComputedModelVersion    "1.587"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Dec 09 09:53:50 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:585>"
+  LastModifiedDate	  "Fri Dec 12 11:43:56 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:587>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -907,7 +907,7 @@ Model {
   System {
     Name		    "sensorMCU"
     Location		    [214, 78, 1182, 801]
-    Open		    on
+    Open		    off
     ModelBrowserVisibility  on
     ModelBrowserWidth	    212
     ScreenColor		    "white"
@@ -5661,7 +5661,7 @@ Model {
 	  System {
 	    Name		    "calibrate sensors"
 	    Location		    [147, 90, 953, 777]
-	    Open		    off
+	    Open		    on
 	    ModelBrowserVisibility  on
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -5757,14 +5757,14 @@ Model {
 	      BlockType		      SubSystem
 	      Name		      "mag differencer"
 	      Ports		      [1, 1]
-	      Position		      [335, 453, 425, 527]
+	      Position		      [300, 454, 425, 526]
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
 	      MaskHideContents	      off
 	      MaskType		      "Stateflow"
 	      MaskDescription	      "Embedded MATLAB block"
-	      MaskDisplay	      "disp('fcn');"
+	      MaskDisplay	      "disp('M_out');"
 	      MaskSelfModifiable      on
 	      MaskIconFrame	      on
 	      MaskIconOpaque	      off
@@ -5809,7 +5809,7 @@ Model {
 		  PortCounts		  "[1 2]"
 		  Port {
 		    PortNumber		    2
-		    Name		    "M_out"
+		    Name		    "mag_k"
 		    RTWStorageClass	    "Auto"
 		    DataLoggingNameMode	    "SignalName"
 		  }
@@ -5821,17 +5821,17 @@ Model {
 		}
 		Block {
 		  BlockType		  Outport
-		  Name			  "M_out"
+		  Name			  "mag_k"
 		  Position		  [460, 101, 480, 119]
 		  IconDisplay		  "Port number"
 		  BusOutputAsStruct	  off
 		}
 		Line {
-		  Name			  "M_out"
+		  Name			  "mag_k"
 		  Labels		  [0, 0]
 		  SrcBlock		  " SFunction "
 		  SrcPort		  2
-		  DstBlock		  "M_out"
+		  DstBlock		  "mag_k"
 		  DstPort		  1
 		}
 		Line {
@@ -13687,7 +13687,7 @@ Stateflow {
 		chartFileNumber                           		1
 		disableImplicitCasting                    		1
 		eml {
-			name       		"fcn"
+			name       		"M_out"
 		}
 	}
 
@@ -13704,24 +13704,31 @@ Stateflow {
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function M_out  = fcn(M_in)\n"
+			script                   		"function mag_k  = M_out(M_in)\n"
 						"    persistent M_old;\n"
-						"    persistent clock;\n"
-						"    \n"
+						"    persistent clk;\n"
+						"    persistent magOld;\n"
+						"     \n"
 						"    if isempty(M_old)\n"
 						"        M_old = [0; 0; 0];\n"
-						"        clock = 1;\n"
+						"        clk = 1;\n"
+						"        magOld = 0;\n"
 						"    end\n"
-						"    clock = -clock;\n"
-						"    M_out = clock*(M_in-M_old).*0.5;\n"
-						"%     M_out = [(M_out(1)+56.5)./454;\n"
-						"%              (M_out(2)+15.4)./470;\n"
-						"%              (M_out(3)-23.2)./459];\n"
-						"    M_out = M_out/norm(M_out);\n"
-						"    M_out(3)=-M_out(3);\n"
+						"\n"
+						"    rnMax = find (M_in == max(M_in));\n"
+						"    \n"
+						"    sampDif =  M_in(rnMax(1))- M_old(rnMax(1));\n"
+						"    \n"
+						"    if ~(sampDif > -15 && sampDif < 15)\n"
+						"        clk = -clk;\n"
+						"        mag_k = clk*(M_in-M_old).*0.5;\n"
+						"    else\n"
+						"        mag_k = magOld.*[1 1 -1]';\n"
+						"    end;\n"
+						"    mag_k(3)=-mag_k(3);\n"
 						"    M_old = M_in;\n"
-						"end\n"
-						""
+						"    magOld = mag_k;\n"
+						"end"
 			editorLayout             		"100 M4x1[63 30 881 633]"
 			treatIntsAsFixpt         		0
 		}
@@ -13759,7 +13766,7 @@ Stateflow {
 
 	data {
 		id                            		6
-		name                          		"M_out"
+		name                          		"mag_k"
 		linkNode                      		[2 0 7]
 		scope                         		OUTPUT_DATA
 		machine                       		1
