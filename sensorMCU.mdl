@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.615"
+    ComputedModelVersion    "1.616"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Dec 12 20:38:14 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:615>"
+  LastModifiedDate	  "Mon Dec 15 14:24:01 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:616>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -907,7 +907,7 @@ Model {
   System {
     Name		    "sensorMCU"
     Location		    [214, 78, 1182, 801]
-    Open		    on
+    Open		    off
     ModelBrowserVisibility  on
     ModelBrowserWidth	    212
     ScreenColor		    "white"
@@ -9160,9 +9160,9 @@ Model {
 		    Name		    "Calibration and\nTemperature\nCom"
 "pensation"
 		    Location		    [948, 591, 1238, 874]
-		    Open		    off
+		    Open		    on
 		    ModelBrowserVisibility  on
-		    ModelBrowserWidth	    242
+		    ModelBrowserWidth	    212
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
 		    PaperPositionMode	    "auto"
@@ -9347,7 +9347,307 @@ Model {
 		    }
 		    Block {
 		    BlockType		    SubSystem
-		    Name		    "Enabled\nSubsystem"
+		    Name		    "Enables/Disables\nthe Computation"
+" of \ninitial Biases and Temps"
+		    Ports		    [0, 1]
+		    Position		    [85, 40, 180, 80]
+		    MinAlgLoopOccurrences   off
+		    RTWSystemCode	    "Auto"
+		    FunctionWithSeparateData off
+		    MaskHideContents	    off
+		    MaskType		    "Stateflow"
+		    MaskDescription	    "Embedded MATLAB block"
+		    MaskDisplay		    "disp('getTIni');"
+		    MaskSelfModifiable	    on
+		    MaskIconFrame	    on
+		    MaskIconOpaque	    off
+		    MaskIconRotate	    "none"
+		    MaskIconUnits	    "autoscale"
+		    System {
+		    Name		    "Enables/Disables\nthe Computation"
+" of \ninitial Biases and Temps"
+		    Location		    [257, 457, 812, 717]
+		    Open		    off
+		    ModelBrowserVisibility  on
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Demux
+		    Name		    " Demux "
+		    Ports		    [1, 1]
+		    Position		    [270, 160, 320, 200]
+		    Outputs		    "1"
+		    }
+		    Block {
+		    BlockType		    Ground
+		    Name		    " Ground "
+		    Position		    [20, 121, 40, 139]
+		    }
+		    Block {
+		    BlockType		    "S-Function"
+		    Name		    " SFunction "
+		    Tag			    "Stateflow S-Function sensorMCU 8"
+		    Ports		    [1, 2]
+		    Position		    [180, 100, 230, 160]
+		    FunctionName	    "sf_sfun"
+		    PortCounts		    "[1 2]"
+		    Port {
+		    PortNumber		    2
+		    Name		    "tOut"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Terminator
+		    Name		    " Terminator "
+		    Position		    [460, 171, 480, 189]
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "tOut"
+		    Position		    [460, 101, 480, 119]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    " SFunction "
+		    SrcPort		    1
+		    Points		    [0, 65]
+		    DstBlock		    " Demux "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    " Demux "
+		    SrcPort		    1
+		    DstBlock		    " Terminator "
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "tOut"
+		    Labels		    [0, 0]
+		    SrcBlock		    " SFunction "
+		    SrcPort		    2
+		    DstBlock		    "tOut"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    " Ground "
+		    SrcPort		    1
+		    DstBlock		    " SFunction "
+		    DstPort		    1
+		    }
+		    }
+		    }
+		    Block {
+		    BlockType		    Constant
+		    Name		    "Gyro Gains"
+		    Position		    [285, 287, 510, 313]
+		    Value		    "[-gxGainrad gyGainrad gzGainrad]"
+		    }
+		    Block {
+		    BlockType		    SubSystem
+		    Name		    "Gyro Temp \nCompensation"
+		    Ports		    [4, 1]
+		    Position		    [425, 184, 515, 251]
+		    MinAlgLoopOccurrences   off
+		    RTWSystemCode	    "Auto"
+		    FunctionWithSeparateData off
+		    MaskHideContents	    off
+		    MaskDescription	    "Temperature Compensate Gyro Measu"
+"rement"
+		    MaskPromptString	    "Gyro Tempearature Coeficientt"
+		    MaskStyleString	    "edit"
+		    MaskTunableValueString  "on"
+		    MaskEnableString	    "on"
+		    MaskVisibilityString    "on"
+		    MaskToolTipString	    "on"
+		    MaskVariables	    "alpha=@1;"
+		    MaskIconFrame	    on
+		    MaskIconOpaque	    on
+		    MaskIconRotate	    "none"
+		    MaskIconUnits	    "autoscale"
+		    MaskValueString	    "[0 gyTGain 0]"
+		    System {
+		    Name		    "Gyro Temp \nCompensation"
+		    Location		    [472, 459, 1008, 752]
+		    Open		    off
+		    ModelBrowserVisibility  on
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "Temp Ini"
+		    Position		    [425, 273, 455, 287]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Inport
+		    Name		    "Bias Ini"
+		    Position		    [120, 188, 150, 202]
+		    Port		    "2"
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Inport
+		    Name		    "Raw"
+		    Position		    [30, 148, 60, 162]
+		    Port		    "3"
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Inport
+		    Name		    "Temp Raw"
+		    Position		    [420, 228, 450, 242]
+		    Port		    "4"
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Product
+		    Name		    "Divide1"
+		    Ports		    [2, 1]
+		    Position		    [545, 212, 575, 243]
+		    ShowName		    off
+		    CollapseMode	    "All dimensions"
+		    InputSameDT		    off
+		    OutDataTypeMode	    "Inherit via internal rule"
+		    OutScaling		    "2^-10"
+		    RndMeth		    "Floor"
+		    SaturateOnIntegerOverflow off
+		    }
+		    Block {
+		    BlockType		    Sum
+		    Name		    "Sum"
+		    Ports		    [2, 1]
+		    Position		    [205, 145, 225, 165]
+		    ShowName		    off
+		    IconShape		    "round"
+		    Inputs		    "|+-"
+		    CollapseMode	    "All dimensions"
+		    InputSameDT		    off
+		    OutDataTypeMode	    "Inherit via internal rule"
+		    SaturateOnIntegerOverflow off
+		    }
+		    Block {
+		    BlockType		    Sum
+		    Name		    "Sum1"
+		    Ports		    [2, 1]
+		    Position		    [500, 225, 520, 245]
+		    ShowName		    off
+		    IconShape		    "round"
+		    Inputs		    "|+-"
+		    CollapseMode	    "All dimensions"
+		    InputSameDT		    off
+		    OutDataTypeMode	    "Inherit via internal rule"
+		    SaturateOnIntegerOverflow off
+		    }
+		    Block {
+		    BlockType		    Sum
+		    Name		    "Sum2"
+		    Ports		    [2, 1]
+		    Position		    [590, 145, 610, 165]
+		    ShowName		    off
+		    IconShape		    "round"
+		    Inputs		    "|+-"
+		    CollapseMode	    "All dimensions"
+		    InputSameDT		    off
+		    OutDataTypeMode	    "Inherit via internal rule"
+		    SaturateOnIntegerOverflow off
+		    }
+		    Block {
+		    BlockType		    Constant
+		    Name		    "gains"
+		    Position		    [405, 185, 515, 205]
+		    Value		    "alpha"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Comp"
+		    Position		    [665, 148, 695, 162]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "Sum"
+		    SrcPort		    1
+		    DstBlock		    "Sum2"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Raw"
+		    SrcPort		    1
+		    DstBlock		    "Sum"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Bias Ini"
+		    SrcPort		    1
+		    Points		    [60, 0]
+		    DstBlock		    "Sum"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "Temp Ini"
+		    SrcPort		    1
+		    Points		    [50, 0]
+		    DstBlock		    "Sum1"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "Temp Raw"
+		    SrcPort		    1
+		    DstBlock		    "Sum1"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Sum1"
+		    SrcPort		    1
+		    DstBlock		    "Divide1"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "gains"
+		    SrcPort		    1
+		    Points		    [5, 0; 0, 25]
+		    DstBlock		    "Divide1"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Divide1"
+		    SrcPort		    1
+		    Points		    [20, 0]
+		    DstBlock		    "Sum2"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "Sum2"
+		    SrcPort		    1
+		    DstBlock		    "Comp"
+		    DstPort		    1
+		    }
+		    }
+		    }
+		    Block {
+		    BlockType		    SubSystem
+		    Name		    "Initial Bias and\nTemp"
 		    Ports		    [2, 2, 1]
 		    Position		    [230, 97, 365, 173]
 		    TreatAsAtomicUnit	    on
@@ -9356,7 +9656,7 @@ Model {
 		    FunctionWithSeparateData off
 		    MaskHideContents	    off
 		    System {
-		    Name		    "Enabled\nSubsystem"
+		    Name		    "Initial Bias and\nTemp"
 		    Location		    [421, 301, 919, 601]
 		    Open		    off
 		    ModelBrowserVisibility  on
@@ -9991,306 +10291,6 @@ Model {
 		    }
 		    Block {
 		    BlockType		    SubSystem
-		    Name		    "Enables/Disables\nthe Computation"
-" of \ninitial Biases and Temps"
-		    Ports		    [0, 1]
-		    Position		    [85, 40, 180, 80]
-		    MinAlgLoopOccurrences   off
-		    RTWSystemCode	    "Auto"
-		    FunctionWithSeparateData off
-		    MaskHideContents	    off
-		    MaskType		    "Stateflow"
-		    MaskDescription	    "Embedded MATLAB block"
-		    MaskDisplay		    "disp('getTIni');"
-		    MaskSelfModifiable	    on
-		    MaskIconFrame	    on
-		    MaskIconOpaque	    off
-		    MaskIconRotate	    "none"
-		    MaskIconUnits	    "autoscale"
-		    System {
-		    Name		    "Enables/Disables\nthe Computation"
-" of \ninitial Biases and Temps"
-		    Location		    [257, 457, 812, 717]
-		    Open		    off
-		    ModelBrowserVisibility  on
-		    ModelBrowserWidth	    200
-		    ScreenColor		    "white"
-		    PaperOrientation	    "landscape"
-		    PaperPositionMode	    "auto"
-		    PaperType		    "usletter"
-		    PaperUnits		    "inches"
-		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
-"500000]"
-		    TiledPageScale	    1
-		    ShowPageBoundaries	    off
-		    ZoomFactor		    "100"
-		    Block {
-		    BlockType		    Demux
-		    Name		    " Demux "
-		    Ports		    [1, 1]
-		    Position		    [270, 160, 320, 200]
-		    Outputs		    "1"
-		    }
-		    Block {
-		    BlockType		    Ground
-		    Name		    " Ground "
-		    Position		    [20, 121, 40, 139]
-		    }
-		    Block {
-		    BlockType		    "S-Function"
-		    Name		    " SFunction "
-		    Tag			    "Stateflow S-Function sensorMCU 8"
-		    Ports		    [1, 2]
-		    Position		    [180, 100, 230, 160]
-		    FunctionName	    "sf_sfun"
-		    PortCounts		    "[1 2]"
-		    Port {
-		    PortNumber		    2
-		    Name		    "tOut"
-		    RTWStorageClass	    "Auto"
-		    DataLoggingNameMode	    "SignalName"
-		    }
-		    }
-		    Block {
-		    BlockType		    Terminator
-		    Name		    " Terminator "
-		    Position		    [460, 171, 480, 189]
-		    }
-		    Block {
-		    BlockType		    Outport
-		    Name		    "tOut"
-		    Position		    [460, 101, 480, 119]
-		    IconDisplay		    "Port number"
-		    BusOutputAsStruct	    off
-		    }
-		    Line {
-		    SrcBlock		    " SFunction "
-		    SrcPort		    1
-		    Points		    [0, 65]
-		    DstBlock		    " Demux "
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    " Demux "
-		    SrcPort		    1
-		    DstBlock		    " Terminator "
-		    DstPort		    1
-		    }
-		    Line {
-		    Name		    "tOut"
-		    Labels		    [0, 0]
-		    SrcBlock		    " SFunction "
-		    SrcPort		    2
-		    DstBlock		    "tOut"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    " Ground "
-		    SrcPort		    1
-		    DstBlock		    " SFunction "
-		    DstPort		    1
-		    }
-		    }
-		    }
-		    Block {
-		    BlockType		    Constant
-		    Name		    "Gyro Gains"
-		    Position		    [285, 287, 510, 313]
-		    Value		    "[-gxGainrad gyGainrad gzGainrad]"
-		    }
-		    Block {
-		    BlockType		    SubSystem
-		    Name		    "Gyro Temp \nCompensation"
-		    Ports		    [4, 1]
-		    Position		    [425, 184, 515, 251]
-		    MinAlgLoopOccurrences   off
-		    RTWSystemCode	    "Auto"
-		    FunctionWithSeparateData off
-		    MaskHideContents	    off
-		    MaskDescription	    "Temperature Compensate Gyro Measu"
-"rement"
-		    MaskPromptString	    "Gyro Tempearature Coeficientt"
-		    MaskStyleString	    "edit"
-		    MaskTunableValueString  "on"
-		    MaskEnableString	    "on"
-		    MaskVisibilityString    "on"
-		    MaskToolTipString	    "on"
-		    MaskVariables	    "alpha=@1;"
-		    MaskIconFrame	    on
-		    MaskIconOpaque	    on
-		    MaskIconRotate	    "none"
-		    MaskIconUnits	    "autoscale"
-		    MaskValueString	    "[0 gyTGain 0]"
-		    System {
-		    Name		    "Gyro Temp \nCompensation"
-		    Location		    [472, 459, 1008, 752]
-		    Open		    off
-		    ModelBrowserVisibility  on
-		    ModelBrowserWidth	    200
-		    ScreenColor		    "white"
-		    PaperOrientation	    "landscape"
-		    PaperPositionMode	    "auto"
-		    PaperType		    "usletter"
-		    PaperUnits		    "inches"
-		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
-"500000]"
-		    TiledPageScale	    1
-		    ShowPageBoundaries	    off
-		    ZoomFactor		    "100"
-		    Block {
-		    BlockType		    Inport
-		    Name		    "Temp Ini"
-		    Position		    [425, 273, 455, 287]
-		    IconDisplay		    "Port number"
-		    }
-		    Block {
-		    BlockType		    Inport
-		    Name		    "Bias"
-		    Position		    [120, 188, 150, 202]
-		    Port		    "2"
-		    IconDisplay		    "Port number"
-		    }
-		    Block {
-		    BlockType		    Inport
-		    Name		    "Raw"
-		    Position		    [30, 148, 60, 162]
-		    Port		    "3"
-		    IconDisplay		    "Port number"
-		    }
-		    Block {
-		    BlockType		    Inport
-		    Name		    "Temp Raw"
-		    Position		    [420, 228, 450, 242]
-		    Port		    "4"
-		    IconDisplay		    "Port number"
-		    }
-		    Block {
-		    BlockType		    Product
-		    Name		    "Divide1"
-		    Ports		    [2, 1]
-		    Position		    [545, 212, 575, 243]
-		    ShowName		    off
-		    CollapseMode	    "All dimensions"
-		    InputSameDT		    off
-		    OutDataTypeMode	    "Inherit via internal rule"
-		    OutScaling		    "2^-10"
-		    RndMeth		    "Floor"
-		    SaturateOnIntegerOverflow off
-		    }
-		    Block {
-		    BlockType		    Sum
-		    Name		    "Sum"
-		    Ports		    [2, 1]
-		    Position		    [205, 145, 225, 165]
-		    ShowName		    off
-		    IconShape		    "round"
-		    Inputs		    "|+-"
-		    CollapseMode	    "All dimensions"
-		    InputSameDT		    off
-		    OutDataTypeMode	    "Inherit via internal rule"
-		    SaturateOnIntegerOverflow off
-		    }
-		    Block {
-		    BlockType		    Sum
-		    Name		    "Sum1"
-		    Ports		    [2, 1]
-		    Position		    [500, 225, 520, 245]
-		    ShowName		    off
-		    IconShape		    "round"
-		    Inputs		    "|+-"
-		    CollapseMode	    "All dimensions"
-		    InputSameDT		    off
-		    OutDataTypeMode	    "Inherit via internal rule"
-		    SaturateOnIntegerOverflow off
-		    }
-		    Block {
-		    BlockType		    Sum
-		    Name		    "Sum2"
-		    Ports		    [2, 1]
-		    Position		    [590, 145, 610, 165]
-		    ShowName		    off
-		    IconShape		    "round"
-		    Inputs		    "|+-"
-		    CollapseMode	    "All dimensions"
-		    InputSameDT		    off
-		    OutDataTypeMode	    "Inherit via internal rule"
-		    SaturateOnIntegerOverflow off
-		    }
-		    Block {
-		    BlockType		    Constant
-		    Name		    "gains"
-		    Position		    [405, 185, 515, 205]
-		    Value		    "alpha"
-		    }
-		    Block {
-		    BlockType		    Outport
-		    Name		    "Comp"
-		    Position		    [665, 148, 695, 162]
-		    IconDisplay		    "Port number"
-		    BusOutputAsStruct	    off
-		    }
-		    Line {
-		    SrcBlock		    "Sum"
-		    SrcPort		    1
-		    DstBlock		    "Sum2"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Raw"
-		    SrcPort		    1
-		    DstBlock		    "Sum"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Bias"
-		    SrcPort		    1
-		    Points		    [60, 0]
-		    DstBlock		    "Sum"
-		    DstPort		    2
-		    }
-		    Line {
-		    SrcBlock		    "Temp Ini"
-		    SrcPort		    1
-		    Points		    [50, 0]
-		    DstBlock		    "Sum1"
-		    DstPort		    2
-		    }
-		    Line {
-		    SrcBlock		    "Temp Raw"
-		    SrcPort		    1
-		    DstBlock		    "Sum1"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Sum1"
-		    SrcPort		    1
-		    DstBlock		    "Divide1"
-		    DstPort		    2
-		    }
-		    Line {
-		    SrcBlock		    "gains"
-		    SrcPort		    1
-		    Points		    [5, 0; 0, 25]
-		    DstBlock		    "Divide1"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Divide1"
-		    SrcPort		    1
-		    Points		    [20, 0]
-		    DstBlock		    "Sum2"
-		    DstPort		    2
-		    }
-		    Line {
-		    SrcBlock		    "Sum2"
-		    SrcPort		    1
-		    DstBlock		    "Comp"
-		    DstPort		    1
-		    }
-		    }
-		    }
-		    Block {
-		    BlockType		    SubSystem
 		    Name		    "Mag Convert"
 		    Ports		    [1, 1]
 		    Position		    [330, 374, 420, 416]
@@ -10447,7 +10447,7 @@ Model {
 		    System {
 		    Name		    "Mag Temp \nCompensation"
 		    Location		    [214, 78, 1244, 1004]
-		    Open		    on
+		    Open		    off
 		    ModelBrowserVisibility  on
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
@@ -10621,7 +10621,7 @@ Model {
 " of \ninitial Biases and Temps"
 		    SrcPort		    1
 		    Points		    [110, 0]
-		    DstBlock		    "Enabled\nSubsystem"
+		    DstBlock		    "Initial Bias and\nTemp"
 		    DstPort		    enable
 		    }
 		    Line {
@@ -10630,7 +10630,7 @@ Model {
 		    Points		    [10, 0]
 		    Branch {
 		    Points		    [75, 0]
-		    DstBlock		    "Enabled\nSubsystem"
+		    DstBlock		    "Initial Bias and\nTemp"
 		    DstPort		    1
 		    }
 		    Branch {
@@ -10651,7 +10651,7 @@ Model {
 		    SrcPort		    1
 		    Points		    [20, 0]
 		    Branch {
-		    DstBlock		    "Enabled\nSubsystem"
+		    DstBlock		    "Initial Bias and\nTemp"
 		    DstPort		    2
 		    }
 		    Branch {
@@ -10661,14 +10661,14 @@ Model {
 		    }
 		    }
 		    Line {
-		    SrcBlock		    "Enabled\nSubsystem"
+		    SrcBlock		    "Initial Bias and\nTemp"
 		    SrcPort		    2
 		    Points		    [5, 0; 0, 55]
 		    DstBlock		    "Gyro Temp \nCompensation"
 		    DstPort		    2
 		    }
 		    Line {
-		    SrcBlock		    "Enabled\nSubsystem"
+		    SrcBlock		    "Initial Bias and\nTemp"
 		    SrcPort		    1
 		    Points		    [25, 0; 0, 80]
 		    DstBlock		    "Gyro Temp \nCompensation"
@@ -11214,7 +11214,7 @@ Model {
 		    Block {
 		    BlockType		    Inport
 		    Name		    "Mag Raw"
-		    Position		    [25, 75, 55, 89]
+		    Position		    [25, 73, 55, 87]
 		    BackgroundColor	    "yellow"
 		    IconDisplay		    "Port number"
 		    }
@@ -11747,9 +11747,10 @@ Model {
 		    Block {
 		    BlockType		    Outport
 		    Name		    "Mag Raw LPF"
-		    Position		    [415, 95, 445, 109]
+		    Position		    [415, 93, 445, 107]
 		    BackgroundColor	    "green"
 		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
 		    }
 		    Line {
 		    SrcBlock		    "Magnetometer Driver"
@@ -11840,14 +11841,14 @@ Model {
 		    Block {
 		    BlockType		    Inport
 		    Name		    "Baro raw"
-		    Position		    [40, 55, 70, 69]
+		    Position		    [40, 53, 70, 67]
 		    BackgroundColor	    "yellow"
 		    IconDisplay		    "Port number"
 		    }
 		    Block {
 		    BlockType		    Inport
 		    Name		    "Pitot raw"
-		    Position		    [35, 535, 65, 549]
+		    Position		    [35, 533, 65, 547]
 		    BackgroundColor	    "yellow"
 		    Port		    "2"
 		    IconDisplay		    "Port number"
@@ -11855,7 +11856,7 @@ Model {
 		    Block {
 		    BlockType		    Inport
 		    Name		    "Therm Raw"
-		    Position		    [45, 425, 75, 439]
+		    Position		    [45, 423, 75, 437]
 		    BackgroundColor	    "yellow"
 		    Port		    "3"
 		    IconDisplay		    "Port number"
@@ -11863,7 +11864,7 @@ Model {
 		    Block {
 		    BlockType		    Inport
 		    Name		    "Power Raw"
-		    Position		    [145, 240, 175, 254]
+		    Position		    [145, 238, 175, 252]
 		    BackgroundColor	    "yellow"
 		    Port		    "4"
 		    IconDisplay		    "Port number"
@@ -13121,10 +13122,11 @@ Model {
 		    Block {
 		    BlockType		    Outport
 		    Name		    "Baro (Pa)"
-		    Position		    [550, 145, 580, 159]
+		    Position		    [550, 143, 580, 157]
 		    BackgroundColor	    "green"
 		    Port		    "4"
 		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
 		    }
 		    Block {
 		    BlockType		    Outport
@@ -13160,6 +13162,7 @@ Model {
 		    BackgroundColor	    "green"
 		    Port		    "8"
 		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
 		    }
 		    Line {
 		    SrcBlock		    "Data Type Conversion19"
@@ -19246,8 +19249,6 @@ Stateflow {
 		firstJunction                             		97
 		viewObj                                   		95
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		99
@@ -19425,8 +19426,6 @@ Stateflow {
 		firstJunction                             		106
 		viewObj                                   		104
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		108
@@ -19603,8 +19602,6 @@ Stateflow {
 		firstJunction                             		115
 		viewObj                                   		113
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		117
@@ -20333,8 +20330,6 @@ Stateflow {
 		firstJunction                             		152
 		viewObj                                   		150
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		154
@@ -20634,8 +20629,8 @@ Stateflow {
 		id                                        		166
 		name                                      		"Sensor Data/Raw Sensors/Sensor Suite/Calibration and\n"
 					"Temperature\n"
-					"Compensation/Enabled\n"
-					"Subsystem/myMux Fun1"
+					"Compensation/Initial Bias and\n"
+					"Temp/myMux Fun1"
 		windowPosition                            		[386.813 224.45 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
@@ -20644,8 +20639,6 @@ Stateflow {
 		firstJunction                             		168
 		viewObj                                   		166
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		170
@@ -20808,8 +20801,8 @@ Stateflow {
 		id     		174
 		name   		"Sensor Data/Raw Sensors/Sensor Suite/Calibration and\n"
 					"Temperature\n"
-					"Compensation/Enabled\n"
-					"Subsystem/myMux Fun1"
+					"Compensation/Initial Bias and\n"
+					"Temp/myMux Fun1"
 		machine		1
 		chart  		166
 	}
