@@ -162,18 +162,34 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 			len2SPI += (DIAMSG_LEN+7); 			*/
 			break;
 		case 3:			
-			// assemble the Raw Sensor data for protocol sending	
-			assembleMsg(&rawData[RAW_START], RAWMSG_LEN, RAWMSG_ID, tmpBuf);
+			#ifdef LOGRAW100 	// If we need to log raw at 100 Hz
+			
+				// assemble the XYZ data for protocol sending
+				assembleMsg(&rawData[XYZ_START], XYZMSG_LEN, XYZMSG_ID, tmpBuf);
+				// add it to the circular buffer and SPI queue
+				for( i = 0; i < XYZMSG_LEN+7; i += 1 ){
+					writeBack(logBuffer,tmpBuf[i]);
+					data4SPI[i+1+len2SPI] = tmpBuf[i];
+				}
+			
+		    	// set the total data out for SPI
+				len2SPI = XYZMSG_LEN+7;
+			
+			#else
+				
+		    	// assemble the Raw Sensor data for protocol sending	
+				assembleMsg(&rawData[RAW_START], RAWMSG_LEN, RAWMSG_ID, tmpBuf);
 
-			// add it to the circular buffer and SPI queue
-			for( i = 0; i < RAWMSG_LEN+7; i += 1 ){
-				writeBack(logBuffer,tmpBuf[i]);
-				data4SPI[i+1] = tmpBuf[i];
-			}		
+				// add it to the circular buffer and SPI queue
+				for( i = 0; i < RAWMSG_LEN+7; i += 1 ){
+					writeBack(logBuffer,tmpBuf[i]);
+					data4SPI[i+1] = tmpBuf[i];
+				}		
 
-			// set the total data out for SPI			
-			len2SPI = RAWMSG_LEN+7; 			
-
+				// set the total data out for SPI			
+				len2SPI = RAWMSG_LEN+7; 			
+			#endif
+				
 			break;
 		case 4:			
 			// assemble the Raw Sensor data for protocol sending	
@@ -244,17 +260,33 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 	// XYZ data. Gets included every sample time
 	// ==============================================
 	
-	// assemble the XYZ data for protocol sending
-	assembleMsg(&rawData[XYZ_START], XYZMSG_LEN, XYZMSG_ID, tmpBuf);
-	// add it to the circular buffer and SPI queue
-	for( i = 0; i < XYZMSG_LEN+7; i += 1 ){
-		writeBack(logBuffer,tmpBuf[i]);
-		data4SPI[i+1+len2SPI] = tmpBuf[i];
-	}
+	#ifdef LOGRAW100
+		// assemble the Raw Sensor data for protocol sending	
+		assembleMsg(&rawData[RAW_START], RAWMSG_LEN, RAWMSG_ID, tmpBuf);
+
+		// add it to the circular buffer and SPI queue
+		for( i = 0; i < RAWMSG_LEN+7; i += 1 ){
+			writeBack(logBuffer,tmpBuf[i]);
+			data4SPI[i+1+len2SPI] = tmpBuf[i];
+		}		
+
+		// set the total data out for SPI			
+		data4SPI[0] = len2SPI + RAWMSG_LEN+7; 	
+	#else
 	
-    // set the total data out for SPI
-	data4SPI[0] = len2SPI + XYZMSG_LEN+7; 
+		// assemble the XYZ data for protocol sending
+		assembleMsg(&rawData[XYZ_START], XYZMSG_LEN, XYZMSG_ID, tmpBuf);
+		// add it to the circular buffer and SPI queue
+		for( i = 0; i < XYZMSG_LEN+7; i += 1 ){
+			writeBack(logBuffer,tmpBuf[i]);
+			data4SPI[i+1+len2SPI] = tmpBuf[i];
+		}
 	
+    	// set the total data out for SPI
+		data4SPI[0] = len2SPI + XYZMSG_LEN+7; 
+	
+	#endif
+		
 	// increment/overflow the samplePeriod counter
 	// configured for 10 Hz in non vital messages
 	samplePeriod = (samplePeriod >= 10)? 1: samplePeriod + 1;

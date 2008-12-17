@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.616"
+    ComputedModelVersion    "1.623"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Dec 15 14:24:01 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:616>"
+  LastModifiedDate	  "Tue Dec 16 17:41:51 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:623>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -906,8 +906,8 @@ Model {
   }
   System {
     Name		    "sensorMCU"
-    Location		    [214, 78, 1182, 801]
-    Open		    off
+    Location		    [268, 200, 1236, 923]
+    Open		    on
     ModelBrowserVisibility  on
     ModelBrowserWidth	    212
     ScreenColor		    "white"
@@ -9160,7 +9160,7 @@ Model {
 		    Name		    "Calibration and\nTemperature\nCom"
 "pensation"
 		    Location		    [948, 591, 1238, 874]
-		    Open		    on
+		    Open		    off
 		    ModelBrowserVisibility  on
 		    ModelBrowserWidth	    212
 		    ScreenColor		    "white"
@@ -10715,6 +10715,15 @@ Model {
 		}
 		Block {
 		  BlockType		  DataTypeConversion
+		  Name			  "Data Type Conversion"
+		  Position		  [880, 447, 935, 463]
+		  ShowName		  off
+		  OutDataTypeMode	  "uint16"
+		  RndMeth		  "Floor"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  DataTypeConversion
 		  Name			  "Data Type Conversion22"
 		  Position		  [500, 742, 555, 758]
 		  ShowName		  off
@@ -11815,6 +11824,148 @@ Model {
 		}
 		Block {
 		  BlockType		  SubSystem
+		  Name			  "Power Convert"
+		  Ports			  [1, 1]
+		  Position		  [785, 441, 855, 469]
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Auto"
+		  FunctionWithSeparateData off
+		  MaskHideContents	  off
+		  MaskDescription	  "Convert Analog readings to units"
+		  MaskPromptString	  "Initial Bias|Initial Gains"
+		  MaskStyleString	  "edit,edit"
+		  MaskTunableValueString  "on,on"
+		  MaskCallbackString	  "|"
+		  MaskEnableString	  "on,on"
+		  MaskVisibilityString	  "on,on"
+		  MaskToolTipString	  "on,on"
+		  MaskVarAliasString	  ","
+		  MaskVariables		  "bias=@1;gains=@2;"
+		  MaskIconFrame		  on
+		  MaskIconOpaque	  on
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  MaskValueString	  "0.02946|0.003226"
+		  MaskTabNameString	  ","
+		  System {
+		    Name		    "Power Convert"
+		    Location		    [249, 81, 1217, 804]
+		    Open		    off
+		    ModelBrowserVisibility  on
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "Raw"
+		    Position		    [25, 148, 55, 162]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Constant
+		    Name		    "Bias"
+		    Position		    [85, 250, 195, 270]
+		    Value		    "bias"
+		    }
+		    Block {
+		    BlockType		    Product
+		    Name		    "Divide"
+		    Ports		    [2, 1]
+		    Position		    [155, 132, 185, 163]
+		    ShowName		    off
+		    CollapseMode	    "All dimensions"
+		    InputSameDT		    off
+		    OutDataTypeMode	    "Inherit via internal rule"
+		    OutScaling		    "2^-10"
+		    RndMeth		    "Floor"
+		    SaturateOnIntegerOverflow off
+		    }
+		    Block {
+		    BlockType		    Gain
+		    Name		    "Gain"
+		    Position		    [390, 135, 420, 165]
+		    Gain		    "1000"
+		    ParameterDataTypeMode   "Inherit via internal rule"
+		    OutDataTypeMode	    "Inherit via internal rule"
+		    SaturateOnIntegerOverflow off
+		    }
+		    Block {
+		    BlockType		    Constant
+		    Name		    "Gains"
+		    Position		    [20, 45, 115, 65]
+		    Value		    "gains"
+		    }
+		    Block {
+		    BlockType		    Sum
+		    Name		    "Sum"
+		    Ports		    [2, 1]
+		    Position		    [260, 140, 280, 160]
+		    ShowName		    off
+		    IconShape		    "round"
+		    Inputs		    "|++"
+		    CollapseMode	    "All dimensions"
+		    InputSameDT		    off
+		    OutDataTypeMode	    "Inherit via internal rule"
+		    SaturateOnIntegerOverflow off
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Comp"
+		    Position		    [515, 138, 545, 152]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "Bias"
+		    SrcPort		    1
+		    Points		    [70, 0]
+		    DstBlock		    "Sum"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "Raw"
+		    SrcPort		    1
+		    DstBlock		    "Divide"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "Gains"
+		    SrcPort		    1
+		    Points		    [10, 0; 0, 85]
+		    DstBlock		    "Divide"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Divide"
+		    SrcPort		    1
+		    DstBlock		    "Sum"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Sum"
+		    SrcPort		    1
+		    DstBlock		    "Gain"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Gain"
+		    SrcPort		    1
+		    Points		    [75, 0]
+		    DstBlock		    "Comp"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  SubSystem
 		  Name			  "Subsystem"
 		  Ports			  [4, 8]
 		  Position		  [605, 371, 735, 584]
@@ -12369,15 +12520,6 @@ Model {
 		    Position		    [95, 52, 145, 68]
 		    ShowName		    off
 		    OutDataTypeMode	    "double"
-		    RndMeth		    "Floor"
-		    SaturateOnIntegerOverflow off
-		    }
-		    Block {
-		    BlockType		    DataTypeConversion
-		    Name		    "Data Type Conversion2"
-		    Position		    [765, 267, 820, 283]
-		    ShowName		    off
-		    OutDataTypeMode	    "uint16"
 		    RndMeth		    "Floor"
 		    SaturateOnIntegerOverflow off
 		    }
@@ -13199,12 +13341,6 @@ Model {
 		    DstPort		    1
 		    }
 		    Line {
-		    SrcBlock		    "Data Type Conversion2"
-		    SrcPort		    1
-		    DstBlock		    "Power"
-		    DstPort		    1
-		    }
-		    Line {
 		    SrcBlock		    "Data Type Conversion3"
 		    SrcPort		    1
 		    DstBlock		    "Low Pass2"
@@ -13328,7 +13464,7 @@ Model {
 		    SrcBlock		    "Demux"
 		    SrcPort		    2
 		    Points		    [15, 0; 0, 10]
-		    DstBlock		    "Data Type Conversion2"
+		    DstBlock		    "Power"
 		    DstPort		    1
 		    }
 		    Line {
@@ -13346,6 +13482,19 @@ Model {
 		  }
 		}
 		Block {
+		  BlockType		  Sum
+		  Name			  "Sum"
+		  Ports			  [2, 1]
+		  Position		  [835, 315, 855, 335]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "++|"
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
 		  BlockType		  Switch
 		  Name			  "Switch"
 		  Position		  [190, 95, 220, 255]
@@ -13353,6 +13502,12 @@ Model {
 		  InputSameDT		  off
 		  SaturateOnIntegerOverflow off
 		  SampleTime		  "0.01"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Zero Out H Diff"
+		  Position		  [750, 275, 780, 305]
+		  Value			  "1000"
 		}
 		Block {
 		  BlockType		  SubSystem
@@ -14068,7 +14223,7 @@ Model {
 		Block {
 		  BlockType		  Outport
 		  Name			  "Power"
-		  Position		  [810, 473, 840, 487]
+		  Position		  [965, 448, 995, 462]
 		  BackgroundColor	  "green"
 		  Port			  "15"
 		  IconDisplay		  "Port number"
@@ -14086,7 +14241,7 @@ Model {
 		Block {
 		  BlockType		  Outport
 		  Name			  "Baro Alt"
-		  Position		  [805, 328, 835, 342]
+		  Position		  [890, 318, 920, 332]
 		  BackgroundColor	  "green"
 		  Port			  "17"
 		  IconDisplay		  "Port number"
@@ -14612,13 +14767,6 @@ Model {
 		}
 		Line {
 		  SrcBlock		  "Subsystem"
-		  SrcPort		  1
-		  Points		  [5, 0; 0, -55]
-		  DstBlock		  "Baro Alt"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "Subsystem"
 		  SrcPort		  2
 		  Points		  [15, 0; 0, -50]
 		  DstBlock		  "Pitot"
@@ -14634,8 +14782,8 @@ Model {
 		Line {
 		  SrcBlock		  "Subsystem"
 		  SrcPort		  5
-		  Points		  [55, 0]
-		  DstBlock		  "Power"
+		  Points		  [30, 0]
+		  DstBlock		  "Power Convert"
 		  DstPort		  1
 		}
 		Line {
@@ -14649,6 +14797,38 @@ Model {
 		  SrcPort		  7
 		  Points		  [30, 0; 0, 5]
 		  DstBlock		  "Therm Log"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Power Convert"
+		  SrcPort		  1
+		  DstBlock		  "Data Type Conversion"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Data Type Conversion"
+		  SrcPort		  1
+		  DstBlock		  "Power"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Sum"
+		  SrcPort		  1
+		  DstBlock		  "Baro Alt"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Subsystem"
+		  SrcPort		  1
+		  Points		  [5, 0; 0, -65]
+		  DstBlock		  "Sum"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Zero Out H Diff"
+		  SrcPort		  1
+		  Points		  [60, 0]
+		  DstBlock		  "Sum"
 		  DstPort		  1
 		}
 	      }
@@ -14788,7 +14968,7 @@ Model {
 	    Block {
 	      BlockType		      Outport
 	      Name		      "Power"
-	      Position		      [390, 403, 420, 417]
+	      Position		      [535, 403, 565, 417]
 	      BackgroundColor	      "green"
 	      IconDisplay	      "Port number"
 	      BusOutputAsStruct	      off
