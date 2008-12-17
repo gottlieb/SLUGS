@@ -43,6 +43,7 @@ and data types.
 // ================
 #define LOGSEND					8
 #define MAXSEND					103
+#define MAXLOGSEND				56
 
 #ifdef __cplusplus
        #define MAXLOGLEN		500
@@ -50,7 +51,7 @@ and data types.
        #define MAXLOGLEN		99
 #endif
 
-
+#define LOGRAW100	1
 
 
 
@@ -150,6 +151,10 @@ and data types.
 
 #define LOGBAUD			115200
 #define LOG_UBRG		21
+
+#define LOGMAT_BAUD		57600
+#define LOGOMAT_UBRG	42
+
 
 // ifdef switches for debugging and conditional inclusion
 // ======================================================

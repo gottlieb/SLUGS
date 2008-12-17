@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.140"
+    ComputedModelVersion    "1.144"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -38,15 +38,15 @@ Model {
   StatusBar		  on
   BrowserShowLibraryLinks off
   BrowserLookUnderMasks	  off
-  InitFcn		  "initGPS"
+  InitFcn		  "mcuInit"
   Created		  "Fri Aug 15 13:29:17 2008"
   Creator		  "ASL_Lab"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Dec 09 12:16:34 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:140>"
+  LastModifiedDate	  "Wed Dec 17 12:47:33 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:144>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -326,7 +326,7 @@ Model {
 	  CustomHeaderCode	  "\n"
 	  CustomSource		  "clib\\circBuffer.c\nclib\\gpsSplit.c\nclib"
 "\\sbrk.c\nclib\\interProcCommSlave.c\nclib\\sendProtocol.c\nclib\\protDecoder"
-".c\nclib\\groundStationDriver.c"
+".c\nclib\\groundStationDriver.c\nclib\\apUtils.c"
 	  IncludeHyperlinkInReport on
 	  LaunchReport		  on
 	  TargetLang		  "C"
@@ -543,21 +543,21 @@ Model {
 	      CustomProperty {
 		DataType		"string"
 		Name			"LDPICTYPE"
-		Value			"-T C:\\PROGRA~1\\MICROC~1\\MPLABC~1\\"
+		Value			"-T C:\\PROGRA~1\\MICROC~1\\MPLABC~2\\"
 "support\\dsPIC33F\\gld\\p33fJ256MC710.gld"
 	      }
 	      CustomProperty {
 		DataType		"string"
 		Name			"LDLIBPIC"
-		Value			"C:\\PROGRA~1\\MICROC~1\\MPLABC~1\\lib"
-"\\libpic30-coff.a  C:\\PROGRA~1\\MICROC~1\\MPLABC~1\\lib\\dsPIC33F\\libp33fJ2"
-"56MC710-coff.a C:\\PROGRA~1\\MICROC~1\\MPLABC~1\\lib\\libc-coff.a C:\\PROGRA~"
-"1\\MICROC~1\\MPLABC~1\\lib\\libm-coff.a"
+		Value			"C:\\PROGRA~1\\MICROC~1\\MPLABC~2\\lib"
+"\\libpic30-coff.a  C:\\PROGRA~1\\MICROC~1\\MPLABC~2\\lib\\dsPIC33F\\libp33fJ2"
+"56MC710-coff.a C:\\PROGRA~1\\MICROC~1\\MPLABC~2\\lib\\libc-coff.a C:\\PROGRA~"
+"1\\MICROC~1\\MPLABC~2\\lib\\libm-coff.a"
 	      }
 	      CustomProperty {
 		DataType		"string"
 		Name			"PIC_INCLUDES"
-		Value			"-I C:\\PROGRA~1\\MICROC~1\\MPLABC~1\\"
+		Value			"-I C:\\PROGRA~1\\MICROC~1\\MPLABC~2\\"
 "include"
 	      }
 	      CustomProperty {
@@ -748,7 +748,7 @@ Model {
   }
   System {
     Name		    "controlMCU"
-    Location		    [267, 215, 1145, 792]
+    Location		    [270, 173, 1150, 697]
     Open		    on
     ModelBrowserVisibility  on
     ModelBrowserWidth	    212
@@ -1124,7 +1124,7 @@ Model {
       Name		      "Parser/Decoder"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [1]
-      Position		      [250, 212, 355, 248]
+      Position		      [220, 212, 325, 248]
       List {
 	ListType		RTWdata
 	FctDeclaration		"extern void protParseDecode(uint8_T* u1);"
@@ -1212,17 +1212,50 @@ Model {
     }
     Block {
       BlockType		      Reference
+      Name		      "Prepare Data for Logger"
+      Tag		      "dsPIC_dsPIC_CFunctionCall"
+      Ports		      [0, 1]
+      Position		      [480, 242, 585, 278]
+      BackgroundColor	      "darkGreen"
+      List {
+	ListType		RTWdata
+	FctDeclaration		"extern void prepareLog(uint8_T* y1);"
+	FctCall			"prepareLog(*%y1);"
+	fctName			"prepareLog"
+	INPUT_SIZE		"1"
+	OUTPUT_SIZE		"60"
+	NBR_INPUT		"0"
+	NBR_OUTPUT		"1"
+      }
+      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+      SourceType	      "C Function Call"
+      fctName		      "'prepareLog'"
+      INPUT_SIZE	      "1"
+      INPUT1		      "--"
+      INPUT2		      "--"
+      INPUT3		      "--"
+      OUTPUT_SIZE	      "60"
+      OUTPUT1		      "uint8"
+      SampleTime	      "0.01"
+      InputType		      "[ ]"
+      OutputType	      "[ 2 ]"
+      FctDeclaration	      "extern void prepareLog(uint8_T* y1);"
+      FctCall		      "prepareLog(*%y1);"
+      OrderingInOutPopup      "None"
+    }
+    Block {
+      BlockType		      Reference
       Name		      "Send Data to Logger"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [1]
-      Position		      [500, 237, 605, 273]
+      Position		      [670, 242, 775, 278]
       BackgroundColor	      "darkGreen"
       List {
 	ListType		RTWdata
 	FctDeclaration		"extern void txProtocol(uint8_T* u1);"
 	FctCall			"txProtocol(*%u1);"
 	fctName			"txProtocol"
-	INPUT_SIZE		"99"
+	INPUT_SIZE		"60"
 	OUTPUT_SIZE		"1"
 	NBR_INPUT		"1"
 	NBR_OUTPUT		"0"
@@ -1230,7 +1263,7 @@ Model {
       SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
       SourceType	      "C Function Call"
       fctName		      "'txProtocol'"
-      INPUT_SIZE	      "99"
+      INPUT_SIZE	      "60"
       INPUT1		      "uint8"
       INPUT2		      "--"
       INPUT3		      "--"
@@ -1248,7 +1281,7 @@ Model {
       Name		      "Send Data to Radio\nModem"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [1]
-      Position		      [250, 267, 355, 303]
+      Position		      [220, 267, 325, 303]
       BackgroundColor	      "darkGreen"
       List {
 	ListType		RTWdata
@@ -1359,6 +1392,12 @@ Model {
       SrcBlock		      "Parser/Decoder1"
       SrcPort		      1
       DstBlock		      "Terminator"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Prepare Data for Logger"
+      SrcPort		      1
+      DstBlock		      "Send Data to Logger"
       DstPort		      1
     }
   }
