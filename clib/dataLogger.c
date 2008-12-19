@@ -234,7 +234,7 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 		break;
 		
 		case 7:
-		    // assemble the Diagnostic data for protocol sending	
+		    // assemble the Pilot Console data for protocol sending	
 			assembleMsg(&rawData[PIL_START], PILMSG_LEN, PILMSG_ID, tmpBuf);
 			
 			// add it to the circular buffer and SPI queue

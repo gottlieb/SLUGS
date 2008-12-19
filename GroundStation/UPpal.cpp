@@ -19,6 +19,9 @@
 #pragma link "ToolEdit"
 #pragma link "WSocket"
 #pragma link "OoMisc"
+#pragma link "AbTank"
+#pragma link "AbVBar"
+#pragma link "AbHBar"
 #pragma resource "*.dfm"
 
 
@@ -90,8 +93,8 @@ void __fastcall TFPpal::FormClose(TObject *Sender, TCloseAction &Action)
 
  tb_config->Close();
 
- if (cp_serial->Open == true){
-    cp_serial->Open = false;
+ if (bt_serial->Tag != 0){
+    bt_serialClick(Sender);
  }
 }
 //---------------------------------------------------------------------------
@@ -273,6 +276,7 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    biasSample = getBiasStruct();
    diagSample = getDiagStruct();
    statusSample = getSensStruct();
+   pilControlSample = getPilotStruct();
 
    updateGPSLabels();                 
    updateRawLabels();
@@ -281,6 +285,7 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    updateBiasLabels();
    updateDynLabels();
    updateDiagLabels();
+   updatePilotLabels();
 
    updatePlots();
    updateAttitude();
@@ -352,6 +357,8 @@ void TFPpal::updateAttitudeLabels(void){
    et_y->Caption = FloatToStr(xyzSample.Ycoord.flData);
    et_z->Caption = FloatToStr(xyzSample.Zcoord.flData);
 
+   gr_height->Value = xyzSample.Zcoord.flData;
+
    et_vx->Caption = FloatToStr(xyzSample.VX.flData);
    et_vy->Caption = FloatToStr(xyzSample.VY.flData);
    et_vz->Caption = FloatToStr(xyzSample.VZ.flData);
@@ -406,6 +413,8 @@ void TFPpal::updateDynLabels(void){
   et_load->Caption = IntToStr(statusSample.load);
   et_vdetect->Caption = IntToStr(statusSample.vdetect);
   et_volt->Caption = IntToStr(statusSample.bVolt.usData);
+
+  gr_batt->Value = statusSample.bVolt.usData;
 }
 void TFPpal::updateDiagLabels(void){
   et_fl1->Caption = FloatToStr(diagSample.fl1.flData);
@@ -416,6 +425,18 @@ void TFPpal::updateDiagLabels(void){
   et_sh3->Caption = IntToStr( diagSample.sh3.shData);
 }
 
+void TFPpal::updatePilotLabels(void){
+  et_dla->Caption =  IntToStr(Floor(pilControlSample.dt.usData*0.2+20.0));
+  et_dt->Caption = IntToStr(Floor(pilControlSample.dla.usData*0.2+20.0));
+  et_dra->Caption = IntToStr(Floor(pilControlSample.dra.usData*0.2+20.0));
+  et_de->Caption =  IntToStr(Floor(pilControlSample.dr.usData*0.2+20.0));
+  et_dr->Caption =  IntToStr(Floor(pilControlSample.de.usData*0.2+20.0));
+
+  gr_dt->Value = StrToInt(et_dt->Caption);
+  gr_dr->Value = StrToInt(et_dr->Caption);
+  gr_da->Value = StrToInt(et_dra->Caption);
+  gr_de->Value = StrToInt(et_de->Caption);
+}
 
 void __fastcall TFPpal::cp_serialTriggerAvail(TObject *CP, WORD Count)
 {
