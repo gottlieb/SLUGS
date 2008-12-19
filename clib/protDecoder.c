@@ -408,6 +408,7 @@ static tDiagData		cpdiagControlData;
 static tXYZData		    cpxyzControlData;
 static unsigned char    cpfilterControlData;
 static tAknData		    cpaknControlData;
+static tPilotData		cppilControlData;  
 
 	if (cpattitudeControlData.timeStamp.usData != attitudeControlData.timeStamp.usData) {
 		// the time changed, so print the known state in the last sample time
@@ -488,6 +489,14 @@ static tAknData		    cpaknControlData;
 	         cpstatusControlData.vdetect,
 	         cpstatusControlData.bVolt.usData);
 
+   	// Print Pilot Console Data
+    fprintf(outFile, "%d,%d,%d,%d,%d,",
+	         cppilControlData.dt.usData,
+	         cppilControlData.dla.usData,
+	         cppilControlData.dra.usData,
+	         cppilControlData.dr.usData,
+	         cppilControlData.de.usData);
+
 	    // Add new line
 	    fprintf(outFile, "\n");
 
@@ -503,6 +512,7 @@ static tAknData		    cpaknControlData;
 	cpxyzControlData		= xyzControlData;
 	cpfilterControlData		= filterControlData;
 	cpaknControlData		= aknControlData;
+    cppilControlData        = pilControlData;
 
 
 }
@@ -550,6 +560,10 @@ tAknData getAknStruct(void){
 
 void setAknFilter (unsigned char value){
 	aknControlData.filOnOff = value;
+}
+
+tPilotData getPilotStruct(void){
+	return pilControlData;
 }
 
 void getTime (unsigned char * values){

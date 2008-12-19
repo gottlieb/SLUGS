@@ -36,6 +36,9 @@
 #include "gsDefinitions.h"
 #include "WSocket.hpp"
 #include "apUtils.h"
+#include "AbTank.hpp"
+#include "AbVBar.hpp"
+#include "AbHBar.hpp"
 #include <string>
 
 #define  DISLIMIT      30.0
@@ -265,6 +268,27 @@ __published:	// IDE-managed Components
     TApdComPort *cp_hil;
     TLabel *et_fail;
     TLabel *Label68;
+        TAbTank *gr_batt;
+        TAbVBar *gr_height;
+        TGroupBox *GroupBox13;
+        TLabel *Label69;
+        TLabel *Label70;
+        TLabel *Label71;
+        TLabel *Label72;
+        TLabel *Label73;
+        TStaticText *et_dt;
+        TStaticText *et_dla;
+        TStaticText *et_dra;
+        TStaticText *et_dr;
+        TStaticText *et_de;
+        TAbVBar *gr_dt;
+        TAbHBar *gr_dr;
+        TAbVBar *gr_de;
+        TAbHBar *gr_da;
+        TLabel *Label74;
+        TLabel *Label75;
+        TLabel *Label76;
+        TLabel *Label77;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -316,6 +340,7 @@ public:		// User declarations
         tBiasData biasSample;
         tDiagData diagSample;
         tSensStatus	statusSample;
+        tPilotData	pilControlSample;
 
         float csFail;
 
@@ -327,6 +352,7 @@ public:		// User declarations
         void updateAttitudeLabels(void);
         void updatePlots(void);
         void updateAttitude(void);
+        void updatePilotLabels(void);
 
         void updateBiasLabels(void);
         void updateDynLabels(void);

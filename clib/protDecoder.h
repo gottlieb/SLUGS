@@ -35,6 +35,7 @@ tBiasData getBiasStruct (void);
 tDynTempData getDynStruct (void);
 tDiagData getDiagStruct (void);
 tSensStatus getSensStruct (void);
+tPilotData getPilotStruct(void);
 void setAknFilter (unsigned char value);
 void hil_getRawRead (unsigned short * rawData);
 void hil_getGPSRead (unsigned char * gpsMsg);
