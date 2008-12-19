@@ -26,6 +26,7 @@ tDiagData		diagControlData;
 tXYZData		xyzControlData;
 unsigned char   filterControlData;
 tAknData		aknControlData;
+tPilotData		pilControlData;
 
 struct CircBuffer protParseBuffer;
 CBRef ppBuffer;
@@ -46,6 +47,7 @@ void protParserInit(void){
 	memset(&diagControlData, 0, sizeof(tDiagData));
 	memset(&xyzControlData, 0, sizeof(tXYZData));
 	memset(&aknControlData, 0, sizeof(tAknData));
+	memset(&pilControlData, 0, sizeof(tPilotData));
 	filterControlData = 0;
 }
 
@@ -88,7 +90,7 @@ void updateStates(unsigned char * completeSentence){
 			statusControlData.bVolt.chData[0] 	= completeSentence[6];
 			statusControlData.bVolt.chData[1] 	= completeSentence[7];
 		break;
-		case RAWMSG_ID: // Sensor Raw data, this one is done for demo. I will not fly
+		case RAWMSG_ID: // Sensor Raw data
 			rawControlData.gyroX.chData[0]	= completeSentence[4];	
 			rawControlData.gyroX.chData[1]	= completeSentence[5]; 	
 			rawControlData.gyroY.chData[0]	= completeSentence[6];		 	
@@ -228,6 +230,20 @@ void updateStates(unsigned char * completeSentence){
 			aknControlData.filOnOff = 1;
 			
 		break;	
+		case PILMSG_ID: // Pilot Console Commands data
+			pilControlData.dt.chData[0]		= completeSentence[4];	
+			pilControlData.dt.chData[1]		= completeSentence[5]; 	
+			pilControlData.dla.chData[0]	= completeSentence[6];		 	
+			pilControlData.dla.chData[1]	= completeSentence[7]; 
+			pilControlData.dra.chData[0]	= completeSentence[8];	 
+			pilControlData.dra.chData[1]	= completeSentence[9];	 
+			pilControlData.dr.chData[0]		= completeSentence[10];	 
+			pilControlData.dr.chData[1]		= completeSentence[11];	   
+			pilControlData.de.chData[0]		= completeSentence[12];	  
+			pilControlData.de.chData[1]		= completeSentence[13];	  
+		break;
+		
+		
 		default:
 		break;   
 	}

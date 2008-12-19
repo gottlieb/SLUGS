@@ -94,6 +94,10 @@ and data types.
 
 #define HIL_START		151
 
+#define PIL_START		152
+#define PILMSG_ID		9
+#define PILMSG_LEN		10
+
 
 
 // CONTROL MCU
@@ -199,7 +203,7 @@ typedef union{
 
 
 // ============== Enumerations for Data Order ========
-// Enumeration Definitions for sentences 
+/*// Enumeration Definitions for sentences 
 enum gpsOutSentence {
 	gpsYear,
 	gpsMonth,
@@ -229,7 +233,7 @@ enum gpsOutSentence {
 	gpsSats,
 	gpsNew		
 };
-
+*/
 // ============= Structures used for data ============
 typedef struct tGpsData{
 	unsigned char	 		year;
@@ -317,6 +321,14 @@ typedef struct tAknData{
 	unsigned char 	csLimits;
 	unsigned char 	filOnOff;	
 }tAknData;
+
+typedef struct tPilotData{
+	tUnsignedShortToChar	dt ;
+	tUnsignedShortToChar	dla;
+	tUnsignedShortToChar	dra;
+	tUnsignedShortToChar	dr ; 
+	tUnsignedShortToChar	de ; 
+}tPilotData;
 
 
 #ifdef __cplusplus

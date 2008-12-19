@@ -232,6 +232,20 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 			// set the total data out for SPI
 			len2SPI = (DIAMSG_LEN+7); 			
 		break;
+		
+		case 7:
+		    // assemble the Diagnostic data for protocol sending	
+			assembleMsg(&rawData[PIL_START], PILMSG_LEN, PILMSG_ID, tmpBuf);
+			
+			// add it to the circular buffer and SPI queue
+			for( i = 0; i < PILMSG_LEN+7; i += 1 ){
+				writeBack(logBuffer,tmpBuf[i]);
+				data4SPI[i+1] = tmpBuf[i];
+			}
+
+			// set the total data out for SPI
+			len2SPI = (PILMSG_LEN+7); 			
+		break;
 
 		default:
 			data4SPI[0] = 0;
