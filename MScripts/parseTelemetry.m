@@ -109,6 +109,8 @@ end;
 time   = (M(idxIni:idxEnd,timeStampIdx))*0.01 ;
 
 tmIdx =  find(time == 0);
+tmOneIdx = find(tmIdx ==1);
+tmIdx(tmOneIdx) = [];
 while (~isempty(tmIdx) )
     increment = time(tmIdx(1)-1)+0.01;
     time(tmIdx(1):end) = time(tmIdx(1):end)+increment;
