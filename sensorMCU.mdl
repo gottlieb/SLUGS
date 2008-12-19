@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.632"
+    ComputedModelVersion    "1.635"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Dec 19 14:00:02 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:632>"
+  LastModifiedDate	  "Fri Dec 19 14:40:10 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:635>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -906,8 +906,8 @@ Model {
   }
   System {
     Name		    "sensorMCU"
-    Location		    [212, 92, 1163, 815]
-    Open		    off
+    Location		    [251, 134, 1202, 857]
+    Open		    on
     ModelBrowserVisibility  on
     ModelBrowserWidth	    212
     ScreenColor		    "white"
@@ -9255,7 +9255,7 @@ Model {
 	      System {
 		Name			"Sensor Suite"
 		Location		[214, 82, 1125, 801]
-		Open			on
+		Open			off
 		ModelBrowserVisibility	on
 		ModelBrowserWidth	212
 		ScreenColor		"white"
@@ -12499,7 +12499,7 @@ Model {
 		    }
 		    Block {
 		    BlockType		    SubSystem
-		    Name		    "AccelConvert"
+		    Name		    "BaroConvert"
 		    Ports		    [1, 1]
 		    Position		    [380, 129, 485, 171]
 		    MinAlgLoopOccurrences   off
@@ -12523,7 +12523,7 @@ Model {
 		    MaskValueString	    "4664.3|28.508"
 		    MaskTabNameString	    ","
 		    System {
-		    Name		    "AccelConvert"
+		    Name		    "BaroConvert"
 		    Location		    [127, 413, 706, 769]
 		    Open		    off
 		    ModelBrowserVisibility  on
@@ -12626,7 +12626,7 @@ Model {
 		    BlockType		    SubSystem
 		    Name		    "Compute Height"
 		    Ports		    [1, 1]
-		    Position		    [390, 35, 500, 85]
+		    Position		    [620, 60, 730, 110]
 		    MinAlgLoopOccurrences   off
 		    RTWSystemCode	    "Auto"
 		    FunctionWithSeparateData off
@@ -12650,8 +12650,8 @@ Model {
 		    MaskIconOpaque	    on
 		    MaskIconRotate	    "none"
 		    MaskIconUnits	    "autoscale"
-		    MaskValueString	    "28.508|4664.3|99880|288.215|-0.00"
-"198122|121"
+		    MaskValueString	    "28.508|4664.3|98192.64|288.215|-0"
+".00198122|225"
 		    MaskTabNameString	    ",,,,,"
 		    System {
 		    Name		    "Compute Height"
@@ -13715,7 +13715,7 @@ Model {
 		    Block {
 		    BlockType		    Outport
 		    Name		    "Baro Alt"
-		    Position		    [575, 53, 605, 67]
+		    Position		    [805, 78, 835, 92]
 		    BackgroundColor	    "green"
 		    IconDisplay		    "Port number"
 		    BusOutputAsStruct	    off
@@ -13792,16 +13792,9 @@ Model {
 		    Line {
 		    SrcBlock		    "Low Pass1"
 		    SrcPort		    1
-		    Points		    [75, 0]
-		    Branch {
-		    DstBlock		    "Compute Height"
+		    Points		    [75, 0; 0, 90]
+		    DstBlock		    "BaroConvert"
 		    DstPort		    1
-		    }
-		    Branch {
-		    Points		    [0, 90]
-		    DstBlock		    "AccelConvert"
-		    DstPort		    1
-		    }
 		    }
 		    Line {
 		    SrcBlock		    "Data Type Conversion1"
@@ -13883,8 +13876,16 @@ Model {
 		    Line {
 		    SrcBlock		    "Data Type Conversion20"
 		    SrcPort		    1
+		    Points		    [5, 0]
+		    Branch {
 		    DstBlock		    "Static"
 		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, -80; -225, 0]
+		    DstBlock		    "Compute Height"
+		    DstPort		    1
+		    }
 		    }
 		    Line {
 		    SrcBlock		    "Power Raw"
@@ -13905,7 +13906,7 @@ Model {
 		    DstPort		    1
 		    }
 		    Line {
-		    SrcBlock		    "AccelConvert"
+		    SrcBlock		    "BaroConvert"
 		    SrcPort		    1
 		    Points		    [20, 0]
 		    Branch {
@@ -13984,197 +13985,7 @@ Model {
 		  BlockType		  Constant
 		  Name			  "Zero Out H Diff"
 		  Position		  [750, 275, 780, 305]
-		  Value			  "1000"
-		}
-		Block {
-		  BlockType		  SubSystem
-		  Name			  "calibrate sensors"
-		  Ports			  [3, 3]
-		  Position		  [825, 61, 925, 179]
-		  MinAlgLoopOccurrences	  off
-		  RTWSystemCode		  "Auto"
-		  FunctionWithSeparateData off
-		  MaskHideContents	  off
-		  System {
-		    Name		    "calibrate sensors"
-		    Location		    [214, 82, 1182, 805]
-		    Open		    off
-		    ModelBrowserVisibility  on
-		    ModelBrowserWidth	    200
-		    ScreenColor		    "white"
-		    PaperOrientation	    "landscape"
-		    PaperPositionMode	    "auto"
-		    PaperType		    "usletter"
-		    PaperUnits		    "inches"
-		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
-"500000]"
-		    TiledPageScale	    1
-		    ShowPageBoundaries	    off
-		    ZoomFactor		    "100"
-		    Block {
-		    BlockType		    Inport
-		    Name		    "gyro_in"
-		    Position		    [135, 88, 165, 102]
-		    IconDisplay		    "Port number"
-		    }
-		    Block {
-		    BlockType		    Inport
-		    Name		    "accel_in"
-		    Position		    [145, 288, 175, 302]
-		    Port		    "2"
-		    IconDisplay		    "Port number"
-		    }
-		    Block {
-		    BlockType		    Inport
-		    Name		    "mags_in"
-		    Position		    [155, 483, 185, 497]
-		    Port		    "3"
-		    IconDisplay		    "Port number"
-		    }
-		    Block {
-		    BlockType		    Constant
-		    Name		    "Constant1"
-		    Position		    [70, 142, 210, 168]
-		    ShowName		    off
-		    Value		    "[1866; 2050; 2043]"
-		    SampleTime		    "-1"
-		    }
-		    Block {
-		    BlockType		    Constant
-		    Name		    "Constant2"
-		    Position		    [100, 343, 255, 367]
-		    ShowName		    off
-		    Value		    "[2015; 2018; 2006]"
-		    SampleTime		    "-1"
-		    }
-		    Block {
-		    BlockType		    Gain
-		    Name		    "Gain1"
-		    Position		    [355, 30, 520, 160]
-		    Gain		    "[ -1/142 1/142 1/245];"
-		    ParameterDataTypeMode   "Inherit via internal rule"
-		    OutDataTypeMode	    "Inherit via internal rule"
-		    SaturateOnIntegerOverflow off
-		    }
-		    Block {
-		    BlockType		    Gain
-		    Name		    "Gain2"
-		    Position		    [340, 230, 505, 360]
-		    Gain		    "[-1/41 1/41 -1/43]"
-		    ParameterDataTypeMode   "Inherit via internal rule"
-		    OutDataTypeMode	    "Inherit via internal rule"
-		    SaturateOnIntegerOverflow off
-		    }
-		    Block {
-		    BlockType		    Sum
-		    Name		    "Sum1"
-		    Ports		    [2, 1]
-		    Position		    [270, 85, 290, 105]
-		    ShowName		    off
-		    IconShape		    "round"
-		    Inputs		    "|+-"
-		    CollapseMode	    "All dimensions"
-		    InputSameDT		    off
-		    OutDataTypeMode	    "Inherit via internal rule"
-		    SaturateOnIntegerOverflow off
-		    }
-		    Block {
-		    BlockType		    Sum
-		    Name		    "Sum2"
-		    Ports		    [2, 1]
-		    Position		    [285, 285, 305, 305]
-		    ShowName		    off
-		    IconShape		    "round"
-		    Inputs		    "|+-"
-		    CollapseMode	    "All dimensions"
-		    InputSameDT		    off
-		    OutDataTypeMode	    "Inherit via internal rule"
-		    SaturateOnIntegerOverflow off
-		    }
-		    Block {
-		    BlockType		    Outport
-		    Name		    "gyro_out"
-		    Position		    [570, 88, 600, 102]
-		    IconDisplay		    "Port number"
-		    BusOutputAsStruct	    off
-		    }
-		    Block {
-		    BlockType		    Outport
-		    Name		    "accel_out"
-		    Position		    [625, 288, 655, 302]
-		    Port		    "2"
-		    IconDisplay		    "Port number"
-		    BusOutputAsStruct	    off
-		    }
-		    Block {
-		    BlockType		    Outport
-		    Name		    "mags_out"
-		    Position		    [495, 483, 525, 497]
-		    Port		    "3"
-		    IconDisplay		    "Port number"
-		    BusOutputAsStruct	    off
-		    }
-		    Line {
-		    SrcBlock		    "Constant2"
-		    SrcPort		    1
-		    Points		    [35, 0]
-		    DstBlock		    "Sum2"
-		    DstPort		    2
-		    }
-		    Line {
-		    SrcBlock		    "Sum2"
-		    SrcPort		    1
-		    DstBlock		    "Gain2"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Gain2"
-		    SrcPort		    1
-		    DstBlock		    "accel_out"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "accel_in"
-		    SrcPort		    1
-		    DstBlock		    "Sum2"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Gain1"
-		    SrcPort		    1
-		    DstBlock		    "gyro_out"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "gyro_in"
-		    SrcPort		    1
-		    DstBlock		    "Sum1"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Constant1"
-		    SrcPort		    1
-		    Points		    [65, 0]
-		    DstBlock		    "Sum1"
-		    DstPort		    2
-		    }
-		    Line {
-		    SrcBlock		    "Sum1"
-		    SrcPort		    1
-		    DstBlock		    "Gain1"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "mags_in"
-		    SrcPort		    1
-		    Points		    [105, 0]
-		    }
-		    Line {
-		    Points		    [430, 490]
-		    DstBlock		    "mags_out"
-		    DstPort		    1
-		    }
-		  }
+		  Value			  "0"
 		}
 		Block {
 		  BlockType		  SubSystem
