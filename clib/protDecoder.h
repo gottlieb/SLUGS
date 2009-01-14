@@ -17,7 +17,6 @@
 #endif
 
 // These are the global data structures that hold the state
-// there are accessor methods to read data off them
 // use with care
 extern tGpsData 		gpsControlData;
 extern tRawData 		rawControlData;
@@ -30,6 +29,7 @@ extern tXYZData			xyzControlData;
 extern unsigned char   	filterControlData;
 extern tAknData			aknControlData;
 extern tPilotData		pilControlData;
+extern tPWMData			pwmControlData;
 
 void protParserInit (void);
 
