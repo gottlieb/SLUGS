@@ -19,16 +19,6 @@ struct CircBuffer com2Buffer;
 CBRef commProtBuffer;
 unsigned int BufferA[MAXSEND] __attribute__((space(dma))) = {0};
 
-tGpsData 		gpsLogData;
-tRawData 		rawLogData;
-tSensStatus		statusLogData;
-tAttitudeData	attitudeLogData;
-tDynTempData	dynTempLogData;
-tBiasData		biasLogData;
-tDiagData		diagLogData;
-tXYZData		xyzLogData;
-unsigned char   filterLogData;
-tAknData		aknLogData;
 
 void commProtInit (void){
 	// initialize the circular buffer
@@ -113,35 +103,34 @@ void prepareLog( unsigned char* dataOut){
 		
 	switch (sampleLog){
 		case 1: // GPS		
-			gpsLogData = getGpsStruct();
 			
-			rawSentence[0] =  gpsLogData.year	;			
-			rawSentence[1] =  gpsLogData.month	;		
-			rawSentence[2] =  gpsLogData.day	;			
-			rawSentence[3] =  gpsLogData.hour	;			
-			rawSentence[4] =  gpsLogData.min	;			
-			rawSentence[5] =  gpsLogData.sec	;			
-			rawSentence[6] = gpsLogData.lat.chData[0];	
-			rawSentence[7] = gpsLogData.lat.chData[1];	
-			rawSentence[8] = gpsLogData.lat.chData[2];				
-			rawSentence[9] = gpsLogData.lat.chData[3];			
-			rawSentence[10] = gpsLogData.lon.chData[0];	
-			rawSentence[11] = gpsLogData.lon.chData[1];	
-			rawSentence[12] = gpsLogData.lon.chData[2];	
-			rawSentence[13] = gpsLogData.lon.chData[3];	
-			rawSentence[14] = gpsLogData.height.chData[0];		
-			rawSentence[15] = gpsLogData.height.chData[1];	
-			rawSentence[16] = gpsLogData.height.chData[2];		
-			rawSentence[17] = gpsLogData.height.chData[3];	
-			rawSentence[18] = gpsLogData.cog.chData[0];	
-			rawSentence[19] = gpsLogData.cog.chData[1];	
-			rawSentence[20] = gpsLogData.sog.chData[0];	
-			rawSentence[21] = gpsLogData.sog.chData[1];	
-			rawSentence[22] = gpsLogData.hdop.chData[0];	
-			rawSentence[23] = gpsLogData.hdop.chData[1];	
-			rawSentence[24] = gpsLogData.fix			;	
-			rawSentence[25] = gpsLogData.sats			;	
-			rawSentence[26] = gpsLogData.newValue		;	
+			rawSentence[0] =  gpsControlData.year	;			
+			rawSentence[1] =  gpsControlData.month	;		
+			rawSentence[2] =  gpsControlData.day	;			
+			rawSentence[3] =  gpsControlData.hour	;			
+			rawSentence[4] =  gpsControlData.min	;			
+			rawSentence[5] =  gpsControlData.sec	;			
+			rawSentence[6] = gpsControlData.lat.chData[0];	
+			rawSentence[7] = gpsControlData.lat.chData[1];	
+			rawSentence[8] = gpsControlData.lat.chData[2];				
+			rawSentence[9] = gpsControlData.lat.chData[3];			
+			rawSentence[10] = gpsControlData.lon.chData[0];	
+			rawSentence[11] = gpsControlData.lon.chData[1];	
+			rawSentence[12] = gpsControlData.lon.chData[2];	
+			rawSentence[13] = gpsControlData.lon.chData[3];	
+			rawSentence[14] = gpsControlData.height.chData[0];		
+			rawSentence[15] = gpsControlData.height.chData[1];	
+			rawSentence[16] = gpsControlData.height.chData[2];		
+			rawSentence[17] = gpsControlData.height.chData[3];	
+			rawSentence[18] = gpsControlData.cog.chData[0];	
+			rawSentence[19] = gpsControlData.cog.chData[1];	
+			rawSentence[20] = gpsControlData.sog.chData[0];	
+			rawSentence[21] = gpsControlData.sog.chData[1];	
+			rawSentence[22] = gpsControlData.hdop.chData[0];	
+			rawSentence[23] = gpsControlData.hdop.chData[1];	
+			rawSentence[24] = gpsControlData.fix			;	
+			rawSentence[25] = gpsControlData.sats			;	
+			rawSentence[26] = gpsControlData.newValue		;	
 					
 			// assemble the GPS data for protocol sending
 			assembleMsg(&rawSentence[0], GPSMSG_LEN, GPSMSG_ID, tmpBuf);
@@ -157,26 +146,25 @@ void prepareLog( unsigned char* dataOut){
 			break;
 
 		case 2: // Diag		
-			diagLogData = getDiagStruct();
 			
-			rawSentence[0]	=	diagLogData.fl1.chData[0];	
-			rawSentence[1]	=	diagLogData.fl1.chData[1];	
-			rawSentence[2]	=	diagLogData.fl1.chData[2];	
-			rawSentence[3]	=	diagLogData.fl1.chData[3];	
-			rawSentence[4]	=	diagLogData.fl2.chData[0];	
-			rawSentence[5]	=	diagLogData.fl2.chData[1];	
-			rawSentence[6]	=	diagLogData.fl2.chData[2];	
-			rawSentence[7]	=	diagLogData.fl2.chData[3];	
-			rawSentence[8]	=	diagLogData.fl3.chData[0];	
-			rawSentence[9]	=	diagLogData.fl3.chData[1];	
-			rawSentence[10]=	diagLogData.fl3.chData[2];	
-			rawSentence[11]=	diagLogData.fl3.chData[3];	
-			rawSentence[12]=	diagLogData.sh1.chData[0];	
-			rawSentence[13]=	diagLogData.sh1.chData[1];	
-			rawSentence[14]=	diagLogData.sh2.chData[0];	
-			rawSentence[15]=	diagLogData.sh2.chData[1];	
-			rawSentence[16]=	diagLogData.sh3.chData[0];	
-			rawSentence[17]=	diagLogData.sh3.chData[1];
+			rawSentence[0]	=	diagControlData.fl1.chData[0];	
+			rawSentence[1]	=	diagControlData.fl1.chData[1];	
+			rawSentence[2]	=	diagControlData.fl1.chData[2];	
+			rawSentence[3]	=	diagControlData.fl1.chData[3];	
+			rawSentence[4]	=	diagControlData.fl2.chData[0];	
+			rawSentence[5]	=	diagControlData.fl2.chData[1];	
+			rawSentence[6]	=	diagControlData.fl2.chData[2];	
+			rawSentence[7]	=	diagControlData.fl2.chData[3];	
+			rawSentence[8]	=	diagControlData.fl3.chData[0];	
+			rawSentence[9]	=	diagControlData.fl3.chData[1];	
+			rawSentence[10]=	diagControlData.fl3.chData[2];	
+			rawSentence[11]=	diagControlData.fl3.chData[3];	
+			rawSentence[12]=	diagControlData.sh1.chData[0];	
+			rawSentence[13]=	diagControlData.sh1.chData[1];	
+			rawSentence[14]=	diagControlData.sh2.chData[0];	
+			rawSentence[15]=	diagControlData.sh2.chData[1];	
+			rawSentence[16]=	diagControlData.sh3.chData[0];	
+			rawSentence[17]=	diagControlData.sh3.chData[1];
 				 	
 					
 			// assemble the Diag data for protocol sending
@@ -192,34 +180,33 @@ void prepareLog( unsigned char* dataOut){
 
 		break;
 		case 3: // Attitude		
-			attitudeLogData = getAttStruct();
 			
-			rawSentence[0] = attitudeLogData.roll.chData[0]		;
-			rawSentence[1] = attitudeLogData.roll.chData[1]		;
-			rawSentence[2] = attitudeLogData.roll.chData[2]		;
-			rawSentence[3] = attitudeLogData.roll.chData[3]		;
-			rawSentence[4] = attitudeLogData.pitch.chData[0]	;	
-			rawSentence[5] = attitudeLogData.pitch.chData[1]	;	
-			rawSentence[6] = attitudeLogData.pitch.chData[2]	;	
-			rawSentence[7] = attitudeLogData.pitch.chData[3]	;	
-			rawSentence[8] = attitudeLogData.yaw.chData[0]		;
-			rawSentence[9] = attitudeLogData.yaw.chData[1]		;
-			rawSentence[10] =attitudeLogData.yaw.chData[2]		;
-			rawSentence[11] =attitudeLogData.yaw.chData[3]		;
-			rawSentence[12] =attitudeLogData.p.chData[0]		;	
-			rawSentence[13] =attitudeLogData.p.chData[1]		;	
-			rawSentence[14] =attitudeLogData.p.chData[2]		;	
-			rawSentence[15] =attitudeLogData.p.chData[3]		;	
-			rawSentence[16] =attitudeLogData.q.chData[0]		;	
-			rawSentence[17] =attitudeLogData.q.chData[1]		;	
-			rawSentence[18] =attitudeLogData.q.chData[2]		;	
-			rawSentence[19] =attitudeLogData.q.chData[3]		;	
-			rawSentence[20] =attitudeLogData.r.chData[0]		;	
-			rawSentence[21] =attitudeLogData.r.chData[1]		;	
-			rawSentence[22] =attitudeLogData.r.chData[2]		;	
-			rawSentence[23] =attitudeLogData.r.chData[3]		;	
-			rawSentence[24] =attitudeLogData.timeStamp.chData[0];	
-			rawSentence[25] =attitudeLogData.timeStamp.chData[1];					 	
+			rawSentence[0] = attitudeControlData.roll.chData[0]		;
+			rawSentence[1] = attitudeControlData.roll.chData[1]		;
+			rawSentence[2] = attitudeControlData.roll.chData[2]		;
+			rawSentence[3] = attitudeControlData.roll.chData[3]		;
+			rawSentence[4] = attitudeControlData.pitch.chData[0]	;	
+			rawSentence[5] = attitudeControlData.pitch.chData[1]	;	
+			rawSentence[6] = attitudeControlData.pitch.chData[2]	;	
+			rawSentence[7] = attitudeControlData.pitch.chData[3]	;	
+			rawSentence[8] = attitudeControlData.yaw.chData[0]		;
+			rawSentence[9] = attitudeControlData.yaw.chData[1]		;
+			rawSentence[10] =attitudeControlData.yaw.chData[2]		;
+			rawSentence[11] =attitudeControlData.yaw.chData[3]		;
+			rawSentence[12] =attitudeControlData.p.chData[0]		;	
+			rawSentence[13] =attitudeControlData.p.chData[1]		;	
+			rawSentence[14] =attitudeControlData.p.chData[2]		;	
+			rawSentence[15] =attitudeControlData.p.chData[3]		;	
+			rawSentence[16] =attitudeControlData.q.chData[0]		;	
+			rawSentence[17] =attitudeControlData.q.chData[1]		;	
+			rawSentence[18] =attitudeControlData.q.chData[2]		;	
+			rawSentence[19] =attitudeControlData.q.chData[3]		;	
+			rawSentence[20] =attitudeControlData.r.chData[0]		;	
+			rawSentence[21] =attitudeControlData.r.chData[1]		;	
+			rawSentence[22] =attitudeControlData.r.chData[2]		;	
+			rawSentence[23] =attitudeControlData.r.chData[3]		;	
+			rawSentence[24] =attitudeControlData.timeStamp.chData[0];	
+			rawSentence[25] =attitudeControlData.timeStamp.chData[1];					 	
 					
 			// assemble the Diag data for protocol sending
 			assembleMsg(&rawSentence[0], ATTMSG_LEN, ATTMSG_ID, tmpBuf);
@@ -235,32 +222,31 @@ void prepareLog( unsigned char* dataOut){
 		break;
 			
 		case 4: // Bias		
-			biasLogData = getBiasStruct();
 			
-			rawSentence[0] = biasLogData.axb.chData[0] ;
-			rawSentence[1] = biasLogData.axb.chData[1] ;
-			rawSentence[2] = biasLogData.axb.chData[2] ;
-			rawSentence[3] = biasLogData.axb.chData[3] ;
-			rawSentence[4] = biasLogData.ayb.chData[0] ;	
-			rawSentence[5] = biasLogData.ayb.chData[1] ;	
-			rawSentence[6] = biasLogData.ayb.chData[2] ;	
-			rawSentence[7] = biasLogData.ayb.chData[3] ;	
-			rawSentence[8] = biasLogData.azb.chData[0] ;
-			rawSentence[9] = biasLogData.azb.chData[1] ;
-			rawSentence[10]= biasLogData.azb.chData[2];
-			rawSentence[11]= biasLogData.azb.chData[3];
-			rawSentence[12]= biasLogData.gxb.chData[0];	
-			rawSentence[13]= biasLogData.gxb.chData[1];	
-			rawSentence[14]= biasLogData.gxb.chData[2];	
-			rawSentence[15]= biasLogData.gxb.chData[3];	
-			rawSentence[16]= biasLogData.gyb.chData[0];	
-			rawSentence[17]= biasLogData.gyb.chData[1];	
-			rawSentence[18]= biasLogData.gyb.chData[2];	
-			rawSentence[19]= biasLogData.gyb.chData[3];	
-			rawSentence[20]= biasLogData.gzb.chData[0];	
-			rawSentence[21]= biasLogData.gzb.chData[1];	
-			rawSentence[22]= biasLogData.gzb.chData[2];	
-			rawSentence[23]= biasLogData.gzb.chData[3];	
+			rawSentence[0] = biasControlData.axb.chData[0] ;
+			rawSentence[1] = biasControlData.axb.chData[1] ;
+			rawSentence[2] = biasControlData.axb.chData[2] ;
+			rawSentence[3] = biasControlData.axb.chData[3] ;
+			rawSentence[4] = biasControlData.ayb.chData[0] ;	
+			rawSentence[5] = biasControlData.ayb.chData[1] ;	
+			rawSentence[6] = biasControlData.ayb.chData[2] ;	
+			rawSentence[7] = biasControlData.ayb.chData[3] ;	
+			rawSentence[8] = biasControlData.azb.chData[0] ;
+			rawSentence[9] = biasControlData.azb.chData[1] ;
+			rawSentence[10]= biasControlData.azb.chData[2];
+			rawSentence[11]= biasControlData.azb.chData[3];
+			rawSentence[12]= biasControlData.gxb.chData[0];	
+			rawSentence[13]= biasControlData.gxb.chData[1];	
+			rawSentence[14]= biasControlData.gxb.chData[2];	
+			rawSentence[15]= biasControlData.gxb.chData[3];	
+			rawSentence[16]= biasControlData.gyb.chData[0];	
+			rawSentence[17]= biasControlData.gyb.chData[1];	
+			rawSentence[18]= biasControlData.gyb.chData[2];	
+			rawSentence[19]= biasControlData.gyb.chData[3];	
+			rawSentence[20]= biasControlData.gzb.chData[0];	
+			rawSentence[21]= biasControlData.gzb.chData[1];	
+			rawSentence[22]= biasControlData.gzb.chData[2];	
+			rawSentence[23]= biasControlData.gzb.chData[3];	
 					
 			// assemble the Diag data for protocol sending
 			assembleMsg(&rawSentence[0], BIAMSG_LEN, BIAMSG_ID, tmpBuf);
@@ -276,32 +262,31 @@ void prepareLog( unsigned char* dataOut){
 		break;
 		
 		case 5: // XYZ		
-			xyzLogData = getXYZStruct();
 			
-			rawSentence[0] = xyzLogData.Xcoord.chData[0];
-			rawSentence[1] = xyzLogData.Xcoord.chData[1];
-			rawSentence[2] = xyzLogData.Xcoord.chData[2];
-			rawSentence[3] = xyzLogData.Xcoord.chData[3];
-			rawSentence[4] = xyzLogData.Ycoord.chData[0];	
-			rawSentence[5] = xyzLogData.Ycoord.chData[1];	
-			rawSentence[6] = xyzLogData.Ycoord.chData[2];	
-			rawSentence[7] = xyzLogData.Ycoord.chData[3];	
-			rawSentence[8] = xyzLogData.Zcoord.chData[0];
-			rawSentence[9] = xyzLogData.Zcoord.chData[1];
-			rawSentence[10]= xyzLogData.Zcoord.chData[2];
-			rawSentence[11]= xyzLogData.Zcoord.chData[3];
-			rawSentence[12]= xyzLogData.VX.chData[0]	;	
-			rawSentence[13]= xyzLogData.VX.chData[1]	;	
-			rawSentence[14]= xyzLogData.VX.chData[2]	;	
-			rawSentence[15]= xyzLogData.VX.chData[3]	;	
-			rawSentence[16]= xyzLogData.VY.chData[0]	;	
-			rawSentence[17]= xyzLogData.VY.chData[1]	;	
-			rawSentence[18]= xyzLogData.VY.chData[2]	;	
-			rawSentence[19]= xyzLogData.VY.chData[3]	;	
-			rawSentence[20]= xyzLogData.VZ.chData[0]	;	
-			rawSentence[21]= xyzLogData.VZ.chData[1]	;	
-			rawSentence[22]= xyzLogData.VZ.chData[2]	;	
-			rawSentence[23]= xyzLogData.VZ.chData[3]	;	
+			rawSentence[0] = xyzControlData.Xcoord.chData[0];
+			rawSentence[1] = xyzControlData.Xcoord.chData[1];
+			rawSentence[2] = xyzControlData.Xcoord.chData[2];
+			rawSentence[3] = xyzControlData.Xcoord.chData[3];
+			rawSentence[4] = xyzControlData.Ycoord.chData[0];	
+			rawSentence[5] = xyzControlData.Ycoord.chData[1];	
+			rawSentence[6] = xyzControlData.Ycoord.chData[2];	
+			rawSentence[7] = xyzControlData.Ycoord.chData[3];	
+			rawSentence[8] = xyzControlData.Zcoord.chData[0];
+			rawSentence[9] = xyzControlData.Zcoord.chData[1];
+			rawSentence[10]= xyzControlData.Zcoord.chData[2];
+			rawSentence[11]= xyzControlData.Zcoord.chData[3];
+			rawSentence[12]= xyzControlData.VX.chData[0]	;	
+			rawSentence[13]= xyzControlData.VX.chData[1]	;	
+			rawSentence[14]= xyzControlData.VX.chData[2]	;	
+			rawSentence[15]= xyzControlData.VX.chData[3]	;	
+			rawSentence[16]= xyzControlData.VY.chData[0]	;	
+			rawSentence[17]= xyzControlData.VY.chData[1]	;	
+			rawSentence[18]= xyzControlData.VY.chData[2]	;	
+			rawSentence[19]= xyzControlData.VY.chData[3]	;	
+			rawSentence[20]= xyzControlData.VZ.chData[0]	;	
+			rawSentence[21]= xyzControlData.VZ.chData[1]	;	
+			rawSentence[22]= xyzControlData.VZ.chData[2]	;	
+			rawSentence[23]= xyzControlData.VZ.chData[3]	;	
 					
 			// assemble the Diag data for protocol sending
 			assembleMsg(&rawSentence[0], XYZMSG_LEN, XYZMSG_ID, tmpBuf);
@@ -318,19 +303,17 @@ void prepareLog( unsigned char* dataOut){
 
 		case 6: // Load and Dynamic	
 		
-			 // dynamic first
-			dynTempLogData = getDynStruct();
 			
-			rawSentence[0] = dynTempLogData.dynamic.chData[0];
-			rawSentence[1] = dynTempLogData.dynamic.chData[1];
-			rawSentence[2] = dynTempLogData.dynamic.chData[2];
-			rawSentence[3] = dynTempLogData.dynamic.chData[3];
-			rawSentence[4] = dynTempLogData.stat.chData[0]	;	
-			rawSentence[5] = dynTempLogData.stat.chData[1]	;	
-			rawSentence[6] = dynTempLogData.stat.chData[2]	;	
-			rawSentence[7] = dynTempLogData.stat.chData[3]	;	
-			rawSentence[8] = dynTempLogData.temp.chData[0]	;
-			rawSentence[9] = dynTempLogData.temp.chData[1]	;
+			rawSentence[0] = dynTempControlData.dynamic.chData[0];
+			rawSentence[1] = dynTempControlData.dynamic.chData[1];
+			rawSentence[2] = dynTempControlData.dynamic.chData[2];
+			rawSentence[3] = dynTempControlData.dynamic.chData[3];
+			rawSentence[4] = dynTempControlData.stat.chData[0]	;	
+			rawSentence[5] = dynTempControlData.stat.chData[1]	;	
+			rawSentence[6] = dynTempControlData.stat.chData[2]	;	
+			rawSentence[7] = dynTempControlData.stat.chData[3]	;	
+			rawSentence[8] = dynTempControlData.temp.chData[0]	;
+			rawSentence[9] = dynTempControlData.temp.chData[1]	;
 					
 			// assemble the Diag data for protocol sending
 			assembleMsg(&rawSentence[0], DYNMSG_LEN, DYNMSG_ID, tmpBuf);
@@ -346,12 +329,12 @@ void prepareLog( unsigned char* dataOut){
 			memset(tmpBuf, 0, sizeof(tmpBuf));
 			
 			// then load
-			statusLogData = getSensStruct();
+			statusControlData = getSensStruct();
 			
-			rawSentence[0] = statusLogData.load		 	;
-			rawSentence[1] = statusLogData.vdetect	 	;
-			rawSentence[2] = statusLogData.bVolt.chData[0] ;
-			rawSentence[3] = statusLogData.bVolt.chData[1] ;
+			rawSentence[0] = statusControlData.load		 	;
+			rawSentence[1] = statusControlData.vdetect	 	;
+			rawSentence[2] = statusControlData.bVolt.chData[0] ;
+			rawSentence[3] = statusControlData.bVolt.chData[1] ;
 					
 			// assemble the Diag data for protocol sending
 			assembleMsg(&rawSentence[0], LOADMSG_LEN, LOADMSG_ID, tmpBuf);
@@ -376,26 +359,24 @@ void prepareLog( unsigned char* dataOut){
 	// Raw data. Gets included every sample time
 	// ==============================================
 	
-	rawLogData = getRawStruct();
-	
-	rawSentence[0] 	=	rawLogData.gyroX.chData[0];	
-	rawSentence[1]  =	rawLogData.gyroX.chData[1];	
-	rawSentence[2] 	=	rawLogData.gyroY.chData[0];		 	
-	rawSentence[3]  =	rawLogData.gyroY.chData[1];	
-	rawSentence[4] 	=	rawLogData.gyroZ.chData[0];	 
-	rawSentence[5] 	=	rawLogData.gyroZ.chData[1];	 
-	rawSentence[6] =	rawLogData.accelX.chData[0];	 
-	rawSentence[7] =	rawLogData.accelX.chData[1];	   
-	rawSentence[8] =	rawLogData.accelY.chData[0];	  
-	rawSentence[9] =	rawLogData.accelY.chData[1];	  
-	rawSentence[10] =	rawLogData.accelZ.chData[0];	  
-	rawSentence[11] =	rawLogData.accelZ.chData[1];	  
-	rawSentence[12] =	rawLogData.magX.chData[0];	  
-	rawSentence[13] =	rawLogData.magX.chData[1];	  
-	rawSentence[14] =	rawLogData.magY.chData[0];	  
-	rawSentence[15] =	rawLogData.magY.chData[1];	  
-	rawSentence[16] =	rawLogData.magZ.chData[0];	  
-	rawSentence[17] =	rawLogData.magZ.chData[1];	
+	rawSentence[0] 	=	rawControlData.gyroX.chData[0];	
+	rawSentence[1]  =	rawControlData.gyroX.chData[1];	
+	rawSentence[2] 	=	rawControlData.gyroY.chData[0];		 	
+	rawSentence[3]  =	rawControlData.gyroY.chData[1];	
+	rawSentence[4] 	=	rawControlData.gyroZ.chData[0];	 
+	rawSentence[5] 	=	rawControlData.gyroZ.chData[1];	 
+	rawSentence[6] =	rawControlData.accelX.chData[0];	 
+	rawSentence[7] =	rawControlData.accelX.chData[1];	   
+	rawSentence[8] =	rawControlData.accelY.chData[0];	  
+	rawSentence[9] =	rawControlData.accelY.chData[1];	  
+	rawSentence[10] =	rawControlData.accelZ.chData[0];	  
+	rawSentence[11] =	rawControlData.accelZ.chData[1];	  
+	rawSentence[12] =	rawControlData.magX.chData[0];	  
+	rawSentence[13] =	rawControlData.magX.chData[1];	  
+	rawSentence[14] =	rawControlData.magY.chData[0];	  
+	rawSentence[15] =	rawControlData.magY.chData[1];	  
+	rawSentence[16] =	rawControlData.magZ.chData[0];	  
+	rawSentence[17] =	rawControlData.magZ.chData[1];	
 	
 	// assemble the Attitude data for protocol sending
 	assembleMsg(&rawSentence[0], RAWMSG_LEN, RAWMSG_ID, tmpBuf);
