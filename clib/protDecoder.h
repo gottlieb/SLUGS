@@ -16,6 +16,21 @@
        extern "C"{
 #endif
 
+// These are the global data structures that hold the state
+// there are accessor methods to read data off them
+// use with care
+extern tGpsData 		gpsControlData;
+extern tRawData 		rawControlData;
+extern tSensStatus		statusControlData;
+extern tAttitudeData	attitudeControlData;
+extern tDynTempData		dynTempControlData;
+extern tBiasData		biasControlData;
+extern tDiagData		diagControlData;
+extern tXYZData			xyzControlData;
+extern unsigned char   	filterControlData;
+extern tAknData			aknControlData;
+extern tPilotData		pilControlData;
+
 void protParserInit (void);
 
 #ifdef _IN_PC_
