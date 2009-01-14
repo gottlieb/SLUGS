@@ -26,6 +26,7 @@ tXYZData		xyzControlData;
 unsigned char   filterControlData;
 tAknData		aknControlData;
 tPilotData		pilControlData;
+tPWMData		pwmControlData;
 
 
 struct CircBuffer protParseBuffer;
@@ -48,7 +49,11 @@ void protParserInit(void){
 	memset(&xyzControlData, 0, sizeof(tXYZData));
 	memset(&aknControlData, 0, sizeof(tAknData));
 	memset(&pilControlData, 0, sizeof(tPilotData));
+	memset(&pwmControlData, 0, sizeof(tPWMData));
 	filterControlData = 0;
+	
+	// set the flag saying you just had a reboot
+	aknControlData.reboot = 1;
 }
 
 
