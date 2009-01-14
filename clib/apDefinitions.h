@@ -105,6 +105,9 @@ and data types.
 #define AKNMSG_ID		105
 #define AKNMSG_LEN		5
 
+#define PWMMSG_ID		100
+#define PWMMSG_LEN		20 
+
 
 // GROUND STATION
 // ==============

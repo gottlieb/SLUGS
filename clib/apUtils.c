@@ -236,7 +236,7 @@ void updateStates(unsigned char * completeSentence){
 			xyzControlData.VZ.chData[3]		= completeSentence[27];
 		break;	
 		case FILMSG_ID:
-			// turn the filter on
+			// turn the HIL on
 			filterControlData = completeSentence[4];
 			
 			// turn on the required Aknowledge flag
