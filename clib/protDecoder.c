@@ -53,7 +53,11 @@ void protParserInit(void){
 	filterControlData = 0;
 	
 	// set the flag saying you just had a reboot
-	aknControlData.reboot = 1;
+	#ifdef _IN_PC_
+		//
+	#else
+		aknControlData.reboot = 1;
+	#endif
 }
 
 

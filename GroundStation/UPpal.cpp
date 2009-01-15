@@ -277,6 +277,12 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    diagSample = getDiagStruct();
    statusSample = getSensStruct();
    pilControlSample = getPilotStruct();
+   pwmSample =  getPWMStruct();
+   aknSample = getAknStruct();
+
+   if (aknSample.reboot == 1){
+      ShowMessage("WARNING: Slugs Reboot");
+   }
 
    updateGPSLabels();                 
    updateRawLabels();
@@ -290,7 +296,7 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    updatePlots();
    updateAttitude();
 
-   updatePWM();
+   //updatePWM();
 
    et_fail ->Caption = FormatFloat("0.0000E+00",csFail);
 }
