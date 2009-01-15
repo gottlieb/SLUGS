@@ -290,6 +290,8 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    updatePlots();
    updateAttitude();
 
+   updatePWM();
+
    et_fail ->Caption = FormatFloat("0.0000E+00",csFail);
 }
 //---------------------------------------------------------------------------

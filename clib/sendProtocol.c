@@ -326,11 +326,10 @@ void prepareLog( unsigned char* dataOut){
 			// set the total data out for SPI
 			len2log = DYNMSG_LEN+7; 
 			
+			// clear the buffer for next sentence
 			memset(tmpBuf, 0, sizeof(tmpBuf));
 			
-			// then load
-			statusControlData = getSensStruct();
-			
+			// assemble next sentence			
 			rawSentence[0] = statusControlData.load		 	;
 			rawSentence[1] = statusControlData.vdetect	 	;
 			rawSentence[2] = statusControlData.bVolt.chData[0] ;

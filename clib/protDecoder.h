@@ -36,22 +36,25 @@ void protParserInit (void);
 #ifdef _IN_PC_
      float protParseDecode (unsigned char* fromSPI,  FILE* outFile);
      void printState(FILE* outfile);
+	void getTime (unsigned char * values);
+	tGpsData getGpsStruct (void);
+	tRawData getRawStruct (void);
+	tXYZData getXYZStruct (void);
+	tAttitudeData getAttStruct (void);
+	tAknData getAknStruct (void);
+	tBiasData getBiasStruct (void);
+	tDynTempData getDynStruct (void);
+	tDiagData getDiagStruct (void);
+	tSensStatus getSensStruct (void);
+	tPilotData getPilotStruct (void);
+	void setAknFilter (unsigned char value); 
+	tPWMData getPWMStruct (void);
+    
 #else
      void protParseDecode (unsigned char* fromSPI);
 #endif
 
-void getTime (unsigned char * values);
-tGpsData getGpsStruct (void);
-tRawData getRawStruct (void);
-tXYZData getXYZStruct (void);
-tAttitudeData getAttStruct (void);
-tAknData getAknStruct (void);
-tBiasData getBiasStruct (void);
-tDynTempData getDynStruct (void);
-tDiagData getDiagStruct (void);
-tSensStatus getSensStruct (void);
-tPilotData getPilotStruct(void);
-void setAknFilter (unsigned char value);
+
 void hil_getRawRead (unsigned short * rawData);
 void hil_getGPSRead (unsigned char * gpsMsg);
 

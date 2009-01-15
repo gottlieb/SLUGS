@@ -3396,7 +3396,7 @@ object FPpal: TFPpal
         Left = 32
         Top = 421
         Width = 42
-        Height = 17
+        Height = 13
         Caption = 'Rudder'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText

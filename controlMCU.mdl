@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.154"
+    ComputedModelVersion    "1.155"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jan 14 14:40:53 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:154>"
+  LastModifiedDate	  "Wed Jan 14 16:10:45 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:155>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -311,7 +311,7 @@ Model {
 	  PostCodeGenCommand	  "dsPIC_Compile()"
 	  Description		  "Embedded Target for Microchip dsPIC (real-t"
 "ime)"
-	  GenerateReport	  on
+	  GenerateReport	  off
 	  SaveLog		  off
 	  RTWVerbose		  on
 	  RetainRTWFile		  off
@@ -327,8 +327,8 @@ Model {
 	  CustomSource		  "clib\\circBuffer.c\nclib\\gpsSplit.c\nclib"
 "\\sbrk.c\nclib\\interProcCommSlave.c\nclib\\sendProtocol.c\nclib\\protDecoder"
 ".c\nclib\\groundStationDriver.c\nclib\\apUtils.c"
-	  IncludeHyperlinkInReport on
-	  LaunchReport		  on
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
 	  TargetLang		  "C"
 	  IncludeBusHierarchyInRTWFileBlockHierarchyMap	off
 	  IncludeERTFirstTime	  off
@@ -577,7 +577,7 @@ Model {
 	PropName		"Components"
       }
       Name		      "Configuration"
-      CurrentDlgPage	      "Real-Time Workshop/Custom Code"
+      CurrentDlgPage	      "Real-Time Workshop"
     }
     PropName		    "ConfigurationSets"
   }
@@ -799,18 +799,60 @@ Model {
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
     Block {
-      BlockType		      SubSystem
-      Name		      "Compute Load"
+      BlockType		      Reference
+      Name		      "Configure Model \nfor dsPIC"
+      Ports		      []
+      Position		      [20, 19, 132, 75]
+      BackgroundColor	      "yellow"
+      SourceBlock	      "dsPICdrivers/Simulink Configuration/Configure M"
+"odel \nfor dsPIC"
+      SourceType	      ""
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Create Telemetry \nSentence"
+      Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [0, 1]
-      Position		      [60, 458, 155, 502]
+      Position		      [535, 197, 640, 233]
       BackgroundColor	      "orange"
+      List {
+	ListType		RTWdata
+	FctDeclaration		"extern void prepareTelemetry(uint8_T* y1);"
+	FctCall			"prepareTelemetry(*%y1);"
+	fctName			"prepareTelemetry"
+	INPUT_SIZE		"1"
+	OUTPUT_SIZE		"103"
+	NBR_INPUT		"0"
+	NBR_OUTPUT		"1"
+      }
+      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+      SourceType	      "C Function Call"
+      fctName		      "'prepareTelemetry'"
+      INPUT_SIZE	      "1"
+      INPUT1		      "--"
+      INPUT2		      "--"
+      INPUT3		      "--"
+      OUTPUT_SIZE	      "103"
+      OUTPUT1		      "uint8"
+      SampleTime	      ".01"
+      InputType		      "[ ]"
+      OutputType	      "[ 2 ]"
+      FctDeclaration	      "extern void prepareTelemetry(uint8_T* y1);"
+      FctCall		      "prepareTelemetry(*%y1);"
+      OrderingInOutPopup      "None"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Data Sources"
+      Ports		      [0, 4]
+      Position		      [15, 276, 70, 339]
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
       MaskHideContents	      off
       System {
-	Name			"Compute Load"
-	Location		[320, 655, 955, 753]
+	Name			"Data Sources"
+	Location		[295, 385, 510, 702]
 	Open			off
 	ModelBrowserVisibility	on
 	ModelBrowserWidth	200
@@ -824,211 +866,312 @@ Model {
 	ShowPageBoundaries	off
 	ZoomFactor		"100"
 	Block {
-	  BlockType		  Reference
-	  Name			  "Calculus Time Step"
-	  Tag			  "dsPIC_CalculusTimeStep"
-	  Ports			  [0, 2]
-	  Position		  [25, 30, 150, 70]
+	  BlockType		  SubSystem
+	  Name			  "Compute Load"
+	  Ports			  [0, 1]
+	  Position		  [35, 248, 130, 292]
 	  BackgroundColor	  "orange"
-	  SourceBlock		  "dsPICdrivers/OTHERS/Calculus Time Step"
-	  SourceType		  "Calculation Time"
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Compute Load"
+	    Location		    [320, 655, 955, 753]
+	    Open		    off
+	    ModelBrowserVisibility  on
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Calculus Time Step"
+	      Tag		      "dsPIC_CalculusTimeStep"
+	      Ports		      [0, 2]
+	      Position		      [25, 30, 150, 70]
+	      BackgroundColor	      "orange"
+	      SourceBlock	      "dsPICdrivers/OTHERS/Calculus Time Step"
+	      SourceType	      "Calculation Time"
+	      SampleTime	      "0.01"
+	      PR1chk		      on
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion12"
+	      Position		      [475, 37, 510, 63]
+	      ShowName		      off
+	      OutDataTypeMode	      "uint8"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion3"
+	      Position		      [230, 47, 265, 73]
+	      ShowName		      off
+	      OutDataTypeMode	      "single"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion4"
+	      Position		      [185, 27, 220, 53]
+	      ShowName		      off
+	      OutDataTypeMode	      "single"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Divide"
+	      Ports		      [2, 1]
+	      Position		      [285, 31, 315, 69]
+	      Inputs		      "*/"
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "double"
+	      OutScaling	      "2^-10"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Gain"
+	      Position		      [350, 35, 380, 65]
+	      ShowName		      off
+	      Gain		      "100"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Rounding
+	      Name		      "Rounding\nFunction"
+	      Position		      [415, 35, 445, 65]
+	      ShowName		      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Load (%)"
+	      Position		      [580, 43, 610, 57]
+	      BackgroundColor	      "green"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "Calculus Time Step"
+	      SrcPort		      1
+	      DstBlock		      "Data Type Conversion4"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Calculus Time Step"
+	      SrcPort		      2
+	      DstBlock		      "Data Type Conversion3"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Divide"
+	      SrcPort		      1
+	      DstBlock		      "Gain"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Rounding\nFunction"
+	      SrcPort		      1
+	      DstBlock		      "Data Type Conversion12"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion3"
+	      SrcPort		      1
+	      DstBlock		      "Divide"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion4"
+	      SrcPort		      1
+	      DstBlock		      "Divide"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion12"
+	      SrcPort		      1
+	      DstBlock		      "Load (%)"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Gain"
+	      SrcPort		      1
+	      DstBlock		      "Rounding\nFunction"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Data\nfrom GS"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [0, 1]
+	  Position		  [30, 177, 135, 213]
+	  BackgroundColor	  "orange"
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void gsRead(uint8_T* y1);"
+	    FctCall		    "gsRead(*%y1);"
+	    fctName		    "gsRead"
+	    INPUT_SIZE		    "1"
+	    OUTPUT_SIZE		    "103"
+	    NBR_INPUT		    "0"
+	    NBR_OUTPUT		    "1"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'gsRead'"
+	  INPUT_SIZE		  "1"
+	  INPUT1		  "--"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "103"
+	  OUTPUT1		  "uint8"
+	  SampleTime		  ".01"
+	  InputType		  "[ ]"
+	  OutputType		  "[ 2 ]"
+	  FctDeclaration	  "extern void gsRead(uint8_T* y1);"
+	  FctCall		  "gsRead(*%y1);"
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Data \nfrom IPC"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [0, 1]
+	  Position		  [30, 27, 135, 63]
+	  BackgroundColor	  "orange"
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void readIpc(uint8_T* y1);"
+	    FctCall		    "readIpc(*%y1);"
+	    fctName		    "readIpc"
+	    INPUT_SIZE		    "1"
+	    OUTPUT_SIZE		    "99"
+	    NBR_INPUT		    "0"
+	    NBR_OUTPUT		    "1"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'readIpc'"
+	  INPUT_SIZE		  "1"
+	  INPUT1		  "--"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "99"
+	  OUTPUT1		  "uint8"
+	  SampleTime		  ".01"
+	  InputType		  "[ ]"
+	  OutputType		  "[ 2 ]"
+	  FctDeclaration	  "extern void readIpc(uint8_T* y1);"
+	  FctCall		  "readIpc(*%y1);"
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Data to Logger"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [0, 1]
+	  Position		  [25, 97, 130, 133]
+	  BackgroundColor	  "orange"
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void prepareLog(uint8_T* y1);"
+	    FctCall		    "prepareLog(*%y1);"
+	    fctName		    "prepareLog"
+	    INPUT_SIZE		    "1"
+	    OUTPUT_SIZE		    "60"
+	    NBR_INPUT		    "0"
+	    NBR_OUTPUT		    "1"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'prepareLog'"
+	  INPUT_SIZE		  "1"
+	  INPUT1		  "--"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "60"
+	  OUTPUT1		  "uint8"
 	  SampleTime		  "0.01"
-	  PR1chk		  on
-	}
-	Block {
-	  BlockType		  DataTypeConversion
-	  Name			  "Data Type Conversion12"
-	  Position		  [475, 37, 510, 63]
-	  ShowName		  off
-	  OutDataTypeMode	  "uint8"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  DataTypeConversion
-	  Name			  "Data Type Conversion3"
-	  Position		  [230, 47, 265, 73]
-	  ShowName		  off
-	  OutDataTypeMode	  "single"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  DataTypeConversion
-	  Name			  "Data Type Conversion4"
-	  Position		  [185, 27, 220, 53]
-	  ShowName		  off
-	  OutDataTypeMode	  "single"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Product
-	  Name			  "Divide"
-	  Ports			  [2, 1]
-	  Position		  [285, 31, 315, 69]
-	  Inputs		  "*/"
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "double"
-	  OutScaling		  "2^-10"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Gain
-	  Name			  "Gain"
-	  Position		  [350, 35, 380, 65]
-	  ShowName		  off
-	  Gain			  "100"
-	  ParameterDataTypeMode	  "Inherit via internal rule"
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Rounding
-	  Name			  "Rounding\nFunction"
-	  Position		  [415, 35, 445, 65]
-	  ShowName		  off
+	  InputType		  "[ ]"
+	  OutputType		  "[ 2 ]"
+	  FctDeclaration	  "extern void prepareLog(uint8_T* y1);"
+	  FctCall		  "prepareLog(*%y1);"
+	  OrderingInOutPopup	  "None"
 	}
 	Block {
 	  BlockType		  Outport
-	  Name			  "Load (%)"
-	  Position		  [580, 43, 610, 57]
-	  BackgroundColor	  "green"
+	  Name			  "IPC"
+	  Position		  [160, 40, 190, 54]
 	  IconDisplay		  "Port number"
-	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Data Log"
+	  Position		  [155, 110, 185, 124]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "GS"
+	  Position		  [160, 190, 190, 204]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Load"
+	  Position		  [155, 265, 185, 279]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
 	}
 	Line {
-	  SrcBlock		  "Calculus Time Step"
+	  SrcBlock		  "Data \nfrom IPC"
 	  SrcPort		  1
-	  DstBlock		  "Data Type Conversion4"
+	  DstBlock		  "IPC"
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Calculus Time Step"
-	  SrcPort		  2
-	  DstBlock		  "Data Type Conversion3"
+	  SrcBlock		  "Data to Logger"
+	  SrcPort		  1
+	  DstBlock		  "Data Log"
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Divide"
+	  SrcBlock		  "Data\nfrom GS"
 	  SrcPort		  1
-	  DstBlock		  "Gain"
+	  DstBlock		  "GS"
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Rounding\nFunction"
+	  SrcBlock		  "Compute Load"
 	  SrcPort		  1
-	  DstBlock		  "Data Type Conversion12"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Data Type Conversion3"
-	  SrcPort		  1
-	  DstBlock		  "Divide"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Data Type Conversion4"
-	  SrcPort		  1
-	  DstBlock		  "Divide"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Data Type Conversion12"
-	  SrcPort		  1
-	  DstBlock		  "Load (%)"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Gain"
-	  SrcPort		  1
-	  DstBlock		  "Rounding\nFunction"
+	  DstBlock		  "Load"
 	  DstPort		  1
 	}
       }
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Configure Model \nfor dsPIC"
-      Ports		      []
-      Position		      [20, 19, 132, 75]
-      BackgroundColor	      "yellow"
-      SourceBlock	      "dsPICdrivers/Simulink Configuration/Configure M"
-"odel \nfor dsPIC"
-      SourceType	      ""
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Data\nfrom GS"
-      Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      [0, 1]
-      Position		      [55, 387, 160, 423]
-      BackgroundColor	      "orange"
-      List {
-	ListType		RTWdata
-	FctDeclaration		"extern void gsRead(uint8_T* y1);"
-	FctCall			"gsRead(*%y1);"
-	fctName			"gsRead"
-	INPUT_SIZE		"1"
-	OUTPUT_SIZE		"103"
-	NBR_INPUT		"0"
-	NBR_OUTPUT		"1"
-      }
-      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-      SourceType	      "C Function Call"
-      fctName		      "'gsRead'"
-      INPUT_SIZE	      "1"
-      INPUT1		      "--"
-      INPUT2		      "--"
-      INPUT3		      "--"
-      OUTPUT_SIZE	      "103"
-      OUTPUT1		      "uint8"
-      SampleTime	      ".01"
-      InputType		      "[ ]"
-      OutputType	      "[ 2 ]"
-      FctDeclaration	      "extern void gsRead(uint8_T* y1);"
-      FctCall		      "gsRead(*%y1);"
-      OrderingInOutPopup      "None"
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Data \nfrom IPC"
-      Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      [0, 1]
-      Position		      [55, 237, 160, 273]
-      BackgroundColor	      "orange"
-      List {
-	ListType		RTWdata
-	FctDeclaration		"extern void readIpc(uint8_T* y1);"
-	FctCall			"readIpc(*%y1);"
-	fctName			"readIpc"
-	INPUT_SIZE		"1"
-	OUTPUT_SIZE		"99"
-	NBR_INPUT		"0"
-	NBR_OUTPUT		"1"
-      }
-      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-      SourceType	      "C Function Call"
-      fctName		      "'readIpc'"
-      INPUT_SIZE	      "1"
-      INPUT1		      "--"
-      INPUT2		      "--"
-      INPUT3		      "--"
-      OUTPUT_SIZE	      "99"
-      OUTPUT1		      "uint8"
-      SampleTime	      ".01"
-      InputType		      "[ ]"
-      OutputType	      "[ 2 ]"
-      FctDeclaration	      "extern void readIpc(uint8_T* y1);"
-      FctCall		      "readIpc(*%y1);"
-      OrderingInOutPopup      "None"
     }
     Block {
       BlockType		      DataTypeConversion
       Name		      "Data Type Conversion1"
-      Position		      [625, 158, 670, 182]
+      Position		      [660, 138, 705, 162]
       ShowName		      off
       OutDataTypeMode	      "boolean"
       RndMeth		      "Floor"
@@ -1045,102 +1188,6 @@ Model {
     }
     Block {
       BlockType		      Reference
-      Name		      "Data to Logger"
-      Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      [0, 1]
-      Position		      [50, 307, 155, 343]
-      BackgroundColor	      "orange"
-      List {
-	ListType		RTWdata
-	FctDeclaration		"extern void prepareLog(uint8_T* y1);"
-	FctCall			"prepareLog(*%y1);"
-	fctName			"prepareLog"
-	INPUT_SIZE		"1"
-	OUTPUT_SIZE		"60"
-	NBR_INPUT		"0"
-	NBR_OUTPUT		"1"
-      }
-      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-      SourceType	      "C Function Call"
-      fctName		      "'prepareLog'"
-      INPUT_SIZE	      "1"
-      INPUT1		      "--"
-      INPUT2		      "--"
-      INPUT3		      "--"
-      OUTPUT_SIZE	      "60"
-      OUTPUT1		      "uint8"
-      SampleTime	      "0.01"
-      InputType		      "[ ]"
-      OutputType	      "[ 2 ]"
-      FctDeclaration	      "extern void prepareLog(uint8_T* y1);"
-      FctCall		      "prepareLog(*%y1);"
-      OrderingInOutPopup      "None"
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Digital Output Write"
-      Tag		      "dsPIC_Digital_Output"
-      Ports		      [1]
-      Position		      [710, 95, 810, 135]
-      BackgroundColor	      "darkGreen"
-      Priority		      "5"
-      SourceBlock	      "dsPICdrivers/Digital I//O/Digital Output Write"
-      SourceType	      ""
-      PORT		      "B"
-      Pin		      "[ 7]"
-      Simultaneous	      off
-      OrderingInOutPopup      "None"
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Digital Output Write1"
-      Tag		      "dsPIC_Digital_Output"
-      Ports		      [1]
-      Position		      [710, 150, 810, 190]
-      BackgroundColor	      "darkGreen"
-      Priority		      "5"
-      SourceBlock	      "dsPICdrivers/Digital I//O/Digital Output Write"
-      SourceType	      ""
-      PORT		      "E"
-      Pin		      "[9]"
-      Simultaneous	      off
-      OrderingInOutPopup      "None"
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "GS Messages \nParser/Decoder"
-      Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      [1]
-      Position		      [210, 387, 315, 423]
-      BackgroundColor	      "darkGreen"
-      List {
-	ListType		RTWdata
-	FctDeclaration		"extern void protParseDecodeGS(uint8_T* u1);"
-	FctCall			"protParseDecodeGS(*%u1);"
-	fctName			"protParseDecodeGS"
-	INPUT_SIZE		"103"
-	OUTPUT_SIZE		"1"
-	NBR_INPUT		"1"
-	NBR_OUTPUT		"0"
-      }
-      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-      SourceType	      "C Function Call"
-      fctName		      "'protParseDecodeGS'"
-      INPUT_SIZE	      "103"
-      INPUT1		      "uint8"
-      INPUT2		      "--"
-      INPUT3		      "--"
-      OUTPUT_SIZE	      "1"
-      OUTPUT1		      "--"
-      SampleTime	      "-1"
-      InputType		      "[ 2 ]"
-      OutputType	      "[ ]"
-      FctDeclaration	      "extern void protParseDecodeGS(uint8_T* u1);"
-      FctCall		      "protParseDecodeGS(*%u1);"
-      OrderingInOutPopup      "None"
-    }
-    Block {
-      BlockType		      Reference
       Name		      "Generate Code"
       Ports		      []
       Position		      [150, 19, 262, 75]
@@ -1154,7 +1201,7 @@ Model {
       Name		      "GetFilterOnOff"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [0, 1]
-      Position		      [500, 152, 605, 188]
+      Position		      [535, 132, 640, 168]
       BackgroundColor	      "orange"
       List {
 	ListType		RTWdata
@@ -1184,35 +1231,17 @@ Model {
     }
     Block {
       BlockType		      Reference
-      Name		      "GetFilterOnOff1"
-      Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      [0, 1]
-      Position		      [555, 297, 660, 333]
-      BackgroundColor	      "orange"
-      List {
-	ListType		RTWdata
-	FctDeclaration		"extern void prepareTelemetry(uint8_T* y1);"
-	FctCall			"prepareTelemetry(*%y1);"
-	fctName			"prepareTelemetry"
-	INPUT_SIZE		"1"
-	OUTPUT_SIZE		"103"
-	NBR_INPUT		"0"
-	NBR_OUTPUT		"1"
-      }
-      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-      SourceType	      "C Function Call"
-      fctName		      "'prepareTelemetry'"
-      INPUT_SIZE	      "1"
-      INPUT1		      "--"
-      INPUT2		      "--"
-      INPUT3		      "--"
-      OUTPUT_SIZE	      "103"
-      OUTPUT1		      "uint8"
-      SampleTime	      ".01"
-      InputType		      "[ ]"
-      OutputType	      "[ 2 ]"
-      FctDeclaration	      "extern void prepareTelemetry(uint8_T* y1);"
-      FctCall		      "prepareTelemetry(*%y1);"
+      Name		      "HIL On/Off Swithc"
+      Tag		      "dsPIC_Digital_Output"
+      Ports		      [1]
+      Position		      [745, 130, 845, 170]
+      BackgroundColor	      "darkGreen"
+      Priority		      "5"
+      SourceBlock	      "dsPICdrivers/Digital I//O/Digital Output Write"
+      SourceType	      ""
+      PORT		      "E"
+      Pin		      "[9]"
+      Simultaneous	      off
       OrderingInOutPopup      "None"
     }
     Block {
@@ -1407,39 +1436,6 @@ Model {
     }
     Block {
       BlockType		      Reference
-      Name		      "Parser/Decoder"
-      Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      [1]
-      Position		      [210, 237, 315, 273]
-      BackgroundColor	      "darkGreen"
-      List {
-	ListType		RTWdata
-	FctDeclaration		"extern void protParseDecode(uint8_T* u1);"
-	FctCall			"protParseDecode(*%u1);"
-	fctName			"protParseDecode"
-	INPUT_SIZE		"99"
-	OUTPUT_SIZE		"1"
-	NBR_INPUT		"1"
-	NBR_OUTPUT		"0"
-      }
-      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-      SourceType	      "C Function Call"
-      fctName		      "'protParseDecode'"
-      INPUT_SIZE	      "99"
-      INPUT1		      "uint8"
-      INPUT2		      "--"
-      INPUT3		      "--"
-      OUTPUT_SIZE	      "1"
-      OUTPUT1		      "--"
-      SampleTime	      "-1"
-      InputType		      "[ 2 ]"
-      OutputType	      "[ ]"
-      FctDeclaration	      "extern void protParseDecode(uint8_T* u1);"
-      FctCall		      "protParseDecode(*%u1);"
-      OrderingInOutPopup      "None"
-    }
-    Block {
-      BlockType		      Reference
       Name		      "Pilot"
       Ports		      [0, 1]
       Position		      [425, 20, 455, 50]
@@ -1465,35 +1461,17 @@ Model {
     }
     Block {
       BlockType		      Reference
-      Name		      "Send Data to Logger"
-      Tag		      "dsPIC_dsPIC_CFunctionCall"
+      Name		      "Pilot LED"
+      Tag		      "dsPIC_Digital_Output"
       Ports		      [1]
-      Position		      [210, 307, 315, 343]
+      Position		      [745, 75, 845, 115]
       BackgroundColor	      "darkGreen"
-      List {
-	ListType		RTWdata
-	FctDeclaration		"extern void txProtocol(uint8_T* u1);"
-	FctCall			"txProtocol(*%u1);"
-	fctName			"txProtocol"
-	INPUT_SIZE		"60"
-	OUTPUT_SIZE		"1"
-	NBR_INPUT		"1"
-	NBR_OUTPUT		"0"
-      }
-      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-      SourceType	      "C Function Call"
-      fctName		      "'txProtocol'"
-      INPUT_SIZE	      "60"
-      INPUT1		      "uint8"
-      INPUT2		      "--"
-      INPUT3		      "--"
-      OUTPUT_SIZE	      "1"
-      OUTPUT1		      "--"
-      SampleTime	      "-1"
-      InputType		      "[ 2 ]"
-      OutputType	      "[ ]"
-      FctDeclaration	      "extern void txProtocol(uint8_T* u1);"
-      FctCall		      "txProtocol(*%u1);"
+      Priority		      "5"
+      SourceBlock	      "dsPICdrivers/Digital I//O/Digital Output Write"
+      SourceType	      ""
+      PORT		      "B"
+      Pin		      "[ 7]"
+      Simultaneous	      off
       OrderingInOutPopup      "None"
     }
     Block {
@@ -1501,7 +1479,7 @@ Model {
       Name		      "Send Data to Radio\nModem"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [1]
-      Position		      [715, 297, 820, 333]
+      Position		      [745, 197, 850, 233]
       BackgroundColor	      "darkGreen"
       List {
 	ListType		RTWdata
@@ -1542,37 +1520,214 @@ Model {
       ShowName		      off
     }
     Block {
-      BlockType		      Reference
-      Name		      "update Load of \nControl MCU"
-      Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      [1]
-      Position		      [205, 462, 310, 498]
-      BackgroundColor	      "darkGreen"
-      List {
-	ListType		RTWdata
-	FctDeclaration		"extern void updateLoad(uint8_T u1);"
-	FctCall			"updateLoad(%u1);"
-	fctName			"updateLoad"
-	INPUT_SIZE		"1"
-	OUTPUT_SIZE		"1"
-	NBR_INPUT		"1"
-	NBR_OUTPUT		"0"
+      BlockType		      SubSystem
+      Name		      "Update States"
+      Ports		      [4]
+      Position		      [120, 277, 160, 338]
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      MaskHideContents	      off
+      System {
+	Name			"Update States"
+	Location		[395, 385, 610, 698]
+	Open			off
+	ModelBrowserVisibility	on
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "IPC"
+	  Position		  [30, 40, 60, 54]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Log"
+	  Position		  [30, 110, 60, 124]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "GS"
+	  Position		  [30, 190, 60, 204]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Load"
+	  Position		  [25, 265, 55, 279]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "GS Messages \nParser/Decoder"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [1]
+	  Position		  [85, 177, 190, 213]
+	  BackgroundColor	  "darkGreen"
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void protParseDecodeGS(uint8_T* u1"
+");"
+	    FctCall		    "protParseDecodeGS(*%u1);"
+	    fctName		    "protParseDecodeGS"
+	    INPUT_SIZE		    "103"
+	    OUTPUT_SIZE		    "1"
+	    NBR_INPUT		    "1"
+	    NBR_OUTPUT		    "0"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'protParseDecodeGS'"
+	  INPUT_SIZE		  "103"
+	  INPUT1		  "uint8"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "1"
+	  OUTPUT1		  "--"
+	  SampleTime		  "-1"
+	  InputType		  "[ 2 ]"
+	  OutputType		  "[ ]"
+	  FctDeclaration	  "extern void protParseDecodeGS(uint8_T* u1);"
+	  FctCall		  "protParseDecodeGS(*%u1);"
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Parser/Decoder"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [1]
+	  Position		  [85, 27, 190, 63]
+	  BackgroundColor	  "darkGreen"
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void protParseDecode(uint8_T* u1);"
+	    FctCall		    "protParseDecode(*%u1);"
+	    fctName		    "protParseDecode"
+	    INPUT_SIZE		    "99"
+	    OUTPUT_SIZE		    "1"
+	    NBR_INPUT		    "1"
+	    NBR_OUTPUT		    "0"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'protParseDecode'"
+	  INPUT_SIZE		  "99"
+	  INPUT1		  "uint8"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "1"
+	  OUTPUT1		  "--"
+	  SampleTime		  "-1"
+	  InputType		  "[ 2 ]"
+	  OutputType		  "[ ]"
+	  FctDeclaration	  "extern void protParseDecode(uint8_T* u1);"
+	  FctCall		  "protParseDecode(*%u1);"
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Send Data to Logger"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [1]
+	  Position		  [85, 97, 190, 133]
+	  BackgroundColor	  "darkGreen"
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void txProtocol(uint8_T* u1);"
+	    FctCall		    "txProtocol(*%u1);"
+	    fctName		    "txProtocol"
+	    INPUT_SIZE		    "60"
+	    OUTPUT_SIZE		    "1"
+	    NBR_INPUT		    "1"
+	    NBR_OUTPUT		    "0"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'txProtocol'"
+	  INPUT_SIZE		  "60"
+	  INPUT1		  "uint8"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "1"
+	  OUTPUT1		  "--"
+	  SampleTime		  "-1"
+	  InputType		  "[ 2 ]"
+	  OutputType		  "[ ]"
+	  FctDeclaration	  "extern void txProtocol(uint8_T* u1);"
+	  FctCall		  "txProtocol(*%u1);"
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "update Load of \nControl MCU"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [1]
+	  Position		  [80, 252, 185, 288]
+	  BackgroundColor	  "darkGreen"
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void updateLoad(uint8_T u1);"
+	    FctCall		    "updateLoad(%u1);"
+	    fctName		    "updateLoad"
+	    INPUT_SIZE		    "1"
+	    OUTPUT_SIZE		    "1"
+	    NBR_INPUT		    "1"
+	    NBR_OUTPUT		    "0"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'updateLoad'"
+	  INPUT_SIZE		  "1"
+	  INPUT1		  "uint8"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "1"
+	  OUTPUT1		  "--"
+	  SampleTime		  "-1"
+	  InputType		  "[ 2 ]"
+	  OutputType		  "[ ]"
+	  FctDeclaration	  "extern void updateLoad(uint8_T u1);"
+	  FctCall		  "updateLoad(%u1);"
+	  OrderingInOutPopup	  "None"
+	}
+	Line {
+	  SrcBlock		  "IPC"
+	  SrcPort		  1
+	  DstBlock		  "Parser/Decoder"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Log"
+	  SrcPort		  1
+	  DstBlock		  "Send Data to Logger"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "GS"
+	  SrcPort		  1
+	  DstBlock		  "GS Messages \nParser/Decoder"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Load"
+	  SrcPort		  1
+	  DstBlock		  "update Load of \nControl MCU"
+	  DstPort		  1
+	}
       }
-      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-      SourceType	      "C Function Call"
-      fctName		      "'updateLoad'"
-      INPUT_SIZE	      "1"
-      INPUT1		      "uint8"
-      INPUT2		      "--"
-      INPUT3		      "--"
-      OUTPUT_SIZE	      "1"
-      OUTPUT1		      "--"
-      SampleTime	      "-1"
-      InputType		      "[ 2 ]"
-      OutputType	      "[ ]"
-      FctDeclaration	      "extern void updateLoad(uint8_T u1);"
-      FctCall		      "updateLoad(%u1);"
-      OrderingInOutPopup      "None"
     }
     Line {
       Name		      "1Hz"
@@ -1589,16 +1744,16 @@ Model {
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Data \nfrom IPC"
+      SrcBlock		      "Data Sources"
       SrcPort		      1
-      DstBlock		      "Parser/Decoder"
+      DstBlock		      "Update States"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Data\nfrom GS"
-      SrcPort		      1
-      DstBlock		      "GS Messages \nParser/Decoder"
-      DstPort		      1
+      SrcBlock		      "Data Sources"
+      SrcPort		      3
+      DstBlock		      "Update States"
+      DstPort		      3
     }
     Line {
       SrcBlock		      "GetFilterOnOff"
@@ -1611,12 +1766,12 @@ Model {
       SrcPort		      1
       Points		      [10, 0]
       Branch {
-	DstBlock		"Digital Output Write1"
+	DstBlock		"HIL On/Off Swithc"
 	DstPort			1
       }
       Branch {
 	Points			[0, -55]
-	DstBlock		"Digital Output Write"
+	DstBlock		"Pilot LED"
 	DstPort			1
       }
     }
@@ -1627,22 +1782,22 @@ Model {
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Data to Logger"
-      SrcPort		      1
-      DstBlock		      "Send Data to Logger"
-      DstPort		      1
+      SrcBlock		      "Data Sources"
+      SrcPort		      2
+      DstBlock		      "Update States"
+      DstPort		      2
     }
     Line {
-      SrcBlock		      "GetFilterOnOff1"
+      SrcBlock		      "Create Telemetry \nSentence"
       SrcPort		      1
       DstBlock		      "Send Data to Radio\nModem"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Compute Load"
-      SrcPort		      1
-      DstBlock		      "update Load of \nControl MCU"
-      DstPort		      1
+      SrcBlock		      "Data Sources"
+      SrcPort		      4
+      DstBlock		      "Update States"
+      DstPort		      4
     }
   }
 }

@@ -332,15 +332,17 @@ public:		// User declarations
         String getPlaneCoordinates(void);
         void assembleMsg(unsigned char* rawData , unsigned char size, unsigned char type, unsigned char* protMsg );
 
-        tGpsData gpsSamples[15];
-        tRawData rawSample;
-        tAttitudeData attitudeSample;
-        tXYZData xyzSample;
-        tDynTempData dynSample;
-        tBiasData biasSample;
-        tDiagData diagSample;
-        tSensStatus	statusSample;
-        tPilotData	pilControlSample;
+        tGpsData                  gpsSamples[15];
+        tRawData                  rawSample;
+        tAttitudeData             attitudeSample;
+        tXYZData                  xyzSample;
+        tDynTempData              dynSample;
+        tBiasData                 biasSample;
+        tDiagData                 diagSample;
+        tSensStatus	          statusSample;
+        tPilotData	          pilControlSample;
+        tAknData                  aknSample;
+        tPWMData                  pwmSample;
 
         float csFail;
 
