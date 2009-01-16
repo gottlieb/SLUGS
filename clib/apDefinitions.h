@@ -108,6 +108,9 @@ and data types.
 #define PWMMSG_ID		100
 #define PWMMSG_LEN		20 
 
+#define CALMSG_ID		102
+#define CALMSG_LEN		14
+
 
 // GROUND STATION
 // ==============
@@ -117,6 +120,12 @@ and data types.
 
 #define FILMSG_ID		205
 #define FILMSG_LEN		1
+
+#define PIDMSG_ID		202
+#define PIDMSG_LEN		13
+
+#define QUEMSG_ID		204
+#define QUEMSG_LEN		10
 
 
 // Communication Protocol Merging Offsets
@@ -313,6 +322,20 @@ typedef struct tPWMData{
 	tUnsignedShortToChar	da1_c; 
 	tUnsignedShortToChar	da2_c; 
 }tPWMData;
+
+typedef struct tPIDData{
+	tFloatToChar [10]	P;
+	tFloatToChar [10]	I;
+	tFloatToChar [10]	D;	
+}tPIDData;
+
+
+typedef struct tQueryData{
+	unsigned char 	pendingRequest;
+	unsigned char 	idReq;
+	unsigned char 	indxReq;
+}tQueryData;
+
 
 #ifdef __cplusplus
       }

@@ -27,6 +27,8 @@ unsigned char   filterControlData;
 tAknData		aknControlData;
 tPilotData		pilControlData;
 tPWMData		pwmControlData;
+tPIDData		pidControlData;
+tQueryData		queControlData;
 
 
 struct CircBuffer protParseBuffer;
@@ -50,6 +52,8 @@ void protParserInit(void){
 	memset(&aknControlData, 0, sizeof(tAknData));
 	memset(&pilControlData, 0, sizeof(tPilotData));
 	memset(&pwmControlData, 0, sizeof(tPWMData));
+	memset(&pidControlData, 0, sizeof(tPIDData));
+	memset(&queControlData, 0, sizeof(tQueryData));
 	filterControlData = 0;
 	
 	// set the flag saying you just had a reboot
@@ -58,11 +62,15 @@ void protParserInit(void){
 	#else
 		aknControlData.reboot = 1;
 	#endif
+	
+	// TODO: Add Code here to read EEPROM data on Boot
 }
 
 
 
 #ifdef _IN_PC_
+// TODO: Include a messaging Mechanism for immediate or once in time messages
+// TODO: Include a File option for Archiving checksum fails for debuging
 float protParseDecode (unsigned char* fromSPI,  FILE* outFile){
 #else
 void protParseDecode (unsigned char* fromSPI){

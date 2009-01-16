@@ -257,26 +257,38 @@ void updateStates(unsigned char * completeSentence){
 		break;
 		
 		case PWMMSG_ID: // PWM Control Surface Commands data
-			pwmControlData.dt_c.chData[0]		= completeSentence[4] ;	
-			pwmControlData.dt_c.chData[1]		= completeSentence[5] ; 	
-			pwmControlData.dla_c.chData[0]		= completeSentence[6] ;		 	
-			pwmControlData.dla_c.chData[1]		= completeSentence[7] ; 
-			pwmControlData.dra_c.chData[0]		= completeSentence[8] ;	 
-			pwmControlData.dra_c.chData[1]		= completeSentence[9] ;	 
-			pwmControlData.dr_c.chData[0]		= completeSentence[10];	 
-			pwmControlData.dr_c.chData[1]		= completeSentence[11];	   
-			pwmControlData.dle_c.chData[0]		= completeSentence[12];	  
-			pwmControlData.dle_c.chData[1]		= completeSentence[13];	  
-			pwmControlData.dre_c.chData[0]		= completeSentence[14];	  
-			pwmControlData.dre_c.chData[1]		= completeSentence[15];	  
-			pwmControlData.dlf_c.chData[0]		= completeSentence[16];	  
-			pwmControlData.dlf_c.chData[1]		= completeSentence[17];	  
-			pwmControlData.drf_c.chData[0]		= completeSentence[18];	  
-			pwmControlData.drf_c.chData[1]		= completeSentence[19];	  
-			pwmControlData.da1_c.chData[0]		= completeSentence[20];	  
-			pwmControlData.da1_c.chData[1]		= completeSentence[21];	  
-			pwmControlData.da2_c.chData[0]		= completeSentence[22];	  
-			pwmControlData.da2_c.chData[1]		= completeSentence[23];	  
+	   		pwmControlData.dt_c.chData[0]		= completeSentence[4] ;	
+	   		pwmControlData.dt_c.chData[1]		= completeSentence[5] ; 	
+	   		pwmControlData.dla_c.chData[0]		= completeSentence[6] ;		 	
+	   		pwmControlData.dla_c.chData[1]		= completeSentence[7] ; 
+	   		pwmControlData.dra_c.chData[0]		= completeSentence[8] ;	 
+	   		pwmControlData.dra_c.chData[1]		= completeSentence[9] ;	 
+	   		pwmControlData.dr_c.chData[0]		= completeSentence[10];	 
+	   		pwmControlData.dr_c.chData[1]		= completeSentence[11];	   
+	   		pwmControlData.dle_c.chData[0]		= completeSentence[12];	  
+	   		pwmControlData.dle_c.chData[1]		= completeSentence[13];	  
+	   		pwmControlData.dre_c.chData[0]		= completeSentence[14];	  
+	   		pwmControlData.dre_c.chData[1]		= completeSentence[15];	  
+	   		pwmControlData.dlf_c.chData[0]		= completeSentence[16];	  
+	   		pwmControlData.dlf_c.chData[1]		= completeSentence[17];	  
+	   		pwmControlData.drf_c.chData[0]		= completeSentence[18];	  
+	   		pwmControlData.drf_c.chData[1]		= completeSentence[19];	  
+	   		pwmControlData.da1_c.chData[0]		= completeSentence[20];	  
+	   		pwmControlData.da1_c.chData[1]		= completeSentence[21];	  
+	   		pwmControlData.da2_c.chData[0]		= completeSentence[22];	  
+	   		pwmControlData.da2_c.chData[1]		= completeSentence[23];	  
+		break;
+		
+		// TODO: Include CALMSG_ID to decode the response to a query
+		
+		case PIDMSG_ID: // PWM Control Surface Commands data
+			setPIDGains(completeSentence[4], &completeSentence[5]);
+		break;
+		
+		case QUEMSG_ID: // Query the Status of a particular configuration value
+			queControlData.pendingRequest 	= 1;
+			queControlData.idReq 			= completeSentence[4];
+			queControlData.indxReq 			= completeSentence[5];
 		break;
 		
 		default:
@@ -284,3 +296,25 @@ void updateStates(unsigned char * completeSentence){
 	}
 }
 
+void setPIDGains(unsigned char idx, unsigned char * gainValues){
+	
+	// Set the PID Gains according the received ID
+	pidControlData.P[idx].chData[0] = gainValues[0];
+	pidControlData.P[idx].chData[1] = gainValues[1];
+	pidControlData.P[idx].chData[2] = gainValues[2];
+	pidControlData.P[idx].chData[3] = gainValues[3];
+	pidControlData.I[idx].chData[0] = gainValues[0];
+	pidControlData.I[idx].chData[1] = gainValues[1];
+	pidControlData.I[idx].chData[2] = gainValues[2];
+	pidControlData.I[idx].chData[3] = gainValues[3];
+	pidControlData.D[idx].chData[0] = gainValues[0];
+	pidControlData.D[idx].chData[1] = gainValues[1];
+	pidControlData.D[idx].chData[2] = gainValues[2];
+	pidControlData.D[idx].chData[3] = gainValues[3];
+	
+	// Set the flag of Aknowledge for the AKN Message
+	aknControlData.pidCal = 1;
+	
+	// TODO: Add Code here to save the data to the EEPROM
+	
+}
