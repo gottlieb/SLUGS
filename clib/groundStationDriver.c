@@ -782,32 +782,6 @@ void updateLoad (unsigned char mcuLoad){
 }
 
 
-void assembleRawSentence (unsigned short id, unsigned short indx, unsigned short * data){
-	switch (id) {
-		case 1: //PID Values
-			data[0]	 = 1;
-			data[1]	 = indx;
-			data[2]	 = pidControlData.P[indx].chData[0];
-			data[3]	 = pidControlData.P[indx].chData[1];
-			data[4]	 = pidControlData.P[indx].chData[2];
-			data[5]	 = pidControlData.P[indx].chData[3];
-			data[6]	 = pidControlData.I[indx].chData[0];
-			data[7]	 = pidControlData.I[indx].chData[1];
-			data[8]	 = pidControlData.I[indx].chData[2];
-			data[9]	 = pidControlData.I[indx].chData[3];
-			data[10] = pidControlData.D[indx].chData[0];
-			data[11] = pidControlData.D[indx].chData[1];
-			data[12] = pidControlData.D[indx].chData[2];
-			data[13] = pidControlData.D[indx].chData[3];
-		break;
-		
-		// TODO: Include report for Limits and Calibration
-		
-		default:
-		break;
-	}
-}
-
 void __attribute__((interrupt, no_auto_psv)) _DMA1Interrupt(void)
 {
     // Clear the DMA1 Interrupt Flag;

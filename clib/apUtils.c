@@ -279,10 +279,12 @@ void updateStates(unsigned char * completeSentence){
 	   		pwmControlData.da2_c.chData[1]		= completeSentence[23];	  
 		break;
 		
-		// TODO: Include CALMSG_ID to decode the response to a query
+		case CALMSG_ID: // report from AP to GS regarding Calib Values
+			decodeCalSentence (completeSentence[4], completeSentence[5], &completeSentence[6],0){
+		break;
 		
 		case PIDMSG_ID: // PWM Control Surface Commands data
-			setPIDGains(completeSentence[4], &completeSentence[5]);
+			decodeCalSentence(1,completeSentence[4], &completeSentence[5],1);
 		break;
 		
 		case QUEMSG_ID: // Query the Status of a particular configuration value
@@ -296,25 +298,59 @@ void updateStates(unsigned char * completeSentence){
 	}
 }
 
-void setPIDGains(unsigned char idx, unsigned char * gainValues){
+void assembleRawSentence (unsigned short id, unsigned short indx, unsigned short * data){
+	switch (id) {
+		case 1: //PID Values
+			data[0]	 = 1;
+			data[1]	 = indx;
+			data[2]	 = pidControlData.P[indx].chData[0];
+			data[3]	 = pidControlData.P[indx].chData[1];
+			data[4]	 = pidControlData.P[indx].chData[2];
+			data[5]	 = pidControlData.P[indx].chData[3];
+			data[6]	 = pidControlData.I[indx].chData[0];
+			data[7]	 = pidControlData.I[indx].chData[1];
+			data[8]	 = pidControlData.I[indx].chData[2];
+			data[9]	 = pidControlData.I[indx].chData[3];
+			data[10] = pidControlData.D[indx].chData[0];
+			data[11] = pidControlData.D[indx].chData[1];
+			data[12] = pidControlData.D[indx].chData[2];
+			data[13] = pidControlData.D[indx].chData[3];
+		break;
+		
+		// TODO: Include report for Limits and Calibration
+		
+		default:
+		break;
+	}
+}
+
+void decodeCalSentence (unsigned short id, unsigned short indx, unsigned short * data, unsigned char inBoard){
+	switch (id) {
+		case 1: //PID Values
+			pidControlData.P[indx].chData[0]=	data[0]	;
+			pidControlData.P[indx].chData[1]=	data[1]	;
+			pidControlData.P[indx].chData[2]=	data[2]	;
+			pidControlData.P[indx].chData[3]=	data[3]	;
+			pidControlData.I[indx].chData[0]=	data[4]	;
+			pidControlData.I[indx].chData[1]=	data[5]	;
+			pidControlData.I[indx].chData[2]=	data[6]	;
+			pidControlData.I[indx].chData[3]=	data[7]	;
+			pidControlData.D[indx].chData[0]=	data[8];
+			pidControlData.D[indx].chData[1]=	data[9];
+			pidControlData.D[indx].chData[2]=	data[10];
+			pidControlData.D[indx].chData[3]=	data[11];
+			
+			if (inBoard){
+				// Set the flag of Aknowledge for the AKN Message
+				aknControlData.pidCal = 1;
 	
-	// Set the PID Gains according the received ID
-	pidControlData.P[idx].chData[0] = gainValues[0];
-	pidControlData.P[idx].chData[1] = gainValues[1];
-	pidControlData.P[idx].chData[2] = gainValues[2];
-	pidControlData.P[idx].chData[3] = gainValues[3];
-	pidControlData.I[idx].chData[0] = gainValues[0];
-	pidControlData.I[idx].chData[1] = gainValues[1];
-	pidControlData.I[idx].chData[2] = gainValues[2];
-	pidControlData.I[idx].chData[3] = gainValues[3];
-	pidControlData.D[idx].chData[0] = gainValues[0];
-	pidControlData.D[idx].chData[1] = gainValues[1];
-	pidControlData.D[idx].chData[2] = gainValues[2];
-	pidControlData.D[idx].chData[3] = gainValues[3];
-	
-	// Set the flag of Aknowledge for the AKN Message
-	aknControlData.pidCal = 1;
-	
-	// TODO: Add Code here to save the data to the EEPROM
-	
+				// TODO: Add Code here to save the data to the EEPROM
+			}
+		break;
+		
+		// TODO: Include report for Limits and Calibration
+		
+		default:
+		break;
+	}
 }
