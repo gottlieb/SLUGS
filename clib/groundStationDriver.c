@@ -25,12 +25,16 @@ void uart1Init (void){
 	
 	// DMA1REQ Register
 	// ================
-	DMA1REQ = 0x000C;
+	//DMA1REQ = 0x000C;
+	// FIXME: Remove for UART 1 to work
+	DMA1REQ = 0x001F
 	
 	// DMA1PAD Register
 	// ================
-	DMA1PAD = (volatile unsigned int) &U1TXREG;
-
+	//DMA1PAD = (volatile unsigned int) &U1TXREG;
+	// FIXME: Remove for UART 1 to work
+	DMA1PAD = (volatile unsigned int) &U2TXREG;
+	
 	// DMA1CON Register
 	// ================
 	DMA1CONbits.AMODE   = 0;        // Register Indirect with post-increment
@@ -51,7 +55,7 @@ void uart1Init (void){
 	IPC3bits.DMA1IP  = 6;			// interrupt priority to 6
 	IEC0bits.DMA1IE  = 1;			// Enable DMA interrupt
 	
-	
+	/*
 	// Configure and open the port;
 	// U1MODE Register
 	// ==============
@@ -90,6 +94,47 @@ void uart1Init (void){
 	U1STAbits.UTXEN		= 1;		// Enable TX
 	
 	IEC4bits.U1EIE 		= 0;
+	*/
+	//FIXME: Remove for UART 1 to work
+		// Configure and open the port;
+	// U2MODE Register
+	// ==============
+	U2MODEbits.UARTEN	= 0;		// Disable the port		
+	U2MODEbits.USIDL 	= 0;		// Stop on idle
+	U2MODEbits.IREN		= 0;		// No IR decoder
+	U2MODEbits.RTSMD	= 0;		// Ready to send mode (irrelevant)
+	U2MODEbits.UEN		= 0;		// Only RX and TX
+	U2MODEbits.WAKE		= 1;		// Enable at startup
+	U2MODEbits.LPBACK	= 0;		// Disable loopback
+	U2MODEbits.ABAUD	= 0;		// Disable autobaud
+	U2MODEbits.URXINV	= 0;		// Normal operation (high is idle)
+	U2MODEbits.PDSEL	= 0;		// No parity 8 bit
+	U2MODEbits.STSEL	= 0;		// 1 stop bit
+	U2MODEbits.BRGH 	= 0;		// Low speed mode
+	
+	// U1STA Register
+	// ==============
+	U2STAbits.UTXISEL0	= 0;		// generate interrupt on every char
+	U2STAbits.UTXISEL1	= 0;		// for the DMA	
+	U2STAbits.URXISEL	= 0;		// RX interrupt when a char is in
+	U2STAbits.OERR		= 0;		// clear overun error
+	
+	// U1BRG Register
+	// ==============
+	U2BRG = LOG_UBRG;				// Set the baud rate for 115,200
+	
+	// Initialize the Interrupt  
+  	// ========================
+	IPC7bits.U2RXIP   = 6;    		// Interrupt priority 6  
+  	IFS1bits.U2RXIF   = 0;    		// Clear the interrupt flag
+  	IEC1bits.U2RXIE   = 1;    		// Enable interrupts
+
+	// Enable the port;
+	U2MODEbits.UARTEN	= 1;		// Enable the port	
+	U2STAbits.UTXEN		= 1;		// Enable TX
+	
+	IEC4bits.U2EIE 		= 0;
+
 		
 }
 
@@ -577,6 +622,23 @@ void prepareTelemetry( unsigned char* dataOut){
 			
 		break;
 		
+		case 7:
+			if (queControlData.pendingRequest){
+				assembleRawSentence (queControlData.idReq, queControlData.indxReq, &rawSentence[0]);
+				
+				// assemble the protocol message
+				assembleMsg(&rawSentence[0],CALMSG_LEN, CALMSG_ID, telemetryBuf);
+				
+				// add it to the out Array
+				for( i = 0; i < CALMSG_LEN+7; i += 1 ){
+					dataOut[i+1] = telemetryBuf[i];
+				}
+				
+				// set the length of the message
+				len2Telemetry = CALMSG_LEN+7;
+			}
+		break;
+		
 		default:
 			dataOut[0] = 0;
 			break;
@@ -696,7 +758,7 @@ void prepareTelemetry( unsigned char* dataOut){
 
 	// increment/overflow the samplePeriod counter
 	// configured for 16 Hz in non vital messages
-	sampleTelemetry = (sampleTelemetry >= 6)? 1: sampleTelemetry + 1;
+	sampleTelemetry = (sampleTelemetry >= 7)? 1: sampleTelemetry + 1;
 
 }
 
@@ -720,6 +782,32 @@ void updateLoad (unsigned char mcuLoad){
 }
 
 
+void assembleRawSentence (unsigned short id, unsigned short indx, unsigned short * data){
+	switch (id) {
+		case 1: //PID Values
+			data[0]	 = 1;
+			data[1]	 = indx;
+			data[2]	 = pidControlData.P[indx].chData[0];
+			data[3]	 = pidControlData.P[indx].chData[1];
+			data[4]	 = pidControlData.P[indx].chData[2];
+			data[5]	 = pidControlData.P[indx].chData[3];
+			data[6]	 = pidControlData.I[indx].chData[0];
+			data[7]	 = pidControlData.I[indx].chData[1];
+			data[8]	 = pidControlData.I[indx].chData[2];
+			data[9]	 = pidControlData.I[indx].chData[3];
+			data[10] = pidControlData.D[indx].chData[0];
+			data[11] = pidControlData.D[indx].chData[1];
+			data[12] = pidControlData.D[indx].chData[2];
+			data[13] = pidControlData.D[indx].chData[3];
+		break;
+		
+		// TODO: Include report for Limits and Calibration
+		
+		default:
+		break;
+	}
+}
+
 void __attribute__((interrupt, no_auto_psv)) _DMA1Interrupt(void)
 {
     // Clear the DMA1 Interrupt Flag;
@@ -727,7 +815,7 @@ void __attribute__((interrupt, no_auto_psv)) _DMA1Interrupt(void)
 }
 
 // Interrupt service routine for U1 GS protocol port
-void __attribute__((__interrupt__, no_auto_psv)) _U1RXInterrupt(void){
+/*void __attribute__((__interrupt__, no_auto_psv)) _U1RXInterrupt(void){
  
 	// Read the buffer while it has data
 	// and add it to the circular buffer
@@ -748,6 +836,31 @@ void __attribute__((__interrupt__, no_auto_psv)) _U1RXInterrupt(void){
 void __attribute__ ((interrupt, no_auto_psv)) _U1ErrInterrupt(void)
 {
 	IFS4bits.U1EIF = 0; // Clear the UART2 Error Interrupt Flag
+}
+*/
+
+//FIXME: Remove for UART 1 to work
+void __attribute__((__interrupt__, no_auto_psv)) _U2RXInterrupt(void){
+ 
+	// Read the buffer while it has data
+	// and add it to the circular buffer
+	while(U2STAbits.URXDA == 1){
+		writeBack(uartBufferIn, (unsigned char)U2RXREG);
+	}
+	
+	// If there was an overun error clear it and continue
+	if (U2STAbits.OERR == 1){
+		U2STAbits.OERR = 0;
+	}
+	
+	// clear the interrupt
+	IFS1bits.U2RXIF = 0;
+}
+
+
+void __attribute__ ((interrupt, no_auto_psv)) _U1ErrInterrupt(void)
+{
+	IFS4bits.U2EIF = 0; // Clear the UART2 Error Interrupt Flag
 }
 
 

@@ -29,7 +29,9 @@ extern tXYZData			xyzControlData;
 extern unsigned char   	filterControlData;
 extern tAknData			aknControlData;
 extern tPilotData		pilControlData;
+extern tPIDData			pidControlData;
 extern tPWMData			pwmControlData;
+extern tQueryData		queControlData;
 
 void protParserInit (void);
 
