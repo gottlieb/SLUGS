@@ -33,6 +33,7 @@ extern tPIDData			pidControlData;
 extern tPWMData			pwmControlData;
 extern tQueryData		queControlData;
 
+
 void protParserInit (void);
 
 #ifdef _IN_PC_
