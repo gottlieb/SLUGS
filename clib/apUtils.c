@@ -280,7 +280,7 @@ void updateStates(unsigned char * completeSentence){
 		break;
 		
 		case CALMSG_ID: // report from AP to GS regarding Calib Values
-			decodeCalSentence (completeSentence[4], completeSentence[5], &completeSentence[6],0){
+			decodeCalSentence (completeSentence[4], completeSentence[5], &completeSentence[6],0);
 		break;
 		
 		case PIDMSG_ID: // PWM Control Surface Commands data
@@ -298,7 +298,7 @@ void updateStates(unsigned char * completeSentence){
 	}
 }
 
-void assembleRawSentence (unsigned short id, unsigned short indx, unsigned short * data){
+void assembleRawSentence (unsigned char id, unsigned char indx, unsigned short * data){
 	switch (id) {
 		case 1: //PID Values
 			data[0]	 = 1;
@@ -324,7 +324,7 @@ void assembleRawSentence (unsigned short id, unsigned short indx, unsigned short
 	}
 }
 
-void decodeCalSentence (unsigned short id, unsigned short indx, unsigned short * data, unsigned char inBoard){
+void decodeCalSentence (unsigned char id, unsigned char indx, unsigned char * data, unsigned char inBoard){
 	switch (id) {
 		case 1: //PID Values
 			pidControlData.P[indx].chData[0]=	data[0]	;
@@ -354,3 +354,4 @@ void decodeCalSentence (unsigned short id, unsigned short indx, unsigned short *
 		break;
 	}
 }
+

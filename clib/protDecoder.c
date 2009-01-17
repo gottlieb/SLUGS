@@ -31,6 +31,7 @@ tPIDData		pidControlData;
 tQueryData		queControlData;
 
 
+
 struct CircBuffer protParseBuffer;
 CBRef ppBuffer;
 
