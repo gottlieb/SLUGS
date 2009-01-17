@@ -1,4 +1,4 @@
-/* ==================================================
+	/* ==================================================
 This is the definition file for the the UCSC AP code
 it creates all the common defines, unions, enumerations
 and data types.
@@ -211,6 +211,7 @@ typedef union{
 typedef union{
 	unsigned char   chData[4];
  	float   		flData;
+	unsigned short	shData[2];
 } tFloatToChar; 
 
 // ============= Structures used for data ============
@@ -324,9 +325,9 @@ typedef struct tPWMData{
 }tPWMData;
 
 typedef struct tPIDData{
-	tFloatToChar [10]	P;
-	tFloatToChar [10]	I;
-	tFloatToChar [10]	D;	
+	tFloatToChar   P[10];
+	tFloatToChar   I[10];
+	tFloatToChar   D[10];	
 }tPIDData;
 
 
