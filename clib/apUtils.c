@@ -298,7 +298,7 @@ void updateStates(unsigned char * completeSentence){
 	}
 }
 
-void assembleRawSentence (unsigned char id, unsigned char indx, unsigned short * data){
+void assembleRawSentence (unsigned char id, unsigned char indx, unsigned char * data){
 	switch (id) {
 		case 1: //PID Values
 			data[0]	 = 1;
