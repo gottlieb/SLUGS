@@ -18,7 +18,6 @@ void gsRead (unsigned char* gsChunk);
 void prepareTelemetry ( unsigned char* dataOut);
 void updatePWM (unsigned short * PWMData);
 void updateLoad (unsigned char mcuLoad);
-void assembleRawSentence (unsigned short id, unsigned short indx, unsigned short * data);
 #ifdef __cplusplus
       }
 #endif

@@ -27,7 +27,7 @@ void uart1Init (void){
 	// ================
 	//DMA1REQ = 0x000C;
 	// FIXME: Remove for UART 1 to work
-	DMA1REQ = 0x001F
+	DMA1REQ = 0x001F;
 	
 	// DMA1PAD Register
 	// ================
