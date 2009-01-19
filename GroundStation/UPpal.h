@@ -39,6 +39,7 @@
 #include "AbTank.hpp"
 #include "AbVBar.hpp"
 #include "AbHBar.hpp"
+#include "CurrEdit.hpp"
 #include <string>
 
 #define  DISLIMIT      30.0
@@ -292,6 +293,35 @@ __published:	// IDE-managed Components
     TGroupBox *GroupBox14;
     TLabel *Label78;
     TStaticText *et_fail;
+        TGroupBox *GroupBox15;
+        TLabel *Label68;
+        TLabel *Label79;
+        TLabel *Label80;
+        TLabel *Label81;
+        TLabel *Label82;
+        TLabel *Label83;
+        TLabel *Label84;
+        TLabel *Label85;
+        TLabel *Label86;
+        TLabel *Label87;
+        TStaticText *et_dtc;
+        TStaticText *et_dlac;
+        TStaticText *et_drac;
+        TStaticText *et_drec;
+        TStaticText *et_dlfc;
+        TStaticText *et_drfc;
+        TStaticText *et_drc;
+        TStaticText *et_a1c;
+        TStaticText *et_dlec;
+        TStaticText *et_a2c;
+        TGroupBox *GroupBox16;
+        TLabel *Label88;
+        TLabel *Label89;
+        TLabel *Label90;
+        TCurrencyEdit *CurrencyEdit1;
+        TCurrencyEdit *CurrencyEdit2;
+        TCurrencyEdit *CurrencyEdit3;
+        TSpeedButton *SpeedButton1;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -359,6 +389,7 @@ public:		// User declarations
         void updatePlots(void);
         void updateAttitude(void);
         void updatePilotLabels(void);
+        void updatePWM(void);
 
         void updateBiasLabels(void);
         void updateDynLabels(void);
