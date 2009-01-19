@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.162"
+    ComputedModelVersion    "1.163"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Jan 16 20:38:29 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:162>"
+  LastModifiedDate	  "Fri Jan 16 21:10:16 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:163>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -809,6 +809,14 @@ Model {
       SourceType	      ""
     }
     Block {
+      BlockType		      Constant
+      Name		      "Constant"
+      Position		      [15, 379, 120, 411]
+      Value		      "[1 2 3 4 5 6 7 8 9 10]"
+      OutDataTypeMode	      "uint16"
+      SampleTime	      ".01"
+    }
+    Block {
       BlockType		      Reference
       Name		      "Create Telemetry \nSentence"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
@@ -1438,6 +1446,39 @@ Model {
       ShowName		      off
     }
     Block {
+      BlockType		      Reference
+      Name		      "Update PWM \nCommands"
+      Tag		      "dsPIC_dsPIC_CFunctionCall"
+      Ports		      [1]
+      Position		      [175, 377, 280, 413]
+      BackgroundColor	      "darkGreen"
+      List {
+	ListType		RTWdata
+	FctDeclaration		"extern void updatePWM(uint16_T* u1);"
+	FctCall			"updatePWM(*%u1);"
+	fctName			"updatePWM"
+	INPUT_SIZE		"10"
+	OUTPUT_SIZE		"1"
+	NBR_INPUT		"1"
+	NBR_OUTPUT		"0"
+      }
+      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+      SourceType	      "C Function Call"
+      fctName		      "'updatePWM'"
+      INPUT_SIZE	      "10"
+      INPUT1		      "uint16"
+      INPUT2		      "--"
+      INPUT3		      "--"
+      OUTPUT_SIZE	      "1"
+      OUTPUT1		      "--"
+      SampleTime	      "-1"
+      InputType		      "[ 4 ]"
+      OutputType	      "[ ]"
+      FctDeclaration	      "extern void updatePWM(uint16_T* u1);"
+      FctCall		      "updatePWM(*%u1);"
+      OrderingInOutPopup      "None"
+    }
+    Block {
       BlockType		      SubSystem
       Name		      "Update States"
       Ports		      [3]
@@ -1655,6 +1696,12 @@ Model {
       SrcBlock		      "Data Type Conversion2"
       SrcPort		      1
       DstBlock		      "Pilot LED"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant"
+      SrcPort		      1
+      DstBlock		      "Update PWM \nCommands"
       DstPort		      1
     }
   }

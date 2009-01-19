@@ -256,6 +256,15 @@ void updateStates(unsigned char * completeSentence){
 			pilControlData.de.chData[1]		= completeSentence[13];	  
 		break;
 		
+		case AKNMSG_ID: // Aknowledge Messages
+			aknControlData.WP 			= completeSentence[4];
+			aknControlData.csCal 		= completeSentence[5];
+			aknControlData.pidCal 		= completeSentence[6];
+			aknControlData.csLimits 	= completeSentence[7];
+			aknControlData.filOnOff 	= completeSentence[8];
+			aknControlData.reboot	 	= completeSentence[9];
+		break;
+		
 		case PWMMSG_ID: // PWM Control Surface Commands data
 	   		pwmControlData.dt_c.chData[0]		= completeSentence[4] ;	
 	   		pwmControlData.dt_c.chData[1]		= completeSentence[5] ; 	

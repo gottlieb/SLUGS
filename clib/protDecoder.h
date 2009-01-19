@@ -38,7 +38,7 @@ void protParserInit (void);
 
 #ifdef _IN_PC_
      float protParseDecode (unsigned char* fromSPI,  FILE* outFile);
-     void printState(FILE* outfile);
+    void printState(FILE* outfile);
 	void getTime (unsigned char * values);
 	tGpsData getGpsStruct (void);
 	tRawData getRawStruct (void);

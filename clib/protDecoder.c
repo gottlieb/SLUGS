@@ -181,6 +181,7 @@ void protParseDecode (unsigned char* fromSPI){
 				// increment the log size
 				//logSize += (indexLast+1);
                 #ifdef _IN_PC_
+					// if in PC and loggin is enabled
                     if ((outFile != NULL)){
                        printState(outFile);
                     }
