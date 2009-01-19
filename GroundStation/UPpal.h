@@ -214,8 +214,6 @@ __published:	// IDE-managed Components
     TEdit *ServerEdit;
     TCheckBox *AnyServerCheckBox;
     TApdComPort *cp_hil;
-    TLabel *et_fail;
-    TLabel *Label68;
         TAbTank *gr_batt;
         TAbVBar *gr_height;
         TGroupBox *GroupBox13;
@@ -291,6 +289,9 @@ __published:	// IDE-managed Components
     TStaticText *et_sh3;
     TPanel *Panel2;
     TLabel *et_warning;
+    TGroupBox *GroupBox14;
+    TLabel *Label78;
+    TStaticText *et_fail;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);

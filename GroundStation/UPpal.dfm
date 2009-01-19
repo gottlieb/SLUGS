@@ -1,6 +1,6 @@
 object FPpal: TFPpal
-  Left = 193
-  Top = 10
+  Left = 228
+  Top = 26
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 
@@ -42,10 +42,10 @@ object FPpal: TFPpal
     Top = 25
     Width = 375
     Height = 672
-    ActivePage = ts_graphical
+    ActivePage = ts_sensors
     Align = alClient
     MultiLine = True
-    TabIndex = 6
+    TabIndex = 4
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth'
@@ -910,8 +910,8 @@ object FPpal: TFPpal
       Caption = 'Sensors'
       ImageIndex = 1
       object bt_serial: TSpeedButton
-        Left = 156
-        Top = 537
+        Left = 167
+        Top = 595
         Width = 193
         Height = 22
         Caption = 'Open Serial Port'
@@ -933,8 +933,8 @@ object FPpal: TFPpal
         OnClick = bt_serialClick
       end
       object ld_serial: TAbLED
-        Left = 190
-        Top = 619
+        Left = 199
+        Top = 590
         Width = 17
         Height = 33
         LED_Position = lpLeft
@@ -948,8 +948,8 @@ object FPpal: TFPpal
         Mode = mIndicator
       end
       object bt_filter: TSpeedButton
-        Left = -1
-        Top = 540
+        Left = 10
+        Top = 595
         Width = 137
         Height = 22
         Caption = 'HIL On'
@@ -971,8 +971,8 @@ object FPpal: TFPpal
         OnClick = bt_filterClick
       end
       object ld_filter: TAbLED
-        Left = 26
-        Top = 623
+        Left = 33
+        Top = 589
         Width = 17
         Height = 33
         LED_Position = lpLeft
@@ -984,20 +984,6 @@ object FPpal: TFPpal
         StatusBit = 0
         GroupIndex = 0
         Mode = mIndicator
-      end
-      object et_fail: TLabel
-        Left = 117
-        Top = 522
-        Width = 58
-        Height = 13
-        Caption = '0.0000E+00'
-      end
-      object Label68: TLabel
-        Left = 5
-        Top = 522
-        Width = 65
-        Height = 13
-        Caption = 'Lost Packets:'
       end
       object GroupBox1: TGroupBox
         Left = 8
@@ -2041,6 +2027,58 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 2
+        end
+      end
+      object GroupBox14: TGroupBox
+        Left = 8
+        Top = 357
+        Width = 350
+        Height = 47
+        Caption = 'Protocol Status'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 4
+        object Label78: TLabel
+          Left = 8
+          Top = 19
+          Width = 75
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'Lost Packets'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object et_fail: TStaticText
+          Left = 94
+          Top = 19
+          Width = 105
+          Height = 17
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = 'No Data Available'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 0
         end
       end
     end
