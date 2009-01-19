@@ -464,6 +464,10 @@ void setAknFilter (unsigned char value){
 	aknControlData.filOnOff = value;
 }
 
+void setAknReboot (unsigned char value){
+	aknControlData.reboot = value;
+}
+
 tPilotData getPilotStruct(void){
 	return pilControlData;
 }
