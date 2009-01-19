@@ -50,7 +50,8 @@ void protParserInit (void);
 	tDiagData getDiagStruct (void);
 	tSensStatus getSensStruct (void);
 	tPilotData getPilotStruct (void);
-	void setAknFilter (unsigned char value); 
+	void setAknFilter (unsigned char value);
+    void setAknReboot (unsigned char value); 
 	tPWMData getPWMStruct (void);
     
 #else

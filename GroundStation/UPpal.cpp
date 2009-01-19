@@ -281,8 +281,10 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    aknSample = getAknStruct();
 
    if (aknSample.reboot == 1){
-      ShowMessage("WARNING: Slugs Reboot");
-      aknSample.reboot =0;
+      //ShowMessage("WARNING: Slugs Reboot");
+      et_warning->Color = clRed;
+      et_warning->Caption = "SLUGS Reset Detected";
+      setAknReboot (0);
    }
 
    updateGPSLabels();                 
@@ -1161,5 +1163,15 @@ void __fastcall TFPpal::Button1Click(TObject *Sender)
   cp_hil->PutBlock(&hilMsg[0],(GPSMSG_LEN+7));
   //cp_hil->PutBlock(&hilMsg[0],7);
 }
+//---------------------------------------------------------------------------
+
+
+
+void __fastcall TFPpal::et_warningDblClick(TObject *Sender)
+{
+  et_warning->Color = clBtnFace;
+  et_warning->Caption = "No Message";
+}
+
 //---------------------------------------------------------------------------
 
