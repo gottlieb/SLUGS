@@ -282,6 +282,7 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
 
    if (aknSample.reboot == 1){
       ShowMessage("WARNING: Slugs Reboot");
+      aknSample.reboot =0;
    }
 
    updateGPSLabels();                 

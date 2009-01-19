@@ -585,35 +585,35 @@ void prepareTelemetry( unsigned char* dataOut){
 			}					
 
 			// set the total data out for log
-			len2Telemetry = DIAMSG_LEN+7; 
-			
-			// clear the buffer for next sentence
-			memset(telemetryBuf, 0, sizeof(telemetryBuf));
-			
-			// set the correct flags
-			rawSentence[0] = aknControlData.WP;
-			rawSentence[1] = aknControlData.csCal;
-			rawSentence[2] = aknControlData.pidCal;
-			rawSentence[3] = aknControlData.csLimits;
-			rawSentence[4] = aknControlData.filOnOff;
-			rawSentence[5] = aknControlData.reboot;
-			
-			// assemble the protocol message
-			assembleMsg(&rawSentence[0],AKNMSG_LEN, AKNMSG_ID, telemetryBuf);
-			
-			// add it to the out Array
-			for( i = 0; i < AKNMSG_LEN+7; i += 1 ){
-				dataOut[i+1+len2Telemetry] = telemetryBuf[i];
-			}
-			
-			// set the length of the message
-			len2Telemetry += AKNMSG_LEN+7;
+			len2Telemetry = DIAMSG_LEN+7; 			
 			
 			// if one of the aknowledge flags are turned on
+			// then the AKN message needs to be sent
 			if (aknControlData.WP || aknControlData.csCal || aknControlData.pidCal 
 				 || aknControlData.csLimits || aknControlData.filOnOff
 				 || aknControlData.reboot){
-				 							
+				// clear the buffer for next sentence
+				memset(telemetryBuf, 0, sizeof(telemetryBuf));
+			
+				// set the correct flags
+				rawSentence[0] = aknControlData.WP;
+				rawSentence[1] = aknControlData.csCal;
+				rawSentence[2] = aknControlData.pidCal;
+				rawSentence[3] = aknControlData.csLimits;
+				rawSentence[4] = aknControlData.filOnOff;
+				rawSentence[5] = aknControlData.reboot;
+			
+				// assemble the protocol message
+				assembleMsg(&rawSentence[0],AKNMSG_LEN, AKNMSG_ID, telemetryBuf);
+			
+				// add it to the out Array
+				for( i = 0; i < AKNMSG_LEN+7; i += 1 ){
+					dataOut[i+1+len2Telemetry] = telemetryBuf[i];
+				}
+			
+				// set the length of the message
+				len2Telemetry += AKNMSG_LEN+7;
+					 							
 				// clear the flags
 				memset(&aknControlData, 0, sizeof(tAknData));
 
