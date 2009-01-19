@@ -22,6 +22,7 @@
 #pragma link "AbTank"
 #pragma link "AbVBar"
 #pragma link "AbHBar"
+#pragma link "CurrEdit"
 #pragma resource "*.dfm"
 
 
@@ -299,7 +300,7 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    updatePlots();
    updateAttitude();
 
-   //updatePWM();
+   updatePWM();
 
    et_fail ->Caption = FormatFloat("0.0000E+00",csFail);
 }
@@ -447,6 +448,20 @@ void TFPpal::updatePilotLabels(void){
   gr_dr->Value = StrToInt(et_dr->Caption);
   gr_da->Value = StrToInt(et_dla->Caption);
   gr_de->Value = StrToInt(et_de->Caption);
+}
+
+
+void TFPpal::updatePWM(void){
+  et_dtc->Caption  =  IntToStr(pwmSample.dt_c.usData);
+  et_dlac->Caption =  IntToStr(pwmSample.dla_c.usData);
+  et_drac->Caption =  IntToStr(pwmSample.dra_c.usData);
+  et_drc->Caption  =  IntToStr(pwmSample.dr_c.usData);
+  et_dlec->Caption =  IntToStr(pwmSample.dle_c.usData);
+  et_drec->Caption =  IntToStr(pwmSample.dre_c.usData);
+  et_dlfc->Caption =  IntToStr(pwmSample.dlf_c.usData);
+  et_drfc->Caption =  IntToStr(pwmSample.drf_c.usData);
+  et_a1c->Caption  =  IntToStr(pwmSample.da1_c.usData);
+  et_a2c->Caption  =  IntToStr(pwmSample.da2_c.usData);
 }
 
 void __fastcall TFPpal::cp_serialTriggerAvail(TObject *CP, WORD Count)
