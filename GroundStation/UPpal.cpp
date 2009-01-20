@@ -280,6 +280,7 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    pilControlSample = getPilotStruct();
    pwmSample =  getPWMStruct();
    aknSample = getAknStruct();
+   pidSample = getPidStruct();
 
    if (aknSample.reboot == 1){
       //ShowMessage("WARNING: Slugs Reboot");
@@ -290,6 +291,7 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
 
    if (aknSample.pidCal == 1){
       gb_pid1->Color = clGreen;
+      setAknPidCal(0);
 
    }
 
@@ -473,6 +475,8 @@ void TFPpal::updatePWM(void){
 
 void TFPpal::updatePID(void){
   et_p1->Caption  =  FloatToStr(pidSample.P[0].flData);
+  et_i1->Caption  =  FloatToStr(pidSample.I[0].flData);
+  et_d1->Caption  =  FloatToStr(pidSample.D[0].flData);
 }
 
 
@@ -1248,8 +1252,8 @@ void __fastcall TFPpal::bt_down1Click(TObject *Sender)
  unsigned char filtMsg[17];
  unsigned char rawMsg[10];
 
- rawMsg[0]    =    1; // Loop 0
- rawMsg[1]    =    0;
+ rawMsg[0]    =    1; // Value ID
+ rawMsg[1]    =    0; // Index
 
  assembleMsg(&rawMsg[0],QUEMSG_LEN,QUEMSG_ID,&filtMsg[0]);
 

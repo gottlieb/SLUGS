@@ -324,8 +324,8 @@ __published:	// IDE-managed Components
         TSpeedButton *bt_up1;
         TSpeedButton *bt_down1;
         TStaticText *et_p1;
-        TStaticText *StaticText1;
-        TStaticText *StaticText2;
+    TStaticText *et_i1;
+    TStaticText *et_d1;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);

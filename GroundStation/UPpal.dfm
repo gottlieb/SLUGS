@@ -684,6 +684,7 @@ object FPpal: TFPpal
           AutoSize = False
           DisplayFormat = ' ,00.0000;- ,00.0000'
           TabOrder = 1
+          OnChange = ed_p1Change
         end
         object ed_d1: TCurrencyEdit
           Left = 24
@@ -693,6 +694,7 @@ object FPpal: TFPpal
           AutoSize = False
           DisplayFormat = ' ,00.0000;- ,00.0000'
           TabOrder = 2
+          OnChange = ed_p1Change
         end
         object et_p1: TStaticText
           Left = 92
@@ -713,7 +715,7 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 3
         end
-        object StaticText1: TStaticText
+        object et_i1: TStaticText
           Left = 92
           Top = 33
           Width = 67
@@ -732,7 +734,7 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 4
         end
-        object StaticText2: TStaticText
+        object et_d1: TStaticText
           Left = 92
           Top = 49
           Width = 67

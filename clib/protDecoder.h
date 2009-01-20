@@ -54,6 +54,7 @@ void protParserInit (void);
     void setAknPidCal (unsigned char value);
     void setAknReboot (unsigned char value);
     tPWMData getPWMStruct (void);
+    tPIDData getPidStruct(void);
     
 #else
      void protParseDecode (unsigned char* fromSPI);
