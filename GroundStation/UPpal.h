@@ -314,14 +314,18 @@ __published:	// IDE-managed Components
         TStaticText *et_a1c;
         TStaticText *et_dlec;
         TStaticText *et_a2c;
-        TGroupBox *GroupBox16;
+        TGroupBox *gb_pid1;
         TLabel *Label88;
         TLabel *Label89;
         TLabel *Label90;
-        TCurrencyEdit *CurrencyEdit1;
-        TCurrencyEdit *CurrencyEdit2;
-        TCurrencyEdit *CurrencyEdit3;
-        TSpeedButton *SpeedButton1;
+        TCurrencyEdit *ed_p1;
+        TCurrencyEdit *ed_i1;
+        TCurrencyEdit *ed_d1;
+        TSpeedButton *bt_up1;
+        TSpeedButton *bt_down1;
+        TStaticText *et_p1;
+        TStaticText *StaticText1;
+        TStaticText *StaticText2;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -356,6 +360,9 @@ __published:	// IDE-managed Components
     void __fastcall AnyServerCheckBoxClick(TObject *Sender);
     void __fastcall Button1Click(TObject *Sender);
     void __fastcall et_warningDblClick(TObject *Sender);
+        void __fastcall bt_up1Click(TObject *Sender);
+        void __fastcall ed_p1Change(TObject *Sender);
+        void __fastcall bt_down1Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TFPpal(TComponent* Owner);
@@ -377,6 +384,7 @@ public:		// User declarations
         tPilotData	          pilControlSample;
         tAknData                  aknSample;
         tPWMData                  pwmSample;
+        tPIDData                  pidSample;
 
         float csFail;
 
@@ -390,6 +398,7 @@ public:		// User declarations
         void updateAttitude(void);
         void updatePilotLabels(void);
         void updatePWM(void);
+        void updatePID(void);
 
         void updateBiasLabels(void);
         void updateDynLabels(void);

@@ -37,22 +37,23 @@ extern tQueryData		queControlData;
 void protParserInit (void);
 
 #ifdef _IN_PC_
-     float protParseDecode (unsigned char* fromSPI,  FILE* outFile);
+    float protParseDecode (unsigned char* fromSPI,  FILE* outFile);
     void printState(FILE* outfile);
-	void getTime (unsigned char * values);
-	tGpsData getGpsStruct (void);
-	tRawData getRawStruct (void);
-	tXYZData getXYZStruct (void);
-	tAttitudeData getAttStruct (void);
-	tAknData getAknStruct (void);
-	tBiasData getBiasStruct (void);
-	tDynTempData getDynStruct (void);
-	tDiagData getDiagStruct (void);
-	tSensStatus getSensStruct (void);
-	tPilotData getPilotStruct (void);
-	void setAknFilter (unsigned char value);
-    void setAknReboot (unsigned char value); 
-	tPWMData getPWMStruct (void);
+    void getTime (unsigned char * values);
+    tGpsData getGpsStruct (void);
+    tRawData getRawStruct (void);
+    tXYZData getXYZStruct (void);
+    tAttitudeData getAttStruct (void);
+    tAknData getAknStruct (void);
+    tBiasData getBiasStruct (void);
+    tDynTempData getDynStruct (void);
+    tDiagData getDiagStruct (void);
+    tSensStatus getSensStruct (void);
+    tPilotData getPilotStruct (void);
+    void setAknFilter (unsigned char value);
+    void setAknPidCal (unsigned char value);
+    void setAknReboot (unsigned char value);
+    tPWMData getPWMStruct (void);
     
 #else
      void protParseDecode (unsigned char* fromSPI);

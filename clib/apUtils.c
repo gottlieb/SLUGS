@@ -292,7 +292,7 @@ void updateStates(unsigned char * completeSentence){
 			decodeCalSentence (completeSentence[4], completeSentence[5], &completeSentence[6],0);
 		break;
 		
-		case PIDMSG_ID: // PWM Control Surface Commands data
+		case PIDMSG_ID: // PID Configuration values
 			decodeCalSentence(1,completeSentence[4], &completeSentence[5],1);
 		break;
 		
@@ -351,7 +351,7 @@ void decodeCalSentence (unsigned char id, unsigned char indx, unsigned char * da
 			
 			if (inBoard){
 				// Set the flag of Aknowledge for the AKN Message
-				aknControlData.pidCal = 1;
+				aknControlData.pidCal = indx+1;
 	
 				// TODO: Add Code here to save the data to the EEPROM
 			}

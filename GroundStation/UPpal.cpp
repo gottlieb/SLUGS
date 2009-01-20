@@ -288,6 +288,11 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
       setAknReboot (0);
    }
 
+   if (aknSample.pidCal == 1){
+      gb_pid1->Color = clGreen;
+
+   }
+
    updateGPSLabels();                 
    updateRawLabels();
    updateAttitudeLabels();
@@ -301,6 +306,7 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    updateAttitude();
 
    updatePWM();
+   updatePID();
 
    et_fail ->Caption = FormatFloat("0.0000E+00",csFail);
 }
@@ -463,6 +469,12 @@ void TFPpal::updatePWM(void){
   et_a1c->Caption  =  IntToStr(pwmSample.da1_c.usData);
   et_a2c->Caption  =  IntToStr(pwmSample.da2_c.usData);
 }
+
+
+void TFPpal::updatePID(void){
+  et_p1->Caption  =  FloatToStr(pidSample.P[0].flData);
+}
+
 
 void __fastcall TFPpal::cp_serialTriggerAvail(TObject *CP, WORD Count)
 {
@@ -1188,5 +1200,60 @@ void __fastcall TFPpal::et_warningDblClick(TObject *Sender)
   et_warning->Caption = "No Message";
 }
 
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::bt_up1Click(TObject *Sender)
+{
+ // 32 64 205 1 1 42 64 141
+
+ unsigned char filtMsg[25];
+ unsigned char rawMsg[13];
+ tFloatToChar P, I, D;
+
+ // Collect the values
+ P.flData =  (float)ed_p1->Value;
+ I.flData =  (float)ed_i1->Value;
+ D.flData =  (float)ed_d1->Value;
+
+ rawMsg[0]    =    0; // Loop 0
+ rawMsg[1]    =    P.chData[0];
+ rawMsg[2]    =    P.chData[1];
+ rawMsg[3]    =    P.chData[2];
+ rawMsg[4]    =    P.chData[3];
+ rawMsg[5]    =    I.chData[0];
+ rawMsg[6]    =    I.chData[1];
+ rawMsg[7]    =    I.chData[2];
+ rawMsg[8]    =    I.chData[3];
+ rawMsg[9]    =    D.chData[0];
+ rawMsg[10]    =   D.chData[1];
+ rawMsg[11]   =    D.chData[2];
+ rawMsg[12]   =    D.chData[3];
+
+ assembleMsg(&rawMsg[0],PIDMSG_LEN,PIDMSG_ID,&filtMsg[0]);
+
+ cp_serial->PutBlock(&filtMsg[0],(PIDMSG_LEN+7));
+
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::ed_p1Change(TObject *Sender)
+{
+gb_pid1->Color = clRed;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::bt_down1Click(TObject *Sender)
+{
+ unsigned char filtMsg[17];
+ unsigned char rawMsg[10];
+
+ rawMsg[0]    =    1; // Loop 0
+ rawMsg[1]    =    0;
+
+ assembleMsg(&rawMsg[0],QUEMSG_LEN,QUEMSG_ID,&filtMsg[0]);
+
+ cp_serial->PutBlock(&filtMsg[0],(QUEMSG_LEN+7));
+}
 //---------------------------------------------------------------------------
 

@@ -550,10 +550,10 @@ object FPpal: TFPpal
     object ts_ApConfig: TTabSheet
       Caption = 'Configuration'
       ImageIndex = 2
-      object GroupBox16: TGroupBox
+      object gb_pid1: TGroupBox
         Left = 8
         Top = 9
-        Width = 105
+        Width = 169
         Height = 97
         Caption = ' PID Loop 1  '
         Font.Charset = DEFAULT_CHARSET
@@ -564,7 +564,7 @@ object FPpal: TFPpal
         ParentFont = False
         TabOrder = 0
         object Label88: TLabel
-          Left = 16
+          Left = 8
           Top = 19
           Width = 9
           Height = 13
@@ -583,7 +583,7 @@ object FPpal: TFPpal
           ShowHint = True
         end
         object Label89: TLabel
-          Left = 16
+          Left = 8
           Top = 51
           Width = 10
           Height = 13
@@ -602,7 +602,7 @@ object FPpal: TFPpal
           ShowHint = True
         end
         object Label90: TLabel
-          Left = 16
+          Left = 8
           Top = 35
           Width = 5
           Height = 13
@@ -620,23 +620,64 @@ object FPpal: TFPpal
           ParentShowHint = False
           ShowHint = True
         end
-        object SpeedButton1: TSpeedButton
-          Left = 17
+        object bt_up1: TSpeedButton
+          Left = 9
           Top = 69
-          Width = 80
+          Width = 70
           Height = 22
+          Caption = 'Set'
+          Flat = True
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003C3333339333
+            337437FFF3337F3333F73CCC33339333344437773F337F33377733CCC3339337
+            4447337F73FF7F3F337F33CCCCC3934444433373F7737F773373333CCCCC9444
+            44733337F337773337F3333CCCCC9444443333373F337F3337333333CCCC9444
+            473333337F337F337F333333CCCC94444333333373F37F33733333333CCC9444
+            7333333337F37F37F33333333CCC944433333333373F7F373333333333CC9447
+            33333333337F7F7F3333333333CC94433333333333737F7333333333333C9473
+            33333333333737F333333333333C943333333333333737333333333333339733
+            3333333333337F33333333333333933333333333333373333333}
+          NumGlyphs = 2
+          OnClick = bt_up1Click
         end
-        object CurrencyEdit1: TCurrencyEdit
-          Left = 32
+        object bt_down1: TSpeedButton
+          Left = 91
+          Top = 67
+          Width = 70
+          Height = 22
+          Caption = 'Get'
+          Flat = True
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333393333
+            333333333337F3333333333333397333333333333337FF333333333333C94333
+            3333333333737F333333333333C9473333333333337373F3333333333CC94433
+            3333333337F7F7F3333333333CC94473333333333737F73F33333333CCC94443
+            333333337F37F37F33333333CCC94447333333337337F373F333333CCCC94444
+            33333337F337F337F333333CCCC94444733333373337F3373F3333CCCCC94444
+            4333337F3337FF337F3333CCCCC94444473333733F7773FF73F33CCCCC393444
+            443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
+            444377733337F333777FC3333339333337437333333733333373}
+          NumGlyphs = 2
+          OnClick = bt_down1Click
+        end
+        object ed_p1: TCurrencyEdit
+          Left = 24
           Top = 17
           Width = 65
           Height = 18
           AutoSize = False
           DisplayFormat = ' ,00.0000;- ,00.0000'
           TabOrder = 0
+          OnChange = ed_p1Change
         end
-        object CurrencyEdit2: TCurrencyEdit
-          Left = 32
+        object ed_i1: TCurrencyEdit
+          Left = 24
           Top = 33
           Width = 65
           Height = 18
@@ -644,14 +685,71 @@ object FPpal: TFPpal
           DisplayFormat = ' ,00.0000;- ,00.0000'
           TabOrder = 1
         end
-        object CurrencyEdit3: TCurrencyEdit
-          Left = 32
+        object ed_d1: TCurrencyEdit
+          Left = 24
           Top = 49
           Width = 65
           Height = 18
           AutoSize = False
           DisplayFormat = ' ,00.0000;- ,00.0000'
           TabOrder = 2
+        end
+        object et_p1: TStaticText
+          Left = 92
+          Top = 17
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 3
+        end
+        object StaticText1: TStaticText
+          Left = 92
+          Top = 33
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 4
+        end
+        object StaticText2: TStaticText
+          Left = 92
+          Top = 49
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 5
         end
       end
     end
@@ -4551,7 +4649,7 @@ object FPpal: TFPpal
     end
     object bt_clear: TSpeedButton
       Left = 8
-      Top = 624
+      Top = 640
       Width = 185
       Height = 22
       Caption = 'Clear the Diagnose Window'
@@ -4576,7 +4674,7 @@ object FPpal: TFPpal
       Left = 8
       Top = 32
       Width = 185
-      Height = 585
+      Height = 601
       TabOrder = 0
     end
   end

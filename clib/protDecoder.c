@@ -468,6 +468,10 @@ void setAknReboot (unsigned char value){
 	aknControlData.reboot = value;
 }
 
+void setAknPidCal (unsigned char value){
+	aknControlData.pidCal = value;
+}
+
 tPilotData getPilotStruct(void){
 	return pilControlData;
 }
