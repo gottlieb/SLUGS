@@ -460,6 +460,19 @@ tAknData getAknStruct(void){
  return aknControlData;
 }
 
+tPilotData getPilotStruct(void){
+	return pilControlData;
+}
+
+tPWMData getPWMStruct(void){
+	return pwmControlData;
+}
+
+tPIDData getPidStruct(void){
+	return pidControlData;
+}
+
+
 void setAknFilter (unsigned char value){
 	aknControlData.filOnOff = value;
 }
@@ -472,13 +485,7 @@ void setAknPidCal (unsigned char value){
 	aknControlData.pidCal = value;
 }
 
-tPilotData getPilotStruct(void){
-	return pilControlData;
-}
 
-tPWMData getPWMStruct(void){
-	return pwmControlData;
-}
 
 void getTime (unsigned char * values){
 	values[0] = gpsControlData.hour;
