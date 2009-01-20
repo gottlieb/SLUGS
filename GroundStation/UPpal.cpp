@@ -71,6 +71,53 @@ void __fastcall TFPpal::FormCreate(TObject *Sender)
  protParserInit ();
 
  logIsOpen = false;
+
+ // Create the label arrays for configuration
+ PGains[0] = ed_p1;
+ PGains[1] = ed_p2;
+ PGains[2] = ed_p3;
+ PGains[3] = ed_p4;
+ PGains[4] = ed_p5;
+ PGains[5] = ed_p6;
+ PGains[6] = ed_p7;
+ PGains[7] = ed_p8;
+ PGains[8] = ed_p9;
+ PGains[9] = ed_p10;
+
+ IGains[0] = ed_i1;
+ IGains[1] = ed_i2;
+ IGains[2] = ed_i3;
+ IGains[3] = ed_i4;
+ IGains[4] = ed_i5;
+ IGains[5] = ed_i6;
+ IGains[6] = ed_i7;
+ IGains[7] = ed_i8;
+ IGains[8] = ed_i9;
+ IGains[9] = ed_i10;
+
+ DGains[0] = ed_d1;
+ DGains[1] = ed_d2;
+ DGains[2] = ed_d3;
+ DGains[3] = ed_d4;
+ DGains[4] = ed_d5;
+ DGains[5] = ed_d6;
+ DGains[6] = ed_d7;
+ DGains[7] = ed_d8;
+ DGains[8] = ed_d9;
+ DGains[9] = ed_d10;
+
+ BoxCont[0] = gb_pid1;
+ BoxCont[1] = gb_pid2;
+ BoxCont[2] = gb_pid3;
+ BoxCont[3] = gb_pid4;
+ BoxCont[4] = gb_pid5;
+ BoxCont[5] = gb_pid6;
+ BoxCont[6] = gb_pid7;
+ BoxCont[7] = gb_pid8;
+ BoxCont[8] = gb_pid9;
+ BoxCont[9] = gb_pid10;
+
+
 }
 //---------------------------------------------------------------------------
 
@@ -289,10 +336,9 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
       setAknReboot (0);
    }
 
-   if (aknSample.pidCal == 1){
-      gb_pid1->Color = clGreen;
+   if (aknSample.pidCal > 1){
+      BoxCont[aknSample.pidCal-1]->Color = clGreen;
       setAknPidCal(0);
-
    }
 
    updateGPSLabels();                 
@@ -1215,9 +1261,9 @@ void __fastcall TFPpal::bt_up1Click(TObject *Sender)
  tFloatToChar P, I, D;
 
  // Collect the values
- P.flData =  (float)ed_p1->Value;
- I.flData =  (float)ed_i1->Value;
- D.flData =  (float)ed_d1->Value;
+ P.flData =  (float)PGains[((TComponent*)Sender)->Tag]->Value;
+ I.flData =  (float)IGains[((TComponent*)Sender)->Tag]->Value;
+ D.flData =  (float)DGains[((TComponent*)Sender)->Tag]->Value;
 
  rawMsg[0]    =    0; // Loop 0
  rawMsg[1]    =    P.chData[0];
@@ -1243,7 +1289,7 @@ void __fastcall TFPpal::bt_up1Click(TObject *Sender)
 
 void __fastcall TFPpal::ed_p1Change(TObject *Sender)
 {
-gb_pid1->Color = clRed;
+  BoxCont[((TComponent*)Sender)->Tag]->Color = clRed;
 }
 //---------------------------------------------------------------------------
 
@@ -1252,8 +1298,8 @@ void __fastcall TFPpal::bt_down1Click(TObject *Sender)
  unsigned char filtMsg[17];
  unsigned char rawMsg[10];
 
- rawMsg[0]    =    1; // Value ID
- rawMsg[1]    =    0; // Index
+ rawMsg[0]    =    1; // Value ID (1 is PID)
+ rawMsg[1]    =    ((TComponent*)Sender)->Tag; // Index
 
  assembleMsg(&rawMsg[0],QUEMSG_LEN,QUEMSG_ID,&filtMsg[0]);
 
