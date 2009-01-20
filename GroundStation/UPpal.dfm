@@ -754,6 +754,1896 @@ object FPpal: TFPpal
           TabOrder = 5
         end
       end
+      object gb_pid2: TGroupBox
+        Tag = 1
+        Left = 192
+        Top = 9
+        Width = 169
+        Height = 97
+        Caption = ' PID Loop 2'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 1
+        object Label91: TLabel
+          Left = 8
+          Top = 19
+          Width = 9
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'P'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label92: TLabel
+          Left = 8
+          Top = 51
+          Width = 10
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'D'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label93: TLabel
+          Left = 8
+          Top = 35
+          Width = 5
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'I'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object SpeedButton1: TSpeedButton
+          Tag = 1
+          Left = 9
+          Top = 69
+          Width = 70
+          Height = 22
+          Caption = 'Set'
+          Flat = True
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003C3333339333
+            337437FFF3337F3333F73CCC33339333344437773F337F33377733CCC3339337
+            4447337F73FF7F3F337F33CCCCC3934444433373F7737F773373333CCCCC9444
+            44733337F337773337F3333CCCCC9444443333373F337F3337333333CCCC9444
+            473333337F337F337F333333CCCC94444333333373F37F33733333333CCC9444
+            7333333337F37F37F33333333CCC944433333333373F7F373333333333CC9447
+            33333333337F7F7F3333333333CC94433333333333737F7333333333333C9473
+            33333333333737F333333333333C943333333333333737333333333333339733
+            3333333333337F33333333333333933333333333333373333333}
+          NumGlyphs = 2
+          OnClick = bt_up1Click
+        end
+        object SpeedButton2: TSpeedButton
+          Tag = 1
+          Left = 91
+          Top = 67
+          Width = 70
+          Height = 22
+          Caption = 'Get'
+          Flat = True
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333393333
+            333333333337F3333333333333397333333333333337FF333333333333C94333
+            3333333333737F333333333333C9473333333333337373F3333333333CC94433
+            3333333337F7F7F3333333333CC94473333333333737F73F33333333CCC94443
+            333333337F37F37F33333333CCC94447333333337337F373F333333CCCC94444
+            33333337F337F337F333333CCCC94444733333373337F3373F3333CCCCC94444
+            4333337F3337FF337F3333CCCCC94444473333733F7773FF73F33CCCCC393444
+            443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
+            444377733337F333777FC3333339333337437333333733333373}
+          NumGlyphs = 2
+          OnClick = bt_down1Click
+        end
+        object ed_p2: TCurrencyEdit
+          Tag = 1
+          Left = 24
+          Top = 17
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 0
+          OnChange = ed_p1Change
+        end
+        object ed_i2: TCurrencyEdit
+          Tag = 1
+          Left = 24
+          Top = 33
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 1
+          OnChange = ed_p1Change
+        end
+        object ed_d2: TCurrencyEdit
+          Tag = 1
+          Left = 24
+          Top = 49
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 2
+          OnChange = ed_p1Change
+        end
+        object StaticText1: TStaticText
+          Left = 92
+          Top = 17
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 3
+        end
+        object StaticText2: TStaticText
+          Left = 92
+          Top = 33
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 4
+        end
+        object StaticText3: TStaticText
+          Left = 92
+          Top = 49
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 5
+        end
+      end
+      object gb_pid3: TGroupBox
+        Tag = 2
+        Left = 8
+        Top = 113
+        Width = 169
+        Height = 97
+        Caption = ' PID Loop 3'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 2
+        object Label94: TLabel
+          Left = 8
+          Top = 19
+          Width = 9
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'P'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label95: TLabel
+          Left = 8
+          Top = 51
+          Width = 10
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'D'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label96: TLabel
+          Left = 8
+          Top = 35
+          Width = 5
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'I'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object SpeedButton4: TSpeedButton
+          Tag = 2
+          Left = 9
+          Top = 69
+          Width = 70
+          Height = 22
+          Caption = 'Set'
+          Flat = True
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003C3333339333
+            337437FFF3337F3333F73CCC33339333344437773F337F33377733CCC3339337
+            4447337F73FF7F3F337F33CCCCC3934444433373F7737F773373333CCCCC9444
+            44733337F337773337F3333CCCCC9444443333373F337F3337333333CCCC9444
+            473333337F337F337F333333CCCC94444333333373F37F33733333333CCC9444
+            7333333337F37F37F33333333CCC944433333333373F7F373333333333CC9447
+            33333333337F7F7F3333333333CC94433333333333737F7333333333333C9473
+            33333333333737F333333333333C943333333333333737333333333333339733
+            3333333333337F33333333333333933333333333333373333333}
+          NumGlyphs = 2
+          OnClick = bt_up1Click
+        end
+        object SpeedButton5: TSpeedButton
+          Tag = 2
+          Left = 91
+          Top = 67
+          Width = 70
+          Height = 22
+          Caption = 'Get'
+          Flat = True
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333393333
+            333333333337F3333333333333397333333333333337FF333333333333C94333
+            3333333333737F333333333333C9473333333333337373F3333333333CC94433
+            3333333337F7F7F3333333333CC94473333333333737F73F33333333CCC94443
+            333333337F37F37F33333333CCC94447333333337337F373F333333CCCC94444
+            33333337F337F337F333333CCCC94444733333373337F3373F3333CCCCC94444
+            4333337F3337FF337F3333CCCCC94444473333733F7773FF73F33CCCCC393444
+            443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
+            444377733337F333777FC3333339333337437333333733333373}
+          NumGlyphs = 2
+          OnClick = bt_down1Click
+        end
+        object ed_p3: TCurrencyEdit
+          Tag = 2
+          Left = 24
+          Top = 17
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 0
+          OnChange = ed_p1Change
+        end
+        object ed_i3: TCurrencyEdit
+          Tag = 2
+          Left = 24
+          Top = 33
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 1
+          OnChange = ed_p1Change
+        end
+        object ed_d3: TCurrencyEdit
+          Tag = 2
+          Left = 24
+          Top = 49
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 2
+          OnChange = ed_p1Change
+        end
+        object StaticText4: TStaticText
+          Left = 92
+          Top = 17
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 3
+        end
+        object StaticText5: TStaticText
+          Left = 92
+          Top = 33
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 4
+        end
+        object StaticText6: TStaticText
+          Left = 92
+          Top = 49
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 5
+        end
+      end
+      object gb_pid4: TGroupBox
+        Tag = 3
+        Left = 190
+        Top = 113
+        Width = 169
+        Height = 97
+        Caption = ' PID Loop 4'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 3
+        object Label97: TLabel
+          Left = 8
+          Top = 19
+          Width = 9
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'P'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label98: TLabel
+          Left = 8
+          Top = 51
+          Width = 10
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'D'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label99: TLabel
+          Left = 8
+          Top = 35
+          Width = 5
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'I'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object SpeedButton6: TSpeedButton
+          Tag = 3
+          Left = 9
+          Top = 69
+          Width = 70
+          Height = 22
+          Caption = 'Set'
+          Flat = True
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003C3333339333
+            337437FFF3337F3333F73CCC33339333344437773F337F33377733CCC3339337
+            4447337F73FF7F3F337F33CCCCC3934444433373F7737F773373333CCCCC9444
+            44733337F337773337F3333CCCCC9444443333373F337F3337333333CCCC9444
+            473333337F337F337F333333CCCC94444333333373F37F33733333333CCC9444
+            7333333337F37F37F33333333CCC944433333333373F7F373333333333CC9447
+            33333333337F7F7F3333333333CC94433333333333737F7333333333333C9473
+            33333333333737F333333333333C943333333333333737333333333333339733
+            3333333333337F33333333333333933333333333333373333333}
+          NumGlyphs = 2
+          OnClick = bt_up1Click
+        end
+        object SpeedButton7: TSpeedButton
+          Tag = 3
+          Left = 91
+          Top = 67
+          Width = 70
+          Height = 22
+          Caption = 'Get'
+          Flat = True
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333393333
+            333333333337F3333333333333397333333333333337FF333333333333C94333
+            3333333333737F333333333333C9473333333333337373F3333333333CC94433
+            3333333337F7F7F3333333333CC94473333333333737F73F33333333CCC94443
+            333333337F37F37F33333333CCC94447333333337337F373F333333CCCC94444
+            33333337F337F337F333333CCCC94444733333373337F3373F3333CCCCC94444
+            4333337F3337FF337F3333CCCCC94444473333733F7773FF73F33CCCCC393444
+            443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
+            444377733337F333777FC3333339333337437333333733333373}
+          NumGlyphs = 2
+          OnClick = bt_down1Click
+        end
+        object ed_p4: TCurrencyEdit
+          Tag = 3
+          Left = 24
+          Top = 17
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 0
+          OnChange = ed_p1Change
+        end
+        object ed_i4: TCurrencyEdit
+          Tag = 3
+          Left = 24
+          Top = 33
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 1
+          OnChange = ed_p1Change
+        end
+        object ed_d4: TCurrencyEdit
+          Tag = 3
+          Left = 24
+          Top = 49
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 2
+          OnChange = ed_p1Change
+        end
+        object StaticText7: TStaticText
+          Left = 92
+          Top = 17
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 3
+        end
+        object StaticText8: TStaticText
+          Left = 92
+          Top = 33
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 4
+        end
+        object StaticText9: TStaticText
+          Left = 92
+          Top = 49
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 5
+        end
+      end
+      object gb_pid5: TGroupBox
+        Tag = 4
+        Left = 8
+        Top = 217
+        Width = 169
+        Height = 97
+        Caption = ' PID Loop 5'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 4
+        object Label100: TLabel
+          Left = 8
+          Top = 19
+          Width = 9
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'P'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label101: TLabel
+          Left = 8
+          Top = 51
+          Width = 10
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'D'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label102: TLabel
+          Left = 8
+          Top = 35
+          Width = 5
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'I'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object SpeedButton8: TSpeedButton
+          Tag = 4
+          Left = 9
+          Top = 69
+          Width = 70
+          Height = 22
+          Caption = 'Set'
+          Flat = True
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003C3333339333
+            337437FFF3337F3333F73CCC33339333344437773F337F33377733CCC3339337
+            4447337F73FF7F3F337F33CCCCC3934444433373F7737F773373333CCCCC9444
+            44733337F337773337F3333CCCCC9444443333373F337F3337333333CCCC9444
+            473333337F337F337F333333CCCC94444333333373F37F33733333333CCC9444
+            7333333337F37F37F33333333CCC944433333333373F7F373333333333CC9447
+            33333333337F7F7F3333333333CC94433333333333737F7333333333333C9473
+            33333333333737F333333333333C943333333333333737333333333333339733
+            3333333333337F33333333333333933333333333333373333333}
+          NumGlyphs = 2
+          OnClick = bt_up1Click
+        end
+        object SpeedButton9: TSpeedButton
+          Tag = 4
+          Left = 91
+          Top = 67
+          Width = 70
+          Height = 22
+          Caption = 'Get'
+          Flat = True
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333393333
+            333333333337F3333333333333397333333333333337FF333333333333C94333
+            3333333333737F333333333333C9473333333333337373F3333333333CC94433
+            3333333337F7F7F3333333333CC94473333333333737F73F33333333CCC94443
+            333333337F37F37F33333333CCC94447333333337337F373F333333CCCC94444
+            33333337F337F337F333333CCCC94444733333373337F3373F3333CCCCC94444
+            4333337F3337FF337F3333CCCCC94444473333733F7773FF73F33CCCCC393444
+            443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
+            444377733337F333777FC3333339333337437333333733333373}
+          NumGlyphs = 2
+          OnClick = bt_down1Click
+        end
+        object ed_p5: TCurrencyEdit
+          Tag = 4
+          Left = 24
+          Top = 17
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 0
+          OnChange = ed_p1Change
+        end
+        object ed_i5: TCurrencyEdit
+          Tag = 4
+          Left = 24
+          Top = 33
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 1
+          OnChange = ed_p1Change
+        end
+        object ed_d5: TCurrencyEdit
+          Tag = 4
+          Left = 24
+          Top = 49
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 2
+          OnChange = ed_p1Change
+        end
+        object StaticText10: TStaticText
+          Left = 92
+          Top = 17
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 3
+        end
+        object StaticText11: TStaticText
+          Left = 92
+          Top = 33
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 4
+        end
+        object StaticText12: TStaticText
+          Left = 92
+          Top = 49
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 5
+        end
+      end
+      object gb_pid6: TGroupBox
+        Tag = 5
+        Left = 190
+        Top = 217
+        Width = 169
+        Height = 97
+        Caption = ' PID Loop 6'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 5
+        object Label103: TLabel
+          Left = 8
+          Top = 19
+          Width = 9
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'P'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label104: TLabel
+          Left = 8
+          Top = 51
+          Width = 10
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'D'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label105: TLabel
+          Left = 8
+          Top = 35
+          Width = 5
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'I'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object SpeedButton10: TSpeedButton
+          Tag = 5
+          Left = 9
+          Top = 69
+          Width = 70
+          Height = 22
+          Caption = 'Set'
+          Flat = True
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003C3333339333
+            337437FFF3337F3333F73CCC33339333344437773F337F33377733CCC3339337
+            4447337F73FF7F3F337F33CCCCC3934444433373F7737F773373333CCCCC9444
+            44733337F337773337F3333CCCCC9444443333373F337F3337333333CCCC9444
+            473333337F337F337F333333CCCC94444333333373F37F33733333333CCC9444
+            7333333337F37F37F33333333CCC944433333333373F7F373333333333CC9447
+            33333333337F7F7F3333333333CC94433333333333737F7333333333333C9473
+            33333333333737F333333333333C943333333333333737333333333333339733
+            3333333333337F33333333333333933333333333333373333333}
+          NumGlyphs = 2
+          OnClick = bt_up1Click
+        end
+        object SpeedButton11: TSpeedButton
+          Tag = 5
+          Left = 91
+          Top = 67
+          Width = 70
+          Height = 22
+          Caption = 'Get'
+          Flat = True
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333393333
+            333333333337F3333333333333397333333333333337FF333333333333C94333
+            3333333333737F333333333333C9473333333333337373F3333333333CC94433
+            3333333337F7F7F3333333333CC94473333333333737F73F33333333CCC94443
+            333333337F37F37F33333333CCC94447333333337337F373F333333CCCC94444
+            33333337F337F337F333333CCCC94444733333373337F3373F3333CCCCC94444
+            4333337F3337FF337F3333CCCCC94444473333733F7773FF73F33CCCCC393444
+            443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
+            444377733337F333777FC3333339333337437333333733333373}
+          NumGlyphs = 2
+          OnClick = bt_down1Click
+        end
+        object ed_p6: TCurrencyEdit
+          Tag = 5
+          Left = 24
+          Top = 17
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 0
+          OnChange = ed_p1Change
+        end
+        object ed_i6: TCurrencyEdit
+          Tag = 5
+          Left = 24
+          Top = 33
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 1
+          OnChange = ed_p1Change
+        end
+        object ed_d6: TCurrencyEdit
+          Tag = 5
+          Left = 24
+          Top = 49
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 2
+          OnChange = ed_p1Change
+        end
+        object StaticText13: TStaticText
+          Left = 92
+          Top = 17
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 3
+        end
+        object StaticText14: TStaticText
+          Left = 92
+          Top = 33
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 4
+        end
+        object StaticText15: TStaticText
+          Left = 92
+          Top = 49
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 5
+        end
+      end
+      object gb_pid7: TGroupBox
+        Tag = 6
+        Left = 8
+        Top = 321
+        Width = 169
+        Height = 97
+        Caption = ' PID Loop 7'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 6
+        object Label106: TLabel
+          Left = 8
+          Top = 19
+          Width = 9
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'P'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label107: TLabel
+          Left = 8
+          Top = 51
+          Width = 10
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'D'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label108: TLabel
+          Left = 8
+          Top = 35
+          Width = 5
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'I'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object SpeedButton12: TSpeedButton
+          Tag = 6
+          Left = 9
+          Top = 69
+          Width = 70
+          Height = 22
+          Caption = 'Set'
+          Flat = True
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003C3333339333
+            337437FFF3337F3333F73CCC33339333344437773F337F33377733CCC3339337
+            4447337F73FF7F3F337F33CCCCC3934444433373F7737F773373333CCCCC9444
+            44733337F337773337F3333CCCCC9444443333373F337F3337333333CCCC9444
+            473333337F337F337F333333CCCC94444333333373F37F33733333333CCC9444
+            7333333337F37F37F33333333CCC944433333333373F7F373333333333CC9447
+            33333333337F7F7F3333333333CC94433333333333737F7333333333333C9473
+            33333333333737F333333333333C943333333333333737333333333333339733
+            3333333333337F33333333333333933333333333333373333333}
+          NumGlyphs = 2
+          OnClick = bt_up1Click
+        end
+        object SpeedButton13: TSpeedButton
+          Tag = 6
+          Left = 91
+          Top = 67
+          Width = 70
+          Height = 22
+          Caption = 'Get'
+          Flat = True
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333393333
+            333333333337F3333333333333397333333333333337FF333333333333C94333
+            3333333333737F333333333333C9473333333333337373F3333333333CC94433
+            3333333337F7F7F3333333333CC94473333333333737F73F33333333CCC94443
+            333333337F37F37F33333333CCC94447333333337337F373F333333CCCC94444
+            33333337F337F337F333333CCCC94444733333373337F3373F3333CCCCC94444
+            4333337F3337FF337F3333CCCCC94444473333733F7773FF73F33CCCCC393444
+            443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
+            444377733337F333777FC3333339333337437333333733333373}
+          NumGlyphs = 2
+          OnClick = bt_down1Click
+        end
+        object ed_p7: TCurrencyEdit
+          Tag = 6
+          Left = 24
+          Top = 17
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 0
+          OnChange = ed_p1Change
+        end
+        object ed_i7: TCurrencyEdit
+          Tag = 6
+          Left = 24
+          Top = 33
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 1
+          OnChange = ed_p1Change
+        end
+        object ed_d7: TCurrencyEdit
+          Tag = 6
+          Left = 24
+          Top = 49
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 2
+          OnChange = ed_p1Change
+        end
+        object StaticText16: TStaticText
+          Left = 92
+          Top = 17
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 3
+        end
+        object StaticText17: TStaticText
+          Left = 92
+          Top = 33
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 4
+        end
+        object StaticText18: TStaticText
+          Left = 92
+          Top = 49
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 5
+        end
+      end
+      object gb_pid8: TGroupBox
+        Tag = 7
+        Left = 190
+        Top = 321
+        Width = 169
+        Height = 97
+        Caption = ' PID Loop 8'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 7
+        object Label109: TLabel
+          Left = 8
+          Top = 19
+          Width = 9
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'P'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label110: TLabel
+          Left = 8
+          Top = 51
+          Width = 10
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'D'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label111: TLabel
+          Left = 8
+          Top = 35
+          Width = 5
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'I'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object SpeedButton14: TSpeedButton
+          Tag = 7
+          Left = 9
+          Top = 69
+          Width = 70
+          Height = 22
+          Caption = 'Set'
+          Flat = True
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003C3333339333
+            337437FFF3337F3333F73CCC33339333344437773F337F33377733CCC3339337
+            4447337F73FF7F3F337F33CCCCC3934444433373F7737F773373333CCCCC9444
+            44733337F337773337F3333CCCCC9444443333373F337F3337333333CCCC9444
+            473333337F337F337F333333CCCC94444333333373F37F33733333333CCC9444
+            7333333337F37F37F33333333CCC944433333333373F7F373333333333CC9447
+            33333333337F7F7F3333333333CC94433333333333737F7333333333333C9473
+            33333333333737F333333333333C943333333333333737333333333333339733
+            3333333333337F33333333333333933333333333333373333333}
+          NumGlyphs = 2
+          OnClick = bt_up1Click
+        end
+        object SpeedButton15: TSpeedButton
+          Tag = 7
+          Left = 91
+          Top = 67
+          Width = 70
+          Height = 22
+          Caption = 'Get'
+          Flat = True
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333393333
+            333333333337F3333333333333397333333333333337FF333333333333C94333
+            3333333333737F333333333333C9473333333333337373F3333333333CC94433
+            3333333337F7F7F3333333333CC94473333333333737F73F33333333CCC94443
+            333333337F37F37F33333333CCC94447333333337337F373F333333CCCC94444
+            33333337F337F337F333333CCCC94444733333373337F3373F3333CCCCC94444
+            4333337F3337FF337F3333CCCCC94444473333733F7773FF73F33CCCCC393444
+            443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
+            444377733337F333777FC3333339333337437333333733333373}
+          NumGlyphs = 2
+          OnClick = bt_down1Click
+        end
+        object ed_p8: TCurrencyEdit
+          Tag = 7
+          Left = 24
+          Top = 17
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 0
+          OnChange = ed_p1Change
+        end
+        object ed_i8: TCurrencyEdit
+          Tag = 7
+          Left = 24
+          Top = 33
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 1
+          OnChange = ed_p1Change
+        end
+        object ed_d8: TCurrencyEdit
+          Tag = 7
+          Left = 24
+          Top = 49
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 2
+          OnChange = ed_p1Change
+        end
+        object StaticText19: TStaticText
+          Left = 92
+          Top = 17
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 3
+        end
+        object StaticText20: TStaticText
+          Left = 92
+          Top = 33
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 4
+        end
+        object StaticText21: TStaticText
+          Left = 92
+          Top = 49
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 5
+        end
+      end
+      object gb_pid9: TGroupBox
+        Tag = 8
+        Left = 8
+        Top = 425
+        Width = 169
+        Height = 97
+        Caption = ' PID Loop 9'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 8
+        object Label112: TLabel
+          Left = 8
+          Top = 19
+          Width = 9
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'P'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label113: TLabel
+          Left = 8
+          Top = 51
+          Width = 10
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'D'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label114: TLabel
+          Left = 8
+          Top = 35
+          Width = 5
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'I'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object SpeedButton16: TSpeedButton
+          Tag = 8
+          Left = 9
+          Top = 69
+          Width = 70
+          Height = 22
+          Caption = 'Set'
+          Flat = True
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003C3333339333
+            337437FFF3337F3333F73CCC33339333344437773F337F33377733CCC3339337
+            4447337F73FF7F3F337F33CCCCC3934444433373F7737F773373333CCCCC9444
+            44733337F337773337F3333CCCCC9444443333373F337F3337333333CCCC9444
+            473333337F337F337F333333CCCC94444333333373F37F33733333333CCC9444
+            7333333337F37F37F33333333CCC944433333333373F7F373333333333CC9447
+            33333333337F7F7F3333333333CC94433333333333737F7333333333333C9473
+            33333333333737F333333333333C943333333333333737333333333333339733
+            3333333333337F33333333333333933333333333333373333333}
+          NumGlyphs = 2
+          OnClick = bt_up1Click
+        end
+        object SpeedButton17: TSpeedButton
+          Tag = 8
+          Left = 91
+          Top = 67
+          Width = 70
+          Height = 22
+          Caption = 'Get'
+          Flat = True
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333393333
+            333333333337F3333333333333397333333333333337FF333333333333C94333
+            3333333333737F333333333333C9473333333333337373F3333333333CC94433
+            3333333337F7F7F3333333333CC94473333333333737F73F33333333CCC94443
+            333333337F37F37F33333333CCC94447333333337337F373F333333CCCC94444
+            33333337F337F337F333333CCCC94444733333373337F3373F3333CCCCC94444
+            4333337F3337FF337F3333CCCCC94444473333733F7773FF73F33CCCCC393444
+            443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
+            444377733337F333777FC3333339333337437333333733333373}
+          NumGlyphs = 2
+          OnClick = bt_down1Click
+        end
+        object ed_p9: TCurrencyEdit
+          Tag = 8
+          Left = 24
+          Top = 17
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 0
+          OnChange = ed_p1Change
+        end
+        object ed_i9: TCurrencyEdit
+          Tag = 8
+          Left = 24
+          Top = 33
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 1
+          OnChange = ed_p1Change
+        end
+        object ed_d9: TCurrencyEdit
+          Tag = 8
+          Left = 24
+          Top = 49
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 2
+          OnChange = ed_p1Change
+        end
+        object StaticText22: TStaticText
+          Left = 92
+          Top = 17
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 3
+        end
+        object StaticText23: TStaticText
+          Left = 92
+          Top = 33
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 4
+        end
+        object StaticText24: TStaticText
+          Left = 92
+          Top = 49
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 5
+        end
+      end
+      object gb_pid10: TGroupBox
+        Tag = 9
+        Left = 190
+        Top = 425
+        Width = 169
+        Height = 97
+        Caption = ' PID Loop 10  '
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 9
+        object Label115: TLabel
+          Left = 8
+          Top = 19
+          Width = 9
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'P'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label116: TLabel
+          Left = 8
+          Top = 51
+          Width = 10
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'D'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label117: TLabel
+          Left = 8
+          Top = 35
+          Width = 5
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'I'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object SpeedButton18: TSpeedButton
+          Tag = 9
+          Left = 9
+          Top = 69
+          Width = 70
+          Height = 22
+          Caption = 'Set'
+          Flat = True
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003C3333339333
+            337437FFF3337F3333F73CCC33339333344437773F337F33377733CCC3339337
+            4447337F73FF7F3F337F33CCCCC3934444433373F7737F773373333CCCCC9444
+            44733337F337773337F3333CCCCC9444443333373F337F3337333333CCCC9444
+            473333337F337F337F333333CCCC94444333333373F37F33733333333CCC9444
+            7333333337F37F37F33333333CCC944433333333373F7F373333333333CC9447
+            33333333337F7F7F3333333333CC94433333333333737F7333333333333C9473
+            33333333333737F333333333333C943333333333333737333333333333339733
+            3333333333337F33333333333333933333333333333373333333}
+          NumGlyphs = 2
+          OnClick = bt_up1Click
+        end
+        object SpeedButton19: TSpeedButton
+          Tag = 9
+          Left = 91
+          Top = 67
+          Width = 70
+          Height = 22
+          Caption = 'Get'
+          Flat = True
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333393333
+            333333333337F3333333333333397333333333333337FF333333333333C94333
+            3333333333737F333333333333C9473333333333337373F3333333333CC94433
+            3333333337F7F7F3333333333CC94473333333333737F73F33333333CCC94443
+            333333337F37F37F33333333CCC94447333333337337F373F333333CCCC94444
+            33333337F337F337F333333CCCC94444733333373337F3373F3333CCCCC94444
+            4333337F3337FF337F3333CCCCC94444473333733F7773FF73F33CCCCC393444
+            443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
+            444377733337F333777FC3333339333337437333333733333373}
+          NumGlyphs = 2
+          OnClick = bt_down1Click
+        end
+        object ed_p10: TCurrencyEdit
+          Tag = 9
+          Left = 24
+          Top = 17
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 0
+          OnChange = ed_p1Change
+        end
+        object ed_i10: TCurrencyEdit
+          Tag = 9
+          Left = 24
+          Top = 33
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 1
+          OnChange = ed_p1Change
+        end
+        object ed_d10: TCurrencyEdit
+          Tag = 9
+          Left = 24
+          Top = 49
+          Width = 65
+          Height = 18
+          AutoSize = False
+          DisplayFormat = ' ,00.0000;- ,00.0000'
+          TabOrder = 2
+          OnChange = ed_p1Change
+        end
+        object StaticText25: TStaticText
+          Left = 92
+          Top = 17
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 3
+        end
+        object StaticText26: TStaticText
+          Left = 92
+          Top = 33
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 4
+        end
+        object StaticText27: TStaticText
+          Left = 92
+          Top = 49
+          Width = 67
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 5
+        end
+      end
     end
     object ts_export: TTabSheet
       Caption = 'Export'

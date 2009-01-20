@@ -636,6 +636,9 @@ void prepareTelemetry( unsigned char* dataOut){
 				
 				// set the length of the message
 				len2Telemetry = CALMSG_LEN+7;
+				
+				// clear the pending request
+				queControlData.pendingRequest = 0;
 			}
 		break;
 		
