@@ -13,12 +13,7 @@
 // Code by: Mariano I. Lizarraga
 // First Revision: Sep 1st 2008 @ 21:15
 // =========================================================
-#include "apDefinitions.h"
-#include "circBuffer.h"
-#include <p33fxxxx.h>
-#include <spi.h>
-#include <stdlib.h>
-#include <stdarg.h>
+#include "interProcCommSlave.h"
 
 //Structure arrays for incomming data
 struct tGpsData gpsDataBuffer [3];

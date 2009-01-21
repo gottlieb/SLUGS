@@ -11,6 +11,7 @@
 #include <math.h>
 #include "apDefinitions.h"
 #include "protDecoder.h"
+#include "DEE.h"
 
 
 

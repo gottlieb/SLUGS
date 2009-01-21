@@ -57,14 +57,15 @@ void protParserInit(void){
 	memset(&queControlData, 0, sizeof(tQueryData));
 	filterControlData = 0;
 	
-	// set the flag saying you just had a reboot
+	// Control MCU boot procedures
 	#ifdef _IN_PC_
 		//
 	#else
-		aknControlData.reboot = 1;
+		aknControlData.reboot = 1;		
 	#endif
 	
-	// TODO: Add Code here to read EEPROM data on Boot
+	
+	
 }
 
 

@@ -128,6 +128,10 @@ and data types.
 #define QUEMSG_LEN		10
 
 
+// EEPROM Emulation Address Offsets
+// ================================
+#define PID_OFFSET		51
+
 // Communication Protocol Merging Offsets
 // ======================================
 #define GSMSG_IDX		99
