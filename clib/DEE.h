@@ -43,10 +43,13 @@
     Code Slightly modified by Mariano I. Lizararga to make it compatible
     with Lubin's dsPIC Embedded Target
 ************************************************************************/
+
+
+
 #ifndef _DEE_H_
-    #define _DEE_H_
+#define _DEE_H_
     
-#include "rtwtypes.h"
+#include <p33fxxxx.h>
 
 // User defined constants
 #define DATA_EE_SIZE        255
@@ -121,13 +124,13 @@ extern int  WritePMLow(int, int);
 extern int  WritePMLowB(int, int);
 
 void            UnlockWrite         (void);
-uint16_T        GetPageStatus       (uint8_T page, uint8_T field);
-void            ErasePage           (uint8_T page);
+int		        GetPageStatus       (unsigned char page, unsigned volatile char field);
+void            ErasePage           (unsigned char page);
 char            IncEWCount          (unsigned char *index);
-uint16_T        GetNextAvailCount   (void);
-int16_T         PackEE              (void);
-uint8_T         DataEEInit          (void);
-uint16_T        DataEERead          (uint8_T addr);
-uint8_T         DataEEWrite         (uint16_T data, uint8_T addr);
+unsigned int    GetNextAvailCount   (void);
+int             PackEE              (void);
+unsigned char   DataEEInit          (void);
+unsigned int    DataEERead          (unsigned char addr);
+unsigned char   DataEEWrite         (unsigned int data, unsigned char addr);
 
 #endif

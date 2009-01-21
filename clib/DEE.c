@@ -21,9 +21,9 @@
 * any other DEE operation.
 *
 *************************************************************************
-* FileName:     DEE Emulation 16-bit.c
-* Dependencies: Flash Operations.s
-*               DEE Emulation 16-bit.h
+* FileName:     DEE.c
+* Dependencies: DEES.s
+*               DEE.h
 * Compiler:     MPLAB C30, v2.01 or higher
 * Company:      Microchip Technology, Inc.
 *
@@ -58,20 +58,13 @@
 * D. Otten      2007/05/15  Version 1.0.1 - First publication release
 ************************************************************************/
 
-#if defined (__dsPIC33F__)
-    #include <p33Fxxxx.h>
-#elif defined (__PIC24H__)
-    #include <p24Hxxxx.h>
-#elif defined (__PIC24F__)
-    #include <p24Fxxxx.h>
-#else
-    #error Selected processor not supported
-#endif
-
-
+/***********************************************************************
+    Code Slightly modified by Mariano I. Lizararga to make it compatible
+    with Lubin's dsPIC Embedded Target
+************************************************************************/
 
 #include "DEE.h"
-#include "rtwtypes.h"
+
 
 // User constant validation
 #if DATA_EE_SIZE > 255
@@ -132,7 +125,7 @@ Return:			Right justified bit value representing selected Status
                 Field value
 Side Effects:	None
 ************************************************************************/
-uint16_T GetPageStatus(uint8_T page, uint8_T field)
+int GetPageStatus(unsigned char page, unsigned volatile char field)
 {
     unsigned int statusOffset;
     unsigned char statusByte;
@@ -171,7 +164,7 @@ Parameters:		Page number
 Return:			None
 Side Effects:	Loads NVCOM with erase opcode
 ************************************************************************/
-void ErasePage(uint8_T page)
+void ErasePage(unsigned char page)
 {
     unsigned int pmOffset;           //Current array (page) offset of selected element (PM 16-bit word)
 
@@ -201,9 +194,9 @@ Parameters:		None
 Return:			Page offset to next available location
 Side Effects:	None
 ************************************************************************/
-uint16_T GetNextAvailCount(void)
+unsigned int GetNextAvailCount(void)
 {
-    int i = 0;
+    unsigned int i = 0;
     int currentPage;        //Array row (PM page) of active DEE page
     unsigned char dataEEval;
     unsigned int pmOffset;           //Current array (page) offset of selected element (PM 16-bit word)
@@ -253,7 +246,7 @@ Return:			Data EE data or 0xFFFF if address not found
 Side Effects:	Data EE flags may be updated.
 ************************************************************************/
 //unsigned int DataEERead(unsigned int addr)
-uint16_T DataEERead(uint8_T addr)
+unsigned int DataEERead(unsigned char addr)
 {
     unsigned int savedTBLPAG;        //Context save of TBLPAG value. Current and packed page are on same page.
     unsigned int currentPage;
@@ -329,7 +322,7 @@ Side Effects:	Generates CPU stall during program/erase operations and
                 overwrites program memory write latches. Data EE flags
                 may be updated
 ************************************************************************/
-int16_T PackEE(void)
+int PackEE(void)
 {
     int currentPage;        //Array row (PM page) of active DEE page
     int packedPage;         //Array row (PM page) of packed page
@@ -512,7 +505,7 @@ Parameters:		None
 Return:			Status value (0 for pass)
 Side Effects:	Data EE flags may be updated.
 ************************************************************************/
-uint8_T DataEEInit(void)
+unsigned char DataEEInit(void)
 {
     unsigned char pageCnt;
     unsigned char erasePage;
@@ -635,7 +628,7 @@ Side Effects:	Data EE flags may be updated. CPU stall occurs for flash
                 programming. Pack may be generated.
 ************************************************************************/
 //uint8_T DataEEWrite(unsigned int data, unsigned int addr)
-uint8_T DataEEWrite(uint16_T data, uint8_T addr)
+unsigned char DataEEWrite(unsigned int data, unsigned char addr)
 {
     int savedTBLPAG;        //Context save of TBLPAG value. Current and packed page are on same page.
     int currentPage;

@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.164"
+    ComputedModelVersion    "1.166"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Jan 20 12:58:15 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:164>"
+  LastModifiedDate	  "Tue Jan 20 16:52:23 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:166>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -326,7 +326,7 @@ Model {
 	  CustomHeaderCode	  "\n"
 	  CustomSource		  "clib\\circBuffer.c\nclib\\gpsSplit.c\nclib"
 "\\sbrk.c\nclib\\interProcCommSlave.c\nclib\\protDecoder.c\nclib\\groundStatio"
-"nDriver.c\nclib\\apUtils.c"
+"nDriver.c\nclib\\apUtils.c\nclib\\DEE.c\nclib\\DEES.s"
 	  IncludeHyperlinkInReport off
 	  LaunchReport		  off
 	  TargetLang		  "C"
@@ -798,6 +798,39 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      Reference
+      Name		      "C Function Call"
+      Tag		      "dsPIC_dsPIC_CFunctionCall"
+      Ports		      [0, 1]
+      Position		      [20, 190, 125, 230]
+      BackgroundColor	      "yellow"
+      List {
+	ListType		RTWdata
+	FctDeclaration		"extern uint8_T DataEEInit();"
+	FctCall			"%y1 = DataEEInit();"
+	fctName			"DataEEInit"
+	INPUT_SIZE		"1"
+	OUTPUT_SIZE		"1"
+	NBR_INPUT		"0"
+	NBR_OUTPUT		"1"
+      }
+      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+      SourceType	      "C Function Call"
+      fctName		      "'DataEEInit'"
+      INPUT_SIZE	      "1"
+      INPUT1		      "--"
+      INPUT2		      "--"
+      INPUT3		      "--"
+      OUTPUT_SIZE	      "1"
+      OUTPUT1		      "uint8"
+      SampleTime	      "inf"
+      InputType		      "[ ]"
+      OutputType	      "[ 2 ]"
+      FctDeclaration	      "extern uint8_T DataEEInit();"
+      FctCall		      "%y1 = DataEEInit();"
+      OrderingInOutPopup      "None"
+    }
     Block {
       BlockType		      Reference
       Name		      "Configure Model \nfor dsPIC"
@@ -1441,6 +1474,12 @@ Model {
     }
     Block {
       BlockType		      Terminator
+      Name		      "Terminator2"
+      Position		      [150, 200, 170, 220]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Terminator
       Name		      "Terminator4"
       Position		      [635, 25, 655, 45]
       ShowName		      off
@@ -1702,6 +1741,12 @@ Model {
       SrcBlock		      "Constant"
       SrcPort		      1
       DstBlock		      "Update PWM \nCommands"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "C Function Call"
+      SrcPort		      1
+      DstBlock		      "Terminator2"
       DstPort		      1
     }
   }
