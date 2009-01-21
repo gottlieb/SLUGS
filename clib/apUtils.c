@@ -354,6 +354,7 @@ void decodeCalSentence (unsigned char id, unsigned char indx, unsigned char * da
 			
 			if (inBoard){
 				
+                #ifndef __BORLANDC__
 				// Compute the adecuate index offset
 				indexOffset = indx*6;
 				
@@ -372,7 +373,8 @@ void decodeCalSentence (unsigned char id, unsigned char indx, unsigned char * da
 				} else{
 					aknControlData.pidCal = 11;	
 				}
-				
+
+				#endif
 
 			}
 		break;

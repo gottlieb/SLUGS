@@ -336,7 +336,7 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
       setAknReboot (0);
    }
 
-   if (aknSample.pidCal > 1 ){
+   if (aknSample.pidCal >= 1 ){
       if (aknSample.pidCal <=10){
          BoxCont[aknSample.pidCal-1]->Color = clGreen;
       } else {
@@ -1276,15 +1276,17 @@ void __fastcall TFPpal::bt_up1Click(TObject *Sender)
  // 32 64 205 1 1 42 64 141
 
  unsigned char filtMsg[25];
- unsigned char rawMsg[13];
+ unsigned char rawMsg[13], indx;
  tFloatToChar P, I, D;
 
- // Collect the values
- P.flData =  (float)PGains[((TComponent*)Sender)->Tag]->Value;
- I.flData =  (float)IGains[((TComponent*)Sender)->Tag]->Value;
- D.flData =  (float)DGains[((TComponent*)Sender)->Tag]->Value;
+ indx = ((TComponent*)Sender)->Tag;
 
- rawMsg[0]    =    0; // Loop 0
+ // Collect the values
+ P.flData =  (float)PGains[indx]->Value;
+ I.flData =  (float)IGains[indx]->Value;
+ D.flData =  (float)DGains[indx]->Value;
+
+ rawMsg[0]    =    indx; 
  rawMsg[1]    =    P.chData[0];
  rawMsg[2]    =    P.chData[1];
  rawMsg[3]    =    P.chData[2];
@@ -1315,10 +1317,14 @@ void __fastcall TFPpal::ed_p1Change(TObject *Sender)
 void __fastcall TFPpal::bt_down1Click(TObject *Sender)
 {
  unsigned char filtMsg[17];
- unsigned char rawMsg[10];
+ unsigned char rawMsg[10], indx;
+
+ memset(&rawMsg[0],0,10);
+
+ indx = ((TComponent*)Sender)->Tag;
 
  rawMsg[0]    =    1; // Value ID (1 is PID)
- rawMsg[1]    =    ((TComponent*)Sender)->Tag; // Index
+ rawMsg[1]    =    indx; // Index
 
  assembleMsg(&rawMsg[0],QUEMSG_LEN,QUEMSG_ID,&filtMsg[0]);
 
