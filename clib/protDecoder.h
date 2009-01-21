@@ -38,7 +38,7 @@ void protParserInit (void);
 
 #ifdef _IN_PC_
     float protParseDecode (unsigned char* fromSPI,  FILE* outFile);
-    void printState(FILE* outfile);
+    void printState (FILE* outfile);
     void getTime (unsigned char * values);
     tGpsData getGpsStruct (void);
     tRawData getRawStruct (void);
@@ -54,10 +54,11 @@ void protParserInit (void);
     void setAknPidCal (unsigned char value);
     void setAknReboot (unsigned char value);
     tPWMData getPWMStruct (void);
-    tPIDData getPidStruct(void);
+    tPIDData getPidStruct (void);
     
 #else
      void protParseDecode (unsigned char* fromSPI);
+     void protParserInit (void);
 #endif
 
 

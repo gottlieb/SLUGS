@@ -42,7 +42,7 @@ object FPpal: TFPpal
     Top = 25
     Width = 375
     Height = 672
-    ActivePage = ts_ApConfig
+    ActivePage = ts_pid
     Align = alClient
     MultiLine = True
     TabIndex = 1
@@ -547,8 +547,8 @@ object FPpal: TFPpal
         end
       end
     end
-    object ts_ApConfig: TTabSheet
-      Caption = 'Configuration'
+    object ts_pid: TTabSheet
+      Caption = 'PID'
       ImageIndex = 2
       object gb_pid1: TGroupBox
         Left = 8

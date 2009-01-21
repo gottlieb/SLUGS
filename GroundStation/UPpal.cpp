@@ -336,9 +336,28 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
       setAknReboot (0);
    }
 
-   if (aknSample.pidCal > 1){
-      BoxCont[aknSample.pidCal-1]->Color = clGreen;
+   if (aknSample.pidCal > 1 ){
+      if (aknSample.pidCal <=10){
+         BoxCont[aknSample.pidCal-1]->Color = clGreen;
+      } else {
+         switch (aknSample.pidCal){
+             case 11: // WRITE FAILED
+                et_warning->Color = clYellow;
+                et_warning->Caption = "EEPROM Write Failed. Value Changed Only in Structs";
+             break;
+             case 12: // INIT FAILED. ALL PAGES EXPIRED
+                et_warning->Color = clYellow;
+                et_warning->Caption = "All EEPROM Pages Have expired";
+             break;
+             case 13: // INIT FAILED. EEPROM CORRUPTED
+                et_warning->Color = clRed;
+                et_warning->Caption = "EEPROM Corrupted. Need to Reinitialize";
+             break;
+         }
+      }
+
       setAknPidCal(0);
+
    }
 
    updateGPSLabels();                 

@@ -334,6 +334,9 @@ void assembleRawSentence (unsigned char id, unsigned char indx, unsigned char * 
 }
 
 void decodeCalSentence (unsigned char id, unsigned char indx, unsigned char * data, unsigned char inBoard){
+	int indexOffset = 0;
+	unsigned char writeSuccess = 0;
+	
 	switch (id) {
 		case 1: //PID Values
 			pidControlData.P[indx].chData[0]=	data[0]	;
@@ -350,10 +353,27 @@ void decodeCalSentence (unsigned char id, unsigned char indx, unsigned char * da
 			pidControlData.D[indx].chData[3]=	data[11];
 			
 			if (inBoard){
+				
+				// Compute the adecuate index offset
+				indexOffset = indx*6;
+				
+				// Save the data to the EEPROM
+				writeSuccess += DataEEWrite(pidControlData.P[indx].shData[0], PID_OFFSET+indexOffset);
+				writeSuccess += DataEEWrite(pidControlData.P[indx].shData[1], PID_OFFSET+indexOffset+1);
+				writeSuccess += DataEEWrite(pidControlData.I[indx].shData[0], PID_OFFSET+indexOffset+2);
+				writeSuccess += DataEEWrite(pidControlData.I[indx].shData[1], PID_OFFSET+indexOffset+3);
+				writeSuccess += DataEEWrite(pidControlData.D[indx].shData[0], PID_OFFSET+indexOffset+4);
+				writeSuccess += DataEEWrite(pidControlData.D[indx].shData[1], PID_OFFSET+indexOffset+5);
+				
 				// Set the flag of Aknowledge for the AKN Message
-				aknControlData.pidCal = indx+1;
-	
-				// TODO: Add Code here to save the data to the EEPROM
+				// if the write was successful
+				if (writeSuccess==0){
+					aknControlData.pidCal = indx+1;	
+				} else{
+					aknControlData.pidCal = 11;	
+				}
+				
+
 			}
 		break;
 		

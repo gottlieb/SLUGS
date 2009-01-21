@@ -53,7 +53,7 @@ __published:	// IDE-managed Components
     TPageControl *pc_main;
     TTabSheet *ts_ge;
     TTabSheet *ts_sensors;
-    TTabSheet *ts_ApConfig;
+        TTabSheet *ts_pid;
     TTabSheet *ts_plots;
     TPanel *Panel1;
     TLabel *Label1;

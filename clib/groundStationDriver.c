@@ -135,7 +135,56 @@ void uart1Init (void){
 	
 	IEC4bits.U2EIE 		= 0;
 
-		
+	
+}
+
+void controlMCUInit(void){
+	unsigned char eepInitMsg = 0;
+	
+	// Initialize the SPI Port for IPC
+	spiSlaveInit();
+	
+	// initialize the Protocol Parser and Decoder
+	protParserInit();
+	
+	// Initialize the UART1 port for Telemetry
+	uart1Init();
+	
+	// Initialize EEPROM emulator
+	EEPInit();
+	
+	// Load PID Data from EEPROM if the initialization worked
+	if (aknControlData.pidCal==0){
+	   loadPIDData();	
+	}
+	
+}
+
+void EEPInit(void){
+	unsigned char eepInitMsg = 0;
+	
+	// Initialize the EEPROM emulation and read the PID Data
+	eepInitMsg = DataEEInit();
+	
+	if (eepInitMsg == 1){
+		aknControlData.pidCal = 12; // Page Expired
+	} else if (eepInitMsg == 6){
+		aknControlData.pidCal = 13; // Memory Corrupted
+	}
+}
+
+void loadPIDData(void){
+	unsigned char i;
+	
+	for(  i = 0; i < 10; i++ )
+	{
+		pidControlData.P[i].shData[0]= DataEERead(PID_OFFSET+i*6);
+		pidControlData.P[i].shData[1]= DataEERead(PID_OFFSET+i*6+1);
+		pidControlData.I[i].shData[0]= DataEERead(PID_OFFSET+i*6+2);
+		pidControlData.I[i].shData[1]= DataEERead(PID_OFFSET+i*6+3);
+		pidControlData.D[i].shData[0]= DataEERead(PID_OFFSET+i*6+4);
+		pidControlData.D[i].shData[1]= DataEERead(PID_OFFSET+i*6+5);
+	}
 }
 
 void gsRead(unsigned char* gsChunk){
