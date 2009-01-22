@@ -65,6 +65,7 @@ void assembleMsg(unsigned char* rawData , unsigned char size, unsigned char type
 }
 
 void updateStates(unsigned char * completeSentence){
+	
 	switch (completeSentence[2]){
 		// Sensor MCU sentences
 		// ====================
@@ -190,24 +191,26 @@ void updateStates(unsigned char * completeSentence){
 			biasControlData.gzb.chData[3]	= completeSentence[27];			
 		break;		
 		case DIAMSG_ID:
-			diagControlData.fl1.chData[0]	= completeSentence[4];
-			diagControlData.fl1.chData[1]	= completeSentence[5];
-			diagControlData.fl1.chData[2]	= completeSentence[6];
-			diagControlData.fl1.chData[3]	= completeSentence[7];
-			diagControlData.fl2.chData[0]	= completeSentence[8];
-			diagControlData.fl2.chData[1]	= completeSentence[9];
-			diagControlData.fl2.chData[2]	= completeSentence[10];
-			diagControlData.fl2.chData[3]	= completeSentence[11];
-			diagControlData.fl3.chData[0]	= completeSentence[12];
-			diagControlData.fl3.chData[1]	= completeSentence[13];
-			diagControlData.fl3.chData[2]	= completeSentence[14];
-			diagControlData.fl3.chData[3]	= completeSentence[15];
-			diagControlData.sh1.chData[0]	= completeSentence[16];
-			diagControlData.sh1.chData[1]	= completeSentence[17];
-			diagControlData.sh2.chData[0]	= completeSentence[18];
-			diagControlData.sh2.chData[1]	= completeSentence[19];
-			diagControlData.sh3.chData[0]	= completeSentence[20];
-			diagControlData.sh3.chData[1]	= completeSentence[21];		
+			//TODO: Remove comments
+			//diagControlData.fl1.chData[0]	= completeSentence[4];
+			//diagControlData.fl1.chData[1]	= completeSentence[5];
+			//diagControlData.fl1.chData[2]	= completeSentence[6];
+			//diagControlData.fl1.chData[3]	= completeSentence[7];
+			//diagControlData.fl2.chData[0]	= completeSentence[8];
+			//diagControlData.fl2.chData[1]	= completeSentence[9];
+			//diagControlData.fl2.chData[2]	= completeSentence[10];
+			//diagControlData.fl2.chData[3]	= completeSentence[11];
+			//diagControlData.fl3.chData[0]	= completeSentence[12];
+			//diagControlData.fl3.chData[1]	= completeSentence[13];
+			//diagControlData.fl3.chData[2]	= completeSentence[14];
+			//diagControlData.fl3.chData[3]	= completeSentence[15];
+			
+			//diagControlData.sh1.chData[0]	= completeSentence[16];
+			//diagControlData.sh1.chData[1]	= completeSentence[17];
+			//diagControlData.sh2.chData[0]	= completeSentence[18];
+			//diagControlData.sh2.chData[1]	= completeSentence[19];
+			//diagControlData.sh3.chData[0]	= completeSentence[20];
+			//diagControlData.sh3.chData[1]	= completeSentence[21];		
 		break;
 		case XYZMSG_ID:
 			xyzControlData.Xcoord.chData[0]	= completeSentence[4];
@@ -289,6 +292,9 @@ void updateStates(unsigned char * completeSentence){
 		break;
 		
 		case CALMSG_ID: // report from AP to GS regarding Calib Values
+			diagControlData.sh1.shData= (short) completeSentence[4];
+			diagControlData.sh2.shData= (short) completeSentence[5];
+			
 			decodeCalSentence (completeSentence[4], completeSentence[5], &completeSentence[6],0);
 		break;
 		
@@ -310,7 +316,7 @@ void updateStates(unsigned char * completeSentence){
 void assembleRawSentence (unsigned char id, unsigned char indx, unsigned char * data){
 	switch (id) {
 		case 1: //PID Values
-			data[0]	 = 1;
+			data[0]	 = id;
 			data[1]	 = indx;
 			data[2]	 = pidControlData.P[indx].chData[0];
 			data[3]	 = pidControlData.P[indx].chData[1];
@@ -386,3 +392,26 @@ void decodeCalSentence (unsigned char id, unsigned char indx, unsigned char * da
 	}
 }
 
+/*
+				diagControlData.sh1.shData= (short) rawSentence[0];
+				diagControlData.sh2.shData= (short) rawSentence[1];
+				
+				val1.chData[0] = rawSentence[2];
+				val1.chData[1] = rawSentence[3];
+				val1.chData[2] = rawSentence[4];
+				val1.chData[3] = rawSentence[5];
+				diagControlData.fl1.flData= val1.flData;
+				
+				val2.chData[0] = rawSentence[6];
+				val2.chData[1] = rawSentence[7];
+				val2.chData[2] = rawSentence[8];
+				val2.chData[3] = rawSentence[9];
+				diagControlData.fl2.flData= val2.flData;
+
+				val3.chData[0] = rawSentence[10];
+				val3.chData[1] = rawSentence[11];
+				val3.chData[2] = rawSentence[12];
+				val3.chData[3] = rawSentence[13];
+				diagControlData.fl3.flData= val3.flData;
+
+*/

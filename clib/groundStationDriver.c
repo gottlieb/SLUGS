@@ -338,7 +338,10 @@ void prepareTelemetry( unsigned char* dataOut){
 	unsigned char i;
 	unsigned char len2Telemetry=0;
 	unsigned char bufLen = 0;
-
+	
+	//TODO: Remove 
+	tFloatToChar val1, val2, val3;
+	
 	memset(telemetryBuf, 0, sizeof(telemetryBuf));
 		
 	switch (sampleTelemetry){
@@ -674,7 +677,7 @@ void prepareTelemetry( unsigned char* dataOut){
 		case 7:
 			if (queControlData.pendingRequest){
 				assembleRawSentence (queControlData.idReq, queControlData.indxReq, &rawSentence[0]);
-				
+
 				// assemble the protocol message
 				assembleMsg(&rawSentence[0],CALMSG_LEN, CALMSG_ID, telemetryBuf);
 				
