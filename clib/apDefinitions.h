@@ -1,4 +1,4 @@
-/* ==================================================
+	/* ==================================================
 This is the definition file for the the UCSC AP code
 it creates all the common defines, unions, enumerations
 and data types.
@@ -103,7 +103,13 @@ and data types.
 // CONTROL MCU
 // ===========
 #define AKNMSG_ID		105
-#define AKNMSG_LEN		5
+#define AKNMSG_LEN		6
+
+#define PWMMSG_ID		100
+#define PWMMSG_LEN		20 
+
+#define CALMSG_ID		102
+#define CALMSG_LEN		14
 
 
 // GROUND STATION
@@ -115,6 +121,16 @@ and data types.
 #define FILMSG_ID		205
 #define FILMSG_LEN		1
 
+#define PIDMSG_ID		202
+#define PIDMSG_LEN		13
+
+#define QUEMSG_ID		204
+#define QUEMSG_LEN		10
+
+
+// EEPROM Emulation Address Offsets
+// ================================
+#define PID_OFFSET		51
 
 // Communication Protocol Merging Offsets
 // ======================================
@@ -199,41 +215,9 @@ typedef union{
 typedef union{
 	unsigned char   chData[4];
  	float   		flData;
+	unsigned short	shData[2];
 } tFloatToChar; 
 
-
-// ============== Enumerations for Data Order ========
-/*// Enumeration Definitions for sentences 
-enum gpsOutSentence {
-	gpsYear,
-	gpsMonth,
-	gpsDay,
-	gpsHour,
-	gpsMin,
-	gpsSec,
-	gpsLat0,
-	gpsLat1,
-	gpsLat2,
-	gpsLat3,
-	gpsLong0,
-	gpsLong1,
-	gpsLong2,
-	gpsLong3,
-	gpsHeight0,
-	gpsHeight1,
-	gpsHeight2,
-	gpsHeight3,
-	gpsCOG0,
-	gpsCOG1,
-	gpsSOG0,
-	gpsSOG1,
-	gpsHDOP0,
-	gpsHDOP1,
-	gpsFix,
-	gpsSats,
-	gpsNew		
-};
-*/
 // ============= Structures used for data ============
 typedef struct tGpsData{
 	unsigned char	 		year;
@@ -320,6 +304,7 @@ typedef struct tAknData{
 	unsigned char 	pidCal;
 	unsigned char 	csLimits;
 	unsigned char 	filOnOff;	
+	unsigned char	reboot;
 }tAknData;
 
 typedef struct tPilotData{
@@ -329,6 +314,32 @@ typedef struct tPilotData{
 	tUnsignedShortToChar	dr ; 
 	tUnsignedShortToChar	de ; 
 }tPilotData;
+
+typedef struct tPWMData{
+	tUnsignedShortToChar	dt_c;
+	tUnsignedShortToChar	dla_c;
+	tUnsignedShortToChar	dra_c;
+	tUnsignedShortToChar	dr_c; 
+	tUnsignedShortToChar	dle_c; 
+	tUnsignedShortToChar	dre_c; 
+	tUnsignedShortToChar	dlf_c; 
+	tUnsignedShortToChar	drf_c; 
+	tUnsignedShortToChar	da1_c; 
+	tUnsignedShortToChar	da2_c; 
+}tPWMData;
+
+typedef struct tPIDData{
+	tFloatToChar   P[10];
+	tFloatToChar   I[10];
+	tFloatToChar   D[10];	
+}tPIDData;
+
+
+typedef struct tQueryData{
+	unsigned char 	pendingRequest;
+	unsigned char 	idReq;
+	unsigned char 	indxReq;
+}tQueryData;
 
 
 #ifdef __cplusplus

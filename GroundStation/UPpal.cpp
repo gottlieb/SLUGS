@@ -22,6 +22,7 @@
 #pragma link "AbTank"
 #pragma link "AbVBar"
 #pragma link "AbHBar"
+#pragma link "CurrEdit"
 #pragma resource "*.dfm"
 
 
@@ -49,6 +50,7 @@ void __fastcall TFPpal::FormShow(TObject *Sender)
 
   cb_inflightClick(NULL);
 
+  bt_serialClick(NULL);
 }
 //---------------------------------------------------------------------------
 
@@ -70,6 +72,85 @@ void __fastcall TFPpal::FormCreate(TObject *Sender)
  protParserInit ();
 
  logIsOpen = false;
+
+ // Create the label arrays for configuration
+ PGains[0] = ed_p1;
+ PGains[1] = ed_p2;
+ PGains[2] = ed_p3;
+ PGains[3] = ed_p4;
+ PGains[4] = ed_p5;
+ PGains[5] = ed_p6;
+ PGains[6] = ed_p7;
+ PGains[7] = ed_p8;
+ PGains[8] = ed_p9;
+ PGains[9] = ed_p10;
+
+ IGains[0] = ed_i1;
+ IGains[1] = ed_i2;
+ IGains[2] = ed_i3;
+ IGains[3] = ed_i4;
+ IGains[4] = ed_i5;
+ IGains[5] = ed_i6;
+ IGains[6] = ed_i7;
+ IGains[7] = ed_i8;
+ IGains[8] = ed_i9;
+ IGains[9] = ed_i10;
+
+ DGains[0] = ed_d1;
+ DGains[1] = ed_d2;
+ DGains[2] = ed_d3;
+ DGains[3] = ed_d4;
+ DGains[4] = ed_d5;
+ DGains[5] = ed_d6;
+ DGains[6] = ed_d7;
+ DGains[7] = ed_d8;
+ DGains[8] = ed_d9;
+ DGains[9] = ed_d10;
+
+ BoxCont[0] = gb_pid1;
+ BoxCont[1] = gb_pid2;
+ BoxCont[2] = gb_pid3;
+ BoxCont[3] = gb_pid4;
+ BoxCont[4] = gb_pid5;
+ BoxCont[5] = gb_pid6;
+ BoxCont[6] = gb_pid7;
+ BoxCont[7] = gb_pid8;
+ BoxCont[8] = gb_pid9;
+ BoxCont[9] = gb_pid10;
+
+  EtPGains[0] = et_p1;
+ EtPGains[1] = et_p2;
+ EtPGains[2] = et_p3;
+ EtPGains[3] = et_p4;
+ EtPGains[4] = et_p5;
+ EtPGains[5] = et_p6;
+ EtPGains[6] = et_p7;
+ EtPGains[7] = et_p8;
+ EtPGains[8] = et_p9;
+ EtPGains[9] = et_p10;
+
+ EtIGains[0] = et_i1;
+ EtIGains[1] = et_i2;
+ EtIGains[2] = et_i3;
+ EtIGains[3] = et_i4;
+ EtIGains[4] = et_i5;
+ EtIGains[5] = et_i6;
+ EtIGains[6] = et_i7;
+ EtIGains[7] = et_i8;
+ EtIGains[8] = et_i9;
+ EtIGains[9] = et_i10;
+
+ EtDGains[0] = et_d1;
+ EtDGains[1] = et_d2;
+ EtDGains[2] = et_d3;
+ EtDGains[3] = et_d4;
+ EtDGains[4] = et_d5;
+ EtDGains[5] = et_d6;
+ EtDGains[6] = et_d7;
+ EtDGains[7] = et_d8;
+ EtDGains[8] = et_d9;
+ EtDGains[9] = et_d10;
+
 }
 //---------------------------------------------------------------------------
 
@@ -217,7 +298,7 @@ void __fastcall TFPpal::kb_tessalateExit(TObject *Sender)
 {
  tb_config->Edit();
  tb_configtessalateTransparency->AsInteger = kb_tessalate->Position;
- tb_config->Post();    
+ tb_config->Post();
 }
 //---------------------------------------------------------------------------
 
@@ -277,6 +358,40 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    diagSample = getDiagStruct();
    statusSample = getSensStruct();
    pilControlSample = getPilotStruct();
+   pwmSample =  getPWMStruct();
+   aknSample = getAknStruct();
+   pidSample = getPidStruct();
+
+   if (aknSample.reboot == 1){
+      //ShowMessage("WARNING: Slugs Reboot");
+      et_warning->Color = clRed;
+      et_warning->Caption = "SLUGS Reset Detected";
+      setAknReboot (0);
+   }
+
+   if (aknSample.pidCal >= 1 ){
+      if (aknSample.pidCal <=10){
+         BoxCont[aknSample.pidCal-1]->Color = clGreen;
+      } else {
+         switch (aknSample.pidCal){
+             case 11: // WRITE FAILED
+                et_warning->Color = clYellow;
+                et_warning->Caption = "EEPROM Write Failed. Value Changed Only in Structs";
+             break;
+             case 12: // INIT FAILED. ALL PAGES EXPIRED
+                et_warning->Color = clYellow;
+                et_warning->Caption = "All EEPROM Pages Have expired";
+             break;
+             case 13: // INIT FAILED. EEPROM CORRUPTED
+                et_warning->Color = clRed;
+                et_warning->Caption = "EEPROM Corrupted. Need to Reinitialize";
+             break;
+         }
+      }
+
+      setAknPidCal(0);
+
+   }
 
    updateGPSLabels();                 
    updateRawLabels();
@@ -289,6 +404,9 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
 
    updatePlots();
    updateAttitude();
+
+   updatePWM();
+   updatePID();
 
    et_fail ->Caption = FormatFloat("0.0000E+00",csFail);
 }
@@ -437,6 +555,31 @@ void TFPpal::updatePilotLabels(void){
   gr_da->Value = StrToInt(et_dla->Caption);
   gr_de->Value = StrToInt(et_de->Caption);
 }
+
+
+void TFPpal::updatePWM(void){
+  et_dtc->Caption  =  IntToStr(pwmSample.dt_c.usData);
+  et_dlac->Caption =  IntToStr(pwmSample.dla_c.usData);
+  et_drac->Caption =  IntToStr(pwmSample.dra_c.usData);
+  et_drc->Caption  =  IntToStr(pwmSample.dr_c.usData);
+  et_dlec->Caption =  IntToStr(pwmSample.dle_c.usData);
+  et_drec->Caption =  IntToStr(pwmSample.dre_c.usData);
+  et_dlfc->Caption =  IntToStr(pwmSample.dlf_c.usData);
+  et_drfc->Caption =  IntToStr(pwmSample.drf_c.usData);
+  et_a1c->Caption  =  IntToStr(pwmSample.da1_c.usData);
+  et_a2c->Caption  =  IntToStr(pwmSample.da2_c.usData);
+}
+
+
+void TFPpal::updatePID(void){
+unsigned char i;
+  for (i=0; i<10;i++){
+     EtPGains[i]->Caption  =  FloatToStr(pidSample.P[i].flData);
+     EtIGains[i]->Caption  =  FloatToStr(pidSample.I[i].flData);
+     EtDGains[i]->Caption  =  FloatToStr(pidSample.D[i].flData);
+  }   
+}
+
 
 void __fastcall TFPpal::cp_serialTriggerAvail(TObject *CP, WORD Count)
 {
@@ -1151,6 +1294,126 @@ void __fastcall TFPpal::Button1Click(TObject *Sender)
   // Send the data
   cp_hil->PutBlock(&hilMsg[0],(GPSMSG_LEN+7));
   //cp_hil->PutBlock(&hilMsg[0],7);
+}
+//---------------------------------------------------------------------------
+
+
+
+void __fastcall TFPpal::et_warningDblClick(TObject *Sender)
+{
+  et_warning->Color = clBtnFace;
+  et_warning->Caption = "No Message";
+}
+
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::bt_up1Click(TObject *Sender)
+{
+ // 32 64 205 1 1 42 64 141
+
+ unsigned char filtMsg[25];
+ unsigned char rawMsg[13], indx;
+ tFloatToChar P, I, D;
+
+ indx = ((TComponent*)Sender)->Tag;
+
+ // Collect the values
+ P.flData =  (float)PGains[indx]->Value;
+ I.flData =  (float)IGains[indx]->Value;
+ D.flData =  (float)DGains[indx]->Value;
+
+ rawMsg[0]    =    indx; 
+ rawMsg[1]    =    P.chData[0];
+ rawMsg[2]    =    P.chData[1];
+ rawMsg[3]    =    P.chData[2];
+ rawMsg[4]    =    P.chData[3];
+ rawMsg[5]    =    I.chData[0];
+ rawMsg[6]    =    I.chData[1];
+ rawMsg[7]    =    I.chData[2];
+ rawMsg[8]    =    I.chData[3];
+ rawMsg[9]    =    D.chData[0];
+ rawMsg[10]    =   D.chData[1];
+ rawMsg[11]   =    D.chData[2];
+ rawMsg[12]   =    D.chData[3];
+
+ assembleMsg(&rawMsg[0],PIDMSG_LEN,PIDMSG_ID,&filtMsg[0]);
+
+ cp_serial->PutBlock(&filtMsg[0],(PIDMSG_LEN+7));
+
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::ed_p1Change(TObject *Sender)
+{
+  BoxCont[((TComponent*)Sender)->Tag]->Color = clRed;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::bt_down1Click(TObject *Sender)
+{
+ unsigned char filtMsg[17];
+ unsigned char rawMsg[10], indx;
+
+ memset(&rawMsg[0],0,10);
+
+ indx = ((TComponent*)Sender)->Tag;
+
+ rawMsg[0]    =    1; // Value ID (1 is PID)
+ rawMsg[1]    =    indx; // Index
+
+ assembleMsg(&rawMsg[0],QUEMSG_LEN,QUEMSG_ID,&filtMsg[0]);
+
+ cp_serial->PutBlock(&filtMsg[0],(QUEMSG_LEN+7));
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::bt_allpidClick(TObject *Sender)
+{
+  pidRequestQueue = 0;
+  Timer3->Enabled = true;
+  bt_allpid->Enabled = false;
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::Timer3Timer(TObject *Sender)
+{
+  switch (pidRequestQueue){
+     case 0:
+          bt_down1Click(bt_down1);
+     break;
+     case 1:
+          bt_down1Click(bt_down2);
+     break;
+     case 2:
+          bt_down1Click(bt_down3);
+     break;
+     case 3:
+          bt_down1Click(bt_down4);
+     break;
+     case 4:
+          bt_down1Click(bt_down5);
+     break;
+     case 5:
+          bt_down1Click(bt_down6);
+     break;
+     case 6:
+          bt_down1Click(bt_down7);
+     break;
+     case 7:
+          bt_down1Click(bt_down8);
+     break;
+     case 8:
+          bt_down1Click(bt_down9);
+     break;
+     case 9:
+          bt_down1Click(bt_down10);
+          Timer3->Enabled = false;
+          bt_allpid->Enabled = true;
+     break;
+  }
+  pidRequestQueue++;
 }
 //---------------------------------------------------------------------------
 

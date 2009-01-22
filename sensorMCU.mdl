@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.636"
+    ComputedModelVersion    "1.637"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Jan 09 15:55:54 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:636>"
+  LastModifiedDate	  "Wed Jan 14 16:14:30 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:637>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -897,8 +897,8 @@ Model {
   }
   System {
     Name		    "sensorMCU"
-    Location		    [214, 78, 1244, 1004]
-    Open		    on
+    Location		    [214, 82, 1244, 1000]
+    Open		    off
     ModelBrowserVisibility  on
     ModelBrowserWidth	    212
     ScreenColor		    "white"
@@ -8784,7 +8784,7 @@ Model {
 	  System {
 	    Name		    "Raw HIL \nReadings"
 	    Location		    [234, 288, 1009, 633]
-	    Open		    off
+	    Open		    on
 	    ModelBrowserVisibility  on
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -8816,18 +8816,18 @@ Model {
 	      BlockType		      Reference
 	      Name		      "Parser/Decoder"
 	      Tag		      "dsPIC_dsPIC_CFunctionCall"
-	      Ports		      [1, 2]
+	      Ports		      [1, 1]
 	      Position		      [215, 122, 320, 158]
 	      List {
 		ListType		RTWdata
 		FctDeclaration		"extern void protParseDecode(uint8_T* "
-"u1,uint8_T* y1);"
-		FctCall			"protParseDecode(*%u1, *%y1);"
+"u1);"
+		FctCall			"protParseDecode(*%u1);"
 		fctName			"protParseDecode"
 		INPUT_SIZE		"103"
-		OUTPUT_SIZE		"103"
+		OUTPUT_SIZE		"1"
 		NBR_INPUT		"1"
-		NBR_OUTPUT		"1"
+		NBR_OUTPUT		"0"
 	      }
 	      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
 	      SourceType	      "C Function Call"
@@ -8836,14 +8836,14 @@ Model {
 	      INPUT1		      "uint8"
 	      INPUT2		      "--"
 	      INPUT3		      "--"
-	      OUTPUT_SIZE	      "103"
-	      OUTPUT1		      "uint8"
+	      OUTPUT_SIZE	      "1"
+	      OUTPUT1		      "--"
 	      SampleTime	      "-1"
 	      InputType		      "[ 2 ]"
-	      OutputType	      "[ 2 ]"
+	      OutputType	      "[ ]"
 	      FctDeclaration	      "extern void protParseDecode(uint8_T* u1"
-",uint8_T* y1);"
-	      FctCall		      "protParseDecode(*%u1, *%y1);"
+");"
+	      FctCall		      "protParseDecode(*%u1);"
 	      OrderingInOutPopup      "Output"
 	    }
 	    Block {
@@ -8947,12 +8947,6 @@ Model {
 	      OrderingInOutPopup      "None"
 	    }
 	    Block {
-	      BlockType		      Terminator
-	      Name		      "Terminator"
-	      Position		      [395, 85, 415, 105]
-	      ShowName		      off
-	    }
-	    Block {
 	      BlockType		      Outport
 	      Name		      "Raw Msg"
 	      Position		      [630, 133, 660, 147]
@@ -8998,19 +8992,6 @@ Model {
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "Parser/Decoder"
-	      SrcPort		      1
-	      Points		      [55, 0]
-	      DstBlock		      "Terminator"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Parser/Decoder"
-	      SrcPort		      2
-	      DstBlock		      "Read Data from HIL"
-	      DstPort		      1
-	    }
-	    Line {
 	      SrcBlock		      "Demux"
 	      SrcPort		      1
 	      DstBlock		      "DebugPort"
@@ -9029,6 +9010,13 @@ Model {
 		DstBlock		"Parser/Decoder"
 		DstPort			1
 	      }
+	    }
+	    Line {
+	      SrcBlock		      "Parser/Decoder"
+	      SrcPort		      1
+	      Points		      [25, 0; 0, 10]
+	      DstBlock		      "Read Data from HIL"
+	      DstPort		      1
 	    }
 	  }
 	}

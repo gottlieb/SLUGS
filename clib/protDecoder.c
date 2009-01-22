@@ -12,7 +12,6 @@
 
 #include "protDecoder.h"
 
-
 // These are the global data structures that hold the state
 // there are accessor methods to read data off them
 // use with care
@@ -27,6 +26,11 @@ tXYZData		xyzControlData;
 unsigned char   filterControlData;
 tAknData		aknControlData;
 tPilotData		pilControlData;
+tPWMData		pwmControlData;
+tPIDData		pidControlData;
+tQueryData		queControlData;
+
+
 
 struct CircBuffer protParseBuffer;
 CBRef ppBuffer;
@@ -48,208 +52,27 @@ void protParserInit(void){
 	memset(&xyzControlData, 0, sizeof(tXYZData));
 	memset(&aknControlData, 0, sizeof(tAknData));
 	memset(&pilControlData, 0, sizeof(tPilotData));
+	memset(&pwmControlData, 0, sizeof(tPWMData));
+	memset(&pidControlData, 0, sizeof(tPIDData));
+	memset(&queControlData, 0, sizeof(tQueryData));
 	filterControlData = 0;
+	
+	// Control MCU boot procedures
+	#ifdef _IN_PC_
+		//
+	#else
+		aknControlData.reboot = 1;		
+	#endif
+	
+	
+	
 }
 
-void updateStates(unsigned char * completeSentence){
-	switch (completeSentence[2]){
-		// Sensor MCU sentences
-		// ====================
-		case GPSMSG_ID:		// GPS Sentence
-			gpsControlData.year				= completeSentence[4];	
-			gpsControlData.month			= completeSentence[5];	
-			gpsControlData.day				= completeSentence[6];	
-			gpsControlData.hour				= completeSentence[7];	
-			gpsControlData.min				= completeSentence[8];	
-			gpsControlData.sec				= completeSentence[9];	
-			gpsControlData.lat.chData[0]	= completeSentence[10];	
-			gpsControlData.lat.chData[1]	= completeSentence[11];	
-			gpsControlData.lat.chData[2]	= completeSentence[12];				
-			gpsControlData.lat.chData[3]	= completeSentence[13];			
-			gpsControlData.lon.chData[0]	= completeSentence[14];	
-			gpsControlData.lon.chData[1]	= completeSentence[15];	
-			gpsControlData.lon.chData[2]	= completeSentence[16];	
-			gpsControlData.lon.chData[3]	= completeSentence[17];	
-			gpsControlData.height.chData[0]	= completeSentence[18];		
-			gpsControlData.height.chData[1]	= completeSentence[19];	
-			gpsControlData.height.chData[2]	= completeSentence[20];		
-			gpsControlData.height.chData[3]	= completeSentence[21];	
-			gpsControlData.cog.chData[0]	= completeSentence[22];	
-			gpsControlData.cog.chData[1]	= completeSentence[23];	
-			gpsControlData.sog.chData[0]	= completeSentence[24];	
-			gpsControlData.sog.chData[1]	= completeSentence[25];	
-			gpsControlData.hdop.chData[0]	= completeSentence[26];	
-			gpsControlData.hdop.chData[1]	= completeSentence[27];	
-			gpsControlData.fix				= completeSentence[28];	
-			gpsControlData.sats				= completeSentence[29];	
-			gpsControlData.newValue		 	= completeSentence[30];	
-		break;
-		case LOADMSG_ID:
-			statusControlData.load		 		= completeSentence[4];
-			statusControlData.vdetect	 		= completeSentence[5];
-			statusControlData.bVolt.chData[0] 	= completeSentence[6];
-			statusControlData.bVolt.chData[1] 	= completeSentence[7];
-		break;
-		case RAWMSG_ID: // Sensor Raw data
-			rawControlData.gyroX.chData[0]	= completeSentence[4];	
-			rawControlData.gyroX.chData[1]	= completeSentence[5]; 	
-			rawControlData.gyroY.chData[0]	= completeSentence[6];		 	
-			rawControlData.gyroY.chData[1]	= completeSentence[7]; 
-			rawControlData.gyroZ.chData[0]	= completeSentence[8];	 
-			rawControlData.gyroZ.chData[1]	= completeSentence[9];	 
-			rawControlData.accelX.chData[0]	= completeSentence[10];	 
-			rawControlData.accelX.chData[1]	= completeSentence[11];	   
-			rawControlData.accelY.chData[0]	= completeSentence[12];	  
-			rawControlData.accelY.chData[1]	= completeSentence[13];	  
-			rawControlData.accelZ.chData[0]	= completeSentence[14];	  
-			rawControlData.accelZ.chData[1]	= completeSentence[15];	  
-			rawControlData.magX.chData[0]	= completeSentence[16];	  
-			rawControlData.magX.chData[1]	= completeSentence[17];	  
-			rawControlData.magY.chData[0]	= completeSentence[18];	  
-			rawControlData.magY.chData[1]	= completeSentence[19];	  
-			rawControlData.magZ.chData[0]	= completeSentence[20];	  
-			rawControlData.magZ.chData[1]	= completeSentence[21];	  
-		break;
-		case ATTMSG_ID:
-			attitudeControlData.roll.chData[0]		= completeSentence[4];
-			attitudeControlData.roll.chData[1]		= completeSentence[5];
-			attitudeControlData.roll.chData[2]		= completeSentence[6];
-			attitudeControlData.roll.chData[3]		= completeSentence[7];
-			attitudeControlData.pitch.chData[0]		= completeSentence[8];
-			attitudeControlData.pitch.chData[1]		= completeSentence[9];
-			attitudeControlData.pitch.chData[2]		= completeSentence[10];
-			attitudeControlData.pitch.chData[3]		= completeSentence[11];
-			attitudeControlData.yaw.chData[0]		= completeSentence[12];
-			attitudeControlData.yaw.chData[1]		= completeSentence[13];
-			attitudeControlData.yaw.chData[2]		= completeSentence[14];
-			attitudeControlData.yaw.chData[3]		= completeSentence[15];
-			attitudeControlData.p.chData[0]			= completeSentence[16];
-			attitudeControlData.p.chData[1]			= completeSentence[17];
-			attitudeControlData.p.chData[2]			= completeSentence[18];
-			attitudeControlData.p.chData[3]			= completeSentence[19];
-			attitudeControlData.q.chData[0]			= completeSentence[20];
-			attitudeControlData.q.chData[1]			= completeSentence[21];
-			attitudeControlData.q.chData[2]			= completeSentence[22];
-			attitudeControlData.q.chData[3]			= completeSentence[23];
-			attitudeControlData.r.chData[0]			= completeSentence[24];
-			attitudeControlData.r.chData[1]			= completeSentence[25];
-			attitudeControlData.r.chData[2]			= completeSentence[26];
-			attitudeControlData.r.chData[3]			= completeSentence[27];			
-			attitudeControlData.timeStamp.chData[0]	= completeSentence[28];			
-			attitudeControlData.timeStamp.chData[1]	= completeSentence[29];			
-		break;
-        case DYNMSG_ID:
-			dynTempControlData.dynamic.chData[0]	= completeSentence[4];
-			dynTempControlData.dynamic.chData[1]	= completeSentence[5];
-			dynTempControlData.dynamic.chData[2]	= completeSentence[6];
-			dynTempControlData.dynamic.chData[3]	= completeSentence[7];
-			dynTempControlData.stat.chData[0]	= completeSentence[8];
-			dynTempControlData.stat.chData[1]	= completeSentence[9];
-			dynTempControlData.stat.chData[2]	= completeSentence[10];
-			dynTempControlData.stat.chData[3]	= completeSentence[11];
-			dynTempControlData.temp.chData[0]	= completeSentence[12];	  
-			dynTempControlData.temp.chData[1]	= completeSentence[13];	  
-		break;
-		case BIAMSG_ID:
-			biasControlData.axb.chData[0]	= completeSentence[4];
-			biasControlData.axb.chData[1]	= completeSentence[5];
-			biasControlData.axb.chData[2]	= completeSentence[6];
-			biasControlData.axb.chData[3]	= completeSentence[7];
-			biasControlData.ayb.chData[0]	= completeSentence[8];
-			biasControlData.ayb.chData[1]	= completeSentence[9];
-			biasControlData.ayb.chData[2]	= completeSentence[10];
-			biasControlData.ayb.chData[3]	= completeSentence[11];
-			biasControlData.azb.chData[0]	= completeSentence[12];
-			biasControlData.azb.chData[1]	= completeSentence[13];
-			biasControlData.azb.chData[2]	= completeSentence[14];
-			biasControlData.azb.chData[3]	= completeSentence[15];
-			biasControlData.gxb.chData[0]	= completeSentence[16];
-			biasControlData.gxb.chData[1]	= completeSentence[17];
-			biasControlData.gxb.chData[2]	= completeSentence[18];
-			biasControlData.gxb.chData[3]	= completeSentence[19];
-			biasControlData.gyb.chData[0]	= completeSentence[20];
-			biasControlData.gyb.chData[1]	= completeSentence[21];
-			biasControlData.gyb.chData[2]	= completeSentence[22];
-			biasControlData.gyb.chData[3]	= completeSentence[23];
-			biasControlData.gzb.chData[0]	= completeSentence[24];
-			biasControlData.gzb.chData[1]	= completeSentence[25];
-			biasControlData.gzb.chData[2]	= completeSentence[26];
-			biasControlData.gzb.chData[3]	= completeSentence[27];			
-		break;		
-		case DIAMSG_ID:
-			diagControlData.fl1.chData[0]	= completeSentence[4];
-			diagControlData.fl1.chData[1]	= completeSentence[5];
-			diagControlData.fl1.chData[2]	= completeSentence[6];
-			diagControlData.fl1.chData[3]	= completeSentence[7];
-			diagControlData.fl2.chData[0]	= completeSentence[8];
-			diagControlData.fl2.chData[1]	= completeSentence[9];
-			diagControlData.fl2.chData[2]	= completeSentence[10];
-			diagControlData.fl2.chData[3]	= completeSentence[11];
-			diagControlData.fl3.chData[0]	= completeSentence[12];
-			diagControlData.fl3.chData[1]	= completeSentence[13];
-			diagControlData.fl3.chData[2]	= completeSentence[14];
-			diagControlData.fl3.chData[3]	= completeSentence[15];
-			diagControlData.sh1.chData[0]	= completeSentence[16];
-			diagControlData.sh1.chData[1]	= completeSentence[17];
-			diagControlData.sh2.chData[0]	= completeSentence[18];
-			diagControlData.sh2.chData[1]	= completeSentence[19];
-			diagControlData.sh3.chData[0]	= completeSentence[20];
-			diagControlData.sh3.chData[1]	= completeSentence[21];		
-		break;
-		case XYZMSG_ID:
-			xyzControlData.Xcoord.chData[0]	= completeSentence[4];
-			xyzControlData.Xcoord.chData[1]	= completeSentence[5];
-			xyzControlData.Xcoord.chData[2]	= completeSentence[6];
-			xyzControlData.Xcoord.chData[3]	= completeSentence[7];
-			xyzControlData.Ycoord.chData[0]	= completeSentence[8];
-			xyzControlData.Ycoord.chData[1]	= completeSentence[9];
-			xyzControlData.Ycoord.chData[2]	= completeSentence[10];
-			xyzControlData.Ycoord.chData[3]	= completeSentence[11];
-			xyzControlData.Zcoord.chData[0]	= completeSentence[12];
-			xyzControlData.Zcoord.chData[1]	= completeSentence[13];
-			xyzControlData.Zcoord.chData[2]	= completeSentence[14];
-			xyzControlData.Zcoord.chData[3]	= completeSentence[15];
-			xyzControlData.VX.chData[0]		= completeSentence[16];
-			xyzControlData.VX.chData[1]		= completeSentence[17];
-			xyzControlData.VX.chData[2]		= completeSentence[18];
-			xyzControlData.VX.chData[3]		= completeSentence[19];
-			xyzControlData.VY.chData[0]		= completeSentence[20];
-			xyzControlData.VY.chData[1]		= completeSentence[21];
-			xyzControlData.VY.chData[2]		= completeSentence[22];
-			xyzControlData.VY.chData[3]		= completeSentence[23];
-			xyzControlData.VZ.chData[0]		= completeSentence[24];
-			xyzControlData.VZ.chData[1]		= completeSentence[25];
-			xyzControlData.VZ.chData[2]		= completeSentence[26];
-			xyzControlData.VZ.chData[3]		= completeSentence[27];
-		break;	
-		case FILMSG_ID:
-			// turn the filter on
-			filterControlData = completeSentence[4];
-			
-			// turn on the required Aknowledge flag
-			aknControlData.filOnOff = 1;
-			
-		break;	
-		case PILMSG_ID: // Pilot Console Commands data
-			pilControlData.dt.chData[0]		= completeSentence[4];	
-			pilControlData.dt.chData[1]		= completeSentence[5]; 	
-			pilControlData.dla.chData[0]	= completeSentence[6];		 	
-			pilControlData.dla.chData[1]	= completeSentence[7]; 
-			pilControlData.dra.chData[0]	= completeSentence[8];	 
-			pilControlData.dra.chData[1]	= completeSentence[9];	 
-			pilControlData.dr.chData[0]		= completeSentence[10];	 
-			pilControlData.dr.chData[1]		= completeSentence[11];	   
-			pilControlData.de.chData[0]		= completeSentence[12];	  
-			pilControlData.de.chData[1]		= completeSentence[13];	  
-		break;
-		
-		
-		default:
-		break;   
-	}
-}
+
 
 #ifdef _IN_PC_
+// TODO: Include a messaging Mechanism for immediate or once in time messages
+// TODO: Include a File option for Archiving checksum fails for debuging
 float protParseDecode (unsigned char* fromSPI,  FILE* outFile){
 #else
 void protParseDecode (unsigned char* fromSPI){
@@ -271,7 +94,7 @@ void protParseDecode (unsigned char* fromSPI){
 	unsigned char tmpChksum = 0, headerFound=0, noMoreBytes = 1;
 	unsigned char trailerFound = 0;
 
-	unsigned char logSize = 0;
+	//unsigned char logSize = 0;
 
 	// Add the received bytes to the protocol parsing circular buffer
     for(i = 1; i <= fromSPI[0]; i += 1 )
@@ -357,8 +180,9 @@ void protParseDecode (unsigned char* fromSPI){
 				// update the states depending on the message
 				updateStates(&prevBuffer[0]);
 				// increment the log size
-				logSize += (indexLast+1);
+				//logSize += (indexLast+1);
                 #ifdef _IN_PC_
+					// if in PC and loggin is enabled
                     if ((outFile != NULL)){
                        printState(outFile);
                     }
@@ -395,6 +219,87 @@ void protParseDecode (unsigned char* fromSPI){
     #endif
 }
 
+unsigned char getFilterOnOff (void){
+	return filterControlData;
+}
+
+// ================================
+//  hardware in the loop methods
+// ================================
+
+void hil_getRawRead(unsigned short * rawData){
+	// data for the bus is as follows:
+	// Accel Y
+	// Accel Z
+	// Gyro X
+	// IDG Ref
+	// Gyro Y
+	// Accel X
+	// Gyro Z
+	// ADX Ref
+	// Mag23
+	// Mag01
+	// Mag Z
+	// Baro
+	// Pitot
+	// Thermistor
+	// Power
+/*
+	
+	*/
+	rawData[0] =  	rawControlData.accelY.usData;
+	rawData[1] =  	rawControlData.accelZ.usData;
+	rawData[2] =  	rawControlData.gyroX.usData;
+	rawData[3] = 	0;
+	rawData[4] = 	rawControlData.gyroY.usData;
+	rawData[5] = 	rawControlData.accelX.usData;
+	rawData[6] = 	rawControlData.gyroZ.usData;
+	rawData[7] = 	0;
+	rawData[8] = 	rawControlData.magY.usData;
+	rawData[9] = 	rawControlData.magX.usData;
+	rawData[10] = 	rawControlData.magZ.usData;
+	rawData[11] = 	(unsigned short)dynTempControlData.dynamic.flData;
+	rawData[12] = 	(unsigned short)dynTempControlData.stat.flData;;
+	rawData[13] = 	(unsigned short)dynTempControlData.temp.shData;
+	rawData[14] = 	770;
+	
+}
+
+void hil_getGPSRead (unsigned char * gpsMsg){
+		// write the output data;
+		gpsMsg[0]  = gpsControlData.year;					
+		gpsMsg[1]  = gpsControlData.month;					
+		gpsMsg[2]  = gpsControlData.day;	
+		gpsMsg[3]  = gpsControlData.hour;
+		gpsMsg[4]  = gpsControlData.min;
+		gpsMsg[5]  = gpsControlData.sec;
+		gpsMsg[6]  = gpsControlData.lat.chData[0];
+		gpsMsg[7]  = gpsControlData.lat.chData[1];
+		gpsMsg[8]  = gpsControlData.lat.chData[2];					
+		gpsMsg[9]  = gpsControlData.lat.chData[3];
+		gpsMsg[10] = gpsControlData.lon.chData[0];
+		gpsMsg[11] = gpsControlData.lon.chData[1];
+		gpsMsg[12] = gpsControlData.lon.chData[2];					
+		gpsMsg[13] = gpsControlData.lon.chData[3];					
+		gpsMsg[14] = gpsControlData.height.chData[0];
+		gpsMsg[15] = gpsControlData.height.chData[1];
+		gpsMsg[16] = gpsControlData.height.chData[2];					
+		gpsMsg[17] = gpsControlData.height.chData[3];					
+		gpsMsg[18] = gpsControlData.cog.chData[0];					
+		gpsMsg[19] = gpsControlData.cog.chData[1];									
+		gpsMsg[20] = gpsControlData.sog.chData[0];					
+		gpsMsg[21] = gpsControlData.sog.chData[1];
+		gpsMsg[22] = gpsControlData.hdop.chData[0];					
+		gpsMsg[23] = gpsControlData.hdop.chData[1];
+		gpsMsg[24] = gpsControlData.fix;
+		gpsMsg[25] = gpsControlData.sats;									
+		gpsMsg[26] = gpsControlData.newValue;								
+}
+
+
+// ================================
+// PC Only methods
+// ================================
 
 #ifdef _IN_PC_
 void printState (FILE* outFile){
@@ -516,8 +421,6 @@ static tPilotData		cppilControlData;
 
 
 }
-#endif
-
 
 // ===============================================
 // Accesor Methods for the Global Data Structures
@@ -558,13 +461,32 @@ tAknData getAknStruct(void){
  return aknControlData;
 }
 
+tPilotData getPilotStruct(void){
+	return pilControlData;
+}
+
+tPWMData getPWMStruct(void){
+	return pwmControlData;
+}
+
+tPIDData getPidStruct(void){
+	return pidControlData;
+}
+
+
 void setAknFilter (unsigned char value){
 	aknControlData.filOnOff = value;
 }
 
-tPilotData getPilotStruct(void){
-	return pilControlData;
+void setAknReboot (unsigned char value){
+	aknControlData.reboot = value;
 }
+
+void setAknPidCal (unsigned char value){
+	aknControlData.pidCal = value;
+}
+
+
 
 void getTime (unsigned char * values){
 	values[0] = gpsControlData.hour;
@@ -572,79 +494,8 @@ void getTime (unsigned char * values){
 	values[2] = gpsControlData.sec;
 }
 
-unsigned char getFilterOnOff (void){
-	return filterControlData;
-}
+#endif
 
-// ================================
-//  hardware in the loop methods
-// ================================
 
-void hil_getRawRead(unsigned short * rawData){
-	// data for the bus is as follows:
-	// Accel Y
-	// Accel Z
-	// Gyro X
-	// IDG Ref
-	// Gyro Y
-	// Accel X
-	// Gyro Z
-	// ADX Ref
-	// Mag23
-	// Mag01
-	// Mag Z
-	// Baro
-	// Pitot
-	// Thermistor
-	// Power
-/*
-	
-	*/
-	rawData[0] =  	rawControlData.accelY.usData;
-	rawData[1] =  	rawControlData.accelZ.usData;
-	rawData[2] =  	rawControlData.gyroX.usData;
-	rawData[3] = 	0;
-	rawData[4] = 	rawControlData.gyroY.usData;
-	rawData[5] = 	rawControlData.accelX.usData;
-	rawData[6] = 	rawControlData.gyroZ.usData;
-	rawData[7] = 	0;
-	rawData[8] = 	rawControlData.magY.usData;
-	rawData[9] = 	rawControlData.magX.usData;
-	rawData[10] = 	rawControlData.magZ.usData;
-	rawData[11] = 	(unsigned short)dynTempControlData.dynamic.flData;
-	rawData[12] = 	(unsigned short)dynTempControlData.stat.flData;;
-	rawData[13] = 	(unsigned short)dynTempControlData.temp.shData;
-	rawData[14] = 	770;
-	
-}
 
-void hil_getGPSRead (unsigned char * gpsMsg){
-		// write the output data;
-		gpsMsg[0]  = gpsControlData.year;					
-		gpsMsg[1]  = gpsControlData.month;					
-		gpsMsg[2]  = gpsControlData.day;	
-		gpsMsg[3]  = gpsControlData.hour;
-		gpsMsg[4]  = gpsControlData.min;
-		gpsMsg[5]  = gpsControlData.sec;
-		gpsMsg[6]  = gpsControlData.lat.chData[0];
-		gpsMsg[7]  = gpsControlData.lat.chData[1];
-		gpsMsg[8]  = gpsControlData.lat.chData[2];					
-		gpsMsg[9]  = gpsControlData.lat.chData[3];
-		gpsMsg[10] = gpsControlData.lon.chData[0];
-		gpsMsg[11] = gpsControlData.lon.chData[1];
-		gpsMsg[12] = gpsControlData.lon.chData[2];					
-		gpsMsg[13] = gpsControlData.lon.chData[3];					
-		gpsMsg[14] = gpsControlData.height.chData[0];
-		gpsMsg[15] = gpsControlData.height.chData[1];
-		gpsMsg[16] = gpsControlData.height.chData[2];					
-		gpsMsg[17] = gpsControlData.height.chData[3];					
-		gpsMsg[18] = gpsControlData.cog.chData[0];					
-		gpsMsg[19] = gpsControlData.cog.chData[1];									
-		gpsMsg[20] = gpsControlData.sog.chData[0];					
-		gpsMsg[21] = gpsControlData.sog.chData[1];
-		gpsMsg[22] = gpsControlData.hdop.chData[0];					
-		gpsMsg[23] = gpsControlData.hdop.chData[1];
-		gpsMsg[24] = gpsControlData.fix;
-		gpsMsg[25] = gpsControlData.sats;									
-		gpsMsg[26] = gpsControlData.newValue;								
-}
+
