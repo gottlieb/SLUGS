@@ -292,9 +292,6 @@ void updateStates(unsigned char * completeSentence){
 		break;
 		
 		case CALMSG_ID: // report from AP to GS regarding Calib Values
-			diagControlData.sh1.shData= (short) completeSentence[4];
-			diagControlData.sh2.shData= (short) completeSentence[5];
-			
 			decodeCalSentence (completeSentence[4], completeSentence[5], &completeSentence[6],0);
 		break;
 		
