@@ -50,6 +50,7 @@ void __fastcall TFPpal::FormShow(TObject *Sender)
 
   cb_inflightClick(NULL);
 
+  bt_serialClick(NULL);
 }
 //---------------------------------------------------------------------------
 
@@ -117,6 +118,38 @@ void __fastcall TFPpal::FormCreate(TObject *Sender)
  BoxCont[8] = gb_pid9;
  BoxCont[9] = gb_pid10;
 
+  EtPGains[0] = et_p1;
+ EtPGains[1] = et_p2;
+ EtPGains[2] = et_p3;
+ EtPGains[3] = et_p4;
+ EtPGains[4] = et_p5;
+ EtPGains[5] = et_p6;
+ EtPGains[6] = et_p7;
+ EtPGains[7] = et_p8;
+ EtPGains[8] = et_p9;
+ EtPGains[9] = et_p10;
+
+ EtIGains[0] = et_i1;
+ EtIGains[1] = et_i2;
+ EtIGains[2] = et_i3;
+ EtIGains[3] = et_i4;
+ EtIGains[4] = et_i5;
+ EtIGains[5] = et_i6;
+ EtIGains[6] = et_i7;
+ EtIGains[7] = et_i8;
+ EtIGains[8] = et_i9;
+ EtIGains[9] = et_i10;
+
+ EtDGains[0] = et_d1;
+ EtDGains[1] = et_d2;
+ EtDGains[2] = et_d3;
+ EtDGains[3] = et_d4;
+ EtDGains[4] = et_d5;
+ EtDGains[5] = et_d6;
+ EtDGains[6] = et_d7;
+ EtDGains[7] = et_d8;
+ EtDGains[8] = et_d9;
+ EtDGains[9] = et_d10;
 
 }
 //---------------------------------------------------------------------------
@@ -265,7 +298,7 @@ void __fastcall TFPpal::kb_tessalateExit(TObject *Sender)
 {
  tb_config->Edit();
  tb_configtessalateTransparency->AsInteger = kb_tessalate->Position;
- tb_config->Post();    
+ tb_config->Post();
 }
 //---------------------------------------------------------------------------
 
@@ -539,9 +572,12 @@ void TFPpal::updatePWM(void){
 
 
 void TFPpal::updatePID(void){
-  et_p1->Caption  =  FloatToStr(pidSample.P[0].flData);
-  et_i1->Caption  =  FloatToStr(pidSample.I[0].flData);
-  et_d1->Caption  =  FloatToStr(pidSample.D[0].flData);
+unsigned char i;
+  for (i=0; i<10;i++){
+     EtPGains[i]->Caption  =  FloatToStr(pidSample.P[i].flData);
+     EtIGains[i]->Caption  =  FloatToStr(pidSample.I[i].flData);
+     EtDGains[i]->Caption  =  FloatToStr(pidSample.D[i].flData);
+  }   
 }
 
 
@@ -1329,6 +1365,55 @@ void __fastcall TFPpal::bt_down1Click(TObject *Sender)
  assembleMsg(&rawMsg[0],QUEMSG_LEN,QUEMSG_ID,&filtMsg[0]);
 
  cp_serial->PutBlock(&filtMsg[0],(QUEMSG_LEN+7));
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::bt_allpidClick(TObject *Sender)
+{
+  pidRequestQueue = 0;
+  Timer3->Enabled = true;
+  bt_allpid->Enabled = false;
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::Timer3Timer(TObject *Sender)
+{
+  switch (pidRequestQueue){
+     case 0:
+          bt_down1Click(bt_down1);
+     break;
+     case 1:
+          bt_down1Click(bt_down2);
+     break;
+     case 2:
+          bt_down1Click(bt_down3);
+     break;
+     case 3:
+          bt_down1Click(bt_down4);
+     break;
+     case 4:
+          bt_down1Click(bt_down5);
+     break;
+     case 5:
+          bt_down1Click(bt_down6);
+     break;
+     case 6:
+          bt_down1Click(bt_down7);
+     break;
+     case 7:
+          bt_down1Click(bt_down8);
+     break;
+     case 8:
+          bt_down1Click(bt_down9);
+     break;
+     case 9:
+          bt_down1Click(bt_down10);
+          Timer3->Enabled = false;
+          bt_allpid->Enabled = true;
+     break;
+  }
+  pidRequestQueue++;
 }
 //---------------------------------------------------------------------------
 
