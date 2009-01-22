@@ -16,13 +16,14 @@
 #include "interProcCommSlave.h"
 
 //Structure arrays for incomming data
-struct tGpsData gpsDataBuffer [3];
-struct tRawData rawDataBuffer [3];
-unsigned char currentBuffer = 0, lastBuffer =2;
+//struct tGpsData gpsDataBuffer [3];
+//struct tRawData rawDataBuffer [3];
+//unsigned char currentBuffer = 0, lastBuffer =2;
 
 // Global Circular buffer
 struct CircBuffer spiBuffer;
 CBRef protBuffer;
+
 
 void spiSlaveInit(void){
 	// Initialize the circular buffer
@@ -61,9 +62,16 @@ void spiSlaveInit(void){
     SPI1STATbits.SPIEN  = 1;    //Enable SPI Module
 
     
-    // Enable the interrupts
+    // clear the interrupt flag
     IFS0bits.SPI1IF 	= 0;
+    // clear the error flag
+    IFS0bits.SPI1EIF	= 0;
+    // clear the overflow flag
+	SPI1STATbits.SPIROV = 0;
+    
+    // Enable the interrupts
     IPC2bits.SPI1IP 	= 6;
+    IEC0bits.SPI1EIE	= 1;
     IEC0bits.SPI1IE		= 1; 
     
     INTCON1bits.NSTDIS	= 1;
@@ -97,6 +105,7 @@ void readIpc (unsigned char* bufferedData){
 	// Set the output size accordingly
 	bufferedData[0] = (tmpLen > MAXLOGLEN)? MAXLOGLEN: tmpLen;
 	
+	// TODO: Remove debugging info from readIPC
 	if ((timeStamp % 1000)== 0){
 		printToUart2("T: %6.0f\n\r\0",(float) timeStamp*0.01);
 	}
@@ -150,14 +159,21 @@ void readIpc (unsigned char* bufferedData){
 
 // Interrupt service routine for SPI1 Slave 
 void __attribute__((__interrupt__, no_auto_psv)) _SPI1Interrupt(void){
- 	static unsigned char spiBufIdx = 1; 
- 	unsigned char dataRead;
-		
  	// if we received a byte
  	if (SPI1STATbits.SPIRBF == 1){
  		// put the received data in the circular buffer 
 		writeBack(protBuffer, (unsigned char)SPI1BUF);
 	}
+
 	// clear the interrupt
 	 IFS0bits.SPI1IF = 0;
+}
+
+void __attribute__((__interrupt__, no_auto_psv)) _SPI1ErrInterrupt(void){
+    // clear the overflow flag
+	SPI1STATbits.SPIROV = 0;
+
+    // clear the error flag
+    IFS0bits.SPI1EIF	= 0;
+	
 }

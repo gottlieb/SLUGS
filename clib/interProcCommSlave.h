@@ -7,6 +7,7 @@
 #include <spi.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include "protDecoder.h"
 
 
 void spiSlaveInit (void);
