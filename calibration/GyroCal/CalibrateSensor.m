@@ -196,6 +196,41 @@ subplot(3,1,3)
 fig_ct= fig_ct+1;    
 eval(['print -depsc  '  num2str(fig_ct)]);
 
+%% Plot the Comparison for the Blog Post
+
+[t_Gy_comp, temp, tmeanSt] =  cTemp(t_Gy, t_Te, gyTGain, 1, 1, 0);
+
+figure(fig_ct);
+subplot (3,1,1)
+    plot(t_Ti(500:end),t_Te(500:end));
+    title('Temperature Run');
+    xlabel('Time (s)');
+    ylabel('Count (12bits)');
+subplot(3,1,2)
+    plot(t_Ti(500:end),t_Gy(500:end));
+    title('Gyro Y');
+    xlabel('Time (s)');
+    ylabel('Count (12bits)');
+    hold on
+    plot(t_Ti(500:end),t_Gy_comp(500:end)+1500, 'r');
+    legend ('Raw Data','Temp Comp');
+    hold off
+subplot(3,1,3)
+    plot(t_Ti(500:end),t_St(500:end));
+    title('Static');
+    xlabel('Time (s)');
+    ylabel('Pressure (Pa)');  
+    hold on
+    plot(t_Ti(500:end),t_St_comp(500:end), 'r');
+    legend ('Raw Data','Temp Comp');
+    hold off
+fig_ct= fig_ct+1;    
+eval(['print -depsc  '  num2str(fig_ct)]);
+
+
+
+
+
 %% Compute the Gyro Calibration
 if (sw_calibrateGyro)
     % get Gyro Gains from turntable experiment

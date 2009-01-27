@@ -341,6 +341,14 @@ typedef struct tQueryData{
 	unsigned char 	indxReq;
 }tQueryData;
 
+typedef struct tWPData{
+	tFloatToChar	lat[11];
+	tFloatToChar	lon[11];
+	tFloatToChar	hei[11];
+	unsigned char	typ[11];
+	tShortToChar	val[11];
+}tWPData;
+
 
 #ifdef __cplusplus
       }
