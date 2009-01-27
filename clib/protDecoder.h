@@ -32,6 +32,7 @@ extern tPilotData		pilControlData;
 extern tPIDData			pidControlData;
 extern tPWMData			pwmControlData;
 extern tQueryData		queControlData;
+extern tWPData			wpsControlData;
 
 
 void protParserInit (void);
@@ -55,6 +56,7 @@ void protParserInit (void);
     void setAknReboot (unsigned char value);
     tPWMData getPWMStruct (void);
     tPIDData getPidStruct (void);
+    tWPData  getWPStruct (void);
     
 #else
      void protParseDecode (unsigned char* fromSPI);

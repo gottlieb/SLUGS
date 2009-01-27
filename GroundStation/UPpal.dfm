@@ -1,6 +1,6 @@
 object FPpal: TFPpal
-  Left = 317
-  Top = 111
+  Left = 366
+  Top = 100
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 
@@ -2671,7 +2671,7 @@ object FPpal: TFPpal
     object TabSheet1: TTabSheet
       Caption = 'Waypoints'
       ImageIndex = 8
-      object SpeedButton32: TSpeedButton
+      object bt_allwp: TSpeedButton
         Left = 126
         Top = 600
         Width = 113
@@ -2692,7 +2692,7 @@ object FPpal: TFPpal
           99337F3FF7F3733777F30F08F0F0337999337F7737F73F7777330FFFF0039999
           93337FFFF7737777733300000033333333337777773333333333}
         NumGlyphs = 2
-        OnClick = bt_allpidClick
+        OnClick = bt_allwpClick
       end
       object SpeedButton33: TSpeedButton
         Left = 6
@@ -2740,10 +2740,10 @@ object FPpal: TFPpal
         NumGlyphs = 2
         OnClick = bt_allpidClick
       end
-      object GroupBox16: TGroupBox
+      object gb_wp1: TGroupBox
         Left = 3
         Top = 1
-        Width = 169
+        Width = 179
         Height = 118
         Caption = ' WP 1 '
         Font.Charset = DEFAULT_CHARSET
@@ -2810,7 +2810,7 @@ object FPpal: TFPpal
           ParentShowHint = False
           ShowHint = True
         end
-        object SpeedButton2: TSpeedButton
+        object bt_setwp1: TSpeedButton
           Left = 9
           Top = 94
           Width = 70
@@ -2831,10 +2831,10 @@ object FPpal: TFPpal
             33333333333737F333333333333C943333333333333737333333333333339733
             3333333333337F33333333333333933333333333333373333333}
           NumGlyphs = 2
-          OnClick = bt_up1Click
+          OnClick = bt_setwp1Click
         end
-        object SpeedButton5: TSpeedButton
-          Left = 91
+        object bt_getwp1: TSpeedButton
+          Left = 102
           Top = 94
           Width = 70
           Height = 20
@@ -2854,40 +2854,61 @@ object FPpal: TFPpal
             443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
             444377733337F333777FC3333339333337437333333733333373}
           NumGlyphs = 2
-          OnClick = bt_down1Click
+          OnClick = bt_getwp1Click
         end
         object ed_lat1: TCurrencyEdit
           Left = 29
           Top = 17
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 0
           OnChange = ed_p1Change
         end
         object ed_lon1: TCurrencyEdit
           Left = 29
           Top = 33
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 1
           OnChange = ed_p1Change
         end
         object ed_hei1: TCurrencyEdit
           Left = 29
           Top = 49
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 2
           OnChange = ed_p1Change
         end
-        object StaticText1: TStaticText
-          Left = 97
+        object et_lat1: TStaticText
+          Left = 108
           Top = 17
           Width = 67
           Height = 18
@@ -2905,8 +2926,8 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 3
         end
-        object StaticText2: TStaticText
-          Left = 97
+        object et_lon1: TStaticText
+          Left = 108
           Top = 33
           Width = 67
           Height = 18
@@ -2924,8 +2945,8 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 4
         end
-        object StaticText3: TStaticText
-          Left = 97
+        object et_hei1: TStaticText
+          Left = 108
           Top = 49
           Width = 67
           Height = 18
@@ -2943,7 +2964,7 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 5
         end
-        object CheckBox1: TCheckBox
+        object cb_stat1: TCheckBox
           Left = 8
           Top = 72
           Width = 80
@@ -2952,20 +2973,21 @@ object FPpal: TFPpal
           TabOrder = 6
         end
         object CurrencyEdit4: TCurrencyEdit
-          Left = 98
+          Left = 109
           Top = 71
           Width = 65
           Height = 18
           AutoSize = False
           DisplayFormat = ' ,00.0000;- ,00.0000'
+          Enabled = False
           TabOrder = 7
           OnChange = ed_p1Change
         end
       end
-      object GroupBox17: TGroupBox
-        Left = 195
+      object gb_wp2: TGroupBox
+        Left = 188
         Top = 1
-        Width = 169
+        Width = 179
         Height = 118
         Caption = ' WP 2'
         Font.Charset = DEFAULT_CHARSET
@@ -3032,7 +3054,8 @@ object FPpal: TFPpal
           ParentShowHint = False
           ShowHint = True
         end
-        object SpeedButton7: TSpeedButton
+        object bt_setwp2: TSpeedButton
+          Tag = 1
           Left = 9
           Top = 94
           Width = 70
@@ -3053,10 +3076,11 @@ object FPpal: TFPpal
             33333333333737F333333333333C943333333333333737333333333333339733
             3333333333337F33333333333333933333333333333373333333}
           NumGlyphs = 2
-          OnClick = bt_up1Click
+          OnClick = bt_setwp1Click
         end
-        object SpeedButton9: TSpeedButton
-          Left = 91
+        object bt_getwp2: TSpeedButton
+          Tag = 1
+          Left = 102
           Top = 94
           Width = 70
           Height = 20
@@ -3076,40 +3100,61 @@ object FPpal: TFPpal
             443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
             444377733337F333777FC3333339333337437333333733333373}
           NumGlyphs = 2
-          OnClick = bt_down1Click
+          OnClick = bt_getwp1Click
         end
         object ed_lat2: TCurrencyEdit
           Left = 29
           Top = 17
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 0
           OnChange = ed_p1Change
         end
         object ed_lon2: TCurrencyEdit
           Left = 29
           Top = 33
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 1
           OnChange = ed_p1Change
         end
         object ed_hei2: TCurrencyEdit
           Left = 29
           Top = 49
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 2
           OnChange = ed_p1Change
         end
-        object StaticText4: TStaticText
-          Left = 97
+        object et_lat2: TStaticText
+          Left = 108
           Top = 17
           Width = 67
           Height = 18
@@ -3127,8 +3172,8 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 3
         end
-        object StaticText5: TStaticText
-          Left = 97
+        object et_lon2: TStaticText
+          Left = 108
           Top = 33
           Width = 67
           Height = 18
@@ -3146,8 +3191,8 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 4
         end
-        object StaticText6: TStaticText
-          Left = 97
+        object et_hei2: TStaticText
+          Left = 108
           Top = 49
           Width = 67
           Height = 18
@@ -3165,7 +3210,7 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 5
         end
-        object CheckBox2: TCheckBox
+        object cb_stat2: TCheckBox
           Left = 8
           Top = 72
           Width = 80
@@ -3174,20 +3219,21 @@ object FPpal: TFPpal
           TabOrder = 6
         end
         object CurrencyEdit8: TCurrencyEdit
-          Left = 98
+          Left = 109
           Top = 71
           Width = 65
           Height = 18
           AutoSize = False
           DisplayFormat = ' ,00.0000;- ,00.0000'
+          Enabled = False
           TabOrder = 7
           OnChange = ed_p1Change
         end
       end
-      object GroupBox18: TGroupBox
+      object gb_wp3: TGroupBox
         Left = 4
         Top = 120
-        Width = 169
+        Width = 179
         Height = 118
         Caption = ' WP 3 '
         Font.Charset = DEFAULT_CHARSET
@@ -3254,7 +3300,8 @@ object FPpal: TFPpal
           ParentShowHint = False
           ShowHint = True
         end
-        object SpeedButton11: TSpeedButton
+        object bt_setwp3: TSpeedButton
+          Tag = 2
           Left = 9
           Top = 94
           Width = 70
@@ -3275,10 +3322,11 @@ object FPpal: TFPpal
             33333333333737F333333333333C943333333333333737333333333333339733
             3333333333337F33333333333333933333333333333373333333}
           NumGlyphs = 2
-          OnClick = bt_up1Click
+          OnClick = bt_setwp1Click
         end
-        object SpeedButton13: TSpeedButton
-          Left = 91
+        object bt_getwp3: TSpeedButton
+          Tag = 2
+          Left = 102
           Top = 94
           Width = 70
           Height = 20
@@ -3298,40 +3346,61 @@ object FPpal: TFPpal
             443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
             444377733337F333777FC3333339333337437333333733333373}
           NumGlyphs = 2
-          OnClick = bt_down1Click
+          OnClick = bt_getwp1Click
         end
         object ed_lat3: TCurrencyEdit
           Left = 29
           Top = 17
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 0
           OnChange = ed_p1Change
         end
         object ed_lon3: TCurrencyEdit
           Left = 29
           Top = 33
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 1
           OnChange = ed_p1Change
         end
         object ed_hei3: TCurrencyEdit
           Left = 29
           Top = 49
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 2
           OnChange = ed_p1Change
         end
-        object StaticText7: TStaticText
-          Left = 97
+        object et_lat3: TStaticText
+          Left = 108
           Top = 17
           Width = 67
           Height = 18
@@ -3349,8 +3418,8 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 3
         end
-        object StaticText8: TStaticText
-          Left = 97
+        object et_lon3: TStaticText
+          Left = 108
           Top = 33
           Width = 67
           Height = 18
@@ -3368,8 +3437,8 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 4
         end
-        object StaticText9: TStaticText
-          Left = 97
+        object et_hei3: TStaticText
+          Left = 108
           Top = 49
           Width = 67
           Height = 18
@@ -3387,7 +3456,7 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 5
         end
-        object CheckBox3: TCheckBox
+        object cb_stat3: TCheckBox
           Left = 8
           Top = 72
           Width = 80
@@ -3396,20 +3465,21 @@ object FPpal: TFPpal
           TabOrder = 6
         end
         object CurrencyEdit12: TCurrencyEdit
-          Left = 98
+          Left = 109
           Top = 71
           Width = 65
           Height = 18
           AutoSize = False
           DisplayFormat = ' ,00.0000;- ,00.0000'
+          Enabled = False
           TabOrder = 7
           OnChange = ed_p1Change
         end
       end
-      object GroupBox19: TGroupBox
-        Left = 195
+      object gb_wp4: TGroupBox
+        Left = 188
         Top = 120
-        Width = 169
+        Width = 179
         Height = 118
         Caption = ' WP 4 '
         Font.Charset = DEFAULT_CHARSET
@@ -3476,7 +3546,8 @@ object FPpal: TFPpal
           ParentShowHint = False
           ShowHint = True
         end
-        object SpeedButton15: TSpeedButton
+        object bt_setwp4: TSpeedButton
+          Tag = 3
           Left = 9
           Top = 94
           Width = 70
@@ -3497,10 +3568,11 @@ object FPpal: TFPpal
             33333333333737F333333333333C943333333333333737333333333333339733
             3333333333337F33333333333333933333333333333373333333}
           NumGlyphs = 2
-          OnClick = bt_up1Click
+          OnClick = bt_setwp1Click
         end
-        object SpeedButton17: TSpeedButton
-          Left = 91
+        object bt_getwp4: TSpeedButton
+          Tag = 3
+          Left = 101
           Top = 94
           Width = 70
           Height = 20
@@ -3520,40 +3592,61 @@ object FPpal: TFPpal
             443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
             444377733337F333777FC3333339333337437333333733333373}
           NumGlyphs = 2
-          OnClick = bt_down1Click
+          OnClick = bt_getwp1Click
         end
         object ed_lat4: TCurrencyEdit
           Left = 29
           Top = 17
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 0
           OnChange = ed_p1Change
         end
         object ed_lon4: TCurrencyEdit
           Left = 29
           Top = 33
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 1
           OnChange = ed_p1Change
         end
         object ed_hei4: TCurrencyEdit
           Left = 29
           Top = 49
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 2
           OnChange = ed_p1Change
         end
-        object StaticText10: TStaticText
-          Left = 97
+        object et_lat4: TStaticText
+          Left = 107
           Top = 17
           Width = 67
           Height = 18
@@ -3571,8 +3664,8 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 3
         end
-        object StaticText11: TStaticText
-          Left = 97
+        object et_lon4: TStaticText
+          Left = 107
           Top = 33
           Width = 67
           Height = 18
@@ -3590,8 +3683,8 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 4
         end
-        object StaticText12: TStaticText
-          Left = 97
+        object et_hei4: TStaticText
+          Left = 107
           Top = 49
           Width = 67
           Height = 18
@@ -3609,7 +3702,7 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 5
         end
-        object CheckBox4: TCheckBox
+        object cb_stat4: TCheckBox
           Left = 8
           Top = 72
           Width = 80
@@ -3618,20 +3711,21 @@ object FPpal: TFPpal
           TabOrder = 6
         end
         object CurrencyEdit16: TCurrencyEdit
-          Left = 98
+          Left = 108
           Top = 71
           Width = 65
           Height = 18
           AutoSize = False
           DisplayFormat = ' ,00.0000;- ,00.0000'
+          Enabled = False
           TabOrder = 7
           OnChange = ed_p1Change
         end
       end
-      object GroupBox20: TGroupBox
+      object gb_wp5: TGroupBox
         Left = 4
         Top = 240
-        Width = 169
+        Width = 179
         Height = 118
         Caption = ' WP 5 '
         Font.Charset = DEFAULT_CHARSET
@@ -3698,7 +3792,8 @@ object FPpal: TFPpal
           ParentShowHint = False
           ShowHint = True
         end
-        object SpeedButton19: TSpeedButton
+        object bt_setwp5: TSpeedButton
+          Tag = 4
           Left = 9
           Top = 94
           Width = 70
@@ -3719,10 +3814,11 @@ object FPpal: TFPpal
             33333333333737F333333333333C943333333333333737333333333333339733
             3333333333337F33333333333333933333333333333373333333}
           NumGlyphs = 2
-          OnClick = bt_up1Click
+          OnClick = bt_setwp1Click
         end
-        object SpeedButton20: TSpeedButton
-          Left = 91
+        object bt_getwp5: TSpeedButton
+          Tag = 4
+          Left = 101
           Top = 94
           Width = 70
           Height = 20
@@ -3742,40 +3838,61 @@ object FPpal: TFPpal
             443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
             444377733337F333777FC3333339333337437333333733333373}
           NumGlyphs = 2
-          OnClick = bt_down1Click
+          OnClick = bt_getwp1Click
         end
         object ed_lat5: TCurrencyEdit
           Left = 29
           Top = 17
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 0
           OnChange = ed_p1Change
         end
         object ed_lon5: TCurrencyEdit
           Left = 29
           Top = 33
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 1
           OnChange = ed_p1Change
         end
         object ed_hei5: TCurrencyEdit
           Left = 29
           Top = 49
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 2
           OnChange = ed_p1Change
         end
-        object StaticText13: TStaticText
-          Left = 97
+        object et_lat5: TStaticText
+          Left = 107
           Top = 17
           Width = 67
           Height = 18
@@ -3793,8 +3910,8 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 3
         end
-        object StaticText14: TStaticText
-          Left = 97
+        object et_lon5: TStaticText
+          Left = 107
           Top = 33
           Width = 67
           Height = 18
@@ -3812,8 +3929,8 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 4
         end
-        object StaticText15: TStaticText
-          Left = 97
+        object et_hei5: TStaticText
+          Left = 107
           Top = 49
           Width = 67
           Height = 18
@@ -3831,7 +3948,7 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 5
         end
-        object CheckBox5: TCheckBox
+        object cb_stat5: TCheckBox
           Left = 8
           Top = 72
           Width = 80
@@ -3840,20 +3957,21 @@ object FPpal: TFPpal
           TabOrder = 6
         end
         object CurrencyEdit20: TCurrencyEdit
-          Left = 98
+          Left = 108
           Top = 71
           Width = 65
           Height = 18
           AutoSize = False
           DisplayFormat = ' ,00.0000;- ,00.0000'
+          Enabled = False
           TabOrder = 7
           OnChange = ed_p1Change
         end
       end
-      object GroupBox21: TGroupBox
-        Left = 195
+      object gb_wp6: TGroupBox
+        Left = 188
         Top = 240
-        Width = 169
+        Width = 179
         Height = 118
         Caption = ' WP 6 '
         Font.Charset = DEFAULT_CHARSET
@@ -3920,7 +4038,8 @@ object FPpal: TFPpal
           ParentShowHint = False
           ShowHint = True
         end
-        object SpeedButton21: TSpeedButton
+        object bt_setwp6: TSpeedButton
+          Tag = 5
           Left = 9
           Top = 94
           Width = 70
@@ -3941,10 +4060,11 @@ object FPpal: TFPpal
             33333333333737F333333333333C943333333333333737333333333333339733
             3333333333337F33333333333333933333333333333373333333}
           NumGlyphs = 2
-          OnClick = bt_up1Click
+          OnClick = bt_setwp1Click
         end
-        object SpeedButton22: TSpeedButton
-          Left = 91
+        object bt_getwp6: TSpeedButton
+          Tag = 5
+          Left = 102
           Top = 94
           Width = 70
           Height = 20
@@ -3964,40 +4084,61 @@ object FPpal: TFPpal
             443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
             444377733337F333777FC3333339333337437333333733333373}
           NumGlyphs = 2
-          OnClick = bt_down1Click
+          OnClick = bt_getwp1Click
         end
         object ed_lat6: TCurrencyEdit
           Left = 29
           Top = 17
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 0
           OnChange = ed_p1Change
         end
         object ed_lon6: TCurrencyEdit
           Left = 29
           Top = 33
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 1
           OnChange = ed_p1Change
         end
         object ed_hei6: TCurrencyEdit
           Left = 29
           Top = 49
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 2
           OnChange = ed_p1Change
         end
-        object StaticText16: TStaticText
-          Left = 97
+        object et_lat6: TStaticText
+          Left = 108
           Top = 17
           Width = 67
           Height = 18
@@ -4015,8 +4156,8 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 3
         end
-        object StaticText17: TStaticText
-          Left = 97
+        object et_lon6: TStaticText
+          Left = 108
           Top = 33
           Width = 67
           Height = 18
@@ -4034,8 +4175,8 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 4
         end
-        object StaticText18: TStaticText
-          Left = 97
+        object et_hei6: TStaticText
+          Left = 108
           Top = 49
           Width = 67
           Height = 18
@@ -4053,7 +4194,7 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 5
         end
-        object CheckBox6: TCheckBox
+        object cb_stat6: TCheckBox
           Left = 8
           Top = 72
           Width = 80
@@ -4062,20 +4203,21 @@ object FPpal: TFPpal
           TabOrder = 6
         end
         object CurrencyEdit24: TCurrencyEdit
-          Left = 98
+          Left = 109
           Top = 71
           Width = 65
           Height = 18
           AutoSize = False
           DisplayFormat = ' ,00.0000;- ,00.0000'
+          Enabled = False
           TabOrder = 7
           OnChange = ed_p1Change
         end
       end
-      object GroupBox22: TGroupBox
+      object gb_wp7: TGroupBox
         Left = 5
         Top = 359
-        Width = 169
+        Width = 179
         Height = 118
         Caption = ' WP 7 '
         Font.Charset = DEFAULT_CHARSET
@@ -4142,7 +4284,8 @@ object FPpal: TFPpal
           ParentShowHint = False
           ShowHint = True
         end
-        object SpeedButton23: TSpeedButton
+        object bt_setwp7: TSpeedButton
+          Tag = 6
           Left = 9
           Top = 94
           Width = 70
@@ -4163,10 +4306,11 @@ object FPpal: TFPpal
             33333333333737F333333333333C943333333333333737333333333333339733
             3333333333337F33333333333333933333333333333373333333}
           NumGlyphs = 2
-          OnClick = bt_up1Click
+          OnClick = bt_setwp1Click
         end
-        object SpeedButton24: TSpeedButton
-          Left = 91
+        object bt_getwp7: TSpeedButton
+          Tag = 6
+          Left = 102
           Top = 94
           Width = 70
           Height = 20
@@ -4186,40 +4330,61 @@ object FPpal: TFPpal
             443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
             444377733337F333777FC3333339333337437333333733333373}
           NumGlyphs = 2
-          OnClick = bt_down1Click
+          OnClick = bt_getwp1Click
         end
         object ed_lat7: TCurrencyEdit
           Left = 29
           Top = 17
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 0
           OnChange = ed_p1Change
         end
         object ed_lon7: TCurrencyEdit
           Left = 29
           Top = 33
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 1
           OnChange = ed_p1Change
         end
         object ed_hei7: TCurrencyEdit
           Left = 29
           Top = 49
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 2
           OnChange = ed_p1Change
         end
-        object StaticText19: TStaticText
-          Left = 97
+        object et_lat7: TStaticText
+          Left = 108
           Top = 17
           Width = 67
           Height = 18
@@ -4237,8 +4402,8 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 3
         end
-        object StaticText20: TStaticText
-          Left = 97
+        object et_lon7: TStaticText
+          Left = 108
           Top = 33
           Width = 67
           Height = 18
@@ -4256,8 +4421,8 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 4
         end
-        object StaticText21: TStaticText
-          Left = 97
+        object et_hei7: TStaticText
+          Left = 108
           Top = 49
           Width = 67
           Height = 18
@@ -4275,7 +4440,7 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 5
         end
-        object CheckBox7: TCheckBox
+        object cb_stat7: TCheckBox
           Left = 8
           Top = 72
           Width = 80
@@ -4284,20 +4449,21 @@ object FPpal: TFPpal
           TabOrder = 6
         end
         object CurrencyEdit28: TCurrencyEdit
-          Left = 98
+          Left = 109
           Top = 71
           Width = 65
           Height = 18
           AutoSize = False
           DisplayFormat = ' ,00.0000;- ,00.0000'
+          Enabled = False
           TabOrder = 7
           OnChange = ed_p1Change
         end
       end
-      object GroupBox23: TGroupBox
-        Left = 195
+      object gb_wp8: TGroupBox
+        Left = 188
         Top = 359
-        Width = 169
+        Width = 179
         Height = 118
         Caption = ' WP 8 '
         Font.Charset = DEFAULT_CHARSET
@@ -4364,7 +4530,8 @@ object FPpal: TFPpal
           ParentShowHint = False
           ShowHint = True
         end
-        object SpeedButton25: TSpeedButton
+        object bt_setwp8: TSpeedButton
+          Tag = 7
           Left = 9
           Top = 94
           Width = 70
@@ -4385,10 +4552,11 @@ object FPpal: TFPpal
             33333333333737F333333333333C943333333333333737333333333333339733
             3333333333337F33333333333333933333333333333373333333}
           NumGlyphs = 2
-          OnClick = bt_up1Click
+          OnClick = bt_setwp1Click
         end
-        object SpeedButton26: TSpeedButton
-          Left = 91
+        object bt_getwp8: TSpeedButton
+          Tag = 7
+          Left = 102
           Top = 94
           Width = 70
           Height = 20
@@ -4408,40 +4576,61 @@ object FPpal: TFPpal
             443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
             444377733337F333777FC3333339333337437333333733333373}
           NumGlyphs = 2
-          OnClick = bt_down1Click
+          OnClick = bt_getwp1Click
         end
         object ed_lat8: TCurrencyEdit
           Left = 29
           Top = 17
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 0
           OnChange = ed_p1Change
         end
         object ed_lon8: TCurrencyEdit
           Left = 29
           Top = 33
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 1
           OnChange = ed_p1Change
         end
         object ed_hei8: TCurrencyEdit
           Left = 29
           Top = 49
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 2
           OnChange = ed_p1Change
         end
-        object StaticText22: TStaticText
-          Left = 97
+        object et_lat8: TStaticText
+          Left = 108
           Top = 17
           Width = 67
           Height = 18
@@ -4459,8 +4648,8 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 3
         end
-        object StaticText23: TStaticText
-          Left = 97
+        object et_lon8: TStaticText
+          Left = 108
           Top = 33
           Width = 67
           Height = 18
@@ -4478,8 +4667,8 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 4
         end
-        object StaticText24: TStaticText
-          Left = 97
+        object et_hei8: TStaticText
+          Left = 108
           Top = 49
           Width = 67
           Height = 18
@@ -4497,7 +4686,7 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 5
         end
-        object CheckBox8: TCheckBox
+        object cb_stat8: TCheckBox
           Left = 8
           Top = 72
           Width = 80
@@ -4506,20 +4695,21 @@ object FPpal: TFPpal
           TabOrder = 6
         end
         object CurrencyEdit32: TCurrencyEdit
-          Left = 98
+          Left = 109
           Top = 71
           Width = 65
           Height = 18
           AutoSize = False
           DisplayFormat = ' ,00.0000;- ,00.0000'
+          Enabled = False
           TabOrder = 7
           OnChange = ed_p1Change
         end
       end
-      object GroupBox24: TGroupBox
+      object gb_wp9: TGroupBox
         Left = 6
         Top = 477
-        Width = 169
+        Width = 179
         Height = 118
         Caption = ' WP 9 '
         Font.Charset = DEFAULT_CHARSET
@@ -4586,7 +4776,8 @@ object FPpal: TFPpal
           ParentShowHint = False
           ShowHint = True
         end
-        object SpeedButton27: TSpeedButton
+        object bt_setwp9: TSpeedButton
+          Tag = 8
           Left = 9
           Top = 94
           Width = 70
@@ -4607,10 +4798,11 @@ object FPpal: TFPpal
             33333333333737F333333333333C943333333333333737333333333333339733
             3333333333337F33333333333333933333333333333373333333}
           NumGlyphs = 2
-          OnClick = bt_up1Click
+          OnClick = bt_setwp1Click
         end
-        object SpeedButton28: TSpeedButton
-          Left = 91
+        object bt_getwp9: TSpeedButton
+          Tag = 8
+          Left = 100
           Top = 94
           Width = 70
           Height = 20
@@ -4630,40 +4822,61 @@ object FPpal: TFPpal
             443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
             444377733337F333777FC3333339333337437333333733333373}
           NumGlyphs = 2
-          OnClick = bt_down1Click
+          OnClick = bt_getwp1Click
         end
         object ed_lat9: TCurrencyEdit
           Left = 29
           Top = 17
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 0
           OnChange = ed_p1Change
         end
         object ed_lon9: TCurrencyEdit
           Left = 29
           Top = 33
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 1
           OnChange = ed_p1Change
         end
         object ed_hei9: TCurrencyEdit
           Left = 29
           Top = 49
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 2
           OnChange = ed_p1Change
         end
-        object StaticText25: TStaticText
-          Left = 97
+        object et_lat9: TStaticText
+          Left = 106
           Top = 17
           Width = 67
           Height = 18
@@ -4681,8 +4894,8 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 3
         end
-        object StaticText26: TStaticText
-          Left = 97
+        object et_lon9: TStaticText
+          Left = 106
           Top = 33
           Width = 67
           Height = 18
@@ -4700,8 +4913,8 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 4
         end
-        object StaticText27: TStaticText
-          Left = 97
+        object et_hei9: TStaticText
+          Left = 106
           Top = 49
           Width = 67
           Height = 18
@@ -4719,7 +4932,7 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 5
         end
-        object CheckBox9: TCheckBox
+        object cb_stat9: TCheckBox
           Left = 8
           Top = 72
           Width = 80
@@ -4728,20 +4941,21 @@ object FPpal: TFPpal
           TabOrder = 6
         end
         object CurrencyEdit36: TCurrencyEdit
-          Left = 98
+          Left = 107
           Top = 71
           Width = 65
           Height = 18
           AutoSize = False
           DisplayFormat = ' ,00.0000;- ,00.0000'
+          Enabled = False
           TabOrder = 7
           OnChange = ed_p1Change
         end
       end
-      object GroupBox25: TGroupBox
-        Left = 195
+      object gb_wp10: TGroupBox
+        Left = 188
         Top = 477
-        Width = 170
+        Width = 180
         Height = 118
         Caption = ' WP 10 '
         Font.Charset = DEFAULT_CHARSET
@@ -4808,7 +5022,8 @@ object FPpal: TFPpal
           ParentShowHint = False
           ShowHint = True
         end
-        object SpeedButton29: TSpeedButton
+        object bt_setwp10: TSpeedButton
+          Tag = 9
           Left = 9
           Top = 94
           Width = 70
@@ -4829,10 +5044,11 @@ object FPpal: TFPpal
             33333333333737F333333333333C943333333333333737333333333333339733
             3333333333337F33333333333333933333333333333373333333}
           NumGlyphs = 2
-          OnClick = bt_up1Click
+          OnClick = bt_setwp1Click
         end
-        object SpeedButton30: TSpeedButton
-          Left = 91
+        object bt_getwp10: TSpeedButton
+          Tag = 9
+          Left = 102
           Top = 94
           Width = 70
           Height = 20
@@ -4852,40 +5068,61 @@ object FPpal: TFPpal
             443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
             444377733337F333777FC3333339333337437333333733333373}
           NumGlyphs = 2
-          OnClick = bt_down1Click
+          OnClick = bt_getwp1Click
         end
         object ed_lat10: TCurrencyEdit
           Left = 29
           Top = 17
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 0
           OnChange = ed_p1Change
         end
         object ed_lon10: TCurrencyEdit
           Left = 29
           Top = 33
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 1
           OnChange = ed_p1Change
         end
         object ed_hei10: TCurrencyEdit
           Left = 29
           Top = 49
-          Width = 65
+          Width = 77
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 7
+          DisplayFormat = ' ,00.00000000;-,00.00000000'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 2
           OnChange = ed_p1Change
         end
-        object StaticText28: TStaticText
-          Left = 97
+        object et_lat10: TStaticText
+          Left = 108
           Top = 17
           Width = 67
           Height = 18
@@ -4903,8 +5140,8 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 3
         end
-        object StaticText29: TStaticText
-          Left = 97
+        object et_lon10: TStaticText
+          Left = 108
           Top = 33
           Width = 67
           Height = 18
@@ -4922,8 +5159,8 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 4
         end
-        object StaticText30: TStaticText
-          Left = 97
+        object et_hei10: TStaticText
+          Left = 108
           Top = 49
           Width = 67
           Height = 18
@@ -4941,7 +5178,7 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 5
         end
-        object CheckBox10: TCheckBox
+        object cb_stat10: TCheckBox
           Left = 8
           Top = 72
           Width = 80
@@ -4950,12 +5187,13 @@ object FPpal: TFPpal
           TabOrder = 6
         end
         object CurrencyEdit40: TCurrencyEdit
-          Left = 98
+          Left = 109
           Top = 71
           Width = 65
           Height = 18
           AutoSize = False
           DisplayFormat = ' ,00.0000;- ,00.0000'
+          Enabled = False
           TabOrder = 7
           OnChange = ed_p1Change
         end

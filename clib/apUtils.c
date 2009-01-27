@@ -299,6 +299,10 @@ void updateStates(unsigned char * completeSentence){
 			decodeCalSentence(1,completeSentence[4], &completeSentence[5],1);
 		break;
 		
+		case WPSMSG_ID:
+			decodeCalSentence(2,completeSentence[4], &completeSentence[5],1);
+		break;
+		
 		case QUEMSG_ID: // Query the Status of a particular configuration value
 			queControlData.pendingRequest 	= 1;
 			queControlData.idReq 			= completeSentence[4];
@@ -327,6 +331,9 @@ void assembleRawSentence (unsigned char id, unsigned char indx, unsigned char * 
 			data[11] = pidControlData.D[indx].chData[1];
 			data[12] = pidControlData.D[indx].chData[2];
 			data[13] = pidControlData.D[indx].chData[3];
+			data[14] = 0;
+			data[15] = 0;
+			data[16] = 0;
 		break;
 		
 		// TODO: Include report for Limits and Calibration
@@ -381,7 +388,52 @@ void decodeCalSentence (unsigned char id, unsigned char indx, unsigned char * da
 
 			}
 		break;
-		
+		// decodeCalSentence(2,completeSentence[4], &completeSentence[5],1);
+		case 2: //WP Values
+			wpsControlData.lat[indx].chData[0]=	data[0]	;
+			wpsControlData.lat[indx].chData[1]=	data[1]	;
+			wpsControlData.lat[indx].chData[2]=	data[2]	;
+			wpsControlData.lat[indx].chData[3]=	data[3]	;
+			wpsControlData.lon[indx].chData[0]=	data[4]	;
+			wpsControlData.lon[indx].chData[1]=	data[5]	;
+			wpsControlData.lon[indx].chData[2]=	data[6]	;
+			wpsControlData.lon[indx].chData[3]=	data[7]	;
+			wpsControlData.hei[indx].chData[0]=	data[8];
+			wpsControlData.hei[indx].chData[1]=	data[9];
+			wpsControlData.hei[indx].chData[2]=	data[10];
+			wpsControlData.hei[indx].chData[3]=	data[11];
+			wpsControlData.typ[indx] 		  = data[12];
+			wpsControlData.val[indx].shData[0]= data[13];
+			wpsControlData.val[indx].shData[1]= data[14];
+			
+			if (inBoard){
+				
+                #ifndef __BORLANDC__
+				// Compute the adecuate index offset
+				indexOffset = indx*8;
+				
+				// Save the data to the EEPROM
+				writeSuccess += DataEEWrite(wpsControlData.lat[indx].shData[0], WPS_OFFSET+indexOffset);
+				writeSuccess += DataEEWrite(wpsControlData.lat[indx].shData[1], WPS_OFFSET+indexOffset+1);
+				writeSuccess += DataEEWrite(wpsControlData.lon[indx].shData[0], WPS_OFFSET+indexOffset+2);
+				writeSuccess += DataEEWrite(wpsControlData.lon[indx].shData[1], WPS_OFFSET+indexOffset+3);
+				writeSuccess += DataEEWrite(wpsControlData.hei[indx].shData[0], WPS_OFFSET+indexOffset+4);
+				writeSuccess += DataEEWrite(wpsControlData.hei[indx].shData[1], WPS_OFFSET+indexOffset+5);
+				writeSuccess += DataEEWrite((unsigned short)wpsControlData.typ[indx], WPS_OFFSET+indexOffset+6);
+				writeSuccess += DataEEWrite(wpsControlData.val[indx].shData, WPS_OFFSET+indexOffset+7);
+				
+				// Set the flag of Aknowledge for the AKN Message
+				// if the write was successful
+				if (writeSuccess==0){
+					aknControlData.WP = indx+1;	
+				} else{
+					aknControlData.WP = 12;	
+				}
+
+				#endif
+
+			}
+		break;
 		// TODO: Include report for Limits and Calibration
 		
 		default:
