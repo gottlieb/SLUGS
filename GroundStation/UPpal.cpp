@@ -50,7 +50,7 @@ void __fastcall TFPpal::FormShow(TObject *Sender)
 
   cb_inflightClick(NULL);
 
-  bt_serialClick(NULL);
+  //bt_serialClick(NULL);
 }
 //---------------------------------------------------------------------------
 
@@ -150,6 +150,41 @@ void __fastcall TFPpal::FormCreate(TObject *Sender)
  EtDGains[7] = et_d8;
  EtDGains[8] = et_d9;
  EtDGains[9] = et_d10;
+
+ // WP Arrays
+ // =========
+ latVals[0] = ed_lat1;
+ latVals[1] = ed_lat2;
+ latVals[2] = ed_lat3;
+ latVals[3] = ed_lat4;
+ latVals[4] = ed_lat5;
+ latVals[5] = ed_lat6;
+ latVals[6] = ed_lat7;
+ latVals[7] = ed_lat8;
+ latVals[8] = ed_lat9;
+ latVals[9] = ed_lat10;
+
+ lonVals[0] = ed_lon1;
+ lonVals[1] = ed_lon2;
+ lonVals[2] = ed_lon3;
+ lonVals[3] = ed_lon4;
+ lonVals[4] = ed_lon5;
+ lonVals[5] = ed_lon6;
+ lonVals[6] = ed_lon7;
+ lonVals[7] = ed_lon8;
+ lonVals[8] = ed_lon9;
+ lonVals[9] = ed_lon10;
+
+ heiVals[0] = ed_hei1;
+ heiVals[1] = ed_hei2;
+ heiVals[2] = ed_hei3;
+ heiVals[3] = ed_hei4;
+ heiVals[4] = ed_hei5;
+ heiVals[5] = ed_hei6;
+ heiVals[6] = ed_hei7;
+ heiVals[7] = ed_hei8;
+ heiVals[8] = ed_hei9;
+ heiVals[9] = ed_hei10;
 
 }
 //---------------------------------------------------------------------------
@@ -1414,6 +1449,106 @@ void __fastcall TFPpal::Timer3Timer(TObject *Sender)
      break;
   }
   pidRequestQueue++;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::SpeedButton33Click(TObject *Sender)
+{
+TiXmlDocument doc(tb_configwaypointFile->AsString.c_str());
+TiXmlHandle hDoc (&doc);
+TiXmlElement* root;
+TiXmlElement* pElem;
+TiXmlHandle hRoot(0);
+char coordVals [1000];
+char* pch;
+unsigned char i;
+
+
+
+  // if loading the file succeeds
+  if( doc.LoadFile()){
+     // get the Root node (<kml>)
+     root= hDoc.FirstChildElement().Element();
+     mm_diagnose->Lines->Add(root->Value());
+     hRoot = TiXmlHandle(root);
+
+     // get the Document node
+     pElem = hRoot.FirstChild().Element();
+     mm_diagnose->Lines->Add(pElem->Value());
+
+     // Get the children of Document
+     hRoot = TiXmlHandle(pElem);
+     pElem = hRoot.FirstChild().Element();
+     mm_diagnose->Lines->Add(pElem->Value());
+
+
+     while (strcmp(pElem->Value(), "Placemark") != 0 ){
+       pElem = pElem->NextSiblingElement();
+       mm_diagnose->Lines->Add(pElem->Value());
+       // TODO: Add validation in case placemark is never found
+     }
+
+     // Placemark node has been found
+     hRoot = TiXmlHandle(pElem);
+
+     // Now find the LineString node
+     pElem = hRoot.FirstChild().Element();
+     mm_diagnose->Lines->Add(pElem->Value());
+
+
+     while (strcmp(pElem->Value(), "LineString") != 0 ){
+       pElem = pElem->NextSiblingElement();
+       mm_diagnose->Lines->Add(pElem->Value());
+       // TODO: Add validation in case placemark is never found
+     }
+
+     // LineString node has been found
+     hRoot = TiXmlHandle(pElem);
+
+     // Now find the coordinates node
+     pElem = hRoot.FirstChild().Element();
+     mm_diagnose->Lines->Add(pElem->Value());
+
+
+     while (strcmp(pElem->Value(), "coordinates") != 0 ){
+       pElem = pElem->NextSiblingElement();
+       mm_diagnose->Lines->Add(pElem->Value());
+       // TODO: Add validation in case placemark is never found
+     }
+
+     // Get the actual coordinates
+     mm_diagnose->Lines->Add(pElem->GetText());
+
+     strcpy((char *)&coordVals,pElem->GetText());
+
+     pch = strtok((char *)&coordVals, ", ");
+     mm_diagnose->Lines->Add("==============");
+     mm_diagnose->Lines->Add(pch);
+
+     //memset(&coordinate, '\0', sizeof(coordinate));
+     i = 0;
+     
+     while (pch != NULL || i > 9)
+     {
+       lonVals[i]->Value = atof(pch);
+       pch = strtok (NULL, ", ");
+       mm_diagnose->Lines->Add(pch);
+
+       latVals[i]->Value = atof(pch);
+       pch = strtok (NULL, ", ");
+       mm_diagnose->Lines->Add(pch);
+
+       heiVals[i]->Value = atof(pch);
+       pch = strtok (NULL, ", ");
+       mm_diagnose->Lines->Add(pch);
+
+       i++;
+     }
+
+  }
+  else {
+    ShowMessage("WayPoint File Not Found");
+  }
 }
 //---------------------------------------------------------------------------
 
