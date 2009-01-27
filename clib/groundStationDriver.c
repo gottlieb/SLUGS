@@ -676,6 +676,7 @@ void prepareTelemetry( unsigned char* dataOut){
 		
 		case 7:
 			if (queControlData.pendingRequest){
+				
 				assembleRawSentence (queControlData.idReq, queControlData.indxReq, &rawSentence[0]);
 
 				// assemble the protocol message

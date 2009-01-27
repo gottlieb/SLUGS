@@ -186,6 +186,64 @@ void __fastcall TFPpal::FormCreate(TObject *Sender)
  heiVals[8] = ed_hei9;
  heiVals[9] = ed_hei10;
 
+ 
+ boxWP[0] = gb_wp1;
+ boxWP[1] = gb_wp2;
+ boxWP[2] = gb_wp3;
+ boxWP[3] = gb_wp4;
+ boxWP[4] = gb_wp5;
+ boxWP[5] = gb_wp6;
+ boxWP[6] = gb_wp7;
+ boxWP[7] = gb_wp8;
+ boxWP[8] = gb_wp9;
+ boxWP[9] = gb_wp10;
+
+ etLatVals[0] = et_lat1;
+ etLatVals[1] = et_lat2;
+ etLatVals[2] = et_lat3;
+ etLatVals[3] = et_lat4;
+ etLatVals[4] = et_lat5;
+ etLatVals[5] = et_lat6;
+ etLatVals[6] = et_lat7;
+ etLatVals[7] = et_lat8;
+ etLatVals[8] = et_lat9;
+ etLatVals[9] = et_lat10;
+
+ etLonVals[0] = et_lon1;
+ etLonVals[1] = et_lon2;
+ etLonVals[2] = et_lon3;
+ etLonVals[3] = et_lon4;
+ etLonVals[4] = et_lon5;
+ etLonVals[5] = et_lon6;
+ etLonVals[6] = et_lon7;
+ etLonVals[7] = et_lon8;
+ etLonVals[8] = et_lon9;
+ etLonVals[9] = et_lon10;
+
+ etHeiVals[0] = et_hei1;
+ etHeiVals[1] = et_hei2;
+ etHeiVals[2] = et_hei3;
+ etHeiVals[3] = et_hei4;
+ etHeiVals[4] = et_hei5;
+ etHeiVals[5] = et_hei6;
+ etHeiVals[6] = et_hei7;
+ etHeiVals[7] = et_hei8;
+ etHeiVals[8] = et_hei9;
+ etHeiVals[9] = et_hei10;
+
+ cbStat[0] = cb_stat1;
+ cbStat[1] = cb_stat2;
+ cbStat[2] = cb_stat3;
+ cbStat[3] = cb_stat4;
+ cbStat[4] = cb_stat5;
+ cbStat[5] = cb_stat6;
+ cbStat[6] = cb_stat7;
+ cbStat[7] = cb_stat8;
+ cbStat[8] = cb_stat9;
+ cbStat[9] = cb_stat10;
+
+
+
 }
 //---------------------------------------------------------------------------
 
@@ -1344,7 +1402,6 @@ void __fastcall TFPpal::et_warningDblClick(TObject *Sender)
 
 void __fastcall TFPpal::bt_up1Click(TObject *Sender)
 {
- // 32 64 205 1 1 42 64 141
 
  unsigned char filtMsg[25];
  unsigned char rawMsg[13], indx;
@@ -1357,7 +1414,7 @@ void __fastcall TFPpal::bt_up1Click(TObject *Sender)
  I.flData =  (float)IGains[indx]->Value;
  D.flData =  (float)DGains[indx]->Value;
 
- rawMsg[0]    =    indx; 
+ rawMsg[0]    =    indx;
  rawMsg[1]    =    P.chData[0];
  rawMsg[2]    =    P.chData[1];
  rawMsg[3]    =    P.chData[2];
@@ -1446,6 +1503,10 @@ void __fastcall TFPpal::Timer3Timer(TObject *Sender)
           bt_down1Click(bt_down10);
           Timer3->Enabled = false;
           bt_allpid->Enabled = true;
+     break;
+     case 10:
+          Timer3->Enabled = false;
+          bt_allwp->Enabled = true;
      break;
   }
   pidRequestQueue++;
@@ -1549,6 +1610,57 @@ unsigned char i;
   else {
     ShowMessage("WayPoint File Not Found");
   }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::bt_allwpClick(TObject *Sender)
+{
+  pidRequestQueue = 10;
+  Timer3->Enabled = true;
+  bt_allwp->Enabled = false;
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TFPpal::bt_setwp1Click(TObject *Sender)
+{
+/*
+
+ unsigned char filtMsg[25];
+ unsigned char rawMsg[13], indx;
+ tFloatToChar P, I, D;
+
+ indx = ((TComponent*)Sender)->Tag;
+
+ // Collect the values
+ P.flData =  (float)PGains[indx]->Value;
+ I.flData =  (float)IGains[indx]->Value;
+ D.flData =  (float)DGains[indx]->Value;
+
+ rawMsg[0]    =    indx;
+ rawMsg[1]    =    P.chData[0];
+ rawMsg[2]    =    P.chData[1];
+ rawMsg[3]    =    P.chData[2];
+ rawMsg[4]    =    P.chData[3];
+ rawMsg[5]    =    I.chData[0];
+ rawMsg[6]    =    I.chData[1];
+ rawMsg[7]    =    I.chData[2];
+ rawMsg[8]    =    I.chData[3];
+ rawMsg[9]    =    D.chData[0];
+ rawMsg[10]    =   D.chData[1];
+ rawMsg[11]   =    D.chData[2];
+ rawMsg[12]   =    D.chData[3];
+
+ assembleMsg(&rawMsg[0],PIDMSG_LEN,PIDMSG_ID,&filtMsg[0]);
+
+ cp_serial->PutBlock(&filtMsg[0],(PIDMSG_LEN+7));
+*/
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::bt_getwp1Click(TObject *Sender)
+{
+// test
 }
 //---------------------------------------------------------------------------
 

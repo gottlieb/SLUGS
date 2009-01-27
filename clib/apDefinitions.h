@@ -109,7 +109,7 @@ and data types.
 #define PWMMSG_LEN		20 
 
 #define CALMSG_ID		102
-#define CALMSG_LEN		14
+#define CALMSG_LEN		17
 
 
 // GROUND STATION
@@ -127,10 +127,14 @@ and data types.
 #define QUEMSG_ID		204
 #define QUEMSG_LEN		10
 
+#define WPSMSG_ID		201
+#define WPSMSG_LEN		16
+
 
 // EEPROM Emulation Address Offsets
 // ================================
-#define PID_OFFSET		51
+#define PID_OFFSET		0
+#define WPS_OFFSET		60
 
 // Communication Protocol Merging Offsets
 // ======================================
