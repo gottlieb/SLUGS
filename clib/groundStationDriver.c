@@ -641,7 +641,7 @@ void prepareTelemetry( unsigned char* dataOut){
 			
 			// if one of the aknowledge flags are turned on
 			// then the AKN message needs to be sent
-			if (aknControlData.WP || aknControlData.csCal || (aknControlData.pidCal > 0)
+			if (aknControlData.WP>0 || aknControlData.csCal || (aknControlData.pidCal > 0)
 				 || aknControlData.csLimits || aknControlData.filOnOff
 				 || aknControlData.reboot){
 				// clear the buffer for next sentence

@@ -336,6 +336,26 @@ void assembleRawSentence (unsigned char id, unsigned char indx, unsigned char * 
 			data[16] = 0;
 		break;
 		
+		case 2: //WayPoint Values
+			data[0]	 = id;
+			data[1]	 = indx;
+			data[2]	 = wpsControlData.lat[indx].chData[0];
+			data[3]	 = wpsControlData.lat[indx].chData[1];
+			data[4]	 = wpsControlData.lat[indx].chData[2];
+			data[5]	 = wpsControlData.lat[indx].chData[3];
+			data[6]	 = wpsControlData.lon[indx].chData[0];
+			data[7]	 = wpsControlData.lon[indx].chData[1];
+			data[8]	 = wpsControlData.lon[indx].chData[2];
+			data[9]	 = wpsControlData.lon[indx].chData[3];
+			data[10] = wpsControlData.hei[indx].chData[0];
+			data[11] = wpsControlData.hei[indx].chData[1];
+			data[12] = wpsControlData.hei[indx].chData[2];
+			data[13] = wpsControlData.hei[indx].chData[3];
+			data[14] = wpsControlData.typ[indx];
+			data[15] = wpsControlData.val[indx].chData[0];
+			data[16] = wpsControlData.val[indx].chData[1];
+		break;
+		
 		// TODO: Include report for Limits and Calibration
 		
 		default:
