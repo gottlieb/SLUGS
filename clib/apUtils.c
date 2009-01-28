@@ -423,8 +423,8 @@ void decodeCalSentence (unsigned char id, unsigned char indx, unsigned char * da
 			wpsControlData.hei[indx].chData[2]=	data[10];
 			wpsControlData.hei[indx].chData[3]=	data[11];
 			wpsControlData.typ[indx] 		  = data[12];
-			wpsControlData.val[indx].shData[0]= data[13];
-			wpsControlData.val[indx].shData[1]= data[14];
+			wpsControlData.val[indx].chData[0]= data[13];
+			wpsControlData.val[indx].chData[1]= data[14];
 			
 			if (inBoard){
 				
@@ -433,21 +433,21 @@ void decodeCalSentence (unsigned char id, unsigned char indx, unsigned char * da
 				indexOffset = indx*8;
 				
 				// Save the data to the EEPROM
-				writeSuccess += DataEEWrite(wpsControlData.lat[indx].shData[0], WPS_OFFSET+indexOffset);
-				writeSuccess += DataEEWrite(wpsControlData.lat[indx].shData[1], WPS_OFFSET+indexOffset+1);
-				writeSuccess += DataEEWrite(wpsControlData.lon[indx].shData[0], WPS_OFFSET+indexOffset+2);
-				writeSuccess += DataEEWrite(wpsControlData.lon[indx].shData[1], WPS_OFFSET+indexOffset+3);
-				writeSuccess += DataEEWrite(wpsControlData.hei[indx].shData[0], WPS_OFFSET+indexOffset+4);
-				writeSuccess += DataEEWrite(wpsControlData.hei[indx].shData[1], WPS_OFFSET+indexOffset+5);
+				writeSuccess += DataEEWrite(wpsControlData.lat[indx].shData[0], WPS_OFFSET+indexOffset);   
+				writeSuccess += DataEEWrite(wpsControlData.lat[indx].shData[1], WPS_OFFSET+indexOffset+1);      
+				writeSuccess += DataEEWrite(wpsControlData.lon[indx].shData[0], WPS_OFFSET+indexOffset+2);      
+				writeSuccess += DataEEWrite(wpsControlData.lon[indx].shData[1], WPS_OFFSET+indexOffset+3);       
+				writeSuccess += DataEEWrite(wpsControlData.hei[indx].shData[0], WPS_OFFSET+indexOffset+4);      
+				writeSuccess += DataEEWrite(wpsControlData.hei[indx].shData[1], WPS_OFFSET+indexOffset+5);      
 				writeSuccess += DataEEWrite((unsigned short)wpsControlData.typ[indx], WPS_OFFSET+indexOffset+6);
-				writeSuccess += DataEEWrite(wpsControlData.val[indx].shData, WPS_OFFSET+indexOffset+7);
+				writeSuccess += DataEEWrite(wpsControlData.val[indx].shData, WPS_OFFSET+indexOffset+7);          
 				
 				// Set the flag of Aknowledge for the AKN Message
 				// if the write was successful
 				if (writeSuccess==0){
 					aknControlData.WP = indx+1;	
 				} else{
-					aknControlData.WP = 12;	
+					aknControlData.WP = 21;	
 				}
 
 				#endif

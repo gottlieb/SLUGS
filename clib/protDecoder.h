@@ -54,6 +54,7 @@ void protParserInit (void);
     void setAknFilter (unsigned char value);
     void setAknPidCal (unsigned char value);
     void setAknReboot (unsigned char value);
+    void setAknWpCal (unsigned char value);
     tPWMData getPWMStruct (void);
     tPIDData getPidStruct (void);
     tWPData  getWPStruct (void);

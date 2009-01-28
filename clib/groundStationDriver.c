@@ -153,9 +153,9 @@ void controlMCUInit(void){
 	// Initialize EEPROM emulator
 	EEPInit();
 	
-	// Load PID Data from EEPROM if the initialization worked
+	// Load Data from EEPROM if the initialization worked
 	if (aknControlData.pidCal==0){
-	   loadPIDData();	
+	   loadEEPData();
 	}
 	
 }
@@ -173,7 +173,7 @@ void EEPInit(void){
 	}
 }
 
-void loadPIDData(void){
+void loadEEPData(void){
 	unsigned char i;
 	
 	for(  i = 0; i < 10; i++ )
@@ -184,7 +184,27 @@ void loadPIDData(void){
 		pidControlData.I[i].shData[1]= DataEERead(PID_OFFSET+i*6+3);
 		pidControlData.D[i].shData[0]= DataEERead(PID_OFFSET+i*6+4);
 		pidControlData.D[i].shData[1]= DataEERead(PID_OFFSET+i*6+5);
+		
+		wpsControlData.lat[i].shData[0]= DataEERead(WPS_OFFSET+i*8);   
+		wpsControlData.lat[i].shData[1]= DataEERead(WPS_OFFSET+i*8+1);      
+		wpsControlData.lon[i].shData[0]= DataEERead(WPS_OFFSET+i*8+2);      
+		wpsControlData.lon[i].shData[1]= DataEERead(WPS_OFFSET+i*8+3);      
+		wpsControlData.hei[i].shData[0]= DataEERead(WPS_OFFSET+i*8+4);      
+		wpsControlData.hei[i].shData[1]= DataEERead(WPS_OFFSET+i*8+5);      
+		wpsControlData.typ[i]		  = (unsigned char)DataEERead(WPS_OFFSET+i*8+6);
+		wpsControlData.val[i].shData   = DataEERead(WPS_OFFSET+i*8+7);         	
 	}
+	// load WP 11 that contains the GS location
+	i = 10;
+	wpsControlData.lat[i].shData[0]= DataEERead(WPS_OFFSET+i*8);   
+	wpsControlData.lat[i].shData[1]= DataEERead(WPS_OFFSET+i*8+1);      
+	wpsControlData.lon[i].shData[0]= DataEERead(WPS_OFFSET+i*8+2);      
+	wpsControlData.lon[i].shData[1]= DataEERead(WPS_OFFSET+i*8+3);      
+	wpsControlData.hei[i].shData[0]= DataEERead(WPS_OFFSET+i*8+4);      
+	wpsControlData.hei[i].shData[1]= DataEERead(WPS_OFFSET+i*8+5);      
+	wpsControlData.typ[i]		  = (unsigned char)DataEERead(WPS_OFFSET+i*8+6);
+	wpsControlData.val[i].shData   = DataEERead(WPS_OFFSET+i*8+7);         	
+
 }
 
 void gsRead(unsigned char* gsChunk){

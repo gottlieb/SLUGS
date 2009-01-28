@@ -2717,7 +2717,7 @@ object FPpal: TFPpal
         NumGlyphs = 2
         OnClick = SpeedButton33Click
       end
-      object SpeedButton34: TSpeedButton
+      object bt_sendwps: TSpeedButton
         Left = 250
         Top = 600
         Width = 112
@@ -2738,7 +2738,7 @@ object FPpal: TFPpal
           3333777777777777333333399033333333333337773333333333333903333333
           3333333773333333333333303333333333333337333333333333}
         NumGlyphs = 2
-        OnClick = bt_allpidClick
+        OnClick = bt_sendwpsClick
       end
       object gb_wp1: TGroupBox
         Left = 3
@@ -2871,7 +2871,7 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 0
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object ed_lon1: TCurrencyEdit
           Left = 29
@@ -2888,7 +2888,7 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 1
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object ed_hei1: TCurrencyEdit
           Left = 29
@@ -2905,7 +2905,7 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 2
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object et_lat1: TStaticText
           Left = 108
@@ -2971,17 +2971,19 @@ object FPpal: TFPpal
           Height = 17
           Caption = 'Stationary'
           TabOrder = 6
+          OnClick = cb_stat1Click
         end
-        object CurrencyEdit4: TCurrencyEdit
+        object ed_val1: TCurrencyEdit
           Left = 109
           Top = 71
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 0
+          DisplayFormat = ' ,00;- ,00'
           Enabled = False
           TabOrder = 7
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
       end
       object gb_wp2: TGroupBox
@@ -3103,6 +3105,7 @@ object FPpal: TFPpal
           OnClick = bt_getwp1Click
         end
         object ed_lat2: TCurrencyEdit
+          Tag = 1
           Left = 29
           Top = 17
           Width = 77
@@ -3117,9 +3120,10 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 0
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object ed_lon2: TCurrencyEdit
+          Tag = 1
           Left = 29
           Top = 33
           Width = 77
@@ -3134,9 +3138,10 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 1
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object ed_hei2: TCurrencyEdit
+          Tag = 1
           Left = 29
           Top = 49
           Width = 77
@@ -3151,7 +3156,7 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 2
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object et_lat2: TStaticText
           Left = 108
@@ -3211,23 +3216,27 @@ object FPpal: TFPpal
           TabOrder = 5
         end
         object cb_stat2: TCheckBox
+          Tag = 1
           Left = 8
           Top = 72
           Width = 80
           Height = 17
           Caption = 'Stationary'
           TabOrder = 6
+          OnClick = cb_stat1Click
         end
-        object CurrencyEdit8: TCurrencyEdit
+        object ed_val2: TCurrencyEdit
+          Tag = 1
           Left = 109
           Top = 71
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 0
+          DisplayFormat = ' ,00;- ,00'
           Enabled = False
           TabOrder = 7
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
       end
       object gb_wp3: TGroupBox
@@ -3349,6 +3358,7 @@ object FPpal: TFPpal
           OnClick = bt_getwp1Click
         end
         object ed_lat3: TCurrencyEdit
+          Tag = 2
           Left = 29
           Top = 17
           Width = 77
@@ -3363,9 +3373,10 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 0
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object ed_lon3: TCurrencyEdit
+          Tag = 2
           Left = 29
           Top = 33
           Width = 77
@@ -3380,9 +3391,10 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 1
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object ed_hei3: TCurrencyEdit
+          Tag = 2
           Left = 29
           Top = 49
           Width = 77
@@ -3397,7 +3409,7 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 2
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object et_lat3: TStaticText
           Left = 108
@@ -3457,23 +3469,27 @@ object FPpal: TFPpal
           TabOrder = 5
         end
         object cb_stat3: TCheckBox
+          Tag = 2
           Left = 8
           Top = 72
           Width = 80
           Height = 17
           Caption = 'Stationary'
           TabOrder = 6
+          OnClick = cb_stat1Click
         end
-        object CurrencyEdit12: TCurrencyEdit
+        object ed_val3: TCurrencyEdit
+          Tag = 2
           Left = 109
           Top = 71
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 0
+          DisplayFormat = ' ,00;- ,00'
           Enabled = False
           TabOrder = 7
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
       end
       object gb_wp4: TGroupBox
@@ -3595,6 +3611,7 @@ object FPpal: TFPpal
           OnClick = bt_getwp1Click
         end
         object ed_lat4: TCurrencyEdit
+          Tag = 3
           Left = 29
           Top = 17
           Width = 77
@@ -3609,9 +3626,10 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 0
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object ed_lon4: TCurrencyEdit
+          Tag = 3
           Left = 29
           Top = 33
           Width = 77
@@ -3626,9 +3644,10 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 1
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object ed_hei4: TCurrencyEdit
+          Tag = 3
           Left = 29
           Top = 49
           Width = 77
@@ -3643,7 +3662,7 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 2
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object et_lat4: TStaticText
           Left = 107
@@ -3703,23 +3722,27 @@ object FPpal: TFPpal
           TabOrder = 5
         end
         object cb_stat4: TCheckBox
+          Tag = 3
           Left = 8
           Top = 72
           Width = 80
           Height = 17
           Caption = 'Stationary'
           TabOrder = 6
+          OnClick = cb_stat1Click
         end
-        object CurrencyEdit16: TCurrencyEdit
+        object ed_val4: TCurrencyEdit
+          Tag = 3
           Left = 108
           Top = 71
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 0
+          DisplayFormat = ' ,00;- ,00'
           Enabled = False
           TabOrder = 7
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
       end
       object gb_wp5: TGroupBox
@@ -3841,6 +3864,7 @@ object FPpal: TFPpal
           OnClick = bt_getwp1Click
         end
         object ed_lat5: TCurrencyEdit
+          Tag = 4
           Left = 29
           Top = 17
           Width = 77
@@ -3855,9 +3879,10 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 0
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object ed_lon5: TCurrencyEdit
+          Tag = 4
           Left = 29
           Top = 33
           Width = 77
@@ -3872,9 +3897,10 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 1
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object ed_hei5: TCurrencyEdit
+          Tag = 4
           Left = 29
           Top = 49
           Width = 77
@@ -3889,7 +3915,7 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 2
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object et_lat5: TStaticText
           Left = 107
@@ -3949,23 +3975,27 @@ object FPpal: TFPpal
           TabOrder = 5
         end
         object cb_stat5: TCheckBox
+          Tag = 4
           Left = 8
           Top = 72
           Width = 80
           Height = 17
           Caption = 'Stationary'
           TabOrder = 6
+          OnClick = cb_stat1Click
         end
-        object CurrencyEdit20: TCurrencyEdit
+        object ed_val5: TCurrencyEdit
+          Tag = 4
           Left = 108
           Top = 71
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 0
+          DisplayFormat = ' ,00;- ,00'
           Enabled = False
           TabOrder = 7
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
       end
       object gb_wp6: TGroupBox
@@ -4087,6 +4117,7 @@ object FPpal: TFPpal
           OnClick = bt_getwp1Click
         end
         object ed_lat6: TCurrencyEdit
+          Tag = 5
           Left = 29
           Top = 17
           Width = 77
@@ -4101,9 +4132,10 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 0
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object ed_lon6: TCurrencyEdit
+          Tag = 5
           Left = 29
           Top = 33
           Width = 77
@@ -4118,9 +4150,10 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 1
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object ed_hei6: TCurrencyEdit
+          Tag = 5
           Left = 29
           Top = 49
           Width = 77
@@ -4135,7 +4168,7 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 2
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object et_lat6: TStaticText
           Left = 108
@@ -4195,23 +4228,27 @@ object FPpal: TFPpal
           TabOrder = 5
         end
         object cb_stat6: TCheckBox
+          Tag = 5
           Left = 8
           Top = 72
           Width = 80
           Height = 17
           Caption = 'Stationary'
           TabOrder = 6
+          OnClick = cb_stat1Click
         end
-        object CurrencyEdit24: TCurrencyEdit
+        object ed_val6: TCurrencyEdit
+          Tag = 5
           Left = 109
           Top = 71
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 0
+          DisplayFormat = ' ,00;- ,00'
           Enabled = False
           TabOrder = 7
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
       end
       object gb_wp7: TGroupBox
@@ -4333,6 +4370,7 @@ object FPpal: TFPpal
           OnClick = bt_getwp1Click
         end
         object ed_lat7: TCurrencyEdit
+          Tag = 6
           Left = 29
           Top = 17
           Width = 77
@@ -4347,9 +4385,10 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 0
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object ed_lon7: TCurrencyEdit
+          Tag = 6
           Left = 29
           Top = 33
           Width = 77
@@ -4364,9 +4403,10 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 1
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object ed_hei7: TCurrencyEdit
+          Tag = 6
           Left = 29
           Top = 49
           Width = 77
@@ -4381,7 +4421,7 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 2
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object et_lat7: TStaticText
           Left = 108
@@ -4441,23 +4481,27 @@ object FPpal: TFPpal
           TabOrder = 5
         end
         object cb_stat7: TCheckBox
+          Tag = 6
           Left = 8
           Top = 72
           Width = 80
           Height = 17
           Caption = 'Stationary'
           TabOrder = 6
+          OnClick = cb_stat1Click
         end
-        object CurrencyEdit28: TCurrencyEdit
+        object ed_val7: TCurrencyEdit
+          Tag = 6
           Left = 109
           Top = 71
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 0
+          DisplayFormat = ' ,00;- ,00'
           Enabled = False
           TabOrder = 7
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
       end
       object gb_wp8: TGroupBox
@@ -4579,6 +4623,7 @@ object FPpal: TFPpal
           OnClick = bt_getwp1Click
         end
         object ed_lat8: TCurrencyEdit
+          Tag = 7
           Left = 29
           Top = 17
           Width = 77
@@ -4593,9 +4638,10 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 0
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object ed_lon8: TCurrencyEdit
+          Tag = 7
           Left = 29
           Top = 33
           Width = 77
@@ -4610,9 +4656,10 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 1
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object ed_hei8: TCurrencyEdit
+          Tag = 7
           Left = 29
           Top = 49
           Width = 77
@@ -4627,7 +4674,7 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 2
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object et_lat8: TStaticText
           Left = 108
@@ -4687,23 +4734,27 @@ object FPpal: TFPpal
           TabOrder = 5
         end
         object cb_stat8: TCheckBox
+          Tag = 7
           Left = 8
           Top = 72
           Width = 80
           Height = 17
           Caption = 'Stationary'
           TabOrder = 6
+          OnClick = cb_stat1Click
         end
-        object CurrencyEdit32: TCurrencyEdit
+        object ed_val8: TCurrencyEdit
+          Tag = 7
           Left = 109
           Top = 71
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 0
+          DisplayFormat = ' ,00;- ,00'
           Enabled = False
           TabOrder = 7
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
       end
       object gb_wp9: TGroupBox
@@ -4825,6 +4876,7 @@ object FPpal: TFPpal
           OnClick = bt_getwp1Click
         end
         object ed_lat9: TCurrencyEdit
+          Tag = 8
           Left = 29
           Top = 17
           Width = 77
@@ -4839,9 +4891,10 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 0
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object ed_lon9: TCurrencyEdit
+          Tag = 8
           Left = 29
           Top = 33
           Width = 77
@@ -4856,9 +4909,10 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 1
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object ed_hei9: TCurrencyEdit
+          Tag = 8
           Left = 29
           Top = 49
           Width = 77
@@ -4873,7 +4927,7 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 2
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object et_lat9: TStaticText
           Left = 106
@@ -4933,23 +4987,27 @@ object FPpal: TFPpal
           TabOrder = 5
         end
         object cb_stat9: TCheckBox
+          Tag = 8
           Left = 8
           Top = 72
           Width = 80
           Height = 17
           Caption = 'Stationary'
           TabOrder = 6
+          OnClick = cb_stat1Click
         end
-        object CurrencyEdit36: TCurrencyEdit
+        object ed_val9: TCurrencyEdit
+          Tag = 8
           Left = 107
           Top = 71
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 0
+          DisplayFormat = ' ,00;- ,00'
           Enabled = False
           TabOrder = 7
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
       end
       object gb_wp10: TGroupBox
@@ -5071,6 +5129,7 @@ object FPpal: TFPpal
           OnClick = bt_getwp1Click
         end
         object ed_lat10: TCurrencyEdit
+          Tag = 9
           Left = 29
           Top = 17
           Width = 77
@@ -5085,9 +5144,10 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 0
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object ed_lon10: TCurrencyEdit
+          Tag = 9
           Left = 29
           Top = 33
           Width = 77
@@ -5102,9 +5162,10 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 1
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object ed_hei10: TCurrencyEdit
+          Tag = 9
           Left = 29
           Top = 49
           Width = 77
@@ -5119,7 +5180,7 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 2
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
         object et_lat10: TStaticText
           Left = 108
@@ -5179,23 +5240,27 @@ object FPpal: TFPpal
           TabOrder = 5
         end
         object cb_stat10: TCheckBox
+          Tag = 9
           Left = 8
           Top = 72
           Width = 80
           Height = 17
           Caption = 'Stationary'
           TabOrder = 6
+          OnClick = cb_stat1Click
         end
-        object CurrencyEdit40: TCurrencyEdit
+        object ed_val10: TCurrencyEdit
+          Tag = 9
           Left = 109
           Top = 71
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 0
+          DisplayFormat = ' ,00;- ,00'
           Enabled = False
           TabOrder = 7
-          OnChange = ed_p1Change
+          OnChange = ed_lat1Change
         end
       end
     end

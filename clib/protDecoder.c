@@ -492,7 +492,9 @@ void setAknPidCal (unsigned char value){
 	aknControlData.pidCal = value;
 }
 
-
+void setAknWpCal (unsigned char value){
+	aknControlData.WP = value;
+}
 
 void getTime (unsigned char * values){
 	values[0] = gpsControlData.hour;
