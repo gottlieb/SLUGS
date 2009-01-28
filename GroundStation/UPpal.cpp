@@ -186,7 +186,18 @@ void __fastcall TFPpal::FormCreate(TObject *Sender)
  heiVals[8] = ed_hei9;
  heiVals[9] = ed_hei10;
 
- 
+ valVals[0] = ed_val1;
+ valVals[1] = ed_val2;
+ valVals[2] = ed_val3;
+ valVals[3] = ed_val4;
+ valVals[4] = ed_val5;
+ valVals[5] = ed_val6;
+ valVals[6] = ed_val7;
+ valVals[7] = ed_val8;
+ valVals[8] = ed_val9;
+ valVals[9] = ed_val10;
+
+
  boxWP[0] = gb_wp1;
  boxWP[1] = gb_wp2;
  boxWP[2] = gb_wp3;
@@ -454,12 +465,36 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    pwmSample =  getPWMStruct();
    aknSample = getAknStruct();
    pidSample = getPidStruct();
+   wpsSample = getWPStruct();
 
-   if (aknSample.reboot == 1){
+   updateAkn();
+
+   updateGPSLabels();                 
+   updateRawLabels();
+   updateAttitudeLabels();
+
+   updateBiasLabels();
+   updateDynLabels();
+   updateDiagLabels();
+   updatePilotLabels();
+
+   updatePlots();
+   updateAttitude();
+
+   updatePWM();
+   updatePID();
+   updateWP();
+
+   et_fail ->Caption = FormatFloat("0.0000E+00",csFail);
+}
+//---------------------------------------------------------------------------
+void TFPpal::updateAkn(void){
+  if (aknSample.reboot == 1){
       //ShowMessage("WARNING: Slugs Reboot");
       et_warning->Color = clRed;
       et_warning->Caption = "SLUGS Reset Detected";
       setAknReboot (0);
+      return;
    }
 
    if (aknSample.pidCal >= 1 ){
@@ -483,25 +518,30 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
       }
 
       setAknPidCal(0);
-
    }
 
-   updateGPSLabels();                 
-   updateRawLabels();
-   updateAttitudeLabels();
+   if (aknSample.WP >= 1 ){
+      if (aknSample.WP <=10){
+         boxWP[aknSample.WP-1]->Color = clGreen;
+      } else {
+         switch (aknSample.WP){
+             case 21: // WRITE FAILED
+                et_warning->Color = clYellow;
+                et_warning->Caption = "EEPROM Write Failed. Value Changed Only in Structs";
+             break;
+             case 22: // INIT FAILED. ALL PAGES EXPIRED
+                et_warning->Color = clYellow;
+                et_warning->Caption = "All EEPROM Pages Have expired";
+             break;
+             case 23: // INIT FAILED. EEPROM CORRUPTED
+                et_warning->Color = clRed;
+                et_warning->Caption = "EEPROM Corrupted. Need to Reinitialize";
+             break;
+         }
+      }
 
-   updateBiasLabels();
-   updateDynLabels();
-   updateDiagLabels();
-   updatePilotLabels();
-
-   updatePlots();
-   updateAttitude();
-
-   updatePWM();
-   updatePID();
-
-   et_fail ->Caption = FormatFloat("0.0000E+00",csFail);
+      setAknWpCal(0);
+   }
 }
 //---------------------------------------------------------------------------
 void TFPpal::updateGPSLabels(void){
@@ -670,7 +710,19 @@ unsigned char i;
      EtPGains[i]->Caption  =  FloatToStr(pidSample.P[i].flData);
      EtIGains[i]->Caption  =  FloatToStr(pidSample.I[i].flData);
      EtDGains[i]->Caption  =  FloatToStr(pidSample.D[i].flData);
-  }   
+  }
+}
+
+
+void TFPpal::updateWP(void){
+unsigned char i;
+  for (i=0; i<10;i++){
+     etLatVals[i]->Caption  =  FloatToStr(wpsSample.lat[i].flData);
+     etLonVals[i]->Caption  =  FloatToStr(wpsSample.lon[i].flData);
+     etHeiVals[i]->Caption  =  FloatToStr(wpsSample.hei[i].flData);
+     cbStat[i]->Checked     =  wpsSample.typ[i]==1?true:false;
+     valVals[i]->Value    =  wpsSample.val[i].shData;
+  }
 }
 
 
@@ -1504,10 +1556,78 @@ void __fastcall TFPpal::Timer3Timer(TObject *Sender)
           Timer3->Enabled = false;
           bt_allpid->Enabled = true;
      break;
+
+     // Get WPs
+
      case 10:
+          bt_getwp1Click(bt_getwp1);
+     break;
+     case 11:
+          bt_getwp1Click(bt_getwp2);
+     break;
+     case 12:
+          bt_getwp1Click(bt_getwp3);
+     break;
+     case 13:
+          bt_getwp1Click(bt_getwp4);
+     break;
+     case 14:
+          bt_getwp1Click(bt_getwp5);
+     break;
+     case 15:
+          bt_getwp1Click(bt_getwp6);
+     break;
+     case 16:
+          bt_getwp1Click(bt_getwp7);
+     break;
+     case 17:
+          bt_getwp1Click(bt_getwp8);
+     break;
+     case 18:
+          bt_getwp1Click(bt_getwp9);
+     break;
+     case 19:
+          bt_getwp1Click(bt_getwp10);
           Timer3->Enabled = false;
           bt_allwp->Enabled = true;
      break;
+
+     // Set WPs
+
+     case 20:
+          bt_setwp1Click(bt_setwp1);
+     break;
+     case 21:
+          bt_setwp1Click(bt_setwp2);
+     break;
+     case 22:
+          bt_setwp1Click(bt_setwp3);
+     break;
+     case 23:
+          bt_setwp1Click(bt_setwp4);
+     break;
+     case 24:
+          bt_setwp1Click(bt_setwp5);
+     break;
+     case 25:
+          bt_setwp1Click(bt_setwp6);
+     break;
+     case 26:
+          bt_setwp1Click(bt_setwp7);
+     break;
+     case 27:
+          bt_setwp1Click(bt_setwp8);
+     break;
+     case 28:
+          bt_setwp1Click(bt_setwp9);
+     break;
+     case 29:
+          bt_setwp1Click(bt_setwp10);
+          Timer3->Enabled = false;
+          bt_sendwps->Enabled = true;
+     break;
+
+
   }
   pidRequestQueue++;
 }
@@ -1624,43 +1744,86 @@ void __fastcall TFPpal::bt_allwpClick(TObject *Sender)
 
 void __fastcall TFPpal::bt_setwp1Click(TObject *Sender)
 {
-/*
+
 
  unsigned char filtMsg[25];
- unsigned char rawMsg[13], indx;
- tFloatToChar P, I, D;
+ unsigned char rawMsg[16], indx;
+ tFloatToChar lat, lon, hei;
+ tShortToChar val;
 
  indx = ((TComponent*)Sender)->Tag;
 
  // Collect the values
- P.flData =  (float)PGains[indx]->Value;
- I.flData =  (float)IGains[indx]->Value;
- D.flData =  (float)DGains[indx]->Value;
+ lat.flData =  (float)latVals[indx]->Value;
+ lon.flData =  (float)lonVals[indx]->Value;
+ hei.flData =  (float)heiVals[indx]->Value;
+ val.shData =  (short)valVals[indx]->Value;
 
  rawMsg[0]    =    indx;
- rawMsg[1]    =    P.chData[0];
- rawMsg[2]    =    P.chData[1];
- rawMsg[3]    =    P.chData[2];
- rawMsg[4]    =    P.chData[3];
- rawMsg[5]    =    I.chData[0];
- rawMsg[6]    =    I.chData[1];
- rawMsg[7]    =    I.chData[2];
- rawMsg[8]    =    I.chData[3];
- rawMsg[9]    =    D.chData[0];
- rawMsg[10]    =   D.chData[1];
- rawMsg[11]   =    D.chData[2];
- rawMsg[12]   =    D.chData[3];
+ rawMsg[1]    =    lat.chData[0];
+ rawMsg[2]    =    lat.chData[1];
+ rawMsg[3]    =    lat.chData[2];
+ rawMsg[4]    =    lat.chData[3];
+ rawMsg[5]    =    lon.chData[0];
+ rawMsg[6]    =    lon.chData[1];
+ rawMsg[7]    =    lon.chData[2];
+ rawMsg[8]    =    lon.chData[3];
+ rawMsg[9]    =    hei.chData[0];
+ rawMsg[10]    =   hei.chData[1];
+ rawMsg[11]   =    hei.chData[2];
+ rawMsg[12]   =    hei.chData[3];
+ rawMsg[13]   =    (char)cbStat[indx]->Checked;
+ rawMsg[14]   =    val.chData[0];
+ rawMsg[15]   =    val.chData[1];
 
- assembleMsg(&rawMsg[0],PIDMSG_LEN,PIDMSG_ID,&filtMsg[0]);
+ assembleMsg(&rawMsg[0],WPSMSG_LEN,WPSMSG_ID,&filtMsg[0]);
 
- cp_serial->PutBlock(&filtMsg[0],(PIDMSG_LEN+7));
-*/
+ cp_serial->PutBlock(&filtMsg[0],(WPSMSG_LEN+7));
+
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TFPpal::bt_getwp1Click(TObject *Sender)
 {
-// test
+ unsigned char filtMsg[17];
+ unsigned char rawMsg[10], indx;
+
+ memset(&rawMsg[0],0,10);
+
+ indx = ((TComponent*)Sender)->Tag;
+
+ rawMsg[0]    =    2; // Value ID (2 is WP)
+ rawMsg[1]    =    indx; // Index
+
+ assembleMsg(&rawMsg[0],QUEMSG_LEN,QUEMSG_ID,&filtMsg[0]);
+
+ cp_serial->PutBlock(&filtMsg[0],(QUEMSG_LEN+7));
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::ed_lat1Change(TObject *Sender)
+{
+  boxWP[((TComponent*)Sender)->Tag]->Color = clRed;     
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::bt_sendwpsClick(TObject *Sender)
+{
+  pidRequestQueue = 20;
+  Timer3->Enabled = true;
+  bt_sendwps->Enabled = false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::cb_stat1Click(TObject *Sender)
+{
+  ed_lat1Change(Sender);
+
+  if (((TCheckBox*)Sender)->Checked){
+    valVals[((TComponent*)Sender)->Tag]->Enabled = true;
+  } else {
+    valVals[((TComponent*)Sender)->Tag]->Enabled = false;
+  }
 }
 //---------------------------------------------------------------------------
 

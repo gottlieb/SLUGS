@@ -22,7 +22,7 @@ void updatePWM (unsigned short * PWMData);
 void updateLoad (unsigned char mcuLoad);
 void controlMCUInit (void);
 void EEPInit (void);
-void loadPIDData (void);
+void loadEEPData (void);
 
 #ifdef __cplusplus
       }

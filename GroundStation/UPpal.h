@@ -450,7 +450,7 @@ __published:	// IDE-managed Components
         TStaticText *et_lon1;
         TStaticText *et_hei1;
         TCheckBox *cb_stat1;
-        TCurrencyEdit *CurrencyEdit4;
+        TCurrencyEdit *ed_val1;
         TGroupBox *gb_wp2;
         TLabel *Label121;
         TLabel *Label122;
@@ -464,7 +464,7 @@ __published:	// IDE-managed Components
         TStaticText *et_lon2;
         TStaticText *et_hei2;
         TCheckBox *cb_stat2;
-        TCurrencyEdit *CurrencyEdit8;
+        TCurrencyEdit *ed_val2;
         TGroupBox *gb_wp3;
         TLabel *Label124;
         TLabel *Label125;
@@ -478,7 +478,7 @@ __published:	// IDE-managed Components
         TStaticText *et_lon3;
         TStaticText *et_hei3;
         TCheckBox *cb_stat3;
-        TCurrencyEdit *CurrencyEdit12;
+        TCurrencyEdit *ed_val3;
         TGroupBox *gb_wp4;
         TLabel *Label127;
         TLabel *Label128;
@@ -492,7 +492,7 @@ __published:	// IDE-managed Components
         TStaticText *et_lon4;
         TStaticText *et_hei4;
         TCheckBox *cb_stat4;
-        TCurrencyEdit *CurrencyEdit16;
+        TCurrencyEdit *ed_val4;
         TGroupBox *gb_wp5;
         TLabel *Label130;
         TLabel *Label131;
@@ -506,7 +506,7 @@ __published:	// IDE-managed Components
         TStaticText *et_lon5;
         TStaticText *et_hei5;
         TCheckBox *cb_stat5;
-        TCurrencyEdit *CurrencyEdit20;
+        TCurrencyEdit *ed_val5;
         TGroupBox *gb_wp6;
         TLabel *Label133;
         TLabel *Label134;
@@ -520,7 +520,7 @@ __published:	// IDE-managed Components
         TStaticText *et_lon6;
         TStaticText *et_hei6;
         TCheckBox *cb_stat6;
-        TCurrencyEdit *CurrencyEdit24;
+        TCurrencyEdit *ed_val6;
         TGroupBox *gb_wp7;
         TLabel *Label136;
         TLabel *Label137;
@@ -534,7 +534,7 @@ __published:	// IDE-managed Components
         TStaticText *et_lon7;
         TStaticText *et_hei7;
         TCheckBox *cb_stat7;
-        TCurrencyEdit *CurrencyEdit28;
+        TCurrencyEdit *ed_val7;
         TGroupBox *gb_wp8;
         TLabel *Label139;
         TLabel *Label140;
@@ -548,7 +548,7 @@ __published:	// IDE-managed Components
         TStaticText *et_lon8;
         TStaticText *et_hei8;
         TCheckBox *cb_stat8;
-        TCurrencyEdit *CurrencyEdit32;
+        TCurrencyEdit *ed_val8;
         TGroupBox *gb_wp9;
         TLabel *Label142;
         TLabel *Label143;
@@ -562,7 +562,7 @@ __published:	// IDE-managed Components
         TStaticText *et_lon9;
         TStaticText *et_hei9;
         TCheckBox *cb_stat9;
-        TCurrencyEdit *CurrencyEdit36;
+        TCurrencyEdit *ed_val9;
         TGroupBox *gb_wp10;
         TLabel *Label145;
         TLabel *Label146;
@@ -576,10 +576,10 @@ __published:	// IDE-managed Components
         TStaticText *et_lon10;
         TStaticText *et_hei10;
         TCheckBox *cb_stat10;
-        TCurrencyEdit *CurrencyEdit40;
+        TCurrencyEdit *ed_val10;
         TSpeedButton *bt_allwp;
         TSpeedButton *SpeedButton33;
-        TSpeedButton *SpeedButton34;
+        TSpeedButton *bt_sendwps;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -623,6 +623,9 @@ __published:	// IDE-managed Components
         void __fastcall bt_allwpClick(TObject *Sender);
         void __fastcall bt_setwp1Click(TObject *Sender);
         void __fastcall bt_getwp1Click(TObject *Sender);
+        void __fastcall ed_lat1Change(TObject *Sender);
+        void __fastcall bt_sendwpsClick(TObject *Sender);
+        void __fastcall cb_stat1Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TFPpal(TComponent* Owner);
@@ -645,6 +648,7 @@ public:		// User declarations
         tAknData                  aknSample;
         tPWMData                  pwmSample;
         tPIDData                  pidSample;
+        tWPData                   wpsSample;    
 
         float csFail;
 
@@ -653,6 +657,7 @@ public:		// User declarations
         bool waitingDelay;
         unsigned char pidRequestQueue;
 
+        void updateAkn(void);
         void updateGPSLabels(void);
         void updateRawLabels(void);
         void updateAttitudeLabels(void);
@@ -661,6 +666,7 @@ public:		// User declarations
         void updatePilotLabels(void);
         void updatePWM(void);
         void updatePID(void);
+        void updateWP(void);
 
         void updateBiasLabels(void);
         void updateDynLabels(void);
@@ -694,11 +700,12 @@ public:		// User declarations
         TCurrencyEdit*   latVals [10];
         TCurrencyEdit*   lonVals [10];
         TCurrencyEdit*   heiVals [10];
+        TCurrencyEdit*   valVals [10];
         TStaticText*     etLatVals [10];
         TStaticText*     etLonVals [10];
         TStaticText*     etHeiVals [10];
         TGroupBox*       boxWP[10];
-        TCheckbox*       cbStat[10];
+        TCheckBox*       cbStat[10];
 
 
 //        CircBuffer mainSerial;
