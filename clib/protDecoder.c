@@ -31,6 +31,7 @@ tPIDData		pidControlData;
 tQueryData		queControlData;
 tWPData			wpsControlData;
 tAPStatusData	apsControlData;
+tCommandsData	comControlData;
 
 
 
@@ -59,6 +60,7 @@ void protParserInit(void){
 	memset(&queControlData, 0, sizeof(tQueryData));
 	memset(&wpsControlData, 0, sizeof(tWPData));
 	memset(&apsControlData, 0, sizeof(tAPStatusData));
+	memset(&comControlData, 0, sizeof(tCommandsData));
 	filterControlData = 0;
 	
 	// Control MCU boot procedures

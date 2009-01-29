@@ -240,7 +240,11 @@ void updateStates(unsigned char * completeSentence){
 		break;	
 		case FILMSG_ID:
 			// turn the HIL on
+			// TODO: the variable filterControlData is here for legacy purposes
+			// 		 do not use it for anything else, instead use the flag in
+			//		 the apStatus struct called hilStatus.
 			filterControlData = completeSentence[4];
+			apsControlData.hilStatus = filterControlData;
 			
 			// turn on the required Aknowledge flag
 			aknControlData.filOnOff = 1;
@@ -261,9 +265,9 @@ void updateStates(unsigned char * completeSentence){
 		
 		case AKNMSG_ID: // Aknowledge Messages
 			aknControlData.WP 			= completeSentence[4];
-			aknControlData.csCal 		= completeSentence[5];
+			aknControlData.commands 	= completeSentence[5];
 			aknControlData.pidCal 		= completeSentence[6];
-			aknControlData.csLimits 	= completeSentence[7];
+			aknControlData.apStatus 	= completeSentence[7];
 			aknControlData.filOnOff 	= completeSentence[8];
 			aknControlData.reboot	 	= completeSentence[9];
 		break;
@@ -291,6 +295,12 @@ void updateStates(unsigned char * completeSentence){
 	   		pwmControlData.da2_c.chData[1]		= completeSentence[23];	  
 		break;
 		
+		case APSMSG_ID: // AP Status Report
+	   		apsControlData.controlType		= completeSentence[4] ;	
+	   		apsControlData.beaconStatus		= completeSentence[5] ; 	
+	   		apsControlData.hilStatus		= completeSentence[6] ;		 	
+	   	break;
+		
 		case CALMSG_ID: // report from AP to GS regarding Calib Values
 			decodeCalSentence (completeSentence[4], completeSentence[5], &completeSentence[6],0);
 		break;
@@ -307,6 +317,22 @@ void updateStates(unsigned char * completeSentence){
 			queControlData.pendingRequest 	= 1;
 			queControlData.idReq 			= completeSentence[4];
 			queControlData.indxReq 			= completeSentence[5];
+		break;
+		
+		case COMMSG_ID:
+			decodeCmdsSentence(completeSentence[4],&completeSentence[5]); 
+		break;
+		
+		case CHSMSG_ID:
+			apsControlData.controlType 	= 	completeSentence[4] ;
+			apsControlData.dt_pass		= 	completeSentence[5] ;	
+			apsControlData.dla_pass		=	completeSentence[6] ;	
+			apsControlData.dra_pass		=	completeSentence[7] ;	
+			apsControlData.dr_pass		=	completeSentence[8] ;	
+			apsControlData.dle_pass		=	completeSentence[9] ;	
+			apsControlData.dre_pass		=	completeSentence[10];	
+			apsControlData.dlf_pass		=	completeSentence[11];	
+			apsControlData.drf_pass		=	completeSentence[12];			
 		break;
 		
 		default:
@@ -363,6 +389,10 @@ void assembleRawSentence (unsigned char id, unsigned char indx, unsigned char * 
 			data[3]	 = apsControlData.dra_pass;
 			data[4]	 = apsControlData.dr_pass;
 			data[5]	 = apsControlData.dle_pass;
+			data[6]	 = apsControlData.dre_pass;
+			data[7]	 = apsControlData.dlf_pass;
+			data[8]	 = apsControlData.drf_pass;
+			
 		break;
 		
 		// TODO: Include report for Limits and Calibration
@@ -470,6 +500,9 @@ void decodeCalSentence (unsigned char id, unsigned char indx, unsigned char * da
 			apsControlData.dra_pass	=	data[1]	;
 			apsControlData.dr_pass	=	data[2]	;
 			apsControlData.dle_pass	=	data[3]	;
+			apsControlData.dre_pass	=	data[4]	;
+			apsControlData.dlf_pass	=	data[5]	;
+			apsControlData.drf_pass	=	data[6]	;
 		break;
 			
 		// TODO: Include report for Limits and Calibration
@@ -477,6 +510,36 @@ void decodeCalSentence (unsigned char id, unsigned char indx, unsigned char * da
 		default:
 		break;
 	}
+}
+
+void decodeCmdsSentence(unsigned char id,unsigned char* data){
+	switch (id){
+		case COMM_TYPE_HEIGHT:
+			comControlData.hCommand.chData[0] = data[0];
+			comControlData.hCommand.chData[1] = data[1];
+			comControlData.hCommand.chData[2] = data[2];
+			comControlData.hCommand.chData[3] = data[3];
+		break;
+		
+		case COMM_TYPE_TURNRATE:
+			comControlData.rCommand.chData[0] = data[0];
+			comControlData.rCommand.chData[1] = data[1];
+			comControlData.rCommand.chData[2] = data[2];
+			comControlData.rCommand.chData[3] = data[3];	
+		break;
+		
+		case COMM_TYPE_AIRSPEED:
+			comControlData.airspeedCommand.chData[0] = data[0];
+			comControlData.airspeedCommand.chData[1] = data[1];
+			comControlData.airspeedCommand.chData[2] = data[2];
+			comControlData.airspeedCommand.chData[3] = data[3];
+		break;
+		
+		case COMM_TYPE_GOTO_WP:
+			comControlData.currWPCommand = data[8];
+		break;
+	}
+	aknControlData.commands = id;
 }
 
 /*

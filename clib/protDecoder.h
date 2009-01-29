@@ -33,6 +33,8 @@ extern tPIDData			pidControlData;
 extern tPWMData			pwmControlData;
 extern tQueryData		queControlData;
 extern tWPData			wpsControlData;
+extern tAPStatusData	apsControlData;
+extern tCommandsData	comControlData;
 
 
 void protParserInit (void);

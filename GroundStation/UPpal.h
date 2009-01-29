@@ -580,6 +580,26 @@ __published:	// IDE-managed Components
         TSpeedButton *bt_allwp;
         TSpeedButton *SpeedButton33;
         TSpeedButton *bt_sendwps;
+        TCheckBox *cb_repstat1;
+        TStaticText *et_val1;
+        TCheckBox *cb_repstat2;
+        TStaticText *et_val2;
+        TCheckBox *cb_repstat3;
+        TStaticText *et_val3;
+        TCheckBox *cb_repstat4;
+        TStaticText *et_val4;
+        TCheckBox *cb_repstat5;
+        TStaticText *et_val5;
+        TCheckBox *cb_repstat6;
+        TStaticText *et_val6;
+        TCheckBox *cb_repstat7;
+        TStaticText *et_val7;
+        TCheckBox *cb_repstat8;
+        TStaticText *et_val8;
+        TCheckBox *cb_repstat9;
+        TStaticText *et_val9;
+        TCheckBox *cb_repstat10;
+        TStaticText *et_val10;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -706,7 +726,8 @@ public:		// User declarations
         TStaticText*     etHeiVals [10];
         TGroupBox*       boxWP[10];
         TCheckBox*       cbStat[10];
-
+        TCheckBox*       cbRepStat[10];
+        TStaticText*     etValVals [10];
 
 //        CircBuffer mainSerial;
 //        CBRef telemPort;

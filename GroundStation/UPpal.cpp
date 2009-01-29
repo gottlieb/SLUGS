@@ -253,6 +253,27 @@ void __fastcall TFPpal::FormCreate(TObject *Sender)
  cbStat[8] = cb_stat9;
  cbStat[9] = cb_stat10;
 
+ etValVals[0] = et_val1;
+ etValVals[1] = et_val2;
+ etValVals[2] = et_val3;
+ etValVals[3] = et_val4;
+ etValVals[4] = et_val5;
+ etValVals[5] = et_val6;
+ etValVals[6] = et_val7;
+ etValVals[7] = et_val8;
+ etValVals[8] = et_val9;
+ etValVals[9] = et_val10;
+
+ cbRepStat[0] = cb_repstat1;
+ cbRepStat[1] = cb_repstat2;
+ cbRepStat[2] = cb_repstat3;
+ cbRepStat[3] = cb_repstat4;
+ cbRepStat[4] = cb_repstat5;
+ cbRepStat[5] = cb_repstat6;
+ cbRepStat[6] = cb_repstat7;
+ cbRepStat[7] = cb_repstat8;
+ cbRepStat[8] = cb_repstat9;
+ cbRepStat[9] = cb_repstat10;
 
 
 }
@@ -720,8 +741,8 @@ unsigned char i;
      etLatVals[i]->Caption  =  FloatToStr(wpsSample.lat[i].flData);
      etLonVals[i]->Caption  =  FloatToStr(wpsSample.lon[i].flData);
      etHeiVals[i]->Caption  =  FloatToStr(wpsSample.hei[i].flData);
-     cbStat[i]->Checked     =  wpsSample.typ[i]==1?true:false;
-     valVals[i]->Value    =  wpsSample.val[i].shData;
+     cbRepStat[i]->Checked     =  wpsSample.typ[i]==1?true:false;
+     etValVals[i]->Caption    =  wpsSample.val[i].shData;
   }
 }
 
