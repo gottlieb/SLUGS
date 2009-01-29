@@ -663,17 +663,17 @@ void prepareTelemetry( unsigned char* dataOut){
 			
 			// if one of the aknowledge flags are turned on
 			// then the AKN message needs to be sent
-			if (aknControlData.WP>0 || aknControlData.csCal || (aknControlData.pidCal > 0)
-				 || aknControlData.csLimits || aknControlData.filOnOff
+			if ((aknControlData.WP>0) || (aknControlData.commands>0) || (aknControlData.pidCal > 0)
+				 || (aknControlData.apStatus>0) || aknControlData.filOnOff
 				 || aknControlData.reboot){
 				// clear the buffer for next sentence
 				memset(telemetryBuf, 0, sizeof(telemetryBuf));
 			
 				// set the correct flags
 				rawSentence[0] = aknControlData.WP;
-				rawSentence[1] = aknControlData.csCal;
+				rawSentence[1] = aknControlData.commands;
 				rawSentence[2] = aknControlData.pidCal;
-				rawSentence[3] = aknControlData.csLimits;
+				rawSentence[3] = aknControlData.apStatus;
 				rawSentence[4] = aknControlData.filOnOff;
 				rawSentence[5] = aknControlData.reboot;
 			
@@ -715,6 +715,22 @@ void prepareTelemetry( unsigned char* dataOut){
 				// clear the pending request
 				queControlData.pendingRequest = 0;
 			}
+		break;
+		case 8:
+			rawSentence[0] =  apsControlData.controlType;			
+			rawSentence[1] =  apsControlData.beaconStatus;		
+			rawSentence[2] =  apsControlData.hilStatus;			
+					
+			// assemble the GPS data for protocol sending
+			assembleMsg(&rawSentence[0], APSMSG_LEN, APSMSG_ID, telemetryBuf);
+
+			// add it to the out Array
+			for( i = 0; i < APSMSG_LEN+7; i += 1 ){
+				dataOut[i+1] = telemetryBuf[i];
+			}					
+
+			// set the total data out for log
+			len2Telemetry = APSMSG_LEN+7; 		
 		break;
 		
 		default:

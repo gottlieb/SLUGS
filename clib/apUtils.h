@@ -22,7 +22,8 @@ unsigned char getChecksum(unsigned char* sentence, unsigned char size);
 void assembleMsg(unsigned char* rawData , unsigned char size, unsigned char type, unsigned char* protMsg );
 void updateStates(unsigned char * completeSentence);
 void assembleRawSentence (unsigned char id, unsigned char indx, unsigned char * data);
-void decodeCalSentence (unsigned char id, unsigned char indx, unsigned char * data, unsigned char inBoard);      	
+void decodeCalSentence (unsigned char id, unsigned char indx, unsigned char * data, unsigned char inBoard);
+void decodeCmdsSentence (unsigned char id,unsigned char* data);      	
 #ifdef __cplusplus
       }
 #endif

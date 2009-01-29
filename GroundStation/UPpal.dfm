@@ -2967,16 +2967,16 @@ object FPpal: TFPpal
         object cb_stat1: TCheckBox
           Left = 8
           Top = 72
-          Width = 80
+          Width = 45
           Height = 17
-          Caption = 'Stationary'
+          Caption = 'Stat'
           TabOrder = 6
           OnClick = cb_stat1Click
         end
         object ed_val1: TCurrencyEdit
-          Left = 109
+          Left = 55
           Top = 71
-          Width = 65
+          Width = 52
           Height = 18
           AutoSize = False
           DecimalPlaces = 0
@@ -2984,6 +2984,33 @@ object FPpal: TFPpal
           Enabled = False
           TabOrder = 7
           OnChange = ed_lat1Change
+        end
+        object cb_repstat1: TCheckBox
+          Left = 112
+          Top = 72
+          Width = 17
+          Height = 17
+          Enabled = False
+          TabOrder = 8
+        end
+        object et_val1: TStaticText
+          Left = 130
+          Top = 70
+          Width = 46
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 9
         end
       end
       object gb_wp2: TGroupBox
@@ -3219,17 +3246,17 @@ object FPpal: TFPpal
           Tag = 1
           Left = 8
           Top = 72
-          Width = 80
+          Width = 45
           Height = 17
-          Caption = 'Stationary'
+          Caption = 'Stat'
           TabOrder = 6
           OnClick = cb_stat1Click
         end
         object ed_val2: TCurrencyEdit
           Tag = 1
-          Left = 109
+          Left = 55
           Top = 71
-          Width = 65
+          Width = 52
           Height = 18
           AutoSize = False
           DecimalPlaces = 0
@@ -3237,6 +3264,33 @@ object FPpal: TFPpal
           Enabled = False
           TabOrder = 7
           OnChange = ed_lat1Change
+        end
+        object cb_repstat2: TCheckBox
+          Left = 112
+          Top = 72
+          Width = 17
+          Height = 17
+          Enabled = False
+          TabOrder = 8
+        end
+        object et_val2: TStaticText
+          Left = 130
+          Top = 70
+          Width = 46
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 9
         end
       end
       object gb_wp3: TGroupBox
@@ -3472,17 +3526,17 @@ object FPpal: TFPpal
           Tag = 2
           Left = 8
           Top = 72
-          Width = 80
+          Width = 45
           Height = 17
-          Caption = 'Stationary'
+          Caption = 'Stat'
           TabOrder = 6
           OnClick = cb_stat1Click
         end
         object ed_val3: TCurrencyEdit
           Tag = 2
-          Left = 109
+          Left = 55
           Top = 71
-          Width = 65
+          Width = 52
           Height = 18
           AutoSize = False
           DecimalPlaces = 0
@@ -3490,6 +3544,33 @@ object FPpal: TFPpal
           Enabled = False
           TabOrder = 7
           OnChange = ed_lat1Change
+        end
+        object cb_repstat3: TCheckBox
+          Left = 112
+          Top = 72
+          Width = 17
+          Height = 17
+          Enabled = False
+          TabOrder = 8
+        end
+        object et_val3: TStaticText
+          Left = 130
+          Top = 70
+          Width = 46
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 9
         end
       end
       object gb_wp4: TGroupBox
@@ -3725,17 +3806,17 @@ object FPpal: TFPpal
           Tag = 3
           Left = 8
           Top = 72
-          Width = 80
+          Width = 45
           Height = 17
-          Caption = 'Stationary'
+          Caption = 'Stat'
           TabOrder = 6
           OnClick = cb_stat1Click
         end
         object ed_val4: TCurrencyEdit
           Tag = 3
-          Left = 108
+          Left = 55
           Top = 71
-          Width = 65
+          Width = 52
           Height = 18
           AutoSize = False
           DecimalPlaces = 0
@@ -3743,6 +3824,33 @@ object FPpal: TFPpal
           Enabled = False
           TabOrder = 7
           OnChange = ed_lat1Change
+        end
+        object cb_repstat4: TCheckBox
+          Left = 112
+          Top = 72
+          Width = 17
+          Height = 17
+          Enabled = False
+          TabOrder = 8
+        end
+        object et_val4: TStaticText
+          Left = 130
+          Top = 70
+          Width = 46
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 9
         end
       end
       object gb_wp5: TGroupBox
@@ -3978,17 +4086,17 @@ object FPpal: TFPpal
           Tag = 4
           Left = 8
           Top = 72
-          Width = 80
+          Width = 45
           Height = 17
-          Caption = 'Stationary'
+          Caption = 'Stat'
           TabOrder = 6
           OnClick = cb_stat1Click
         end
         object ed_val5: TCurrencyEdit
           Tag = 4
-          Left = 108
+          Left = 55
           Top = 71
-          Width = 65
+          Width = 52
           Height = 18
           AutoSize = False
           DecimalPlaces = 0
@@ -3996,6 +4104,33 @@ object FPpal: TFPpal
           Enabled = False
           TabOrder = 7
           OnChange = ed_lat1Change
+        end
+        object cb_repstat5: TCheckBox
+          Left = 112
+          Top = 72
+          Width = 17
+          Height = 17
+          Enabled = False
+          TabOrder = 8
+        end
+        object et_val5: TStaticText
+          Left = 130
+          Top = 70
+          Width = 46
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 9
         end
       end
       object gb_wp6: TGroupBox
@@ -4231,17 +4366,17 @@ object FPpal: TFPpal
           Tag = 5
           Left = 8
           Top = 72
-          Width = 80
+          Width = 45
           Height = 17
-          Caption = 'Stationary'
+          Caption = 'Stat'
           TabOrder = 6
           OnClick = cb_stat1Click
         end
         object ed_val6: TCurrencyEdit
           Tag = 5
-          Left = 109
+          Left = 55
           Top = 71
-          Width = 65
+          Width = 52
           Height = 18
           AutoSize = False
           DecimalPlaces = 0
@@ -4249,6 +4384,33 @@ object FPpal: TFPpal
           Enabled = False
           TabOrder = 7
           OnChange = ed_lat1Change
+        end
+        object cb_repstat6: TCheckBox
+          Left = 112
+          Top = 72
+          Width = 17
+          Height = 17
+          Enabled = False
+          TabOrder = 8
+        end
+        object et_val6: TStaticText
+          Left = 130
+          Top = 70
+          Width = 46
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 9
         end
       end
       object gb_wp7: TGroupBox
@@ -4484,17 +4646,17 @@ object FPpal: TFPpal
           Tag = 6
           Left = 8
           Top = 72
-          Width = 80
+          Width = 45
           Height = 17
-          Caption = 'Stationary'
+          Caption = 'Stat'
           TabOrder = 6
           OnClick = cb_stat1Click
         end
         object ed_val7: TCurrencyEdit
           Tag = 6
-          Left = 109
+          Left = 55
           Top = 71
-          Width = 65
+          Width = 52
           Height = 18
           AutoSize = False
           DecimalPlaces = 0
@@ -4502,6 +4664,34 @@ object FPpal: TFPpal
           Enabled = False
           TabOrder = 7
           OnChange = ed_lat1Change
+        end
+        object cb_repstat7: TCheckBox
+          Tag = 6
+          Left = 112
+          Top = 72
+          Width = 17
+          Height = 17
+          Enabled = False
+          TabOrder = 8
+        end
+        object et_val7: TStaticText
+          Left = 130
+          Top = 70
+          Width = 46
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 9
         end
       end
       object gb_wp8: TGroupBox
@@ -4737,17 +4927,17 @@ object FPpal: TFPpal
           Tag = 7
           Left = 8
           Top = 72
-          Width = 80
+          Width = 45
           Height = 17
-          Caption = 'Stationary'
+          Caption = 'Stat'
           TabOrder = 6
           OnClick = cb_stat1Click
         end
         object ed_val8: TCurrencyEdit
           Tag = 7
-          Left = 109
+          Left = 55
           Top = 71
-          Width = 65
+          Width = 52
           Height = 18
           AutoSize = False
           DecimalPlaces = 0
@@ -4755,6 +4945,34 @@ object FPpal: TFPpal
           Enabled = False
           TabOrder = 7
           OnChange = ed_lat1Change
+        end
+        object cb_repstat8: TCheckBox
+          Tag = 7
+          Left = 112
+          Top = 72
+          Width = 17
+          Height = 17
+          Enabled = False
+          TabOrder = 8
+        end
+        object et_val8: TStaticText
+          Left = 130
+          Top = 70
+          Width = 46
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 9
         end
       end
       object gb_wp9: TGroupBox
@@ -4990,17 +5208,17 @@ object FPpal: TFPpal
           Tag = 8
           Left = 8
           Top = 72
-          Width = 80
+          Width = 45
           Height = 17
-          Caption = 'Stationary'
+          Caption = 'Stat'
           TabOrder = 6
           OnClick = cb_stat1Click
         end
         object ed_val9: TCurrencyEdit
           Tag = 8
-          Left = 107
+          Left = 55
           Top = 71
-          Width = 65
+          Width = 52
           Height = 18
           AutoSize = False
           DecimalPlaces = 0
@@ -5008,6 +5226,34 @@ object FPpal: TFPpal
           Enabled = False
           TabOrder = 7
           OnChange = ed_lat1Change
+        end
+        object cb_repstat9: TCheckBox
+          Tag = 8
+          Left = 112
+          Top = 72
+          Width = 17
+          Height = 17
+          Enabled = False
+          TabOrder = 8
+        end
+        object et_val9: TStaticText
+          Left = 130
+          Top = 70
+          Width = 46
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 9
         end
       end
       object gb_wp10: TGroupBox
@@ -5243,17 +5489,17 @@ object FPpal: TFPpal
           Tag = 9
           Left = 8
           Top = 72
-          Width = 80
+          Width = 45
           Height = 17
-          Caption = 'Stationary'
+          Caption = 'Stat'
           TabOrder = 6
           OnClick = cb_stat1Click
         end
         object ed_val10: TCurrencyEdit
           Tag = 9
-          Left = 109
+          Left = 55
           Top = 71
-          Width = 65
+          Width = 52
           Height = 18
           AutoSize = False
           DecimalPlaces = 0
@@ -5261,6 +5507,34 @@ object FPpal: TFPpal
           Enabled = False
           TabOrder = 7
           OnChange = ed_lat1Change
+        end
+        object cb_repstat10: TCheckBox
+          Tag = 9
+          Left = 112
+          Top = 72
+          Width = 17
+          Height = 17
+          Enabled = False
+          TabOrder = 8
+        end
+        object et_val10: TStaticText
+          Left = 130
+          Top = 70
+          Width = 46
+          Height = 18
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = '0.0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 9
         end
       end
     end

@@ -111,6 +111,9 @@ and data types.
 #define CALMSG_ID		102
 #define CALMSG_LEN		17
 
+#define APSMSG_ID		101
+#define APSMSG_LEN		20
+
 
 // GROUND STATION
 // ==============
@@ -130,6 +133,12 @@ and data types.
 #define WPSMSG_ID		201
 #define WPSMSG_LEN		16
 
+#define COMMSG_ID		206
+#define COMMSG_LEN		10
+
+#define CHSMSG_ID		207
+#define CHSMSG_LEN		10
+
 
 // Identifier values for messages that have a type ID
 // ==================================================
@@ -141,9 +150,17 @@ and data types.
 
 // Control Types
 #define CTRL_TYPE_MANUAL	1
-#define CTRL_TYPE_AP		2
-#define CTRL_TYPE_PASS		3
-#define CTRL_TYPE_SELECTIVE	4
+#define CTRL_TYPE_AP_COMM	2
+#define CTRL_TYPE_AP_WP		3
+#define CTRL_TYPE_PASS		4
+#define CTRL_TYPE_SEL_PIL	5
+#define CTRL_TYPE_SEL_AP	6
+
+// Commands to AP ids
+#define COMM_TYPE_HEIGHT	1
+#define	COMM_TYPE_TURNRATE	2
+#define	COMM_TYPE_AIRSPEED	3
+#define COMM_TYPE_GOTO_WP	4
 
 
 
@@ -332,9 +349,9 @@ typedef struct tXYZData{
 
 typedef struct tAknData{
 	unsigned char 	WP;
-	unsigned char 	csCal;
+	unsigned char 	commands;
 	unsigned char 	pidCal;
-	unsigned char 	csLimits;
+	unsigned char 	apStatus;
 	unsigned char 	filOnOff;	
 	unsigned char	reboot;
 }tAknData;
@@ -383,15 +400,19 @@ typedef struct tWPData{
 }tWPData;
 
 typedef struct tCommandsData{
-	tShortToChar	hCommand;
-	tShortToChar	phiCommand;
-	tShortToChar	thetaCommand;
-	tShortToChar	psiCommand;
-	tShortToChar	pCommand;
-	tShortToChar	qCommand;
-	tShortToChar	rCommand;
-	tShortToChar	currWPCommand;
-	tShortToChar	nextWPCommand;	
+	tFloatToChar	hCommand;
+	tFloatToChar	airspeedCommand;
+	
+	tFloatToChar	phiCommand;
+	tFloatToChar	thetaCommand;
+	tFloatToChar	psiCommand;
+	
+	tFloatToChar	pCommand;
+	tFloatToChar	qCommand;
+	tFloatToChar	rCommand;
+	
+	char			currWPCommand;
+	char			nextWPCommand;	
 }tCommandsData;
 
 typedef struct tAPStatusData{
@@ -404,6 +425,9 @@ typedef struct tAPStatusData{
 	char			dra_pass;
 	char			dr_pass;
 	char			dle_pass;
+	char 			dre_pass;
+	char			dlf_pass;
+	char			drf_pass;
 }tAPStatusData;
 
 
