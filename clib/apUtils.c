@@ -296,11 +296,11 @@ void updateStates(unsigned char * completeSentence){
 		break;
 		
 		case PIDMSG_ID: // PID Configuration values
-			decodeCalSentence(1,completeSentence[4], &completeSentence[5],1);
+			decodeCalSentence(PIDTYPE_ID,completeSentence[4], &completeSentence[5],1);
 		break;
 		
 		case WPSMSG_ID:
-			decodeCalSentence(2,completeSentence[4], &completeSentence[5],1);
+			decodeCalSentence(WPSTYPE_ID,completeSentence[4], &completeSentence[5],1);
 		break;
 		
 		case QUEMSG_ID: // Query the Status of a particular configuration value
@@ -316,7 +316,7 @@ void updateStates(unsigned char * completeSentence){
 
 void assembleRawSentence (unsigned char id, unsigned char indx, unsigned char * data){
 	switch (id) {
-		case 1: //PID Values
+		case PIDTYPE_ID: //PID Values
 			data[0]	 = id;
 			data[1]	 = indx;
 			data[2]	 = pidControlData.P[indx].chData[0];
@@ -336,7 +336,7 @@ void assembleRawSentence (unsigned char id, unsigned char indx, unsigned char * 
 			data[16] = 0;
 		break;
 		
-		case 2: //WayPoint Values
+		case WPSTYPE_ID: //WayPoint Values
 			data[0]	 = id;
 			data[1]	 = indx;
 			data[2]	 = wpsControlData.lat[indx].chData[0];
@@ -356,6 +356,15 @@ void assembleRawSentence (unsigned char id, unsigned char indx, unsigned char * 
 			data[16] = wpsControlData.val[indx].chData[1];
 		break;
 		
+		case PASTYPE_ID:
+			data[0]	 = id;
+			data[1]	 = apsControlData.dt_pass;
+			data[2]	 = apsControlData.dla_pass;
+			data[3]	 = apsControlData.dra_pass;
+			data[4]	 = apsControlData.dr_pass;
+			data[5]	 = apsControlData.dle_pass;
+		break;
+		
 		// TODO: Include report for Limits and Calibration
 		
 		default:
@@ -368,7 +377,7 @@ void decodeCalSentence (unsigned char id, unsigned char indx, unsigned char * da
 	unsigned char writeSuccess = 0;
 	
 	switch (id) {
-		case 1: //PID Values
+		case PIDTYPE_ID: //PID Values
 			pidControlData.P[indx].chData[0]=	data[0]	;
 			pidControlData.P[indx].chData[1]=	data[1]	;
 			pidControlData.P[indx].chData[2]=	data[2]	;
@@ -401,15 +410,15 @@ void decodeCalSentence (unsigned char id, unsigned char indx, unsigned char * da
 				if (writeSuccess==0){
 					aknControlData.pidCal = indx+1;	
 				} else{
-					aknControlData.pidCal = 11;	
+					aknControlData.pidCal = PIDEEP_WRITE_FAIL;	
 				}
 
 				#endif
 
 			}
 		break;
-		// decodeCalSentence(2,completeSentence[4], &completeSentence[5],1);
-		case 2: //WP Values
+
+		case WPSTYPE_ID: //WP Values
 			wpsControlData.lat[indx].chData[0]=	data[0]	;
 			wpsControlData.lat[indx].chData[1]=	data[1]	;
 			wpsControlData.lat[indx].chData[2]=	data[2]	;
@@ -447,13 +456,22 @@ void decodeCalSentence (unsigned char id, unsigned char indx, unsigned char * da
 				if (writeSuccess==0){
 					aknControlData.WP = indx+1;	
 				} else{
-					aknControlData.WP = 21;	
+					aknControlData.WP = WPSEEP_WRITE_FAIL;	
 				}
 
 				#endif
 
 			}
 		break;
+		
+		case PASTYPE_ID: //WP Values
+			apsControlData.dt_pass	= 	indx;
+			apsControlData.dla_pass	=	data[0]	;
+			apsControlData.dra_pass	=	data[1]	;
+			apsControlData.dr_pass	=	data[2]	;
+			apsControlData.dle_pass	=	data[3]	;
+		break;
+			
 		// TODO: Include report for Limits and Calibration
 		
 		default:

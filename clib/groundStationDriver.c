@@ -167,9 +167,9 @@ void EEPInit(void){
 	eepInitMsg = DataEEInit();
 	
 	if (eepInitMsg == 1){
-		aknControlData.pidCal = 12; // Page Expired
+		aknControlData.pidCal = PIDEEP_PAGE_EXP; // Page Expired
 	} else if (eepInitMsg == 6){
-		aknControlData.pidCal = 13; // Memory Corrupted
+		aknControlData.pidCal = PIDEEP_MEMORY_CORR; // Memory Corrupted
 	}
 }
 
@@ -178,6 +178,7 @@ void loadEEPData(void){
 	
 	for(  i = 0; i < 10; i++ )
 	{
+		// PID Gains
 		pidControlData.P[i].shData[0]= DataEERead(PID_OFFSET+i*6);
 		pidControlData.P[i].shData[1]= DataEERead(PID_OFFSET+i*6+1);
 		pidControlData.I[i].shData[0]= DataEERead(PID_OFFSET+i*6+2);
@@ -185,6 +186,7 @@ void loadEEPData(void){
 		pidControlData.D[i].shData[0]= DataEERead(PID_OFFSET+i*6+4);
 		pidControlData.D[i].shData[1]= DataEERead(PID_OFFSET+i*6+5);
 		
+		// Way Points
 		wpsControlData.lat[i].shData[0]= DataEERead(WPS_OFFSET+i*8);   
 		wpsControlData.lat[i].shData[1]= DataEERead(WPS_OFFSET+i*8+1);      
 		wpsControlData.lon[i].shData[0]= DataEERead(WPS_OFFSET+i*8+2);      
