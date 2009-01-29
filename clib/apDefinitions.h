@@ -131,6 +131,34 @@ and data types.
 #define WPSMSG_LEN		16
 
 
+// Identifier values for messages that have a type ID
+// ==================================================
+
+// Calibration and Query type IDs
+#define PIDTYPE_ID		1
+#define WPSTYPE_ID		2
+#define PASTYPE_ID		3
+
+// Control Types
+#define CTRL_TYPE_MANUAL	1
+#define CTRL_TYPE_AP		2
+#define CTRL_TYPE_PASS		3
+#define CTRL_TYPE_SELECTIVE	4
+
+
+
+// ERROR MESSAGES
+// ==============
+
+// PID EEPROM Error Messages
+#define PIDEEP_WRITE_FAIL	11
+#define PIDEEP_PAGE_EXP		12
+#define PIDEEP_MEMORY_CORR	13
+
+// WP EEPROM Error Messages
+#define WPSEEP_WRITE_FAIL	21
+
+
 // EEPROM Emulation Address Offsets
 // ================================
 #define PID_OFFSET		0
@@ -351,7 +379,32 @@ typedef struct tWPData{
 	tFloatToChar	hei[11];
 	unsigned char	typ[11];
 	tShortToChar	val[11];
+	unsigned char	wpCount;
 }tWPData;
+
+typedef struct tCommandsData{
+	tShortToChar	hCommand;
+	tShortToChar	phiCommand;
+	tShortToChar	thetaCommand;
+	tShortToChar	psiCommand;
+	tShortToChar	pCommand;
+	tShortToChar	qCommand;
+	tShortToChar	rCommand;
+	tShortToChar	currWPCommand;
+	tShortToChar	nextWPCommand;	
+}tCommandsData;
+
+typedef struct tAPStatusData{
+	unsigned char	controlType;
+	unsigned char	beaconStatus;
+	unsigned char 	hilStatus;
+	
+	char			dt_pass;
+	char			dla_pass;
+	char			dra_pass;
+	char			dr_pass;
+	char			dle_pass;
+}tAPStatusData;
 
 
 #ifdef __cplusplus
