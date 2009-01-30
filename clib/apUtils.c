@@ -270,6 +270,8 @@ void updateStates(unsigned char * completeSentence){
 			aknControlData.apStatus 	= completeSentence[7];
 			aknControlData.filOnOff 	= completeSentence[8];
 			aknControlData.reboot	 	= completeSentence[9];
+			
+			//TODO: Reuse apStatus aknowledge flag 
 		break;
 		
 		case PWMMSG_ID: // PWM Control Surface Commands data
@@ -332,7 +334,8 @@ void updateStates(unsigned char * completeSentence){
 			apsControlData.dle_pass		=	completeSentence[9] ;	
 			apsControlData.dre_pass		=	completeSentence[10];	
 			apsControlData.dlf_pass		=	completeSentence[11];	
-			apsControlData.drf_pass		=	completeSentence[12];			
+			apsControlData.drf_pass		=	completeSentence[12];	
+					
 		break;
 		
 		default:
