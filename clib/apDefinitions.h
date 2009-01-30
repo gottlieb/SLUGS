@@ -137,7 +137,7 @@ and data types.
 #define COMMSG_LEN		10
 
 #define CHSMSG_ID		207
-#define CHSMSG_LEN		10
+#define CHSMSG_LEN		9
 
 
 // Identifier values for messages that have a type ID

@@ -601,13 +601,50 @@ __published:	// IDE-managed Components
         TCheckBox *cb_repstat10;
         TStaticText *et_val10;
         TTabSheet *ts_commands;
-        TRadioGroup *RadioGroup1;
-        TPageControl *PageControl1;
+        TPageControl *pc_commands;
         TTabSheet *ts_direct;
         TTabSheet *ts_wp;
         TTabSheet *ts_ptpil;
-        TTabSheet *ts_ptap;
-        TSpeedButton *SpeedButton2;
+        TRadioButton *rb_manual;
+        TRadioButton *RadioButton2;
+        TPanel *pn_status;
+        TLabel *et_status;
+        TRadioGroup *rg_modes;
+        TPanel *pn_mode;
+        TSpeedButton *bt_mode;
+        TPanel *pn_config;
+        TCheckBox *cb_ptpdt;
+        TCheckBox *cb_ptpdla;
+        TCheckBox *cb_ptpdle;
+        TCheckBox *cb_ptpdra;
+        TCheckBox *cb_ptpdr;
+        TCheckBox *cb_ptpdre;
+        TCheckBox *cb_ptpdlf;
+        TCheckBox *cb_ptpdrf;
+        TLabel *Label148;
+        TLabel *Label150;
+        TCurrencyEdit *ed_height;
+        TStaticText *et_heightcomm;
+        TSpeedButton *SpeedButton7;
+        TSpeedButton *SpeedButton9;
+        TLabel *Label151;
+        TCurrencyEdit *ed_airspeed;
+        TStaticText *et_airspeed;
+        TSpeedButton *SpeedButton11;
+        TSpeedButton *SpeedButton13;
+        TLabel *Label152;
+        TCurrencyEdit *ed_r;
+        TStaticText *et_rcommand;
+        TSpeedButton *SpeedButton15;
+        TSpeedButton *SpeedButton17;
+        TLabel *Label153;
+        TCurrencyEdit *CurrencyEdit4;
+        TStaticText *StaticText4;
+        TSpeedButton *SpeedButton19;
+        TSpeedButton *SpeedButton20;
+        TSpeedButton *bt_ptpil;
+        TPanel *Panel3;
+        TTabSheet *ts_none;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -654,6 +691,9 @@ __published:	// IDE-managed Components
         void __fastcall ed_lat1Change(TObject *Sender);
         void __fastcall bt_sendwpsClick(TObject *Sender);
         void __fastcall cb_stat1Click(TObject *Sender);
+        void __fastcall rb_manualClick(TObject *Sender);
+        void __fastcall rg_modesClick(TObject *Sender);
+        void __fastcall bt_modeClick(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TFPpal(TComponent* Owner);
@@ -676,7 +716,8 @@ public:		// User declarations
         tAknData                  aknSample;
         tPWMData                  pwmSample;
         tPIDData                  pidSample;
-        tWPData                   wpsSample;    
+        tWPData                   wpsSample;
+        tAPStatusData             apsSample;
 
         float csFail;
 

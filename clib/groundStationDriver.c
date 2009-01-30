@@ -852,7 +852,7 @@ void prepareTelemetry( unsigned char* dataOut){
 
 	// increment/overflow the samplePeriod counter
 	// configured for 16 Hz in non vital messages
-	sampleTelemetry = (sampleTelemetry >= 7)? 1: sampleTelemetry + 1;
+	sampleTelemetry = (sampleTelemetry >= 8)? 1: sampleTelemetry + 1;
 
 }
 

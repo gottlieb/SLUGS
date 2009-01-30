@@ -487,6 +487,7 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    aknSample = getAknStruct();
    pidSample = getPidStruct();
    wpsSample = getWPStruct();
+   apsSample = getAPSStruct();
 
    updateAkn();
 
@@ -507,6 +508,8 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    updateWP();
 
    et_fail ->Caption = FormatFloat("0.0000E+00",csFail);
+
+   et_status ->Caption = "Status = " +  IntToStr(apsSample.controlType);
 }
 //---------------------------------------------------------------------------
 void TFPpal::updateAkn(void){
@@ -1848,4 +1851,96 @@ void __fastcall TFPpal::cb_stat1Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+
+
+void __fastcall TFPpal::rb_manualClick(TObject *Sender)
+{
+ if (rb_manual->Checked == true){
+    rg_modes->Caption = " Manual ";
+    rg_modes->Items->Clear();
+    rg_modes->Items->Add("Pilot Control");
+    rg_modes->Items->Add("Passthrough");
+    rg_modes->Items->Add("Selective Passthrough");
+    rg_modes->Tag = 0;
+    rg_modes->ItemIndex = 0;
+ } else {
+    rg_modes->Caption = " Automatic ";
+    rg_modes->Items->Clear();
+    rg_modes->Items->Add("Direct Commands");
+    rg_modes->Items->Add("Way Point Nav");
+    rg_modes->Items->Add("Selective Passthrough");
+    rg_modes->Tag = 1;
+    rg_modes->ItemIndex = 0;
+ }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::rg_modesClick(TObject *Sender)
+{
+ switch (((TRadioGroup*)Sender)->ItemIndex){
+
+    case 0:
+       if (rg_modes->Tag == 0){
+          pc_commands->ActivePage = ts_none;
+       } else {
+          pc_commands->ActivePage = ts_direct;
+       }
+    break;
+
+    case 1:
+       if (rg_modes->Tag == 0){
+          pc_commands->ActivePage = ts_none;
+       } else {
+          pc_commands->ActivePage = ts_wp;
+       }
+    break;
+
+    case 2:
+       pc_commands->ActivePage = ts_ptpil;
+    break;
+ }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::bt_modeClick(TObject *Sender)
+{
+ unsigned char filtMsg[18];
+ unsigned char rawMsg[9], status;
+
+  memset(rawMsg,0,9);
+
+  switch (rg_modes->ItemIndex){
+
+    case 0:
+        status = (rg_modes->Tag == 0)? 1:2;
+    break;
+
+    case 1:
+        status = (rg_modes->Tag == 0)? 4:3;
+    break;
+
+    case 2:
+        status = (rg_modes->Tag == 0)? 5:6;
+    break;
+ }
+
+ rawMsg[0]    =    status;
+ if (status >4) {
+   rawMsg[1]    =    (unsigned char)cb_ptpdt->Checked;
+   rawMsg[2]    =    (unsigned char)cb_ptpdla->Checked;;
+   rawMsg[3]    =    (unsigned char)cb_ptpdra->Checked;;
+   rawMsg[4]    =    (unsigned char)cb_ptpdr->Checked;;
+   rawMsg[5]    =    (unsigned char)cb_ptpdle->Checked;;
+   rawMsg[6]    =    (unsigned char)cb_ptpdre->Checked;;
+   rawMsg[7]    =    (unsigned char)cb_ptpdlf->Checked;;
+   rawMsg[8]    =    (unsigned char)cb_ptpdrf->Checked;;
+ }
+
+ assembleMsg(&rawMsg[0],CHSMSG_LEN,CHSMSG_ID,&filtMsg[0]);
+
+ cp_serial->PutBlock(&filtMsg[0],(CHSMSG_LEN+7));
+
+
+}
+//---------------------------------------------------------------------------
 

@@ -5896,35 +5896,547 @@ object FPpal: TFPpal
     object ts_commands: TTabSheet
       Caption = 'Commands'
       ImageIndex = 9
-      object SpeedButton2: TSpeedButton
-        Left = 8
-        Top = 590
-        Width = 353
+      object bt_mode: TSpeedButton
+        Left = 6
+        Top = 166
+        Width = 339
         Height = 26
-        Caption = 'Send Configured Commands'
+        Caption = 'Change the AP Mode'
         Flat = True
         Glyph.Data = {
           76010000424D7601000000000000760000002800000020000000100000000100
           04000000000000010000130B0000130B00001000000000000000000000000000
           800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
-          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003333330FFFFF
-          FFF03333337F3FFFF3F73333330F0000F0F03333337F777737373333330FFFFF
-          FFF033FFFF7FFF33FFF77000000007F00000377777777FF777770BBBBBBBB0F0
-          FF037777777777F7F3730B77777BB0F0F0337777777777F7F7330B7FFFFFB0F0
-          0333777F333377F77F330B7FFFFFB0009333777F333377777FF30B7FFFFFB039
-          9933777F333377F777FF0B7FFFFFB0999993777F33337777777F0B7FFFFFB999
-          9999777F3333777777770B7FFFFFB0399933777FFFFF77F777F3070077007039
-          99337777777777F777F30B770077B039993377FFFFFF77F777330BB7007BB999
-          93337777FF777777733370000000073333333777777773333333}
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+          333333333333333333FF33333333333330003333333333333777333333333333
+          300033FFFFFF3333377739999993333333333777777F3333333F399999933333
+          3300377777733333337733333333333333003333333333333377333333333333
+          3333333333333333333F333333333333330033333F33333333773333C3333333
+          330033337F3333333377333CC3333333333333F77FFFFFFF3FF33CCCCCCCCCC3
+          993337777777777F77F33CCCCCCCCCC399333777777777737733333CC3333333
+          333333377F33333333FF3333C333333330003333733333333777333333333333
+          3000333333333333377733333333333333333333333333333333}
         NumGlyphs = 2
-        OnClick = bt_allpidClick
+        OnClick = bt_modeClick
       end
-      object RadioGroup1: TRadioGroup
+      object pc_commands: TPageControl
         Left = 8
-        Top = 16
-        Width = 353
-        Height = 74
-        Caption = 'Autopilot Mode '
+        Top = 208
+        Width = 337
+        Height = 221
+        ActivePage = ts_direct
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Style = tsFlatButtons
+        TabIndex = 0
+        TabOrder = 0
+        object ts_direct: TTabSheet
+          Caption = 'Direct Commands'
+          object Label150: TLabel
+            Left = 8
+            Top = 16
+            Width = 59
+            Height = 13
+            Caption = 'Height (m)'
+          end
+          object SpeedButton7: TSpeedButton
+            Left = 255
+            Top = 13
+            Width = 32
+            Height = 22
+            Flat = True
+            Glyph.Data = {
+              76010000424D7601000000000000760000002800000020000000100000000100
+              04000000000000010000120B0000120B00001000000000000000000000000000
+              800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+              FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003C3333339333
+              337437FFF3337F3333F73CCC33339333344437773F337F33377733CCC3339337
+              4447337F73FF7F3F337F33CCCCC3934444433373F7737F773373333CCCCC9444
+              44733337F337773337F3333CCCCC9444443333373F337F3337333333CCCC9444
+              473333337F337F337F333333CCCC94444333333373F37F33733333333CCC9444
+              7333333337F37F37F33333333CCC944433333333373F7F373333333333CC9447
+              33333333337F7F7F3333333333CC94433333333333737F7333333333333C9473
+              33333333333737F333333333333C943333333333333737333333333333339733
+              3333333333337F33333333333333933333333333333373333333}
+            NumGlyphs = 2
+            OnClick = bt_up1Click
+          end
+          object SpeedButton9: TSpeedButton
+            Left = 294
+            Top = 14
+            Width = 32
+            Height = 22
+            Flat = True
+            Glyph.Data = {
+              76010000424D7601000000000000760000002800000020000000100000000100
+              04000000000000010000120B0000120B00001000000000000000000000000000
+              800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+              FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333393333
+              333333333337F3333333333333397333333333333337FF333333333333C94333
+              3333333333737F333333333333C9473333333333337373F3333333333CC94433
+              3333333337F7F7F3333333333CC94473333333333737F73F33333333CCC94443
+              333333337F37F37F33333333CCC94447333333337337F373F333333CCCC94444
+              33333337F337F337F333333CCCC94444733333373337F3373F3333CCCCC94444
+              4333337F3337FF337F3333CCCCC94444473333733F7773FF73F33CCCCC393444
+              443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
+              444377733337F333777FC3333339333337437333333733333373}
+            NumGlyphs = 2
+            OnClick = bt_down1Click
+          end
+          object Label151: TLabel
+            Left = 8
+            Top = 40
+            Width = 83
+            Height = 13
+            Caption = 'Airspeed (m/s)'
+          end
+          object SpeedButton11: TSpeedButton
+            Left = 255
+            Top = 37
+            Width = 32
+            Height = 22
+            Flat = True
+            Glyph.Data = {
+              76010000424D7601000000000000760000002800000020000000100000000100
+              04000000000000010000120B0000120B00001000000000000000000000000000
+              800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+              FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003C3333339333
+              337437FFF3337F3333F73CCC33339333344437773F337F33377733CCC3339337
+              4447337F73FF7F3F337F33CCCCC3934444433373F7737F773373333CCCCC9444
+              44733337F337773337F3333CCCCC9444443333373F337F3337333333CCCC9444
+              473333337F337F337F333333CCCC94444333333373F37F33733333333CCC9444
+              7333333337F37F37F33333333CCC944433333333373F7F373333333333CC9447
+              33333333337F7F7F3333333333CC94433333333333737F7333333333333C9473
+              33333333333737F333333333333C943333333333333737333333333333339733
+              3333333333337F33333333333333933333333333333373333333}
+            NumGlyphs = 2
+            OnClick = bt_up1Click
+          end
+          object SpeedButton13: TSpeedButton
+            Left = 294
+            Top = 38
+            Width = 32
+            Height = 22
+            Flat = True
+            Glyph.Data = {
+              76010000424D7601000000000000760000002800000020000000100000000100
+              04000000000000010000120B0000120B00001000000000000000000000000000
+              800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+              FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333393333
+              333333333337F3333333333333397333333333333337FF333333333333C94333
+              3333333333737F333333333333C9473333333333337373F3333333333CC94433
+              3333333337F7F7F3333333333CC94473333333333737F73F33333333CCC94443
+              333333337F37F37F33333333CCC94447333333337337F373F333333CCCC94444
+              33333337F337F337F333333CCCC94444733333373337F3373F3333CCCCC94444
+              4333337F3337FF337F3333CCCCC94444473333733F7773FF73F33CCCCC393444
+              443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
+              444377733337F333777FC3333339333337437333333733333373}
+            NumGlyphs = 2
+            OnClick = bt_down1Click
+          end
+          object Label152: TLabel
+            Left = 8
+            Top = 64
+            Width = 100
+            Height = 13
+            Caption = 'Turn Rate (rad/s)'
+          end
+          object SpeedButton15: TSpeedButton
+            Left = 255
+            Top = 61
+            Width = 32
+            Height = 22
+            Flat = True
+            Glyph.Data = {
+              76010000424D7601000000000000760000002800000020000000100000000100
+              04000000000000010000120B0000120B00001000000000000000000000000000
+              800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+              FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003C3333339333
+              337437FFF3337F3333F73CCC33339333344437773F337F33377733CCC3339337
+              4447337F73FF7F3F337F33CCCCC3934444433373F7737F773373333CCCCC9444
+              44733337F337773337F3333CCCCC9444443333373F337F3337333333CCCC9444
+              473333337F337F337F333333CCCC94444333333373F37F33733333333CCC9444
+              7333333337F37F37F33333333CCC944433333333373F7F373333333333CC9447
+              33333333337F7F7F3333333333CC94433333333333737F7333333333333C9473
+              33333333333737F333333333333C943333333333333737333333333333339733
+              3333333333337F33333333333333933333333333333373333333}
+            NumGlyphs = 2
+            OnClick = bt_up1Click
+          end
+          object SpeedButton17: TSpeedButton
+            Left = 294
+            Top = 62
+            Width = 32
+            Height = 22
+            Flat = True
+            Glyph.Data = {
+              76010000424D7601000000000000760000002800000020000000100000000100
+              04000000000000010000120B0000120B00001000000000000000000000000000
+              800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+              FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333393333
+              333333333337F3333333333333397333333333333337FF333333333333C94333
+              3333333333737F333333333333C9473333333333337373F3333333333CC94433
+              3333333337F7F7F3333333333CC94473333333333737F73F33333333CCC94443
+              333333337F37F37F33333333CCC94447333333337337F373F333333CCCC94444
+              33333337F337F337F333333CCCC94444733333373337F3373F3333CCCCC94444
+              4333337F3337FF337F3333CCCCC94444473333733F7773FF73F33CCCCC393444
+              443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
+              444377733337F333777FC3333339333337437333333733333373}
+            NumGlyphs = 2
+            OnClick = bt_down1Click
+          end
+          object ed_height: TCurrencyEdit
+            Left = 108
+            Top = 14
+            Width = 65
+            Height = 18
+            AutoSize = False
+            DisplayFormat = ' ,00.0000;- ,00.0000'
+            TabOrder = 0
+            OnChange = ed_p1Change
+          end
+          object et_heightcomm: TStaticText
+            Left = 180
+            Top = 15
+            Width = 67
+            Height = 18
+            AutoSize = False
+            BevelInner = bvNone
+            BevelKind = bkSoft
+            BevelOuter = bvNone
+            BorderStyle = sbsSunken
+            Caption = '0.0'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 1
+          end
+          object ed_airspeed: TCurrencyEdit
+            Left = 108
+            Top = 38
+            Width = 65
+            Height = 18
+            AutoSize = False
+            DisplayFormat = ' ,00.0000;- ,00.0000'
+            TabOrder = 2
+            OnChange = ed_p1Change
+          end
+          object et_airspeed: TStaticText
+            Left = 180
+            Top = 39
+            Width = 67
+            Height = 18
+            AutoSize = False
+            BevelInner = bvNone
+            BevelKind = bkSoft
+            BevelOuter = bvNone
+            BorderStyle = sbsSunken
+            Caption = '0.0'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 3
+          end
+          object ed_r: TCurrencyEdit
+            Left = 108
+            Top = 62
+            Width = 65
+            Height = 18
+            AutoSize = False
+            DisplayFormat = ' ,00.0000;- ,00.0000'
+            TabOrder = 4
+            OnChange = ed_p1Change
+          end
+          object et_rcommand: TStaticText
+            Left = 180
+            Top = 63
+            Width = 67
+            Height = 18
+            AutoSize = False
+            BevelInner = bvNone
+            BevelKind = bkSoft
+            BevelOuter = bvNone
+            BorderStyle = sbsSunken
+            Caption = '0.0'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 5
+          end
+        end
+        object ts_wp: TTabSheet
+          Caption = 'WP Nav'
+          ImageIndex = 1
+          object Label153: TLabel
+            Left = 8
+            Top = 16
+            Width = 68
+            Height = 13
+            Caption = 'Go to WP #'
+          end
+          object SpeedButton19: TSpeedButton
+            Left = 255
+            Top = 13
+            Width = 32
+            Height = 22
+            Flat = True
+            Glyph.Data = {
+              76010000424D7601000000000000760000002800000020000000100000000100
+              04000000000000010000120B0000120B00001000000000000000000000000000
+              800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+              FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003C3333339333
+              337437FFF3337F3333F73CCC33339333344437773F337F33377733CCC3339337
+              4447337F73FF7F3F337F33CCCCC3934444433373F7737F773373333CCCCC9444
+              44733337F337773337F3333CCCCC9444443333373F337F3337333333CCCC9444
+              473333337F337F337F333333CCCC94444333333373F37F33733333333CCC9444
+              7333333337F37F37F33333333CCC944433333333373F7F373333333333CC9447
+              33333333337F7F7F3333333333CC94433333333333737F7333333333333C9473
+              33333333333737F333333333333C943333333333333737333333333333339733
+              3333333333337F33333333333333933333333333333373333333}
+            NumGlyphs = 2
+            OnClick = bt_up1Click
+          end
+          object SpeedButton20: TSpeedButton
+            Left = 294
+            Top = 14
+            Width = 32
+            Height = 22
+            Flat = True
+            Glyph.Data = {
+              76010000424D7601000000000000760000002800000020000000100000000100
+              04000000000000010000120B0000120B00001000000000000000000000000000
+              800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+              FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333393333
+              333333333337F3333333333333397333333333333337FF333333333333C94333
+              3333333333737F333333333333C9473333333333337373F3333333333CC94433
+              3333333337F7F7F3333333333CC94473333333333737F73F33333333CCC94443
+              333333337F37F37F33333333CCC94447333333337337F373F333333CCCC94444
+              33333337F337F337F333333CCCC94444733333373337F3373F3333CCCCC94444
+              4333337F3337FF337F3333CCCCC94444473333733F7773FF73F33CCCCC393444
+              443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
+              444377733337F333777FC3333339333337437333333733333373}
+            NumGlyphs = 2
+            OnClick = bt_down1Click
+          end
+          object CurrencyEdit4: TCurrencyEdit
+            Left = 108
+            Top = 14
+            Width = 65
+            Height = 18
+            AutoSize = False
+            DecimalPlaces = 0
+            DisplayFormat = '1'
+            MaxValue = 10
+            MinValue = 1
+            TabOrder = 0
+            Value = 1
+            OnChange = ed_p1Change
+          end
+          object StaticText4: TStaticText
+            Left = 180
+            Top = 15
+            Width = 67
+            Height = 18
+            AutoSize = False
+            BevelInner = bvNone
+            BevelKind = bkSoft
+            BevelOuter = bvNone
+            BorderStyle = sbsSunken
+            Caption = '0.0'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 1
+          end
+        end
+        object ts_ptpil: TTabSheet
+          Caption = 'PT from Pil'
+          ImageIndex = 2
+          object Label148: TLabel
+            Left = 16
+            Top = 3
+            Width = 281
+            Height = 38
+            Caption = 
+              'Select the control  surfaces that the pillot will'#13#10'have control ' +
+              'over. Control surfaces checked '#13#10'below will be handled by the Pi' +
+              'lot. '
+          end
+          object bt_ptpil: TSpeedButton
+            Left = 3
+            Top = 155
+            Width = 326
+            Height = 26
+            Caption = 'Configure the Passthrough'
+            Flat = True
+            Glyph.Data = {
+              76010000424D7601000000000000760000002800000020000000100000000100
+              04000000000000010000120B0000120B00001000000000000000000000000000
+              800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+              FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00370777033333
+              3330337F3F7F33333F3787070003333707303F737773333373F7007703333330
+              700077337F3333373777887007333337007733F773F333337733700070333333
+              077037773733333F7F37703707333300080737F373333377737F003333333307
+              78087733FFF3337FFF7F33300033330008073F3777F33F777F73073070370733
+              078073F7F7FF73F37FF7700070007037007837773777F73377FF007777700730
+              70007733FFF77F37377707700077033707307F37773F7FFF7337080777070003
+              3330737F3F7F777F333778080707770333333F7F737F3F7F3333080787070003
+              33337F73FF737773333307800077033333337337773373333333}
+            NumGlyphs = 2
+            OnClick = bt_allpidClick
+          end
+          object cb_ptpdt: TCheckBox
+            Left = 16
+            Top = 52
+            Width = 97
+            Height = 17
+            Caption = 'Throttle'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Ch_ptpdt'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 0
+          end
+          object cb_ptpdla: TCheckBox
+            Left = 16
+            Top = 70
+            Width = 97
+            Height = 17
+            Caption = 'Left Aileron'
+            TabOrder = 1
+          end
+          object cb_ptpdle: TCheckBox
+            Left = 198
+            Top = 52
+            Width = 97
+            Height = 17
+            Caption = 'Left Elevator'
+            TabOrder = 2
+          end
+          object cb_ptpdra: TCheckBox
+            Left = 16
+            Top = 89
+            Width = 97
+            Height = 17
+            Caption = 'Right Aileron'
+            TabOrder = 3
+          end
+          object cb_ptpdr: TCheckBox
+            Left = 16
+            Top = 108
+            Width = 97
+            Height = 17
+            Caption = 'Rudder'
+            TabOrder = 4
+          end
+          object cb_ptpdre: TCheckBox
+            Left = 198
+            Top = 70
+            Width = 97
+            Height = 17
+            Caption = 'Right Elevator'
+            TabOrder = 5
+          end
+          object cb_ptpdlf: TCheckBox
+            Left = 198
+            Top = 89
+            Width = 97
+            Height = 17
+            Caption = 'Left Flap'
+            TabOrder = 6
+          end
+          object cb_ptpdrf: TCheckBox
+            Left = 198
+            Top = 108
+            Width = 97
+            Height = 17
+            Caption = 'Right Flap'
+            TabOrder = 7
+          end
+        end
+        object ts_none: TTabSheet
+          Caption = 'None'
+          ImageIndex = 4
+        end
+      end
+      object rb_manual: TRadioButton
+        Left = 8
+        Top = 40
+        Width = 113
+        Height = 17
+        Caption = 'Manual'
+        Checked = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 1
+        TabStop = True
+        OnClick = rb_manualClick
+      end
+      object RadioButton2: TRadioButton
+        Left = 88
+        Top = 40
+        Width = 113
+        Height = 17
+        Caption = 'Automatic'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 2
+        OnClick = rb_manualClick
+      end
+      object pn_status: TPanel
+        Left = 0
+        Top = 0
+        Width = 367
+        Height = 33
+        TabOrder = 3
+        object et_status: TLabel
+          Left = 4
+          Top = 8
+          Width = 359
+          Height = 13
+          Alignment = taCenter
+          AutoSize = False
+          Caption = 'Com Port Closed'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+      end
+      object rg_modes: TRadioGroup
+        Left = 8
+        Top = 72
+        Width = 337
+        Height = 89
+        Caption = ' Manual '
         Columns = 2
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -5933,39 +6445,36 @@ object FPpal: TFPpal
         Font.Style = [fsBold]
         ItemIndex = 0
         Items.Strings = (
-          'Manual'
-          'AP Direct Commands'
-          'AP Way Point Nav'
-          'Passthrough All'
-          'Selective PT from Pilot'
-          'Selective Source from AP')
+          'Pilot Control'
+          'Passthrough'
+          'Selective Passthrough')
         ParentFont = False
-        TabOrder = 0
+        TabOrder = 4
+        OnClick = rg_modesClick
       end
-      object PageControl1: TPageControl
+      object pn_mode: TPanel
+        Left = 349
+        Top = 40
+        Width = 17
+        Height = 154
+        BevelOuter = bvNone
+        TabOrder = 5
+      end
+      object pn_config: TPanel
+        Left = 350
+        Top = 208
+        Width = 17
+        Height = 281
+        BevelOuter = bvNone
+        TabOrder = 6
+      end
+      object Panel3: TPanel
         Left = 8
-        Top = 128
-        Width = 353
-        Height = 457
-        ActivePage = ts_direct
-        Style = tsFlatButtons
-        TabIndex = 0
-        TabOrder = 1
-        object ts_direct: TTabSheet
-          Caption = 'Direct Commands'
-        end
-        object ts_wp: TTabSheet
-          Caption = 'WP Nav'
-          ImageIndex = 1
-        end
-        object ts_ptpil: TTabSheet
-          Caption = 'PT from Pil'
-          ImageIndex = 2
-        end
-        object ts_ptap: TTabSheet
-          Caption = 'PT from AP'
-          ImageIndex = 3
-        end
+        Top = 474
+        Width = 337
+        Height = 38
+        BevelOuter = bvNone
+        TabOrder = 7
       end
     end
     object ts_sensors: TTabSheet

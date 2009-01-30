@@ -60,6 +60,7 @@ void protParserInit (void);
     tPWMData getPWMStruct (void);
     tPIDData getPidStruct (void);
     tWPData  getWPStruct (void);
+	tAPStatusData getAPSStruct (void);    
     
 #else
      void protParseDecode (unsigned char* fromSPI);

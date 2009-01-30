@@ -483,6 +483,10 @@ tWPData  getWPStruct (void){
 	return wpsControlData;
 }
 
+tAPStatusData getAPSStruct(void){
+	return apsControlData;
+}
+
 
 void setAknFilter (unsigned char value){
 	aknControlData.filOnOff = value;
