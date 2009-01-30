@@ -741,8 +741,8 @@ unsigned char i;
      etLatVals[i]->Caption  =  FloatToStr(wpsSample.lat[i].flData);
      etLonVals[i]->Caption  =  FloatToStr(wpsSample.lon[i].flData);
      etHeiVals[i]->Caption  =  FloatToStr(wpsSample.hei[i].flData);
-     cbRepStat[i]->Checked     =  wpsSample.typ[i]==1?true:false;
-     etValVals[i]->Caption    =  wpsSample.val[i].shData;
+     cbRepStat[i]->Checked  =  wpsSample.typ[i]==1?true:false;
+     etValVals[i]->Caption  =  wpsSample.val[i].shData;
   }
 }
 
@@ -1847,4 +1847,5 @@ void __fastcall TFPpal::cb_stat1Click(TObject *Sender)
   }
 }
 //---------------------------------------------------------------------------
+
 

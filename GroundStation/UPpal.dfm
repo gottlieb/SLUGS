@@ -42,10 +42,10 @@ object FPpal: TFPpal
     Top = 25
     Width = 375
     Height = 672
-    ActivePage = TabSheet1
+    ActivePage = ts_commands
     Align = alClient
     MultiLine = True
-    TabIndex = 2
+    TabIndex = 5
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth'
@@ -5893,6 +5893,81 @@ object FPpal: TFPpal
         end
       end
     end
+    object ts_commands: TTabSheet
+      Caption = 'Commands'
+      ImageIndex = 9
+      object SpeedButton2: TSpeedButton
+        Left = 8
+        Top = 590
+        Width = 353
+        Height = 26
+        Caption = 'Send Configured Commands'
+        Flat = True
+        Glyph.Data = {
+          76010000424D7601000000000000760000002800000020000000100000000100
+          04000000000000010000130B0000130B00001000000000000000000000000000
+          800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003333330FFFFF
+          FFF03333337F3FFFF3F73333330F0000F0F03333337F777737373333330FFFFF
+          FFF033FFFF7FFF33FFF77000000007F00000377777777FF777770BBBBBBBB0F0
+          FF037777777777F7F3730B77777BB0F0F0337777777777F7F7330B7FFFFFB0F0
+          0333777F333377F77F330B7FFFFFB0009333777F333377777FF30B7FFFFFB039
+          9933777F333377F777FF0B7FFFFFB0999993777F33337777777F0B7FFFFFB999
+          9999777F3333777777770B7FFFFFB0399933777FFFFF77F777F3070077007039
+          99337777777777F777F30B770077B039993377FFFFFF77F777330BB7007BB999
+          93337777FF777777733370000000073333333777777773333333}
+        NumGlyphs = 2
+        OnClick = bt_allpidClick
+      end
+      object RadioGroup1: TRadioGroup
+        Left = 8
+        Top = 16
+        Width = 353
+        Height = 74
+        Caption = 'Autopilot Mode '
+        Columns = 2
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ItemIndex = 0
+        Items.Strings = (
+          'Manual'
+          'AP Direct Commands'
+          'AP Way Point Nav'
+          'Passthrough All'
+          'Selective PT from Pilot'
+          'Selective Source from AP')
+        ParentFont = False
+        TabOrder = 0
+      end
+      object PageControl1: TPageControl
+        Left = 8
+        Top = 128
+        Width = 353
+        Height = 457
+        ActivePage = ts_direct
+        Style = tsFlatButtons
+        TabIndex = 0
+        TabOrder = 1
+        object ts_direct: TTabSheet
+          Caption = 'Direct Commands'
+        end
+        object ts_wp: TTabSheet
+          Caption = 'WP Nav'
+          ImageIndex = 1
+        end
+        object ts_ptpil: TTabSheet
+          Caption = 'PT from Pil'
+          ImageIndex = 2
+        end
+        object ts_ptap: TTabSheet
+          Caption = 'PT from AP'
+          ImageIndex = 3
+        end
+      end
+    end
     object ts_sensors: TTabSheet
       Caption = 'Sensors'
       ImageIndex = 1
@@ -8422,7 +8497,7 @@ object FPpal: TFPpal
       end
     end
     object ts_graphical: TTabSheet
-      Caption = 'Graphical Instruments'
+      Caption = 'Instruments'
       ImageIndex = 4
       object ai_att: TAbVCInd
         Left = -3
