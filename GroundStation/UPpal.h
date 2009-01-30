@@ -600,6 +600,14 @@ __published:	// IDE-managed Components
         TStaticText *et_val9;
         TCheckBox *cb_repstat10;
         TStaticText *et_val10;
+        TTabSheet *ts_commands;
+        TRadioGroup *RadioGroup1;
+        TPageControl *PageControl1;
+        TTabSheet *ts_direct;
+        TTabSheet *ts_wp;
+        TTabSheet *ts_ptpil;
+        TTabSheet *ts_ptap;
+        TSpeedButton *SpeedButton2;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
