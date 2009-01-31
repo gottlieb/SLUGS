@@ -5924,7 +5924,7 @@ object FPpal: TFPpal
         Top = 208
         Width = 337
         Height = 221
-        ActivePage = ts_direct
+        ActivePage = ts_ptpil
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -5932,7 +5932,7 @@ object FPpal: TFPpal
         Font.Style = [fsBold]
         ParentFont = False
         Style = tsFlatButtons
-        TabIndex = 0
+        TabIndex = 2
         TabOrder = 0
         object ts_direct: TTabSheet
           Caption = 'Direct Commands'
@@ -6281,7 +6281,7 @@ object FPpal: TFPpal
           object bt_ptpil: TSpeedButton
             Left = 3
             Top = 155
-            Width = 326
+            Width = 214
             Height = 26
             Caption = 'Configure the Passthrough'
             Flat = True
@@ -6300,6 +6300,29 @@ object FPpal: TFPpal
               33337F73FF737773333307800077033333337337773373333333}
             NumGlyphs = 2
             OnClick = bt_allpidClick
+          end
+          object SpeedButton2: TSpeedButton
+            Left = 219
+            Top = 155
+            Width = 107
+            Height = 26
+            Caption = 'Get PT Config'
+            Flat = True
+            Glyph.Data = {
+              76010000424D7601000000000000760000002800000020000000100000000100
+              04000000000000010000120B0000120B00001000000000000000000000000000
+              800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+              FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333393333
+              333333333337F3333333333333397333333333333337FF333333333333C94333
+              3333333333737F333333333333C9473333333333337373F3333333333CC94433
+              3333333337F7F7F3333333333CC94473333333333737F73F33333333CCC94443
+              333333337F37F37F33333333CCC94447333333337337F373F333333CCCC94444
+              33333337F337F337F333333CCCC94444733333373337F3373F3333CCCCC94444
+              4333337F3337FF337F3333CCCCC94444473333733F7773FF73F33CCCCC393444
+              443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
+              444377733337F333777FC3333339333337437333333733333373}
+            NumGlyphs = 2
+            OnClick = SpeedButton2Click
           end
           object cb_ptpdt: TCheckBox
             Left = 16
@@ -6370,6 +6393,70 @@ object FPpal: TFPpal
             Height = 17
             Caption = 'Right Flap'
             TabOrder = 7
+          end
+          object cb_repptpdt: TCheckBox
+            Left = 134
+            Top = 52
+            Width = 17
+            Height = 17
+            Enabled = False
+            TabOrder = 8
+          end
+          object cb_repptpdla: TCheckBox
+            Left = 134
+            Top = 70
+            Width = 17
+            Height = 17
+            Enabled = False
+            TabOrder = 9
+          end
+          object cb_repptpdra: TCheckBox
+            Left = 134
+            Top = 89
+            Width = 17
+            Height = 17
+            Enabled = False
+            TabOrder = 10
+          end
+          object cb_repptpdr: TCheckBox
+            Left = 134
+            Top = 108
+            Width = 17
+            Height = 17
+            Enabled = False
+            TabOrder = 11
+          end
+          object cb_repptpdle: TCheckBox
+            Left = 310
+            Top = 52
+            Width = 17
+            Height = 17
+            Enabled = False
+            TabOrder = 12
+          end
+          object cb_repptpdre: TCheckBox
+            Left = 310
+            Top = 70
+            Width = 17
+            Height = 17
+            Enabled = False
+            TabOrder = 13
+          end
+          object cb_repptpdlf: TCheckBox
+            Left = 310
+            Top = 89
+            Width = 17
+            Height = 17
+            Enabled = False
+            TabOrder = 14
+          end
+          object cb_repptpdrf: TCheckBox
+            Left = 310
+            Top = 108
+            Width = 17
+            Height = 17
+            Enabled = False
+            TabOrder = 15
           end
         end
         object ts_none: TTabSheet
@@ -6473,6 +6560,7 @@ object FPpal: TFPpal
         Top = 474
         Width = 337
         Height = 38
+        BevelInner = bvLowered
         BevelOuter = bvNone
         TabOrder = 7
       end

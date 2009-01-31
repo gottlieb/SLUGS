@@ -510,6 +510,14 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    et_fail ->Caption = FormatFloat("0.0000E+00",csFail);
 
    et_status ->Caption = "Status = " +  IntToStr(apsSample.controlType);
+   cb_repptpdt->Checked = apsSample.dt_pass;
+   cb_repptpdla->Checked = apsSample.dla_pass;
+   cb_repptpdra->Checked = apsSample.dra_pass;
+   cb_repptpdr->Checked = apsSample.dr_pass;
+   cb_repptpdle->Checked = apsSample.dle_pass;
+   cb_repptpdre->Checked = apsSample.dre_pass;
+   cb_repptpdlf->Checked = apsSample.dlf_pass;
+   cb_repptpdrf->Checked = apsSample.drf_pass;
 }
 //---------------------------------------------------------------------------
 void TFPpal::updateAkn(void){
@@ -1527,7 +1535,7 @@ void __fastcall TFPpal::bt_down1Click(TObject *Sender)
 
  indx = ((TComponent*)Sender)->Tag;
 
- rawMsg[0]    =    1; // Value ID (1 is PID)
+ rawMsg[0]    =    PIDTYPE_ID; // Value ID (1 is PID)
  rawMsg[1]    =    indx; // Index
 
  assembleMsg(&rawMsg[0],QUEMSG_LEN,QUEMSG_ID,&filtMsg[0]);
@@ -1816,7 +1824,7 @@ void __fastcall TFPpal::bt_getwp1Click(TObject *Sender)
 
  indx = ((TComponent*)Sender)->Tag;
 
- rawMsg[0]    =    2; // Value ID (2 is WP)
+ rawMsg[0]    =    WPSTYPE_ID; // Value ID (2 is WP)
  rawMsg[1]    =    indx; // Index
 
  assembleMsg(&rawMsg[0],QUEMSG_LEN,QUEMSG_ID,&filtMsg[0]);
@@ -1941,6 +1949,23 @@ void __fastcall TFPpal::bt_modeClick(TObject *Sender)
  cp_serial->PutBlock(&filtMsg[0],(CHSMSG_LEN+7));
 
 
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::SpeedButton2Click(TObject *Sender)
+{
+//
+ unsigned char filtMsg[17];
+ unsigned char rawMsg[10], indx;
+
+ memset(&rawMsg[0],0,10);
+
+
+ rawMsg[0]    =    PASTYPE_ID;
+
+ assembleMsg(&rawMsg[0],QUEMSG_LEN,QUEMSG_ID,&filtMsg[0]);
+
+ cp_serial->PutBlock(&filtMsg[0],(QUEMSG_LEN+7));
 }
 //---------------------------------------------------------------------------
 
