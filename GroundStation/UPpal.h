@@ -645,6 +645,15 @@ __published:	// IDE-managed Components
         TSpeedButton *bt_ptpil;
         TPanel *Panel3;
         TTabSheet *ts_none;
+        TSpeedButton *SpeedButton2;
+        TCheckBox *cb_repptpdt;
+        TCheckBox *cb_repptpdla;
+        TCheckBox *cb_repptpdra;
+        TCheckBox *cb_repptpdr;
+        TCheckBox *cb_repptpdle;
+        TCheckBox *cb_repptpdre;
+        TCheckBox *cb_repptpdlf;
+        TCheckBox *cb_repptpdrf;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -694,6 +703,7 @@ __published:	// IDE-managed Components
         void __fastcall rb_manualClick(TObject *Sender);
         void __fastcall rg_modesClick(TObject *Sender);
         void __fastcall bt_modeClick(TObject *Sender);
+        void __fastcall SpeedButton2Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TFPpal(TComponent* Owner);

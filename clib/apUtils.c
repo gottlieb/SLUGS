@@ -334,8 +334,7 @@ void updateStates(unsigned char * completeSentence){
 			apsControlData.dle_pass		=	completeSentence[9] ;	
 			apsControlData.dre_pass		=	completeSentence[10];	
 			apsControlData.dlf_pass		=	completeSentence[11];	
-			apsControlData.drf_pass		=	completeSentence[12];	
-					
+			apsControlData.drf_pass		=	completeSentence[12];						
 		break;
 		
 		default:
