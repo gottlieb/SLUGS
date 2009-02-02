@@ -638,8 +638,8 @@ __published:	// IDE-managed Components
         TSpeedButton *SpeedButton15;
         TSpeedButton *SpeedButton17;
         TLabel *Label153;
-        TCurrencyEdit *CurrencyEdit4;
-        TStaticText *StaticText4;
+        TCurrencyEdit *ed_gotowp;
+        TStaticText *et_gotowp;
         TSpeedButton *SpeedButton19;
         TSpeedButton *SpeedButton20;
         TSpeedButton *bt_ptpil;
@@ -704,6 +704,9 @@ __published:	// IDE-managed Components
         void __fastcall rg_modesClick(TObject *Sender);
         void __fastcall bt_modeClick(TObject *Sender);
         void __fastcall SpeedButton2Click(TObject *Sender);
+        void __fastcall SpeedButton7Click(TObject *Sender);
+        void __fastcall ed_heightChange(TObject *Sender);
+        void __fastcall SpeedButton9Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TFPpal(TComponent* Owner);
@@ -728,6 +731,9 @@ public:		// User declarations
         tPIDData                  pidSample;
         tWPData                   wpsSample;
         tAPStatusData             apsSample;
+        tCommandsData             comSample;
+
+        String str_modes[10];
 
         float csFail;
 
@@ -746,6 +752,7 @@ public:		// User declarations
         void updatePWM(void);
         void updatePID(void);
         void updateWP(void);
+        void updateStatus(void);
 
         void updateBiasLabels(void);
         void updateDynLabels(void);

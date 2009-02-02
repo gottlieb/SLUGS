@@ -147,6 +147,7 @@ and data types.
 #define PIDTYPE_ID		1
 #define WPSTYPE_ID		2
 #define PASTYPE_ID		3
+#define COMTYPE_ID		4
 
 // Control Types
 #define CTRL_TYPE_MANUAL	1
@@ -174,7 +175,8 @@ and data types.
 
 // WP EEPROM Error Messages
 #define WPSEEP_WRITE_FAIL	21
-
+#define WPSEEP_PAGE_EXP		22
+#define WPSEEP_MEMORY_CORR	23
 
 // EEPROM Emulation Address Offsets
 // ================================

@@ -276,6 +276,13 @@ void __fastcall TFPpal::FormCreate(TObject *Sender)
  cbRepStat[9] = cb_repstat10;
 
 
+ // Mode Texts
+ str_modes[CTRL_TYPE_MANUAL] = "Pilot Control";
+ str_modes[CTRL_TYPE_PASS] = "Passthrough";
+ str_modes[CTRL_TYPE_SEL_PIL] = "Selective Passthrough from Pilot";
+ str_modes[CTRL_TYPE_AP_COMM] = "Direct Commands";
+ str_modes[CTRL_TYPE_AP_WP] = "WayPoint Navigation";
+ str_modes[CTRL_TYPE_SEL_AP] = "Selective Passthrough from AP";
 }
 //---------------------------------------------------------------------------
 
@@ -488,6 +495,7 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    pidSample = getPidStruct();
    wpsSample = getWPStruct();
    apsSample = getAPSStruct();
+   comSample = getComStruct();
 
    updateAkn();
 
@@ -506,18 +514,11 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    updatePWM();
    updatePID();
    updateWP();
+   updateStatus();
 
    et_fail ->Caption = FormatFloat("0.0000E+00",csFail);
 
-   et_status ->Caption = "Status = " +  IntToStr(apsSample.controlType);
-   cb_repptpdt->Checked = apsSample.dt_pass;
-   cb_repptpdla->Checked = apsSample.dla_pass;
-   cb_repptpdra->Checked = apsSample.dra_pass;
-   cb_repptpdr->Checked = apsSample.dr_pass;
-   cb_repptpdle->Checked = apsSample.dle_pass;
-   cb_repptpdre->Checked = apsSample.dre_pass;
-   cb_repptpdlf->Checked = apsSample.dlf_pass;
-   cb_repptpdrf->Checked = apsSample.drf_pass;
+
 }
 //---------------------------------------------------------------------------
 void TFPpal::updateAkn(void){
@@ -534,15 +535,15 @@ void TFPpal::updateAkn(void){
          BoxCont[aknSample.pidCal-1]->Color = clGreen;
       } else {
          switch (aknSample.pidCal){
-             case 11: // WRITE FAILED
+             case PIDEEP_WRITE_FAIL: // WRITE FAILED
                 et_warning->Color = clYellow;
                 et_warning->Caption = "EEPROM Write Failed. Value Changed Only in Structs";
              break;
-             case 12: // INIT FAILED. ALL PAGES EXPIRED
+             case PIDEEP_PAGE_EXP: // INIT FAILED. ALL PAGES EXPIRED
                 et_warning->Color = clYellow;
                 et_warning->Caption = "All EEPROM Pages Have expired";
              break;
-             case 13: // INIT FAILED. EEPROM CORRUPTED
+             case PIDEEP_MEMORY_CORR: // INIT FAILED. EEPROM CORRUPTED
                 et_warning->Color = clRed;
                 et_warning->Caption = "EEPROM Corrupted. Need to Reinitialize";
              break;
@@ -557,15 +558,15 @@ void TFPpal::updateAkn(void){
          boxWP[aknSample.WP-1]->Color = clGreen;
       } else {
          switch (aknSample.WP){
-             case 21: // WRITE FAILED
+             case WPSEEP_WRITE_FAIL: // WRITE FAILED
                 et_warning->Color = clYellow;
                 et_warning->Caption = "EEPROM Write Failed. Value Changed Only in Structs";
              break;
-             case 22: // INIT FAILED. ALL PAGES EXPIRED
+             case WPSEEP_PAGE_EXP: // INIT FAILED. ALL PAGES EXPIRED
                 et_warning->Color = clYellow;
                 et_warning->Caption = "All EEPROM Pages Have expired";
              break;
-             case 23: // INIT FAILED. EEPROM CORRUPTED
+             case WPSEEP_MEMORY_CORR: // INIT FAILED. EEPROM CORRUPTED
                 et_warning->Color = clRed;
                 et_warning->Caption = "EEPROM Corrupted. Need to Reinitialize";
              break;
@@ -574,6 +575,27 @@ void TFPpal::updateAkn(void){
 
       setAknWpCal(0);
    }
+
+    if (aknSample.commands >= 1 ){
+       switch (aknSample.commands){
+        case COMM_TYPE_HEIGHT:
+          ed_height->Color = clWhite;
+        break;
+
+        case COMM_TYPE_TURNRATE:
+          ed_r->Color = clWhite;
+        break;
+
+        case COMM_TYPE_AIRSPEED:
+          ed_airspeed->Color = clWhite;
+        break;
+
+        case COMM_TYPE_GOTO_WP:
+          ed_gotowp->Color = clWhite;
+        break;
+       }
+       setAknComCal(0);
+    }
 }
 //---------------------------------------------------------------------------
 void TFPpal::updateGPSLabels(void){
@@ -755,6 +777,27 @@ unsigned char i;
      cbRepStat[i]->Checked  =  wpsSample.typ[i]==1?true:false;
      etValVals[i]->Caption  =  wpsSample.val[i].shData;
   }
+}
+
+void TFPpal::updateStatus(void){
+   // update Status Panel
+   et_status ->Caption = "Status: " +  str_modes[apsSample.controlType];
+
+   // update the passtrough config
+   cb_repptpdt->Checked = apsSample.dt_pass;
+   cb_repptpdla->Checked = apsSample.dla_pass;
+   cb_repptpdra->Checked = apsSample.dra_pass;
+   cb_repptpdr->Checked = apsSample.dr_pass;
+   cb_repptpdle->Checked = apsSample.dle_pass;
+   cb_repptpdre->Checked = apsSample.dre_pass;
+   cb_repptpdlf->Checked = apsSample.dlf_pass;
+   cb_repptpdrf->Checked = apsSample.drf_pass;
+
+   // update the Commands Labels
+   et_gotowp->Caption = IntToStr(comSample.currWPCommand);
+   et_heightcomm->Caption = FloatToStr(comSample.hCommand.flData);
+   et_airspeed->Caption = FloatToStr(comSample.airspeedCommand.flData);
+   et_rcommand->Caption = FloatToStr(comSample.rCommand.flData);
 }
 
 
@@ -1962,6 +2005,76 @@ void __fastcall TFPpal::SpeedButton2Click(TObject *Sender)
 
 
  rawMsg[0]    =    PASTYPE_ID;
+
+ assembleMsg(&rawMsg[0],QUEMSG_LEN,QUEMSG_ID,&filtMsg[0]);
+
+ cp_serial->PutBlock(&filtMsg[0],(QUEMSG_LEN+7));
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::SpeedButton7Click(TObject *Sender)
+{
+//
+ unsigned char filtMsg[17];
+ unsigned char rawMsg[11], indx;
+ tFloatToChar temp;
+
+ memset(&rawMsg[0],0,10);
+
+ // init the value
+ switch (((TSpeedButton*)Sender)->Tag){
+   case 0:
+     temp.flData = ed_height->Value;
+     rawMsg[0]   = COMM_TYPE_HEIGHT;
+   break;
+
+   case 1:
+     temp.flData = ed_airspeed->Value;
+     rawMsg[0]   = COMM_TYPE_AIRSPEED;
+   break;
+
+   case 2:
+     temp.flData = ed_r->Value;
+     rawMsg[0]   = COMM_TYPE_TURNRATE;
+   break;
+
+   case 4:
+     temp.chData[0] = (unsigned char)ed_gotowp->Value;
+     rawMsg[0]      = COMM_TYPE_GOTO_WP;
+   break;
+ }
+
+
+
+ rawMsg[1]    =    temp.chData[0];
+ rawMsg[2]    =    temp.chData[1];
+ rawMsg[3]    =    temp.chData[2];
+ rawMsg[4]    =    temp.chData[3];
+
+
+ assembleMsg(&rawMsg[0],COMMSG_LEN,COMMSG_ID,&filtMsg[0]);
+
+ cp_serial->PutBlock(&filtMsg[0],(COMMSG_LEN+7));
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::ed_heightChange(TObject *Sender)
+{
+  ((TCurrencyEdit*)Sender)->Color = clRed;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::SpeedButton9Click(TObject *Sender)
+{
+ unsigned char filtMsg[17];
+ unsigned char rawMsg[10], indx;
+
+ memset(&rawMsg[0],0,10);
+
+ indx = ((TComponent*)Sender)->Tag;
+
+ rawMsg[0]    =    COMTYPE_ID; // Value ID (1 is PID)
+ rawMsg[1]    =    indx; // Index
 
  assembleMsg(&rawMsg[0],QUEMSG_LEN,QUEMSG_ID,&filtMsg[0]);
 

@@ -57,10 +57,12 @@ void protParserInit (void);
     void setAknPidCal (unsigned char value);
     void setAknReboot (unsigned char value);
     void setAknWpCal (unsigned char value);
+    void setAknComCal (unsigned char value);
     tPWMData getPWMStruct (void);
     tPIDData getPidStruct (void);
     tWPData  getWPStruct (void);
-	tAPStatusData getAPSStruct (void);    
+	tAPStatusData getAPSStruct (void);   
+	tCommandsData getComStruct (void); 
     
 #else
      void protParseDecode (unsigned char* fromSPI);
