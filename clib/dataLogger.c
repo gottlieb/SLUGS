@@ -308,7 +308,7 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 	// get the Length of the logBuffer
 	bufLen = getLength(logBuffer);
 	
-	// if HIL is do not transmit diagnostic data in the diagnostic port
+	// if HIL is ON do not transmit diagnostic data in the diagnostic port
 	if (rawData[HIL_START]!= 1){		
 		// if the interrupt catched up with the circularBuffer
 		//  then turn on the DMA

@@ -306,6 +306,39 @@ void hil_getGPSRead (unsigned char * gpsMsg){
 }
 
 
+void hil_getVned(float* vned){
+	vned[0] = xyzControlData.VX.flData;
+	vned[1] = xyzControlData.VY.flData;
+	vned[2] = xyzControlData.VZ.flData;
+}
+
+void hil_getXYZ(float* xyz){
+	xyz[0] = xyzControlData.Xcoord.flData;
+	xyz[1] = xyzControlData.Ycoord.flData;
+	xyz[2] = xyzControlData.Zcoord.flData;
+}
+
+void hil_getEuler(float* euler){
+	euler[0] = attControlData.roll.flData;
+	euler[1] = attControlData.pitch.flData;
+	euler[2] = attControlData.yaw.flData;
+}
+
+void hil_getRates(float* pqr){
+	pqr[0] = attControlData.p.flData;
+	pqr[1] = attControlData.q.flData;
+	pqr[2] = attControlData.r.flData;
+}
+
+unsigned short hil_getTs(void){
+	return attControlData.timeStamp.shData;
+}
+
+
+
+
+
+
 // ================================
 // PC Only methods
 // ================================
