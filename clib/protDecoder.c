@@ -319,19 +319,19 @@ void hil_getXYZ(float* xyz){
 }
 
 void hil_getEuler(float* euler){
-	euler[0] = attControlData.roll.flData;
-	euler[1] = attControlData.pitch.flData;
-	euler[2] = attControlData.yaw.flData;
+	euler[0] = attitudeControlData.roll.flData;
+	euler[1] = attitudeControlData.pitch.flData;
+	euler[2] = attitudeControlData.yaw.flData;
 }
 
 void hil_getRates(float* pqr){
-	pqr[0] = attControlData.p.flData;
-	pqr[1] = attControlData.q.flData;
-	pqr[2] = attControlData.r.flData;
+	pqr[0] = attitudeControlData.p.flData;
+	pqr[1] = attitudeControlData.q.flData;
+	pqr[2] = attitudeControlData.r.flData;
 }
 
 unsigned short hil_getTs(void){
-	return attControlData.timeStamp.shData;
+	return attitudeControlData.timeStamp.usData;
 }
 
 
