@@ -1412,6 +1412,27 @@ void  TFPpal::processUdpMsg (unsigned char * buffer)
   // Send the data
   cp_hil->PutBlock(&hilMsg[0],(RAWMSG_LEN+7));
 
+
+  // Att Data Sentence
+  // =================
+
+  // reset message variable
+  memset(&hilMsg,0, 50);
+  // Assemble the message for transmission
+  assembleMsg(&buffer[HIL_ATT_START],ATTMSG_LEN,ATTMSG_ID,&hilMsg[0]);
+  // Send the data
+  cp_hil->PutBlock(&hilMsg[0],(ATTMSG_LEN+7));
+
+  // XYZ Data Sentence
+  // =================
+
+  // reset message variable
+  memset(&hilMsg,0, 50);
+  // Assemble the message for transmission
+  assembleMsg(&buffer[HIL_XYZ_START],XYZMSG_LEN,XYZMSG_ID,&hilMsg[0]);
+  // Send the data
+  cp_hil->PutBlock(&hilMsg[0],(XYZMSG_LEN+7));
+
 }
 
 //---------------------------------------------------------------------------

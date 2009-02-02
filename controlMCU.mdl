@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.173"
+    ComputedModelVersion    "1.175"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Jan 30 16:38:35 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:173>"
+  LastModifiedDate	  "Mon Feb 02 14:37:42 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:175>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -821,7 +821,7 @@ Model {
       Name		      "Create Telemetry \nSentence"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [0, 1]
-      Position		      [395, 197, 500, 233]
+      Position		      [515, 317, 620, 353]
       BackgroundColor	      "orange"
       List {
 	ListType		RTWdata
@@ -1196,7 +1196,22 @@ Model {
     }
     Block {
       BlockType		      Reference
-      Name		      "HIL On/Off Swithc"
+      Name		      "HIL Attitude \nOn/Off Switch"
+      Tag		      "dsPIC_Digital_Output"
+      Ports		      [1]
+      Position		      [605, 190, 705, 230]
+      BackgroundColor	      "darkGreen"
+      Priority		      "5"
+      SourceBlock	      "dsPICdrivers/Digital I//O/Digital Output Write"
+      SourceType	      ""
+      PORT		      "B"
+      Pin		      "[6]"
+      Simultaneous	      off
+      OrderingInOutPopup      "None"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "HIL On/Off Switch"
       Tag		      "dsPIC_Digital_Output"
       Ports		      [1]
       Position		      [605, 130, 705, 170]
@@ -1345,7 +1360,7 @@ Model {
       Name		      "Send Data to Radio\nModem"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [1]
-      Position		      [595, 197, 700, 233]
+      Position		      [650, 317, 755, 353]
       BackgroundColor	      "darkGreen"
       List {
 	ListType		RTWdata
@@ -1611,8 +1626,16 @@ Model {
     Line {
       SrcBlock		      "Data Type Conversion1"
       SrcPort		      1
-      DstBlock		      "HIL On/Off Swithc"
-      DstPort		      1
+      Points		      [5, 0]
+      Branch {
+	DstBlock		"HIL On/Off Switch"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 60]
+	DstBlock		"HIL Attitude \nOn/Off Switch"
+	DstPort			1
+      }
     }
     Line {
       SrcBlock		      "Create Telemetry \nSentence"
