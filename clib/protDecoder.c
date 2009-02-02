@@ -69,6 +69,9 @@ void protParserInit(void){
 	#else
 		aknControlData.reboot = 1;		
 	#endif
+		
+	// Manual mode
+	apsControlData.controlType = CTRL_TYPE_MANUAL;
 	
 	
 	
@@ -483,6 +486,10 @@ tWPData  getWPStruct (void){
 	return wpsControlData;
 }
 
+tCommandsData getComStruct(void){
+	return comControlData;
+}
+
 tAPStatusData getAPSStruct(void){
 	return apsControlData;
 }
@@ -504,6 +511,9 @@ void setAknWpCal (unsigned char value){
 	aknControlData.WP = value;
 }
 
+void setAknComCal (unsigned char value){
+	aknControlData.commands = value;
+}
 void getTime (unsigned char * values){
 	values[0] = gpsControlData.hour;
 	values[1] = gpsControlData.min;

@@ -1,6 +1,6 @@
 object FPpal: TFPpal
   Left = 366
-  Top = 100
+  Top = 114
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 
@@ -695,7 +695,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 0
           OnChange = ed_p1Change
         end
@@ -705,7 +706,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 1
           OnChange = ed_p1Change
         end
@@ -715,7 +717,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 2
           OnChange = ed_p1Change
         end
@@ -903,7 +906,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 0
           OnChange = ed_p1Change
         end
@@ -914,7 +918,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 1
           OnChange = ed_p1Change
         end
@@ -925,7 +930,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 2
           OnChange = ed_p1Change
         end
@@ -1113,7 +1119,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 0
           OnChange = ed_p1Change
         end
@@ -1124,7 +1131,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 1
           OnChange = ed_p1Change
         end
@@ -1135,7 +1143,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 2
           OnChange = ed_p1Change
         end
@@ -1323,7 +1332,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 0
           OnChange = ed_p1Change
         end
@@ -1334,7 +1344,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 1
           OnChange = ed_p1Change
         end
@@ -1345,7 +1356,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 2
           OnChange = ed_p1Change
         end
@@ -1533,7 +1545,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 0
           OnChange = ed_p1Change
         end
@@ -1544,7 +1557,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 1
           OnChange = ed_p1Change
         end
@@ -1555,7 +1569,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 2
           OnChange = ed_p1Change
         end
@@ -1743,7 +1758,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 0
           OnChange = ed_p1Change
         end
@@ -1754,7 +1770,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 1
           OnChange = ed_p1Change
         end
@@ -1765,7 +1782,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 2
           OnChange = ed_p1Change
         end
@@ -1953,7 +1971,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 0
           OnChange = ed_p1Change
         end
@@ -1964,7 +1983,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 1
           OnChange = ed_p1Change
         end
@@ -1975,7 +1995,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 2
           OnChange = ed_p1Change
         end
@@ -2163,7 +2184,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 0
           OnChange = ed_p1Change
         end
@@ -2174,7 +2196,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 1
           OnChange = ed_p1Change
         end
@@ -2185,7 +2208,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 2
           OnChange = ed_p1Change
         end
@@ -2373,7 +2397,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 0
           OnChange = ed_p1Change
         end
@@ -2384,7 +2409,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 1
           OnChange = ed_p1Change
         end
@@ -2395,7 +2421,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 2
           OnChange = ed_p1Change
         end
@@ -2583,7 +2610,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 0
           OnChange = ed_p1Change
         end
@@ -2594,7 +2622,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 1
           OnChange = ed_p1Change
         end
@@ -2605,7 +2634,8 @@ object FPpal: TFPpal
           Width = 65
           Height = 18
           AutoSize = False
-          DisplayFormat = ' ,00.0000;- ,00.0000'
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.00000;- ,00.00000'
           TabOrder = 2
           OnChange = ed_p1Change
         end
@@ -2982,7 +3012,10 @@ object FPpal: TFPpal
           DecimalPlaces = 0
           DisplayFormat = ' ,00;- ,00'
           Enabled = False
+          MaxValue = 1000
+          MinValue = 20
           TabOrder = 7
+          Value = 20
           OnChange = ed_lat1Change
         end
         object cb_repstat1: TCheckBox
@@ -3262,7 +3295,10 @@ object FPpal: TFPpal
           DecimalPlaces = 0
           DisplayFormat = ' ,00;- ,00'
           Enabled = False
+          MaxValue = 1000
+          MinValue = 20
           TabOrder = 7
+          Value = 20
           OnChange = ed_lat1Change
         end
         object cb_repstat2: TCheckBox
@@ -3542,7 +3578,10 @@ object FPpal: TFPpal
           DecimalPlaces = 0
           DisplayFormat = ' ,00;- ,00'
           Enabled = False
+          MaxValue = 1000
+          MinValue = 20
           TabOrder = 7
+          Value = 20
           OnChange = ed_lat1Change
         end
         object cb_repstat3: TCheckBox
@@ -3822,7 +3861,10 @@ object FPpal: TFPpal
           DecimalPlaces = 0
           DisplayFormat = ' ,00;- ,00'
           Enabled = False
+          MaxValue = 1000
+          MinValue = 20
           TabOrder = 7
+          Value = 20
           OnChange = ed_lat1Change
         end
         object cb_repstat4: TCheckBox
@@ -4102,7 +4144,10 @@ object FPpal: TFPpal
           DecimalPlaces = 0
           DisplayFormat = ' ,00;- ,00'
           Enabled = False
+          MaxValue = 1000
+          MinValue = 20
           TabOrder = 7
+          Value = 20
           OnChange = ed_lat1Change
         end
         object cb_repstat5: TCheckBox
@@ -4382,7 +4427,10 @@ object FPpal: TFPpal
           DecimalPlaces = 0
           DisplayFormat = ' ,00;- ,00'
           Enabled = False
+          MaxValue = 1000
+          MinValue = 20
           TabOrder = 7
+          Value = 20
           OnChange = ed_lat1Change
         end
         object cb_repstat6: TCheckBox
@@ -4662,7 +4710,10 @@ object FPpal: TFPpal
           DecimalPlaces = 0
           DisplayFormat = ' ,00;- ,00'
           Enabled = False
+          MaxValue = 1000
+          MinValue = 20
           TabOrder = 7
+          Value = 20
           OnChange = ed_lat1Change
         end
         object cb_repstat7: TCheckBox
@@ -4943,7 +4994,10 @@ object FPpal: TFPpal
           DecimalPlaces = 0
           DisplayFormat = ' ,00;- ,00'
           Enabled = False
+          MaxValue = 1000
+          MinValue = 20
           TabOrder = 7
+          Value = 20
           OnChange = ed_lat1Change
         end
         object cb_repstat8: TCheckBox
@@ -5224,7 +5278,10 @@ object FPpal: TFPpal
           DecimalPlaces = 0
           DisplayFormat = ' ,00;- ,00'
           Enabled = False
+          MaxValue = 1000
+          MinValue = 20
           TabOrder = 7
+          Value = 20
           OnChange = ed_lat1Change
         end
         object cb_repstat9: TCheckBox
@@ -5505,7 +5562,10 @@ object FPpal: TFPpal
           DecimalPlaces = 0
           DisplayFormat = ' ,00;- ,00'
           Enabled = False
+          MaxValue = 1000
+          MinValue = 20
           TabOrder = 7
+          Value = 20
           OnChange = ed_lat1Change
         end
         object cb_repstat10: TCheckBox
@@ -5924,7 +5984,7 @@ object FPpal: TFPpal
         Top = 208
         Width = 337
         Height = 221
-        ActivePage = ts_ptpil
+        ActivePage = ts_none
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -5932,7 +5992,7 @@ object FPpal: TFPpal
         Font.Style = [fsBold]
         ParentFont = False
         Style = tsFlatButtons
-        TabIndex = 2
+        TabIndex = 3
         TabOrder = 0
         object ts_direct: TTabSheet
           Caption = 'Direct Commands'
@@ -5963,9 +6023,10 @@ object FPpal: TFPpal
               33333333333737F333333333333C943333333333333737333333333333339733
               3333333333337F33333333333333933333333333333373333333}
             NumGlyphs = 2
-            OnClick = bt_up1Click
+            OnClick = SpeedButton7Click
           end
           object SpeedButton9: TSpeedButton
+            Tag = 1
             Left = 294
             Top = 14
             Width = 32
@@ -5985,7 +6046,7 @@ object FPpal: TFPpal
               443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
               444377733337F333777FC3333339333337437333333733333373}
             NumGlyphs = 2
-            OnClick = bt_down1Click
+            OnClick = SpeedButton9Click
           end
           object Label151: TLabel
             Left = 8
@@ -5995,6 +6056,7 @@ object FPpal: TFPpal
             Caption = 'Airspeed (m/s)'
           end
           object SpeedButton11: TSpeedButton
+            Tag = 1
             Left = 255
             Top = 37
             Width = 32
@@ -6014,9 +6076,10 @@ object FPpal: TFPpal
               33333333333737F333333333333C943333333333333737333333333333339733
               3333333333337F33333333333333933333333333333373333333}
             NumGlyphs = 2
-            OnClick = bt_up1Click
+            OnClick = SpeedButton7Click
           end
           object SpeedButton13: TSpeedButton
+            Tag = 3
             Left = 294
             Top = 38
             Width = 32
@@ -6036,7 +6099,7 @@ object FPpal: TFPpal
               443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
               444377733337F333777FC3333339333337437333333733333373}
             NumGlyphs = 2
-            OnClick = bt_down1Click
+            OnClick = SpeedButton9Click
           end
           object Label152: TLabel
             Left = 8
@@ -6046,6 +6109,7 @@ object FPpal: TFPpal
             Caption = 'Turn Rate (rad/s)'
           end
           object SpeedButton15: TSpeedButton
+            Tag = 2
             Left = 255
             Top = 61
             Width = 32
@@ -6065,9 +6129,10 @@ object FPpal: TFPpal
               33333333333737F333333333333C943333333333333737333333333333339733
               3333333333337F33333333333333933333333333333373333333}
             NumGlyphs = 2
-            OnClick = bt_up1Click
+            OnClick = SpeedButton7Click
           end
           object SpeedButton17: TSpeedButton
+            Tag = 2
             Left = 294
             Top = 62
             Width = 32
@@ -6087,7 +6152,7 @@ object FPpal: TFPpal
               443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
               444377733337F333777FC3333339333337437333333733333373}
             NumGlyphs = 2
-            OnClick = bt_down1Click
+            OnClick = SpeedButton9Click
           end
           object ed_height: TCurrencyEdit
             Left = 108
@@ -6096,8 +6161,9 @@ object FPpal: TFPpal
             Height = 18
             AutoSize = False
             DisplayFormat = ' ,00.0000;- ,00.0000'
+            MaxValue = 700
             TabOrder = 0
-            OnChange = ed_p1Change
+            OnChange = ed_heightChange
           end
           object et_heightcomm: TStaticText
             Left = 180
@@ -6125,8 +6191,11 @@ object FPpal: TFPpal
             Height = 18
             AutoSize = False
             DisplayFormat = ' ,00.0000;- ,00.0000'
+            MaxValue = 50
+            MinValue = 15
             TabOrder = 2
-            OnChange = ed_p1Change
+            Value = 15
+            OnChange = ed_heightChange
           end
           object et_airspeed: TStaticText
             Left = 180
@@ -6154,8 +6223,10 @@ object FPpal: TFPpal
             Height = 18
             AutoSize = False
             DisplayFormat = ' ,00.0000;- ,00.0000'
+            MaxValue = 6
+            MinValue = -6
             TabOrder = 4
-            OnChange = ed_p1Change
+            OnChange = ed_heightChange
           end
           object et_rcommand: TStaticText
             Left = 180
@@ -6188,6 +6259,7 @@ object FPpal: TFPpal
             Caption = 'Go to WP #'
           end
           object SpeedButton19: TSpeedButton
+            Tag = 4
             Left = 255
             Top = 13
             Width = 32
@@ -6207,9 +6279,10 @@ object FPpal: TFPpal
               33333333333737F333333333333C943333333333333737333333333333339733
               3333333333337F33333333333333933333333333333373333333}
             NumGlyphs = 2
-            OnClick = bt_up1Click
+            OnClick = SpeedButton7Click
           end
           object SpeedButton20: TSpeedButton
+            Tag = 4
             Left = 294
             Top = 14
             Width = 32
@@ -6229,9 +6302,9 @@ object FPpal: TFPpal
               443337F37737F773F7F33CCC33393374447337F73337F33737FFCCC333393333
               444377733337F333777FC3333339333337437333333733333373}
             NumGlyphs = 2
-            OnClick = bt_down1Click
+            OnClick = SpeedButton9Click
           end
-          object CurrencyEdit4: TCurrencyEdit
+          object ed_gotowp: TCurrencyEdit
             Left = 108
             Top = 14
             Width = 65
@@ -6243,9 +6316,9 @@ object FPpal: TFPpal
             MinValue = 1
             TabOrder = 0
             Value = 1
-            OnChange = ed_p1Change
+            OnChange = ed_heightChange
           end
-          object StaticText4: TStaticText
+          object et_gotowp: TStaticText
             Left = 180
             Top = 15
             Width = 67
@@ -6255,7 +6328,7 @@ object FPpal: TFPpal
             BevelKind = bkSoft
             BevelOuter = bvNone
             BorderStyle = sbsSunken
-            Caption = '0.0'
+            Caption = '0'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -11
@@ -6271,8 +6344,8 @@ object FPpal: TFPpal
           object Label148: TLabel
             Left = 16
             Top = 3
-            Width = 281
-            Height = 38
+            Width = 259
+            Height = 39
             Caption = 
               'Select the control  surfaces that the pillot will'#13#10'have control ' +
               'over. Control surfaces checked '#13#10'below will be handled by the Pi' +
@@ -6299,7 +6372,7 @@ object FPpal: TFPpal
               3330737F3F7F777F333778080707770333333F7F737F3F7F3333080787070003
               33337F73FF737773333307800077033333337337773373333333}
             NumGlyphs = 2
-            OnClick = bt_allpidClick
+            OnClick = bt_modeClick
           end
           object SpeedButton2: TSpeedButton
             Left = 219
@@ -6501,6 +6574,8 @@ object FPpal: TFPpal
         Top = 0
         Width = 367
         Height = 33
+        BevelOuter = bvLowered
+        Color = clActiveBorder
         TabOrder = 3
         object et_status: TLabel
           Left = 4
@@ -6551,16 +6626,15 @@ object FPpal: TFPpal
         Left = 350
         Top = 208
         Width = 17
-        Height = 281
+        Height = 153
         BevelOuter = bvNone
         TabOrder = 6
       end
       object Panel3: TPanel
         Left = 8
-        Top = 474
+        Top = 200
         Width = 337
         Height = 38
-        BevelInner = bvLowered
         BevelOuter = bvNone
         TabOrder = 7
       end

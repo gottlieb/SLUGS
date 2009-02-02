@@ -342,6 +342,7 @@ void updateStates(unsigned char * completeSentence){
 	}
 }
 
+// Called to respond to a query
 void assembleRawSentence (unsigned char id, unsigned char indx, unsigned char * data){
 	switch (id) {
 		case PIDTYPE_ID: //PID Values
@@ -393,7 +394,39 @@ void assembleRawSentence (unsigned char id, unsigned char indx, unsigned char * 
 			data[5]	 = apsControlData.dle_pass;
 			data[6]	 = apsControlData.dre_pass;
 			data[7]	 = apsControlData.dlf_pass;
-			data[8]	 = apsControlData.drf_pass;
+			data[8]	 = apsControlData.drf_pass;			
+		break;
+		
+		case COMTYPE_ID:
+			data[0] = id;
+			data[1]	 = indx;
+			
+			switch (indx){
+				case COMM_TYPE_HEIGHT:
+					data[2]	 = comControlData.hCommand.chData[0];
+					data[3]	 = comControlData.hCommand.chData[1];
+					data[4]	 = comControlData.hCommand.chData[2];
+					data[5]	 = comControlData.hCommand.chData[3];
+				break;
+
+				case COMM_TYPE_AIRSPEED:
+					data[2]	 = comControlData.airspeedCommand.chData[0];
+					data[3]	 = comControlData.airspeedCommand.chData[1];
+					data[4]	 = comControlData.airspeedCommand.chData[2];
+					data[5]	 = comControlData.airspeedCommand.chData[3];
+				break;
+
+				case COMM_TYPE_TURNRATE:
+					data[2]	 = comControlData.rCommand.chData[0];
+					data[3]	 = comControlData.rCommand.chData[1];
+					data[4]	 = comControlData.rCommand.chData[2];
+					data[5]	 = comControlData.rCommand.chData[3];
+				break;
+
+				case COMM_TYPE_GOTO_WP:
+					data[2]	 = comControlData.currWPCommand;
+				break;				
+			}
 			
 		break;
 		
@@ -507,8 +540,36 @@ void decodeCalSentence (unsigned char id, unsigned char indx, unsigned char * da
 			apsControlData.drf_pass	=	data[6]	;
 		break;
 			
+		case COMTYPE_ID:			
+			switch (indx){
+				case COMM_TYPE_HEIGHT:
+					comControlData.hCommand.chData[0]	=	data[0];
+					comControlData.hCommand.chData[1]	=	data[1];
+					comControlData.hCommand.chData[2]	=	data[2];
+					comControlData.hCommand.chData[3]	=	data[3];
+				break;
+
+				case COMM_TYPE_AIRSPEED:
+					comControlData.airspeedCommand.chData[0]	=	data[0];
+					comControlData.airspeedCommand.chData[1]	=	data[1];
+					comControlData.airspeedCommand.chData[2]	=	data[2];
+					comControlData.airspeedCommand.chData[3]	=	data[3];
+				break;
+
+				case COMM_TYPE_TURNRATE:
+					comControlData.rCommand.chData[0]	=	data[0];
+					comControlData.rCommand.chData[1]	=	data[1];
+					comControlData.rCommand.chData[2]	=	data[2];
+					comControlData.rCommand.chData[3]	=	data[3];
+				break;
+
+				case COMM_TYPE_GOTO_WP:
+					comControlData.currWPCommand 		= data[0];
+				break;				
+			}		
+		break;
+				
 		// TODO: Include report for Limits and Calibration
-		
 		default:
 		break;
 	}
@@ -538,7 +599,7 @@ void decodeCmdsSentence(unsigned char id,unsigned char* data){
 		break;
 		
 		case COMM_TYPE_GOTO_WP:
-			comControlData.currWPCommand = data[8];
+			comControlData.currWPCommand = data[0];
 		break;
 	}
 	aknControlData.commands = id;
@@ -567,3 +628,4 @@ void decodeCmdsSentence(unsigned char id,unsigned char* data){
 				diagControlData.fl3.flData= val3.flData;
 
 */
+
