@@ -769,6 +769,7 @@ public:		// User declarations
         // HIL
         Winsock::TInAddr      FServerAddr;
         void processUdpMsg(unsigned char * buffer);
+        void TxPWMMsg (void);
 
         // Object Arrays
         // =============
