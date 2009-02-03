@@ -1436,11 +1436,13 @@ void  TFPpal::processUdpMsg (unsigned char * buffer)
 }
 //---------------------------------------------------------------------------
 void TFPpal::TxPWMMsg (void){
-   char send_buffer[20];
+   char send_buffer[22];
+   tUnsignedShorttoChar sampleTime;
 
    // Freeze the PWM data to avoid changing data in the
    // middle of a send UDP
    tPWMData pwmSampleLocal = pwmSample;
+   sampleTime.shData = attitudeSample.timeStamp;
 
    send_buffer[0] 	= pwmSampleLocal.dt_c.chData[0];
    send_buffer[1] 	= pwmSampleLocal.dt_c.chData[1];
@@ -1462,8 +1464,11 @@ void TFPpal::TxPWMMsg (void){
    send_buffer[17] 	= pwmSampleLocal.da1_c.chData[1];
    send_buffer[18] 	= pwmSampleLocal.da2_c.chData[0];
    send_buffer[19] 	= pwmSampleLocal.da2_c.chData[1];
+   send_buffer[20] 	= sampleTime.chData[0];
+   send_buffer[21] 	= sampleTime.chData[1];
 
-  skt_send->Send(&send_buffer[0],20);
+
+  skt_send->Send(&send_buffer[0],22);
   et_sent->Caption = IntToStr(atoi(et_sent->Caption.c_str()) + 1) + " Packets Sent";
 
 }
