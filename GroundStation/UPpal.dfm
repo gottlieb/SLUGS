@@ -10513,9 +10513,7 @@ object FPpal: TFPpal
     Top = 64
   end
   object cp_hil: TApdComPort
-    ComNumber = 3
     Baud = 115200
-    PromptForPort = False
     AutoOpen = False
     TraceName = 'APRO.TRC'
     LogName = 'APRO.LOG'
