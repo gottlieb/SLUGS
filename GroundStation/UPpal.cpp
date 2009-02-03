@@ -1437,12 +1437,12 @@ void  TFPpal::processUdpMsg (unsigned char * buffer)
 //---------------------------------------------------------------------------
 void TFPpal::TxPWMMsg (void){
    char send_buffer[22];
-   tUnsignedShorttoChar sampleTime;
+   tUnsignedShortToChar sampleTime;
 
    // Freeze the PWM data to avoid changing data in the
    // middle of a send UDP
    tPWMData pwmSampleLocal = pwmSample;
-   sampleTime.shData = attitudeSample.timeStamp;
+   sampleTime.usData = attitudeSample.timeStamp.usData;
 
    send_buffer[0] 	= pwmSampleLocal.dt_c.chData[0];
    send_buffer[1] 	= pwmSampleLocal.dt_c.chData[1];
