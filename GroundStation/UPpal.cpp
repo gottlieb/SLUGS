@@ -1371,7 +1371,7 @@ void __fastcall TFPpal::skt_rcvDataAvailable(TObject *Sender, WORD ErrCode)
                 IntToStr(atoi(DataAvailableLabel->Caption.c_str()) + 1) +
                 " Packets Received";
         }
-        //TxCanMsg ();
+        TxPWMMsg ();
     }
 }
 //---------------------------------------------------------------------------
@@ -1432,6 +1432,39 @@ void  TFPpal::processUdpMsg (unsigned char * buffer)
   assembleMsg(&buffer[HIL_XYZ_START],XYZMSG_LEN,XYZMSG_ID,&hilMsg[0]);
   // Send the data
   cp_hil->PutBlock(&hilMsg[0],(XYZMSG_LEN+7));
+
+}
+//---------------------------------------------------------------------------
+void TFPpal::TxPWMMsg (void){
+   char send_buffer[20];
+
+   // Freeze the PWM data to avoid changing data in the
+   // middle of a send UDP
+   tPWMData pwmSampleLocal = pwmSample;
+
+   send_buffer[0] 	= pwmSampleLocal.dt_c.chData[0];
+   send_buffer[1] 	= pwmSampleLocal.dt_c.chData[1];
+   send_buffer[2] 	= pwmSampleLocal.dla_c.chData[0];
+   send_buffer[3] 	= pwmSampleLocal.dla_c.chData[1];
+   send_buffer[4] 	= pwmSampleLocal.dra_c.chData[0];
+   send_buffer[5] 	= pwmSampleLocal.dra_c.chData[1];
+   send_buffer[6] 	= pwmSampleLocal.dr_c.chData[0];
+   send_buffer[7] 	= pwmSampleLocal.dr_c.chData[1];
+   send_buffer[8] 	= pwmSampleLocal.dle_c.chData[0];
+   send_buffer[9] 	= pwmSampleLocal.dle_c.chData[1];
+   send_buffer[10] 	= pwmSampleLocal.dre_c.chData[0];
+   send_buffer[11] 	= pwmSampleLocal.dre_c.chData[1];
+   send_buffer[12] 	= pwmSampleLocal.dlf_c.chData[0];
+   send_buffer[13] 	= pwmSampleLocal.dlf_c.chData[1];
+   send_buffer[14] 	= pwmSampleLocal.drf_c.chData[0];
+   send_buffer[15] 	= pwmSampleLocal.drf_c.chData[1];
+   send_buffer[16] 	= pwmSampleLocal.da1_c.chData[0];
+   send_buffer[17] 	= pwmSampleLocal.da1_c.chData[1];
+   send_buffer[18] 	= pwmSampleLocal.da2_c.chData[0];
+   send_buffer[19] 	= pwmSampleLocal.da2_c.chData[1];
+
+  skt_send->Send(&send_buffer[0],20);
+  et_sent->Caption = IntToStr(atoi(et_sent->Caption.c_str()) + 1) + " Packets Sent";
 
 }
 

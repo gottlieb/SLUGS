@@ -10,5 +10,7 @@
 #define HIL_GPS_START    0
 #define HIL_DYN_START    27
 #define HIL_RAW_START    37
+#define HIL_ATT_START    55
+#define HIL_XYZ_START    81
 
 #endif /* _GSDEFINITIONS_H_ */

@@ -10431,7 +10431,7 @@ object FPpal: TFPpal
   end
   object Timer2: TTimer
     Enabled = False
-    Interval = 100
+    Interval = 95
     OnTimer = Timer2Timer
     Left = 136
     Top = 400
