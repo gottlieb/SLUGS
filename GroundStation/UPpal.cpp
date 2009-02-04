@@ -23,6 +23,7 @@
 #pragma link "AbVBar"
 #pragma link "AbHBar"
 #pragma link "CurrEdit"
+#pragma link "OoMisc"
 #pragma resource "*.dfm"
 
 
@@ -466,8 +467,10 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    // if the lat and lon are withing the distance limit
    if (computeDistance(temp.lat.flData, temp.lon.flData) < DISLIMIT ){
       // if there was a change in lat or lon
-      if (!compare_float(temp.lat.flData, gpsSamples[0].lat.flData) ||
-          !compare_float(temp.lon.flData, gpsSamples[0].lon.flData)){
+      //if (!compare_float(temp.lat.flData, gpsSamples[0].lat.flData) ||
+      //    !compare_float(temp.lon.flData, gpsSamples[0].lon.flData)){
+      if ((temp.lat.flData != gpsSamples[0].lat.flData) ||
+          (temp.lon.flData != gpsSamples[0].lon.flData)){
            //replace the history
           for (int i = 13; i>=0; i--){
              gpsSamples[i+1] = gpsSamples[i];
@@ -1051,9 +1054,13 @@ void TFPpal::updateAttitude(void)
 {
 try{
 
-  ai_att->Roll = RAD2DEG*attitudeSample.roll.flData;
-  ai_att->Pitch = RAD2DEG*attitudeSample.pitch.flData;
-  ai_att->Course = RAD2DEG*attitudeSample.yaw.flData;
+  if ( abs((int)attitudeSample.roll.flData) < 7 &&
+       abs((int)attitudeSample.pitch.flData) < 7  &&
+       abs((int)attitudeSample.yaw.flData) < 7){
+          ai_att->Roll = RAD2DEG*attitudeSample.roll.flData;
+          ai_att->Pitch = RAD2DEG*attitudeSample.pitch.flData;
+          ai_att->Course = RAD2DEG*attitudeSample.yaw.flData;
+  }
  }
  catch (...) {
      mm_diagnose->Lines->Add("ComputeDistance exception");
@@ -1352,12 +1359,12 @@ void __fastcall TFPpal::skt_rcvSessionConnected(TObject *Sender,
 
 void __fastcall TFPpal::skt_rcvDataAvailable(TObject *Sender, WORD ErrCode)
 {
-    char        Buffer[70];
+    char        Buffer[105];
     int         Len;
-    Winsock::TSockAddrIn Src;
+    TSockAddrIn Src;
     int         SrcLen;
 
-    memset(&Buffer, 0, 70);
+    memset(&Buffer, 0, 105);
 
     SrcLen = sizeof(Src);
     Len    = skt_rcv->ReceiveFrom(Buffer, sizeof(Buffer), Src, SrcLen);
@@ -1371,7 +1378,7 @@ void __fastcall TFPpal::skt_rcvDataAvailable(TObject *Sender, WORD ErrCode)
                 IntToStr(atoi(DataAvailableLabel->Caption.c_str()) + 1) +
                 " Packets Received";
         }
-        TxPWMMsg ();
+       TxPWMMsg ();
     }
 }
 //---------------------------------------------------------------------------

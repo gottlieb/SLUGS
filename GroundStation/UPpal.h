@@ -21,7 +21,6 @@
 #include "apDefinitions.h"
 #include "protDecoder.h"
 #include "AdPort.hpp"
-#include "OoMisc.hpp"
 #include "CircBuffer.h"
 #include "_GClass.hpp"
 #include "AbLED.hpp"
@@ -40,6 +39,7 @@
 #include "AbVBar.hpp"
 #include "AbHBar.hpp"
 #include "CurrEdit.hpp"
+#include "OoMisc.hpp"
 #include <string>
 
 #define  DISLIMIT      30.0
