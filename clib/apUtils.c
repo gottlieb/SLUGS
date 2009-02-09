@@ -55,10 +55,11 @@ void assembleMsg(unsigned char* rawData , unsigned char size, unsigned char type
 	*(protMsg+1) = AT;
 	*(protMsg+2) = type;
 	*(protMsg+3) = size;
-	for( i = 0; i < size; i += 1 )
+	/*for( i = 0; i < size; i += 1 )
 	{
 		*(protMsg+i+4) = *(rawData +i);
-	}
+	} */
+    memcpy(protMsg+4,rawData,size);
 	*(protMsg+size+4) = STAR;
 	*(protMsg+size+5) = AT;
 	*(protMsg+size+6) = getChecksum(protMsg, (size+5));	

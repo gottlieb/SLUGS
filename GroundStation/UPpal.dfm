@@ -42,10 +42,10 @@ object FPpal: TFPpal
     Top = 25
     Width = 375
     Height = 672
-    ActivePage = ts_sensors
+    ActivePage = ts_graphical
     Align = alClient
     MultiLine = True
-    TabIndex = 6
+    TabIndex = 8
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth'
@@ -10431,7 +10431,7 @@ object FPpal: TFPpal
   end
   object Timer2: TTimer
     Enabled = False
-    Interval = 95
+    Interval = 200
     OnTimer = Timer2Timer
     Left = 136
     Top = 400
