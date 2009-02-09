@@ -875,6 +875,13 @@ void updateLoad (unsigned char mcuLoad){
 	statusControlData.vdetect =  mcuLoad;
 }
 
+void pilotCommands (unsigned short*  pilCom){
+	pilCom[0] = pilControlData.dt.usData;
+	pilCom[1] = pilControlData.dla.usData;
+	pilCom[2] = pilControlData.dra.usData;
+	pilCom[3] = pilControlData.dr.usData;
+	pilCom[4] = pilControlData.de.usData;
+}
 
 void __attribute__((interrupt, no_auto_psv)) _DMA1Interrupt(void)
 {

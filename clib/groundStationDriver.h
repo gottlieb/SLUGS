@@ -23,6 +23,7 @@ void updateLoad (unsigned char mcuLoad);
 void controlMCUInit (void);
 void EEPInit (void);
 void loadEEPData (void);
+void pilotCommands (unsigned short* pilCom);
 
 #ifdef __cplusplus
       }
