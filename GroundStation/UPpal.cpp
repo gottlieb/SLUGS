@@ -1418,7 +1418,7 @@ void  TFPpal::processUdpMsg (unsigned char * buffer)
   assembleMsg(&buffer[HIL_RAW_START],RAWMSG_LEN,RAWMSG_ID,&hilMsg[0]);
   // Send the data
   cp_hil->PutBlock(&hilMsg[0],(RAWMSG_LEN+7));
-
+  
 
   // Att Data Sentence
   // =================

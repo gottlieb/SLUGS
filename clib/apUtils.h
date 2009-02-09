@@ -11,6 +11,7 @@
 #endif
 
 #include <math.h>
+#include <string.h>
 #include "apDefinitions.h"
 #include "protDecoder.h"
 
