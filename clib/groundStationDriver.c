@@ -158,6 +158,13 @@ void controlMCUInit(void){
 	   loadEEPData();
 	}
 	
+	// Control MCU boot procedures
+	#ifdef _IN_PC_
+		//
+	#else
+		aknControlData.reboot = 1;		
+	#endif
+	
 }
 
 void EEPInit(void){
@@ -664,7 +671,7 @@ void prepareTelemetry( unsigned char* dataOut){
 			// if one of the aknowledge flags are turned on
 			// then the AKN message needs to be sent
 			if ((aknControlData.WP>0) || (aknControlData.commands>0) || (aknControlData.pidCal > 0)
-				 || (aknControlData.apStatus>0) || aknControlData.filOnOff
+				 || (aknControlData.sensorReboot>0) || aknControlData.filOnOff
 				 || aknControlData.reboot){
 				// clear the buffer for next sentence
 				memset(telemetryBuf, 0, sizeof(telemetryBuf));
@@ -673,7 +680,7 @@ void prepareTelemetry( unsigned char* dataOut){
 				rawSentence[0] = aknControlData.WP;
 				rawSentence[1] = aknControlData.commands;
 				rawSentence[2] = aknControlData.pidCal;
-				rawSentence[3] = aknControlData.apStatus;
+				rawSentence[3] = aknControlData.sensorReboot;
 				rawSentence[4] = aknControlData.filOnOff;
 				rawSentence[5] = aknControlData.reboot;
 			

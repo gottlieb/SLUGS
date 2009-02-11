@@ -353,7 +353,7 @@ typedef struct tAknData{
 	unsigned char 	WP;
 	unsigned char 	commands;
 	unsigned char 	pidCal;
-	unsigned char 	apStatus;
+	unsigned char 	sensorReboot;
 	unsigned char 	filOnOff;	
 	unsigned char	reboot;
 }tAknData;

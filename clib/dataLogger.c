@@ -116,6 +116,7 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 	unsigned char i;
 	unsigned char len2SPI=0;
 	unsigned char bufLen = 0;
+	unsigned char aknSentence[6];
 
 	memset(tmpBuf, 0, sizeof(tmpBuf));
 		
@@ -202,7 +203,30 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 			}		
 			// set the total data out for SPI			
 			len2SPI = DYNMSG_LEN+7; 			
+			
+			// it there has been a reboot
+			if(aknControlData.sensorReboot >0){
+				// clear tmpBuf
+				memset(tmpBuf, 0, sizeof(tmpBuf));
+				
+				// configure the akn sentence
+				memset(aknSentence,0, 6);
+				aknSentence[3] = aknControlData.sensorReboot;
+				
+				// assemble the message
+				assembleMsg(&aknSentence[0], AKNMSG_LEN, AKNMSG_ID, tmpBuf);
+				
+				// add it to the SPI QUEUE
+				for( i = 0; i < AKNMSG_LEN+7; i += 1 ){
 
+					data4SPI[i+1+len2SPI] = tmpBuf[i];
+				}		
+				
+				// clear the flag
+				aknControlData.sensorReboot = 0;
+			// set the total data out for SPI			
+			len2SPI += AKNMSG_LEN+7; 	
+			}
 			break;
 
 		case 5:			
@@ -303,7 +327,7 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 		
 	// increment/overflow the samplePeriod counter
 	// configured for 10 Hz in non vital messages
-	samplePeriod = (samplePeriod >= 10)? 1: samplePeriod + 1;
+	samplePeriod = (samplePeriod >= 7)? 1: samplePeriod + 1;
 	
 	// get the Length of the logBuffer
 	bufLen = getLength(logBuffer);

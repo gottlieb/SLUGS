@@ -11,10 +11,7 @@
 // Code by: Mariano I. Lizarraga
 // First Revision: Aug 31 2008 @ 22:45
 // =========================================================
-#include "apDefinitions.h"
-#include "circBuffer.h"
-#include <p33fxxxx.h>
-#include <spi.h>
+#include "interProcCommMaster.h"
 
 void spiMasterInit(void){
 	// Configure the Analog pins B2 as digital.
@@ -63,4 +60,14 @@ void spiSend(unsigned char * data2Send){
 		while(!DataRdySPI1());
 		rcvdIdx = ReadSPI1();		
 	}
+}
+
+void sensorMCUInit(void){
+	gpsInit();
+	uartInit();
+	loggerInit();
+	spiMasterInit();
+	protParserInit();
+	
+	aknControlData.sensorReboot =1;
 }
