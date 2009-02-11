@@ -14,10 +14,7 @@
 // First Revision: Aug 21 2008 @ 21:15
 // ==============================================================
 
-#include "circBuffer.h"
-#include "apDefinitions.h"
-#include <p33fxxxx.h>
-#include <uart.h>
+#include "bufferedUART.h"
 
 struct CircBuffer com1Buffer;
 CBRef uartBuffer;

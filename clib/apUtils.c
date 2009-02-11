@@ -243,7 +243,7 @@ void updateStates(unsigned char * completeSentence){
 			// turn the HIL on
 			// TODO: the variable filterControlData is here for legacy purposes
 			// 		 do not use it for anything else, instead use the flag in
-			//		 the apStatus struct called hilStatus.
+			//		 the apsControlStatus struct called hilStatus.
 			filterControlData = completeSentence[4];
 			apsControlData.hilStatus = filterControlData;
 			
@@ -268,11 +268,10 @@ void updateStates(unsigned char * completeSentence){
 			aknControlData.WP 			= completeSentence[4];
 			aknControlData.commands 	= completeSentence[5];
 			aknControlData.pidCal 		= completeSentence[6];
-			aknControlData.apStatus 	= completeSentence[7];
+			aknControlData.sensorReboot = completeSentence[7];
 			aknControlData.filOnOff 	= completeSentence[8];
 			aknControlData.reboot	 	= completeSentence[9];
 			
-			//TODO: Reuse apStatus aknowledge flag 
 		break;
 		
 		case PWMMSG_ID: // PWM Control Surface Commands data
