@@ -1153,15 +1153,23 @@ void __fastcall TFPpal::ed_exportAfterDialog(TObject *Sender,
 void __fastcall TFPpal::cb_inflightClick(TObject *Sender)
 {
  if (cb_inflight->Checked){
-    String logFileName = ed_liveLog->FileName +
-                           FormatDateTime("_dd_mm_yy_hh_nn_ss", Now());
+    String logFileName;
+    if (cb_over->Checked == false){
+       logFileName = ed_liveLog->FileName +
+                           FormatDateTime("_dd_mm_yy_hh_nn_ss", Now()) + ".log";
+    } else {
+       logFileName = ed_liveLog->FileName + ".log";
+    }
+
+    cb_over->Enabled = false;
     ed_liveLog->Enabled = True;
     liveLog = fopen(logFileName.c_str(), "wt");
 
 	if (!liveLog)
 	{
 		ShowMessage("Unable to create Live Log file, continuing without logging");
-        cb_inflight->Checked = False;
+        cb_inflight->Checked = false;
+        cb_over->Enabled = true;
         cb_inflightClick(NULL);
 	} else{
         logIsOpen = true;
@@ -1169,6 +1177,7 @@ void __fastcall TFPpal::cb_inflightClick(TObject *Sender)
     }
 } else {
     ed_liveLog->Enabled = False;
+    cb_over->Enabled = true;
     if(logIsOpen) fclose(liveLog);
     logIsOpen = false;
 }
@@ -2145,6 +2154,16 @@ void __fastcall TFPpal::SpeedButton9Click(TObject *Sender)
  assembleMsg(&rawMsg[0],QUEMSG_LEN,QUEMSG_ID,&filtMsg[0]);
 
  cp_serial->PutBlock(&filtMsg[0],(QUEMSG_LEN+7));
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::CheckBox1Click(TObject *Sender)
+{
+if (((TCheckBox*)Sender)->Checked){
+   Timer2->Interval = 95;
+} else {
+   Timer2->Interval = 200;
+}
 }
 //---------------------------------------------------------------------------
 
