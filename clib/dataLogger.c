@@ -118,7 +118,7 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 	unsigned char bufLen = 0;
 	unsigned char aknSentence[6];
 
-	memset(tmpBuf, 0, sizeof(tmpBuf));
+	memset(tmpBuf, 0, MAXLOGLEN);
 		
 	switch (samplePeriod){
 		case 1:
@@ -148,7 +148,7 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 			len2SPI = LOADMSG_LEN+7; 	
 			
 			/*// clear the buffer
-			memset(tmpBuf, 0, sizeof(tmpBuf));		
+			memset(tmpBuf, 0, MAXLOGLEN);		
 			
 			// assemble the Diagnostic data for protocol sending	
 			assembleMsg(&rawData[DIA_START], DIAMSG_LEN, DIAMSG_ID, tmpBuf);
@@ -207,7 +207,7 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 			// it there has been a reboot
 			if(aknControlData.sensorReboot >0){
 				// clear tmpBuf
-				memset(tmpBuf, 0, sizeof(tmpBuf));
+				memset(tmpBuf, 0, MAXLOGLEN);
 				
 				// configure the akn sentence
 				memset(aknSentence,0, 6);
@@ -276,7 +276,7 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 			break;
 	}
 	
-	memset(tmpBuf, 0, sizeof(tmpBuf));
+	memset(tmpBuf, 0, MAXLOGLEN);
 	
 	// Attitude data. Gets included every sample time
 	// ==============================================
@@ -293,7 +293,7 @@ void logData (unsigned char* rawData, unsigned char* data4SPI){
 	// increment the data counter for SPI
 	len2SPI += ATTMSG_LEN+7; 
 	
-	memset(tmpBuf, 0, sizeof(tmpBuf));
+	memset(tmpBuf, 0, MAXLOGLEN);
 	
 	// XYZ data. Gets included every sample time
 	// ==============================================
