@@ -42,10 +42,10 @@ object FPpal: TFPpal
     Top = 25
     Width = 375
     Height = 672
-    ActivePage = ts_graphical
+    ActivePage = ts_export
     Align = alClient
     MultiLine = True
-    TabIndex = 8
+    TabIndex = 3
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth'
@@ -5605,7 +5605,7 @@ object FPpal: TFPpal
         Left = 8
         Top = 16
         Width = 353
-        Height = 97
+        Height = 121
         Caption = ' In-Flight Exporting '
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -5616,7 +5616,7 @@ object FPpal: TFPpal
         TabOrder = 0
         object Label43: TLabel
           Left = 8
-          Top = 45
+          Top = 69
           Width = 155
           Height = 13
           Hint = 
@@ -5644,7 +5644,7 @@ object FPpal: TFPpal
         end
         object ed_liveLog: TFilenameEdit
           Left = 8
-          Top = 59
+          Top = 83
           Width = 329
           Height = 21
           OnAfterDialog = ed_liveLogAfterDialog
@@ -5668,6 +5668,15 @@ object FPpal: TFPpal
           NumGlyphs = 2
           TabOrder = 1
           Text = 'C:\Mariano\UCSC\APCode\GroundStation\FlightLogs\cartTest'
+        end
+        object cb_over: TCheckBox
+          Left = 8
+          Top = 48
+          Width = 273
+          Height = 17
+          Caption = 'Use Same File. Old files will be overwritten'
+          TabOrder = 2
+          OnClick = cb_inflightClick
         end
       end
       object GroupBox6: TGroupBox
@@ -8207,6 +8216,21 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 9
         end
+      end
+      object CheckBox1: TCheckBox
+        Left = 8
+        Top = 520
+        Width = 97
+        Height = 17
+        Caption = 'Fast Update '
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 6
+        OnClick = CheckBox1Click
       end
     end
     object ts_filter: TTabSheet
