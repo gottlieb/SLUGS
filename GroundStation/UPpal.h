@@ -654,6 +654,8 @@ __published:	// IDE-managed Components
         TCheckBox *cb_repptpdre;
         TCheckBox *cb_repptpdlf;
         TCheckBox *cb_repptpdrf;
+    TCheckBox *CheckBox1;
+    TCheckBox *cb_over;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -707,6 +709,7 @@ __published:	// IDE-managed Components
         void __fastcall SpeedButton7Click(TObject *Sender);
         void __fastcall ed_heightChange(TObject *Sender);
         void __fastcall SpeedButton9Click(TObject *Sender);
+    void __fastcall CheckBox1Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TFPpal(TComponent* Owner);
