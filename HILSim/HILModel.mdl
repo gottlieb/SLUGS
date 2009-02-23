@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.660"
+    ComputedModelVersion    "1.661"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -47,8 +47,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Feb 17 16:42:40 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:660>"
+  LastModifiedDate	  "Sun Feb 22 14:32:10 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:661>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -938,7 +938,7 @@ Model {
   }
   System {
     Name		    "HILModel"
-    Location		    [202, 78, 1253, 925]
+    Location		    [156, 82, 1207, 929]
     Open		    off
     ModelBrowserVisibility  on
     ModelBrowserWidth	    200
@@ -2869,7 +2869,7 @@ Model {
 		    Name		    "PD Controller\n(Altitude 2 Loop\n"
 "Altitude to Elevator)"
 		    Location		    [2, 74, 1014, 1254]
-		    Open		    on
+		    Open		    off
 		    ModelBrowserVisibility  on
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
@@ -7813,7 +7813,7 @@ Model {
 		    MaskHideContents	    off
 		    System {
 		    Name		    "K Schedule"
-		    Location		    [537, 283, 1101, 528]
+		    Location		    [266, 78, 1244, 773]
 		    Open		    off
 		    ModelBrowserVisibility  on
 		    ModelBrowserWidth	    200
@@ -7875,7 +7875,7 @@ Model {
 		    MaskHideContents	    off
 		    System {
 		    Name		    "If Y is less than K"
-		    Location		    [530, 309, 1045, 541]
+		    Location		    [496, 295, 1011, 527]
 		    Open		    off
 		    ModelBrowserVisibility  on
 		    ModelBrowserWidth	    200
@@ -8142,7 +8142,7 @@ Model {
 		    MaskHideContents	    off
 		    System {
 		    Name		    "If Yis greater than K"
-		    Location		    [754, 392, 937, 532]
+		    Location		    [695, 371, 878, 511]
 		    Open		    off
 		    ModelBrowserVisibility  on
 		    ModelBrowserWidth	    200
@@ -9202,6 +9202,7 @@ Model {
 		    DstPort		    2
 		  }
 		  Branch {
+		    Labels		    [1, 0]
 		    Points		    [0, -35]
 		    DstBlock		    "Mux4"
 		    DstPort		    2
@@ -10063,7 +10064,7 @@ Model {
 		    Block {
 		    BlockType		    Inport
 		    Name		    "QShift"
-		    Position		    [70, 498, 100, 512]
+		    Position		    [420, 363, 450, 377]
 		    BackgroundColor	    "magenta"
 		    Port		    "3"
 		    IconDisplay		    "Port number"
@@ -10071,7 +10072,7 @@ Model {
 		    Block {
 		    BlockType		    Inport
 		    Name		    "QLimits"
-		    Position		    [70, 543, 100, 557]
+		    Position		    [545, 368, 575, 382]
 		    BackgroundColor	    "magenta"
 		    Port		    "4"
 		    IconDisplay		    "Port number"
@@ -10241,6 +10242,12 @@ Model {
 		    CollapseMode	    "All dimensions"
 		    InputSameDT		    off
 		    RndMeth		    "Floor"
+		    Port {
+		    PortNumber		    1
+		    Name		    "rho*g*h"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
 		    }
 		    Block {
 		    BlockType		    Selector
@@ -10358,7 +10365,7 @@ Model {
 		    Line {
 		    SrcBlock		    "QLimits"
 		    SrcPort		    1
-		    Points		    [490, 0; 0, -215]
+		    Points		    [15, 0; 0, -40]
 		    Branch {
 		    Points		    [0, -85]
 		    DstBlock		    "PDyn saturation1"
@@ -10378,7 +10385,7 @@ Model {
 		    Line {
 		    SrcBlock		    "QShift"
 		    SrcPort		    1
-		    Points		    [365, 0; 0, -175]
+		    Points		    [15, 0; 0, -40]
 		    DstBlock		    "Energy or not?"
 		    DstPort		    3
 		    }
@@ -10476,6 +10483,8 @@ Model {
 		    }
 		    }
 		    Line {
+		    Name		    "rho*g*h"
+		    Labels		    [1, 0]
 		    SrcBlock		    "Qshift"
 		    SrcPort		    1
 		    Points		    [90, 0]
@@ -10520,6 +10529,11 @@ Model {
 		    Points		    [80, 0; 0, -25]
 		    DstBlock		    "Qshift"
 		    DstPort		    2
+		    }
+		    Annotation {
+		    Name		    "Expected pressure change from alt"
+"itude"
+		    Position		    [364, 48]
 		    }
 		  }
 		}
@@ -11865,27 +11879,225 @@ Model {
 		  RTWMemSecDataParameters "Inherit from model"
 		}
 		Block {
-		  BlockType		  Reference
+		  BlockType		  SubSystem
 		  Name			  "Turn Compensator"
 		  Ports			  [3, 1]
 		  Position		  [445, 491, 550, 549]
 		  BackgroundColor	  "orange"
-		  SourceBlock		  "piccolo_library/Controllers/Longitu"
+		  AncestorBlock		  "piccolo_library/Controllers/Longitu"
 "dinal/Turn Compensator"
-		  SourceType		  "Turn compensator"
-		  ShowPortLabels	  "FromPortIcon"
-		  SystemSampleTime	  "-1"
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
-		  RTWMemSecFuncInitTerm	  "Inherit from model"
-		  RTWMemSecFuncExecute	  "Inherit from model"
-		  RTWMemSecDataConstants  "Inherit from model"
-		  RTWMemSecDataInternal	  "Inherit from model"
-		  RTWMemSecDataParameters "Inherit from model"
+		  MaskHideContents	  off
 		  Port {
 		    PortNumber		    1
 		    Name		    "Pitch Rate Cmd"
 		    RTWStorageClass	    "Auto"
 		    DataLoggingNameMode	    "SignalName"
+		  }
+		  System {
+		    Name		    "Turn Compensator"
+		    Location		    [331, 94, 959, 455]
+		    Open		    off
+		    ModelBrowserVisibility  on
+		    ModelBrowserWidth	    149
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "125"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "Bank"
+		    Position		    [45, 123, 75, 137]
+		    BackgroundColor	    "magenta"
+		    DropShadow		    on
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Inport
+		    Name		    "TASCmd"
+		    Position		    [45, 163, 75, 177]
+		    BackgroundColor	    "magenta"
+		    DropShadow		    on
+		    Port		    "2"
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Inport
+		    Name		    "State"
+		    Position		    [45, 83, 75, 97]
+		    BackgroundColor	    "magenta"
+		    DropShadow		    on
+		    Port		    "3"
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Product
+		    Name		    "PitchRateTurn"
+		    Ports		    [4, 1]
+		    Position		    [355, 86, 390, 174]
+		    BackgroundColor	    "lightBlue"
+		    DropShadow		    on
+		    Inputs		    "***/"
+		    RndMeth		    "Floor"
+		    }
+		    Block {
+		    BlockType		    Saturate
+		    Name		    "Saturation"
+		    Position		    [100, 100, 130, 130]
+		    UpperLimit		    "1.05"
+		    LowerLimit		    "-1.05"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Zero Protect"
+		    Ports		    [1, 1]
+		    Position		    [220, 179, 265, 211]
+		    BackgroundColor	    "cyan"
+		    DropShadow		    on
+		    SourceBlock		    "piccolo_library/Math/Zero Protect"
+		    SourceType		    "Zero Protect"
+		    ShowPortLabels	    "FromPortIcon"
+		    SystemSampleTime	    "-1"
+		    FunctionWithSeparateData off
+		    RTWMemSecFuncInitTerm   "Inherit from model"
+		    RTWMemSecFuncExecute    "Inherit from model"
+		    RTWMemSecDataConstants  "Inherit from model"
+		    RTWMemSecDataInternal   "Inherit from model"
+		    RTWMemSecDataParameters "Inherit from model"
+		    p			    "1"
+		    tol			    "1e-6"
+		    }
+		    Block {
+		    BlockType		    Constant
+		    Name		    "g"
+		    Position		    [45, 34, 80, 56]
+		    BackgroundColor	    "orange"
+		    DropShadow		    on
+		    Value		    "9.81"
+		    }
+		    Block {
+		    BlockType		    Trigonometry
+		    Name		    "sin(phi)"
+		    Ports		    [1, 1]
+		    Position		    [160, 150, 190, 180]
+		    }
+		    Block {
+		    BlockType		    Trigonometry
+		    Name		    "tan(phi)"
+		    Ports		    [1, 1]
+		    Position		    [160, 100, 190, 130]
+		    Operator		    "tan"
+		    }
+		    Block {
+		    BlockType		    Product
+		    Name		    "tan(phi)sin(phi)"
+		    Ports		    [2, 1]
+		    Position		    [225, 120, 260, 155]
+		    BackgroundColor	    "lightBlue"
+		    DropShadow		    on
+		    Inputs		    "**"
+		    RndMeth		    "Floor"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "PitchRateCMD"
+		    Position		    [430, 123, 460, 137]
+		    BackgroundColor	    "green"
+		    DropShadow		    on
+		    IconDisplay		    "Port number"
+		    }
+		    Line {
+		    SrcBlock		    "TASCmd"
+		    SrcPort		    1
+		    Points		    [55, 0; 0, 30; 70, 0]
+		    DstBlock		    "Zero Protect"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Zero Protect"
+		    SrcPort		    1
+		    Points		    [35, 0; 0, -35]
+		    DstBlock		    "PitchRateTurn"
+		    DstPort		    4
+		    }
+		    Line {
+		    SrcBlock		    "tan(phi)sin(phi)"
+		    SrcPort		    1
+		    DstBlock		    "PitchRateTurn"
+		    DstPort		    3
+		    }
+		    Line {
+		    SrcBlock		    "sin(phi)"
+		    SrcPort		    1
+		    Points		    [15, 0]
+		    DstBlock		    "tan(phi)sin(phi)"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "Saturation"
+		    SrcPort		    1
+		    Points		    [10, 0]
+		    Branch {
+		    DstBlock		    "sin(phi)"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "tan(phi)"
+		    DstPort		    1
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Bank"
+		    SrcPort		    1
+		    Points		    [5, 0]
+		    DstBlock		    "Saturation"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "State"
+		    SrcPort		    1
+		    Points		    [200, 0; 0, 30]
+		    DstBlock		    "PitchRateTurn"
+		    DstPort		    2
+		    }
+		    Line {
+		    Labels		    [1, 0]
+		    SrcBlock		    "g"
+		    SrcPort		    1
+		    Points		    [225, 0; 0, 55]
+		    DstBlock		    "PitchRateTurn"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "tan(phi)"
+		    SrcPort		    1
+		    Points		    [15, 0]
+		    DstBlock		    "tan(phi)sin(phi)"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "PitchRateTurn"
+		    SrcPort		    1
+		    DstBlock		    "PitchRateCMD"
+		    DstPort		    1
+		    }
+		    Annotation {
+		    Name		    "Calculate the pitch rate which re"
+"sults from an equilibrium turn\nq = turnrate*sin(bank)\nturnrate = g*tan(bank"
+")/V\nq = g*sin(bank)*tan(bank)/V\n ===== q = g/(cos(bank)*V) ?????\n\nNote th"
+"at bank angles 90 degrees or larger are nonsensical, hence the bank is limite"
+"d to 60 degrees"
+		    Position		    [35, 279]
+		    HorizontalAlignment	    "left"
+		    }
 		  }
 		}
 		Block {
@@ -12467,7 +12679,7 @@ Model {
 		Location		[83, 175, 1103, 837]
 		Open			off
 		ModelBrowserVisibility	on
-		ModelBrowserWidth	200
+		ModelBrowserWidth	149
 		ScreenColor		"white"
 		PaperOrientation	"landscape"
 		PaperPositionMode	"auto"
@@ -14910,7 +15122,7 @@ Model {
 		    }
 		    Annotation {
 		    Name		    "See MIT Courseware notes 16.333, "
-"Lecture 12 page 6"
+"Lecture 12 page 6,\nEtkin Page 240 Eqn 7.8,8"
 		    Position		    [144, 167]
 		    }
 		  }
@@ -14936,7 +15148,7 @@ Model {
 		  System {
 		    Name		    "Turn to yaw"
 		    Location		    [342, 142, 725, 332]
-		    Open		    off
+		    Open		    on
 		    ModelBrowserVisibility  on
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
@@ -15142,8 +15354,10 @@ Model {
 		    Annotation {
 		    Name		    "Calculate yaw rate from turn rate"
 " assuming equilibrium conditions\nDerived from Eulers Equations\nAssume that "
-"pitch and Q are small and assume R is turn rate"
-		    Position		    [229, 197]
+"pitch and Q are small and assume R is turn rate\n\nphi_dot = (Q*sin(bank) + R"
+"*cos(bank))/cos(pitch)\n=> sin(bank)~=0\ncos(pitch)~=1\n\n... phi_dot = R*cos"
+"(bank)"
+		    Position		    [214, 237]
 		    }
 		  }
 		}
