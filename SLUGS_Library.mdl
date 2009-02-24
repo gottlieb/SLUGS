@@ -34,8 +34,8 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Feb 23 08:31:06 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:1>"
+  LastModifiedDate	  "Mon Feb 23 18:14:36 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:9>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -130,6 +130,34 @@ Library {
       RTWStateStorageClass    "Auto"
     }
     Block {
+      BlockType		      DiscreteZeroPole
+      Zeros		      "[1]"
+      Poles		      "[0 1]"
+      Gain		      "[1]"
+      SampleTime	      "1"
+      StateMustResolveToSignalObject off
+      RTWStateStorageClass    "Auto"
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "sfix(16)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Ground
+    }
+    Block {
       BlockType		      Inport
       Port		      "1"
       UseBusObject	      off
@@ -145,6 +173,18 @@ Library {
       LatchByDelayingOutsideSignal off
       LatchByCopyingInsideSignal off
       Interpolate	      on
+    }
+    Block {
+      BlockType		      Math
+      Operator		      "exp"
+      OutputSignalType	      "auto"
+      SampleTime	      "-1"
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
     }
     Block {
       BlockType		      Outport
@@ -178,6 +218,19 @@ Library {
       SampleTime	      "-1"
     }
     Block {
+      BlockType		      Reference
+    }
+    Block {
+      BlockType		      RelationalOperator
+      Operator		      ">="
+      InputSameDT	      on
+      LogicOutDataTypeMode    "Logical (see Configuration Parameters: Optimiza"
+"tion)"
+      LogicDataType	      "uint(8)"
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
       BlockType		      Saturate
       UpperLimit	      "0.5"
       LowerLimit	      "-0.5"
@@ -190,6 +243,16 @@ Library {
       FunctionName	      "system"
       SFunctionModules	      "''"
       PortCounts	      "[]"
+    }
+    Block {
+      BlockType		      SignalSpecification
+      Dimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
     }
     Block {
       BlockType		      SubSystem
@@ -225,6 +288,17 @@ Library {
       SampleTime	      "-1"
     }
     Block {
+      BlockType		      Switch
+      Criteria		      "u2 >= Threshold"
+      Threshold		      "0"
+      InputSameDT	      on
+      OutDataTypeMode	      "Inherit via internal rule"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
       BlockType		      Terminator
     }
   }
@@ -248,7 +322,7 @@ Library {
   }
   System {
     Name		    "SLUGS_Library"
-    Location		    [480, 93, 1131, 727]
+    Location		    [626, 565, 1131, 929]
     Open		    on
     ModelBrowserVisibility  on
     ModelBrowserWidth	    200
@@ -264,36 +338,211 @@ Library {
     ReportName		    "simulink-default.rpt"
     Block {
       BlockType		      SubSystem
-      Name		      "PD Controller \nInternal Derivative"
+      Name		      "Air Density from\nHeight"
+      Ports		      [1, 1]
+      Position		      [35, 143, 125, 197]
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      MaskHideContents	      off
+      System {
+	Name			"Air Density from\nHeight"
+	Location		[291, 230, 950, 901]
+	Open			off
+	ModelBrowserVisibility	on
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "h(m)"
+	  Position		  [25, 68, 55, 82]
+	  BackgroundColor	  "darkGreen"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Add"
+	  Ports			  [2, 1]
+	  Position		  [270, 32, 300, 63]
+	  ShowName		  off
+	  Inputs		  "+-"
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutScaling		  "2^-10"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant"
+	  Position		  [200, 25, 230, 55]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant 2 from\nModel"
+	  Position		  [260, 84, 310, 116]
+	  Value			  "4.255876"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant from\nModel"
+	  Position		  [120, 105, 175, 135]
+	  Value			  "145442"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Divide"
+	  Ports			  [2, 1]
+	  Position		  [200, 67, 230, 98]
+	  ShowName		  off
+	  Inputs		  "*/"
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutScaling		  "2^-10"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Divide1"
+	  Ports			  [2, 1]
+	  Position		  [420, 52, 450, 83]
+	  ShowName		  off
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutScaling		  "2^-10"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Length Conversion"
+	  Ports			  [1, 1]
+	  Position		  [75, 60, 165, 90]
+	  SourceBlock		  "aerolibconvert2/Length Conversion"
+	  SourceType		  "Length Conversion"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  IU			  "m"
+	  OU			  "ft"
+	}
+	Block {
+	  BlockType		  Math
+	  Name			  "Math\nFunction"
+	  Ports			  [2, 1]
+	  Position		  [350, 42, 380, 73]
+	  ShowName		  off
+	  Operator		  "pow"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Rho_0\n(Kg/m^3)"
+	  Position		  [355, 95, 385, 125]
+	  Value			  "1.225"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "rho\n(Kg/m^3)"
+	  Position		  [485, 63, 515, 77]
+	  BackgroundColor	  "yellow"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "Length Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Divide"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Constant 2 from\nModel"
+	  SrcPort		  1
+	  Points		  [5, 0; 0, -35]
+	  DstBlock		  "Math\nFunction"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Divide1"
+	  SrcPort		  1
+	  DstBlock		  "rho\n(Kg/m^3)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rho_0\n(Kg/m^3)"
+	  SrcPort		  1
+	  Points		  [5, 0; 0, -35]
+	  DstBlock		  "Divide1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Math\nFunction"
+	  SrcPort		  1
+	  DstBlock		  "Divide1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Add"
+	  SrcPort		  1
+	  DstBlock		  "Math\nFunction"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Constant from\nModel"
+	  SrcPort		  1
+	  Points		  [0, -30]
+	  DstBlock		  "Divide"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "h(m)"
+	  SrcPort		  1
+	  DstBlock		  "Length Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Divide"
+	  SrcPort		  1
+	  Points		  [10, 0; 0, -30]
+	  DstBlock		  "Add"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Constant"
+	  SrcPort		  1
+	  DstBlock		  "Add"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Compute\nAirspeed"
       Ports		      [2, 1]
-      Position		      [200, 294, 325, 376]
+      Position		      [180, 140, 260, 200]
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
       MaskHideContents	      off
-      MaskDescription	      "This Block implements a PD Controller with the "
-"Following Characteristcs:\n\n1.- It still expects 3 values for Gains. The sec"
-"ond term (I) is ignored\n2.- The time Derivative is \"low-passed\" by using t"
-"he previous N samples instead of the one before\n"
-      MaskPromptString	      "Sample Time|Derivation Time Constant Factor (1-"
-">10)"
-      MaskStyleString	      "edit,edit"
-      MaskTunableValueString  "on,on"
-      MaskCallbackString      "|"
-      MaskEnableString	      "on,on"
-      MaskVisibilityString    "on,on"
-      MaskToolTipString	      "on,on"
-      MaskVarAliasString      ","
-      MaskVariables	      "TSample=@1;NDelay=@2;"
-      MaskIconFrame	      on
-      MaskIconOpaque	      on
-      MaskIconRotate	      "none"
-      MaskIconUnits	      "autoscale"
-      MaskValueString	      "SampleT|5"
-      MaskTabNameString	      ","
       System {
-	Name			"PD Controller \nInternal Derivative"
-	Location		[207, 82, 1275, 809]
+	Name			"Compute\nAirspeed"
+	Location		[771, 759, 1111, 874]
 	Open			off
 	ModelBrowserVisibility	on
 	ModelBrowserWidth	200
@@ -308,61 +557,26 @@ Library {
 	ZoomFactor		"100"
 	Block {
 	  BlockType		  Inport
-	  Name			  "Error"
-	  Position		  [70, 263, 100, 277]
+	  Name			  "Dyn P"
+	  Position		  [25, 48, 55, 62]
 	  BackgroundColor	  "darkGreen"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
-	  Name			  "PID Gains"
-	  Position		  [325, 198, 355, 212]
+	  Name			  "rho"
+	  Position		  [55, 78, 85, 92]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "2"
 	  IconDisplay		  "Port number"
 	}
 	Block {
-	  BlockType		  Sum
-	  Name			  "Add"
-	  Ports			  [2, 1]
-	  Position		  [525, 281, 555, 314]
-	  ShowName		  off
-	  Inputs		  "2"
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutScaling		  "2^-10"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Demux
-	  Name			  "Demux"
-	  Ports			  [1, 3]
-	  Position		  [380, 186, 385, 224]
-	  BackgroundColor	  "black"
-	  ShowName		  off
-	  Outputs		  "3"
-	  DisplayOption		  "bar"
-	}
-	Block {
-	  BlockType		  Product
-	  Name			  "Divide"
-	  Ports			  [2, 1]
-	  Position		  [450, 187, 480, 218]
-	  ShowName		  off
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutScaling		  "2^-10"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
 	  BlockType		  Product
 	  Name			  "Divide2"
-	  Ports			  [2, 1]
-	  Position		  [460, 392, 490, 423]
+	  Ports			  [3, 1]
+	  Position		  [135, 31, 165, 79]
 	  ShowName		  off
+	  Inputs		  "**/"
 	  CollapseMode		  "All dimensions"
 	  InputSameDT		  off
 	  OutDataTypeMode	  "Inherit via internal rule"
@@ -371,16 +585,116 @@ Library {
 	  SaturateOnIntegerOverflow off
 	}
 	Block {
-	  BlockType		  SubSystem
-	  Name			  "Low_passed Time Derivative"
+	  BlockType		  Math
+	  Name			  "Math\nFunction1"
 	  Ports			  [1, 1]
-	  Position		  [220, 391, 305, 439]
+	  Position		  [200, 39, 230, 71]
+	  ShowName		  off
+	  Operator		  "sqrt"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "a"
+	  Position		  [90, 29, 115, 51]
+	  ShowName		  off
+	  Value			  "2"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Airspeed\nm(s)"
+	  Position		  [285, 48, 315, 62]
+	  BackgroundColor	  "yellow"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "a"
+	  SrcPort		  1
+	  DstBlock		  "Divide2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Divide2"
+	  SrcPort		  1
+	  DstBlock		  "Math\nFunction1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Dyn P"
+	  SrcPort		  1
+	  DstBlock		  "Divide2"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "rho"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, -15]
+	  DstBlock		  "Divide2"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Math\nFunction1"
+	  SrcPort		  1
+	  DstBlock		  "Airspeed\nm(s)"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Control Blocks"
+      Ports		      []
+      Position		      [35, 28, 92, 82]
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      MaskHideContents	      off
+      System {
+	Name			"Control Blocks"
+	Location		[455, 104, 935, 579]
+	Open			off
+	ModelBrowserVisibility	on
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "PD Controller \nInternal Derivative"
+	  Ports			  [2, 1]
+	  Position		  [65, 184, 190, 266]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
 	  MaskHideContents	  off
+	  MaskDescription	  "This Block implements a PD Controller with "
+"the Following Characteristcs:\n\n1.- It still expects 3 values for Gains. The"
+" second term (I) is ignored\n2.- The time Derivative is \"low-passed\" by usi"
+"ng the previous N samples instead of the one before\n"
+	  MaskPromptString	  "Sample Time|Derivation Time Constant Factor"
+" (1->10)"
+	  MaskStyleString	  "edit,edit"
+	  MaskTunableValueString  "on,on"
+	  MaskCallbackString	  "|"
+	  MaskEnableString	  "on,on"
+	  MaskVisibilityString	  "on,on"
+	  MaskToolTipString	  "on,on"
+	  MaskVarAliasString	  ","
+	  MaskVariables		  "TSample=@1;NDelay=@2;"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "SampleT|5"
+	  MaskTabNameString	  ","
 	  System {
-	    Name		    "Low_passed Time Derivative"
+	    Name		    "PD Controller \nInternal Derivative"
 	    Location		    [207, 82, 1275, 809]
 	    Open		    off
 	    ModelBrowserVisibility  on
@@ -396,15 +710,26 @@ Library {
 	    ZoomFactor		    "100"
 	    Block {
 	      BlockType		      Inport
-	      Name		      "f(t)"
-	      Position		      [25, 28, 55, 42]
+	      Name		      "Error"
+	      Position		      [70, 263, 100, 277]
+	      BackgroundColor	      "darkGreen"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "PID Gains"
+	      Position		      [325, 198, 355, 212]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "2"
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Sum
 	      Name		      "Add"
 	      Ports		      [2, 1]
-	      Position		      [200, 27, 230, 58]
+	      Position		      [525, 281, 555, 314]
+	      ShowName		      off
+	      Inputs		      "2"
 	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
 	      OutDataTypeMode	      "Inherit via internal rule"
@@ -412,17 +737,21 @@ Library {
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
-	      BlockType		      Constant
-	      Name		      "Constant"
-	      Position		      [185, 92, 250, 118]
-	      Value		      "NDelay*TSample"
+	      BlockType		      Demux
+	      Name		      "Demux"
+	      Ports		      [1, 3]
+	      Position		      [380, 186, 385, 224]
+	      BackgroundColor	      "black"
+	      ShowName		      off
+	      Outputs		      "3"
+	      DisplayOption	      "bar"
 	    }
 	    Block {
 	      BlockType		      Product
 	      Name		      "Divide"
 	      Ports		      [2, 1]
-	      Position		      [280, 37, 310, 68]
-	      Inputs		      "*/"
+	      Position		      [450, 187, 480, 218]
+	      ShowName		      off
 	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
 	      OutDataTypeMode	      "Inherit via internal rule"
@@ -431,754 +760,258 @@ Library {
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
-	      BlockType		      Reference
-	      Name		      "Integer Delay"
+	      BlockType		      Product
+	      Name		      "Divide2"
+	      Ports		      [2, 1]
+	      Position		      [460, 392, 490, 423]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutScaling	      "2^-10"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Low_passed Time Derivative"
 	      Ports		      [1, 1]
-	      Position		      [120, 73, 155, 107]
-	      SourceBlock	      "simulink/Discrete/Integer Delay"
-	      SourceType	      "Integer Delay"
-	      vinit		      "0.0"
-	      samptime		      "TSample"
-	      NumDelays		      "NDelay"
+	      Position		      [220, 391, 305, 439]
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"Low_passed Time Derivative"
+		Location		[207, 82, 1275, 809]
+		Open			off
+		ModelBrowserVisibility	on
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "f(t)"
+		  Position		  [25, 28, 55, 42]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Add"
+		  Ports			  [2, 1]
+		  Position		  [200, 27, 230, 58]
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  OutScaling		  "2^-10"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant"
+		  Position		  [185, 92, 250, 118]
+		  Value			  "NDelay*TSample"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Divide"
+		  Ports			  [2, 1]
+		  Position		  [280, 37, 310, 68]
+		  Inputs		  "*/"
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  OutScaling		  "2^-10"
+		  RndMeth		  "Floor"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integer Delay"
+		  Ports			  [1, 1]
+		  Position		  [120, 73, 155, 107]
+		  SourceBlock		  "simulink/Discrete/Integer Delay"
+		  SourceType		  "Integer Delay"
+		  vinit			  "0.0"
+		  samptime		  "TSample"
+		  NumDelays		  "NDelay"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "f_dot(t)"
+		  Position		  [345, 48, 375, 62]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Divide"
+		  SrcPort		  1
+		  DstBlock		  "f_dot(t)"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Constant"
+		  SrcPort		  1
+		  Points		  [5, 0; 0, -45]
+		  DstBlock		  "Divide"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Integer Delay"
+		  SrcPort		  1
+		  Points		  [10, 0; 0, -40]
+		  DstBlock		  "Add"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "f(t)"
+		  SrcPort		  1
+		  Points		  [35, 0]
+		  Branch {
+		    Points		    [0, 55]
+		    DstBlock		    "Integer Delay"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "Add"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Add"
+		  SrcPort		  1
+		  DstBlock		  "Divide"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Terminator
+	      Name		      "Terminator"
+	      Position		      [415, 197, 430, 213]
+	      ShowName		      off
 	    }
 	    Block {
 	      BlockType		      Outport
-	      Name		      "f_dot(t)"
-	      Position		      [345, 48, 375, 62]
+	      Name		      "Control"
+	      Position		      [585, 288, 615, 302]
+	      BackgroundColor	      "yellow"
 	      IconDisplay	      "Port number"
 	      BusOutputAsStruct	      off
 	    }
 	    Line {
-	      SrcBlock		      "Divide"
+	      SrcBlock		      "Divide2"
 	      SrcPort		      1
-	      DstBlock		      "f_dot(t)"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Constant"
-	      SrcPort		      1
-	      Points		      [5, 0; 0, -45]
-	      DstBlock		      "Divide"
-	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "Integer Delay"
-	      SrcPort		      1
-	      Points		      [10, 0; 0, -40]
+	      Points		      [15, 0]
 	      DstBlock		      "Add"
 	      DstPort		      2
 	    }
 	    Line {
-	      SrcBlock		      "f(t)"
-	      SrcPort		      1
-	      Points		      [35, 0]
-	      Branch {
-		Points			[0, 55]
-		DstBlock		"Integer Delay"
-		DstPort			1
-	      }
-	      Branch {
-		DstBlock		"Add"
-		DstPort			1
-	      }
+	      SrcBlock		      "Demux"
+	      SrcPort		      3
+	      Points		      [15, 0; 0, 185]
+	      DstBlock		      "Divide2"
+	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "Add"
 	      SrcPort		      1
+	      Points		      [0, -5]
+	      DstBlock		      "Control"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Divide"
+	      SrcPort		      1
+	      Points		      [25, 0]
+	      DstBlock		      "Add"
+	      DstPort		      1
+	    }
+	    Line {
+	      Labels		      [0, 0]
+	      SrcBlock		      "Demux"
+	      SrcPort		      1
 	      DstBlock		      "Divide"
 	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "PID Gains"
+	      SrcPort		      1
+	      DstBlock		      "Demux"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Error"
+	      SrcPort		      1
+	      Points		      [70, 0]
+	      Branch {
+		Points			[0, 145]
+		DstBlock		"Low_passed Time Derivative"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, -25; 260, 0]
+		DstBlock		"Divide"
+		DstPort			2
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Low_passed Time Derivative"
+	      SrcPort		      1
+	      DstBlock		      "Divide2"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      2
+	      DstBlock		      "Terminator"
+	      DstPort		      1
+	    }
+	    Annotation {
+	      Name		      "This Block implements a PID Controller "
+"with the \nFollowing Characteristcs:\n1.- Antiwindup is given by the Limits i"
+"n the block\n2.- The time Derivative is \"low-passed\" by using the\nprevious"
+" N samples instead of the one before\n3.- It contains an Integrator Reset if "
+"needed"
+	      Position		      [118, 86]
 	    }
 	  }
 	}
 	Block {
-	  BlockType		  Terminator
-	  Name			  "Terminator"
-	  Position		  [415, 197, 430, 213]
-	  ShowName		  off
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "Control"
-	  Position		  [585, 288, 615, 302]
-	  BackgroundColor	  "yellow"
-	  IconDisplay		  "Port number"
-	}
-	Line {
-	  SrcBlock		  "Divide2"
-	  SrcPort		  1
-	  Points		  [15, 0]
-	  DstBlock		  "Add"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  3
-	  Points		  [15, 0; 0, 185]
-	  DstBlock		  "Divide2"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Add"
-	  SrcPort		  1
-	  Points		  [0, -5]
-	  DstBlock		  "Control"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Divide"
-	  SrcPort		  1
-	  Points		  [25, 0]
-	  DstBlock		  "Add"
-	  DstPort		  1
-	}
-	Line {
-	  Labels		  [0, 0]
-	  SrcBlock		  "Demux"
-	  SrcPort		  1
-	  DstBlock		  "Divide"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "PID Gains"
-	  SrcPort		  1
-	  DstBlock		  "Demux"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Error"
-	  SrcPort		  1
-	  Points		  [70, 0]
-	  Branch {
-	    Points		    [0, 145]
-	    DstBlock		    "Low_passed Time Derivative"
-	    DstPort		    1
-	  }
-	  Branch {
-	    Points		    [0, -25; 260, 0]
-	    DstBlock		    "Divide"
-	    DstPort		    2
-	  }
-	}
-	Line {
-	  SrcBlock		  "Low_passed Time Derivative"
-	  SrcPort		  1
-	  DstBlock		  "Divide2"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  2
-	  DstBlock		  "Terminator"
-	  DstPort		  1
-	}
-	Annotation {
-	  Name			  "This Block implements a PID Controller with"
-" the \nFollowing Characteristcs:\n1.- Antiwindup is given by the Limits in th"
-"e block\n2.- The time Derivative is \"low-passed\" by using the\nprevious N s"
-"amples instead of the one before\n3.- It contains an Integrator Reset if need"
-"ed"
-	  Position		  [118, 86]
-	}
-      }
-    }
-    Block {
-      BlockType		      SubSystem
-      Name		      "PD Controller \nno Internal Derivative"
-      Ports		      [3, 1]
-      Position		      [405, 309, 530, 391]
-      MinAlgLoopOccurrences   off
-      RTWSystemCode	      "Auto"
-      FunctionWithSeparateData off
-      MaskHideContents	      off
-      MaskDescription	      "This Block implements a PD Controller with the "
-"Following Characteristcs:\n\n1.- It still expects 3 values for Gains. The sec"
-"ond term (I) is ignored\n2.- The time Derivative is \"low-passed\" by using t"
-"he previous N samples instead of the one before\n"
-      MaskPromptString	      "Sample Time"
-      MaskStyleString	      "edit"
-      MaskTunableValueString  "on"
-      MaskEnableString	      "on"
-      MaskVisibilityString    "on"
-      MaskToolTipString	      "on"
-      MaskVariables	      "TSample=@1;"
-      MaskIconFrame	      on
-      MaskIconOpaque	      on
-      MaskIconRotate	      "none"
-      MaskIconUnits	      "autoscale"
-      MaskValueString	      "SampleT"
-      System {
-	Name			"PD Controller \nno Internal Derivative"
-	Location		[207, 82, 1275, 809]
-	Open			off
-	ModelBrowserVisibility	on
-	ModelBrowserWidth	200
-	ScreenColor		"white"
-	PaperOrientation	"landscape"
-	PaperPositionMode	"auto"
-	PaperType		"usletter"
-	PaperUnits		"inches"
-	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
-	TiledPageScale		1
-	ShowPageBoundaries	off
-	ZoomFactor		"100"
-	Block {
-	  BlockType		  Inport
-	  Name			  "Error"
-	  Position		  [70, 263, 100, 277]
-	  BackgroundColor	  "darkGreen"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "Error Dot"
-	  Position		  [275, 408, 305, 422]
-	  BackgroundColor	  "darkGreen"
-	  Port			  "2"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "PID Gains"
-	  Position		  [325, 198, 355, 212]
-	  BackgroundColor	  "darkGreen"
-	  Port			  "3"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Sum
-	  Name			  "Add"
-	  Ports			  [2, 1]
-	  Position		  [525, 281, 555, 314]
-	  ShowName		  off
-	  Inputs		  "2"
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutScaling		  "2^-10"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Demux
-	  Name			  "Demux"
-	  Ports			  [1, 3]
-	  Position		  [380, 186, 385, 224]
-	  BackgroundColor	  "black"
-	  ShowName		  off
-	  Outputs		  "3"
-	  DisplayOption		  "bar"
-	}
-	Block {
-	  BlockType		  Product
-	  Name			  "Divide"
-	  Ports			  [2, 1]
-	  Position		  [450, 187, 480, 218]
-	  ShowName		  off
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutScaling		  "2^-10"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Product
-	  Name			  "Divide2"
-	  Ports			  [2, 1]
-	  Position		  [460, 392, 490, 423]
-	  ShowName		  off
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutScaling		  "2^-10"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Terminator
-	  Name			  "Terminator"
-	  Position		  [415, 197, 430, 213]
-	  ShowName		  off
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "Control"
-	  Position		  [585, 288, 615, 302]
-	  BackgroundColor	  "yellow"
-	  IconDisplay		  "Port number"
-	}
-	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  2
-	  DstBlock		  "Terminator"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Error Dot"
-	  SrcPort		  1
-	  DstBlock		  "Divide2"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Error"
-	  SrcPort		  1
-	  Points		  [70, 0; 0, -25; 260, 0]
-	  DstBlock		  "Divide"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "PID Gains"
-	  SrcPort		  1
-	  DstBlock		  "Demux"
-	  DstPort		  1
-	}
-	Line {
-	  Labels		  [0, 0]
-	  SrcBlock		  "Demux"
-	  SrcPort		  1
-	  DstBlock		  "Divide"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Divide"
-	  SrcPort		  1
-	  Points		  [25, 0]
-	  DstBlock		  "Add"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Add"
-	  SrcPort		  1
-	  Points		  [0, -5]
-	  DstBlock		  "Control"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  3
-	  Points		  [15, 0; 0, 185]
-	  DstBlock		  "Divide2"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Divide2"
-	  SrcPort		  1
-	  Points		  [15, 0]
-	  DstBlock		  "Add"
-	  DstPort		  2
-	}
-	Annotation {
-	  Name			  "This Block implements a PID Controller with"
-" the \nFollowing Characteristcs:\n1.- Antiwindup is given by the Limits in th"
-"e block\n2.-No time derivative\n3.- It contains an Integrator Reset if needed"
-	  Position		  [118, 86]
-	}
-      }
-    }
-    Block {
-      BlockType		      SubSystem
-      Name		      "PI Controller"
-      Ports		      [4, 1]
-      Position		      [410, 441, 535, 559]
-      MinAlgLoopOccurrences   off
-      RTWSystemCode	      "Auto"
-      FunctionWithSeparateData off
-      MaskHideContents	      off
-      MaskDescription	      "This Block implements a PI Controller with the "
-"Following Characteristcs:\n\n1.- Integrator antiwindup is given by the limits"
-" in the block\n2.-The gain still expects 3 values (the D term is ignored)\n3."
-"- It contains an Integrator Reset if needed"
-      MaskPromptString	      "Sample Time|Integrator Upper Windup Limit|Integ"
-"rator Lower Windup Limit"
-      MaskStyleString	      "edit,edit,edit"
-      MaskTunableValueString  "on,on,on"
-      MaskCallbackString      "||"
-      MaskEnableString	      "on,on,on"
-      MaskVisibilityString    "on,on,on"
-      MaskToolTipString	      "on,on,on"
-      MaskVarAliasString      ",,"
-      MaskVariables	      "TSample=@1;upperLimit=@2;lowerLimit=@3;"
-      MaskIconFrame	      on
-      MaskIconOpaque	      on
-      MaskIconRotate	      "none"
-      MaskIconUnits	      "autoscale"
-      MaskValueString	      "SampleT|10|-10"
-      MaskTabNameString	      ",,"
-      System {
-	Name			"PI Controller"
-	Location		[207, 82, 1275, 809]
-	Open			off
-	ModelBrowserVisibility	on
-	ModelBrowserWidth	200
-	ScreenColor		"white"
-	PaperOrientation	"landscape"
-	PaperPositionMode	"auto"
-	PaperType		"usletter"
-	PaperUnits		"inches"
-	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
-	TiledPageScale		1
-	ShowPageBoundaries	off
-	ZoomFactor		"100"
-	Block {
-	  BlockType		  Inport
-	  Name			  "Error"
-	  Position		  [70, 263, 100, 277]
-	  BackgroundColor	  "darkGreen"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "Int Reset"
-	  Position		  [70, 293, 100, 307]
-	  BackgroundColor	  "darkGreen"
-	  Port			  "2"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "Int IC"
-	  Position		  [70, 323, 100, 337]
-	  BackgroundColor	  "darkGreen"
-	  Port			  "3"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "PID Gains"
-	  Position		  [325, 198, 355, 212]
-	  BackgroundColor	  "darkGreen"
-	  Port			  "4"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Sum
-	  Name			  "Add"
-	  Ports			  [2, 1]
-	  Position		  [525, 271, 555, 304]
-	  ShowName		  off
-	  Inputs		  "2"
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutScaling		  "2^-10"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Demux
-	  Name			  "Demux"
-	  Ports			  [1, 3]
-	  Position		  [380, 186, 385, 224]
-	  BackgroundColor	  "black"
-	  ShowName		  off
-	  Outputs		  "3"
-	  DisplayOption		  "bar"
-	}
-	Block {
-	  BlockType		  DiscreteIntegrator
-	  Name			  "Discrete-Time\nIntegrator"
-	  Ports			  [3, 1]
-	  Position		  [195, 253, 320, 347]
-	  IntegratorMethod	  "Integration: Trapezoidal"
-	  ExternalReset		  "sampled level"
-	  InitialConditionSource  "external"
-	  SampleTime		  "TSample"
-	  LimitOutput		  on
-	  UpperSaturationLimit	  "upperLimit"
-	  LowerSaturationLimit	  "lowerLimit"
-	  IgnoreLimit		  off
-	  ICPrevOutput		  "DiscIntNeverNeededParam"
-	  ICPrevScaledInput	  "DiscIntNeverNeededParam"
-	}
-	Block {
-	  BlockType		  Product
-	  Name			  "Divide"
-	  Ports			  [2, 1]
-	  Position		  [450, 187, 480, 218]
-	  ShowName		  off
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutScaling		  "2^-10"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Product
-	  Name			  "Divide1"
-	  Ports			  [2, 1]
-	  Position		  [455, 277, 485, 308]
-	  ShowName		  off
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutScaling		  "2^-10"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Terminator
-	  Name			  "Terminator"
-	  Position		  [410, 207, 425, 223]
-	  ShowName		  off
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "Control"
-	  Position		  [585, 283, 615, 297]
-	  BackgroundColor	  "yellow"
-	  IconDisplay		  "Port number"
-	}
-	Line {
-	  SrcBlock		  "Error"
-	  SrcPort		  1
-	  Points		  [70, 0]
-	  Branch {
-	    DstBlock		    "Discrete-Time\nIntegrator"
-	    DstPort		    1
-	  }
-	  Branch {
-	    Points		    [0, -25; 260, 0]
-	    DstBlock		    "Divide"
-	    DstPort		    2
-	  }
-	}
-	Line {
-	  SrcBlock		  "Int Reset"
-	  SrcPort		  1
-	  DstBlock		  "Discrete-Time\nIntegrator"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Discrete-Time\nIntegrator"
-	  SrcPort		  1
-	  DstBlock		  "Divide1"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Int IC"
-	  SrcPort		  1
-	  DstBlock		  "Discrete-Time\nIntegrator"
-	  DstPort		  3
-	}
-	Line {
-	  SrcBlock		  "PID Gains"
-	  SrcPort		  1
-	  DstBlock		  "Demux"
-	  DstPort		  1
-	}
-	Line {
-	  Labels		  [0, 0]
-	  SrcBlock		  "Demux"
-	  SrcPort		  1
-	  DstBlock		  "Divide"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Divide"
-	  SrcPort		  1
-	  Points		  [25, 0]
-	  DstBlock		  "Add"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Add"
-	  SrcPort		  1
-	  DstBlock		  "Control"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  2
-	  Points		  [40, 0; 0, 80]
-	  DstBlock		  "Divide1"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Divide1"
-	  SrcPort		  1
-	  DstBlock		  "Add"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  3
-	  DstBlock		  "Terminator"
-	  DstPort		  1
-	}
-	Annotation {
-	  Name			  "This Block implements a PID Controller with"
-" the \nFollowing Characteristcs:\n1.- Antiwindup is given by the Limits in th"
-"e block\n2.- The error derivative is provided and therefore no\ntime derivati"
-"ve is implemented\n3.- It contains an Integrator Reset if needed"
-	  Position		  [118, 86]
-	}
-      }
-    }
-    Block {
-      BlockType		      SubSystem
-      Name		      "PID Controller"
-      Ports		      [4, 1]
-      Position		      [200, 136, 325, 254]
-      MinAlgLoopOccurrences   off
-      RTWSystemCode	      "Auto"
-      FunctionWithSeparateData off
-      MaskHideContents	      off
-      MaskDescription	      "This Block implements a PID Controller with the"
-" Following Characteristcs:\n\n1.- Integrator antiwindup is given by the limit"
-"s in the block\n2.- The time Derivative is \"low-passed\" by using the previo"
-"us N samples instead of the one before\n3.- It contains an Integrator Reset i"
-"f needed"
-      MaskPromptString	      "Sample Time|Derivation Time Constant Factor (1-"
-">10)|Integrator Upper Windup Limit|Integrator Lower Windup Limit"
-      MaskStyleString	      "edit,edit,edit,edit"
-      MaskTunableValueString  "on,on,on,on"
-      MaskCallbackString      "|||"
-      MaskEnableString	      "on,on,on,on"
-      MaskVisibilityString    "on,on,on,on"
-      MaskToolTipString	      "on,on,on,on"
-      MaskVarAliasString      ",,,"
-      MaskVariables	      "TSample=@1;NDelay=@2;upperLimit=@3;lowerLimit=@"
-"4;"
-      MaskIconFrame	      on
-      MaskIconOpaque	      on
-      MaskIconRotate	      "none"
-      MaskIconUnits	      "autoscale"
-      MaskValueString	      "SampleT|5|10|-10"
-      MaskTabNameString	      ",,,"
-      System {
-	Name			"PID Controller"
-	Location		[207, 82, 1275, 809]
-	Open			off
-	ModelBrowserVisibility	on
-	ModelBrowserWidth	200
-	ScreenColor		"white"
-	PaperOrientation	"landscape"
-	PaperPositionMode	"auto"
-	PaperType		"usletter"
-	PaperUnits		"inches"
-	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
-	TiledPageScale		1
-	ShowPageBoundaries	off
-	ZoomFactor		"100"
-	Block {
-	  BlockType		  Inport
-	  Name			  "Error"
-	  Position		  [70, 263, 100, 277]
-	  BackgroundColor	  "darkGreen"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "Int Reset"
-	  Position		  [70, 293, 100, 307]
-	  BackgroundColor	  "darkGreen"
-	  Port			  "2"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "Int IC"
-	  Position		  [70, 323, 100, 337]
-	  BackgroundColor	  "darkGreen"
-	  Port			  "3"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "PID Gains"
-	  Position		  [325, 198, 355, 212]
-	  BackgroundColor	  "darkGreen"
-	  Port			  "4"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Sum
-	  Name			  "Add"
-	  Ports			  [3, 1]
-	  Position		  [525, 279, 555, 311]
-	  ShowName		  off
-	  Inputs		  "3"
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutScaling		  "2^-10"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Demux
-	  Name			  "Demux"
-	  Ports			  [1, 3]
-	  Position		  [380, 186, 385, 224]
-	  BackgroundColor	  "black"
-	  ShowName		  off
-	  Outputs		  "3"
-	  DisplayOption		  "bar"
-	}
-	Block {
-	  BlockType		  DiscreteIntegrator
-	  Name			  "Discrete-Time\nIntegrator"
-	  Ports			  [3, 1]
-	  Position		  [195, 253, 320, 347]
-	  IntegratorMethod	  "Integration: Trapezoidal"
-	  ExternalReset		  "sampled level"
-	  InitialConditionSource  "external"
-	  SampleTime		  "TSample"
-	  LimitOutput		  on
-	  UpperSaturationLimit	  "upperLimit"
-	  LowerSaturationLimit	  "lowerLimit"
-	  IgnoreLimit		  off
-	  ICPrevOutput		  "DiscIntNeverNeededParam"
-	  ICPrevScaledInput	  "DiscIntNeverNeededParam"
-	}
-	Block {
-	  BlockType		  Product
-	  Name			  "Divide"
-	  Ports			  [2, 1]
-	  Position		  [450, 187, 480, 218]
-	  ShowName		  off
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutScaling		  "2^-10"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Product
-	  Name			  "Divide1"
-	  Ports			  [2, 1]
-	  Position		  [455, 277, 485, 308]
-	  ShowName		  off
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutScaling		  "2^-10"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Product
-	  Name			  "Divide2"
-	  Ports			  [2, 1]
-	  Position		  [460, 392, 490, 423]
-	  ShowName		  off
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutScaling		  "2^-10"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
 	  BlockType		  SubSystem
-	  Name			  "Low_passed Time Derivative"
-	  Ports			  [1, 1]
-	  Position		  [220, 391, 305, 439]
+	  Name			  "PD Controller \nno Internal Derivative"
+	  Ports			  [3, 1]
+	  Position		  [270, 199, 395, 281]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
 	  MaskHideContents	  off
+	  MaskDescription	  "This Block implements a PD Controller with "
+"the Following Characteristcs:\n\n1.- It still expects 3 values for Gains. The"
+" second term (I) is ignored\n2.- The time Derivative is \"low-passed\" by usi"
+"ng the previous N samples instead of the one before\n"
+	  MaskPromptString	  "Sample Time"
+	  MaskStyleString	  "edit"
+	  MaskTunableValueString  "on"
+	  MaskEnableString	  "on"
+	  MaskVisibilityString	  "on"
+	  MaskToolTipString	  "on"
+	  MaskVariables		  "TSample=@1;"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "SampleT"
 	  System {
-	    Name		    "Low_passed Time Derivative"
+	    Name		    "PD Controller \nno Internal Derivative"
 	    Location		    [207, 82, 1275, 809]
 	    Open		    off
 	    ModelBrowserVisibility  on
@@ -1194,15 +1027,34 @@ Library {
 	    ZoomFactor		    "100"
 	    Block {
 	      BlockType		      Inport
-	      Name		      "f(t)"
-	      Position		      [25, 28, 55, 42]
+	      Name		      "Error"
+	      Position		      [70, 263, 100, 277]
+	      BackgroundColor	      "darkGreen"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Error Dot"
+	      Position		      [275, 408, 305, 422]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "PID Gains"
+	      Position		      [325, 198, 355, 212]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "3"
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Sum
 	      Name		      "Add"
 	      Ports		      [2, 1]
-	      Position		      [200, 27, 230, 58]
+	      Position		      [525, 281, 555, 314]
+	      ShowName		      off
+	      Inputs		      "2"
 	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
 	      OutDataTypeMode	      "Inherit via internal rule"
@@ -1210,17 +1062,21 @@ Library {
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
-	      BlockType		      Constant
-	      Name		      "Constant"
-	      Position		      [185, 92, 250, 118]
-	      Value		      "NDelay*TSample"
+	      BlockType		      Demux
+	      Name		      "Demux"
+	      Ports		      [1, 3]
+	      Position		      [380, 186, 385, 224]
+	      BackgroundColor	      "black"
+	      ShowName		      off
+	      Outputs		      "3"
+	      DisplayOption	      "bar"
 	    }
 	    Block {
 	      BlockType		      Product
 	      Name		      "Divide"
 	      Ports		      [2, 1]
-	      Position		      [280, 37, 310, 68]
-	      Inputs		      "*/"
+	      Position		      [450, 187, 480, 218]
+	      ShowName		      off
 	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
 	      OutDataTypeMode	      "Inherit via internal rule"
@@ -1229,210 +1085,1015 @@ Library {
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
-	      BlockType		      Reference
-	      Name		      "Integer Delay"
-	      Ports		      [1, 1]
-	      Position		      [120, 73, 155, 107]
-	      SourceBlock	      "simulink/Discrete/Integer Delay"
-	      SourceType	      "Integer Delay"
-	      vinit		      "0.0"
-	      samptime		      "TSample"
-	      NumDelays		      "NDelay"
+	      BlockType		      Product
+	      Name		      "Divide2"
+	      Ports		      [2, 1]
+	      Position		      [460, 392, 490, 423]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutScaling	      "2^-10"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Terminator
+	      Name		      "Terminator"
+	      Position		      [415, 197, 430, 213]
+	      ShowName		      off
 	    }
 	    Block {
 	      BlockType		      Outport
-	      Name		      "f_dot(t)"
-	      Position		      [345, 48, 375, 62]
+	      Name		      "Control"
+	      Position		      [585, 288, 615, 302]
+	      BackgroundColor	      "yellow"
 	      IconDisplay	      "Port number"
 	      BusOutputAsStruct	      off
 	    }
 	    Line {
-	      SrcBlock		      "Add"
-	      SrcPort		      1
-	      DstBlock		      "Divide"
+	      SrcBlock		      "Demux"
+	      SrcPort		      2
+	      DstBlock		      "Terminator"
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "f(t)"
+	      SrcBlock		      "Error Dot"
 	      SrcPort		      1
-	      Points		      [35, 0]
-	      Branch {
-		DstBlock		"Add"
-		DstPort			1
-	      }
-	      Branch {
-		Points			[0, 55]
-		DstBlock		"Integer Delay"
-		DstPort			1
-	      }
-	    }
-	    Line {
-	      SrcBlock		      "Integer Delay"
-	      SrcPort		      1
-	      Points		      [10, 0; 0, -40]
-	      DstBlock		      "Add"
+	      DstBlock		      "Divide2"
 	      DstPort		      2
 	    }
 	    Line {
-	      SrcBlock		      "Constant"
+	      SrcBlock		      "Error"
 	      SrcPort		      1
-	      Points		      [5, 0; 0, -45]
+	      Points		      [70, 0; 0, -25; 260, 0]
 	      DstBlock		      "Divide"
 	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "PID Gains"
+	      SrcPort		      1
+	      DstBlock		      "Demux"
+	      DstPort		      1
+	    }
+	    Line {
+	      Labels		      [0, 0]
+	      SrcBlock		      "Demux"
+	      SrcPort		      1
+	      DstBlock		      "Divide"
+	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "Divide"
 	      SrcPort		      1
-	      DstBlock		      "f_dot(t)"
+	      Points		      [25, 0]
+	      DstBlock		      "Add"
 	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Add"
+	      SrcPort		      1
+	      Points		      [0, -5]
+	      DstBlock		      "Control"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      3
+	      Points		      [15, 0; 0, 185]
+	      DstBlock		      "Divide2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Divide2"
+	      SrcPort		      1
+	      Points		      [15, 0]
+	      DstBlock		      "Add"
+	      DstPort		      2
+	    }
+	    Annotation {
+	      Name		      "This Block implements a PID Controller "
+"with the \nFollowing Characteristcs:\n1.- Antiwindup is given by the Limits i"
+"n the block\n2.-No time derivative\n3.- It contains an Integrator Reset if ne"
+"eded"
+	      Position		      [118, 86]
 	    }
 	  }
 	}
 	Block {
-	  BlockType		  Outport
-	  Name			  "Control"
-	  Position		  [585, 288, 615, 302]
-	  BackgroundColor	  "yellow"
-	  IconDisplay		  "Port number"
-	}
-	Line {
-	  SrcBlock		  "Low_passed Time Derivative"
-	  SrcPort		  1
-	  DstBlock		  "Divide2"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Error"
-	  SrcPort		  1
-	  Points		  [70, 0]
-	  Branch {
-	    DstBlock		    "Discrete-Time\nIntegrator"
-	    DstPort		    1
+	  BlockType		  SubSystem
+	  Name			  "PI Controller"
+	  Ports			  [4, 1]
+	  Position		  [275, 331, 400, 449]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  MaskDescription	  "This Block implements a PI Controller with "
+"the Following Characteristcs:\n\n1.- Integrator antiwindup is given by the li"
+"mits in the block\n2.-The gain still expects 3 values (the D term is ignored)"
+"\n3.- It contains an Integrator Reset if needed"
+	  MaskPromptString	  "Sample Time|Integrator Upper Windup Limit|I"
+"ntegrator Lower Windup Limit"
+	  MaskStyleString	  "edit,edit,edit"
+	  MaskTunableValueString  "on,on,on"
+	  MaskCallbackString	  "||"
+	  MaskEnableString	  "on,on,on"
+	  MaskVisibilityString	  "on,on,on"
+	  MaskToolTipString	  "on,on,on"
+	  MaskVarAliasString	  ",,"
+	  MaskVariables		  "TSample=@1;upperLimit=@2;lowerLimit=@3;"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "SampleT|10|-10"
+	  MaskTabNameString	  ",,"
+	  System {
+	    Name		    "PI Controller"
+	    Location		    [207, 82, 1275, 809]
+	    Open		    off
+	    ModelBrowserVisibility  on
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Error"
+	      Position		      [70, 263, 100, 277]
+	      BackgroundColor	      "darkGreen"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Int Reset"
+	      Position		      [70, 293, 100, 307]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Int IC"
+	      Position		      [70, 323, 100, 337]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "PID Gains"
+	      Position		      [325, 198, 355, 212]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "4"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Add"
+	      Ports		      [2, 1]
+	      Position		      [525, 271, 555, 304]
+	      ShowName		      off
+	      Inputs		      "2"
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutScaling	      "2^-10"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Demux
+	      Name		      "Demux"
+	      Ports		      [1, 3]
+	      Position		      [380, 186, 385, 224]
+	      BackgroundColor	      "black"
+	      ShowName		      off
+	      Outputs		      "3"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      DiscreteIntegrator
+	      Name		      "Discrete-Time\nIntegrator"
+	      Ports		      [3, 1]
+	      Position		      [195, 253, 320, 347]
+	      IntegratorMethod	      "Integration: Trapezoidal"
+	      ExternalReset	      "sampled level"
+	      InitialConditionSource  "external"
+	      SampleTime	      "TSample"
+	      LimitOutput	      on
+	      UpperSaturationLimit    "upperLimit"
+	      LowerSaturationLimit    "lowerLimit"
+	      IgnoreLimit	      off
+	      ICPrevOutput	      "DiscIntNeverNeededParam"
+	      ICPrevScaledInput	      "DiscIntNeverNeededParam"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Divide"
+	      Ports		      [2, 1]
+	      Position		      [450, 187, 480, 218]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutScaling	      "2^-10"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Divide1"
+	      Ports		      [2, 1]
+	      Position		      [455, 277, 485, 308]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutScaling	      "2^-10"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Terminator
+	      Name		      "Terminator"
+	      Position		      [410, 207, 425, 223]
+	      ShowName		      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Control"
+	      Position		      [585, 283, 615, 297]
+	      BackgroundColor	      "yellow"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "Error"
+	      SrcPort		      1
+	      Points		      [70, 0]
+	      Branch {
+		DstBlock		"Discrete-Time\nIntegrator"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, -25; 260, 0]
+		DstBlock		"Divide"
+		DstPort			2
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Int Reset"
+	      SrcPort		      1
+	      DstBlock		      "Discrete-Time\nIntegrator"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Discrete-Time\nIntegrator"
+	      SrcPort		      1
+	      DstBlock		      "Divide1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Int IC"
+	      SrcPort		      1
+	      DstBlock		      "Discrete-Time\nIntegrator"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "PID Gains"
+	      SrcPort		      1
+	      DstBlock		      "Demux"
+	      DstPort		      1
+	    }
+	    Line {
+	      Labels		      [0, 0]
+	      SrcBlock		      "Demux"
+	      SrcPort		      1
+	      DstBlock		      "Divide"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Divide"
+	      SrcPort		      1
+	      Points		      [25, 0]
+	      DstBlock		      "Add"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Add"
+	      SrcPort		      1
+	      DstBlock		      "Control"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      2
+	      Points		      [40, 0; 0, 80]
+	      DstBlock		      "Divide1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Divide1"
+	      SrcPort		      1
+	      DstBlock		      "Add"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      3
+	      DstBlock		      "Terminator"
+	      DstPort		      1
+	    }
+	    Annotation {
+	      Name		      "This Block implements a PID Controller "
+"with the \nFollowing Characteristcs:\n1.- Antiwindup is given by the Limits i"
+"n the block\n2.- The error derivative is provided and therefore no\ntime deri"
+"vative is implemented\n3.- It contains an Integrator Reset if needed"
+	      Position		      [118, 86]
+	    }
 	  }
-	  Branch {
-	    Points		    [0, -25; 260, 0]
-	    DstBlock		    "Divide"
-	    DstPort		    2
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "PID Controller"
+	  Ports			  [4, 1]
+	  Position		  [65, 26, 190, 144]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  MaskDescription	  "This Block implements a PID Controller with"
+" the Following Characteristcs:\n\n1.- Integrator antiwindup is given by the l"
+"imits in the block\n2.- The time Derivative is \"low-passed\" by using the pr"
+"evious N samples instead of the one before\n3.- It contains an Integrator Res"
+"et if needed"
+	  MaskPromptString	  "Sample Time|Derivation Time Constant Factor"
+" (1->10)|Integrator Upper Windup Limit|Integrator Lower Windup Limit"
+	  MaskStyleString	  "edit,edit,edit,edit"
+	  MaskTunableValueString  "on,on,on,on"
+	  MaskCallbackString	  "|||"
+	  MaskEnableString	  "on,on,on,on"
+	  MaskVisibilityString	  "on,on,on,on"
+	  MaskToolTipString	  "on,on,on,on"
+	  MaskVarAliasString	  ",,,"
+	  MaskVariables		  "TSample=@1;NDelay=@2;upperLimit=@3;lowerLim"
+"it=@4;"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "SampleT|5|10|-10"
+	  MaskTabNameString	  ",,,"
+	  System {
+	    Name		    "PID Controller"
+	    Location		    [207, 82, 1275, 809]
+	    Open		    off
+	    ModelBrowserVisibility  on
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Error"
+	      Position		      [70, 263, 100, 277]
+	      BackgroundColor	      "darkGreen"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Int Reset"
+	      Position		      [70, 293, 100, 307]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Int IC"
+	      Position		      [70, 323, 100, 337]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "PID Gains"
+	      Position		      [325, 198, 355, 212]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "4"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Add"
+	      Ports		      [3, 1]
+	      Position		      [525, 279, 555, 311]
+	      ShowName		      off
+	      Inputs		      "3"
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutScaling	      "2^-10"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Demux
+	      Name		      "Demux"
+	      Ports		      [1, 3]
+	      Position		      [380, 186, 385, 224]
+	      BackgroundColor	      "black"
+	      ShowName		      off
+	      Outputs		      "3"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      DiscreteIntegrator
+	      Name		      "Discrete-Time\nIntegrator"
+	      Ports		      [3, 1]
+	      Position		      [195, 253, 320, 347]
+	      IntegratorMethod	      "Integration: Trapezoidal"
+	      ExternalReset	      "sampled level"
+	      InitialConditionSource  "external"
+	      SampleTime	      "TSample"
+	      LimitOutput	      on
+	      UpperSaturationLimit    "upperLimit"
+	      LowerSaturationLimit    "lowerLimit"
+	      IgnoreLimit	      off
+	      ICPrevOutput	      "DiscIntNeverNeededParam"
+	      ICPrevScaledInput	      "DiscIntNeverNeededParam"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Divide"
+	      Ports		      [2, 1]
+	      Position		      [450, 187, 480, 218]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutScaling	      "2^-10"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Divide1"
+	      Ports		      [2, 1]
+	      Position		      [455, 277, 485, 308]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutScaling	      "2^-10"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Divide2"
+	      Ports		      [2, 1]
+	      Position		      [460, 392, 490, 423]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutScaling	      "2^-10"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Low_passed Time Derivative"
+	      Ports		      [1, 1]
+	      Position		      [220, 391, 305, 439]
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"Low_passed Time Derivative"
+		Location		[207, 82, 1275, 809]
+		Open			off
+		ModelBrowserVisibility	on
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "f(t)"
+		  Position		  [25, 28, 55, 42]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Add"
+		  Ports			  [2, 1]
+		  Position		  [200, 27, 230, 58]
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  OutScaling		  "2^-10"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant"
+		  Position		  [185, 92, 250, 118]
+		  Value			  "NDelay*TSample"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Divide"
+		  Ports			  [2, 1]
+		  Position		  [280, 37, 310, 68]
+		  Inputs		  "*/"
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  OutScaling		  "2^-10"
+		  RndMeth		  "Floor"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integer Delay"
+		  Ports			  [1, 1]
+		  Position		  [120, 73, 155, 107]
+		  SourceBlock		  "simulink/Discrete/Integer Delay"
+		  SourceType		  "Integer Delay"
+		  vinit			  "0.0"
+		  samptime		  "TSample"
+		  NumDelays		  "NDelay"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "f_dot(t)"
+		  Position		  [345, 48, 375, 62]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Add"
+		  SrcPort		  1
+		  DstBlock		  "Divide"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "f(t)"
+		  SrcPort		  1
+		  Points		  [35, 0]
+		  Branch {
+		    DstBlock		    "Add"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 55]
+		    DstBlock		    "Integer Delay"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Integer Delay"
+		  SrcPort		  1
+		  Points		  [10, 0; 0, -40]
+		  DstBlock		  "Add"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Constant"
+		  SrcPort		  1
+		  Points		  [5, 0; 0, -45]
+		  DstBlock		  "Divide"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Divide"
+		  SrcPort		  1
+		  DstBlock		  "f_dot(t)"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Control"
+	      Position		      [585, 288, 615, 302]
+	      BackgroundColor	      "yellow"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "Low_passed Time Derivative"
+	      SrcPort		      1
+	      DstBlock		      "Divide2"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Error"
+	      SrcPort		      1
+	      Points		      [70, 0]
+	      Branch {
+		DstBlock		"Discrete-Time\nIntegrator"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, -25; 260, 0]
+		DstBlock		"Divide"
+		DstPort			2
+	      }
+	      Branch {
+		Points			[0, 145]
+		DstBlock		"Low_passed Time Derivative"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Int Reset"
+	      SrcPort		      1
+	      DstBlock		      "Discrete-Time\nIntegrator"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Discrete-Time\nIntegrator"
+	      SrcPort		      1
+	      DstBlock		      "Divide1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Int IC"
+	      SrcPort		      1
+	      DstBlock		      "Discrete-Time\nIntegrator"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "PID Gains"
+	      SrcPort		      1
+	      DstBlock		      "Demux"
+	      DstPort		      1
+	    }
+	    Line {
+	      Labels		      [0, 0]
+	      SrcBlock		      "Demux"
+	      SrcPort		      1
+	      DstBlock		      "Divide"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Divide"
+	      SrcPort		      1
+	      Points		      [25, 0]
+	      DstBlock		      "Add"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Add"
+	      SrcPort		      1
+	      DstBlock		      "Control"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      2
+	      Points		      [40, 0; 0, 80]
+	      DstBlock		      "Divide1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      3
+	      Points		      [15, 0; 0, 185]
+	      DstBlock		      "Divide2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Divide1"
+	      SrcPort		      1
+	      DstBlock		      "Add"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Divide2"
+	      SrcPort		      1
+	      Points		      [15, 0]
+	      DstBlock		      "Add"
+	      DstPort		      3
+	    }
+	    Annotation {
+	      Name		      "This Block implements a PID Controller "
+"with the \nFollowing Characteristcs:\n1.- Antiwindup is given by the Limits i"
+"n the block\n2.- The time Derivative is \"low-passed\" by using the\nprevious"
+" N samples instead of the one before\n3.- It contains an Integrator Reset if "
+"needed"
+	      Position		      [118, 86]
+	    }
 	  }
-	  Branch {
-	    Points		    [0, 145]
-	    DstBlock		    "Low_passed Time Derivative"
-	    DstPort		    1
-	  }
 	}
-	Line {
-	  SrcBlock		  "Int Reset"
-	  SrcPort		  1
-	  DstBlock		  "Discrete-Time\nIntegrator"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Discrete-Time\nIntegrator"
-	  SrcPort		  1
-	  DstBlock		  "Divide1"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Int IC"
-	  SrcPort		  1
-	  DstBlock		  "Discrete-Time\nIntegrator"
-	  DstPort		  3
-	}
-	Line {
-	  SrcBlock		  "PID Gains"
-	  SrcPort		  1
-	  DstBlock		  "Demux"
-	  DstPort		  1
-	}
-	Line {
-	  Labels		  [0, 0]
-	  SrcBlock		  "Demux"
-	  SrcPort		  1
-	  DstBlock		  "Divide"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Divide"
-	  SrcPort		  1
-	  Points		  [25, 0]
-	  DstBlock		  "Add"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Add"
-	  SrcPort		  1
-	  DstBlock		  "Control"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  2
-	  Points		  [40, 0; 0, 80]
-	  DstBlock		  "Divide1"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  3
-	  Points		  [15, 0; 0, 185]
-	  DstBlock		  "Divide2"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Divide1"
-	  SrcPort		  1
-	  DstBlock		  "Add"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Divide2"
-	  SrcPort		  1
-	  Points		  [15, 0]
-	  DstBlock		  "Add"
-	  DstPort		  3
-	}
-	Annotation {
-	  Name			  "This Block implements a PID Controller with"
-" the \nFollowing Characteristcs:\n1.- Antiwindup is given by the Limits in th"
-"e block\n2.- The time Derivative is \"low-passed\" by using the\nprevious N s"
-"amples instead of the one before\n3.- It contains an Integrator Reset if need"
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "PID Controller\nno Internal Derivative"
+	  Ports			  [5, 1]
+	  Position		  [260, 26, 385, 144]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  MaskDescription	  "This Block implements a PID Controller with"
+" the Following Characteristcs:\n\n1.- Integrator antiwindup is given by the l"
+"imits in the block\n2.- The error time derivative is provided and therefore n"
+"o derivtive block is implemented\n3.- It contains an Integrator Reset if need"
 "ed"
-	  Position		  [118, 86]
+	  MaskPromptString	  "Sample Time|Integrator Upper Windup Limit|I"
+"ntegrator Lower Windup Limit"
+	  MaskStyleString	  "edit,edit,edit"
+	  MaskTunableValueString  "on,on,on"
+	  MaskCallbackString	  "||"
+	  MaskEnableString	  "on,on,on"
+	  MaskVisibilityString	  "on,on,on"
+	  MaskToolTipString	  "on,on,on"
+	  MaskVarAliasString	  ",,"
+	  MaskVariables		  "TSample=@1;upperLimit=@2;lowerLimit=@3;"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "SampleT|10|-10"
+	  MaskTabNameString	  ",,"
+	  System {
+	    Name		    "PID Controller\nno Internal Derivative"
+	    Location		    [207, 82, 1275, 809]
+	    Open		    off
+	    ModelBrowserVisibility  on
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Error"
+	      Position		      [70, 263, 100, 277]
+	      BackgroundColor	      "darkGreen"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Error dot"
+	      Position		      [355, 408, 385, 422]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Int Reset"
+	      Position		      [70, 293, 100, 307]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Int IC"
+	      Position		      [70, 323, 100, 337]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "4"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "PID Gains"
+	      Position		      [325, 198, 355, 212]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "5"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Add"
+	      Ports		      [3, 1]
+	      Position		      [525, 279, 555, 311]
+	      ShowName		      off
+	      Inputs		      "3"
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutScaling	      "2^-10"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Demux
+	      Name		      "Demux"
+	      Ports		      [1, 3]
+	      Position		      [380, 186, 385, 224]
+	      BackgroundColor	      "black"
+	      ShowName		      off
+	      Outputs		      "3"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      DiscreteIntegrator
+	      Name		      "Discrete-Time\nIntegrator"
+	      Ports		      [3, 1]
+	      Position		      [195, 253, 320, 347]
+	      IntegratorMethod	      "Integration: Trapezoidal"
+	      ExternalReset	      "sampled level"
+	      InitialConditionSource  "external"
+	      SampleTime	      "TSample"
+	      LimitOutput	      on
+	      UpperSaturationLimit    "upperLimit"
+	      LowerSaturationLimit    "lowerLimit"
+	      IgnoreLimit	      off
+	      ICPrevOutput	      "DiscIntNeverNeededParam"
+	      ICPrevScaledInput	      "DiscIntNeverNeededParam"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Divide"
+	      Ports		      [2, 1]
+	      Position		      [450, 187, 480, 218]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutScaling	      "2^-10"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Divide1"
+	      Ports		      [2, 1]
+	      Position		      [455, 277, 485, 308]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutScaling	      "2^-10"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Divide2"
+	      Ports		      [2, 1]
+	      Position		      [460, 392, 490, 423]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutScaling	      "2^-10"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Control"
+	      Position		      [585, 288, 615, 302]
+	      BackgroundColor	      "yellow"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "Divide2"
+	      SrcPort		      1
+	      Points		      [15, 0]
+	      DstBlock		      "Add"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Divide1"
+	      SrcPort		      1
+	      DstBlock		      "Add"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      3
+	      Points		      [15, 0; 0, 185]
+	      DstBlock		      "Divide2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      2
+	      Points		      [40, 0; 0, 80]
+	      DstBlock		      "Divide1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Add"
+	      SrcPort		      1
+	      DstBlock		      "Control"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Divide"
+	      SrcPort		      1
+	      Points		      [25, 0]
+	      DstBlock		      "Add"
+	      DstPort		      1
+	    }
+	    Line {
+	      Labels		      [0, 0]
+	      SrcBlock		      "Demux"
+	      SrcPort		      1
+	      DstBlock		      "Divide"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "PID Gains"
+	      SrcPort		      1
+	      DstBlock		      "Demux"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Int IC"
+	      SrcPort		      1
+	      DstBlock		      "Discrete-Time\nIntegrator"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Discrete-Time\nIntegrator"
+	      SrcPort		      1
+	      DstBlock		      "Divide1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Int Reset"
+	      SrcPort		      1
+	      DstBlock		      "Discrete-Time\nIntegrator"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Error"
+	      SrcPort		      1
+	      Points		      [70, 0]
+	      Branch {
+		Points			[0, -25; 260, 0]
+		DstBlock		"Divide"
+		DstPort			2
+	      }
+	      Branch {
+		DstBlock		"Discrete-Time\nIntegrator"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Error dot"
+	      SrcPort		      1
+	      DstBlock		      "Divide2"
+	      DstPort		      2
+	    }
+	    Annotation {
+	      Name		      "This Block implements a PID Controller "
+"with the \nFollowing Characteristcs:\n1.- Antiwindup is given by the Limits i"
+"n the block\n2.- The error derivative is provided and therefore no\ntime deri"
+"vative is implemented\n3.- It contains an Integrator Reset if needed"
+	      Position		      [118, 86]
+	    }
+	  }
 	}
       }
     }
     Block {
       BlockType		      SubSystem
-      Name		      "PID Controller\nno Internal Derivative"
-      Ports		      [5, 1]
-      Position		      [395, 136, 520, 254]
+      Name		      "Singnal Routing\n& Conditioning"
+      Ports		      []
+      Position		      [145, 28, 201, 82]
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
       MaskHideContents	      off
-      MaskDescription	      "This Block implements a PID Controller with the"
-" Following Characteristcs:\n\n1.- Integrator antiwindup is given by the limit"
-"s in the block\n2.- The error time derivative is provided and therefore no de"
-"rivtive block is implemented\n3.- It contains an Integrator Reset if needed"
-      MaskPromptString	      "Sample Time|Integrator Upper Windup Limit|Integ"
-"rator Lower Windup Limit"
-      MaskStyleString	      "edit,edit,edit"
-      MaskTunableValueString  "on,on,on"
-      MaskCallbackString      "||"
-      MaskEnableString	      "on,on,on"
-      MaskVisibilityString    "on,on,on"
-      MaskToolTipString	      "on,on,on"
-      MaskVarAliasString      ",,"
-      MaskVariables	      "TSample=@1;upperLimit=@2;lowerLimit=@3;"
-      MaskIconFrame	      on
-      MaskIconOpaque	      on
-      MaskIconRotate	      "none"
-      MaskIconUnits	      "autoscale"
-      MaskValueString	      "SampleT|10|-10"
-      MaskTabNameString	      ",,"
       System {
-	Name			"PID Controller\nno Internal Derivative"
-	Location		[207, 82, 1275, 809]
+	Name			"Singnal Routing\n& Conditioning"
+	Location		[455, 209, 934, 600]
 	Open			off
 	ModelBrowserVisibility	on
 	ModelBrowserWidth	200
@@ -1446,234 +2107,1263 @@ Library {
 	ShowPageBoundaries	off
 	ZoomFactor		"100"
 	Block {
-	  BlockType		  Inport
-	  Name			  "Error"
-	  Position		  [70, 263, 100, 277]
-	  BackgroundColor	  "darkGreen"
-	  IconDisplay		  "Port number"
+	  BlockType		  SubSystem
+	  Name			  "3D Filter"
+	  Ports			  [1, 1]
+	  Position		  [135, 136, 195, 194]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Reusable function"
+	  RTWFcnNameOpts	  "User specified"
+	  RTWFcnName		  "TustinFilter3D"
+	  RTWFileNameOpts	  "Use function name"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  MaskPromptString	  "Zeros|Poles|Gains|Sample Time"
+	  MaskStyleString	  "edit,edit,edit,edit"
+	  MaskTunableValueString  "on,on,on,on"
+	  MaskCallbackString	  "|||"
+	  MaskEnableString	  "on,on,on,on"
+	  MaskVisibilityString	  "on,on,on,on"
+	  MaskToolTipString	  "on,on,on,on"
+	  MaskVarAliasString	  ",,,"
+	  MaskVariables		  "zval=@1;pval=@2;kval=@3;TSample=@4;"
+	  MaskDisplay		  "droots(zval,pval,kval)\nport_label('input',"
+"1,'3D')\n"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "[]|-5|5|0.01"
+	  MaskTabNameString	  ",,,"
+	  System {
+	    Name		    "3D Filter"
+	    Location		    [775, 320, 1085, 558]
+	    Open		    off
+	    ModelBrowserVisibility  on
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [25, 115, 55, 129]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Demux
+	      Name		      "Demux"
+	      Ports		      [1, 3]
+	      Position		      [80, 101, 85, 139]
+	      BackgroundColor	      "black"
+	      ShowName		      off
+	      Outputs		      "3"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Filter1"
+	      Ports		      [1, 1]
+	      Position		      [125, 27, 185, 83]
+	      ShowName		      off
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      MaskType		      "DiscretizedZeroPole"
+	      MaskDescription	      "Continuous mask uses c2d to transform p"
+"arameters onto the Discrete Zero-Pole block inside."
+	      MaskPromptString	      "Zeros (enter in s-main:)|Poles (enter i"
+"n s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:|Metho"
+"d:|Critical Frequency (Hz):"
+	      MaskStyleString	      "edit,edit,edit,edit,edit,popup(zoh|foh|"
+"tustin|prewarp|matched),edit"
+	      MaskTunableValueString  "on,on,on,on,on,on,on"
+	      MaskCallbackString      "|||||hidecrit|"
+	      MaskEnableString	      "on,on,on,on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on,on,on,off"
+	      MaskToolTipString	      "on,on,on,on,on,on,on"
+	      MaskVarAliasString      ",,,,,,"
+	      MaskVariables	      "Zeros=@1;Poles=@2;Gain=@3;AbsTol=&4;Sam"
+"pleTime=@5;method=&6;Wc=@7;"
+	      MaskInitialization      "st=SampleTime;\nif length(st)>1\n    st"
+"=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil('discz"
+"pk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,'maskv"
+"alues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eval(zero"
+"ss);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('initzpkma"
+"sk', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance', AbsT"
+"ol);\nend"
+	      MaskDisplay	      "droots(zeross,poless,gainss)\ntext( 0.5"
+", 1.0, method, 'verticalAlignment','top')"
+	      MaskSelfModifiable      on
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "port"
+	      MaskIconUnits	      "normalized"
+	      MaskValueString	      "zval|pval|kval|auto|TSample|tustin|1"
+	      MaskTabNameString	      ",,,,,,"
+	      System {
+		Name			"Filter1"
+		Location		[499, 349, 791, 606]
+		Open			off
+		ModelBrowserVisibility	on
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [60, 103, 90, 117]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  DiscreteZeroPole
+		  Name			  "Discrete\nZero-Pole"
+		  Position		  [115, 92, 200, 128]
+		  Zeros			  "zerosd"
+		  Poles			  "polesd"
+		  Gain			  "gaind"
+		  SampleTime		  "SampleTime"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [235, 103, 265, 117]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Discrete\nZero-Pole"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Discrete\nZero-Pole"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Filter2"
+	      Ports		      [1, 1]
+	      Position		      [125, 92, 185, 148]
+	      ShowName		      off
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      MaskType		      "DiscretizedZeroPole"
+	      MaskDescription	      "Continuous mask uses c2d to transform p"
+"arameters onto the Discrete Zero-Pole block inside."
+	      MaskPromptString	      "Zeros (enter in s-main:)|Poles (enter i"
+"n s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:|Metho"
+"d:|Critical Frequency (Hz):"
+	      MaskStyleString	      "edit,edit,edit,edit,edit,popup(zoh|foh|"
+"tustin|prewarp|matched),edit"
+	      MaskTunableValueString  "on,on,on,on,on,on,on"
+	      MaskCallbackString      "|||||hidecrit|"
+	      MaskEnableString	      "on,on,on,on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on,on,on,off"
+	      MaskToolTipString	      "on,on,on,on,on,on,on"
+	      MaskVarAliasString      ",,,,,,"
+	      MaskVariables	      "Zeros=@1;Poles=@2;Gain=@3;AbsTol=&4;Sam"
+"pleTime=@5;method=&6;Wc=@7;"
+	      MaskInitialization      "st=SampleTime;\nif length(st)>1\n    st"
+"=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil('discz"
+"pk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,'maskv"
+"alues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eval(zero"
+"ss);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('initzpkma"
+"sk', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance', AbsT"
+"ol);\nend"
+	      MaskDisplay	      "droots(zeross,poless,gainss)\ntext( 0.5"
+", 1.0, method, 'verticalAlignment','top')"
+	      MaskSelfModifiable      on
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "port"
+	      MaskIconUnits	      "normalized"
+	      MaskValueString	      "zval|pval|kval|auto|TSample|tustin|1"
+	      MaskTabNameString	      ",,,,,,"
+	      System {
+		Name			"Filter2"
+		Location		[499, 349, 791, 606]
+		Open			off
+		ModelBrowserVisibility	on
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [60, 103, 90, 117]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  DiscreteZeroPole
+		  Name			  "Discrete\nZero-Pole"
+		  Position		  [115, 92, 200, 128]
+		  Zeros			  "zerosd"
+		  Poles			  "polesd"
+		  Gain			  "gaind"
+		  SampleTime		  "SampleTime"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [235, 103, 265, 117]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Discrete\nZero-Pole"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Discrete\nZero-Pole"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Filter3"
+	      Ports		      [1, 1]
+	      Position		      [125, 157, 185, 213]
+	      ShowName		      off
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      MaskType		      "DiscretizedZeroPole"
+	      MaskDescription	      "Continuous mask uses c2d to transform p"
+"arameters onto the Discrete Zero-Pole block inside."
+	      MaskPromptString	      "Zeros (enter in s-main:)|Poles (enter i"
+"n s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:|Metho"
+"d:|Critical Frequency (Hz):"
+	      MaskStyleString	      "edit,edit,edit,edit,edit,popup(zoh|foh|"
+"tustin|prewarp|matched),edit"
+	      MaskTunableValueString  "on,on,on,on,on,on,on"
+	      MaskCallbackString      "|||||hidecrit|"
+	      MaskEnableString	      "on,on,on,on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on,on,on,off"
+	      MaskToolTipString	      "on,on,on,on,on,on,on"
+	      MaskVarAliasString      ",,,,,,"
+	      MaskVariables	      "Zeros=@1;Poles=@2;Gain=@3;AbsTol=&4;Sam"
+"pleTime=@5;method=&6;Wc=@7;"
+	      MaskInitialization      "st=SampleTime;\nif length(st)>1\n    st"
+"=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil('discz"
+"pk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,'maskv"
+"alues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eval(zero"
+"ss);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('initzpkma"
+"sk', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance', AbsT"
+"ol);\nend"
+	      MaskDisplay	      "droots(zeross,poless,gainss)\ntext( 0.5"
+", 1.0, method, 'verticalAlignment','top')"
+	      MaskSelfModifiable      on
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "port"
+	      MaskIconUnits	      "normalized"
+	      MaskValueString	      "zval|pval|kval|auto|TSample|tustin|1"
+	      MaskTabNameString	      ",,,,,,"
+	      System {
+		Name			"Filter3"
+		Location		[499, 349, 791, 606]
+		Open			off
+		ModelBrowserVisibility	on
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [60, 103, 90, 117]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  DiscreteZeroPole
+		  Name			  "Discrete\nZero-Pole"
+		  Position		  [115, 92, 200, 128]
+		  Zeros			  "zerosd"
+		  Poles			  "polesd"
+		  Gain			  "gaind"
+		  SampleTime		  "SampleTime"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [235, 103, 265, 117]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Discrete\nZero-Pole"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Discrete\nZero-Pole"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "myMux Fun1"
+	      Ports		      [3, 1]
+	      Position		      [225, 96, 230, 144]
+	      BackgroundColor	      "black"
+	      ShowName		      off
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      MaskType		      "Stateflow"
+	      MaskDescription	      "Embedded MATLAB block"
+	      MaskDisplay	      "disp('myMux');"
+	      MaskSelfModifiable      on
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      off
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      System {
+		Name			"myMux Fun1"
+		Location		[257, 457, 812, 717]
+		Open			off
+		ModelBrowserVisibility	on
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "u1"
+		  Position		  [20, 101, 40, 119]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "u2"
+		  Position		  [20, 136, 40, 154]
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "u3"
+		  Position		  [20, 171, 40, 189]
+		  Port			  "3"
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Demux
+		  Name			  " Demux "
+		  Ports			  [1, 1]
+		  Position		  [270, 180, 320, 220]
+		  Outputs		  "1"
+		}
+		Block {
+		  BlockType		  "S-Function"
+		  Name			  " SFunction "
+		  Tag			  "Stateflow S-Function SLUGS_Library "
+"1"
+		  Ports			  [3, 2]
+		  Position		  [180, 100, 230, 180]
+		  FunctionName		  "sf_sfun"
+		  PortCounts		  "[3 2]"
+		  Port {
+		    PortNumber		    2
+		    Name		    "y"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		  }
+		}
+		Block {
+		  BlockType		  Terminator
+		  Name			  " Terminator "
+		  Position		  [460, 191, 480, 209]
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "y"
+		  Position		  [460, 101, 480, 119]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  " SFunction "
+		  SrcPort		  1
+		  Points		  [20, 0]
+		  DstBlock		  " Demux "
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  " Demux "
+		  SrcPort		  1
+		  DstBlock		  " Terminator "
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "u1"
+		  SrcPort		  1
+		  DstBlock		  " SFunction "
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "u2"
+		  SrcPort		  1
+		  Points		  [120, 0]
+		  DstBlock		  " SFunction "
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "u3"
+		  SrcPort		  1
+		  DstBlock		  " SFunction "
+		  DstPort		  3
+		}
+		Line {
+		  Name			  "y"
+		  Labels		  [0, 0]
+		  SrcBlock		  " SFunction "
+		  SrcPort		  2
+		  DstBlock		  "y"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [255, 115, 285, 129]
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      1
+	      Points		      [5, 0; 0, -55]
+	      DstBlock		      "Filter1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      2
+	      DstBlock		      "Filter2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      3
+	      Points		      [5, 0; 0, 55]
+	      DstBlock		      "Filter3"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Filter1"
+	      SrcPort		      1
+	      Points		      [5, 0; 0, 50]
+	      DstBlock		      "myMux Fun1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Filter2"
+	      SrcPort		      1
+	      DstBlock		      "myMux Fun1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Filter3"
+	      SrcPort		      1
+	      Points		      [10, 0; 0, -50]
+	      DstBlock		      "myMux Fun1"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      DstBlock		      "Demux"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "myMux Fun1"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	  }
 	}
 	Block {
-	  BlockType		  Inport
-	  Name			  "Error dot"
-	  Position		  [355, 408, 385, 422]
-	  BackgroundColor	  "darkGreen"
-	  Port			  "2"
-	  IconDisplay		  "Port number"
+	  BlockType		  SubSystem
+	  Name			  "Filter"
+	  Ports			  [1, 1]
+	  Position		  [40, 132, 100, 188]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  MaskType		  "DiscretizedZeroPole"
+	  MaskDescription	  "Continuous mask uses c2d to transform param"
+"eters onto the Discrete Zero-Pole block inside."
+	  MaskPromptString	  "Zeros (enter in s-main:)|Poles (enter in s-"
+"domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:|Method:|C"
+"ritical Frequency (Hz):"
+	  MaskStyleString	  "edit,edit,edit,edit,edit,popup(zoh|foh|tust"
+"in|prewarp|matched),edit"
+	  MaskTunableValueString  "on,on,on,on,on,on,on"
+	  MaskCallbackString	  "|||||hidecrit|"
+	  MaskEnableString	  "on,on,on,on,on,on,on"
+	  MaskVisibilityString	  "on,on,on,on,on,on,off"
+	  MaskToolTipString	  "on,on,on,on,on,on,on"
+	  MaskVarAliasString	  ",,,,,,"
+	  MaskVariables		  "Zeros=@1;Poles=@2;Gain=@3;AbsTol=&4;SampleT"
+"ime=@5;method=&6;Wc=@7;"
+	  MaskInitialization	  "st=SampleTime;\nif length(st)>1\n    st=Sam"
+"pleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil('disczpk',"
+" {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,'maskvalue"
+"s');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eval(zeross);"
+"\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('initzpkmask',"
+" st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance', AbsTol);"
+"\nend"
+	  MaskDisplay		  "droots(zeross,poless,gainss)\ntext( 0.5, 1."
+"0, method, 'verticalAlignment','top')"
+	  MaskSelfModifiable	  on
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "port"
+	  MaskIconUnits		  "normalized"
+	  MaskValueString	  "[]|[-5]|5|auto|SampleT|tustin|1"
+	  MaskTabNameString	  ",,,,,,"
+	  System {
+	    Name		    "Filter"
+	    Location		    [499, 349, 791, 606]
+	    Open		    off
+	    ModelBrowserVisibility  on
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [60, 103, 90, 117]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      DiscreteZeroPole
+	      Name		      "Discrete\nZero-Pole"
+	      Position		      [115, 92, 200, 128]
+	      Zeros		      "zerosd"
+	      Poles		      "polesd"
+	      Gain		      "gaind"
+	      SampleTime	      "SampleTime"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [235, 103, 265, 117]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "Discrete\nZero-Pole"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      DstBlock		      "Discrete\nZero-Pole"
+	      DstPort		      1
+	    }
+	  }
 	}
 	Block {
-	  BlockType		  Inport
-	  Name			  "Int Reset"
-	  Position		  [70, 293, 100, 307]
-	  BackgroundColor	  "darkGreen"
-	  Port			  "3"
-	  IconDisplay		  "Port number"
+	  BlockType		  Saturate
+	  Name			  "Saturation"
+	  Position		  [295, 40, 325, 70]
+	  SampleTime		  "SampleT"
 	}
 	Block {
-	  BlockType		  Inport
-	  Name			  "Int IC"
-	  Position		  [70, 323, 100, 337]
-	  BackgroundColor	  "darkGreen"
-	  Port			  "4"
-	  IconDisplay		  "Port number"
+	  BlockType		  SubSystem
+	  Name			  "Zero Limit"
+	  Ports			  [1, 1]
+	  Position		  [50, 35, 145, 65]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Zero Limit"
+	    Location		    [530, 328, 820, 486]
+	    Open		    off
+	    ModelBrowserVisibility  on
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In"
+	      Position		      [25, 80, 55, 94]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Compare\nTo Zero"
+	      Ports		      [1, 1]
+	      Position		      [110, 70, 140, 100]
+	      SourceBlock	      "simulink/Logic and Bit\nOperations/Comp"
+"are\nTo Zero"
+	      SourceType	      "Compare To Zero"
+	      ShowPortLabels	      "FromPortIcon"
+	      SystemSampleTime	      "-1"
+	      FunctionWithSeparateData off
+	      RTWMemSecFuncInitTerm   "Inherit from model"
+	      RTWMemSecFuncExecute    "Inherit from model"
+	      RTWMemSecDataConstants  "Inherit from model"
+	      RTWMemSecDataInternal   "Inherit from model"
+	      RTWMemSecDataParameters "Inherit from model"
+	      relop		      "<"
+	      LogicOutDataTypeMode    "uint8"
+	      ZeroCross		      off
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant"
+	      Position		      [90, 25, 120, 55]
+	      ShowName		      off
+	      Value		      "0"
+	    }
+	    Block {
+	      BlockType		      Switch
+	      Name		      "Switch"
+	      Position		      [180, 70, 210, 100]
+	      Threshold		      "0.1"
+	      InputSameDT	      off
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Zero Limit\nOut"
+	      Position		      [235, 80, 265, 94]
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "Compare\nTo Zero"
+	      SrcPort		      1
+	      DstBlock		      "Switch"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Constant"
+	      SrcPort		      1
+	      Points		      [20, 0; 0, 35]
+	      DstBlock		      "Switch"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "In"
+	      SrcPort		      1
+	      Points		      [15, 0]
+	      Branch {
+		DstBlock		"Compare\nTo Zero"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 45; 80, 0; 0, -35]
+		DstBlock		"Switch"
+		DstPort			3
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Switch"
+	      SrcPort		      1
+	      DstBlock		      "Zero Limit\nOut"
+	      DstPort		      1
+	    }
+	  }
 	}
 	Block {
-	  BlockType		  Inport
-	  Name			  "PID Gains"
-	  Position		  [325, 198, 355, 212]
-	  BackgroundColor	  "darkGreen"
-	  Port			  "5"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Sum
-	  Name			  "Add"
+	  BlockType		  SubSystem
+	  Name			  "myMux Fun3"
 	  Ports			  [3, 1]
-	  Position		  [525, 279, 555, 311]
-	  ShowName		  off
-	  Inputs		  "3"
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutScaling		  "2^-10"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Demux
-	  Name			  "Demux"
-	  Ports			  [1, 3]
-	  Position		  [380, 186, 385, 224]
+	  Position		  [215, 26, 220, 74]
 	  BackgroundColor	  "black"
 	  ShowName		  off
-	  Outputs		  "3"
-	  DisplayOption		  "bar"
-	}
-	Block {
-	  BlockType		  DiscreteIntegrator
-	  Name			  "Discrete-Time\nIntegrator"
-	  Ports			  [3, 1]
-	  Position		  [195, 253, 320, 347]
-	  IntegratorMethod	  "Integration: Trapezoidal"
-	  ExternalReset		  "sampled level"
-	  InitialConditionSource  "external"
-	  SampleTime		  "TSample"
-	  LimitOutput		  on
-	  UpperSaturationLimit	  "upperLimit"
-	  LowerSaturationLimit	  "lowerLimit"
-	  IgnoreLimit		  off
-	  ICPrevOutput		  "DiscIntNeverNeededParam"
-	  ICPrevScaledInput	  "DiscIntNeverNeededParam"
-	}
-	Block {
-	  BlockType		  Product
-	  Name			  "Divide"
-	  Ports			  [2, 1]
-	  Position		  [450, 187, 480, 218]
-	  ShowName		  off
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutScaling		  "2^-10"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Product
-	  Name			  "Divide1"
-	  Ports			  [2, 1]
-	  Position		  [455, 277, 485, 308]
-	  ShowName		  off
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutScaling		  "2^-10"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Product
-	  Name			  "Divide2"
-	  Ports			  [2, 1]
-	  Position		  [460, 392, 490, 423]
-	  ShowName		  off
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutScaling		  "2^-10"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "Control"
-	  Position		  [585, 288, 615, 302]
-	  BackgroundColor	  "yellow"
-	  IconDisplay		  "Port number"
-	}
-	Line {
-	  SrcBlock		  "Divide2"
-	  SrcPort		  1
-	  Points		  [15, 0]
-	  DstBlock		  "Add"
-	  DstPort		  3
-	}
-	Line {
-	  SrcBlock		  "Divide1"
-	  SrcPort		  1
-	  DstBlock		  "Add"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  3
-	  Points		  [15, 0; 0, 185]
-	  DstBlock		  "Divide2"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  2
-	  Points		  [40, 0; 0, 80]
-	  DstBlock		  "Divide1"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Add"
-	  SrcPort		  1
-	  DstBlock		  "Control"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Divide"
-	  SrcPort		  1
-	  Points		  [25, 0]
-	  DstBlock		  "Add"
-	  DstPort		  1
-	}
-	Line {
-	  Labels		  [0, 0]
-	  SrcBlock		  "Demux"
-	  SrcPort		  1
-	  DstBlock		  "Divide"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "PID Gains"
-	  SrcPort		  1
-	  DstBlock		  "Demux"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Int IC"
-	  SrcPort		  1
-	  DstBlock		  "Discrete-Time\nIntegrator"
-	  DstPort		  3
-	}
-	Line {
-	  SrcBlock		  "Discrete-Time\nIntegrator"
-	  SrcPort		  1
-	  DstBlock		  "Divide1"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Int Reset"
-	  SrcPort		  1
-	  DstBlock		  "Discrete-Time\nIntegrator"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Error"
-	  SrcPort		  1
-	  Points		  [70, 0]
-	  Branch {
-	    Points		    [0, -25; 260, 0]
-	    DstBlock		    "Divide"
-	    DstPort		    2
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  MaskType		  "Stateflow"
+	  MaskDescription	  "Embedded MATLAB block"
+	  MaskDisplay		  "disp('myMux');"
+	  MaskSelfModifiable	  on
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  off
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  System {
+	    Name		    "myMux Fun3"
+	    Location		    [257, 457, 812, 717]
+	    Open		    off
+	    ModelBrowserVisibility  on
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u1"
+	      Position		      [20, 101, 40, 119]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u2"
+	      Position		      [20, 136, 40, 154]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u3"
+	      Position		      [20, 171, 40, 189]
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Demux
+	      Name		      " Demux "
+	      Ports		      [1, 1]
+	      Position		      [270, 220, 320, 260]
+	      Outputs		      "1"
+	    }
+	    Block {
+	      BlockType		      "S-Function"
+	      Name		      " SFunction "
+	      Tag		      "Stateflow S-Function SLUGS_Library 17"
+	      Ports		      [3, 2]
+	      Position		      [180, 100, 230, 220]
+	      FunctionName	      "sf_sfun"
+	      PortCounts	      "[3 2]"
+	      Port {
+		PortNumber		2
+		Name			"y"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      Terminator
+	      Name		      " Terminator "
+	      Position		      [460, 231, 480, 249]
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "y"
+	      Position		      [460, 101, 480, 119]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      " SFunction "
+	      SrcPort		      1
+	      Points		      [0, 110]
+	      DstBlock		      " Demux "
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      " Demux "
+	      SrcPort		      1
+	      DstBlock		      " Terminator "
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "u1"
+	      SrcPort		      1
+	      Points		      [120, 0]
+	      DstBlock		      " SFunction "
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "y"
+	      Labels		      [0, 0]
+	      SrcBlock		      " SFunction "
+	      SrcPort		      2
+	      DstBlock		      "y"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "u2"
+	      SrcPort		      1
+	      Points		      [120, 0]
+	      DstBlock		      " SFunction "
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "u3"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      3
+	    }
 	  }
-	  Branch {
-	    DstBlock		    "Discrete-Time\nIntegrator"
-	    DstPort		    1
-	  }
-	}
-	Line {
-	  SrcBlock		  "Error dot"
-	  SrcPort		  1
-	  DstBlock		  "Divide2"
-	  DstPort		  2
-	}
-	Annotation {
-	  Name			  "This Block implements a PID Controller with"
-" the \nFollowing Characteristcs:\n1.- Antiwindup is given by the Limits in th"
-"e block\n2.- The error derivative is provided and therefore no\ntime derivati"
-"ve is implemented\n3.- It contains an Integrator Reset if needed"
-	  Position		  [118, 86]
 	}
       }
-    }
-    Block {
-      BlockType		      Saturate
-      Name		      "Saturation"
-      Position		      [250, 465, 280, 495]
-      SampleTime	      "SampleT"
     }
   }
+}
+
+# Finite State Machines
+#
+#    Stateflow Version 6.6 (R2007a) dated Jan 30 2007, 03:33:34
+#
+#
+
+Stateflow {
+
+	machine {
+		id                   		1
+		name                 		"SLUGS_Library"
+		created              		"23-Feb-2009 08:57:07"
+		isLibrary            		1
+		firstTarget          		20
+		sfVersion            		66014000
+	}
+
+	chart {
+		id                                        		2
+		name                                      		"Singnal Routing\n"
+					"& Conditioning/3D Filter/myMux Fun1"
+		windowPosition                            		[371.813 311.97 200.25 189.75]
+		viewLimits                                		[0 156.75 0 153.75]
+		screen                                    		[1 1 1280 833 1.333333333333333]
+		treeNode                                  		[0 3 0 0]
+		firstTransition                           		5
+		firstJunction                             		4
+		viewObj                                   		2
+		machine                                   		1
+		toolbarMode                               		LIBRARY_TOOLBAR
+		subviewS {
+		}
+		decomposition                             		CLUSTER_CHART
+		type                                      		EML_CHART
+		firstData                                 		6
+		chartFileNumber                           		1
+		disableImplicitCasting                    		1
+		eml {
+			name       		"myMux"
+			noDebugging		1
+		}
+	}
+
+	state {
+		id                           		3
+		labelString                  		"eML_blk_kernel()"
+		position                     		[18 64.5 118 66]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 0 0]
+		superState                   		SUBCHART
+		subviewer                    		2
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			isEML                    		1
+			script                   		"function y = myMux(u1, u2, u3)\n"
+						"% This block supports an embeddable subset of the MATLAB la"
+						"nguage.\n"
+						"% See the help menu for details. \n"
+						"\n"
+						"y = [u1(1); u2(1); u3(1)];"
+			editorLayout             		"100 M4x1[332 95 720 640]"
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	junction {
+		id         		4
+		position   		[23.5747 49.5747 7]
+		chart      		2
+		linkNode   		[2 0 0]
+		subviewer  		2
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		5
+		labelString    		"{eML_blk_kernel();}"
+		labelPosition  		[32.125 19.875 102.544 14.964]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 23.5747 14.625 0 0]
+		}
+		dst {
+			id          		4
+			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
+		}
+		midPoint       		[23.5747 24.9468]
+		chart          		2
+		linkNode       		[2 0 0]
+		dataLimits     		[23.575 23.575 14.625 34.575]
+		subviewer      		2
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	data {
+		id                            		6
+		name                          		"u1"
+		linkNode                      		[2 0 7]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		7
+		name                          		"y"
+		linkNode                      		[2 6 8]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		8
+		name                          		"u2"
+		linkNode                      		[2 7 9]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		9
+		name                          		"u3"
+		linkNode                      		[2 8 0]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	instance {
+		id     		10
+		name   		"Singnal Routing\n"
+					"& Conditioning/3D Filter/myMux Fun1"
+		machine		1
+		chart  		2
+	}
+
+	chart {
+		id                                        		11
+		name                                      		"Singnal Routing\n"
+					"& Conditioning/myMux Fun3"
+		windowPosition                            		[356.813 326.97 200.25 189.75]
+		viewLimits                                		[0 156.75 0 153.75]
+		screen                                    		[1 1 1280 833 1.333333333333333]
+		treeNode                                  		[0 12 0 0]
+		firstTransition                           		14
+		firstJunction                             		13
+		viewObj                                   		11
+		machine                                   		1
+		toolbarMode                               		LIBRARY_TOOLBAR
+		subviewS {
+		}
+		decomposition                             		CLUSTER_CHART
+		type                                      		EML_CHART
+		firstData                                 		15
+		chartFileNumber                           		17
+		disableImplicitCasting                    		1
+		eml {
+			name       		"myMux"
+			noDebugging		1
+		}
+	}
+
+	state {
+		id                           		12
+		labelString                  		"eML_blk_kernel()"
+		position                     		[18 64.5 118 66]
+		fontSize                     		12
+		chart                        		11
+		treeNode                     		[11 0 0 0]
+		superState                   		SUBCHART
+		subviewer                    		11
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			isEML                    		1
+			script                   		"function y = myMux(u1, u2, u3)\n"
+						"% This block supports an embeddable subset of the MATLAB la"
+						"nguage.\n"
+						"% See the help menu for details. \n"
+						"\n"
+						"y = [u1(1); u2(1); u3(1)];"
+			editorLayout             		"100 M4x1[332 95 720 640]"
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	junction {
+		id         		13
+		position   		[23.5747 49.5747 7]
+		chart      		11
+		linkNode   		[11 0 0]
+		subviewer  		11
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		14
+		labelString    		"{eML_blk_kernel();}"
+		labelPosition  		[32.125 19.875 102.544 14.964]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 23.5747 14.625 0 0]
+		}
+		dst {
+			id          		13
+			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
+		}
+		midPoint       		[23.5747 24.9468]
+		chart          		11
+		linkNode       		[11 0 0]
+		dataLimits     		[23.575 23.575 14.625 34.575]
+		subviewer      		11
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	data {
+		id                            		15
+		name                          		"u1"
+		linkNode                      		[11 0 16]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		16
+		name                          		"y"
+		linkNode                      		[11 15 17]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		17
+		name                          		"u2"
+		linkNode                      		[11 16 18]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		18
+		name                          		"u3"
+		linkNode                      		[11 17 0]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	instance {
+		id     		19
+		name   		"Singnal Routing\n"
+					"& Conditioning/myMux Fun3"
+		machine		1
+		chart  		11
+	}
+
+	target {
+		id                        		20
+		name                      		"sfun"
+		description               		"Default Simulink S-Function Target."
+		machine                   		1
+		linkNode                  		[1 0 0]
+	}
 }
