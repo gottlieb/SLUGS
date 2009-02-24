@@ -6,13 +6,13 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.648"
+    ComputedModelVersion    "1.662"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
   SavedCharacterEncoding  "windows-1252"
   SaveDefaultBlockParams  on
-  SampleTimeColors	  on
+  SampleTimeColors	  off
   LibraryLinkDisplay	  "none"
   WideLines		  on
   ShowLineDimensions	  on
@@ -40,15 +40,15 @@ Model {
   BrowserLookUnderMasks	  on
   CloseFcn		  "rtwprivate ssgencode ModelCloseRequest AttitudeComp"
 "lementary"
-  InitFcn		  "clc\nRascal_Var"
+  InitFcn		  "clc\nRascal_Var\ninnerOuterInit"
   Created		  "Wed Jul 02 09:38:16 2008"
   Creator		  "ASL_Lab"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Feb 23 08:31:30 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:648>"
+  LastModifiedDate	  "Mon Feb 23 18:41:15 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:662>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -108,7 +108,7 @@ Model {
 	  $ObjectID		  2
 	  Version		  "1.2.0"
 	  StartTime		  "0.0"
-	  StopTime		  "inf"
+	  StopTime		  "300"
 	  AbsTol		  "auto"
 	  FixedStep		  "SampleT"
 	  InitialStep		  "auto"
@@ -531,6 +531,30 @@ Model {
       BusSelectionMode	      off
     }
     Block {
+      BlockType		      DiscreteIntegrator
+      IntegratorMethod	      "Integration: Forward Euler"
+      gainval		      "1.0"
+      ExternalReset	      "none"
+      InitialConditionSource  "internal"
+      InitialCondition	      "0"
+      InitialConditionMode    "State and output"
+      SampleTime	      "1"
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	off
+      LimitOutput	      off
+      UpperSaturationLimit    "inf"
+      LowerSaturationLimit    "-inf"
+      ShowSaturationPort      off
+      ShowStatePort	      off
+      IgnoreLimit	      off
+      StateMustResolveToSignalObject off
+      RTWStateStorageClass    "Auto"
+    }
+    Block {
       BlockType		      Display
       Format		      "short"
       Decimation	      "10"
@@ -542,6 +566,10 @@ Model {
       StatesWhenEnabling      "held"
       ShowOutputPort	      off
       ZeroCross		      on
+    }
+    Block {
+      BlockType		      From
+      IconDisplay	      "Tag"
     }
     Block {
       BlockType		      Fcn
@@ -796,6 +824,17 @@ Model {
       SampleTime	      "-1"
     }
     Block {
+      BlockType		      Switch
+      Criteria		      "u2 >= Threshold"
+      Threshold		      "0"
+      InputSameDT	      on
+      OutDataTypeMode	      "Inherit via internal rule"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
       BlockType		      Terminator
     }
     Block {
@@ -833,9 +872,9 @@ Model {
   }
   System {
     Name		    "InnerOuter_Sim"
-    Location		    [207, 82, 1275, 809]
+    Location		    [12, 84, 1080, 811]
     Open		    on
-    ModelBrowserVisibility  on
+    ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "white"
     PaperOrientation	    "landscape"
@@ -848,64 +887,19 @@ Model {
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
     Block {
-      BlockType		      Goto
-      Name		      "Goto1"
-      Position		      [280, 451, 330, 469]
-      BackgroundColor	      "magenta"
-      ShowName		      off
-      GotoTag		      "XYZ_true"
-      TagVisibility	      "local"
-    }
-    Block {
-      BlockType		      Goto
-      Name		      "Goto2"
-      Position		      [280, 256, 330, 274]
-      BackgroundColor	      "magenta"
-      ShowName		      off
-      GotoTag		      "Vned_true"
-      TagVisibility	      "local"
-    }
-    Block {
-      BlockType		      Goto
-      Name		      "Goto3"
-      Position		      [280, 321, 330, 339]
-      BackgroundColor	      "magenta"
-      ShowName		      off
-      GotoTag		      "Abmea_true"
-      TagVisibility	      "local"
-    }
-    Block {
-      BlockType		      Goto
-      Name		      "Goto4"
-      Position		      [280, 386, 330, 404]
-      BackgroundColor	      "magenta"
-      ShowName		      off
-      GotoTag		      "PQR_true"
-      TagVisibility	      "local"
-    }
-    Block {
-      BlockType		      Goto
-      Name		      "Goto5"
-      Position		      [285, 191, 335, 209]
-      BackgroundColor	      "magenta"
-      ShowName		      off
-      GotoTag		      "Euler_true"
-      TagVisibility	      "local"
-    }
-    Block {
       BlockType		      SubSystem
-      Name		      "Plant Model"
-      Ports		      [5, 7]
-      Position		      [130, 29, 255, 501]
+      Name		      "6DOF Model"
+      Ports		      [5, 8]
+      Position		      [90, 22, 200, 268]
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
       MaskHideContents	      off
       System {
-	Name			"Plant Model"
+	Name			"6DOF Model"
 	Location		[75, 107, 1068, 985]
 	Open			off
-	ModelBrowserVisibility	on
+	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
 	PaperOrientation	"landscape"
@@ -1092,7 +1086,7 @@ Model {
 	    Name		    "Plant"
 	    Location		    [12, 82, 1200, 930]
 	    Open		    off
-	    ModelBrowserVisibility  on
+	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
 	    PaperOrientation	    "landscape"
@@ -1178,9 +1172,9 @@ Model {
 	      }
 	      System {
 		Name			"6-DOF EOM"
-		Location		[12, 82, 1013, 724]
+		Location		[185, 216, 1088, 956]
 		Open			off
-		ModelBrowserVisibility	on
+		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
 		PaperOrientation	"landscape"
@@ -1195,14 +1189,14 @@ Model {
 		Block {
 		  BlockType		  Inport
 		  Name			  "[F,M]"
-		  Position		  [20, 118, 50, 132]
+		  Position		  [70, 118, 100, 132]
 		  BackgroundColor	  "green"
 		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Inport
 		  Name			  "Vb Corr"
-		  Position		  [205, 228, 235, 242]
+		  Position		  [255, 228, 285, 242]
 		  Orientation		  "left"
 		  BackgroundColor	  "green"
 		  NamePlacement		  "alternate"
@@ -1213,36 +1207,34 @@ Model {
 		  BlockType		  Integrator
 		  Name			  "Angular\nRates"
 		  Ports			  [1, 1]
-		  Position		  [240, 160, 270, 190]
+		  Position		  [320, 160, 350, 190]
 		  InitialCondition	  "PQR_0'"
-		  LimitOutput		  on
-		  UpperSaturationLimit	  "10"
-		  LowerSaturationLimit	  "-10"
 		  IgnoreLimit		  off
 		}
 		Block {
 		  BlockType		  Demux
 		  Name			  "Demux1"
 		  Ports			  [1, 2]
-		  Position		  [215, 113, 220, 197]
+		  Position		  [265, 113, 270, 197]
 		  BackgroundColor	  "black"
 		  ShowName		  off
-		  Outputs		  "[3 3]"
+		  Outputs		  "2"
 		  DisplayOption		  "bar"
 		}
 		Block {
 		  BlockType		  Integrator
 		  Name			  "Euler\nAngles"
 		  Ports			  [1, 1]
-		  Position		  [545, 174, 575, 236]
-		  InitialCondition	  "Euler_0'"
+		  Position		  [520, 169, 535, 201]
+		  InitialCondition	  "Euler_0"
 		  IgnoreLimit		  off
 		}
 		Block {
 		  BlockType		  SubSystem
 		  Name			  "Get Euler\nDot"
 		  Ports			  [2, 1]
-		  Position		  [320, 164, 405, 206]
+		  Position		  [400, 164, 485, 206]
+		  FontName		  "Arial"
 		  MinAlgLoopOccurrences	  off
 		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
@@ -1257,7 +1249,7 @@ Model {
 		    Name		    "Get Euler\nDot"
 		    Location		    [166, 131, 877, 450]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -1391,7 +1383,7 @@ Model {
 		  BlockType		  Mux
 		  Name			  "Mux"
 		  Ports			  [2, 1]
-		  Position		  [165, 225, 170, 265]
+		  Position		  [215, 225, 220, 265]
 		  Orientation		  "left"
 		  NamePlacement		  "alternate"
 		  ShowName		  off
@@ -1401,7 +1393,7 @@ Model {
 		Block {
 		  BlockType		  Gain
 		  Name			  "NED2NEU"
-		  Position		  [810, 108, 845, 142]
+		  Position		  [795, 108, 830, 142]
 		  Gain			  "[1 0 0;0 1 0;0 0 -1]"
 		  Multiplication	  "Matrix(K*u)"
 		}
@@ -1409,7 +1401,7 @@ Model {
 		  BlockType		  Integrator
 		  Name			  "Position"
 		  Ports			  [1, 1]
-		  Position		  [860, 110, 890, 140]
+		  Position		  [870, 110, 900, 140]
 		  InitialCondition	  "Pos_0'"
 		  IgnoreLimit		  off
 		}
@@ -1417,7 +1409,7 @@ Model {
 		  BlockType		  Product
 		  Name			  "RB2L * Vb"
 		  Ports			  [2, 1]
-		  Position		  [730, 99, 765, 146]
+		  Position		  [715, 99, 750, 146]
 		  Multiplication	  "Matrix(*)"
 		  CollapseMode		  "All dimensions"
 		  RndMeth		  "Floor"
@@ -1432,7 +1424,8 @@ Model {
 		  BlockType		  SubSystem
 		  Name			  "RB2LTP"
 		  Ports			  [1, 1]
-		  Position		  [660, 90, 710, 120]
+		  Position		  [580, 170, 630, 200]
+		  FontName		  "Arial"
 		  MinAlgLoopOccurrences	  off
 		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
@@ -1441,7 +1434,7 @@ Model {
 		    Name		    "RB2LTP"
 		    Location		    [212, 156, 802, 553]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -1677,28 +1670,25 @@ Model {
 		  BlockType		  Integrator
 		  Name			  "Velocities\nBody"
 		  Ports			  [1, 1]
-		  Position		  [270, 120, 300, 150]
+		  Position		  [320, 120, 350, 150]
 		  NamePlacement		  "alternate"
 		  InitialCondition	  "Vb_0'"
-		  LimitOutput		  on
-		  UpperSaturationLimit	  "200"
-		  LowerSaturationLimit	  "-200"
 		  IgnoreLimit		  off
 		}
 		Block {
 		  BlockType		  SubSystem
 		  Name			  "[V1,2,3,W1,2,3]"
 		  Ports			  [3, 2]
-		  Position		  [75, 111, 160, 179]
+		  Position		  [125, 111, 210, 179]
 		  MinAlgLoopOccurrences	  off
 		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
 		  MaskHideContents	  off
 		  System {
 		    Name		    "[V1,2,3,W1,2,3]"
-		    Location		    [68, 218, 996, 569]
+		    Location		    [431, 671, 1378, 1129]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -1748,7 +1738,7 @@ Model {
 		    Name		    "A = [M ; J]"
 		    Location		    [24, 252, 1197, 794]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -2126,15 +2116,16 @@ Model {
 		    Name		    "Get Grav Force in Body"
 		    Ports		    [2, 1]
 		    Position		    [505, 43, 645, 87]
+		    FontName		    "Arial"
 		    MinAlgLoopOccurrences   off
 		    RTWSystemCode	    "Auto"
 		    FunctionWithSeparateData off
 		    MaskHideContents	    off
 		    System {
 		    Name		    "Get Grav Force in Body"
-		    Location		    [169, 330, 993, 707]
+		    Location		    [162, 209, 986, 586]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -2192,7 +2183,7 @@ Model {
 		    Name		    "Rb2u"
 		    Location		    [215, 86, 780, 474]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -2484,18 +2475,9 @@ Model {
 		    Name		    "Gravitational Acc"
 		    Position		    [345, 62, 460, 88]
 		    BackgroundColor	    "green"
+		    FontName		    "Arial"
 		    Value		    "[0 0 -ISA_g]"
 		    VectorParams1D	    off
-		    }
-		    Block {
-		    BlockType		    Reshape
-		    Name		    "Reshape1"
-		    Position		    [670, 57, 695, 73]
-		    }
-		    Block {
-		    BlockType		    Reshape
-		    Name		    "Reshape2"
-		    Position		    [765, 157, 790, 173]
 		    }
 		    Block {
 		    BlockType		    Selector
@@ -2518,9 +2500,9 @@ Model {
 		    MaskHideContents	    off
 		    System {
 		    Name		    "Sigma"
-		    Location		    [11, 210, 1213, 762]
+		    Location		    [235, 261, 1437, 813]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -2798,7 +2780,7 @@ Model {
 		    Block {
 		    BlockType		    Outport
 		    Name		    "Acc_meas "
-		    Position		    [860, 158, 890, 172]
+		    Position		    [760, 158, 790, 172]
 		    BackgroundColor	    "yellow"
 		    IconDisplay		    "Port number"
 		    BusOutputAsStruct	    off
@@ -2815,13 +2797,14 @@ Model {
 		    Line {
 		    SrcBlock		    "Sum2"
 		    SrcPort		    1
-		    DstBlock		    "Reshape2"
+		    DstBlock		    "Acc_meas "
 		    DstPort		    1
 		    }
 		    Line {
 		    SrcBlock		    "Get Grav Force in Body"
 		    SrcPort		    1
-		    DstBlock		    "Reshape1"
+		    Points		    [65, 0]
+		    DstBlock		    "Sum2"
 		    DstPort		    1
 		    }
 		    Line {
@@ -2883,6 +2866,7 @@ Model {
 		    Line {
 		    SrcBlock		    "Sigma*A*V*"
 		    SrcPort		    1
+		    Points		    [0, 5]
 		    DstBlock		    "Sum1"
 		    DstPort		    2
 		    }
@@ -2916,11 +2900,6 @@ Model {
 		    SrcPort		    1
 		    Points		    [35, 0]
 		    Branch {
-		    Points		    [0, -45]
-		    DstBlock		    "Sigma*A"
-		    DstPort		    2
-		    }
-		    Branch {
 		    Points		    [280, 0; 0, -55]
 		    Branch {
 		    Points		    [0, -60]
@@ -2932,6 +2911,11 @@ Model {
 		    DstPort		    1
 		    }
 		    }
+		    Branch {
+		    Points		    [0, -45]
+		    DstBlock		    "Sigma*A"
+		    DstPort		    2
+		    }
 		    }
 		    Line {
 		    SrcBlock		    "Sum1"
@@ -2939,22 +2923,10 @@ Model {
 		    DstBlock		    "V*dot "
 		    DstPort		    2
 		    }
-		    Line {
-		    SrcBlock		    "Reshape1"
-		    SrcPort		    1
-		    Points		    [15, 0]
-		    DstBlock		    "Sum2"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Reshape2"
-		    SrcPort		    1
-		    DstBlock		    "Acc_meas "
-		    DstPort		    1
-		    }
 		    Annotation {
 		    Name		    "V*dot =Inv(A){[F ; M] - SigmaAV*}"
 		    Position		    [529, 309]
+		    FontName		    "Arial"
 		    FontSize		    14
 		    FontWeight		    "bold"
 		    }
@@ -2963,7 +2935,7 @@ Model {
 		Block {
 		  BlockType		  Outport
 		  Name			  "X,Y,Z (LTP)"
-		  Position		  [940, 118, 970, 132]
+		  Position		  [925, 118, 955, 132]
 		  BackgroundColor	  "yellow"
 		  IconDisplay		  "Port number"
 		  BusOutputAsStruct	  off
@@ -2971,7 +2943,7 @@ Model {
 		Block {
 		  BlockType		  Outport
 		  Name			  "Vx, Vy, Vz"
-		  Position		  [945, 173, 975, 187]
+		  Position		  [930, 173, 960, 187]
 		  BackgroundColor	  "yellow"
 		  Port			  "2"
 		  IconDisplay		  "Port number"
@@ -2980,7 +2952,7 @@ Model {
 		Block {
 		  BlockType		  Outport
 		  Name			  "Euler"
-		  Position		  [760, 523, 790, 537]
+		  Position		  [585, 273, 615, 287]
 		  BackgroundColor	  "yellow"
 		  NamePlacement		  "alternate"
 		  Port			  "3"
@@ -2990,7 +2962,7 @@ Model {
 		Block {
 		  BlockType		  Outport
 		  Name			  "p, q, r"
-		  Position		  [240, 228, 270, 242]
+		  Position		  [315, 228, 345, 242]
 		  Orientation		  "left"
 		  BackgroundColor	  "yellow"
 		  Port			  "4"
@@ -3000,7 +2972,7 @@ Model {
 		Block {
 		  BlockType		  Outport
 		  Name			  "Vb"
-		  Position		  [475, 68, 505, 82]
+		  Position		  [525, 68, 555, 82]
 		  BackgroundColor	  "yellow"
 		  Port			  "5"
 		  IconDisplay		  "Port number"
@@ -3009,7 +2981,7 @@ Model {
 		Block {
 		  BlockType		  Outport
 		  Name			  "Ab meas"
-		  Position		  [175, 118, 205, 132]
+		  Position		  [225, 118, 255, 132]
 		  BackgroundColor	  "yellow"
 		  Port			  "6"
 		  IconDisplay		  "Port number"
@@ -3025,18 +2997,13 @@ Model {
 		Line {
 		  SrcBlock		  "Euler\nAngles"
 		  SrcPort		  1
-		  Points		  [60, 0]
+		  Points		  [20, 0]
 		  Branch {
-		    Points		    [0, 320]
+		    Points		    [0, 95; 0, 0]
 		    Branch {
-		    Points		    [105, 0]
-		    DstBlock		    "Euler"
-		    DstPort		    1
-		    }
+		    Points		    [-175, 0]
 		    Branch {
-		    Points		    [-335, 0]
-		    Branch {
-		    Points		    [-265, 0; 0, -380]
+		    Points		    [-295, 0; 0, -135]
 		    DstBlock		    "[V1,2,3,W1,2,3]"
 		    DstPort		    2
 		    }
@@ -3045,9 +3012,12 @@ Model {
 		    DstPort		    2
 		    }
 		    }
+		    Branch {
+		    DstBlock		    "Euler"
+		    DstPort		    1
+		    }
 		  }
 		  Branch {
-		    Points		    [0, -100]
 		    DstBlock		    "RB2LTP"
 		    DstPort		    1
 		  }
@@ -3080,6 +3050,7 @@ Model {
 		Line {
 		  SrcBlock		  "RB2LTP"
 		  SrcPort		  1
+		  Points		  [30, 0; 0, -75]
 		  DstBlock		  "RB2L * Vb"
 		  DstPort		  1
 		}
@@ -3113,7 +3084,7 @@ Model {
 		Line {
 		  SrcBlock		  "Angular\nRates"
 		  SrcPort		  1
-		  Points		  [15, 0]
+		  Points		  [10, 0]
 		  Branch {
 		    DstBlock		    "Get Euler\nDot"
 		    DstPort		    1
@@ -3121,13 +3092,13 @@ Model {
 		  Branch {
 		    Points		    [0, 60]
 		    Branch {
-		    DstBlock		    "p, q, r"
-		    DstPort		    1
-		    }
-		    Branch {
 		    Points		    [0, 20]
 		    DstBlock		    "Mux"
 		    DstPort		    2
+		    }
+		    Branch {
+		    DstBlock		    "p, q, r"
+		    DstPort		    1
 		    }
 		  }
 		}
@@ -3157,7 +3128,6 @@ Model {
 		Line {
 		  SrcBlock		  "Get Euler\nDot"
 		  SrcPort		  1
-		  Points		  [120, 0]
 		  DstBlock		  "Euler\nAngles"
 		  DstPort		  1
 		}
@@ -3183,7 +3153,7 @@ Model {
 		Name			"Engine Model"
 		Location		[289, 732, 1238, 1007]
 		Open			off
-		ModelBrowserVisibility	on
+		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
 		PaperOrientation	"landscape"
@@ -3230,7 +3200,7 @@ Model {
 		    Name		    "Get To1"
 		    Location		    [9, 80, 1022, 389]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -3619,9 +3589,9 @@ Model {
 	      MaskHideContents	      off
 	      System {
 		Name			"Forces and Moments"
-		Location		[18, 221, 920, 604]
+		Location		[704, 340, 1606, 723]
 		Open			off
-		ModelBrowserVisibility	on
+		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
 		PaperOrientation	"landscape"
@@ -3711,6 +3681,7 @@ Model {
 		  Ports			  [2, 5]
 		  Position		  [295, 85, 475, 155]
 		  NamePlacement		  "alternate"
+		  FontName		  "Arial"
 		  MinAlgLoopOccurrences	  off
 		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
@@ -3719,7 +3690,7 @@ Model {
 		    Name		    "Alpha/Beta"
 		    Location		    [204, 361, 908, 768]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -3736,6 +3707,7 @@ Model {
 		    Name		    "Vx, Vy, Vz\n(Body)"
 		    Position		    [20, 98, 50, 112]
 		    BackgroundColor	    "green"
+		    FontName		    "Arial"
 		    IconDisplay		    "Port number"
 		    }
 		    Block {
@@ -3743,6 +3715,7 @@ Model {
 		    Name		    "Rho"
 		    Position		    [240, 238, 270, 252]
 		    BackgroundColor	    "green"
+		    FontName		    "Arial"
 		    Port		    "2"
 		    IconDisplay		    "Port number"
 		    }
@@ -3751,6 +3724,7 @@ Model {
 		    Name		    "Constant"
 		    Position		    [245, 286, 275, 304]
 		    BackgroundColor	    "green"
+		    FontName		    "Arial"
 		    Value		    "0.5"
 		    VectorParams1D	    off
 		    }
@@ -3768,6 +3742,7 @@ Model {
 		    Ports		    [3, 1]
 		    Position		    [345, 172, 365, 318]
 		    ShowName		    off
+		    FontName		    "Arial"
 		    Inputs		    "3"
 		    CollapseMode	    "All dimensions"
 		    InputSameDT		    off
@@ -3779,6 +3754,7 @@ Model {
 		    Ports		    [3, 1]
 		    Position		    [485, 206, 505, 354]
 		    ShowName		    off
+		    FontName		    "Arial"
 		    Inputs		    "3"
 		    CollapseMode	    "All dimensions"
 		    InputSameDT		    off
@@ -3788,6 +3764,7 @@ Model {
 		    BlockType		    Gain
 		    Name		    "R2D1"
 		    Position		    [390, 90, 425, 120]
+		    FontName		    "Arial"
 		    Gain		    "180/pi"
 		    Port {
 		    PortNumber		    1
@@ -3800,6 +3777,7 @@ Model {
 		    BlockType		    Gain
 		    Name		    "R2D2"
 		    Position		    [390, 25, 425, 55]
+		    FontName		    "Arial"
 		    Gain		    "180/pi"
 		    Port {
 		    PortNumber		    1
@@ -3812,6 +3790,7 @@ Model {
 		    BlockType		    Fcn
 		    Name		    "V^2"
 		    Position		    [95, 174, 225, 196]
+		    FontName		    "Arial"
 		    Expr		    "(u(1)^2+u(2)^2+u(3)^2)"
 		    }
 		    Block {
@@ -3833,6 +3812,7 @@ Model {
 		    Name		    "aoa"
 		    Ports		    [1, 1]
 		    Position		    [325, 28, 370, 52]
+		    FontName		    "Arial"
 		    Operator		    "asin"
 		    }
 		    Block {
@@ -3840,12 +3820,14 @@ Model {
 		    Name		    "beta"
 		    Ports		    [1, 1]
 		    Position		    [325, 93, 370, 117]
+		    FontName		    "Arial"
 		    Operator		    "atan"
 		    }
 		    Block {
 		    BlockType		    Fcn
 		    Name		    "sin(aoa)"
 		    Position		    [110, 28, 285, 52]
+		    FontName		    "Arial"
 		    Expr		    "u(3)/sqrt(u(1)^2+u(3)^2)"
 		    }
 		    Block {
@@ -3854,6 +3836,7 @@ Model {
 		    Position		    [390, 270, 435, 290]
 		    BackgroundColor	    "green"
 		    ShowName		    off
+		    FontName		    "Arial"
 		    Value		    "span"
 		    VectorParams1D	    off
 		    }
@@ -3863,6 +3846,7 @@ Model {
 		    Position		    [390, 320, 435, 340]
 		    BackgroundColor	    "green"
 		    ShowName		    off
+		    FontName		    "Arial"
 		    Value		    "chord"
 		    VectorParams1D	    off
 		    }
@@ -3870,6 +3854,7 @@ Model {
 		    BlockType		    Fcn
 		    Name		    "tan(beta)"
 		    Position		    [95, 95, 230, 115]
+		    FontName		    "Arial"
 		    Expr		    "u(2)/sqrt(u(1)^2+u(3)^2)"
 		    }
 		    Block {
@@ -3877,6 +3862,7 @@ Model {
 		    Name		    "alpha, deg"
 		    Position		    [525, 33, 555, 47]
 		    BackgroundColor	    "yellow"
+		    FontName		    "Arial"
 		    IconDisplay		    "Port number"
 		    BusOutputAsStruct	    off
 		    }
@@ -3885,6 +3871,7 @@ Model {
 		    Name		    "beta, deg"
 		    Position		    [630, 98, 660, 112]
 		    BackgroundColor	    "yellow"
+		    FontName		    "Arial"
 		    Port		    "2"
 		    IconDisplay		    "Port number"
 		    BusOutputAsStruct	    off
@@ -3894,6 +3881,7 @@ Model {
 		    Name		    "qS"
 		    Position		    [590, 273, 620, 287]
 		    BackgroundColor	    "yellow"
+		    FontName		    "Arial"
 		    Port		    "3"
 		    IconDisplay		    "Port number"
 		    BusOutputAsStruct	    off
@@ -3903,6 +3891,7 @@ Model {
 		    Name		    "Speed"
 		    Position		    [620, 153, 650, 167]
 		    BackgroundColor	    "yellow"
+		    FontName		    "Arial"
 		    Port		    "4"
 		    IconDisplay		    "Port number"
 		    BusOutputAsStruct	    off
@@ -3912,6 +3901,7 @@ Model {
 		    Name		    "q"
 		    Position		    [435, 188, 465, 202]
 		    BackgroundColor	    "yellow"
+		    FontName		    "Arial"
 		    Port		    "5"
 		    IconDisplay		    "Port number"
 		    BusOutputAsStruct	    off
@@ -4066,6 +4056,7 @@ Model {
 		  Ports			  [9, 2]
 		  Position		  [585, 76, 675, 224]
 		  NamePlacement		  "alternate"
+		  FontName		  "Arial"
 		  MinAlgLoopOccurrences	  off
 		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
@@ -4074,7 +4065,7 @@ Model {
 		    Name		    "Body Frame F & M"
 		    Location		    [962, 107, 1979, 554]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -4091,6 +4082,7 @@ Model {
 		    Name		    "Alpha, deg"
 		    Position		    [30, 18, 60, 32]
 		    BackgroundColor	    "green"
+		    FontName		    "Arial"
 		    IconDisplay		    "Port number"
 		    }
 		    Block {
@@ -4098,6 +4090,7 @@ Model {
 		    Name		    "Beta, deg"
 		    Position		    [30, 48, 60, 62]
 		    BackgroundColor	    "green"
+		    FontName		    "Arial"
 		    Port		    "2"
 		    IconDisplay		    "Port number"
 		    }
@@ -4106,6 +4099,7 @@ Model {
 		    Name		    "qs"
 		    Position		    [25, 208, 55, 222]
 		    BackgroundColor	    "green"
+		    FontName		    "Arial"
 		    Port		    "3"
 		    IconDisplay		    "Port number"
 		    }
@@ -4114,6 +4108,7 @@ Model {
 		    Name		    "Airspeed"
 		    Position		    [25, 278, 55, 292]
 		    BackgroundColor	    "green"
+		    FontName		    "Arial"
 		    Port		    "4"
 		    IconDisplay		    "Port number"
 		    }
@@ -4122,6 +4117,7 @@ Model {
 		    Name		    "de, deg"
 		    Position		    [25, 78, 55, 92]
 		    BackgroundColor	    "green"
+		    FontName		    "Arial"
 		    Port		    "5"
 		    IconDisplay		    "Port number"
 		    }
@@ -4130,6 +4126,7 @@ Model {
 		    Name		    "da, deg"
 		    Position		    [25, 113, 55, 127]
 		    BackgroundColor	    "green"
+		    FontName		    "Arial"
 		    Port		    "6"
 		    IconDisplay		    "Port number"
 		    }
@@ -4138,6 +4135,7 @@ Model {
 		    Name		    "dr, deg"
 		    Position		    [25, 148, 55, 162]
 		    BackgroundColor	    "green"
+		    FontName		    "Arial"
 		    Port		    "7"
 		    IconDisplay		    "Port number"
 		    }
@@ -4146,6 +4144,7 @@ Model {
 		    Name		    "df, deg"
 		    Position		    [25, 178, 55, 192]
 		    BackgroundColor	    "green"
+		    FontName		    "Arial"
 		    Port		    "8"
 		    IconDisplay		    "Port number"
 		    }
@@ -4154,6 +4153,7 @@ Model {
 		    Name		    "p,q,r"
 		    Position		    [25, 248, 55, 262]
 		    BackgroundColor	    "green"
+		    FontName		    "Arial"
 		    Port		    "9"
 		    IconDisplay		    "Port number"
 		    }
@@ -4163,6 +4163,7 @@ Model {
 		    Ports		    [2, 1]
 		    Position		    [320, 304, 325, 351]
 		    ShowName		    off
+		    FontName		    "Arial"
 		    Inputs		    "2"
 		    DisplayOption	    "bar"
 		    Port {
@@ -4178,6 +4179,7 @@ Model {
 		    Name		    "Transfer to body frame"
 		    Ports		    [2, 2]
 		    Position		    [370, 109, 510, 171]
+		    FontName		    "Arial"
 		    MinAlgLoopOccurrences   off
 		    RTWSystemCode	    "Auto"
 		    FunctionWithSeparateData off
@@ -4186,7 +4188,7 @@ Model {
 		    Name		    "Transfer to body frame"
 		    Location		    [269, 396, 816, 626]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -4245,6 +4247,7 @@ Model {
 		    Name		    "Ra2b1"
 		    Ports		    [2, 1]
 		    Position		    [205, 27, 305, 98]
+		    FontName		    "Arial"
 		    MinAlgLoopOccurrences   off
 		    RTWSystemCode	    "Auto"
 		    FunctionWithSeparateData off
@@ -4259,7 +4262,7 @@ Model {
 		    Name		    "Ra2b1"
 		    Location		    [255, 461, 797, 592]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -4310,7 +4313,7 @@ Model {
 		    Name		    "RB2W"
 		    Location		    [279, 286, 889, 694]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -4605,6 +4608,7 @@ Model {
 		    Name		    "Ra2b22"
 		    Ports		    [2, 1]
 		    Position		    [205, 121, 310, 194]
+		    FontName		    "Arial"
 		    MinAlgLoopOccurrences   off
 		    RTWSystemCode	    "Auto"
 		    FunctionWithSeparateData off
@@ -4619,7 +4623,7 @@ Model {
 		    Name		    "Ra2b22"
 		    Location		    [354, 448, 959, 688]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -4669,7 +4673,7 @@ Model {
 		    Name		    "RB2W"
 		    Location		    [335, 247, 945, 655]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -5102,6 +5106,7 @@ Model {
 		    Name		    "Wind frame F& M"
 		    Ports		    [9, 1]
 		    Position		    [140, 14, 295, 236]
+		    FontName		    "Arial"
 		    MinAlgLoopOccurrences   off
 		    RTWSystemCode	    "Auto"
 		    FunctionWithSeparateData off
@@ -5110,7 +5115,7 @@ Model {
 		    Name		    "Wind frame F& M"
 		    Location		    [962, 107, 1778, 618]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -5229,6 +5234,7 @@ Model {
 		    Ports		    [1, 3]
 		    Position		    [360, 81, 365, 149]
 		    ShowName		    off
+		    FontName		    "Arial"
 		    FontSize		    14
 		    OutputSignals	    "signal2.CD,signal1.CY,signal2.CL"
 		    Port {
@@ -5256,6 +5262,7 @@ Model {
 		    Ports		    [1, 2]
 		    Position		    [360, 244, 365, 291]
 		    ShowName		    off
+		    FontName		    "Arial"
 		    FontSize		    14
 		    OutputSignals	    "signal1.Cl,signal1.Cn"
 		    Port {
@@ -5277,6 +5284,7 @@ Model {
 		    Ports		    [1, 1]
 		    Position		    [360, 317, 365, 343]
 		    ShowName		    off
+		    FontName		    "Arial"
 		    FontSize		    14
 		    OutputSignals	    "signal2.Cm"
 		    Port {
@@ -5327,6 +5335,7 @@ Model {
 		    Name		    "Fx_a(Drag)"
 		    Ports		    [2, 1]
 		    Position		    [510, 31, 555, 64]
+		    FontName		    "Arial"
 		    Inputs		    "**"
 		    CollapseMode	    "All dimensions"
 		    InputSameDT		    off
@@ -5343,6 +5352,7 @@ Model {
 		    Name		    "Fy_a(Side)"
 		    Ports		    [2, 1]
 		    Position		    [510, 106, 555, 139]
+		    FontName		    "Arial"
 		    CollapseMode	    "All dimensions"
 		    InputSameDT		    off
 		    RndMeth		    "Floor"
@@ -5358,6 +5368,7 @@ Model {
 		    Name		    "Fz_a(Lift)"
 		    Ports		    [2, 1]
 		    Position		    [510, 181, 555, 214]
+		    FontName		    "Arial"
 		    CollapseMode	    "All dimensions"
 		    InputSameDT		    off
 		    RndMeth		    "Floor"
@@ -5403,6 +5414,7 @@ Model {
 		    Name		    "Lateral Channel"
 		    Ports		    [5, 1]
 		    Position		    [140, 102, 245, 188]
+		    FontName		    "Arial"
 		    MinAlgLoopOccurrences   off
 		    RTWSystemCode	    "Auto"
 		    FunctionWithSeparateData off
@@ -5411,7 +5423,7 @@ Model {
 		    Name		    "Lateral Channel"
 		    Location		    [962, 107, 1512, 552]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -5490,7 +5502,7 @@ Model {
 		    Name		    "CY"
 		    Location		    [289, 223, 630, 396]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -5687,7 +5699,7 @@ Model {
 		    Name		    "Cl"
 		    Location		    [962, 107, 1934, 1119]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -5934,7 +5946,7 @@ Model {
 		    Name		    "roll factors"
 		    Location		    [149, 381, 700, 679]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -6073,7 +6085,7 @@ Model {
 		    Name		    "roll rate fact"
 		    Location		    [299, 271, 820, 505]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -6183,7 +6195,7 @@ Model {
 		    Name		    "yaw rate fact"
 		    Location		    [277, 339, 620, 478]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -6580,7 +6592,7 @@ Model {
 		    Name		    "Cn"
 		    Location		    [431, 253, 977, 581]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -6792,7 +6804,7 @@ Model {
 		    Name		    "yaw factors"
 		    Location		    [420, 359, 962, 624]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -6933,7 +6945,7 @@ Model {
 		    Name		    "roll rate fact"
 		    Location		    [319, 282, 863, 427]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -7045,7 +7057,7 @@ Model {
 		    Name		    "yaw rate fact"
 		    Location		    [375, 231, 918, 375]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -7714,6 +7726,7 @@ Model {
 		    Name		    "Longitudinal Channel"
 		    Ports		    [5, 1]
 		    Position		    [150, 240, 255, 310]
+		    FontName		    "Arial"
 		    MinAlgLoopOccurrences   off
 		    RTWSystemCode	    "Auto"
 		    FunctionWithSeparateData off
@@ -7722,7 +7735,7 @@ Model {
 		    Name		    "Longitudinal Channel"
 		    Location		    [109, 229, 711, 752]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -7795,7 +7808,7 @@ Model {
 		    Name		    "CD"
 		    Location		    [1152, 869, 1694, 1104]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -8087,7 +8100,7 @@ Model {
 		    Name		    "CL"
 		    Location		    [1098, 496, 1868, 1101]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -8200,7 +8213,7 @@ Model {
 		    Name		    "Lift due to pitch rate"
 		    Location		    [112, 101, 673, 209]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -8270,7 +8283,7 @@ Model {
 		    Name		    "pitch rate factor"
 		    Location		    [432, 311, 977, 458]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -8795,9 +8808,9 @@ Model {
 		    }
 		    System {
 		    Name		    "Cm"
-		    Location		    [759, 375, 1319, 769]
+		    Location		    [1155, 86, 1950, 1129]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -8819,7 +8832,7 @@ Model {
 		    Block {
 		    BlockType		    Inport
 		    Name		    "De"
-		    Position		    [20, 178, 50, 192]
+		    Position		    [20, 188, 50, 202]
 		    BackgroundColor	    "green"
 		    Port		    "2"
 		    IconDisplay		    "Port number"
@@ -8827,7 +8840,7 @@ Model {
 		    Block {
 		    BlockType		    Inport
 		    Name		    "Df"
-		    Position		    [20, 268, 50, 282]
+		    Position		    [20, 388, 50, 402]
 		    BackgroundColor	    "green"
 		    Port		    "3"
 		    IconDisplay		    "Port number"
@@ -8835,7 +8848,7 @@ Model {
 		    Block {
 		    BlockType		    Inport
 		    Name		    "p,q,r"
-		    Position		    [30, 368, 60, 382]
+		    Position		    [30, 488, 60, 502]
 		    BackgroundColor	    "green"
 		    Port		    "4"
 		    IconDisplay		    "Port number"
@@ -8851,7 +8864,7 @@ Model {
 		    Block {
 		    BlockType		    Constant
 		    Name		    "CmDe"
-		    Position		    [15, 148, 55, 162]
+		    Position		    [50, 163, 90, 177]
 		    BackgroundColor	    "green"
 		    Value		    "CmDe"
 		    }
@@ -8859,7 +8872,7 @@ Model {
 		    BlockType		    Reference
 		    Name		    "CmDe1"
 		    Ports		    [1, 1]
-		    Position		    [150, 167, 220, 193]
+		    Position		    [150, 197, 220, 223]
 		    SourceBlock		    "simulink/Math\nOperations/Slider"
 "\nGain"
 		    SourceType		    "Slider Gain"
@@ -8884,7 +8897,7 @@ Model {
 		    Block {
 		    BlockType		    Constant
 		    Name		    "CmDf"
-		    Position		    [15, 238, 55, 252]
+		    Position		    [15, 358, 55, 372]
 		    BackgroundColor	    "green"
 		    Value		    "CmDf"
 		    }
@@ -8898,7 +8911,7 @@ Model {
 		    Block {
 		    BlockType		    Constant
 		    Name		    "Cma1"
-		    Position		    [25, 338, 65, 352]
+		    Position		    [25, 458, 65, 472]
 		    BackgroundColor	    "green"
 		    Value		    "Cmq"
 		    }
@@ -8917,7 +8930,7 @@ Model {
 		    Block {
 		    BlockType		    Gain
 		    Name		    "Gain2"
-		    Position		    [155, 255, 185, 285]
+		    Position		    [155, 375, 185, 405]
 		    Port {
 		    PortNumber		    1
 		    Name		    "cmdf"
@@ -8929,7 +8942,7 @@ Model {
 		    BlockType		    Selector
 		    Name		    "Get q"
 		    Ports		    [1, 1]
-		    Position		    [85, 364, 125, 386]
+		    Position		    [85, 484, 125, 506]
 		    IndexOptions	    "Index vector (dialog)"
 		    Indices		    "2"
 		    OutputSizes		    "[(-2)]"
@@ -8938,8 +8951,9 @@ Model {
 		    Block {
 		    BlockType		    Product
 		    Name		    "Product1"
-		    Ports		    [2, 1]
-		    Position		    [100, 163, 115, 192]
+		    Ports		    [4, 1]
+		    Position		    [110, 156, 125, 259]
+		    Inputs		    "***/"
 		    CollapseMode	    "All dimensions"
 		    InputSameDT		    off
 		    RndMeth		    "Floor"
@@ -8948,7 +8962,7 @@ Model {
 		    BlockType		    Product
 		    Name		    "Product2"
 		    Ports		    [2, 1]
-		    Position		    [100, 253, 115, 282]
+		    Position		    [100, 373, 115, 402]
 		    CollapseMode	    "All dimensions"
 		    InputSameDT		    off
 		    RndMeth		    "Floor"
@@ -8957,7 +8971,7 @@ Model {
 		    BlockType		    Product
 		    Name		    "Product3"
 		    Ports		    [2, 1]
-		    Position		    [180, 353, 195, 382]
+		    Position		    [180, 473, 195, 502]
 		    CollapseMode	    "All dimensions"
 		    InputSameDT		    off
 		    RndMeth		    "Floor"
@@ -8977,7 +8991,7 @@ Model {
 		    Ports		    [7]
 		    Position		    [520, 57, 555, 223]
 		    Floating		    off
-		    Location		    [891, 52, 1348, 1164]
+		    Location		    [474, 49, 931, 1161]
 		    Open		    off
 		    NumInputPorts	    "7"
 		    TickLabels		    "on"
@@ -9023,7 +9037,7 @@ Model {
 		    BlockType		    Reference
 		    Name		    "adj  Cmq"
 		    Ports		    [1, 1]
-		    Position		    [220, 357, 290, 383]
+		    Position		    [220, 477, 290, 503]
 		    SourceBlock		    "simulink/Math\nOperations/Slider"
 "\nGain"
 		    SourceType		    "Slider Gain"
@@ -9072,6 +9086,20 @@ Model {
 		    }
 		    }
 		    Block {
+		    BlockType		    Constant
+		    Name		    "chord"
+		    Position		    [50, 238, 90, 252]
+		    BackgroundColor	    "green"
+		    Value		    "chord"
+		    }
+		    Block {
+		    BlockType		    Constant
+		    Name		    "elarm"
+		    Position		    [50, 213, 90, 227]
+		    BackgroundColor	    "green"
+		    Value		    "elarm"
+		    }
+		    Block {
 		    BlockType		    Reference
 		    Name		    "tune trim_aoa"
 		    Ports		    [1, 1]
@@ -9089,7 +9117,7 @@ Model {
 		    RTWMemSecDataParameters "Inherit from model"
 		    low			    "0"
 		    gain		    "1"
-		    high		    "5"
+		    high		    "1"
 		    Port {
 		    PortNumber		    1
 		    Name		    "cm0"
@@ -9106,69 +9134,134 @@ Model {
 		    BusOutputAsStruct	    off
 		    }
 		    Line {
-		    Name		    "aoa"
+		    Name		    "cm0"
 		    Labels		    [0, 0]
-		    SrcBlock		    "Gain1"
+		    SrcBlock		    "tune trim_aoa"
 		    SrcPort		    1
-		    Points		    [50, 0]
-		    DstBlock		    "Scope"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Get q"
-		    SrcPort		    1
-		    DstBlock		    "Product3"
-		    DstPort		    2
-		    }
-		    Line {
-		    Name		    "cmq"
-		    Labels		    [0, 0]
-		    SrcBlock		    "adj  Cmq"
-		    SrcPort		    1
-		    Points		    [25, 0; 0, -170]
-		    Branch {
-		    Labels		    [1, 0]
-		    Points		    [180, 0; 0, -10]
-		    DstBlock		    "Scope"
-		    DstPort		    6
-		    }
+		    Points		    [50, 0; 0, 35]
 		    Branch {
 		    DstBlock		    "Sum"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Labels		    [2, 0]
+		    Points		    [0, 20]
+		    DstBlock		    "Scope"
+		    DstPort		    2
+		    }
+		    }
+		    Line {
+		    Name		    "cmdf"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Gain2"
+		    SrcPort		    1
+		    Points		    [109, 0; 1, -100]
+		    Branch {
+		    DstBlock		    "Sum"
+		    DstPort		    4
+		    }
+		    Branch {
+		    Labels		    [1, 0]
+		    Points		    [205, 0]
+		    DstBlock		    "Scope"
 		    DstPort		    5
 		    }
 		    }
 		    Line {
-		    SrcBlock		    "p,q,r"
+		    SrcBlock		    "CmDf"
 		    SrcPort		    1
-		    DstBlock		    "Get q"
+		    Points		    [0, 15]
+		    DstBlock		    "Product2"
 		    DstPort		    1
 		    }
 		    Line {
-		    SrcBlock		    "Product3"
+		    SrcBlock		    "Product2"
 		    SrcPort		    1
-		    DstBlock		    "adj  Cmq"
+		    DstBlock		    "Gain2"
 		    DstPort		    1
 		    }
 		    Line {
-		    SrcBlock		    "Cma1"
+		    SrcBlock		    "Df"
 		    SrcPort		    1
-		    Points		    [75, 0; 0, 15]
-		    DstBlock		    "Product3"
+		    DstBlock		    "Product2"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "Cma"
+		    SrcPort		    1
+		    Points		    [0, 10]
+		    DstBlock		    "Product4"
 		    DstPort		    1
 		    }
 		    Line {
-		    Name		    "cmde"
-		    Labels		    [0, 0]
-		    SrcBlock		    "CmDe1"
+		    SrcBlock		    "Product4"
 		    SrcPort		    1
-		    Points		    [65, 0; 0, -40]
+		    DstBlock		    "adj  trim_aoa"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "alpha"
+		    SrcPort		    1
+		    Points		    [40, 0]
 		    Branch {
-		    Labels		    [1, 0]
-		    DstBlock		    "Scope"
-		    DstPort		    4
+		    DstBlock		    "Product4"
+		    DstPort		    2
 		    }
+		    Branch {
+		    Points		    [0, -45]
+		    DstBlock		    "Gain1"
+		    DstPort		    1
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "CmDe"
+		    SrcPort		    1
+		    DstBlock		    "Product1"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Product1"
+		    SrcPort		    1
+		    DstBlock		    "CmDe1"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "De"
+		    SrcPort		    1
+		    DstBlock		    "Product1"
+		    DstPort		    2
+		    }
+		    Line {
+		    Name		    "total"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Sum"
+		    SrcPort		    1
+		    Points		    [45, 0]
+		    Branch {
+		    DstBlock		    "Cm"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Labels		    [2, 0]
+		    Points		    [0, 95]
+		    DstBlock		    "Scope"
+		    DstPort		    7
+		    }
+		    }
+		    Line {
+		    Name		    "cma"
+		    Labels		    [0, 0]
+		    SrcBlock		    "adj  trim_aoa"
+		    SrcPort		    1
+		    Points		    [15, 0; 0, -1; 34, 0]
 		    Branch {
 		    DstBlock		    "Sum"
+		    DstPort		    2
+		    }
+		    Branch {
+		    Labels		    [2, 0]
+		    Points		    [0, 16]
+		    DstBlock		    "Scope"
 		    DstPort		    3
 		    }
 		    }
@@ -9179,144 +9272,90 @@ Model {
 		    DstPort		    1
 		    }
 		    Line {
-		    Name		    "cma"
+		    Name		    "cmde"
 		    Labels		    [0, 0]
-		    SrcBlock		    "adj  trim_aoa"
+		    SrcBlock		    "CmDe1"
 		    SrcPort		    1
-		    Points		    [15, 0; 0, -1; 34, 0]
+		    Points		    [65, 0; 0, -70]
 		    Branch {
-		    Labels		    [2, 0]
-		    Points		    [0, 16]
-		    DstBlock		    "Scope"
+		    DstBlock		    "Sum"
 		    DstPort		    3
 		    }
 		    Branch {
-		    DstBlock		    "Sum"
-		    DstPort		    2
-		    }
-		    }
-		    Line {
-		    Name		    "total"
-		    Labels		    [0, 0]
-		    SrcBlock		    "Sum"
-		    SrcPort		    1
-		    Points		    [45, 0]
-		    Branch {
-		    Labels		    [2, 0]
-		    Points		    [0, 95]
-		    DstBlock		    "Scope"
-		    DstPort		    7
-		    }
-		    Branch {
-		    DstBlock		    "Cm"
-		    DstPort		    1
-		    }
-		    }
-		    Line {
-		    SrcBlock		    "De"
-		    SrcPort		    1
-		    DstBlock		    "Product1"
-		    DstPort		    2
-		    }
-		    Line {
-		    SrcBlock		    "Product1"
-		    SrcPort		    1
-		    DstBlock		    "CmDe1"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "CmDe"
-		    SrcPort		    1
-		    Points		    [0, 15]
-		    DstBlock		    "Product1"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "alpha"
-		    SrcPort		    1
-		    Points		    [40, 0]
-		    Branch {
-		    Points		    [0, -45]
-		    DstBlock		    "Gain1"
-		    DstPort		    1
-		    }
-		    Branch {
-		    DstBlock		    "Product4"
-		    DstPort		    2
-		    }
-		    }
-		    Line {
-		    SrcBlock		    "Product4"
-		    SrcPort		    1
-		    DstBlock		    "adj  trim_aoa"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Cma"
-		    SrcPort		    1
-		    Points		    [0, 10]
-		    DstBlock		    "Product4"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Df"
-		    SrcPort		    1
-		    DstBlock		    "Product2"
-		    DstPort		    2
-		    }
-		    Line {
-		    SrcBlock		    "Product2"
-		    SrcPort		    1
-		    DstBlock		    "Gain2"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "CmDf"
-		    SrcPort		    1
-		    Points		    [0, 15]
-		    DstBlock		    "Product2"
-		    DstPort		    1
-		    }
-		    Line {
-		    Name		    "cmdf"
-		    Labels		    [0, 0]
-		    SrcBlock		    "Gain2"
-		    SrcPort		    1
-		    Points		    [109, 0; 1, -100]
-		    Branch {
 		    Labels		    [1, 0]
-		    Points		    [205, 0]
 		    DstBlock		    "Scope"
-		    DstPort		    5
-		    }
-		    Branch {
-		    DstBlock		    "Sum"
 		    DstPort		    4
 		    }
 		    }
 		    Line {
-		    Name		    "cm0"
-		    Labels		    [0, 0]
-		    SrcBlock		    "tune trim_aoa"
+		    SrcBlock		    "Cma1"
 		    SrcPort		    1
-		    Points		    [50, 0; 0, 35]
-		    Branch {
-		    Labels		    [2, 0]
-		    Points		    [0, 20]
-		    DstBlock		    "Scope"
-		    DstPort		    2
-		    }
-		    Branch {
-		    DstBlock		    "Sum"
+		    Points		    [75, 0; 0, 15]
+		    DstBlock		    "Product3"
 		    DstPort		    1
 		    }
+		    Line {
+		    SrcBlock		    "Product3"
+		    SrcPort		    1
+		    DstBlock		    "adj  Cmq"
+		    DstPort		    1
 		    }
-		    Annotation {
-		    Position		    [222, 106]
+		    Line {
+		    SrcBlock		    "p,q,r"
+		    SrcPort		    1
+		    DstBlock		    "Get q"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "cmq"
+		    Labels		    [0, 0]
+		    SrcBlock		    "adj  Cmq"
+		    SrcPort		    1
+		    Points		    [25, 0; 0, -290]
+		    Branch {
+		    DstBlock		    "Sum"
+		    DstPort		    5
+		    }
+		    Branch {
+		    Labels		    [1, 0]
+		    Points		    [180, 0; 0, -10]
+		    DstBlock		    "Scope"
+		    DstPort		    6
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Get q"
+		    SrcPort		    1
+		    DstBlock		    "Product3"
+		    DstPort		    2
+		    }
+		    Line {
+		    Name		    "aoa"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Gain1"
+		    SrcPort		    1
+		    Points		    [50, 0]
+		    DstBlock		    "Scope"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "elarm"
+		    SrcPort		    1
+		    DstBlock		    "Product1"
+		    DstPort		    3
+		    }
+		    Line {
+		    SrcBlock		    "chord"
+		    SrcPort		    1
+		    DstBlock		    "Product1"
+		    DstPort		    4
 		    }
 		    Annotation {
 		    Name		    "Magic Cma"
 		    Position		    [45, 56]
+		    }
+		    Annotation {
+		    Position		    [222, 106]
 		    }
 		    }
 		    }
@@ -9452,13 +9491,13 @@ Model {
 		    SrcPort		    1
 		    Points		    [70, 0]
 		    Branch {
-		    DstBlock		    "Cm"
-		    DstPort		    3
-		    }
-		    Branch {
 		    Points		    [0, -140]
 		    DstBlock		    "CL"
 		    DstPort		    4
+		    }
+		    Branch {
+		    DstBlock		    "Cm"
+		    DstPort		    3
 		    }
 		    }
 		    Line {
@@ -9466,14 +9505,14 @@ Model {
 		    SrcPort		    1
 		    Points		    [115, 0]
 		    Branch {
-		    Points		    [0, 115]
-		    DstBlock		    "Cm"
-		    DstPort		    4
-		    }
-		    Branch {
 		    Points		    [0, -35]
 		    DstBlock		    "CL"
 		    DstPort		    5
+		    }
+		    Branch {
+		    Points		    [0, 115]
+		    DstBlock		    "Cm"
+		    DstPort		    4
 		    }
 		    }
 		    Line {
@@ -9496,6 +9535,7 @@ Model {
 		    Name		    "Mx_a"
 		    Ports		    [3, 1]
 		    Position		    [510, 248, 555, 302]
+		    FontName		    "Arial"
 		    Inputs		    "3"
 		    CollapseMode	    "All dimensions"
 		    InputSameDT		    off
@@ -9512,6 +9552,7 @@ Model {
 		    Name		    "My_a"
 		    Ports		    [3, 1]
 		    Position		    [510, 321, 555, 379]
+		    FontName		    "Arial"
 		    Inputs		    "3"
 		    CollapseMode	    "All dimensions"
 		    InputSameDT		    off
@@ -9528,6 +9569,7 @@ Model {
 		    Name		    "Mz_a"
 		    Ports		    [3, 1]
 		    Position		    [510, 396, 555, 454]
+		    FontName		    "Arial"
 		    Inputs		    "3"
 		    CollapseMode	    "All dimensions"
 		    InputSameDT		    off
@@ -9981,6 +10023,7 @@ Model {
 		    }
 		    Line {
 		    Name		    "aoa/beta, deg"
+		    FontName		    "Arial"
 		    FontSize		    10
 		    Labels		    [0, 0]
 		    SrcBlock		    "Bus\nCreator"
@@ -10036,6 +10079,7 @@ Model {
 		  Name			  "Get Grav Force in Body"
 		  Ports			  [2, 1]
 		  Position		  [540, 288, 680, 332]
+		  FontName		  "Arial"
 		  MinAlgLoopOccurrences	  off
 		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
@@ -10044,7 +10088,7 @@ Model {
 		    Name		    "Get Grav Force in Body"
 		    Location		    [162, 209, 986, 586]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -10102,7 +10146,7 @@ Model {
 		    Name		    "Rb2u"
 		    Location		    [215, 86, 780, 474]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -10394,6 +10438,7 @@ Model {
 		  Name			  "Gravitational Force"
 		  Position		  [380, 307, 495, 333]
 		  BackgroundColor	  "green"
+		  FontName		  "Arial"
 		  Value			  "[0 0 mass*ISA_g]"
 		  VectorParams1D	  off
 		}
@@ -10411,6 +10456,7 @@ Model {
 		  Name			  "NED(u)2b"
 		  Ports			  [2, 1]
 		  Position		  [155, 77, 230, 128]
+		  FontName		  "Arial"
 		  MinAlgLoopOccurrences	  off
 		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
@@ -10419,7 +10465,7 @@ Model {
 		    Name		    "NED(u)2b"
 		    Location		    [211, 484, 753, 667]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -10461,7 +10507,7 @@ Model {
 		    Name		    "RB2LTP"
 		    Location		    [215, 86, 787, 483]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -10770,7 +10816,7 @@ Model {
 		  Ports			  [1]
 		  Position		  [810, 24, 840, 56]
 		  Floating		  off
-		  Location		  [4, 396, 1022, 635]
+		  Location		  [1278, 911, 1909, 1150]
 		  Open			  off
 		  NumInputPorts		  "1"
 		  List {
@@ -10779,7 +10825,6 @@ Model {
 		  }
 		  SaveName		  "ScopeData5"
 		  DataFormat		  "StructureWithTime"
-		  LimitDataPoints	  off
 		  SampleTime		  "0"
 		}
 		Block {
@@ -10820,6 +10865,7 @@ Model {
 		  Name			  "Vair"
 		  Ports			  [2, 1]
 		  Position		  [100, 54, 115, 121]
+		  FontName		  "Arial"
 		  Inputs		  "+-"
 		  CollapseMode		  "All dimensions"
 		}
@@ -11069,7 +11115,7 @@ Model {
 		Name			"Get GPS"
 		Location		[176, 146, 1036, 832]
 		Open			off
-		ModelBrowserVisibility	on
+		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
 		PaperOrientation	"landscape"
@@ -11179,7 +11225,7 @@ Model {
 		    Name		    "Embedded\nMATLAB Function1"
 		    Location		    [257, 457, 812, 717]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -11631,7 +11677,7 @@ Model {
 		Name			"ISA Atmosphere & Winds"
 		Location		[216, 90, 880, 359]
 		Open			off
-		ModelBrowserVisibility	on
+		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
 		PaperOrientation	"landscape"
@@ -11807,7 +11853,7 @@ Model {
 		Name			"Magnetometer"
 		Location		[527, 260, 989, 477]
 		Open			off
-		ModelBrowserVisibility	on
+		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
 		PaperOrientation	"landscape"
@@ -11875,7 +11921,7 @@ Model {
 		    Name		    "RB2LTP"
 		    Location		    [212, 156, 802, 553]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -12182,7 +12228,7 @@ Model {
 		Name			"Wrap Around\nPSI1"
 		Location		[174, 82, 935, 729]
 		Open			off
-		ModelBrowserVisibility	on
+		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
 		PaperOrientation	"landscape"
@@ -12257,7 +12303,7 @@ Model {
 		    Name		    "Negative Yaw"
 		    Location		    [39, 331, 692, 702]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -12381,7 +12427,7 @@ Model {
 		    Name		    "Positive Yaw"
 		    Location		    [39, 331, 739, 735]
 		    Open		    off
-		    ModelBrowserVisibility  on
+		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
 		    ScreenColor		    "white"
 		    PaperOrientation	    "landscape"
@@ -12671,7 +12717,7 @@ Model {
 	    Block {
 	      BlockType		      Outport
 	      Name		      "Dynamic"
-	      Position		      [300, 488, 330, 502]
+	      Position		      [300, 483, 330, 497]
 	      BackgroundColor	      "yellow"
 	      Port		      "12"
 	      IconDisplay	      "Port number"
@@ -12851,7 +12897,6 @@ Model {
 	    Line {
 	      SrcBlock		      "Forces and Moments"
 	      SrcPort		      5
-	      Points		      [0, 5]
 	      DstBlock		      "Dynamic"
 	      DstPort		      1
 	    }
@@ -12951,14 +12996,14 @@ Model {
 		DstPort			1
 	      }
 	      Branch {
-		Points			[0, 275; -495, 0; 0, -190]
-		DstBlock		"Forces and Moments"
-		DstPort			7
-	      }
-	      Branch {
 		Points			[0, -125]
 		DstBlock		"Get GPS"
 		DstPort			2
+	      }
+	      Branch {
+		Points			[0, 275; -495, 0; 0, -190]
+		DstBlock		"Forces and Moments"
+		DstPort			7
 	      }
 	    }
 	    Line {
@@ -12968,13 +13013,13 @@ Model {
 	      SrcPort		      3
 	      Points		      [45, 0]
 	      Branch {
+		DstBlock		"Wrap Around\nPSI1"
+		DstPort			1
+	      }
+	      Branch {
 		Points			[0, 205; -460, 0; 0, -155]
 		DstBlock		"Forces and Moments"
 		DstPort			8
-	      }
-	      Branch {
-		DstBlock		"Wrap Around\nPSI1"
-		DstPort			1
 	      }
 	    }
 	    Line {
@@ -13124,6 +13169,15 @@ Model {
 	  Position		  [430, 673, 460, 687]
 	  BackgroundColor	  "yellow"
 	  Port			  "7"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "TAS"
+	  Position		  [480, 583, 510, 597]
+	  BackgroundColor	  "yellow"
+	  Port			  "8"
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
 	}
@@ -13347,37 +13401,2577 @@ Model {
 	  DstBlock		  "XYZ true"
 	  DstPort		  1
 	}
+	Line {
+	  SrcBlock		  "Plant"
+	  SrcPort		  19
+	  DstBlock		  "TAS"
+	  DstPort		  1
+	}
       }
     }
+    Block {
+      BlockType		      Scope
+      Name		      "Airspeed"
+      Ports		      [1]
+      Position		      [825, 497, 855, 553]
+      Floating		      off
+      Location		      [624, 146, 1155, 497]
+      Open		      on
+      NumInputPorts	      "1"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      YMin		      "-500"
+      YMax		      "700"
+      SaveName		      "ScopeData2"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Angle Conversion"
+      Ports		      [1, 1]
+      Position		      [500, 380, 590, 410]
+      ShowName		      off
+      SourceBlock	      "aerolibconvert2/Angle Conversion"
+      SourceType	      "Angle Conversion"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      IU		      "deg"
+      OU		      "rad"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Angular Velocity\nConversion"
+      Ports		      [1, 1]
+      Position		      [160, 335, 250, 365]
+      ShowName		      off
+      SourceBlock	      "aerolibconvert2/Angular Velocity\nConversion"
+      SourceType	      "Angular Velocity Conversion"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      IU		      "deg/s"
+      OU		      "rad/s"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant"
+      Position		      [50, 335, 80, 365]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant1"
+      Position		      [50, 370, 80, 400]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant10"
+      Position		      [100, 695, 130, 725]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant11"
+      Position		      [100, 730, 130, 760]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant12"
+      Position		      [100, 765, 130, 795]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant13"
+      Position		      [100, 840, 130, 870]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant14"
+      Position		      [100, 875, 130, 905]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant15"
+      Position		      [100, 910, 130, 940]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant16"
+      Position		      [20, 80, 50, 110]
+      ShowName		      off
+      Value		      "0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant17"
+      Position		      [20, 130, 50, 160]
+      ShowName		      off
+      Value		      "0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant2"
+      Position		      [50, 405, 80, 435]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant3"
+      Position		      [110, 550, 140, 580]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant4"
+      Position		      [110, 585, 140, 615]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant5"
+      Position		      [110, 620, 140, 650]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant6"
+      Position		      [395, 340, 425, 370]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant7"
+      Position		      [395, 380, 425, 410]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant8"
+      Position		      [50, 440, 80, 470]
+      ShowName		      off
+      Value		      "0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant9"
+      Position		      [50, 475, 80, 505]
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Demux
+      Name		      "Demux"
+      Ports		      [1, 3]
+      Position		      [785, 601, 790, 639]
+      BackgroundColor	      "black"
+      ShowName		      off
+      Outputs		      "3"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Demux
+      Name		      "Demux1"
+      Ports		      [1, 3]
+      Position		      [785, 666, 790, 704]
+      BackgroundColor	      "black"
+      ShowName		      off
+      Outputs		      "3"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Demux
+      Name		      "Demux2"
+      Ports		      [1, 3]
+      Position		      [785, 731, 790, 769]
+      BackgroundColor	      "black"
+      ShowName		      off
+      Outputs		      "3"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Display
+      Name		      "Display"
+      Ports		      [1]
+      Position		      [30, 280, 120, 310]
+      Decimation	      "1"
+      Lockdown		      off
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Euler"
+      Ports		      [3]
+      Position		      [820, 347, 850, 403]
+      Floating		      off
+      Location		      [482, 515, 1209, 946]
+      Open		      on
+      NumInputPorts	      "3"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+	axes2			"%<SignalLabel>"
+	axes3			"%<SignalLabel>"
+      }
+      YMin		      "-1.5~-1.5~0"
+      YMax		      "1.5~1.5~7"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From"
+      Position		      [15, 36, 65, 54]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "dE_trim"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From1"
+      Position		      [15, 186, 65, 204]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "dT"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From10"
+      Position		      [710, 741, 760, 759]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "Euler_true"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From11"
+      Position		      [555, 201, 605, 219]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "theta_m"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From12"
+      Position		      [555, 251, 605, 269]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "dE_trim"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From13"
+      Position		      [555, 276, 605, 294]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "manual"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From14"
+      Position		      [555, 176, 605, 194]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "he2ThPID"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From15"
+      Position		      [555, 226, 605, 244]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "th2dEPID"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From16"
+      Position		      [750, 366, 800, 384]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "theta_m"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From17"
+      Position		      [750, 386, 800, 404]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "psi_m"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From18"
+      Position		      [750, 346, 800, 364]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "phi_m"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From19"
+      Position		      [750, 441, 800, 459]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "Y"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From2"
+      Position		      [555, 26, 605, 44]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "U_c"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From20"
+      Position		      [730, 466, 780, 484]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "Z"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From21"
+      Position		      [750, 421, 800, 439]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "X"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From22"
+      Position		      [730, 486, 780, 504]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "h_c"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From23"
+      Position		      [725, 506, 775, 524]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "TAS"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From24"
+      Position		      [725, 526, 775, 544]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "U_c"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From3"
+      Position		      [710, 611, 760, 629]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "AirData_true"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From4"
+      Position		      [555, 51, 605, 69]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "dynP"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From5"
+      Position		      [555, 76, 605, 94]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "hHoldPID"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From6"
+      Position		      [555, 101, 605, 119]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "dT_trim"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From7"
+      Position		      [555, 126, 605, 144]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "h_c"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From8"
+      Position		      [710, 676, 760, 694]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "XYZ_true"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From9"
+      Position		      [555, 151, 605, 169]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "Z"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto1"
+      Position		      [225, 211, 275, 229]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "XYZ_true"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto10"
+      Position		      [275, 374, 345, 396]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "h_c"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto11"
+      Position		      [275, 409, 345, 431]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "U_c"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto12"
+      Position		      [835, 591, 885, 609]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "dynP"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto13"
+      Position		      [835, 611, 885, 629]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "statP"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto14"
+      Position		      [835, 631, 885, 649]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "OAT"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto15"
+      Position		      [270, 589, 340, 611]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "hHoldPID"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto16"
+      Position		      [520, 344, 590, 366]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "dT_trim"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto17"
+      Position		      [835, 656, 885, 674]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "X"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto18"
+      Position		      [835, 676, 885, 694]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "Y"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto19"
+      Position		      [835, 696, 885, 714]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "Z"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto2"
+      Position		      [225, 121, 275, 139]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "Vned_true"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto20"
+      Position		      [835, 721, 885, 739]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "phi_m"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto21"
+      Position		      [835, 741, 885, 759]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "theta_m"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto22"
+      Position		      [835, 761, 885, 779]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "psi_m"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto23"
+      Position		      [610, 384, 680, 406]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "dE_trim"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto24"
+      Position		      [275, 464, 345, 486]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "manual"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto25"
+      Position		      [260, 734, 330, 756]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "he2ThPID"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto26"
+      Position		      [260, 879, 330, 901]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "th2dEPID"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto27"
+      Position		      [225, 241, 275, 259]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "TAS"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto3"
+      Position		      [225, 151, 275, 169]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "Abmea_true"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto4"
+      Position		      [225, 181, 275, 199]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "PQR_true"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto5"
+      Position		      [225, 91, 275, 109]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "Euler_true"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto6"
+      Position		      [225, 61, 275, 79]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "AirData_true"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto7"
+      Position		      [850, 216, 900, 234]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "dT"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto8"
+      Position		      [855, 86, 905, 104]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "dE"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto9"
+      Position		      [275, 339, 345, 361]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "psi_dot_c"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Longitudinal Channel"
+      Ports		      [11, 2]
+      Position		      [640, 28, 830, 292]
+      TreatAsAtomicUnit	      on
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      MaskHideContents	      off
+      System {
+	Name			"Longitudinal Channel"
+	Location		[108, 374, 606, 674]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "U_c"
+	  Position		  [280, 43, 310, 57]
+	  BackgroundColor	  "darkGreen"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "dyn P"
+	  Position		  [125, 63, 155, 77]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "U_hold PID Gains"
+	  Position		  [310, 143, 340, 157]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "dT_trim"
+	  Position		  [510, 183, 540, 197]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "h_c"
+	  Position		  [40, 248, 70, 262]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "h_m"
+	  Position		  [40, 283, 70, 297]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "he2th PID Gains"
+	  Position		  [95, 348, 125, 362]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "7"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "theta_m"
+	  Position		  [265, 403, 295, 417]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "8"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "th2dE PID Gains"
+	  Position		  [370, 403, 400, 417]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "9"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "dE_trim"
+	  Position		  [535, 448, 565, 462]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "10"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Manual?"
+	  Position		  [350, 78, 380, 92]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "11"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Add"
+	  Ports			  [2, 1]
+	  Position		  [350, 42, 380, 73]
+	  ShowName		  off
+	  Inputs		  "+-"
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutScaling		  "2^-10"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Add1"
+	  Ports			  [2, 1]
+	  Position		  [585, 97, 615, 128]
+	  ShowName		  off
+	  Inputs		  "2"
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutScaling		  "2^-10"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Add2"
+	  Ports			  [2, 1]
+	  Position		  [115, 247, 145, 278]
+	  ShowName		  off
+	  Inputs		  "+-"
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutScaling		  "2^-10"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Add3"
+	  Ports			  [2, 1]
+	  Position		  [355, 302, 385, 333]
+	  ShowName		  off
+	  Inputs		  "+-"
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutScaling		  "2^-10"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Add4"
+	  Ports			  [2, 1]
+	  Position		  [620, 357, 650, 388]
+	  ShowName		  off
+	  Inputs		  "2"
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutScaling		  "2^-10"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Air Density from\nHeight"
+	  Ports			  [1, 1]
+	  Position		  [95, 93, 185, 147]
+	  ForegroundColor	  "gray"
+	  SourceBlock		  "SLUGS_Library/Air Density from\nHeight"
+	  SourceType		  "SubSystem"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Airspeed Hold"
+	  Ports			  [4, 1]
+	  Position		  [420, 46, 545, 164]
+	  AncestorBlock		  "SLUGS_Library/Control Blocks/PID Controller"
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  MaskDescription	  "This Block implements a PID Controller with"
+" the Following Characteristcs:\n\n1.- Integrator antiwindup is given by the l"
+"imits in the block\n2.- The time Derivative is \"low-passed\" by using the pr"
+"evious N samples instead of the one before\n3.- It contains an Integrator Res"
+"et if needed"
+	  MaskPromptString	  "Sample Time|Derivation Time Constant Factor"
+" (1->10)|Integrator Upper Windup Limit|Integrator Lower Windup Limit"
+	  MaskStyleString	  "edit,edit,edit,edit"
+	  MaskTunableValueString  "on,on,on,on"
+	  MaskCallbackString	  "|||"
+	  MaskEnableString	  "on,on,on,on"
+	  MaskVisibilityString	  "on,on,on,on"
+	  MaskToolTipString	  "on,on,on,on"
+	  MaskVarAliasString	  ",,,"
+	  MaskVariables		  "TSample=@1;NDelay=@2;upperLimit=@3;lowerLim"
+"it=@4;"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "SampleT|derivativesConstant|uHoldLimit|0.1"
+	  MaskTabNameString	  ",,,"
+	  System {
+	    Name		    "Airspeed Hold"
+	    Location		    [207, 82, 1275, 809]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Error"
+	      Position		      [70, 263, 100, 277]
+	      BackgroundColor	      "darkGreen"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Int Reset"
+	      Position		      [70, 293, 100, 307]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Int IC"
+	      Position		      [70, 323, 100, 337]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "PID Gains"
+	      Position		      [325, 198, 355, 212]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "4"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Add"
+	      Ports		      [3, 1]
+	      Position		      [525, 279, 555, 311]
+	      ShowName		      off
+	      Inputs		      "3"
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutScaling	      "2^-10"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Demux
+	      Name		      "Demux"
+	      Ports		      [1, 3]
+	      Position		      [380, 186, 385, 224]
+	      BackgroundColor	      "black"
+	      ShowName		      off
+	      Outputs		      "3"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      DiscreteIntegrator
+	      Name		      "Discrete-Time\nIntegrator"
+	      Ports		      [3, 1]
+	      Position		      [195, 253, 320, 347]
+	      IntegratorMethod	      "Integration: Trapezoidal"
+	      ExternalReset	      "sampled level"
+	      InitialConditionSource  "external"
+	      SampleTime	      "TSample"
+	      LimitOutput	      on
+	      UpperSaturationLimit    "upperLimit"
+	      LowerSaturationLimit    "lowerLimit"
+	      IgnoreLimit	      off
+	      ICPrevOutput	      "DiscIntNeverNeededParam"
+	      ICPrevScaledInput	      "DiscIntNeverNeededParam"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Divide"
+	      Ports		      [2, 1]
+	      Position		      [450, 187, 480, 218]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutScaling	      "2^-10"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Divide1"
+	      Ports		      [2, 1]
+	      Position		      [455, 277, 485, 308]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutScaling	      "2^-10"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Divide2"
+	      Ports		      [2, 1]
+	      Position		      [460, 392, 490, 423]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutScaling	      "2^-10"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Low_passed Time Derivative"
+	      Ports		      [1, 1]
+	      Position		      [220, 391, 305, 439]
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"Low_passed Time Derivative"
+		Location		[207, 82, 1275, 809]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "f(t)"
+		  Position		  [25, 28, 55, 42]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Add"
+		  Ports			  [2, 1]
+		  Position		  [200, 27, 230, 58]
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  OutScaling		  "2^-10"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant"
+		  Position		  [185, 92, 250, 118]
+		  Value			  "NDelay*TSample"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Divide"
+		  Ports			  [2, 1]
+		  Position		  [280, 37, 310, 68]
+		  Inputs		  "*/"
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  OutScaling		  "2^-10"
+		  RndMeth		  "Floor"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integer Delay"
+		  Ports			  [1, 1]
+		  Position		  [120, 73, 155, 107]
+		  SourceBlock		  "simulink/Discrete/Integer Delay"
+		  SourceType		  "Integer Delay"
+		  vinit			  "0.0"
+		  samptime		  "TSample"
+		  NumDelays		  "NDelay"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "f_dot(t)"
+		  Position		  [345, 48, 375, 62]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Divide"
+		  SrcPort		  1
+		  DstBlock		  "f_dot(t)"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Constant"
+		  SrcPort		  1
+		  Points		  [5, 0; 0, -45]
+		  DstBlock		  "Divide"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Integer Delay"
+		  SrcPort		  1
+		  Points		  [10, 0; 0, -40]
+		  DstBlock		  "Add"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "f(t)"
+		  SrcPort		  1
+		  Points		  [35, 0]
+		  Branch {
+		    Points		    [0, 55]
+		    DstBlock		    "Integer Delay"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "Add"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Add"
+		  SrcPort		  1
+		  DstBlock		  "Divide"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Control"
+	      Position		      [585, 288, 615, 302]
+	      BackgroundColor	      "yellow"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "Divide2"
+	      SrcPort		      1
+	      Points		      [15, 0]
+	      DstBlock		      "Add"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Divide1"
+	      SrcPort		      1
+	      DstBlock		      "Add"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      3
+	      Points		      [15, 0; 0, 185]
+	      DstBlock		      "Divide2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      2
+	      Points		      [40, 0; 0, 80]
+	      DstBlock		      "Divide1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Add"
+	      SrcPort		      1
+	      DstBlock		      "Control"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Divide"
+	      SrcPort		      1
+	      Points		      [25, 0]
+	      DstBlock		      "Add"
+	      DstPort		      1
+	    }
+	    Line {
+	      Labels		      [0, 0]
+	      SrcBlock		      "Demux"
+	      SrcPort		      1
+	      DstBlock		      "Divide"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "PID Gains"
+	      SrcPort		      1
+	      DstBlock		      "Demux"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Int IC"
+	      SrcPort		      1
+	      DstBlock		      "Discrete-Time\nIntegrator"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Discrete-Time\nIntegrator"
+	      SrcPort		      1
+	      DstBlock		      "Divide1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Int Reset"
+	      SrcPort		      1
+	      DstBlock		      "Discrete-Time\nIntegrator"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Error"
+	      SrcPort		      1
+	      Points		      [70, 0]
+	      Branch {
+		Points			[0, 145]
+		DstBlock		"Low_passed Time Derivative"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, -25; 260, 0]
+		DstBlock		"Divide"
+		DstPort			2
+	      }
+	      Branch {
+		DstBlock		"Discrete-Time\nIntegrator"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Low_passed Time Derivative"
+	      SrcPort		      1
+	      DstBlock		      "Divide2"
+	      DstPort		      2
+	    }
+	    Annotation {
+	      Name		      "This Block implements a PID Controller "
+"with the \nFollowing Characteristcs:\n1.- Antiwindup is given by the Limits i"
+"n the block\n2.- The time Derivative is \"low-passed\" by using the\nprevious"
+" N samples instead of the one before\n3.- It contains an Integrator Reset if "
+"needed"
+	      Position		      [123, 96]
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Compute\nAirspeed"
+	  Ports			  [2, 1]
+	  Position		  [210, 75, 290, 135]
+	  SourceBlock		  "SLUGS_Library/Compute\nAirspeed"
+	  SourceType		  "SubSystem"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant1"
+	  Position		  [355, 109, 380, 131]
+	  ShowName		  off
+	  Value			  "0"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant3"
+	  Position		  [120, 314, 145, 336]
+	  ShowName		  off
+	  Value			  "0"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant5"
+	  Position		  [395, 369, 420, 391]
+	  ShowName		  off
+	  Value			  "0"
+	}
+	Block {
+	  BlockType		  Display
+	  Name			  "Display"
+	  Ports			  [1]
+	  Position		  [185, 195, 275, 225]
+	  Decimation		  "1"
+	  Lockdown		  off
+	}
+	Block {
+	  BlockType		  Display
+	  Name			  "Display1"
+	  Ports			  [1]
+	  Position		  [335, 250, 425, 280]
+	  Decimation		  "1"
+	  Lockdown		  off
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "Elevator \nLimit"
+	  Position		  [690, 360, 720, 390]
+	  UpperLimit		  "deLimit"
+	  LowerLimit		  "-deLimit"
+	  SampleTime		  "SampleT"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Height Error to \nPitch Command"
+	  Ports			  [4, 1]
+	  Position		  [175, 251, 300, 369]
+	  SourceBlock		  "SLUGS_Library/Control Blocks/PI Controller"
+	  SourceType		  ""
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  TSample		  "SampleT"
+	  upperLimit		  "heightErrorLimit"
+	  lowerLimit		  "-heightErrorLimit"
+	  Port {
+	    PortNumber		    1
+	    Name		    "Theta_c"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  InportShadow
+	  Name			  "Manual?1"
+	  Position		  [115, 288, 145, 302]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "11"
+	  IconDisplay		  "Port number"
+	  LatchByDelayingOutsideSignal off
+	  LatchByCopyingInsideSignal off
+	}
+	Block {
+	  BlockType		  InportShadow
+	  Name			  "Manual?2"
+	  Position		  [390, 343, 420, 357]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "11"
+	  IconDisplay		  "Port number"
+	  LatchByDelayingOutsideSignal off
+	  LatchByCopyingInsideSignal off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Pitch Command to \nElevator"
+	  Ports			  [4, 1]
+	  Position		  [450, 306, 575, 424]
+	  SourceBlock		  "SLUGS_Library/Control Blocks/PID Controller"
+	  SourceType		  ""
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  TSample		  "SampleT"
+	  NDelay		  "derivativesConstant"
+	  upperLimit		  "pitchErrorLimit"
+	  lowerLimit		  "-pitchErrorLimit"
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "Throttle \nLimit"
+	  Position		  [645, 100, 675, 130]
+	  UpperLimit		  "dtLimit"
+	  LowerLimit		  "0"
+	  SampleTime		  "SampleT"
+	}
+	Block {
+	  BlockType		  InportShadow
+	  Name			  "h_m1"
+	  Position		  [40, 113, 70, 127]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	  LatchByDelayingOutsideSignal off
+	  LatchByCopyingInsideSignal off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "dE"
+	  Position		  [765, 368, 795, 382]
+	  BackgroundColor	  "yellow"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "dT"
+	  Position		  [700, 108, 730, 122]
+	  BackgroundColor	  "yellow"
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "U_c"
+	  SrcPort		  1
+	  DstBlock		  "Add"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Compute\nAirspeed"
+	  SrcPort		  1
+	  Points		  [25, 0; 0, -40]
+	  DstBlock		  "Add"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Add"
+	  SrcPort		  1
+	  DstBlock		  "Airspeed Hold"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Airspeed Hold"
+	  SrcPort		  1
+	  DstBlock		  "Add1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "dT_trim"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, -70]
+	  DstBlock		  "Add1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Add1"
+	  SrcPort		  1
+	  DstBlock		  "Throttle \nLimit"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Constant1"
+	  SrcPort		  1
+	  DstBlock		  "Airspeed Hold"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "U_hold PID Gains"
+	  SrcPort		  1
+	  DstBlock		  "Airspeed Hold"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Throttle \nLimit"
+	  SrcPort		  1
+	  DstBlock		  "dT"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Add2"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    DstBlock		    "Height Error to \nPitch Command"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -55]
+	    DstBlock		    "Display"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "h_c"
+	  SrcPort		  1
+	  DstBlock		  "Add2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "h_m"
+	  SrcPort		  1
+	  Points		  [10, 0; 0, -20]
+	  DstBlock		  "Add2"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Constant3"
+	  SrcPort		  1
+	  DstBlock		  "Height Error to \nPitch Command"
+	  DstPort		  3
+	}
+	Line {
+	  Name			  "Theta_c"
+	  SrcBlock		  "Height Error to \nPitch Command"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    Labels		    [-1, 1]
+	    DstBlock		    "Add3"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -45]
+	    DstBlock		    "Display1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "theta_m"
+	  SrcPort		  1
+	  Points		  [25, 0; 0, -85]
+	  DstBlock		  "Add3"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Add3"
+	  SrcPort		  1
+	  DstBlock		  "Pitch Command to \nElevator"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Constant5"
+	  SrcPort		  1
+	  DstBlock		  "Pitch Command to \nElevator"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Manual?"
+	  SrcPort		  1
+	  Points		  [10, 0; 0, 5]
+	  DstBlock		  "Airspeed Hold"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Manual?1"
+	  SrcPort		  1
+	  DstBlock		  "Height Error to \nPitch Command"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Manual?2"
+	  SrcPort		  1
+	  DstBlock		  "Pitch Command to \nElevator"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Add4"
+	  SrcPort		  1
+	  DstBlock		  "Elevator \nLimit"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Pitch Command to \nElevator"
+	  SrcPort		  1
+	  DstBlock		  "Add4"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "dE_trim"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, -75]
+	  DstBlock		  "Add4"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Elevator \nLimit"
+	  SrcPort		  1
+	  DstBlock		  "dE"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Air Density from\nHeight"
+	  SrcPort		  1
+	  DstBlock		  "Compute\nAirspeed"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "dyn P"
+	  SrcPort		  1
+	  Points		  [5, 0; 0, 20]
+	  DstBlock		  "Compute\nAirspeed"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "h_m1"
+	  SrcPort		  1
+	  DstBlock		  "Air Density from\nHeight"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "he2th PID Gains"
+	  SrcPort		  1
+	  DstBlock		  "Height Error to \nPitch Command"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "th2dE PID Gains"
+	  SrcPort		  1
+	  DstBlock		  "Pitch Command to \nElevator"
+	  DstPort		  4
+	}
+	Annotation {
+	  Name			  "Altitude Hold"
+	  Position		  [348, 236]
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Manual Switch"
+      Ports		      [2, 1]
+      Position		      [110, 457, 140, 493]
+      ShowName		      off
+      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
+      SourceType	      "Manual Switch"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      sw		      "1"
+      action		      "0"
+      varsize		      off
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux"
+      Ports		      [3, 1]
+      Position		      [235, 581, 240, 619]
+      ShowName		      off
+      Inputs		      "3"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux1"
+      Ports		      [3, 1]
+      Position		      [225, 726, 230, 764]
+      ShowName		      off
+      Inputs		      "3"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux2"
+      Ports		      [3, 1]
+      Position		      [225, 871, 230, 909]
+      ShowName		      off
+      Inputs		      "3"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux3"
+      Ports		      [2, 1]
+      Position		      [795, 468, 800, 497]
+      ShowName		      off
+      Inputs		      "2"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux4"
+      Ports		      [2, 1]
+      Position		      [800, 508, 805, 537]
+      ShowName		      off
+      Inputs		      "2"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Slider\nGain"
+      Ports		      [1, 1]
+      Position		      [105, 335, 135, 365]
+      ShowName		      off
+      SourceBlock	      "simulink/Math\nOperations/Slider\nGain"
+      SourceType	      "Slider Gain"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      low		      "-20"
+      gain		      "0"
+      high		      "20"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Slider\nGain1"
+      Ports		      [1, 1]
+      Position		      [105, 370, 135, 400]
+      ShowName		      off
+      SourceBlock	      "simulink/Math\nOperations/Slider\nGain"
+      SourceType	      "Slider Gain"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      low		      "0"
+      gain		      "500"
+      high		      "800"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Slider\nGain10"
+      Ports		      [1, 1]
+      Position		      [155, 765, 185, 795]
+      ShowName		      off
+      SourceBlock	      "simulink/Math\nOperations/Slider\nGain"
+      SourceType	      "Slider Gain"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      low		      "-20"
+      gain		      "0"
+      high		      "20"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Slider\nGain11"
+      Ports		      [1, 1]
+      Position		      [155, 910, 185, 940]
+      ShowName		      off
+      SourceBlock	      "simulink/Math\nOperations/Slider\nGain"
+      SourceType	      "Slider Gain"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      low		      "-20"
+      gain		      "0"
+      high		      "20"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Slider\nGain12"
+      Ports		      [1, 1]
+      Position		      [155, 840, 185, 870]
+      ShowName		      off
+      SourceBlock	      "simulink/Math\nOperations/Slider\nGain"
+      SourceType	      "Slider Gain"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      low		      "-20"
+      gain		      "0"
+      high		      "20"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Slider\nGain13"
+      Ports		      [1, 1]
+      Position		      [155, 875, 185, 905]
+      ShowName		      off
+      SourceBlock	      "simulink/Math\nOperations/Slider\nGain"
+      SourceType	      "Slider Gain"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      low		      "-20"
+      gain		      "0"
+      high		      "20"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Slider\nGain2"
+      Ports		      [1, 1]
+      Position		      [105, 405, 135, 435]
+      ShowName		      off
+      SourceBlock	      "simulink/Math\nOperations/Slider\nGain"
+      SourceType	      "Slider Gain"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      low		      "1"
+      gain		      "25"
+      high		      "40"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Slider\nGain3"
+      Ports		      [1, 1]
+      Position		      [165, 550, 195, 580]
+      ShowName		      off
+      SourceBlock	      "simulink/Math\nOperations/Slider\nGain"
+      SourceType	      "Slider Gain"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      low		      "-20"
+      gain		      "0.05"
+      high		      "20"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Slider\nGain4"
+      Ports		      [1, 1]
+      Position		      [165, 585, 195, 615]
+      ShowName		      off
+      SourceBlock	      "simulink/Math\nOperations/Slider\nGain"
+      SourceType	      "Slider Gain"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      low		      "-20"
+      gain		      "0.005"
+      high		      "20"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Slider\nGain5"
+      Ports		      [1, 1]
+      Position		      [165, 620, 195, 650]
+      ShowName		      off
+      SourceBlock	      "simulink/Math\nOperations/Slider\nGain"
+      SourceType	      "Slider Gain"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      low		      "-20"
+      gain		      "0.01"
+      high		      "20"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Slider\nGain6"
+      Ports		      [1, 1]
+      Position		      [450, 340, 480, 370]
+      ShowName		      off
+      SourceBlock	      "simulink/Math\nOperations/Slider\nGain"
+      SourceType	      "Slider Gain"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      low		      "0.1"
+      gain		      "0.33"
+      high		      "1"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Slider\nGain7"
+      Ports		      [1, 1]
+      Position		      [450, 380, 480, 410]
+      ShowName		      off
+      SourceBlock	      "simulink/Math\nOperations/Slider\nGain"
+      SourceType	      "Slider Gain"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      low		      "-10"
+      gain		      "1"
+      high		      "10"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Slider\nGain8"
+      Ports		      [1, 1]
+      Position		      [155, 695, 185, 725]
+      ShowName		      off
+      SourceBlock	      "simulink/Math\nOperations/Slider\nGain"
+      SourceType	      "Slider Gain"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      low		      "-20"
+      gain		      "0"
+      high		      "20"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Slider\nGain9"
+      Ports		      [1, 1]
+      Position		      [155, 730, 185, 760]
+      ShowName		      off
+      SourceBlock	      "simulink/Math\nOperations/Slider\nGain"
+      SourceType	      "Slider Gain"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      low		      "-20"
+      gain		      "0"
+      high		      "20"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "XYZ"
+      Ports		      [3]
+      Position		      [820, 422, 850, 478]
+      Floating		      off
+      Location		      [494, 62, 1059, 414]
+      Open		      on
+      NumInputPorts	      "3"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+	axes2			"%<SignalLabel>"
+	axes3			"%<SignalLabel>"
+      }
+      YMin		      "-500~-400~400"
+      YMax		      "700~600~800"
+      SaveName		      "ScopeData1"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
     Line {
-      SrcBlock		      "Plant Model"
+      SrcBlock		      "6DOF Model"
       SrcPort		      7
       DstBlock		      "Goto1"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Plant Model"
+      SrcBlock		      "6DOF Model"
       SrcPort		      4
       DstBlock		      "Goto2"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Plant Model"
+      SrcBlock		      "6DOF Model"
       SrcPort		      5
       DstBlock		      "Goto3"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Plant Model"
+      SrcBlock		      "6DOF Model"
       SrcPort		      6
       DstBlock		      "Goto4"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Plant Model"
+      SrcBlock		      "6DOF Model"
       SrcPort		      3
       DstBlock		      "Goto5"
       DstPort		      1
+    }
+    Line {
+      SrcBlock		      "6DOF Model"
+      SrcPort		      2
+      DstBlock		      "Goto6"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Longitudinal Channel"
+      SrcPort		      1
+      DstBlock		      "Goto8"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Longitudinal Channel"
+      SrcPort		      2
+      DstBlock		      "Goto7"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant"
+      SrcPort		      1
+      DstBlock		      "Slider\nGain"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant1"
+      SrcPort		      1
+      DstBlock		      "Slider\nGain1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant2"
+      SrcPort		      1
+      DstBlock		      "Slider\nGain2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Slider\nGain"
+      SrcPort		      1
+      DstBlock		      "Angular Velocity\nConversion"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Angular Velocity\nConversion"
+      SrcPort		      1
+      DstBlock		      "Goto9"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Slider\nGain1"
+      SrcPort		      1
+      DstBlock		      "Goto10"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Slider\nGain2"
+      SrcPort		      1
+      DstBlock		      "Goto11"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "From2"
+      SrcPort		      1
+      DstBlock		      "Longitudinal Channel"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "From3"
+      SrcPort		      1
+      DstBlock		      "Demux"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux"
+      SrcPort		      1
+      Points		      [10, 0; 0, -10]
+      DstBlock		      "Goto12"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux"
+      SrcPort		      2
+      DstBlock		      "Goto13"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux"
+      SrcPort		      3
+      Points		      [10, 0; 0, 10]
+      DstBlock		      "Goto14"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant3"
+      SrcPort		      1
+      DstBlock		      "Slider\nGain3"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant4"
+      SrcPort		      1
+      DstBlock		      "Slider\nGain4"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant5"
+      SrcPort		      1
+      DstBlock		      "Slider\nGain5"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Slider\nGain4"
+      SrcPort		      1
+      DstBlock		      "Mux"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Slider\nGain3"
+      SrcPort		      1
+      Points		      [10, 0; 0, 25]
+      DstBlock		      "Mux"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Slider\nGain5"
+      SrcPort		      1
+      Points		      [10, 0; 0, -25]
+      DstBlock		      "Mux"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Mux"
+      SrcPort		      1
+      DstBlock		      "Goto15"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "From4"
+      SrcPort		      1
+      DstBlock		      "Longitudinal Channel"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "From5"
+      SrcPort		      1
+      DstBlock		      "Longitudinal Channel"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Constant6"
+      SrcPort		      1
+      DstBlock		      "Slider\nGain6"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Slider\nGain6"
+      SrcPort		      1
+      DstBlock		      "Goto16"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "From6"
+      SrcPort		      1
+      DstBlock		      "Longitudinal Channel"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "From7"
+      SrcPort		      1
+      DstBlock		      "Longitudinal Channel"
+      DstPort		      5
+    }
+    Line {
+      SrcBlock		      "From8"
+      SrcPort		      1
+      DstBlock		      "Demux1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux1"
+      SrcPort		      1
+      Points		      [10, 0; 0, -10]
+      DstBlock		      "Goto17"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux1"
+      SrcPort		      2
+      DstBlock		      "Goto18"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux1"
+      SrcPort		      3
+      Points		      [10, 0; 0, 10]
+      DstBlock		      "Goto19"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "From9"
+      SrcPort		      1
+      DstBlock		      "Longitudinal Channel"
+      DstPort		      6
+    }
+    Line {
+      SrcBlock		      "From10"
+      SrcPort		      1
+      DstBlock		      "Demux2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux2"
+      SrcPort		      1
+      Points		      [10, 0; 0, -10]
+      DstBlock		      "Goto20"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux2"
+      SrcPort		      2
+      DstBlock		      "Goto21"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux2"
+      SrcPort		      3
+      Points		      [10, 0; 0, 10]
+      DstBlock		      "Goto22"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "From11"
+      SrcPort		      1
+      DstBlock		      "Longitudinal Channel"
+      DstPort		      8
+    }
+    Line {
+      SrcBlock		      "Constant7"
+      SrcPort		      1
+      DstBlock		      "Slider\nGain7"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Slider\nGain7"
+      SrcPort		      1
+      DstBlock		      "Angle Conversion"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Angle Conversion"
+      SrcPort		      1
+      DstBlock		      "Goto23"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "From12"
+      SrcPort		      1
+      DstBlock		      "Longitudinal Channel"
+      DstPort		      10
+    }
+    Line {
+      SrcBlock		      "Constant8"
+      SrcPort		      1
+      Points		      [10, 0]
+      DstBlock		      "Manual Switch"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant9"
+      SrcPort		      1
+      Points		      [10, 0]
+      DstBlock		      "Manual Switch"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Manual Switch"
+      SrcPort		      1
+      DstBlock		      "Goto24"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "From13"
+      SrcPort		      1
+      DstBlock		      "Longitudinal Channel"
+      DstPort		      11
+    }
+    Line {
+      SrcBlock		      "Constant10"
+      SrcPort		      1
+      DstBlock		      "Slider\nGain8"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant11"
+      SrcPort		      1
+      DstBlock		      "Slider\nGain9"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant12"
+      SrcPort		      1
+      DstBlock		      "Slider\nGain10"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Slider\nGain9"
+      SrcPort		      1
+      DstBlock		      "Mux1"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Slider\nGain8"
+      SrcPort		      1
+      Points		      [10, 0; 0, 25]
+      DstBlock		      "Mux1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Slider\nGain10"
+      SrcPort		      1
+      Points		      [10, 0; 0, -25]
+      DstBlock		      "Mux1"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Mux1"
+      SrcPort		      1
+      DstBlock		      "Goto25"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant13"
+      SrcPort		      1
+      DstBlock		      "Slider\nGain12"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant14"
+      SrcPort		      1
+      DstBlock		      "Slider\nGain13"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant15"
+      SrcPort		      1
+      DstBlock		      "Slider\nGain11"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Slider\nGain13"
+      SrcPort		      1
+      DstBlock		      "Mux2"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Slider\nGain12"
+      SrcPort		      1
+      Points		      [10, 0; 0, 25]
+      DstBlock		      "Mux2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Slider\nGain11"
+      SrcPort		      1
+      Points		      [10, 0; 0, -25]
+      DstBlock		      "Mux2"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Mux2"
+      SrcPort		      1
+      DstBlock		      "Goto26"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "From14"
+      SrcPort		      1
+      DstBlock		      "Longitudinal Channel"
+      DstPort		      7
+    }
+    Line {
+      SrcBlock		      "From15"
+      SrcPort		      1
+      DstBlock		      "Longitudinal Channel"
+      DstPort		      9
+    }
+    Line {
+      SrcBlock		      "From18"
+      SrcPort		      1
+      DstBlock		      "Euler"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "From16"
+      SrcPort		      1
+      DstBlock		      "Euler"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "From17"
+      SrcPort		      1
+      DstBlock		      "Euler"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "From21"
+      SrcPort		      1
+      DstBlock		      "XYZ"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "From19"
+      SrcPort		      1
+      DstBlock		      "XYZ"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Mux3"
+      SrcPort		      1
+      DstBlock		      "XYZ"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "From20"
+      SrcPort		      1
+      DstBlock		      "Mux3"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "From22"
+      SrcPort		      1
+      Points		      [0, -5]
+      DstBlock		      "Mux3"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "From1"
+      SrcPort		      1
+      Points		      [5, 0]
+      Branch {
+	DstBlock		"6DOF Model"
+	DstPort			4
+      }
+      Branch {
+	Points			[0, 45; -60, 0]
+	DstBlock		"Display"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "From"
+      SrcPort		      1
+      DstBlock		      "6DOF Model"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant16"
+      SrcPort		      1
+      DstBlock		      "6DOF Model"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Constant17"
+      SrcPort		      1
+      DstBlock		      "6DOF Model"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Mux4"
+      SrcPort		      1
+      DstBlock		      "Airspeed"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "6DOF Model"
+      SrcPort		      8
+      DstBlock		      "Goto27"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "From23"
+      SrcPort		      1
+      DstBlock		      "Mux4"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "From24"
+      SrcPort		      1
+      Points		      [0, -5]
+      DstBlock		      "Mux4"
+      DstPort		      2
+    }
+    Annotation {
+      Name		      "Mid Level Commands"
+      Position		      [183, 313]
+    }
+    Annotation {
+      Name		      "Trim Values"
+      Position		      [519, 320]
+    }
+    Annotation {
+      Name		      "Signal Routing"
+      Position		      [815, 573]
+    }
+    Annotation {
+      Name		      "Altitude Hold PID Gains"
+      Position		      [185, 532]
+    }
+    Annotation {
+      Name		      "Height Error to Pitch Command PID Gains"
+      Position		      [175, 677]
+    }
+    Annotation {
+      Name		      "Pitch Error to Elevator PID Gains"
+      Position		      [175, 822]
+    }
+    Annotation {
+      Name		      "Data Plots"
+      Position		      [794, 330]
     }
   }
 }
@@ -13401,7 +15995,7 @@ Stateflow {
 
 	chart {
 		id                                        		2
-		name                                      		"Plant Model/Plant/Get GPS/Embedded\n"
+		name                                      		"6DOF Model/Plant/Get GPS/Embedded\n"
 					"MATLAB Function1"
 		windowPosition                            		[288.36 270 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
@@ -13553,7 +16147,7 @@ Stateflow {
 
 	instance {
 		id     		9
-		name   		"Plant Model/Plant/Get GPS/Embedded\n"
+		name   		"6DOF Model/Plant/Get GPS/Embedded\n"
 					"MATLAB Function1"
 		machine		1
 		chart  		2
