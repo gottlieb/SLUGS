@@ -1,6 +1,6 @@
 %% Sig RASCAL 110 data
 clc;
-SampleT=0.01;
+SampleT=0.005;
 r_lim=7;
 
 % Standartd Atmosphere
@@ -67,7 +67,7 @@ CmDe    = -3.2;        %  pitch control power
 % Piccolo user Guide:>The sign convention on the surface deflection has the following rules:
 % flaps, ailerons, and elevators are all positive down. Rudders are positive right. 
 % For ruddervators the sign convention follows the elevator rule, i.e. positive down.
- CnDr    = 0.1997;       % yaw control power (Sign convention : Positive for TER rudder deflection and Negative for TEL rudder deflection)
+ CnDr    = -0.1997;       % yaw control power (Sign convention : Positive for TER rudder deflection and Negative for TEL rudder deflection)
 
  CmDf    = -.021;
 
