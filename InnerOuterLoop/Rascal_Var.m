@@ -15,8 +15,8 @@ r_lim=7;
 % Set the initial conditions based on the Piccolo Doublets File
 %  Initial Conditions in ENU (all vector data is represented as a column
 %  vectors)
-Pos_0   = [0; 0 ;500]';     % Initial position vector (m)
-Euler_0 = [0; 0; 45*pi/180]';     % Initial Euler angles    (rad)
+Pos_0   = [0; 0 ;540]';     % Initial position vector (m)
+Euler_0 = [0; 0; 0*pi/180]';     % Initial Euler angles    (rad)
 Omega_0 = [0; 0; 0]';                              % Initial Omega           (rad/s)
 PQR_0   = [0;0;0]';      % Initial Omega           (rad/s)
 Vb_0    = [ 25; 0;0]';                     % Initial body-velocity vector (m/s)
