@@ -31,7 +31,7 @@ plot(Ypoints,Xpoints,'*r');
      plot ([y(j) y(j)+ve(j)], [x(j) x(j)+vn(j)], 'r');
      
      %plot the L1 vector
-     %plot ([y(j) y(j)+L1(j,2)], [x(j) x(j)+L1(j,1)], 'b-');
+     plot ([y(j) y(j)+L1(j,2)], [x(j) x(j)+L1(j,1)], 'b-');
      
      %pause the animation
      if (mod(j-1,50)==0)
