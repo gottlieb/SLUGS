@@ -20,9 +20,10 @@ figure(1);
 clf;
 
 % Plot the waypoints
-plot(Ypoints,Xpoints,'r');
+plot(Ypoints,Xpoints,'k','LineWidth',3);
 hold on
-plot(Ypoints,Xpoints,'*r');
+plot([Ypoints(end) Ypoints(1)],[Xpoints(end) Xpoints(1)],'k','LineWidth',3);
+plot(Ypoints,Xpoints,'sk');
  for j=l:50:i
      % plot the UAV postion
      plot(y(j),x(j),'g.');
@@ -38,3 +39,5 @@ plot(Ypoints,Xpoints,'*r');
          pause(0.01)
      end
  end
+ 
+%%  Additional Plots
