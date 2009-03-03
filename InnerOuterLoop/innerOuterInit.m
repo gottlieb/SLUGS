@@ -1,5 +1,6 @@
 %% General Values
 derivativesConstant = 5;
+apSampleTime = 0.01;
 
 %% Control Surface Limits
 deLimit = 15*pi/180;
