@@ -27,7 +27,7 @@ plot(Ypoints,Xpoints,'sk');
  for j=l:50:i
      % plot the UAV postion
      plot(y(j),x(j),'g.');
-     
+      
      %plot the velocity vector
      plot ([y(j) y(j)+ve(j)], [x(j) x(j)+vn(j)], 'r');
      
