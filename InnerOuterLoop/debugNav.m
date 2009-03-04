@@ -24,6 +24,7 @@ plot(Ypoints,Xpoints,'k','LineWidth',3);
 hold on
 plot([Ypoints(end) Ypoints(1)],[Xpoints(end) Xpoints(1)],'k','LineWidth',3);
 plot(Ypoints,Xpoints,'sk');
+axis equal;
  for j=l:50:i
      % plot the UAV postion
      plot(y(j),x(j),'g.');
@@ -35,8 +36,8 @@ plot(Ypoints,Xpoints,'sk');
      plot ([y(j) y(j)+L1(j,2)], [x(j) x(j)+L1(j,1)], 'b-');
      
      %pause the animation
-     if (mod(j-1,50)==0)
-         pause(0.01)
+     if (mod(j-1,200)==0)
+         pause(0.01);
      end
  end
  
