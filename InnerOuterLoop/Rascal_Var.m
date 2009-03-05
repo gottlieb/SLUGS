@@ -72,6 +72,6 @@ CmDe    = -3.2;        %  pitch control power
  CmDf    = -.021;
 
  % Engine Constants
- MinThK    = 0.077;%Mariano=0.3892;MinRPM=2000
- ThK       = 2.17;% Mariano=0.3664; MaxRPM=7200
+ MinThK    = 0.077;
+ ThK       = 2.17;
  TFact     = 0.4;%1.0;
