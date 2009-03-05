@@ -4,11 +4,11 @@ x = X(:);
 y = Y(:);
 z = Z(:);
 
-vn = Vned(1,1,:);
+vn = Vned(:,1);
 vn = vn(:);
-ve = Vned(2,1,:);
+ve = Vned(:,2);
 ve = ve(:);
-vd = Vned(3,1,:);
+vd = Vned(:,3);
 vd = vd(:);
 
 % housekeeping variables
@@ -24,6 +24,8 @@ plot(Ypoints,Xpoints,'k','LineWidth',3);
 hold on
 plot([Ypoints(end) Ypoints(1)],[Xpoints(end) Xpoints(1)],'k','LineWidth',3);
 plot(Ypoints,Xpoints,'sk');
+%Plot the circle turns
+plotCirc
 axis equal;
  for j=l:50:i
      % plot the UAV postion
