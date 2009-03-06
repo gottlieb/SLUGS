@@ -4,11 +4,11 @@ x = X(:);
 y = Y(:);
 z = Z(:);
 
-vn = Vned(1,1,:);
+vn = Vned(:,1);
 vn = vn(:);
-ve = Vned(2,1,:);
+ve = Vned(:,2);
 ve = ve(:);
-vd = Vned(3,1,:);
+vd = Vned(:,3);
 vd = vd(:);
 
 % housekeeping variables
