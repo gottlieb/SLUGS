@@ -24,6 +24,8 @@ plot(Ypoints,Xpoints,'k','LineWidth',3);
 hold on
 plot([Ypoints(end) Ypoints(1)],[Xpoints(end) Xpoints(1)],'k','LineWidth',3);
 plot(Ypoints,Xpoints,'sk');
+%Plot the circle turns
+plotCirc
 axis equal;
  for j=l:50:i
      % plot the UAV postion
@@ -33,7 +35,7 @@ axis equal;
      plot ([y(j) y(j)+ve(j)], [x(j) x(j)+vn(j)], 'r');
      
      %plot the L1 vector
-     plot ([y(j) y(j)+L1(2,1,j)], [x(j) x(j)+L1(1,1,j)], 'b-');
+     plot ([y(j) y(j)+L1(j,2)], [x(j) x(j)+L1(j,1)], 'b-');
      
      % plot N exagerated
       plot ([y(j) y(j)+20*N(j,2)], [x(j) x(j)+20*N(j,1)], 'c-');
