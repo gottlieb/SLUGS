@@ -1,7 +1,7 @@
 %% Sig RASCAL 110 data
 clc;
 SampleT=0.005;
-r_lim=7;
+r_lim=200*pi/180;
 
 % Standartd Atmosphere
     ISA_lapse = .0065;          % Lapse rate            (degC/m)
@@ -16,7 +16,7 @@ r_lim=7;
 %  Initial Conditions in ENU (all vector data is represented as a column
 %  vectors)
 Pos_0   = [0; 0 ;540]';     % Initial position vector (m)
-Euler_0 = [0; 0; 0*pi/180]';     % Initial Euler angles    (rad)
+Euler_0 = [0; 0; 90*pi/180]';     % Initial Euler angles    (rad)
 Omega_0 = [0; 0; 0]';                              % Initial Omega           (rad/s)
 PQR_0   = [0;0;0]';      % Initial Omega           (rad/s)
 Vb_0    = [ 25; 0;0]';                     % Initial body-velocity vector (m/s)
@@ -75,3 +75,8 @@ CmDe    = -3.2;        %  pitch control power
  MinThK    = 0.077;
  ThK       = 2.17;
  TFact     = 0.4;%1.0;
+ 
+% Wind Configuration
+windBase = 7;
+windDirTurb = 45;
+windDirHor = 135;
