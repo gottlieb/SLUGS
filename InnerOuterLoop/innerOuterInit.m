@@ -18,3 +18,8 @@ rollControlLimit = 0.95*daLimit;     % controls aileron
 %% Command Limits
 pitchCommandLimit = 15*pi/180;
 bankCommandLimit = 40*pi/180;
+
+%% Nav Values
+R = 200;
+L1_base = 200;
+U_comm = 25;
