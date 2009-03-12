@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.893"
+    ComputedModelVersion    "1.897"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -47,8 +47,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sun Mar 08 19:01:22 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:893>"
+  LastModifiedDate	  "Wed Mar 11 22:59:02 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:897>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -1006,8 +1006,8 @@ Model {
   }
   System {
     Name		    "InnerOuter_Sim"
-    Location		    [8, 83, 1362, 1140]
-    Open		    on
+    Location		    [2, 78, 1421, 880]
+    Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "white"
@@ -11678,7 +11678,7 @@ Model {
 		  units			  "Metric (MKS)"
 		  spec			  "MIL-F-8785C"
 		  model			  "Discrete Dryden (+q -r)"
-		  W20			  "windBase"
+		  W20			  "windBase*0.3"
 		  Wdeg			  "windDirTurb"
 		  TurbProb		  "10^-2 - Light "
 		  L_high		  "533.4"
@@ -15419,8 +15419,8 @@ Model {
       Ports		      [3]
       Position		      [820, 691, 850, 779]
       Floating		      off
-      Location		      [901, 206, 1602, 591]
-      Open		      off
+      Location		      [5, 57, 495, 894]
+      Open		      on
       NumInputPorts	      "3"
       ZoomMode		      "yonly"
       List {
@@ -18906,7 +18906,7 @@ Model {
 	  System {
 	    Name		    "Compute WP Index"
 	    Location		    [2, 82, 1884, 1176]
-	    Open		    off
+	    Open		    on
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -20516,13 +20516,6 @@ Model {
 	      }
 	    }
 	    Block {
-	      BlockType		      Constant
-	      Name		      "Constant"
-	      Position		      [160, 87, 190, 113]
-	      ShowName		      off
-	      Value		      "50"
-	    }
-	    Block {
 	      BlockType		      DataTypeConversion
 	      Name		      "Data Type Conversion"
 	      Position		      [490, 83, 545, 117]
@@ -20847,19 +20840,6 @@ Model {
 	    }
 	    Block {
 	      BlockType		      Reference
-	      Name		      "Integer Delay1"
-	      Ports		      [1, 1]
-	      Position		      [490, 13, 520, 47]
-	      Orientation	      "left"
-	      ShowName		      off
-	      SourceBlock	      "simulink/Discrete/Integer Delay"
-	      SourceType	      "Integer Delay"
-	      vinit		      "0"
-	      samptime		      "-1"
-	      NumDelays		      "1"
-	    }
-	    Block {
-	      BlockType		      Reference
 	      Name		      "Integer Delay2"
 	      Ports		      [1, 1]
 	      Position		      [565, 228, 595, 262]
@@ -21011,15 +20991,6 @@ Model {
 	      }
 	    }
 	    Block {
-	      BlockType		      Switch
-	      Name		      "Switch"
-	      Position		      [275, 75, 305, 105]
-	      Criteria		      "u2 > Threshold"
-	      Threshold		      "0.3"
-	      InputSameDT	      off
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
 	      BlockType		      RelationalOperator
 	      Name		      "Switch Distance\nLess than?"
 	      Position		      [415, 82, 445, 113]
@@ -21098,16 +21069,8 @@ Model {
 	    Line {
 	      SrcBlock		      "Embedded\nMATLAB Function"
 	      SrcPort		      1
-	      Points		      [10, 0]
-	      Branch {
-		DstBlock		"WP0"
-		DstPort			1
-	      }
-	      Branch {
-		Points			[0, -40; -305, 0; 0, 20]
-		DstBlock		"Integer Delay1"
-		DstPort			1
-	      }
+	      DstBlock		      "WP0"
+	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "StartingWP"
@@ -21224,8 +21187,8 @@ Model {
 	    Line {
 	      SrcBlock		      "Integer Delay3"
 	      SrcPort		      1
-	      Points		      [-135, 0; 0, -330]
-	      DstBlock		      "Switch"
+	      Points		      [-135, 0; 0, -320]
+	      DstBlock		      "Switch Distance\nLess than?"
 	      DstPort		      1
 	    }
 	    Line {
@@ -21288,25 +21251,6 @@ Model {
 	      SrcPort		      1
 	      DstBlock		      "Logical\nOperator"
 	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "Switch"
-	      SrcPort		      1
-	      DstBlock		      "Switch Distance\nLess than?"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Integer Delay1"
-	      SrcPort		      1
-	      Points		      [-270, 0; 0, 60]
-	      DstBlock		      "Switch"
-	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "Constant"
-	      SrcPort		      1
-	      DstBlock		      "Switch"
-	      DstPort		      3
 	    }
 	  }
 	}

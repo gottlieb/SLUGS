@@ -1,10 +1,12 @@
 %% Determine the plotting values
 
-for cc = 1:10
+for cc = 1:40
     sim('InnerOuter_Sim.mdl');
     debugNav;
     close all;
+    clc;
     cc
-    clear
+    clear;
+    pack;
 end
 
