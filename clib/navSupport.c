@@ -6,8 +6,8 @@ void getMidLevelCommands(float* commands) {
 	commands[2] = comControlData.rCommand.flData;
 }
 
-unsigned char apStatus (void) {
-	apsControlData.controlType == CTRL_TYPE_MANUAL? return 1: return 0;
+unsigned char isApManual (void) {
+	return apsControlData.controlType == CTRL_TYPE_MANUAL;
 }
 
 void getPidIdx(unsigned char idx, float* PID){
@@ -38,3 +38,10 @@ void getXYZ (float* xyz) {
 	xyz[0] =  xyzControlData.VZ.flData;
 }
 
+unsigned char getMaxWp (void){
+	return wpsControlData.wpCount;
+}
+
+unsigned char isWpFly (void){
+	return apsControlData.controlType == CTRL_TYPE_AP_WP; 
+}
