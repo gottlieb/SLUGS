@@ -3,4 +3,5 @@ rVal = randn*scale;
 while ((rVal < lowLimit) || (rVal>upLimit))
     rVal = randn*scale;
 end
+rVal = single(rVal);
 end

@@ -1370,7 +1370,7 @@ void __fastcall TFPpal::skt_rcvDataAvailable(TObject *Sender, WORD ErrCode)
 {
     char        Buffer[105];
     int         Len;
-    TSockAddrIn Src;
+    Winsock::TSockAddrIn Src;
     int         SrcLen;
 
     memset(&Buffer, 0, 105);
