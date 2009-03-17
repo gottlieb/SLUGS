@@ -15,16 +15,24 @@
 #include "apDefinitions.h"
 #include "protDecoder.h"
 
-
-
-
-float myAtan2(float num, float denom);
+	
 unsigned char getChecksum(unsigned char* sentence, unsigned char size);
 void assembleMsg(unsigned char* rawData , unsigned char size, unsigned char type, unsigned char* protMsg );
 void updateStates(unsigned char * completeSentence);
 void assembleRawSentence (unsigned char id, unsigned char indx, unsigned char * data);
 void decodeCalSentence (unsigned char id, unsigned char indx, unsigned char * data, unsigned char inBoard);
 void decodeCmdsSentence (unsigned char id,unsigned char* data);      	
+
+// Trig and Math Functions
+float myAtan2 (float num, float denom);
+float myPow (float x, float toTheN);
+float mySqrt (float x);
+float myAbs (float x);
+float myAtan (float x);
+float myAsin (float x);
+float mySin (float x);
+float myCos (float x);
+float myTan (float x);
 #ifdef __cplusplus
       }
 #endif
