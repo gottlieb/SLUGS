@@ -734,7 +734,7 @@ void TFPpal::updateDiagLabels(void){
 }
 
 void TFPpal::updatePilotLabels(void){
-  et_dla->Caption =  IntToStr(Floor(pilControlSample.dla.usData*0.2+20.0));
+/*  et_dla->Caption =  IntToStr(Floor(pilControlSample.dla.usData*0.2+20.0));
   et_dt->Caption = IntToStr(Floor(pilControlSample.dt.usData*0.2+20.0));
   et_dra->Caption = IntToStr(Floor(pilControlSample.dra.usData*0.2+20.0));
   et_de->Caption =  IntToStr(Floor(pilControlSample.de.usData*0.2+20.0));
@@ -744,6 +744,13 @@ void TFPpal::updatePilotLabels(void){
   gr_dr->Value = StrToInt(et_dr->Caption);
   gr_da->Value = StrToInt(et_dla->Caption);
   gr_de->Value = StrToInt(et_de->Caption);
+  */
+
+  et_dla->Caption = pilControlSample.dla.usData;
+  et_dt->Caption =  pilControlSample.dt.usData;
+  et_dra->Caption = pilControlSample.dra.usData;
+  et_de->Caption =  pilControlSample.de.usData;
+  et_dr->Caption =  pilControlSample.dr.usData;
 }
 
 

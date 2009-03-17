@@ -1,6 +1,6 @@
 object FPpal: TFPpal
-  Left = 342
-  Top = 21
+  Left = 230
+  Top = 19
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 
