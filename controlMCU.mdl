@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.181"
+    ComputedModelVersion    "1.198"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -22,7 +22,7 @@ Model {
   ShowStorageClass	  off
   ShowTestPointIcons	  on
   ShowViewerIcons	  on
-  SortedOrder		  off
+  SortedOrder		  on
   ExecutionContextIcon	  off
   ShowLinearizationAnnotations on
   ScopeRefreshTime	  0.035000
@@ -36,8 +36,8 @@ Model {
   BlockDescriptionStringDataTip	off
   ToolBar		  on
   StatusBar		  on
-  BrowserShowLibraryLinks off
-  BrowserLookUnderMasks	  off
+  BrowserShowLibraryLinks on
+  BrowserLookUnderMasks	  on
   InitFcn		  "mcuInit"
   Created		  "Fri Aug 15 13:29:17 2008"
   Creator		  "ASL_Lab"
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Feb 11 15:50:32 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:181>"
+  LastModifiedDate	  "Mon Mar 16 22:23:34 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:198>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -577,7 +577,7 @@ Model {
 	PropName		"Components"
       }
       Name		      "Configuration"
-      CurrentDlgPage	      "Real-Time Workshop"
+      CurrentDlgPage	      "Optimization"
     }
     PropName		    "ConfigurationSets"
   }
@@ -598,6 +598,19 @@ Model {
     ShowName		    on
   }
   BlockParameterDefaults {
+    Block {
+      BlockType		      Abs
+      SaturateOnIntegerOverflow	on
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Backlash
+      BacklashWidth	      "1"
+      InitialOutput	      "0"
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
     Block {
       BlockType		      Constant
       Value		      "1"
@@ -628,6 +641,49 @@ Model {
       BusSelectionMode	      off
     }
     Block {
+      BlockType		      DiscreteIntegrator
+      IntegratorMethod	      "Integration: Forward Euler"
+      gainval		      "1.0"
+      ExternalReset	      "none"
+      InitialConditionSource  "internal"
+      InitialCondition	      "0"
+      InitialConditionMode    "State and output"
+      SampleTime	      "1"
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	off
+      LimitOutput	      off
+      UpperSaturationLimit    "inf"
+      LowerSaturationLimit    "-inf"
+      ShowSaturationPort      off
+      ShowStatePort	      off
+      IgnoreLimit	      off
+      StateMustResolveToSignalObject off
+      RTWStateStorageClass    "Auto"
+    }
+    Block {
+      BlockType		      DiscreteZeroPole
+      Zeros		      "[1]"
+      Poles		      "[0 1]"
+      Gain		      "[1]"
+      SampleTime	      "1"
+      StateMustResolveToSignalObject off
+      RTWStateStorageClass    "Auto"
+    }
+    Block {
+      BlockType		      EnablePort
+      StatesWhenEnabling      "held"
+      ShowOutputPort	      off
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      From
+      IconDisplay	      "Tag"
+    }
+    Block {
       BlockType		      Gain
       Gain		      "1"
       Multiplication	      "Element-wise(K.*u)"
@@ -644,7 +700,28 @@ Model {
       SampleTime	      "-1"
     }
     Block {
+      BlockType		      Goto
+      IconDisplay	      "Tag"
+    }
+    Block {
       BlockType		      Ground
+    }
+    Block {
+      BlockType		      SignalConversion
+      OverrideOpt	      off
+    }
+    Block {
+      BlockType		      HitCross
+      HitCrossingOffset	      "0"
+      HitCrossingDirection    "either"
+      ShowOutputPort	      on
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      InitialCondition
+      Value		      "1"
+      SampleTime	      "-1"
     }
     Block {
       BlockType		      Inport
@@ -662,6 +739,66 @@ Model {
       LatchByDelayingOutsideSignal off
       LatchByCopyingInsideSignal off
       Interpolate	      on
+    }
+    Block {
+      BlockType		      InportShadow
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Logic
+      Operator		      "AND"
+      Inputs		      "2"
+      IconShape		      "rectangular"
+      AllPortsSameDT	      on
+      OutDataTypeMode	      "Logical (see Configuration Parameters: Optimiza"
+"tion)"
+      LogicDataType	      "uint(8)"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Math
+      Operator		      "exp"
+      OutputSignalType	      "auto"
+      SampleTime	      "-1"
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      MATLABFcn
+      MATLABFcn		      "sin"
+      OutputDimensions	      "-1"
+      OutputSignalType	      "auto"
+      Output1D		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Merge
+      Inputs		      "2"
+      InitialOutput	      "[]"
+      AllowUnequalInputPortWidths off
+      InputPortOffsets	      "[]"
+    }
+    Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      NonVirtualBus	      off
     }
     Block {
       BlockType		      Outport
@@ -695,8 +832,41 @@ Model {
       SampleTime	      "-1"
     }
     Block {
+      BlockType		      RateLimiter
+      RisingSlewLimit	      "1"
+      FallingSlewLimit	      "-1"
+      SampleTimeMode	      "continuous"
+      InitialCondition	      "0"
+      LinearizeAsGain	      on
+    }
+    Block {
+      BlockType		      RelationalOperator
+      Operator		      ">="
+      InputSameDT	      on
+      LogicOutDataTypeMode    "Logical (see Configuration Parameters: Optimiza"
+"tion)"
+      LogicDataType	      "uint(8)"
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
       BlockType		      Rounding
       Operator		      "floor"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Saturate
+      UpperLimit	      "0.5"
+      LowerLimit	      "-0.5"
+      LinearizeAsGain	      on
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Selector
+      NumberOfDimensions      "1"
+      IndexMode		      "One-based"
+      InputPortWidth	      "-1"
       SampleTime	      "-1"
     }
     Block {
@@ -763,6 +933,20 @@ Model {
       BlockType		      Terminator
     }
     Block {
+      BlockType		      ToWorkspace
+      VariableName	      "simulink_output"
+      MaxDataPoints	      "1000"
+      Decimation	      "1"
+      SampleTime	      "0"
+      FixptAsFi		      off
+    }
+    Block {
+      BlockType		      Trigonometry
+      Operator		      "sin"
+      OutputSignalType	      "auto"
+      SampleTime	      "-1"
+    }
+    Block {
       BlockType		      UnitDelay
       X0		      "0"
       SampleTime	      "1"
@@ -790,10 +974,10 @@ Model {
   }
   System {
     Name		    "controlMCU"
-    Location		    [332, 195, 1153, 739]
+    Location		    [156, 87, 1118, 1059]
     Open		    on
     ModelBrowserVisibility  on
-    ModelBrowserWidth	    212
+    ModelBrowserWidth	    141
     ScreenColor		    "white"
     PaperOrientation	    "landscape"
     PaperPositionMode	    "auto"
@@ -816,83 +1000,47 @@ Model {
     }
     Block {
       BlockType		      Constant
-      Name		      "Constant"
-      Position		      [20, 449, 125, 481]
-      Value		      "[1 2 3 4 5]"
-      OutDataTypeMode	      "uint16"
-      SampleTime	      ".01"
+      Name		      "Constant1"
+      Position		      [245, 845, 275, 875]
+      ShowName		      off
+      OutDataTypeMode	      "uint8"
     }
     Block {
-      BlockType		      Reference
-      Name		      "Create Telemetry \nSentence"
-      Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      [0, 1]
-      Position		      [515, 317, 620, 353]
-      BackgroundColor	      "orange"
-      List {
-	ListType		RTWdata
-	FctDeclaration		"extern void prepareTelemetry(uint8_T* y1);"
-	FctCall			"prepareTelemetry(*%y1);"
-	fctName			"prepareTelemetry"
-	INPUT_SIZE		"1"
-	OUTPUT_SIZE		"103"
-	NBR_INPUT		"0"
-	NBR_OUTPUT		"1"
-      }
-      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-      SourceType	      "C Function Call"
-      fctName		      "'prepareTelemetry'"
-      INPUT_SIZE	      "1"
-      INPUT1		      "--"
-      INPUT2		      "--"
-      INPUT3		      "--"
-      OUTPUT_SIZE	      "103"
-      OUTPUT1		      "uint8"
-      SampleTime	      ".01"
-      InputType		      "[ ]"
-      OutputType	      "[ 2 ]"
-      FctDeclaration	      "extern void prepareTelemetry(uint8_T* y1);"
-      FctCall		      "prepareTelemetry(*%y1);"
-      OrderingInOutPopup      "None"
+      BlockType		      Constant
+      Name		      "Constant2"
+      Position		      [245, 880, 275, 910]
+      ShowName		      off
+      Value		      "200"
+      OutDataTypeMode	      "single"
     }
     Block {
-      BlockType		      Reference
-      Name		      "Create Telemetry \nSentence1"
-      Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      [0, 1]
-      Position		      [25, 377, 130, 413]
-      BackgroundColor	      "orange"
-      List {
-	ListType		RTWdata
-	FctDeclaration		"extern void pilotCommands(uint16_T* y1);"
-	FctCall			"pilotCommands(*%y1);"
-	fctName			"pilotCommands"
-	INPUT_SIZE		"1"
-	OUTPUT_SIZE		"5"
-	NBR_INPUT		"0"
-	NBR_OUTPUT		"1"
-      }
-      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-      SourceType	      "C Function Call"
-      fctName		      "'pilotCommands'"
-      INPUT_SIZE	      "1"
-      INPUT1		      "--"
-      INPUT2		      "--"
-      INPUT3		      "--"
-      OUTPUT_SIZE	      "5"
-      OUTPUT1		      "uint16"
-      SampleTime	      ".01"
-      InputType		      "[ ]"
-      OutputType	      "[ 4 ]"
-      FctDeclaration	      "extern void pilotCommands(uint16_T* y1);"
-      FctCall		      "pilotCommands(*%y1);"
-      OrderingInOutPopup      "None"
+      BlockType		      Constant
+      Name		      "Constant4"
+      Position		      [230, 770, 260, 800]
+      ShowName		      off
+      Value		      "0"
+      OutDataTypeMode	      "uint8"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant5"
+      Position		      [230, 805, 260, 835]
+      ShowName		      off
+      OutDataTypeMode	      "double"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant6"
+      Position		      [170, 830, 200, 860]
+      ShowName		      off
+      Value		      "5"
+      OutDataTypeMode	      "uint8"
     }
     Block {
       BlockType		      SubSystem
       Name		      "Data Sources"
       Ports		      [0, 3]
-      Position		      [15, 278, 70, 342]
+      Position		      [15, 203, 70, 267]
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
@@ -1173,22 +1321,34 @@ Model {
       }
     }
     Block {
-      BlockType		      DataTypeConversion
-      Name		      "Data Type Conversion1"
-      Position		      [520, 138, 565, 162]
+      BlockType		      Demux
+      Name		      "Demux"
+      Ports		      [1, 3]
+      Position		      [280, 329, 285, 391]
+      BackgroundColor	      "black"
       ShowName		      off
-      OutDataTypeMode	      "boolean"
-      RndMeth		      "Floor"
-      SaturateOnIntegerOverflow	off
+      Outputs		      "3"
+      DisplayOption	      "bar"
     }
     Block {
-      BlockType		      DataTypeConversion
-      Name		      "Data Type Conversion2"
-      Position		      [450, 83, 500, 107]
+      BlockType		      Demux
+      Name		      "Demux1"
+      Ports		      [1, 3]
+      Position		      [260, 659, 265, 711]
+      BackgroundColor	      "black"
       ShowName		      off
-      OutDataTypeMode	      "boolean"
-      RndMeth		      "Floor"
-      SaturateOnIntegerOverflow	off
+      Outputs		      "3"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Demux
+      Name		      "Demux2"
+      Ports		      [1, 2]
+      Position		      [260, 723, 265, 767]
+      BackgroundColor	      "black"
+      ShowName		      off
+      Outputs		      "[3 3]"
+      DisplayOption	      "bar"
     }
     Block {
       BlockType		      Reference
@@ -1202,16 +1362,82 @@ Model {
     }
     Block {
       BlockType		      Reference
-      Name		      "GetFilterOnOff"
+      Name		      "Get Attitude"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [0, 1]
-      Position		      [395, 132, 500, 168]
+      Position		      [55, 677, 160, 713]
       BackgroundColor	      "orange"
       List {
 	ListType		RTWdata
-	FctDeclaration		"extern uint8_T getFilterOnOff();"
-	FctCall			"%y1 = getFilterOnOff();"
-	fctName			"getFilterOnOff"
+	FctDeclaration		"extern void getAttitude(real32_T* y1);"
+	FctCall			"getAttitude(*%y1);"
+	fctName			"getAttitude"
+	INPUT_SIZE		"1"
+	OUTPUT_SIZE		"6"
+	NBR_INPUT		"0"
+	NBR_OUTPUT		"1"
+      }
+      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+      SourceType	      "C Function Call"
+      fctName		      "'getAttitude'"
+      INPUT_SIZE	      "1"
+      INPUT1		      "--"
+      INPUT2		      "--"
+      INPUT3		      "--"
+      OUTPUT_SIZE	      "6"
+      OUTPUT1		      "real32"
+      SampleTime	      ".01"
+      InputType		      "[ ]"
+      OutputType	      "[ 7 ]"
+      FctDeclaration	      "extern void getAttitude(real32_T* y1);"
+      FctCall		      "getAttitude(*%y1);"
+      OrderingInOutPopup      "None"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Get Attitude1"
+      Tag		      "dsPIC_dsPIC_CFunctionCall"
+      Ports		      [0, 1]
+      Position		      [55, 732, 160, 768]
+      BackgroundColor	      "orange"
+      List {
+	ListType		RTWdata
+	FctDeclaration		"extern void getXYZ(real32_T* y1);"
+	FctCall			"getXYZ(*%y1);"
+	fctName			"getXYZ"
+	INPUT_SIZE		"1"
+	OUTPUT_SIZE		"6"
+	NBR_INPUT		"0"
+	NBR_OUTPUT		"1"
+      }
+      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+      SourceType	      "C Function Call"
+      fctName		      "'getXYZ'"
+      INPUT_SIZE	      "1"
+      INPUT1		      "--"
+      INPUT2		      "--"
+      INPUT3		      "--"
+      OUTPUT_SIZE	      "6"
+      OUTPUT1		      "real32"
+      SampleTime	      ".01"
+      InputType		      "[ ]"
+      OutputType	      "[ 7 ]"
+      FctDeclaration	      "extern void getXYZ(real32_T* y1);"
+      FctCall		      "getXYZ(*%y1);"
+      OrderingInOutPopup      "None"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Get Dynamic P"
+      Tag		      "dsPIC_dsPIC_CFunctionCall"
+      Ports		      [0, 1]
+      Position		      [50, 617, 155, 653]
+      BackgroundColor	      "orange"
+      List {
+	ListType		RTWdata
+	FctDeclaration		"extern real32_T getDynamic();"
+	FctCall			"%y1 = getDynamic();"
+	fctName			"getDynamic"
 	INPUT_SIZE		"1"
 	OUTPUT_SIZE		"1"
 	NBR_INPUT		"0"
@@ -1219,53 +1445,71 @@ Model {
       }
       SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
       SourceType	      "C Function Call"
-      fctName		      "'getFilterOnOff'"
+      fctName		      "'getDynamic'"
       INPUT_SIZE	      "1"
       INPUT1		      "--"
       INPUT2		      "--"
       INPUT3		      "--"
       OUTPUT_SIZE	      "1"
-      OUTPUT1		      "uint8"
+      OUTPUT1		      "real32"
       SampleTime	      ".01"
       InputType		      "[ ]"
-      OutputType	      "[ 2 ]"
-      FctDeclaration	      "extern uint8_T getFilterOnOff();"
-      FctCall		      "%y1 = getFilterOnOff();"
+      OutputType	      "[ 7 ]"
+      FctDeclaration	      "extern real32_T getDynamic();"
+      FctCall		      "%y1 = getDynamic();"
       OrderingInOutPopup      "None"
     }
     Block {
       BlockType		      Reference
-      Name		      "HIL Attitude \nOn/Off Switch"
-      Tag		      "dsPIC_Digital_Output"
-      Ports		      [1]
-      Position		      [605, 190, 705, 230]
-      BackgroundColor	      "darkGreen"
-      Priority		      "5"
-      SourceBlock	      "dsPICdrivers/Digital I//O/Digital Output Write"
+      Name		      "Get MidLevel\nCommands"
+      Tag		      "dsPIC_dsPIC_CFunctionCall"
+      Ports		      [1, 1]
+      Position		      [150, 342, 255, 378]
+      BackgroundColor	      "orange"
+      List {
+	ListType		RTWdata
+	FctDeclaration		"extern void getMidLevelCommands(real32_T* y1)"
+";"
+	FctCall			"getMidLevelCommands(*%y1);"
+	fctName			"getMidLevelCommands"
+	INPUT_SIZE		"1"
+	OUTPUT_SIZE		"3"
+	NBR_INPUT		"0"
+	NBR_OUTPUT		"1"
+      }
+      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+      SourceType	      "C Function Call"
+      fctName		      "'getMidLevelCommands'"
+      INPUT_SIZE	      "1"
+      INPUT1		      "--"
+      INPUT2		      "--"
+      INPUT3		      "--"
+      OUTPUT_SIZE	      "3"
+      OUTPUT1		      "real32"
+      SampleTime	      ".01"
+      InputType		      "[ ]"
+      OutputType	      "[ 7 ]"
+      FctDeclaration	      "extern void getMidLevelCommands(real32_T* y1);"
+      FctCall		      "getMidLevelCommands(*%y1);"
+      OrderingInOutPopup      "Input"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Initialize SPI SSL as \nInput"
+      Tag		      "dsPIC_Digital_Input"
+      Ports		      [0, 1]
+      Position		      [400, 25, 515, 65]
+      BackgroundColor	      "orange"
+      SourceBlock	      "dsPICdrivers/Digital I//O/Digital Input"
       SourceType	      ""
       PORT		      "B"
-      Pin		      "[6]"
-      Simultaneous	      off
+      Pin		      "[2]"
+      SampleTime	      "inf"
       OrderingInOutPopup      "None"
     }
     Block {
       BlockType		      Reference
-      Name		      "HIL On/Off Switch"
-      Tag		      "dsPIC_Digital_Output"
-      Ports		      [1]
-      Position		      [605, 130, 705, 170]
-      BackgroundColor	      "darkGreen"
-      Priority		      "5"
-      SourceBlock	      "dsPICdrivers/Digital I//O/Digital Output Write"
-      SourceType	      ""
-      PORT		      "E"
-      Pin		      "[9]"
-      Simultaneous	      off
-      OrderingInOutPopup      "None"
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Initialize SPI \nPort"
+      Name		      "Initialize the Control\nMCU"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      []
       Position		      [15, 112, 120, 148]
@@ -1297,18 +1541,617 @@ Model {
       OrderingInOutPopup      "None"
     }
     Block {
-      BlockType		      Reference
-      Name		      "Initialize SPI SSL as \nInput"
-      Tag		      "dsPIC_Digital_Input"
-      Ports		      [0, 1]
-      Position		      [480, 15, 595, 55]
-      BackgroundColor	      "orange"
-      SourceBlock	      "dsPICdrivers/Digital I//O/Digital Input"
-      SourceType	      ""
-      PORT		      "B"
-      Pin		      "[2]"
-      SampleTime	      "inf"
-      OrderingInOutPopup      "None"
+      BlockType		      SubSystem
+      Name		      "Inner Loop/ Navigation"
+      Ports		      [24, 8]
+      Position		      [310, 327, 510, 918]
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      MaskHideContents	      off
+      System {
+	Name			"Inner Loop/ Navigation"
+	Location		[1433, 435, 1848, 1111]
+	Open			off
+	ModelBrowserVisibility	on
+	ModelBrowserWidth	141
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "U_c (m/s)"
+	  Position		  [280, 28, 310, 42]
+	  BackgroundColor	  "darkGreen"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "h_c (m)"
+	  Position		  [335, 128, 365, 142]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "psi_dot_c_man (rad)"
+	  Position		  [310, 478, 340, 492]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "dE Trim (rad)"
+	  Position		  [295, 253, 325, 267]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "dTTrim (abs)"
+	  Position		  [285, 103, 315, 117]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "dA Trim (rad)"
+	  Position		  [410, 578, 440, 592]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "dRTrim (rad)"
+	  Position		  [360, 453, 390, 467]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "7"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "U_hold PID"
+	  Position		  [370, 78, 400, 92]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "8"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "he2th PID"
+	  Position		  [290, 178, 320, 192]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "9"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "the2dE PID"
+	  Position		  [385, 228, 415, 242]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "10"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "YawDamp PID"
+	  Position		  [305, 428, 335, 442]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "11"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Roll PID "
+	  Position		  [360, 553, 390, 567]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "12"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "dynP (Pa)"
+	  Position		  [325, 53, 355, 67]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "13"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "phi_m (rad)"
+	  Position		  [315, 528, 345, 542]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "14"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "theta_m (rad)"
+	  Position		  [345, 203, 375, 217]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "15"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "r_m (rad/s)"
+	  Position		  [255, 378, 285, 392]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "16"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "XYZ (m)"
+	  Position		  [25, 243, 55, 257]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "17"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Vned (m/s)"
+	  Position		  [25, 373, 55, 387]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "18"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Manual?"
+	  Position		  [385, 278, 415, 292]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "19"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "wp Fly?"
+	  Position		  [350, 303, 380, 317]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "20"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Max Wp Idx"
+	  Position		  [25, 308, 55, 322]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "21"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Start WP Idx"
+	  Position		  [25, 438, 55, 452]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "22"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "L1 (m)"
+	  Position		  [25, 503, 55, 517]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "23"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "R (m)"
+	  Position		  [25, 568, 55, 582]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "24"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion"
+	  Position		  [310, 368, 385, 402]
+	  ShowName		  off
+	  OutDataTypeMode	  "double"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Lateral Channel"
+	  Ports			  [11, 4]
+	  Position		  [465, 367, 660, 653]
+	  SourceBlock		  "SLUGS_Library/InnerLoop/Lateral Channel"
+	  SourceType		  "SubSystem"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Longitudinal Channel"
+	  Ports			  [13, 5]
+	  Position		  [465, 29, 655, 341]
+	  SourceBlock		  "SLUGS_Library/InnerLoop/Longitudinal Channe"
+"l"
+	  SourceType		  "SubSystem"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Navigation"
+	  Ports			  [7, 2]
+	  Position		  [90, 223, 215, 667]
+	  Priority		  "13"
+	  SourceBlock		  "SLUGS_Library/InnerLoop/Navigation"
+	  SourceType		  "SubSystem"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	}
+	Block {
+	  BlockType		  Selector
+	  Name			  "Selector"
+	  Ports			  [1, 1]
+	  Position		  [110, 146, 150, 174]
+	  ShowName		  off
+	  IndexOptions		  "Index vector (dialog)"
+	  Indices		  "[3]"
+	  OutputSizes		  "1"
+	  InputPortWidth	  "3"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "dE(rad)"
+	  Position		  [680, 58, 710, 72]
+	  BackgroundColor	  "yellow"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "dT(abs)"
+	  Position		  [680, 118, 710, 132]
+	  BackgroundColor	  "yellow"
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "dA(rad)"
+	  Position		  [685, 398, 715, 412]
+	  BackgroundColor	  "yellow"
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "dR(rad)"
+	  Position		  [685, 468, 715, 482]
+	  BackgroundColor	  "yellow"
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "theta_c"
+	  Position		  [680, 178, 710, 192]
+	  BackgroundColor	  "yellow"
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "h_c_in"
+	  Position		  [680, 238, 710, 252]
+	  BackgroundColor	  "yellow"
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "phi_c"
+	  Position		  [685, 538, 715, 552]
+	  BackgroundColor	  "yellow"
+	  Port			  "7"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "psi_dot_c"
+	  Position		  [685, 608, 715, 622]
+	  BackgroundColor	  "yellow"
+	  Port			  "8"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "Manual?"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    DstBlock		    "Longitudinal Channel"
+	    DstPort		    11
+	  }
+	  Branch {
+	    Points		    [0, 125]
+	    DstBlock		    "Lateral Channel"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "wp Fly?"
+	  SrcPort		  1
+	  Points		  [15, 0]
+	  Branch {
+	    DstBlock		    "Longitudinal Channel"
+	    DstPort		    12
+	  }
+	  Branch {
+	    Points		    [0, 300]
+	    Branch {
+	      DstBlock		      "Lateral Channel"
+	      DstPort		      10
+	    }
+	    Branch {
+	      Points		      [0, 75; -325, 0]
+	      DstBlock		      "Navigation"
+	      DstPort		      7
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "U_c (m/s)"
+	  SrcPort		  1
+	  DstBlock		  "Longitudinal Channel"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "dynP (Pa)"
+	  SrcPort		  1
+	  DstBlock		  "Longitudinal Channel"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Longitudinal Channel"
+	  SrcPort		  1
+	  DstBlock		  "dE(rad)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "U_hold PID"
+	  SrcPort		  1
+	  DstBlock		  "Longitudinal Channel"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "dTTrim (abs)"
+	  SrcPort		  1
+	  DstBlock		  "Longitudinal Channel"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "h_c (m)"
+	  SrcPort		  1
+	  DstBlock		  "Longitudinal Channel"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "Longitudinal Channel"
+	  SrcPort		  2
+	  DstBlock		  "dT(abs)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Selector"
+	  SrcPort		  1
+	  DstBlock		  "Longitudinal Channel"
+	  DstPort		  6
+	}
+	Line {
+	  SrcBlock		  "he2th PID"
+	  SrcPort		  1
+	  DstBlock		  "Longitudinal Channel"
+	  DstPort		  7
+	}
+	Line {
+	  SrcBlock		  "theta_m (rad)"
+	  SrcPort		  1
+	  DstBlock		  "Longitudinal Channel"
+	  DstPort		  8
+	}
+	Line {
+	  SrcBlock		  "Longitudinal Channel"
+	  SrcPort		  3
+	  DstBlock		  "theta_c"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "the2dE PID"
+	  SrcPort		  1
+	  DstBlock		  "Longitudinal Channel"
+	  DstPort		  9
+	}
+	Line {
+	  SrcBlock		  "dE Trim (rad)"
+	  SrcPort		  1
+	  DstBlock		  "Longitudinal Channel"
+	  DstPort		  10
+	}
+	Line {
+	  SrcBlock		  "Longitudinal Channel"
+	  SrcPort		  4
+	  DstBlock		  "h_c_in"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Navigation"
+	  SrcPort		  1
+	  DstBlock		  "Longitudinal Channel"
+	  DstPort		  13
+	}
+	Line {
+	  SrcBlock		  "r_m (rad/s)"
+	  SrcPort		  1
+	  DstBlock		  "Data Type Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Lateral Channel"
+	  SrcPort		  1
+	  DstBlock		  "dA(rad)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "YawDamp PID"
+	  SrcPort		  1
+	  DstBlock		  "Lateral Channel"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "dRTrim (rad)"
+	  SrcPort		  1
+	  DstBlock		  "Lateral Channel"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Lateral Channel"
+	  SrcPort		  2
+	  DstBlock		  "dR(rad)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "psi_dot_c_man (rad)"
+	  SrcPort		  1
+	  DstBlock		  "Lateral Channel"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "phi_m (rad)"
+	  SrcPort		  1
+	  DstBlock		  "Lateral Channel"
+	  DstPort		  7
+	}
+	Line {
+	  SrcBlock		  "Lateral Channel"
+	  SrcPort		  3
+	  DstBlock		  "phi_c"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Roll PID "
+	  SrcPort		  1
+	  DstBlock		  "Lateral Channel"
+	  DstPort		  8
+	}
+	Line {
+	  SrcBlock		  "dA Trim (rad)"
+	  SrcPort		  1
+	  DstBlock		  "Lateral Channel"
+	  DstPort		  9
+	}
+	Line {
+	  SrcBlock		  "Lateral Channel"
+	  SrcPort		  4
+	  DstBlock		  "psi_dot_c"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Navigation"
+	  SrcPort		  2
+	  Points		  [40, 0; 0, 80]
+	  DstBlock		  "Lateral Channel"
+	  DstPort		  11
+	}
+	Line {
+	  SrcBlock		  "Longitudinal Channel"
+	  SrcPort		  5
+	  Points		  [15, 0; 0, 55; -265, 0; 0, 150]
+	  DstBlock		  "Lateral Channel"
+	  DstPort		  6
+	}
+	Line {
+	  SrcBlock		  "XYZ (m)"
+	  SrcPort		  1
+	  Points		  [10, 0]
+	  Branch {
+	    DstBlock		    "Navigation"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -90]
+	    DstBlock		    "Selector"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Max Wp Idx"
+	  SrcPort		  1
+	  DstBlock		  "Navigation"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Vned (m/s)"
+	  SrcPort		  1
+	  DstBlock		  "Navigation"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Start WP Idx"
+	  SrcPort		  1
+	  DstBlock		  "Navigation"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "L1 (m)"
+	  SrcPort		  1
+	  DstBlock		  "Navigation"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "R (m)"
+	  SrcPort		  1
+	  DstBlock		  "Navigation"
+	  DstPort		  6
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Lateral Channel"
+	  DstPort		  1
+	}
+      }
     }
     Block {
       BlockType		      Reference
@@ -1355,10 +2198,359 @@ Model {
       PowerSave		      off
     }
     Block {
+      BlockType		      SubSystem
+      Name		      "PID Gains"
+      Ports		      [0, 5]
+      Position		      [165, 500, 235, 620]
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      MaskHideContents	      off
+      System {
+	Name			"PID Gains"
+	Location		[196, 652, 461, 922]
+	Open			off
+	ModelBrowserVisibility	on
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant1"
+	  Position		  [25, 30, 55, 60]
+	  ShowName		  off
+	  Value			  "0"
+	  OutDataTypeMode	  "uint8"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant2"
+	  Position		  [25, 75, 55, 105]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint8"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant3"
+	  Position		  [25, 120, 55, 150]
+	  ShowName		  off
+	  Value			  "2"
+	  OutDataTypeMode	  "uint8"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant4"
+	  Position		  [25, 165, 55, 195]
+	  ShowName		  off
+	  Value			  "3"
+	  OutDataTypeMode	  "uint8"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant5"
+	  Position		  [25, 210, 55, 240]
+	  ShowName		  off
+	  Value			  "4"
+	  OutDataTypeMode	  "uint8"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Get Pid according\nto Index"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [1, 1]
+	  Position		  [80, 27, 185, 63]
+	  BackgroundColor	  "orange"
+	  NamePlacement		  "alternate"
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void getPidIdx(uint8_T u1,real32_T"
+"* y1);"
+	    FctCall		    "getPidIdx(%u1, *%y1);"
+	    fctName		    "getPidIdx"
+	    INPUT_SIZE		    "1"
+	    OUTPUT_SIZE		    "3"
+	    NBR_INPUT		    "1"
+	    NBR_OUTPUT		    "1"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'getPidIdx'"
+	  INPUT_SIZE		  "1"
+	  INPUT1		  "uint8"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "3"
+	  OUTPUT1		  "real32"
+	  SampleTime		  ".01"
+	  InputType		  "[ 2 ]"
+	  OutputType		  "[ 7 ]"
+	  FctDeclaration	  "extern void getPidIdx(uint8_T u1,real32_T* "
+"y1);"
+	  FctCall		  "getPidIdx(%u1, *%y1);"
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Get Pid according\nto Index1"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [1, 1]
+	  Position		  [80, 72, 185, 108]
+	  BackgroundColor	  "orange"
+	  ShowName		  off
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void getPidIdx(uint8_T u1,real32_T"
+"* y1);"
+	    FctCall		    "getPidIdx(%u1, *%y1);"
+	    fctName		    "getPidIdx"
+	    INPUT_SIZE		    "1"
+	    OUTPUT_SIZE		    "3"
+	    NBR_INPUT		    "1"
+	    NBR_OUTPUT		    "1"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'getPidIdx'"
+	  INPUT_SIZE		  "1"
+	  INPUT1		  "uint8"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "3"
+	  OUTPUT1		  "real32"
+	  SampleTime		  ".01"
+	  InputType		  "[ 2 ]"
+	  OutputType		  "[ 7 ]"
+	  FctDeclaration	  "extern void getPidIdx(uint8_T u1,real32_T* "
+"y1);"
+	  FctCall		  "getPidIdx(%u1, *%y1);"
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Get Pid according\nto Index2"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [1, 1]
+	  Position		  [80, 117, 185, 153]
+	  BackgroundColor	  "orange"
+	  ShowName		  off
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void getPidIdx(uint8_T u1,real32_T"
+"* y1);"
+	    FctCall		    "getPidIdx(%u1, *%y1);"
+	    fctName		    "getPidIdx"
+	    INPUT_SIZE		    "1"
+	    OUTPUT_SIZE		    "3"
+	    NBR_INPUT		    "1"
+	    NBR_OUTPUT		    "1"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'getPidIdx'"
+	  INPUT_SIZE		  "1"
+	  INPUT1		  "uint8"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "3"
+	  OUTPUT1		  "real32"
+	  SampleTime		  ".01"
+	  InputType		  "[ 2 ]"
+	  OutputType		  "[ 7 ]"
+	  FctDeclaration	  "extern void getPidIdx(uint8_T u1,real32_T* "
+"y1);"
+	  FctCall		  "getPidIdx(%u1, *%y1);"
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Get Pid according\nto Index3"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [1, 1]
+	  Position		  [80, 162, 185, 198]
+	  BackgroundColor	  "orange"
+	  ShowName		  off
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void getPidIdx(uint8_T u1,real32_T"
+"* y1);"
+	    FctCall		    "getPidIdx(%u1, *%y1);"
+	    fctName		    "getPidIdx"
+	    INPUT_SIZE		    "1"
+	    OUTPUT_SIZE		    "3"
+	    NBR_INPUT		    "1"
+	    NBR_OUTPUT		    "1"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'getPidIdx'"
+	  INPUT_SIZE		  "1"
+	  INPUT1		  "uint8"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "3"
+	  OUTPUT1		  "real32"
+	  SampleTime		  ".01"
+	  InputType		  "[ 2 ]"
+	  OutputType		  "[ 7 ]"
+	  FctDeclaration	  "extern void getPidIdx(uint8_T u1,real32_T* "
+"y1);"
+	  FctCall		  "getPidIdx(%u1, *%y1);"
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Get Pid according\nto Index4"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [1, 1]
+	  Position		  [80, 207, 185, 243]
+	  BackgroundColor	  "orange"
+	  ShowName		  off
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void getPidIdx(uint8_T u1,real32_T"
+"* y1);"
+	    FctCall		    "getPidIdx(%u1, *%y1);"
+	    fctName		    "getPidIdx"
+	    INPUT_SIZE		    "1"
+	    OUTPUT_SIZE		    "3"
+	    NBR_INPUT		    "1"
+	    NBR_OUTPUT		    "1"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'getPidIdx'"
+	  INPUT_SIZE		  "1"
+	  INPUT1		  "uint8"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "3"
+	  OUTPUT1		  "real32"
+	  SampleTime		  ".01"
+	  InputType		  "[ 2 ]"
+	  OutputType		  "[ 7 ]"
+	  FctDeclaration	  "extern void getPidIdx(uint8_T u1,real32_T* "
+"y1);"
+	  FctCall		  "getPidIdx(%u1, *%y1);"
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "uHold PID"
+	  Position		  [210, 38, 240, 52]
+	  BackgroundColor	  "yellow"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "he2Th PID"
+	  Position		  [210, 83, 240, 97]
+	  BackgroundColor	  "yellow"
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "th2dE PID"
+	  Position		  [210, 128, 240, 142]
+	  BackgroundColor	  "yellow"
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Yaw Damp PID"
+	  Position		  [210, 173, 240, 187]
+	  BackgroundColor	  "yellow"
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Roll PID"
+	  Position		  [210, 218, 240, 232]
+	  BackgroundColor	  "yellow"
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "Constant1"
+	  SrcPort		  1
+	  DstBlock		  "Get Pid according\nto Index"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Constant2"
+	  SrcPort		  1
+	  DstBlock		  "Get Pid according\nto Index1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Constant3"
+	  SrcPort		  1
+	  DstBlock		  "Get Pid according\nto Index2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Constant4"
+	  SrcPort		  1
+	  DstBlock		  "Get Pid according\nto Index3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Constant5"
+	  SrcPort		  1
+	  DstBlock		  "Get Pid according\nto Index4"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Get Pid according\nto Index"
+	  SrcPort		  1
+	  DstBlock		  "uHold PID"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Get Pid according\nto Index1"
+	  SrcPort		  1
+	  DstBlock		  "he2Th PID"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Get Pid according\nto Index2"
+	  SrcPort		  1
+	  DstBlock		  "th2dE PID"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Get Pid according\nto Index3"
+	  SrcPort		  1
+	  DstBlock		  "Yaw Damp PID"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Get Pid according\nto Index4"
+	  SrcPort		  1
+	  DstBlock		  "Roll PID"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
       BlockType		      Reference
       Name		      "Pilot"
       Ports		      [0, 1]
-      Position		      [395, 80, 425, 110]
+      Position		      [170, 115, 200, 145]
       BackgroundColor	      "orange"
       SourceBlock	      "simulink/Sources/Counter\nLimited"
       SourceType	      "Counter Limited"
@@ -1380,97 +2572,899 @@ Model {
       }
     }
     Block {
-      BlockType		      Reference
-      Name		      "Pilot LED"
-      Tag		      "dsPIC_Digital_Output"
+      BlockType		      SubSystem
+      Name		      "Pilot LED and\nHIL Control Pins"
       Ports		      [1]
-      Position		      [605, 75, 705, 115]
-      BackgroundColor	      "darkGreen"
-      Priority		      "5"
-      SourceBlock	      "dsPICdrivers/Digital I//O/Digital Output Write"
-      SourceType	      ""
-      PORT		      "B"
-      Pin		      "[ 7]"
-      Simultaneous	      off
-      OrderingInOutPopup      "None"
+      Position		      [255, 114, 320, 146]
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      MaskHideContents	      off
+      System {
+	Name			"Pilot LED and\nHIL Control Pins"
+	Location		[504, 137, 864, 344]
+	Open			off
+	ModelBrowserVisibility	on
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [25, 38, 55, 52]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion1"
+	  Position		  [150, 88, 195, 112]
+	  ShowName		  off
+	  OutDataTypeMode	  "boolean"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion2"
+	  Position		  [80, 33, 130, 57]
+	  ShowName		  off
+	  OutDataTypeMode	  "boolean"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "GetFilterOnOff"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [0, 1]
+	  Position		  [25, 82, 130, 118]
+	  BackgroundColor	  "orange"
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern uint8_T getFilterOnOff();"
+	    FctCall		    "%y1 = getFilterOnOff();"
+	    fctName		    "getFilterOnOff"
+	    INPUT_SIZE		    "1"
+	    OUTPUT_SIZE		    "1"
+	    NBR_INPUT		    "0"
+	    NBR_OUTPUT		    "1"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'getFilterOnOff'"
+	  INPUT_SIZE		  "1"
+	  INPUT1		  "--"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "1"
+	  OUTPUT1		  "uint8"
+	  SampleTime		  ".01"
+	  InputType		  "[ ]"
+	  OutputType		  "[ 2 ]"
+	  FctDeclaration	  "extern uint8_T getFilterOnOff();"
+	  FctCall		  "%y1 = getFilterOnOff();"
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "HIL Attitude \nOn/Off Switch"
+	  Tag			  "dsPIC_Digital_Output"
+	  Ports			  [1]
+	  Position		  [235, 140, 335, 180]
+	  BackgroundColor	  "darkGreen"
+	  Priority		  "5"
+	  SourceBlock		  "dsPICdrivers/Digital I//O/Digital Output Wr"
+"ite"
+	  SourceType		  ""
+	  PORT			  "B"
+	  Pin			  "[6]"
+	  Simultaneous		  off
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "HIL On/Off Switch"
+	  Tag			  "dsPIC_Digital_Output"
+	  Ports			  [1]
+	  Position		  [235, 80, 335, 120]
+	  BackgroundColor	  "darkGreen"
+	  Priority		  "5"
+	  SourceBlock		  "dsPICdrivers/Digital I//O/Digital Output Wr"
+"ite"
+	  SourceType		  ""
+	  PORT			  "E"
+	  Pin			  "[9]"
+	  Simultaneous		  off
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Pilot LED"
+	  Tag			  "dsPIC_Digital_Output"
+	  Ports			  [1]
+	  Position		  [235, 25, 335, 65]
+	  BackgroundColor	  "darkGreen"
+	  Priority		  "5"
+	  SourceBlock		  "dsPICdrivers/Digital I//O/Digital Output Wr"
+"ite"
+	  SourceType		  ""
+	  PORT			  "B"
+	  Pin			  "[ 7]"
+	  Simultaneous		  off
+	  OrderingInOutPopup	  "None"
+	}
+	Line {
+	  SrcBlock		  "GetFilterOnOff"
+	  SrcPort		  1
+	  DstBlock		  "Data Type Conversion1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion1"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    DstBlock		    "HIL On/Off Switch"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 60]
+	    DstBlock		    "HIL Attitude \nOn/Off Switch"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion2"
+	  SrcPort		  1
+	  DstBlock		  "Pilot LED"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "Data Type Conversion2"
+	  DstPort		  1
+	}
+      }
     }
     Block {
-      BlockType		      Reference
-      Name		      "Send Data to Radio\nModem"
-      Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      [1]
-      Position		      [650, 317, 755, 353]
-      BackgroundColor	      "darkGreen"
-      List {
-	ListType		RTWdata
-	FctDeclaration		"extern void send2GS(uint8_T* u1);"
-	FctCall			"send2GS(*%u1);"
-	fctName			"send2GS"
-	INPUT_SIZE		"103"
-	OUTPUT_SIZE		"1"
-	NBR_INPUT		"1"
-	NBR_OUTPUT		"0"
-      }
-      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-      SourceType	      "C Function Call"
-      fctName		      "'send2GS'"
-      INPUT_SIZE	      "103"
-      INPUT1		      "uint8"
-      INPUT2		      "--"
-      INPUT3		      "--"
-      OUTPUT_SIZE	      "1"
-      OUTPUT1		      "--"
-      SampleTime	      "-1"
-      InputType		      "[ 2 ]"
-      OutputType	      "[ ]"
-      FctDeclaration	      "extern void send2GS(uint8_T* u1);"
-      FctCall		      "send2GS(*%u1);"
-      OrderingInOutPopup      "None"
+      BlockType		      Selector
+      Name		      "Selector"
+      Ports		      [1, 1]
+      Position		      [190, 676, 230, 714]
+      IndexOptions	      "Index vector (dialog)"
+      Indices		      "[1 2 6]"
+      OutputSizes	      "1"
+      InputPortWidth	      "6"
     }
     Block {
       BlockType		      Terminator
       Name		      "Terminator4"
-      Position		      [635, 25, 655, 45]
+      Position		      [555, 35, 575, 55]
       ShowName		      off
     }
     Block {
-      BlockType		      Reference
-      Name		      "Update PWM \nCommands"
-      Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      [1]
-      Position		      [210, 407, 315, 443]
-      BackgroundColor	      "darkGreen"
-      List {
-	ListType		RTWdata
-	FctDeclaration		"extern void updatePWM(uint16_T* u1);"
-	FctCall			"updatePWM(*%u1);"
-	fctName			"updatePWM"
-	INPUT_SIZE		"10"
-	OUTPUT_SIZE		"1"
-	NBR_INPUT		"1"
-	NBR_OUTPUT		"0"
+      BlockType		      SubSystem
+      Name		      "Trim Vals"
+      Ports		      [0, 4]
+      Position		      [245, 401, 285, 494]
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      MaskHideContents	      off
+      System {
+	Name			"Trim Vals"
+	Location		[176, 554, 561, 735]
+	Open			off
+	ModelBrowserVisibility	on
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux1"
+	  Ports			  [1, 5]
+	  Position		  [300, 94, 305, 156]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  Outputs		  "5"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Grab I.C."
+	  Ports			  [1, 1, 1]
+	  Position		  [170, 104, 270, 146]
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Grab I.C."
+	    Location		    [421, 301, 919, 601]
+	    Open		    off
+	    ModelBrowserVisibility  on
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [110, 103, 140, 117]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      EnablePort
+	      Name		      "Enable"
+	      Ports		      []
+	      Position		      [235, 20, 255, 40]
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [360, 103, 390, 117]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Manual or Auto?"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [0, 1]
+	  Position		  [30, 27, 135, 63]
+	  BackgroundColor	  "orange"
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern uint8_T getApStatus();"
+	    FctCall		    "%y1 = getApStatus();"
+	    fctName		    "getApStatus"
+	    INPUT_SIZE		    "1"
+	    OUTPUT_SIZE		    "1"
+	    NBR_INPUT		    "0"
+	    NBR_OUTPUT		    "1"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'getApStatus'"
+	  INPUT_SIZE		  "1"
+	  INPUT1		  "--"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "1"
+	  OUTPUT1		  "uint8"
+	  SampleTime		  ".01"
+	  InputType		  "[ ]"
+	  OutputType		  "[ 2 ]"
+	  FctDeclaration	  "extern uint8_T getApStatus();"
+	  FctCall		  "%y1 = getApStatus();"
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Pilot Console\nCommands"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [0, 1]
+	  Position		  [25, 107, 130, 143]
+	  BackgroundColor	  "orange"
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void pilotCommands(uint16_T* y1);"
+	    FctCall		    "pilotCommands(*%y1);"
+	    fctName		    "pilotCommands"
+	    INPUT_SIZE		    "1"
+	    OUTPUT_SIZE		    "5"
+	    NBR_INPUT		    "0"
+	    NBR_OUTPUT		    "1"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'pilotCommands'"
+	  INPUT_SIZE		  "1"
+	  INPUT1		  "--"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "5"
+	  OUTPUT1		  "uint16"
+	  SampleTime		  ".01"
+	  InputType		  "[ ]"
+	  OutputType		  "[ 4 ]"
+	  FctDeclaration	  "extern void pilotCommands(uint16_T* y1);"
+	  FctCall		  "pilotCommands(*%y1);"
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "dE Trim"
+	  Position		  [500, 138, 530, 152]
+	  BackgroundColor	  "yellow"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "dT Trim"
+	  Position		  [575, 98, 605, 112]
+	  BackgroundColor	  "yellow"
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "dA Trim"
+	  Position		  [500, 108, 530, 122]
+	  BackgroundColor	  "yellow"
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "dR Trim"
+	  Position		  [575, 128, 605, 142]
+	  BackgroundColor	  "yellow"
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "Pilot Console\nCommands"
+	  SrcPort		  1
+	  DstBlock		  "Grab I.C."
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Manual or Auto?"
+	  SrcPort		  1
+	  Points		  [80, 0]
+	  DstBlock		  "Grab I.C."
+	  DstPort		  enable
+	}
+	Line {
+	  SrcBlock		  "Grab I.C."
+	  SrcPort		  1
+	  DstBlock		  "Demux1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux1"
+	  SrcPort		  1
+	  DstBlock		  "dT Trim"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux1"
+	  SrcPort		  2
+	  DstBlock		  "dA Trim"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux1"
+	  SrcPort		  4
+	  DstBlock		  "dR Trim"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux1"
+	  SrcPort		  5
+	  DstBlock		  "dE Trim"
+	  DstPort		  1
+	}
       }
-      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-      SourceType	      "C Function Call"
-      fctName		      "'updatePWM'"
-      INPUT_SIZE	      "10"
-      INPUT1		      "uint16"
-      INPUT2		      "--"
-      INPUT3		      "--"
-      OUTPUT_SIZE	      "1"
-      OUTPUT1		      "--"
-      SampleTime	      "-1"
-      InputType		      "[ 4 ]"
-      OutputType	      "[ ]"
-      FctDeclaration	      "extern void updatePWM(uint16_T* u1);"
-      FctCall		      "updatePWM(*%u1);"
-      OrderingInOutPopup      "None"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Update PWM Commands\nand Send Telemetry"
+      Ports		      [4]
+      Position		      [735, 424, 780, 491]
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      MaskHideContents	      off
+      System {
+	Name			"Update PWM Commands\nand Send Telemetry"
+	Location		[676, 615, 1306, 790]
+	Open			off
+	ModelBrowserVisibility	on
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "dE (pwm)"
+	  Position		  [75, 90, 105, 104]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "dT (pwm)"
+	  Position		  [25, 30, 55, 44]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "dA (pwm)"
+	  Position		  [70, 50, 100, 64]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "dR (pwm)"
+	  Position		  [25, 70, 55, 84]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant"
+	  Position		  [90, 119, 195, 151]
+	  Value			  "[1 2 3 4 5]"
+	  OutDataTypeMode	  "uint16"
+	  SampleTime		  ".01"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Create Telemetry \nSentence"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [1, 1]
+	  Position		  [415, 77, 520, 113]
+	  BackgroundColor	  "orange"
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void prepareTelemetry(uint8_T* y1)"
+";"
+	    FctCall		    "prepareTelemetry(*%y1);"
+	    fctName		    "prepareTelemetry"
+	    INPUT_SIZE		    "1"
+	    OUTPUT_SIZE		    "103"
+	    NBR_INPUT		    "0"
+	    NBR_OUTPUT		    "1"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'prepareTelemetry'"
+	  INPUT_SIZE		  "1"
+	  INPUT1		  "--"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "103"
+	  OUTPUT1		  "uint8"
+	  SampleTime		  ".01"
+	  InputType		  "[ ]"
+	  OutputType		  "[ 2 ]"
+	  FctDeclaration	  "extern void prepareTelemetry(uint8_T* y1);"
+	  FctCall		  "prepareTelemetry(*%y1);"
+	  OrderingInOutPopup	  "Input"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Send Data to Radio\nModem"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [1]
+	  Position		  [565, 77, 670, 113]
+	  BackgroundColor	  "darkGreen"
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void send2GS(uint8_T* u1);"
+	    FctCall		    "send2GS(*%u1);"
+	    fctName		    "send2GS"
+	    INPUT_SIZE		    "103"
+	    OUTPUT_SIZE		    "1"
+	    NBR_INPUT		    "1"
+	    NBR_OUTPUT		    "0"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'send2GS'"
+	  INPUT_SIZE		  "103"
+	  INPUT1		  "uint8"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "1"
+	  OUTPUT1		  "--"
+	  SampleTime		  "-1"
+	  InputType		  "[ 2 ]"
+	  OutputType		  "[ ]"
+	  FctDeclaration	  "extern void send2GS(uint8_T* u1);"
+	  FctCall		  "send2GS(*%u1);"
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Update PWM \nCommands"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [1, 1]
+	  Position		  [280, 77, 385, 113]
+	  BackgroundColor	  "darkGreen"
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void updatePWM(uint16_T* u1);"
+	    FctCall		    "updatePWM(*%u1);"
+	    fctName		    "updatePWM"
+	    INPUT_SIZE		    "10"
+	    OUTPUT_SIZE		    "1"
+	    NBR_INPUT		    "1"
+	    NBR_OUTPUT		    "0"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'updatePWM'"
+	  INPUT_SIZE		  "10"
+	  INPUT1		  "uint16"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "1"
+	  OUTPUT1		  "--"
+	  SampleTime		  "-1"
+	  InputType		  "[ 4 ]"
+	  OutputType		  "[ ]"
+	  FctDeclaration	  "extern void updatePWM(uint16_T* u1);"
+	  FctCall		  "updatePWM(*%u1);"
+	  OrderingInOutPopup	  "Output"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "myMux Fun1"
+	  Ports			  [4, 1]
+	  Position		  [175, 28, 180, 102]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  MaskType		  "Stateflow"
+	  MaskDescription	  "Embedded MATLAB block"
+	  MaskDisplay		  "disp('myMux');"
+	  MaskSelfModifiable	  on
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  off
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  System {
+	    Name		    "myMux Fun1"
+	    Location		    [257, 457, 812, 717]
+	    Open		    off
+	    ModelBrowserVisibility  on
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u1"
+	      Position		      [20, 101, 40, 119]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u2"
+	      Position		      [20, 136, 40, 154]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u3"
+	      Position		      [20, 171, 40, 189]
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u4"
+	      Position		      [20, 206, 40, 224]
+	      Port		      "4"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Demux
+	      Name		      " Demux "
+	      Ports		      [1, 1]
+	      Position		      [270, 220, 320, 260]
+	      Outputs		      "1"
+	    }
+	    Block {
+	      BlockType		      "S-Function"
+	      Name		      " SFunction "
+	      Tag		      "Stateflow S-Function controlMCU 1"
+	      Ports		      [4, 2]
+	      Position		      [180, 100, 230, 220]
+	      FunctionName	      "sf_sfun"
+	      PortCounts	      "[4 2]"
+	      Port {
+		PortNumber		2
+		Name			"y"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      Terminator
+	      Name		      " Terminator "
+	      Position		      [460, 231, 480, 249]
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "y"
+	      Position		      [460, 101, 480, 119]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      " SFunction "
+	      SrcPort		      1
+	      Points		      [0, 110]
+	      DstBlock		      " Demux "
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      " Demux "
+	      SrcPort		      1
+	      DstBlock		      " Terminator "
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "u1"
+	      SrcPort		      1
+	      Points		      [120, 0]
+	      DstBlock		      " SFunction "
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "y"
+	      Labels		      [0, 0]
+	      SrcBlock		      " SFunction "
+	      SrcPort		      2
+	      DstBlock		      "y"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "u2"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "u3"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "u4"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      4
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "myMux Fun2"
+	  Ports			  [2, 1]
+	  Position		  [245, 56, 250, 129]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  MaskType		  "Stateflow"
+	  MaskDescription	  "Embedded MATLAB block"
+	  MaskDisplay		  "disp('myMux');"
+	  MaskSelfModifiable	  on
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  off
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  System {
+	    Name		    "myMux Fun2"
+	    Location		    [257, 457, 812, 717]
+	    Open		    off
+	    ModelBrowserVisibility  on
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u1"
+	      Position		      [20, 101, 40, 119]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u2"
+	      Position		      [20, 136, 40, 154]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Demux
+	      Name		      " Demux "
+	      Ports		      [1, 1]
+	      Position		      [270, 220, 320, 260]
+	      Outputs		      "1"
+	    }
+	    Block {
+	      BlockType		      "S-Function"
+	      Name		      " SFunction "
+	      Tag		      "Stateflow S-Function controlMCU 15"
+	      Ports		      [2, 2]
+	      Position		      [180, 100, 230, 220]
+	      FunctionName	      "sf_sfun"
+	      PortCounts	      "[2 2]"
+	      Port {
+		PortNumber		2
+		Name			"y"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      Terminator
+	      Name		      " Terminator "
+	      Position		      [460, 231, 480, 249]
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "y"
+	      Position		      [460, 101, 480, 119]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "u2"
+	      SrcPort		      1
+	      Points		      [120, 0]
+	      DstBlock		      " SFunction "
+	      DstPort		      2
+	    }
+	    Line {
+	      Name		      "y"
+	      Labels		      [0, 0]
+	      SrcBlock		      " SFunction "
+	      SrcPort		      2
+	      DstBlock		      "y"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "u1"
+	      SrcPort		      1
+	      Points		      [120, 0]
+	      DstBlock		      " SFunction "
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      " Demux "
+	      SrcPort		      1
+	      DstBlock		      " Terminator "
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      " SFunction "
+	      SrcPort		      1
+	      Points		      [0, 110]
+	      DstBlock		      " Demux "
+	      DstPort		      1
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "Create Telemetry \nSentence"
+	  SrcPort		  1
+	  DstBlock		  "Send Data to Radio\nModem"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Constant"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, -25]
+	  DstBlock		  "myMux Fun2"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "myMux Fun2"
+	  SrcPort		  1
+	  DstBlock		  "Update PWM \nCommands"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "myMux Fun1"
+	  SrcPort		  1
+	  Points		  [0, 10]
+	  DstBlock		  "myMux Fun2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Update PWM \nCommands"
+	  SrcPort		  1
+	  DstBlock		  "Create Telemetry \nSentence"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "dT (pwm)"
+	  SrcPort		  1
+	  DstBlock		  "myMux Fun1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "dA (pwm)"
+	  SrcPort		  1
+	  DstBlock		  "myMux Fun1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "dR (pwm)"
+	  SrcPort		  1
+	  DstBlock		  "myMux Fun1"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "dE (pwm)"
+	  SrcPort		  1
+	  DstBlock		  "myMux Fun1"
+	  DstPort		  4
+	}
+      }
     }
     Block {
       BlockType		      SubSystem
       Name		      "Update States"
-      Ports		      [3]
-      Position		      [120, 279, 160, 341]
+      Ports		      [3, 1]
+      Position		      [120, 204, 160, 266]
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
@@ -1493,20 +3487,23 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "IPC"
-	  Position		  [30, 38, 60, 52]
+	  Position		  [275, 218, 305, 232]
+	  BackgroundColor	  "darkGreen"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
 	  Name			  "GS"
-	  Position		  [30, 103, 60, 117]
+	  Position		  [280, 128, 310, 142]
+	  BackgroundColor	  "darkGreen"
 	  Port			  "2"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
 	  Name			  "Load"
-	  Position		  [25, 178, 55, 192]
+	  Position		  [275, 53, 305, 67]
+	  BackgroundColor	  "darkGreen"
 	  Port			  "3"
 	  IconDisplay		  "Port number"
 	}
@@ -1514,9 +3511,9 @@ Model {
 	  BlockType		  Reference
 	  Name			  "GS Messages \nParser/Decoder"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
-	  Ports			  [1]
-	  Position		  [85, 92, 190, 128]
-	  BackgroundColor	  "darkGreen"
+	  Ports			  [2, 1]
+	  Position		  [335, 127, 440, 163]
+	  BackgroundColor	  "orange"
 	  List {
 	    ListType		    RTWdata
 	    FctDeclaration	    "extern void protParseDecodeGS(uint8_T* u1"
@@ -1542,15 +3539,15 @@ Model {
 	  OutputType		  "[ ]"
 	  FctDeclaration	  "extern void protParseDecodeGS(uint8_T* u1);"
 	  FctCall		  "protParseDecodeGS(*%u1);"
-	  OrderingInOutPopup	  "None"
+	  OrderingInOutPopup	  "Input & Output"
 	}
 	Block {
 	  BlockType		  Reference
 	  Name			  "Parser/Decoder"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
-	  Ports			  [1]
-	  Position		  [85, 27, 190, 63]
-	  BackgroundColor	  "darkGreen"
+	  Ports			  [1, 1]
+	  Position		  [330, 207, 435, 243]
+	  BackgroundColor	  "orange"
 	  List {
 	    ListType		    RTWdata
 	    FctDeclaration	    "extern void protParseDecode(uint8_T* u1);"
@@ -1575,15 +3572,15 @@ Model {
 	  OutputType		  "[ ]"
 	  FctDeclaration	  "extern void protParseDecode(uint8_T* u1);"
 	  FctCall		  "protParseDecode(*%u1);"
-	  OrderingInOutPopup	  "None"
+	  OrderingInOutPopup	  "Output"
 	}
 	Block {
 	  BlockType		  Reference
 	  Name			  "update Load of \nControl MCU"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
-	  Ports			  [1]
-	  Position		  [80, 167, 185, 203]
-	  BackgroundColor	  "darkGreen"
+	  Ports			  [2, 1]
+	  Position		  [330, 52, 435, 88]
+	  BackgroundColor	  "orange"
 	  List {
 	    ListType		    RTWdata
 	    FctDeclaration	    "extern void updateLoad(uint8_T u1);"
@@ -1608,7 +3605,15 @@ Model {
 	  OutputType		  "[ ]"
 	  FctDeclaration	  "extern void updateLoad(uint8_T u1);"
 	  FctCall		  "updateLoad(%u1);"
-	  OrderingInOutPopup	  "None"
+	  OrderingInOutPopup	  "Input & Output"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "$"
+	  Position		  [525, 63, 555, 77]
+	  BackgroundColor	  "yellow"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
 	}
 	Line {
 	  SrcBlock		  "IPC"
@@ -1628,122 +3633,24 @@ Model {
 	  DstBlock		  "update Load of \nControl MCU"
 	  DstPort		  1
 	}
-      }
-    }
-    Block {
-      BlockType		      SubSystem
-      Name		      "myMux Fun2"
-      Ports		      [2, 1]
-      Position		      [175, 386, 180, 459]
-      BackgroundColor	      "black"
-      ShowName		      off
-      MinAlgLoopOccurrences   off
-      RTWSystemCode	      "Auto"
-      FunctionWithSeparateData off
-      MaskHideContents	      off
-      MaskType		      "Stateflow"
-      MaskDescription	      "Embedded MATLAB block"
-      MaskDisplay	      "disp('myMux');"
-      MaskSelfModifiable      on
-      MaskIconFrame	      on
-      MaskIconOpaque	      off
-      MaskIconRotate	      "none"
-      MaskIconUnits	      "autoscale"
-      System {
-	Name			"myMux Fun2"
-	Location		[257, 457, 812, 717]
-	Open			off
-	ModelBrowserVisibility	on
-	ModelBrowserWidth	200
-	ScreenColor		"white"
-	PaperOrientation	"landscape"
-	PaperPositionMode	"auto"
-	PaperType		"usletter"
-	PaperUnits		"inches"
-	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
-	TiledPageScale		1
-	ShowPageBoundaries	off
-	ZoomFactor		"100"
-	Block {
-	  BlockType		  Inport
-	  Name			  "u1"
-	  Position		  [20, 101, 40, 119]
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "u2"
-	  Position		  [20, 136, 40, 154]
-	  Port			  "2"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Demux
-	  Name			  " Demux "
-	  Ports			  [1, 1]
-	  Position		  [270, 220, 320, 260]
-	  Outputs		  "1"
-	}
-	Block {
-	  BlockType		  "S-Function"
-	  Name			  " SFunction "
-	  Tag			  "Stateflow S-Function controlMCU 15"
-	  Ports			  [2, 2]
-	  Position		  [180, 100, 230, 220]
-	  FunctionName		  "sf_sfun"
-	  PortCounts		  "[2 2]"
-	  Port {
-	    PortNumber		    2
-	    Name		    "y"
-	    RTWStorageClass	    "Auto"
-	    DataLoggingNameMode	    "SignalName"
-	  }
-	}
-	Block {
-	  BlockType		  Terminator
-	  Name			  " Terminator "
-	  Position		  [460, 231, 480, 249]
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "y"
-	  Position		  [460, 101, 480, 119]
-	  IconDisplay		  "Port number"
-	  BusOutputAsStruct	  off
-	}
 	Line {
-	  SrcBlock		  "u2"
+	  SrcBlock		  "Parser/Decoder"
 	  SrcPort		  1
-	  Points		  [120, 0]
-	  DstBlock		  " SFunction "
+	  Points		  [0, -30; -120, 0]
+	  DstBlock		  "GS Messages \nParser/Decoder"
 	  DstPort		  2
 	}
 	Line {
-	  Name			  "y"
-	  Labels		  [0, 0]
-	  SrcBlock		  " SFunction "
-	  SrcPort		  2
-	  DstBlock		  "y"
-	  DstPort		  1
+	  SrcBlock		  "GS Messages \nParser/Decoder"
+	  SrcPort		  1
+	  Points		  [0, -25; -130, 0]
+	  DstBlock		  "update Load of \nControl MCU"
+	  DstPort		  2
 	}
 	Line {
-	  SrcBlock		  "u1"
+	  SrcBlock		  "update Load of \nControl MCU"
 	  SrcPort		  1
-	  Points		  [120, 0]
-	  DstBlock		  " SFunction "
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  " Demux "
-	  SrcPort		  1
-	  DstBlock		  " Terminator "
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  " SFunction "
-	  SrcPort		  1
-	  Points		  [0, 110]
-	  DstBlock		  " Demux "
+	  DstBlock		  "$"
 	  DstPort		  1
 	}
       }
@@ -1753,7 +3660,7 @@ Model {
       Labels		      [1, 1]
       SrcBlock		      "Pilot"
       SrcPort		      1
-      DstBlock		      "Data Type Conversion2"
+      DstBlock		      "Pilot LED and\nHIL Control Pins"
       DstPort		      1
     }
     Line {
@@ -1775,61 +3682,196 @@ Model {
       DstPort		      2
     }
     Line {
-      SrcBlock		      "GetFilterOnOff"
-      SrcPort		      1
-      DstBlock		      "Data Type Conversion1"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Data Type Conversion1"
-      SrcPort		      1
-      Points		      [5, 0]
-      Branch {
-	DstBlock		"HIL On/Off Switch"
-	DstPort			1
-      }
-      Branch {
-	Points			[0, 60]
-	DstBlock		"HIL Attitude \nOn/Off Switch"
-	DstPort			1
-      }
-    }
-    Line {
-      SrcBlock		      "Create Telemetry \nSentence"
-      SrcPort		      1
-      DstBlock		      "Send Data to Radio\nModem"
-      DstPort		      1
-    }
-    Line {
       SrcBlock		      "Data Sources"
       SrcPort		      3
       DstBlock		      "Update States"
       DstPort		      3
     }
     Line {
-      SrcBlock		      "Data Type Conversion2"
+      SrcBlock		      "Demux"
       SrcPort		      1
-      DstBlock		      "Pilot LED"
+      Points		      [0, -5]
+      DstBlock		      "Inner Loop/ Navigation"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Create Telemetry \nSentence1"
-      SrcPort		      1
-      Points		      [10, 0; 0, 10]
-      DstBlock		      "myMux Fun2"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Constant"
-      SrcPort		      1
-      Points		      [15, 0; 0, -25]
-      DstBlock		      "myMux Fun2"
+      SrcBlock		      "Demux"
+      SrcPort		      2
+      DstBlock		      "Inner Loop/ Navigation"
       DstPort		      2
     }
     Line {
-      SrcBlock		      "myMux Fun2"
+      SrcBlock		      "Demux"
+      SrcPort		      3
+      Points		      [0, 5]
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Get MidLevel\nCommands"
       SrcPort		      1
-      DstBlock		      "Update PWM \nCommands"
+      DstBlock		      "Demux"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Trim Vals"
+      SrcPort		      1
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Trim Vals"
+      SrcPort		      2
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      5
+    }
+    Line {
+      SrcBlock		      "Trim Vals"
+      SrcPort		      3
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      6
+    }
+    Line {
+      SrcBlock		      "Trim Vals"
+      SrcPort		      4
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      7
+    }
+    Line {
+      SrcBlock		      "PID Gains"
+      SrcPort		      1
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      8
+    }
+    Line {
+      SrcBlock		      "PID Gains"
+      SrcPort		      2
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      9
+    }
+    Line {
+      SrcBlock		      "PID Gains"
+      SrcPort		      3
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      10
+    }
+    Line {
+      SrcBlock		      "PID Gains"
+      SrcPort		      4
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      11
+    }
+    Line {
+      SrcBlock		      "PID Gains"
+      SrcPort		      5
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      12
+    }
+    Line {
+      SrcBlock		      "Constant1"
+      SrcPort		      1
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      22
+    }
+    Line {
+      SrcBlock		      "Constant2"
+      SrcPort		      1
+      Points		      [5, 0]
+      Branch {
+	Points			[0, -10]
+	DstBlock		"Inner Loop/ Navigation"
+	DstPort			23
+      }
+      Branch {
+	Points			[0, 15]
+	DstBlock		"Inner Loop/ Navigation"
+	DstPort			24
+      }
+    }
+    Line {
+      SrcBlock		      "Get Dynamic P"
+      SrcPort		      1
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      13
+    }
+    Line {
+      SrcBlock		      "Constant4"
+      SrcPort		      1
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      19
+    }
+    Line {
+      SrcBlock		      "Constant5"
+      SrcPort		      1
+      Points		      [15, 0; 0, -10]
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      20
+    }
+    Line {
+      SrcBlock		      "Get Attitude"
+      SrcPort		      1
+      DstBlock		      "Selector"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Selector"
+      SrcPort		      1
+      Points		      [5, 0; 0, -10]
+      DstBlock		      "Demux1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux1"
+      SrcPort		      1
+      Points		      [0, -10]
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      14
+    }
+    Line {
+      SrcBlock		      "Demux1"
+      SrcPort		      2
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      15
+    }
+    Line {
+      SrcBlock		      "Demux1"
+      SrcPort		      3
+      Points		      [0, 10]
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      16
+    }
+    Line {
+      SrcBlock		      "Demux2"
+      SrcPort		      1
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      17
+    }
+    Line {
+      SrcBlock		      "Demux2"
+      SrcPort		      2
+      Points		      [10, 0; 0, 5]
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      18
+    }
+    Line {
+      SrcBlock		      "Get Attitude1"
+      SrcPort		      1
+      Points		      [40, 0; 0, -5]
+      DstBlock		      "Demux2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant6"
+      SrcPort		      1
+      Points		      [35, 0; 0, -5; 55, 0]
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      21
+    }
+    Line {
+      SrcBlock		      "Update States"
+      SrcPort		      1
+      Points		      [15, 0; 0, 65; -45, 0]
+      DstBlock		      "Get MidLevel\nCommands"
       DstPort		      1
     }
   }
@@ -1848,25 +3890,28 @@ Stateflow {
 		name                 		"controlMCU"
 		created              		"30-Oct-2008 13:16:33"
 		isLibrary            		0
-		firstTarget          		10
+		firstTarget          		20
 		sfVersion            		66014000
 	}
 
 	chart {
 		id                                        		2
-		name                                      		"myMux Fun2"
-		windowPosition                            		[341.813 303.688 200.25 189.75]
+		name                                      		"Update PWM Commands\n"
+					"and Send Telemetry/myMux Fun1"
+		windowPosition                            		[281.827 336.356 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
-		screen                                    		[1 1 1280 953 1.333333333333333]
+		screen                                    		[1 310 1011 820 1.333333333333333]
 		treeNode                                  		[0 3 0 0]
 		firstTransition                           		5
 		firstJunction                             		4
 		viewObj                                   		2
 		machine                                   		1
+		subviewS {
+		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		6
-		chartFileNumber                           		15
+		chartFileNumber                           		1
 		disableImplicitCasting                    		1
 		eml {
 			name       		"myMux"
@@ -1886,12 +3931,12 @@ Stateflow {
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function y = myMux(u1, u2)\n"
+			script                   		"function y = myMux(u1, u2, u3, u4 )\n"
 						"% This block supports an embeddable subset of the MATLAB la"
 						"nguage.\n"
 						"% See the help menu for details. \n"
 						"\n"
-						"y = [u1(1:5); u2(1:5)];"
+						"y = [u1(1); u2(1); 0; u3(1); u4(1)];"
 			editorLayout             		"100 M4x1[222 263 720 640]"
 			treatIntsAsFixpt         		0
 		}
@@ -1977,7 +4022,53 @@ Stateflow {
 	data {
 		id                            		8
 		name                          		"u2"
-		linkNode                      		[2 7 0]
+		linkNode                      		[2 7 9]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		9
+		name                          		"u3"
+		linkNode                      		[2 8 10]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		10
+		name                          		"u4"
+		linkNode                      		[2 9 0]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -1998,27 +4089,182 @@ Stateflow {
 	}
 
 	instance {
-		id     		9
-		name   		"myMux Fun2"
+		id     		11
+		name   		"Update PWM Commands\n"
+					"and Send Telemetry/myMux Fun1"
 		machine		1
 		chart  		2
 	}
 
-	target {
-		id                        		10
-		name                      		"sfun"
-		description               		"Default Simulink S-Function Target."
-		machine                   		1
-		linkNode                  		[1 0 11]
+	chart {
+		id                                        		12
+		name                                      		"Update PWM Commands\n"
+					"and Send Telemetry/myMux Fun2"
+		windowPosition                            		[341.813 303.688 200.25 189.75]
+		viewLimits                                		[0 156.75 0 153.75]
+		screen                                    		[1 1 1280 953 1.333333333333333]
+		treeNode                                  		[0 13 0 0]
+		firstTransition                           		15
+		firstJunction                             		14
+		viewObj                                   		12
+		machine                                   		1
+		decomposition                             		CLUSTER_CHART
+		type                                      		EML_CHART
+		firstData                                 		16
+		chartFileNumber                           		15
+		disableImplicitCasting                    		1
+		eml {
+			name       		"myMux"
+		}
+	}
+
+	state {
+		id                           		13
+		labelString                  		"eML_blk_kernel()"
+		position                     		[18 64.5 118 66]
+		fontSize                     		12
+		chart                        		12
+		treeNode                     		[12 0 0 0]
+		superState                   		SUBCHART
+		subviewer                    		12
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			isEML                    		1
+			script                   		"function y = myMux(u1, u2)\n"
+						"% This block supports an embeddable subset of the MATLAB la"
+						"nguage.\n"
+						"% See the help menu for details. \n"
+						"\n"
+						"y = [u1(1:5); u2(1:5)];"
+			editorLayout             		"100 M4x1[222 263 720 640]"
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	junction {
+		id         		14
+		position   		[23.5747 49.5747 7]
+		chart      		12
+		linkNode   		[12 0 0]
+		subviewer  		12
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		15
+		labelString    		"{eML_blk_kernel();}"
+		labelPosition  		[32.125 19.875 102.544 14.964]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 23.5747 14.625 0 0]
+		}
+		dst {
+			id          		14
+			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
+		}
+		midPoint       		[23.5747 24.9468]
+		chart          		12
+		linkNode       		[12 0 0]
+		dataLimits     		[23.575 23.575 14.625 34.575]
+		subviewer      		12
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	data {
+		id                            		16
+		name                          		"u1"
+		linkNode                      		[12 0 17]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		17
+		name                          		"y"
+		linkNode                      		[12 16 18]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		18
+		name                          		"u2"
+		linkNode                      		[12 17 0]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	instance {
+		id     		19
+		name   		"Update PWM Commands\n"
+					"and Send Telemetry/myMux Fun2"
+		machine		1
+		chart  		12
 	}
 
 	target {
-		id                        		11
+		id                        		20
+		name                      		"sfun"
+		description               		"Default Simulink S-Function Target."
+		machine                   		1
+		linkNode                  		[1 0 21]
+	}
+
+	target {
+		id                        		21
 		name                      		"rtw"
 		codeFlags                 		" comments=1 statebitsets=1 databitsets=1 emitlogicalops=1 el"
 						"seifdetection=1 constantfolding=1 redundantloadelimination=0"
 						" preservenames=0 preservenameswithparent=0 exportcharts=0"
 		machine                   		1
-		linkNode                  		[1 10 0]
+		linkNode                  		[1 20 0]
 	}
 }

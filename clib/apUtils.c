@@ -1,15 +1,5 @@
 #include "apUtils.h"
 
-
-
-float myAtan2(float num, float denom){
-     #ifdef _IN_PC_
-        return atan2(num,denom);
-     #else
-	return atan2f(num,denom);
-     #endif
-}
-
 // GPS checksum code based on 
 // http://www.codeproject.com/KB/mobile/WritingGPSApplications2.aspx
 // original code in C# written by Jon Person, author of "GPS.NET" (www.gpsdotnet.com)
@@ -629,3 +619,82 @@ void decodeCmdsSentence(unsigned char id,unsigned char* data){
 
 */
 
+/*
+// =====================================
+//			Trig and Math Functions
+// =====================================
+*/
+
+float myAtan2(float num, float denom){
+     #ifdef _IN_PC_
+        return atan2(num,denom);
+     #else
+		return atan2f(num,denom);
+     #endif
+}
+
+
+float myPow(float x, float toTheN){
+     #ifdef _IN_PC_
+        return pow(x,toTheN);
+     #else
+		return powf(x,toTheN);
+     #endif
+}
+
+float mySqrt(float x){
+     #ifdef _IN_PC_
+        return sqrt(x);
+     #else
+		return sqrtf(x);
+     #endif
+}
+
+float myAbs(float x){
+     #ifdef _IN_PC_
+        return fabs(x);
+     #else
+		return fabsf(x);
+     #endif
+}
+
+
+float myAtan(float x){
+     #ifdef _IN_PC_
+        return atan(x);
+     #else
+		return atanf(x);
+     #endif
+}
+
+float myAsin(float x){
+     #ifdef _IN_PC_
+        return asin(x);
+     #else
+		return asinf(x);
+     #endif
+}
+
+float mySin(float x){
+     #ifdef _IN_PC_
+        return sin(x);
+     #else
+		return sinf(x);
+     #endif
+}
+
+float myCos(float x){
+     #ifdef _IN_PC_
+        return cos(x);
+     #else
+		return cosf(x);
+     #endif
+}
+
+float myTan(float x){
+     #ifdef _IN_PC_
+        return tan(x);
+     #else
+		return tanf(x);
+     #endif
+}
