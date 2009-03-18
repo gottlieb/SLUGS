@@ -23,3 +23,11 @@ bankCommandLimit = single(40*pi/180);
 R = single(200);
 L1_base = single(200);
 U_comm = single(25);
+
+%% Curve fitting for PWM in Actual Code
+
+% Rudder
+P =  polyfit([-drLimit drLimit],[2500 5000],1);
+mdr = P(1);
+bdr = P(2);
+
