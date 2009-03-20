@@ -25,9 +25,10 @@ L1_base = single(200);
 U_comm = single(25);
 
 %% Curve fitting for PWM in Actual Code
-
+% Calibration value in radians
+calVal = 25*pi/180;
 % Rudder
-P =  polyfit([-drLimit drLimit],[2500 5000],1);
+P =  polyfit([-calVal calVal],[4550 3300],1);
 mdr = P(1);
 bdr = P(2);
 

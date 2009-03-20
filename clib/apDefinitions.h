@@ -51,6 +51,8 @@ and data types.
        #define MAXLOGLEN		99
 #endif
 
+// Define log raw data at 100 hz. Comment out to have
+// XYZ data come at 100 Hz instead. COMMENT not Change to 0 (using #ifdef)
 #define LOGRAW100	1
 
 

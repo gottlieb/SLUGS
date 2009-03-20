@@ -42,10 +42,10 @@ object FPpal: TFPpal
     Top = 25
     Width = 375
     Height = 672
-    ActivePage = ts_commands
+    ActivePage = ts_ge
     Align = alClient
     MultiLine = True
-    TabIndex = 5
+    TabIndex = 0
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth'
@@ -438,7 +438,7 @@ object FPpal: TFPpal
         Left = 8
         Top = 424
         Width = 353
-        Height = 97
+        Height = 153
         Caption = ' Ground Station Location '
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -449,31 +449,31 @@ object FPpal: TFPpal
         TabOrder = 10
         object Label28: TLabel
           Left = 8
-          Top = 24
+          Top = 64
           Width = 80
           Height = 13
           Caption = 'Latitude (deg)'
         end
         object Label29: TLabel
           Left = 119
-          Top = 24
+          Top = 64
           Width = 90
           Height = 13
           Caption = 'Longitude (deg)'
         end
         object Label30: TLabel
           Left = 232
-          Top = 23
+          Top = 63
           Width = 59
           Height = 13
           Caption = 'Height (m)'
         end
         object bt_gspos: TSpeedButton
           Left = 8
-          Top = 72
+          Top = 120
           Width = 339
           Height = 22
-          Caption = 'Grab Current AP Position as GS  Location'
+          Caption = 'Grab GS Location from File and Upload to Autopilot'
           Flat = True
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -497,9 +497,51 @@ object FPpal: TFPpal
           ParentFont = False
           OnClick = bt_gsposClick
         end
+        object Label149: TLabel
+          Left = 8
+          Top = 20
+          Width = 253
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'Ground Station Location (from Google Earth)'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object SpeedButton5: TSpeedButton
+          Tag = 4
+          Left = 322
+          Top = 36
+          Width = 23
+          Height = 21
+          Flat = True
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000130B0000130B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF0033333333B333
+            333B33FF33337F3333F73BB3777BB7777BB3377FFFF77FFFF77333B000000000
+            0B3333777777777777333330FFFFFFFF07333337F33333337F333330FFFFFFFF
+            07333337F3FF3FFF7F333330F00F000F07333337F77377737F333330FFFFFFFF
+            07333FF7F3FFFF3F7FFFBBB0F0000F0F0BB37777F7777373777F3BB0FFFFFFFF
+            0BBB3777F3FF3FFF77773330F00F000003333337F773777773333330FFFF0FF0
+            33333337F3FF7F37F3333330F08F0F0B33333337F7737F77FF333330FFFF003B
+            B3333337FFFF77377FF333B000000333BB33337777777F3377FF3BB3333BB333
+            3BB33773333773333773B333333B3333333B7333333733333337}
+          NumGlyphs = 2
+          OnClick = bt_ppKmlClick
+        end
         object DBEdit4: TDBEdit
           Left = 8
-          Top = 40
+          Top = 80
           Width = 106
           Height = 21
           DataField = 'latGS'
@@ -515,7 +557,7 @@ object FPpal: TFPpal
         end
         object DBEdit5: TDBEdit
           Left = 119
-          Top = 40
+          Top = 80
           Width = 106
           Height = 21
           DataField = 'lonGS'
@@ -531,7 +573,7 @@ object FPpal: TFPpal
         end
         object DBEdit6: TDBEdit
           Left = 232
-          Top = 39
+          Top = 79
           Width = 106
           Height = 21
           DataField = 'heightGS'
@@ -544,6 +586,14 @@ object FPpal: TFPpal
           ParentFont = False
           ReadOnly = True
           TabOrder = 2
+        end
+        object ed_gs_file: TEdit
+          Left = 8
+          Top = 37
+          Width = 313
+          Height = 21
+          TabOrder = 3
+          Text = 'Select a GS File ....'
         end
       end
     end
@@ -10269,7 +10319,51 @@ object FPpal: TFPpal
       'pc_main.ActivePage'
       'cb_color1.Color'
       'cb_color2.Color'
-      'cb_inflight.Checked')
+      'cb_inflight.Checked'
+      'ed_d1.Value'
+      'ed_d10.Value'
+      'ed_d2.Value'
+      'ed_d3.Value'
+      'ed_d4.Value'
+      'ed_d5.Value'
+      'ed_d6.Value'
+      'ed_d7.Value'
+      'ed_d8.Value'
+      'ed_d9.Value'
+      'ed_hei1.Value'
+      'ed_hei10.Value'
+      'ed_hei2.Value'
+      'ed_hei3.Value'
+      'ed_hei4.Value'
+      'ed_hei5.Value'
+      'ed_hei6.Value'
+      'ed_hei7.Value'
+      'ed_hei8.Value'
+      'ed_hei9.Value'
+      'ed_i1.Value'
+      'ed_i10.Value'
+      'ed_i2.Value'
+      'ed_i3.Value'
+      'ed_i4.Value'
+      'ed_i5.Value'
+      'ed_i6.Value'
+      'ed_i7.Value'
+      'ed_i8.Value'
+      'ed_i9.Value'
+      'ed_p1.Value'
+      'ed_p10.Value'
+      'ed_p2.Value'
+      'ed_p3.Value'
+      'ed_p4.Value'
+      'ed_p5.Value'
+      'ed_p6.Value'
+      'ed_p7.Value'
+      'ed_p8.Value'
+      'ed_p9.Value'
+      'ed_height.Value'
+      'ed_r.Value'
+      'ed_airspeed.Value'
+      'ed_gs_file.Text')
     StoredValues = <>
     Left = 32
     Top = 520
