@@ -45,3 +45,15 @@ unsigned char getMaxWp (void){
 unsigned char isWpFly (void){
 	return apsControlData.controlType == CTRL_TYPE_AP_WP; 
 }
+
+void setDiagnosticFloat(float * flValues){
+	diagControlData.fl1.flData = flValues[0];
+	diagControlData.fl2.flData = flValues[1];
+	diagControlData.fl3.flData = flValues[2];	
+}
+
+void getWP (unsigned char idx, float* WPpos){
+	WPpos[0] = wpsControlData.lat[idx].flData;
+	WPpos[1] = wpsControlData.lon[idx].flData;
+	WPpos[2] = wpsControlData.hei[idx].flData;
+}

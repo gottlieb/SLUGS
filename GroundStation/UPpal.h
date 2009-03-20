@@ -656,6 +656,9 @@ __published:	// IDE-managed Components
         TCheckBox *cb_repptpdrf;
     TCheckBox *CheckBox1;
     TCheckBox *cb_over;
+        TLabel *Label149;
+        TSpeedButton *SpeedButton5;
+        TEdit *ed_gs_file;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);

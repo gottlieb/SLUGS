@@ -15,6 +15,12 @@
 #include "apDefinitions.h"
 #include "protDecoder.h"
 
+// Uncomment if you want to use sensor
+// mcu diagnostic  data. Note that you can only
+// use diagnostic data from 1 MCU at a time
+// 
+//#define USE_SENSOR_MCU_DIAG		0
+
 	
 unsigned char getChecksum(unsigned char* sentence, unsigned char size);
 void assembleMsg(unsigned char* rawData , unsigned char size, unsigned char type, unsigned char* protMsg );

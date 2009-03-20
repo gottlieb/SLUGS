@@ -333,6 +333,9 @@ void __fastcall TFPpal::bt_ppKmlClick(TObject *Sender)
          case 3:
               tb_configwaypointFile->AsString = od_mainKml->FileName;
          break;
+         case 4:
+              ed_gs_file->Text = od_mainKml->FileName;
+         break;
   }
     tb_config->Post();
  }
@@ -464,7 +467,7 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
 {
    tGpsData temp = getGpsStruct();
 
-   // if the lat and lon are withing the distance limit
+   // if the lat and lon are within the distance limit
    if (computeDistance(temp.lat.flData, temp.lon.flData) < DISLIMIT ){
       // if there was a change in lat or lon
       //if (!compare_float(temp.lat.flData, gpsSamples[0].lat.flData) ||
@@ -557,8 +560,13 @@ void TFPpal::updateAkn(void){
    }
 
    if (aknSample.WP >= 1 ){
-      if (aknSample.WP <=10){
-         boxWP[aknSample.WP-1]->Color = clGreen;
+      if (aknSample.WP <=11){
+         mm_diagnose->Lines->Add (IntToStr(aknSample.WP));
+         if (aknSample.WP < 11)
+            boxWP[aknSample.WP-1]->Color = clGreen;
+         else
+            ed_gs_file ->Color = clGreen;
+
       } else {
          switch (aknSample.WP){
              case WPSEEP_WRITE_FAIL: // WRITE FAILED
@@ -1026,11 +1034,154 @@ void __fastcall TFPpal::rg_tailExit(TObject *Sender)
 
 void __fastcall TFPpal::bt_gsposClick(TObject *Sender)
 {
- tb_config->Edit();
- tb_configlatGS->AsFloat = gpsSamples[0].lat.flData;
- tb_configlonGS->AsFloat = gpsSamples[0].lon.flData;
- tb_configheightGS->AsFloat = gpsSamples[0].height.flData;
- tb_config->Post();
+TiXmlDocument doc(ed_gs_file->Text.c_str());
+TiXmlHandle hDoc (&doc);
+TiXmlElement* root;
+TiXmlElement* pElem;
+TiXmlHandle hRoot(0);
+char coordVals [1000];
+
+float latGs[5], lonGs[5], heiGs[5];
+char* pch;
+unsigned char i;
+
+
+unsigned char filtMsg[25];
+unsigned char rawMsg[16];
+tFloatToChar lat, lon, hei;
+
+
+
+
+  // if loading the file succeeds
+  if( doc.LoadFile()){
+     // get the Root node (<kml>)
+     root= hDoc.FirstChildElement().Element();
+     mm_diagnose->Lines->Add(root->Value());
+     hRoot = TiXmlHandle(root);
+
+     // get the Document node
+     pElem = hRoot.FirstChild().Element();
+     mm_diagnose->Lines->Add(pElem->Value());
+
+     // Get the children of Document
+     hRoot = TiXmlHandle(pElem);
+     pElem = hRoot.FirstChild().Element();
+     mm_diagnose->Lines->Add(pElem->Value());
+
+
+     while (strcmp(pElem->Value(), "Placemark") != 0 ){
+       pElem = pElem->NextSiblingElement();
+       mm_diagnose->Lines->Add(pElem->Value());
+       // TODO: Add validation in case placemark is never found
+     }
+
+     // Placemark node has been found
+     hRoot = TiXmlHandle(pElem);
+
+
+     // Now find the Point node
+     pElem = hRoot.FirstChild().Element();
+     mm_diagnose->Lines->Add(pElem->Value());
+
+
+     while (strcmp(pElem->Value(), "Point") != 0 ){
+       pElem = pElem->NextSiblingElement();
+       mm_diagnose->Lines->Add(pElem->Value());
+       // TODO: Add validation in case point is never found
+     }
+
+     // Point node has been found
+     hRoot = TiXmlHandle(pElem);
+
+     // Now find the coordinates node
+     pElem = hRoot.FirstChild().Element();
+     mm_diagnose->Lines->Add(pElem->Value());
+
+
+     while (strcmp(pElem->Value(), "coordinates") != 0 ){
+       pElem = pElem->NextSiblingElement();
+       mm_diagnose->Lines->Add(pElem->Value());
+       // TODO: Add validation in case coordinates is never found
+     }
+
+     // Get the actual coordinates
+     mm_diagnose->Lines->Add(pElem->GetText());
+
+     strcpy((char *)&coordVals,pElem->GetText());
+
+     pch = strtok((char *)&coordVals, ", ");
+     mm_diagnose->Lines->Add("==============");
+     mm_diagnose->Lines->Add(pch);
+
+     //memset(&coordinate, '\0', sizeof(coordinate));
+     i = 0;
+
+     while (pch != NULL || i > 4)
+     {
+       lonGs[i] = atof(pch);
+       pch = strtok (NULL, ", ");
+       mm_diagnose->Lines->Add(pch);
+
+       latGs[i] = atof(pch);
+       pch = strtok (NULL, ", ");
+       mm_diagnose->Lines->Add(pch);
+
+       heiGs[i] = atof(pch);
+       pch = strtok (NULL, ", ");
+       mm_diagnose->Lines->Add(pch);
+
+       i++;
+     }
+
+     // change the color to red to aknowledge that it need to be uploaded
+     ed_gs_file->Color = clRed;
+
+     // =============== Save data to DB  =====================
+     tb_config->Edit();
+     tb_configlatGS->AsFloat = latGs[0];
+     tb_configlonGS->AsFloat = lonGs[0];
+     tb_configheightGS->AsFloat = heiGs[0];
+     tb_config->Post();
+
+     // =========== Send Data to Autopilot ====================
+
+
+     // Collect the values
+     lat.flData =  latGs[0];
+     lon.flData =  lonGs[0];
+     hei.flData =  heiGs[0];
+
+
+     rawMsg[0]    =    10;
+     rawMsg[1]    =    lat.chData[0];
+     rawMsg[2]    =    lat.chData[1];
+     rawMsg[3]    =    lat.chData[2];
+     rawMsg[4]    =    lat.chData[3];
+     rawMsg[5]    =    lon.chData[0];
+     rawMsg[6]    =    lon.chData[1];
+     rawMsg[7]    =    lon.chData[2];
+     rawMsg[8]    =    lon.chData[3];
+     rawMsg[9]    =    hei.chData[0];
+     rawMsg[10]    =   hei.chData[1];
+     rawMsg[11]   =    hei.chData[2];
+     rawMsg[12]   =    hei.chData[3];
+     rawMsg[13]   =    0;
+     rawMsg[14]   =    0;
+     rawMsg[15]   =    0;
+
+     assembleMsg(&rawMsg[0],WPSMSG_LEN,WPSMSG_ID,&filtMsg[0]);
+
+     cp_serial->PutBlock(&filtMsg[0],(WPSMSG_LEN+7));
+
+  }  // if filed opened succesfully
+  else {
+    ShowMessage("WayPoint File Not Found");
+  }
+
+
+
+ 
 }
 //---------------------------------------------------------------------------
 // formula from:
