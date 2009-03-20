@@ -182,26 +182,29 @@ void updateStates(unsigned char * completeSentence){
 			biasControlData.gzb.chData[3]	= completeSentence[27];			
 		break;		
 		case DIAMSG_ID:
-			//TODO: Remove comments
-			//diagControlData.fl1.chData[0]	= completeSentence[4];
-			//diagControlData.fl1.chData[1]	= completeSentence[5];
-			//diagControlData.fl1.chData[2]	= completeSentence[6];
-			//diagControlData.fl1.chData[3]	= completeSentence[7];
-			//diagControlData.fl2.chData[0]	= completeSentence[8];
-			//diagControlData.fl2.chData[1]	= completeSentence[9];
-			//diagControlData.fl2.chData[2]	= completeSentence[10];
-			//diagControlData.fl2.chData[3]	= completeSentence[11];
-			//diagControlData.fl3.chData[0]	= completeSentence[12];
-			//diagControlData.fl3.chData[1]	= completeSentence[13];
-			//diagControlData.fl3.chData[2]	= completeSentence[14];
-			//diagControlData.fl3.chData[3]	= completeSentence[15];
+			//change comment on USE_SENSOR_MCU_DIAG (in apUtils.h) if you want to use diagnostic data
+			// from the sensor MCU
+			#ifdef _IN_PC_ || USE_SENSOR_MCU_DIAG
+				diagControlData.fl1.chData[0]	= completeSentence[4];
+				diagControlData.fl1.chData[1]	= completeSentence[5];
+				diagControlData.fl1.chData[2]	= completeSentence[6];
+				diagControlData.fl1.chData[3]	= completeSentence[7];
+				diagControlData.fl2.chData[0]	= completeSentence[8];
+				diagControlData.fl2.chData[1]	= completeSentence[9];
+				diagControlData.fl2.chData[2]	= completeSentence[10];
+				diagControlData.fl2.chData[3]	= completeSentence[11];
+				diagControlData.fl3.chData[0]	= completeSentence[12];
+				diagControlData.fl3.chData[1]	= completeSentence[13];
+				diagControlData.fl3.chData[2]	= completeSentence[14];
+				diagControlData.fl3.chData[3]	= completeSentence[15];
 			
-			//diagControlData.sh1.chData[0]	= completeSentence[16];
-			//diagControlData.sh1.chData[1]	= completeSentence[17];
-			//diagControlData.sh2.chData[0]	= completeSentence[18];
-			//diagControlData.sh2.chData[1]	= completeSentence[19];
-			//diagControlData.sh3.chData[0]	= completeSentence[20];
-			//diagControlData.sh3.chData[1]	= completeSentence[21];		
+				diagControlData.sh1.chData[0]	= completeSentence[16];
+				diagControlData.sh1.chData[1]	= completeSentence[17];
+				diagControlData.sh2.chData[0]	= completeSentence[18];
+				diagControlData.sh2.chData[1]	= completeSentence[19];
+				diagControlData.sh3.chData[0]	= completeSentence[20];
+				diagControlData.sh3.chData[1]	= completeSentence[21];
+			#endif		
 		break;
 		case XYZMSG_ID:
 			xyzControlData.Xcoord.chData[0]	= completeSentence[4];

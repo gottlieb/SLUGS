@@ -703,7 +703,7 @@ void prepareTelemetry( unsigned char* dataOut){
 			
 		break;
 		
-		case 7:
+		case 7: // Pending aknowledge requests
 			if (queControlData.pendingRequest){
 				
 				assembleRawSentence (queControlData.idReq, queControlData.indxReq, &rawSentence[0]);
@@ -723,7 +723,7 @@ void prepareTelemetry( unsigned char* dataOut){
 				queControlData.pendingRequest = 0;
 			}
 		break;
-		case 8:
+		case 8: // AP Status
 			rawSentence[0] =  apsControlData.controlType;			
 			rawSentence[1] =  apsControlData.beaconStatus;		
 			rawSentence[2] =  apsControlData.hilStatus;			

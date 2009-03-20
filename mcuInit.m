@@ -8,3 +8,4 @@ gzGainrad = gzGain*pi/180;
 
 %% Run the Inner outer loop init
 run ./InnerOuterLoop/innerOuterInit.m
+run ./InnerOuterLoop/Rascal_Var.m
