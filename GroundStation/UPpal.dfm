@@ -1,12 +1,12 @@
 object FPpal: TFPpal
-  Left = 230
-  Top = 19
+  Left = 247
+  Top = 26
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 
     '                                                       SLUGS Gro' +
     'und Station'
-  ClientHeight = 716
+  ClientHeight = 712
   ClientWidth = 576
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -23,7 +23,7 @@ object FPpal: TFPpal
   TextHeight = 13
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 697
+    Top = 693
     Width = 576
     Height = 19
     Panels = <
@@ -41,7 +41,7 @@ object FPpal: TFPpal
     Left = 201
     Top = 25
     Width = 375
-    Height = 672
+    Height = 668
     ActivePage = ts_ge
     Align = alClient
     MultiLine = True
@@ -10236,7 +10236,7 @@ object FPpal: TFPpal
     Left = 0
     Top = 25
     Width = 201
-    Height = 672
+    Height = 668
     Align = alLeft
     TabOrder = 2
     object Label1: TLabel
