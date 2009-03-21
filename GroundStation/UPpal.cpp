@@ -528,12 +528,26 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 void TFPpal::updateAkn(void){
+  // COntrol MCU Reboot
   if (aknSample.reboot == 1){
-      //ShowMessage("WARNING: Slugs Reboot");
+      //ShowMessage("WARNING: S Reboot");
       et_warning->Color = clRed;
-      et_warning->Caption = "SLUGS Reset Detected";
+      if (et_warning ->Color != clBtnFace)
+          et_warning->Caption = et_warning->Caption + ". Control MCU Reset Detected";
+      else
+          et_warning->Caption = "Control MCU Reset Detected";
       setAknReboot (0);
-      return;
+   }
+
+   // Sensor MCU Reboot
+     if (aknSample.sensorReboot == 1){
+      //ShowMessage("WARNING: S Reboot");
+      et_warning->Color = clRed;
+      if (et_warning ->Color != clBtnFace)
+          et_warning->Caption = et_warning->Caption + ". Sensor MCU Reset Detected";
+      else
+          et_warning->Caption = "Sensor MCU Reset Detected";
+      setAknSensorReboot (0);
    }
 
    if (aknSample.pidCal >= 1 ){
@@ -2324,4 +2338,5 @@ if (((TCheckBox*)Sender)->Checked){
 }
 }
 //---------------------------------------------------------------------------
+
 
