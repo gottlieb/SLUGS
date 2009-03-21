@@ -536,6 +536,12 @@ void setAknReboot (unsigned char value){
 	aknControlData.reboot = value;
 }
 
+
+void setAknSensorReboot (unsigned char value){
+	aknControlData.sensorReboot = value;
+}
+
+
 void setAknPidCal (unsigned char value){
 	aknControlData.pidCal = value;
 }
