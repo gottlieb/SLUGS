@@ -531,23 +531,23 @@ void TFPpal::updateAkn(void){
   // COntrol MCU Reboot
   if (aknSample.reboot == 1){
       //ShowMessage("WARNING: S Reboot");
-      et_warning->Color = clRed;
       if (et_warning ->Color != clBtnFace)
           et_warning->Caption = et_warning->Caption + ". Control MCU Reset Detected";
       else
           et_warning->Caption = "Control MCU Reset Detected";
+      et_warning->Color = clRed;
       setAknReboot (0);
    }
 
    // Sensor MCU Reboot
      if (aknSample.sensorReboot == 1){
       //ShowMessage("WARNING: S Reboot");
-      et_warning->Color = clRed;
       if (et_warning ->Color != clBtnFace)
           et_warning->Caption = et_warning->Caption + ". Sensor MCU Reset Detected";
       else
           et_warning->Caption = "Sensor MCU Reset Detected";
       setAknSensorReboot (0);
+      et_warning->Color = clRed;      
    }
 
    if (aknSample.pidCal >= 1 ){
