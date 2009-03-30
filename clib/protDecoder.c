@@ -267,8 +267,8 @@ void hil_getRawRead(unsigned short * rawData){
 	rawData[8] = 	rawControlData.magY.usData;
 	rawData[9] = 	rawControlData.magX.usData;
 	rawData[10] = 	rawControlData.magZ.usData;
-	rawData[11] = 	(unsigned short)dynTempControlData.dynamic.flData;
-	rawData[12] = 	(unsigned short)dynTempControlData.stat.flData;;
+	rawData[11] = 	(unsigned short)dynTempControlData.stat.flData;
+	rawData[12] = 	(unsigned short)dynTempControlData.dynamic.flData;;
 	rawData[13] = 	(unsigned short)dynTempControlData.temp.shData;
 	rawData[14] = 	770;
 	

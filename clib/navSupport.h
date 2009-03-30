@@ -17,6 +17,7 @@ void getXYZ (float* xyz);
 unsigned char getMaxWp (void);
 unsigned char isWpFly (void);
 void setDiagnosticFloat (float * flValues);
+void setDiagnosticShort (short* shValues);
 void getWP (unsigned char idx, float* WPpos);
        	
 #ifdef __cplusplus
