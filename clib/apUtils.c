@@ -433,6 +433,7 @@ void assembleRawSentence (unsigned char id, unsigned char indx, unsigned char * 
 void decodeCalSentence (unsigned char id, unsigned char indx, unsigned char * data, unsigned char inBoard){
 	int indexOffset = 0;
 	unsigned char writeSuccess = 0;
+	unsigned char wpMaxCount = 0;
 	
 	switch (id) {
 		case PIDTYPE_ID: //PID Values
@@ -516,7 +517,11 @@ void decodeCalSentence (unsigned char id, unsigned char indx, unsigned char * da
 				} else{
 					aknControlData.WP = WPSEEP_WRITE_FAIL;	
 				}
-
+				
+				// Update the waypoint count
+				while ((int)(wpsControlData.lat[wpMaxCount].flData) != 0 && wpMaxCount < 9 ) wpMaxCount++;
+				wpsControlData.wpCount = wpMaxCount;
+				
 				#endif
 
 			}

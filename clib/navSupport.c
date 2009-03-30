@@ -52,8 +52,16 @@ void setDiagnosticFloat(float * flValues){
 	diagControlData.fl3.flData = flValues[2];	
 }
 
-void getWP (unsigned char idx, float* WPpos){
-	WPpos[0] = wpsControlData.lat[idx].flData;
-	WPpos[1] = wpsControlData.lon[idx].flData;
-	WPpos[2] = wpsControlData.hei[idx].flData;
+void setDiagnosticShort(short* shValues){
+	diagControlData.sh1.shData = shValues[0];
+	diagControlData.sh2.shData = shValues[1];
+	diagControlData.sh3.shData = shValues[2];	
 }
+
+void getWP (unsigned char idx, float* WPpos){
+	WPpos[0] = wpsControlData.lat[idx-1].flData;
+	WPpos[1] = wpsControlData.lon[idx-1].flData;
+	WPpos[2] = wpsControlData.hei[idx-1].flData;
+}
+
+
