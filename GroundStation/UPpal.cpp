@@ -1846,6 +1846,7 @@ void __fastcall TFPpal::bt_allpidClick(TObject *Sender)
 void __fastcall TFPpal::Timer3Timer(TObject *Sender)
 {
   switch (pidRequestQueue){
+     // get PID gains
      case 0:
           bt_down1Click(bt_down1);
      break;
@@ -1949,6 +1950,71 @@ void __fastcall TFPpal::Timer3Timer(TObject *Sender)
           bt_sendwps->Enabled = true;
      break;
 
+     // Set PID Gains
+     case 30:
+          bt_up1Click(bt_up1);
+     break;
+     case 31:
+          bt_up1Click(bt_up2);
+     break;
+     case 32:
+          bt_up1Click(bt_up3);
+     break;
+     case 33:
+          bt_up1Click(bt_up4);
+     break;
+     case 34:
+          bt_up1Click(bt_up5);
+     break;
+     case 35:
+          bt_up1Click(bt_up6);
+     break;
+     case 36:
+          bt_up1Click(bt_up7);
+     break;
+     case 37:
+          bt_up1Click(bt_up8);
+     break;
+     case 38:
+          bt_up1Click(bt_up9);
+     break;
+     case 39:
+          bt_up1Click(bt_up10);
+          Timer3->Enabled = false;
+          bt_setallpid->Enabled = true;
+     break;
+
+     // Set Commands
+     case 40:
+          bt_sethClick(bt_seth);
+     break;
+     case 41:
+          bt_sethClick(bt_setu);
+     break;
+     case 42:
+          bt_sethClick(bt_setr);
+          Timer3->Enabled = false;
+          bt_setallcommands->Enabled = true;
+     break;
+
+      // Get Commands
+    case 50:
+          bt_gethClick(bt_geth);
+     break;
+     case 51:
+          bt_gethClick(bt_getu);
+     break;
+     case 52:
+          bt_gethClick(bt_getr);
+          Timer3->Enabled = false;
+          bt_getallcommands->Enabled = true;
+     break;
+
+
+     // dummy delay
+     case 101:
+          Timer3->Enabled = false;
+     break;
 
   }
   pidRequestQueue++;
@@ -2259,7 +2325,7 @@ void __fastcall TFPpal::SpeedButton2Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFPpal::SpeedButton7Click(TObject *Sender)
+void __fastcall TFPpal::bt_sethClick(TObject *Sender)
 {
 //
  unsigned char filtMsg[17];
@@ -2311,7 +2377,7 @@ void __fastcall TFPpal::ed_heightChange(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFPpal::SpeedButton9Click(TObject *Sender)
+void __fastcall TFPpal::bt_gethClick(TObject *Sender)
 {
  unsigned char filtMsg[17];
  unsigned char rawMsg[10], indx;
@@ -2340,4 +2406,79 @@ if (((TCheckBox*)Sender)->Checked){
 //---------------------------------------------------------------------------
 
 
+
+void __fastcall TFPpal::bt_setallpidClick(TObject *Sender)
+{
+ pidRequestQueue = 30;
+  Timer3->Enabled = true;
+  bt_setallpid->Enabled = false;
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::bt_setallcommandsClick(TObject *Sender)
+{
+  pidRequestQueue = 40;
+  Timer3->Enabled = true;
+  bt_setallcommands->Enabled = false;
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::bt_getallcommandsClick(TObject *Sender)
+{
+  pidRequestQueue = 50;
+  Timer3->Enabled = true;
+  bt_getallcommands->Enabled = false;
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::SpeedButton1Click(TObject *Sender)
+{
+ if (MessageDlg("Do you Want to Configure All the Gains?", mtWarning,TMsgDlgButtons() << mbYes << mbNo,0) == mrYes){
+
+  // Upload the GS Positions
+  bt_gsposClick(NULL);
+  // dummy delay
+  pidRequestQueue = 100;
+  Timer3->Enabled = true;
+
+  // wait for timer to end
+  while (Timer3->Enabled);
+
+  // Upload the WPs
+  bt_sendwpsClick(NULL);
+  // wait for timer to end
+  while (Timer3->Enabled);
+
+  // Get the WPs
+  bt_allwpClick(NULL);
+  // wait for timer to end
+  while (Timer3->Enabled);
+
+  // Upload the PID
+  bt_setallpidClick(NULL) ;
+  // wait for timer to end
+  while (Timer3->Enabled);
+
+  // Get the PID
+  bt_allpidClick(NULL) ;
+  // wait for timer to end
+  while (Timer3->Enabled);
+
+  // Upload the Commands
+  bt_setallcommandsClick(NULL) ;
+  // wait for timer to end
+  while (Timer3->Enabled);
+
+  // Get the Commands
+  bt_getallcommandsClick(NULL) ;
+  // wait for timer to end
+  while (Timer3->Enabled);
+
+
+ }
+}
+//---------------------------------------------------------------------------
 
