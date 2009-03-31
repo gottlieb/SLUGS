@@ -662,7 +662,7 @@ __published:	// IDE-managed Components
         TSpeedButton *bt_setallpid;
         TSpeedButton *bt_setallcommands;
         TSpeedButton *bt_getallcommands;
-        TSpeedButton *SpeedButton1;
+    TSpeedButton *bt_allgains;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -720,7 +720,7 @@ __published:	// IDE-managed Components
         void __fastcall bt_setallpidClick(TObject *Sender);
         void __fastcall bt_setallcommandsClick(TObject *Sender);
         void __fastcall bt_getallcommandsClick(TObject *Sender);
-        void __fastcall SpeedButton1Click(TObject *Sender);
+        void __fastcall bt_allgainsClick(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TFPpal(TComponent* Owner);
@@ -755,6 +755,7 @@ public:		// User declarations
         bool logIsOpen;
         bool waitingDelay;
         unsigned char pidRequestQueue;
+        unsigned char allGains;
 
         void updateAkn(void);
         void updateGPSLabels(void);

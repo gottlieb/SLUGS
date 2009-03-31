@@ -284,6 +284,8 @@ void __fastcall TFPpal::FormCreate(TObject *Sender)
  str_modes[CTRL_TYPE_AP_COMM] = "Direct Commands";
  str_modes[CTRL_TYPE_AP_WP] = "WayPoint Navigation";
  str_modes[CTRL_TYPE_SEL_AP] = "Selective Passthrough from AP";
+
+ allGains = 0;
 }
 //---------------------------------------------------------------------------
 
@@ -575,7 +577,6 @@ void TFPpal::updateAkn(void){
 
    if (aknSample.WP >= 1 ){
       if (aknSample.WP <=11){
-         mm_diagnose->Lines->Add (IntToStr(aknSample.WP));
          if (aknSample.WP < 11)
             boxWP[aknSample.WP-1]->Color = clGreen;
          else
@@ -961,7 +962,7 @@ void TFPpal::updateKML(void){
    TiXmlElement * pointTag = new TiXmlElement("Point");
 
    // configure the Point
-   addAndAppendNode("altitudeMode","absolute", pointTag);
+   addAndAppendNode("altitudeMode","clampToGround", pointTag);
    tmp = FloatToStr(gpsSamples[0].lon.flData)  + ", "
          + FloatToStr(gpsSamples[0].lat.flData)  + ", " +
          FloatToStr(gpsSamples[0].height.flData);
@@ -1876,7 +1877,8 @@ void __fastcall TFPpal::Timer3Timer(TObject *Sender)
      break;
      case 9:
           bt_down1Click(bt_down10);
-          Timer3->Enabled = false;
+          if (allGains != 1)
+             Timer3->Enabled = false;
           bt_allpid->Enabled = true;
      break;
 
@@ -1911,7 +1913,8 @@ void __fastcall TFPpal::Timer3Timer(TObject *Sender)
      break;
      case 19:
           bt_getwp1Click(bt_getwp10);
-          Timer3->Enabled = false;
+          if (allGains != 1)
+             Timer3->Enabled = false;
           bt_allwp->Enabled = true;
      break;
 
@@ -1946,7 +1949,8 @@ void __fastcall TFPpal::Timer3Timer(TObject *Sender)
      break;
      case 29:
           bt_setwp1Click(bt_setwp10);
-          Timer3->Enabled = false;
+          if (allGains != 1)
+             Timer3->Enabled = false;
           bt_sendwps->Enabled = true;
      break;
 
@@ -1980,7 +1984,8 @@ void __fastcall TFPpal::Timer3Timer(TObject *Sender)
      break;
      case 39:
           bt_up1Click(bt_up10);
-          Timer3->Enabled = false;
+          if (allGains != 1)
+             Timer3->Enabled = false;
           bt_setallpid->Enabled = true;
      break;
 
@@ -1993,7 +1998,8 @@ void __fastcall TFPpal::Timer3Timer(TObject *Sender)
      break;
      case 42:
           bt_sethClick(bt_setr);
-          Timer3->Enabled = false;
+          if (allGains != 1)
+             Timer3->Enabled = false;
           bt_setallcommands->Enabled = true;
      break;
 
@@ -2006,18 +2012,27 @@ void __fastcall TFPpal::Timer3Timer(TObject *Sender)
      break;
      case 52:
           bt_gethClick(bt_getr);
-          Timer3->Enabled = false;
+          if (allGains != 1)
+             Timer3->Enabled = false;
           bt_getallcommands->Enabled = true;
      break;
 
 
-     // dummy delay
-     case 101:
+     case 53:
+          // Upload the GS Positions
+          bt_gsposClick(NULL);
+     break;
+     case 54:
+          allGains = 0;
+          bt_allgains->Enabled = true;
           Timer3->Enabled = false;
      break;
 
+
+
   }
   pidRequestQueue++;
+  mm_diagnose->Lines->Add(IntToStr(pidRequestQueue));
 }
 //---------------------------------------------------------------------------
 
@@ -2434,49 +2449,16 @@ void __fastcall TFPpal::bt_getallcommandsClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFPpal::SpeedButton1Click(TObject *Sender)
+void __fastcall TFPpal::bt_allgainsClick(TObject *Sender)
 {
  if (MessageDlg("Do you Want to Configure All the Gains?", mtWarning,TMsgDlgButtons() << mbYes << mbNo,0) == mrYes){
 
-  // Upload the GS Positions
-  bt_gsposClick(NULL);
+  
   // dummy delay
-  pidRequestQueue = 100;
+  pidRequestQueue = 1;
+  allGains = 1;
+  bt_allgains->Enabled = false;
   Timer3->Enabled = true;
-
-  // wait for timer to end
-  while (Timer3->Enabled);
-
-  // Upload the WPs
-  bt_sendwpsClick(NULL);
-  // wait for timer to end
-  while (Timer3->Enabled);
-
-  // Get the WPs
-  bt_allwpClick(NULL);
-  // wait for timer to end
-  while (Timer3->Enabled);
-
-  // Upload the PID
-  bt_setallpidClick(NULL) ;
-  // wait for timer to end
-  while (Timer3->Enabled);
-
-  // Get the PID
-  bt_allpidClick(NULL) ;
-  // wait for timer to end
-  while (Timer3->Enabled);
-
-  // Upload the Commands
-  bt_setallcommandsClick(NULL) ;
-  // wait for timer to end
-  while (Timer3->Enabled);
-
-  // Get the Commands
-  bt_getallcommandsClick(NULL) ;
-  // wait for timer to end
-  while (Timer3->Enabled);
-
 
  }
 }

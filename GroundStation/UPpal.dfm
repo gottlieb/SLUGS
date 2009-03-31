@@ -42,10 +42,10 @@ object FPpal: TFPpal
     Top = 25
     Width = 375
     Height = 668
-    ActivePage = ts_commands
+    ActivePage = TabSheet1
     Align = alClient
     MultiLine = True
-    TabIndex = 5
+    TabIndex = 2
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth'
@@ -3006,8 +3006,10 @@ object FPpal: TFPpal
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
+          MinValue = 350
           ParentFont = False
           TabOrder = 2
+          Value = 350
           OnChange = ed_lat1Change
         end
         object et_lat1: TStaticText
@@ -3287,8 +3289,10 @@ object FPpal: TFPpal
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
+          MinValue = 350
           ParentFont = False
           TabOrder = 2
+          Value = 350
           OnChange = ed_lat1Change
         end
         object et_lat2: TStaticText
@@ -3570,8 +3574,10 @@ object FPpal: TFPpal
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
+          MinValue = 350
           ParentFont = False
           TabOrder = 2
+          Value = 350
           OnChange = ed_lat1Change
         end
         object et_lat3: TStaticText
@@ -3853,8 +3859,10 @@ object FPpal: TFPpal
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
+          MinValue = 350
           ParentFont = False
           TabOrder = 2
+          Value = 350
           OnChange = ed_lat1Change
         end
         object et_lat4: TStaticText
@@ -4136,8 +4144,10 @@ object FPpal: TFPpal
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
+          MinValue = 350
           ParentFont = False
           TabOrder = 2
+          Value = 350
           OnChange = ed_lat1Change
         end
         object et_lat5: TStaticText
@@ -4419,8 +4429,10 @@ object FPpal: TFPpal
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
+          MinValue = 350
           ParentFont = False
           TabOrder = 2
+          Value = 350
           OnChange = ed_lat1Change
         end
         object et_lat6: TStaticText
@@ -4702,8 +4714,10 @@ object FPpal: TFPpal
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
+          MinValue = 350
           ParentFont = False
           TabOrder = 2
+          Value = 350
           OnChange = ed_lat1Change
         end
         object et_lat7: TStaticText
@@ -4986,8 +5000,10 @@ object FPpal: TFPpal
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
+          MinValue = 350
           ParentFont = False
           TabOrder = 2
+          Value = 350
           OnChange = ed_lat1Change
         end
         object et_lat8: TStaticText
@@ -5270,8 +5286,10 @@ object FPpal: TFPpal
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
+          MinValue = 350
           ParentFont = False
           TabOrder = 2
+          Value = 350
           OnChange = ed_lat1Change
         end
         object et_lat9: TStaticText
@@ -5554,8 +5572,10 @@ object FPpal: TFPpal
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
+          MinValue = 350
           ParentFont = False
           TabOrder = 2
+          Value = 350
           OnChange = ed_lat1Change
         end
         object et_lat10: TStaticText
@@ -7961,7 +7981,7 @@ object FPpal: TFPpal
     object ts_filter: TTabSheet
       Caption = 'Attitude'
       ImageIndex = 7
-      object SpeedButton1: TSpeedButton
+      object bt_allgains: TSpeedButton
         Left = 8
         Top = 411
         Width = 345
@@ -7982,7 +8002,7 @@ object FPpal: TFPpal
           00337777733777777733333333330CCC033333333333777773333333333330C0
           3333333333333777333333333333330333333333333333733333}
         NumGlyphs = 2
-        OnClick = SpeedButton1Click
+        OnClick = bt_allgainsClick
       end
       object GroupBox4: TGroupBox
         Left = 4
@@ -10455,7 +10475,26 @@ object FPpal: TFPpal
       'ed_height.Value'
       'ed_r.Value'
       'ed_airspeed.Value'
-      'ed_gs_file.Text')
+      'ed_gs_file.Text'
+      'ed_lat1.Value'
+      'ed_lat10.Value'
+      'ed_lat2.Value'
+      'ed_lat3.Value'
+      'ed_lat5.Value'
+      'ed_lat6.Value'
+      'ed_lat7.Value'
+      'ed_lat8.Value'
+      'ed_lat9.Value'
+      'ed_lon1.Value'
+      'ed_lon10.Value'
+      'ed_lon2.Value'
+      'ed_lon3.Value'
+      'ed_lon4.Value'
+      'ed_lon5.Value'
+      'ed_lon6.Value'
+      'ed_lon7.Value'
+      'ed_lon8.Value'
+      'ed_lon9.Value')
     StoredValues = <>
     Left = 32
     Top = 520
