@@ -31,11 +31,11 @@ void getAttitude (float* attitude){
 
 void getXYZ (float* xyz) {
 	xyz[0] =  xyzControlData.Xcoord.flData;
-	xyz[0] =  xyzControlData.Ycoord.flData;
-	xyz[0] =  xyzControlData.Zcoord.flData;
-	xyz[0] =  xyzControlData.VX.flData;
-	xyz[0] =  xyzControlData.VY.flData;
-	xyz[0] =  xyzControlData.VZ.flData;
+	xyz[1] =  xyzControlData.Ycoord.flData;
+	xyz[2] =  xyzControlData.Zcoord.flData;
+	xyz[3] =  xyzControlData.VX.flData;
+	xyz[4] =  xyzControlData.VY.flData;
+	xyz[5] =  xyzControlData.VZ.flData;
 }
 
 unsigned char getMaxWp (void){
