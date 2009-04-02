@@ -156,30 +156,35 @@ void updateStates(unsigned char * completeSentence){
 			dynTempControlData.temp.chData[1]	= completeSentence[13];	  
 		break;
 		case BIAMSG_ID:
-			biasControlData.axb.chData[0]	= completeSentence[4];
-			biasControlData.axb.chData[1]	= completeSentence[5];
-			biasControlData.axb.chData[2]	= completeSentence[6];
-			biasControlData.axb.chData[3]	= completeSentence[7];
-			biasControlData.ayb.chData[0]	= completeSentence[8];
-			biasControlData.ayb.chData[1]	= completeSentence[9];
-			biasControlData.ayb.chData[2]	= completeSentence[10];
-			biasControlData.ayb.chData[3]	= completeSentence[11];
-			biasControlData.azb.chData[0]	= completeSentence[12];
-			biasControlData.azb.chData[1]	= completeSentence[13];
-			biasControlData.azb.chData[2]	= completeSentence[14];
-			biasControlData.azb.chData[3]	= completeSentence[15];
-			biasControlData.gxb.chData[0]	= completeSentence[16];
-			biasControlData.gxb.chData[1]	= completeSentence[17];
-			biasControlData.gxb.chData[2]	= completeSentence[18];
-			biasControlData.gxb.chData[3]	= completeSentence[19];
-			biasControlData.gyb.chData[0]	= completeSentence[20];
-			biasControlData.gyb.chData[1]	= completeSentence[21];
-			biasControlData.gyb.chData[2]	= completeSentence[22];
-			biasControlData.gyb.chData[3]	= completeSentence[23];
-			biasControlData.gzb.chData[0]	= completeSentence[24];
-			biasControlData.gzb.chData[1]	= completeSentence[25];
-			biasControlData.gzb.chData[2]	= completeSentence[26];
-			biasControlData.gzb.chData[3]	= completeSentence[27];			
+			// Note that as an additional tool the bias messages can be used as 
+			// diagnostic messages providing an additional 6 floating point values
+			// for diagnostics
+			#ifdef _IN_PC_ || USE_SENSOR_MCU_DIAG
+				biasControlData.axb.chData[0]	= completeSentence[4];
+				biasControlData.axb.chData[1]	= completeSentence[5];
+				biasControlData.axb.chData[2]	= completeSentence[6];
+				biasControlData.axb.chData[3]	= completeSentence[7];
+				biasControlData.ayb.chData[0]	= completeSentence[8];
+				biasControlData.ayb.chData[1]	= completeSentence[9];
+				biasControlData.ayb.chData[2]	= completeSentence[10];
+				biasControlData.ayb.chData[3]	= completeSentence[11];
+				biasControlData.azb.chData[0]	= completeSentence[12];
+				biasControlData.azb.chData[1]	= completeSentence[13];
+				biasControlData.azb.chData[2]	= completeSentence[14];
+				biasControlData.azb.chData[3]	= completeSentence[15];
+				biasControlData.gxb.chData[0]	= completeSentence[16];
+				biasControlData.gxb.chData[1]	= completeSentence[17];
+				biasControlData.gxb.chData[2]	= completeSentence[18];
+				biasControlData.gxb.chData[3]	= completeSentence[19];
+				biasControlData.gyb.chData[0]	= completeSentence[20];
+				biasControlData.gyb.chData[1]	= completeSentence[21];
+				biasControlData.gyb.chData[2]	= completeSentence[22];
+				biasControlData.gyb.chData[3]	= completeSentence[23];
+				biasControlData.gzb.chData[0]	= completeSentence[24];
+				biasControlData.gzb.chData[1]	= completeSentence[25];
+				biasControlData.gzb.chData[2]	= completeSentence[26];
+				biasControlData.gzb.chData[3]	= completeSentence[27];			
+			#endif
 		break;		
 		case DIAMSG_ID:
 			//change comment on USE_SENSOR_MCU_DIAG (in apUtils.h) if you want to use diagnostic data
