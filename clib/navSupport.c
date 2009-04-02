@@ -64,4 +64,15 @@ void getWP (unsigned char idx, float* WPpos){
 	WPpos[2] = wpsControlData.hei[idx-1].flData;
 }
 
+void setDiagnosticAb(float * flValues){
+	biasControlData.axb.flData = flValues[0];
+	biasControlData.ayb.flData = flValues[1];
+	biasControlData.azb.flData = flValues[2];	
+}
+
+void setDiagnosticGb(float * flValues){
+	biasControlData.gxb.flData = flValues[0];
+	biasControlData.gyb.flData = flValues[1];
+	biasControlData.gzb.flData = flValues[2];	
+}
 

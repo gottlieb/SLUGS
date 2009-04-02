@@ -19,6 +19,8 @@ unsigned char isWpFly (void);
 void setDiagnosticFloat (float * flValues);
 void setDiagnosticShort (short* shValues);
 void getWP (unsigned char idx, float* WPpos);
+void setDiagnosticAb (float * flValues);
+void setDiagnosticGb (float * flValues);
        	
 #ifdef __cplusplus
        }
