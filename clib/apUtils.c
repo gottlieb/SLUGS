@@ -243,7 +243,7 @@ void updateStates(unsigned char * completeSentence){
 			// 		 do not use it for anything else, instead use the flag in
 			//		 the apsControlStatus struct called hilStatus.
 			filterControlData = completeSentence[4];
-			apsControlData.hilStatus = filterControlData;
+			apsControlData.hilStatus = completeSentence[4];
 			
 			// turn on the required Aknowledge flag
 			aknControlData.filOnOff = 1;
