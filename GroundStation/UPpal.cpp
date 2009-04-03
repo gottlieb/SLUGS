@@ -1630,8 +1630,8 @@ void TFPpal::TxPWMMsg (void){
 
    // Freeze the PWM data to avoid changing data in the
    // middle of a send UDP
-   tPWMData pwmSampleLocal = pwmSample;
-   sampleTime.usData = attitudeSample.timeStamp.usData;
+   tPWMData pwmSampleLocal = getPWMStruct();
+   sampleTime.usData = getAttTimeStamp();
 
    send_buffer[0] 	= pwmSampleLocal.dt_c.chData[0];
    send_buffer[1] 	= pwmSampleLocal.dt_c.chData[1];
