@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.666"
+    ComputedModelVersion    "1.672"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,10 +45,10 @@ Model {
   Creator		  "ASL_Lab"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "Administrator"
+  LastModifiedBy	  "UavlabUser"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sun Mar 29 23:52:26 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:666>"
+  LastModifiedDate	  "Fri Apr 03 15:56:23 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:672>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -108,7 +108,7 @@ Model {
 	  $ObjectID		  2
 	  Version		  "1.2.0"
 	  StartTime		  "0.0"
-	  StopTime		  "100"
+	  StopTime		  "inf"
 	  AbsTol		  "auto"
 	  FixedStep		  "SampleT"
 	  InitialStep		  "auto"
@@ -536,6 +536,30 @@ Model {
       BusSelectionMode	      off
     }
     Block {
+      BlockType		      DiscreteIntegrator
+      IntegratorMethod	      "Integration: Forward Euler"
+      gainval		      "1.0"
+      ExternalReset	      "none"
+      InitialConditionSource  "internal"
+      InitialCondition	      "0"
+      InitialConditionMode    "State and output"
+      SampleTime	      "1"
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	off
+      LimitOutput	      off
+      UpperSaturationLimit    "inf"
+      LowerSaturationLimit    "-inf"
+      ShowSaturationPort      off
+      ShowStatePort	      off
+      IgnoreLimit	      off
+      StateMustResolveToSignalObject off
+      RTWStateStorageClass    "Auto"
+    }
+    Block {
       BlockType		      DiscreteTransferFcn
       Numerator		      "[1]"
       Denominator	      "[1 0.5]"
@@ -937,7 +961,7 @@ Model {
   }
   System {
     Name		    "HILModelManual"
-    Location		    [160, 133, 1150, 920]
+    Location		    [6, 84, 996, 871]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -962,7 +986,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"6DOF Model"
-	Location		[2, 78, 1398, 1030]
+	Location		[2, 82, 1390, 1026]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1252,14 +1276,6 @@ Model {
 	  OutDataTypeMode	  "double"
 	  RndMeth		  "Floor"
 	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Display
-	  Name			  "Display"
-	  Ports			  [1]
-	  Position		  [500, 30, 590, 60]
-	  Decimation		  "1"
-	  Lockdown		  off
 	}
 	Block {
 	  BlockType		  From
@@ -11352,6 +11368,20 @@ Model {
 		  ShowName		  off
 		}
 		Block {
+		  BlockType		  Rounding
+		  Name			  "Rounding\nFunction1"
+		  Position		  [545, 620, 575, 650]
+		  ShowName		  off
+		  Operator		  "round"
+		}
+		Block {
+		  BlockType		  Rounding
+		  Name			  "Rounding\nFunction2"
+		  Position		  [620, 535, 650, 565]
+		  ShowName		  off
+		  Operator		  "round"
+		}
+		Block {
 		  BlockType		  Sum
 		  Name			  "Sum"
 		  Ports			  [2, 1]
@@ -11470,7 +11500,7 @@ Model {
 		Block {
 		  BlockType		  Outport
 		  Name			  "COG (deg)"
-		  Position		  [620, 543, 650, 557]
+		  Position		  [670, 543, 700, 557]
 		  BackgroundColor	  "darkGreen"
 		  Port			  "10"
 		  IconDisplay		  "Port number"
@@ -11479,7 +11509,7 @@ Model {
 		Block {
 		  BlockType		  Outport
 		  Name			  "SOG (m/s)"
-		  Position		  [560, 628, 590, 642]
+		  Position		  [605, 628, 635, 642]
 		  BackgroundColor	  "darkGreen"
 		  Port			  "11"
 		  IconDisplay		  "Port number"
@@ -11515,7 +11545,7 @@ Model {
 		Line {
 		  SrcBlock		  "Angle Conversion1"
 		  SrcPort		  1
-		  DstBlock		  "COG (deg)"
+		  DstBlock		  "Rounding\nFunction2"
 		  DstPort		  1
 		}
 		Line {
@@ -11556,7 +11586,7 @@ Model {
 		Line {
 		  SrcBlock		  "Fcn"
 		  SrcPort		  1
-		  DstBlock		  "SOG (m/s)"
+		  DstBlock		  "Rounding\nFunction1"
 		  DstPort		  1
 		}
 		Line {
@@ -11652,6 +11682,18 @@ Model {
 		  SrcBlock		  "NEU2NED"
 		  SrcPort		  1
 		  DstBlock		  "Flat Earth to LLA"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Rounding\nFunction1"
+		  SrcPort		  1
+		  DstBlock		  "SOG (m/s)"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Rounding\nFunction2"
+		  SrcPort		  1
+		  DstBlock		  "COG (deg)"
 		  DstPort		  1
 		}
 	      }
@@ -15236,6 +15278,81 @@ Model {
       }
     }
     Block {
+      BlockType		      Reference
+      Name		      "Angle Conversion"
+      Ports		      [1, 1]
+      Position		      [630, 545, 720, 575]
+      ShowName		      off
+      SourceBlock	      "aerolibconvert2/Angle Conversion"
+      SourceType	      "Angle Conversion"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      IU		      "rad"
+      OU		      "deg"
+      Port {
+	PortNumber		1
+	Name			"elevator"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Angle Conversion1"
+      Ports		      [1, 1]
+      Position		      [630, 575, 720, 605]
+      ShowName		      off
+      SourceBlock	      "aerolibconvert2/Angle Conversion"
+      SourceType	      "Angle Conversion"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      IU		      "rad"
+      OU		      "deg"
+      Port {
+	PortNumber		1
+	Name			"aileron"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Angle Conversion2"
+      Ports		      [1, 1]
+      Position		      [630, 605, 720, 635]
+      ShowName		      off
+      SourceBlock	      "aerolibconvert2/Angle Conversion"
+      SourceType	      "Angle Conversion"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      IU		      "rad"
+      OU		      "deg"
+      Port {
+	PortNumber		1
+	Name			"rudder"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
+    }
+    Block {
       BlockType		      Constant
       Name		      "Constant1"
       Position		      [40, 695, 70, 725]
@@ -15291,12 +15408,11 @@ Model {
       BlockType		      Scope
       Name		      "Control Surface\nCmds"
       Ports		      [4]
-      Position		      [630, 574, 660, 606]
+      Position		      [790, 547, 820, 663]
       Floating		      off
-      Location		      [1205, 82, 1849, 462]
-      Open		      off
+      Location		      [935, 54, 1397, 859]
+      Open		      on
       NumInputPorts	      "4"
-      ZoomMode		      "yonly"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
@@ -15304,8 +15420,11 @@ Model {
 	axes3			"%<SignalLabel>"
 	axes4			"%<SignalLabel>"
       }
-      YMin		      "0.25~0.25~0~1"
-      YMax		      "2.75~2.75~2.75~4"
+      TimeRange		      "70"
+      YMin		      "-5.812499999999972~-10.62499999999994~-2.156249"
+"999999886~0.03515625000000001"
+      YMax		      "5.687500000000028~15.15625000000006~2.093750000"
+"000114~1.08984375"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
       SampleTime	      "0"
@@ -16592,6 +16711,12 @@ Model {
       ShowName		      off
       CloseFcn		      "tagdialog Close"
       GotoTag		      "de_c"
+      Port {
+	PortNumber		1
+	Name			"elevator"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
     }
     Block {
       BlockType		      From
@@ -16601,6 +16726,12 @@ Model {
       ShowName		      off
       CloseFcn		      "tagdialog Close"
       GotoTag		      "da_c"
+      Port {
+	PortNumber		1
+	Name			"aileron"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
     }
     Block {
       BlockType		      From
@@ -16610,6 +16741,12 @@ Model {
       ShowName		      off
       CloseFcn		      "tagdialog Close"
       GotoTag		      "dr_c"
+      Port {
+	PortNumber		1
+	Name			"rudder"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
     }
     Block {
       BlockType		      From
@@ -16619,6 +16756,12 @@ Model {
       ShowName		      off
       CloseFcn		      "tagdialog Close"
       GotoTag		      "dt_c"
+      Port {
+	PortNumber		1
+	Name			"throttle"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
     }
     Block {
       BlockType		      From
@@ -16702,26 +16845,17 @@ Model {
       GotoTag		      "dt_c"
     }
     Block {
-      BlockType		      From
-      Name		      "From9"
-      Position		      [65, 21, 115, 39]
-      BackgroundColor	      "cyan"
-      ShowName		      off
-      CloseFcn		      "tagdialog Close"
-      GotoTag		      "time_sync"
-    }
-    Block {
       BlockType		      SubSystem
       Name		      "Get Delay"
-      Ports		      [2, 1]
-      Position		      [135, 16, 215, 69]
+      Ports		      [1, 1]
+      Position		      [135, 19, 245, 71]
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
       MaskHideContents	      off
       System {
 	Name			"Get Delay"
-	Location		[973, 726, 1303, 834]
+	Location		[236, 428, 853, 913]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -16736,82 +16870,276 @@ Model {
 	ZoomFactor		"100"
 	Block {
 	  BlockType		  Inport
-	  Name			  "Sync"
-	  Position		  [25, 43, 55, 57]
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
 	  Name			  "From AP"
-	  Position		  [115, 68, 145, 82]
-	  Port			  "2"
+	  Position		  [85, 168, 115, 182]
 	  IconDisplay		  "Port number"
 	}
 	Block {
-	  BlockType		  RateTransition
-	  Name			  "Rate Transition3"
-	  Position		  [80, 29, 120, 71]
+	  BlockType		  SubSystem
+	  Name			  "Detect Change"
+	  Ports			  [1, 1]
+	  Position		  [155, 158, 245, 192]
 	  ShowName		  off
-	  OutPortSampleTime	  "SampleT"
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Detect Change"
+	    Location		    [329, 456, 649, 550]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Data"
+	      Position		      [25, 38, 55, 52]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Abs
+	      Name		      "Abs1"
+	      Position		      [160, 30, 180, 60]
+	      SaturateOnIntegerOverflow	off
+	      SampleTime	      "SampleT"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Difference1"
+	      Ports		      [1, 1]
+	      Position		      [80, 27, 140, 63]
+	      SourceBlock	      "simulink/Discrete/Difference"
+	      SourceType	      "Difference"
+	      ShowPortLabels	      "FromPortIcon"
+	      SystemSampleTime	      "-1"
+	      FunctionWithSeparateData off
+	      RTWMemSecFuncInitTerm   "Inherit from model"
+	      RTWMemSecFuncExecute    "Inherit from model"
+	      RTWMemSecDataConstants  "Inherit from model"
+	      RTWMemSecDataInternal   "Inherit from model"
+	      RTWMemSecDataParameters "Inherit from model"
+	      ICPrevInput	      "0.0"
+	      OutputDataTypeScalingMode	"Inherit via internal rule"
+	      OutDataType	      "sfix(16)"
+	      OutScaling	      "2^-10"
+	      LockScale		      off
+	      RndMeth		      "Floor"
+	      DoSatur		      off
+	    }
+	    Block {
+	      BlockType		      Saturate
+	      Name		      "Saturation1"
+	      Position		      [205, 30, 235, 60]
+	      UpperLimit	      "1"
+	      LowerLimit	      "0"
+	      SampleTime	      "SampleT"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "change?"
+	      Position		      [270, 38, 300, 52]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "Difference1"
+	      SrcPort		      1
+	      DstBlock		      "Abs1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Abs1"
+	      SrcPort		      1
+	      DstBlock		      "Saturation1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data"
+	      SrcPort		      1
+	      DstBlock		      "Difference1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Saturation1"
+	      SrcPort		      1
+	      DstBlock		      "change?"
+	      DstPort		      1
+	    }
+	  }
 	}
 	Block {
-	  BlockType		  Gain
-	  Name			  "Sample T"
-	  Position		  [220, 55, 250, 85]
-	  Gain			  "SampleT*HIL_K"
-	  ParameterDataTypeMode	  "Inherit via internal rule"
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Sum
-	  Name			  "Subtract"
-	  Ports			  [2, 1]
-	  Position		  [170, 52, 200, 83]
-	  Inputs		  "+-"
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutScaling		  "2^-10"
-	  SaturateOnIntegerOverflow off
+	  BlockType		  SubSystem
+	  Name			  "GPSAlive"
+	  Ports			  [1, 1]
+	  Position		  [275, 156, 375, 194]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "GPSAlive"
+	    Location		    [229, 441, 894, 705]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "update?"
+	      Position		      [25, 88, 55, 102]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant"
+	      Position		      [35, 35, 65, 65]
+	      ShowName		      off
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant1"
+	      Position		      [30, 125, 60, 155]
+	      ShowName		      off
+	      Value		      "0"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant2"
+	      Position		      [155, 130, 210, 160]
+	      ShowName		      off
+	      Value		      "SampleT"
+	    }
+	    Block {
+	      BlockType		      DiscreteIntegrator
+	      Name		      "Discrete-Time\nIntegrator"
+	      Ports		      [3, 1]
+	      Position		      [90, 29, 145, 161]
+	      IntegratorMethod	      "Integration: Forward Euler"
+	      ExternalReset	      "rising"
+	      InitialConditionSource  "external"
+	      SampleTime	      "SampleT"
+	      IgnoreLimit	      off
+	      ICPrevOutput	      "DiscIntNeverNeededParam"
+	      ICPrevScaledInput	      "DiscIntNeverNeededParam"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Integer Delay2"
+	      Ports		      [1, 1]
+	      Position		      [165, 77, 190, 113]
+	      ShowName		      off
+	      SourceBlock	      "simulink/Discrete/Integer Delay"
+	      SourceType	      "Integer Delay"
+	      vinit		      "0.0"
+	      samptime		      "-1"
+	      NumDelays		      "1"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      Ports		      [2, 1]
+	      Position		      [225, 85, 245, 105]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "|++"
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Update TIme"
+	      Position		      [300, 88, 330, 102]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "Constant"
+	      SrcPort		      1
+	      DstBlock		      "Discrete-Time\nIntegrator"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Constant1"
+	      SrcPort		      1
+	      DstBlock		      "Discrete-Time\nIntegrator"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Discrete-Time\nIntegrator"
+	      SrcPort		      1
+	      DstBlock		      "Integer Delay2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "update?"
+	      SrcPort		      1
+	      DstBlock		      "Discrete-Time\nIntegrator"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Integer Delay2"
+	      SrcPort		      1
+	      DstBlock		      "Sum"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Constant2"
+	      SrcPort		      1
+	      Points		      [20, 0]
+	      DstBlock		      "Sum"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      DstBlock		      "Update TIme"
+	      DstPort		      1
+	    }
+	  }
 	}
 	Block {
 	  BlockType		  Outport
 	  Name			  "Delay (s)"
-	  Position		  [275, 63, 305, 77]
+	  Position		  [405, 168, 435, 182]
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
 	}
 	Line {
-	  SrcBlock		  "Subtract"
+	  SrcBlock		  "From AP"
 	  SrcPort		  1
-	  DstBlock		  "Sample T"
+	  DstBlock		  "Detect Change"
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Rate Transition3"
+	  SrcBlock		  "Detect Change"
 	  SrcPort		  1
-	  Points		  [0, 10]
-	  DstBlock		  "Subtract"
+	  DstBlock		  "GPSAlive"
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Sync"
-	  SrcPort		  1
-	  DstBlock		  "Rate Transition3"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Sample T"
+	  SrcBlock		  "GPSAlive"
 	  SrcPort		  1
 	  DstBlock		  "Delay (s)"
 	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "From AP"
-	  SrcPort		  1
-	  DstBlock		  "Subtract"
-	  DstPort		  2
 	}
       }
     }
@@ -17039,7 +17367,7 @@ Model {
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
       NumBits		      "16"
-      tsamp		      "SampleT*HIL_K"
+      tsamp		      "SampleT"
     }
     Block {
       BlockType		      Terminator
@@ -17081,7 +17409,7 @@ Model {
       BlockType		      Scope
       Name		      "Time\nDelay (s)"
       Ports		      [1]
-      Position		      [245, 29, 275, 61]
+      Position		      [265, 29, 295, 61]
       Floating		      off
       Location		      [187, 123, 831, 503]
       Open		      off
@@ -17091,6 +17419,8 @@ Model {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
+      YMin		      "5.20417e-018"
+      YMax		      "0.11"
       SaveName		      "ScopeData2"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
@@ -17658,6 +17988,13 @@ Model {
 	}
 	Block {
 	  BlockType		  RateTransition
+	  Name			  "Rate Transition5"
+	  Position		  [90, 829, 130, 871]
+	  ShowName		  off
+	  OutPortSampleTime	  "SampleT*HIL_K"
+	}
+	Block {
+	  BlockType		  RateTransition
 	  Name			  "Rate Transition6"
 	  Position		  [90, 169, 130, 211]
 	  ShowName		  off
@@ -18030,7 +18367,7 @@ Model {
 	Line {
 	  SrcBlock		  "Sync Time"
 	  SrcPort		  1
-	  DstBlock		  "Data Type Conversion34"
+	  DstBlock		  "Rate Transition5"
 	  DstPort		  1
 	}
 	Line {
@@ -18287,6 +18624,12 @@ Model {
 	  DstBlock		  "Data Type Conversion17"
 	  DstPort		  1
 	}
+	Line {
+	  SrcBlock		  "Rate Transition5"
+	  SrcPort		  1
+	  DstBlock		  "Data Type Conversion34"
+	  DstPort		  1
+	}
       }
     }
     Line {
@@ -18482,12 +18825,6 @@ Model {
       DstPort		      7
     }
     Line {
-      SrcBlock		      "From9"
-      SrcPort		      1
-      DstBlock		      "Get Delay"
-      DstPort		      1
-    }
-    Line {
       SrcBlock		      "Constant1"
       SrcPort		      1
       Points		      [10, 0]
@@ -18549,7 +18886,7 @@ Model {
       SrcPort		      1
       Points		      [35, 0]
       DstBlock		      "Get Delay"
-      DstPort		      2
+      DstPort		      1
     }
     Line {
       SrcBlock		      "Convert to Rad"
@@ -18612,30 +18949,34 @@ Model {
       DstPort		      1
     }
     Line {
+      Name		      "elevator"
+      Labels		      [0, 0]
       SrcBlock		      "From11"
       SrcPort		      1
-      Points		      [30, 0; 0, 15]
-      DstBlock		      "Control Surface\nCmds"
+      DstBlock		      "Angle Conversion"
       DstPort		      1
     }
     Line {
+      Name		      "aileron"
+      Labels		      [0, 0]
       SrcBlock		      "From12"
       SrcPort		      1
-      Points		      [20, 0; 0, -5]
-      DstBlock		      "Control Surface\nCmds"
-      DstPort		      2
+      DstBlock		      "Angle Conversion1"
+      DstPort		      1
     }
     Line {
+      Name		      "rudder"
+      Labels		      [0, 0]
       SrcBlock		      "From13"
       SrcPort		      1
-      Points		      [30, 0; 0, -25]
-      DstBlock		      "Control Surface\nCmds"
-      DstPort		      3
+      DstBlock		      "Angle Conversion2"
+      DstPort		      1
     }
     Line {
+      Name		      "throttle"
+      Labels		      [0, 0]
       SrcBlock		      "From14"
       SrcPort		      1
-      Points		      [40, 0; 0, -45]
       DstBlock		      "Control Surface\nCmds"
       DstPort		      4
     }
@@ -18662,6 +19003,30 @@ Model {
       SrcPort		      1
       DstBlock		      "6DOF Model"
       DstPort		      2
+    }
+    Line {
+      Name		      "elevator"
+      Labels		      [0, 0]
+      SrcBlock		      "Angle Conversion"
+      SrcPort		      1
+      DstBlock		      "Control Surface\nCmds"
+      DstPort		      1
+    }
+    Line {
+      Name		      "aileron"
+      Labels		      [0, 0]
+      SrcBlock		      "Angle Conversion1"
+      SrcPort		      1
+      DstBlock		      "Control Surface\nCmds"
+      DstPort		      2
+    }
+    Line {
+      Name		      "rudder"
+      Labels		      [0, 0]
+      SrcBlock		      "Angle Conversion2"
+      SrcPort		      1
+      DstBlock		      "Control Surface\nCmds"
+      DstPort		      3
     }
     Annotation {
       Name		      "Disturbance and Noise  Control"
