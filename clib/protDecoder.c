@@ -483,6 +483,10 @@ tAttitudeData getAttStruct(void){
  return attitudeControlData;
 }
 
+unsigned short getAttTimeStamp(void){
+ return attitudeControlData.timeStamp.usData;
+}
+
 tBiasData getBiasStruct(void){
  return biasControlData;
 }

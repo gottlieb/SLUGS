@@ -47,6 +47,7 @@ void protParserInit (void);
     tRawData getRawStruct (void);
     tXYZData getXYZStruct (void);
     tAttitudeData getAttStruct (void);
+    unsigned short getAttTimeStamp(void);
     tAknData getAknStruct (void);
     tBiasData getBiasStruct (void);
     tDynTempData getDynStruct (void);

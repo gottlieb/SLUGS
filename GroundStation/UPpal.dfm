@@ -42,10 +42,10 @@ object FPpal: TFPpal
     Top = 25
     Width = 375
     Height = 668
-    ActivePage = TabSheet1
+    ActivePage = ts_pid
     Align = alClient
     MultiLine = True
-    TabIndex = 2
+    TabIndex = 1
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth'
@@ -651,7 +651,7 @@ object FPpal: TFPpal
         Top = 9
         Width = 169
         Height = 97
-        Caption = ' PID Loop 1  '
+        Caption = ' Airspeed Hold (dT)'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -859,7 +859,7 @@ object FPpal: TFPpal
         Top = 9
         Width = 169
         Height = 97
-        Caption = ' PID Loop 2'
+        Caption = 'Height Error to Theta'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -1072,7 +1072,7 @@ object FPpal: TFPpal
         Top = 113
         Width = 169
         Height = 97
-        Caption = ' PID Loop 3'
+        Caption = 'Theta Err to Elevator  (dE)'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -1285,7 +1285,7 @@ object FPpal: TFPpal
         Top = 113
         Width = 169
         Height = 97
-        Caption = ' PID Loop 4'
+        Caption = 'Yaw Damper (dR)'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -1498,7 +1498,7 @@ object FPpal: TFPpal
         Top = 217
         Width = 169
         Height = 97
-        Caption = ' PID Loop 5'
+        Caption = 'Roll Control  (dA)'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
