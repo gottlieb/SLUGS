@@ -15,6 +15,9 @@ vd = vd(:);
  i =  length(eta);
  %i = 7260;
  figct = 1;
+ 
+% Turn the Pause On
+pauseOn = 1;
 %% Start the Main loop
 figure(figct);
 clf;
@@ -38,7 +41,7 @@ axis equal;
      plot ([y(j) y(j)+ve(j)], [x(j) x(j)+vn(j)], 'r');
      
      %plot the L1 vector
-     plot ([y(j) y(j)+L1(j,2)], [x(j) x(j)+L1(j,1)], 'b-');
+     %plot ([y(j) y(j)+L1(j,2)], [x(j) x(j)+L1(j,1)], 'b-');
      
      % plot N exagerated (multiplied by 20)
       plot ([y(j) y(j)+20*N(j,2)], [x(j) x(j)+20*N(j,1)], 'c-');
@@ -218,7 +221,7 @@ subplot(4,1,4)
    plot(windTime,sqrt(xw.*xw + yw.*yw+ zw.*zw),'b'); 
    xlabel('Time(s)');
    ylabel('Total Wind Speed  (m/s)');
-   text(1,windBase, ['BS = ', num2str(windBase), ' TD = ', num2str(windDirTurb) , ' HD = ' , num2str(windDirHor)])
+   legend(['BS = ', num2str(windBase), ' TD = ', num2str(windDirTurb) , ' HD = ' , num2str(windDirHor)])
 
  eval(['print -depsc  '  num2str(figct) '_'  datestr(now,1) '_' ... 
      datestr(now,'HH') '_' datestr(now,'MM') '_' datestr(now,'SS')]);
