@@ -19,6 +19,7 @@ void uart1Init (void);
 void gsRead (unsigned char* gsChunk);       	
 void prepareTelemetry ( unsigned char* dataOut);
 void updatePWM (unsigned short * PWMData);
+void updatePWM2 (unsigned short PWMData, unsigned char channel );
 void updateLoad (unsigned char mcuLoad);
 void controlMCUInit (void);
 void EEPInit (void);
