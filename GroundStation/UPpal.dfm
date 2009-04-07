@@ -42,10 +42,10 @@ object FPpal: TFPpal
     Top = 25
     Width = 375
     Height = 668
-    ActivePage = ts_pid
+    ActivePage = TabSheet1
     Align = alClient
     MultiLine = True
-    TabIndex = 1
+    TabIndex = 2
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth'
@@ -10494,7 +10494,8 @@ object FPpal: TFPpal
       'ed_lon6.Value'
       'ed_lon7.Value'
       'ed_lon8.Value'
-      'ed_lon9.Value')
+      'ed_lon9.Value'
+      'ed_lat4.Value')
     StoredValues = <>
     Left = 32
     Top = 520
