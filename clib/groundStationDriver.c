@@ -981,7 +981,7 @@ void prepareTelemetry( unsigned char* dataOut){
 
 	// increment/overflow the samplePeriod counter
 	// configured for 16 Hz in non vital messages
-	sampleTelemetry = (sampleTelemetry >= 8)? 1: sampleTelemetry + 1;
+	sampleTelemetry = (sampleTelemetry >= 9)? 1: sampleTelemetry + 1;
 
 }
 
@@ -991,13 +991,28 @@ void updatePWM(unsigned short * PWMData){
 	pwmControlData.dla_c.usData = PWMData[1];
 	pwmControlData.dra_c.usData = PWMData[2];
 	pwmControlData.dr_c.usData 	= PWMData[3];
-	pwmControlData.dle_c.usData = PWMData[4];
-	pwmControlData.dre_c.usData = PWMData[5];
-	pwmControlData.dlf_c.usData = PWMData[6];
-	pwmControlData.drf_c.usData = PWMData[7];
-	pwmControlData.da1_c.usData = PWMData[8];
-	pwmControlData.da2_c.usData = PWMData[9];
-	
+	pwmControlData.dle_c.usData = PWMData[4];	
+}
+
+void updatePWM2(unsigned short PWMData, unsigned char channel ){
+	switch (channel){
+		case 0:
+			pwmControlData.dre_c.usData = PWMData;
+		break; 
+		case 1:
+			pwmControlData.dlf_c.usData = PWMData;
+		break; 
+		case 2:
+			pwmControlData.drf_c.usData = PWMData;
+		break; 
+		case 3:
+			pwmControlData.da1_c.usData = PWMData;
+		break; 
+		case 4:
+			pwmControlData.da2_c.usData = PWMData;
+		break; 
+								
+	}
 }
 
 void updateLoad (unsigned char mcuLoad){
