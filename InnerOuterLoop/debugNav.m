@@ -33,19 +33,25 @@ plot(Ypoints,Xpoints,'sk');
 %Plot the circle turns
 plotCirc
 axis equal;
- for j=l:50:i
+ for j=l:25:i
      % plot the UAV postion
-     plot(y(j),x(j),'g.');
-      
+     switch apMode(j)
+         case 1
+            plot(y(j),x(j),'gx');
+         case 2
+             plot(y(j),x(j),'rx');
+         case 0
+             plot(y(j),x(j),'bx');
+     end 
      %plot the velocity vector
-     plot ([y(j) y(j)+ve(j)], [x(j) x(j)+vn(j)], 'r');
+     %plot ([y(j) y(j)+ve(j)], [x(j) x(j)+vn(j)], 'r');
      
      %plot the L1 vector
-     if j > 9000
-        plot ([y(j) y(j)+L1(j,2)], [x(j) x(j)+L1(j,1)], 'b-');
-     end
+%      if j > 9000
+%         plot ([y(j) y(j)+L1(j,2)], [x(j) x(j)+L1(j,1)], 'b-');
+%      end
      % plot N exagerated (multiplied by 20)
-      plot ([y(j) y(j)+20*N(j,2)], [x(j) x(j)+20*N(j,1)], 'c-');
+      %plot ([y(j) y(j)+20*N(j,2)], [x(j) x(j)+20*N(j,1)], 'c-');
       
      %pause the animation
      if pauseOn == 1
