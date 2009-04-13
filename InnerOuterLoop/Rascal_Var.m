@@ -77,6 +77,6 @@ CmDe    = -3.2;        %  pitch control power
  TFact     = 0.4;%1.0;
  
 % Wind Configuration
-windBase = 7;
+windBase = 3.5;
 windDirTurb = 45;
 windDirHor = 135;
