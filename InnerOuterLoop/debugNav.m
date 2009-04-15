@@ -47,9 +47,9 @@ axis equal;
      %plot ([y(j) y(j)+ve(j)], [x(j) x(j)+vn(j)], 'r');
      
      %plot the L1 vector
-%      if j > 9000
-%         plot ([y(j) y(j)+L1(j,2)], [x(j) x(j)+L1(j,1)], 'b-');
-%      end
+  %   if j > 1000 && apMode(j) == 0
+        plot ([y(j) y(j)+L1(j,2)], [x(j) x(j)+L1(j,1)], 'b-');
+  %   end
      % plot N exagerated (multiplied by 20)
       %plot ([y(j) y(j)+20*N(j,2)], [x(j) x(j)+20*N(j,1)], 'c-');
       
@@ -190,22 +190,6 @@ subplot(3,1,3)
     xlabel('Time(s)');
     axis tight    
  
-
- eval(['print -depsc  '  num2str(figct) '_'  datestr(now,1) '_' ... 
-     datestr(now,'HH') '_' datestr(now,'MM') '_' datestr(now,'SS')]);
- figct = figct + 1;
-
- 
- figure(figct)
- plot3(y,x,z,'b');
- hold on;
- plot3(Ypoints,Xpoints,Zpoints,'sk');
- xlabel('X (m)');
- ylabel('Y (m)');
- zlabel('Z (m)');
- 
- grid on
- hold off
 
  eval(['print -depsc  '  num2str(figct) '_'  datestr(now,1) '_' ... 
      datestr(now,'HH') '_' datestr(now,'MM') '_' datestr(now,'SS')]);

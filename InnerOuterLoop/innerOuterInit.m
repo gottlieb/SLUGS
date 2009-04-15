@@ -4,7 +4,7 @@ apSampleTime = 0.01;
 
 %% Control Surface Limits
 deLimit = single(15*pi/180);
-daLimit = single(25*pi/180);
+daLimit = single(35*pi/180);
 dtLimit = single(1);
 drLimit = single(10*pi/180);
 
@@ -17,7 +17,7 @@ rollControlLimit = single(0.95*daLimit);     % controls aileron
 
 %% Command Limits
 pitchCommandLimit = single(15*pi/180);
-bankCommandLimit = single(40*pi/180);
+bankCommandLimit = single(30*pi/180);
 
 %% Nav Values
 
