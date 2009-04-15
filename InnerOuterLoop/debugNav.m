@@ -217,3 +217,46 @@ subplot(4,1,4)
  eval(['print -depsc  '  num2str(figct) '_'  datestr(now,1) '_' ... 
      datestr(now,'HH') '_' datestr(now,'MM') '_' datestr(now,'SS')]);
  figct = figct + 1;
+
+ figure(figct)
+ subplot(4,1,1)
+   plot(timePl,sqrt(Vxyz(:,1).^2 + Vxyz(:,2).^2 + Vxyz(:,3).^2),'b'); 
+   xlabel('Time(s)');
+   ylabel('GroundSpeed (m/s)');
+   grid on
+ subplot(4,1,2)
+   plot(timePl,as_c,'b'); 
+   xlabel('Time(s)');
+   ylabel('Acceleration Command');
+   grid on
+subplot(4,1,3)
+   plot(timePl,L2,'b'); 
+   xlabel('Time(s)');
+   ylabel('L2 Magnitude');
+   grid on
+subplot(4,1,4)
+   plot(timePl,eta,'b'); 
+   xlabel('Time(s)');
+   ylabel('Eta(rad)');
+   grid on
+   
+ eval(['print -depsc  '  num2str(figct) '_'  datestr(now,1) '_' ... 
+     datestr(now,'HH') '_' datestr(now,'MM') '_' datestr(now,'SS')]);
+ figct = figct + 1;
+ 
+%% Create the plot comparison for L2 scheduling
+
+x_axis = as_c./sin(eta);
+idx = find (isnan(x_axis));
+
+gsp_cpy = sqrt(Vxyz(:,1).^2 + Vxyz(:,2).^2 + Vxyz(:,3).^2);
+
+x_axis(idx) =[];
+gsp_cpy(idx) = [];
+
+
+ figure(figct)
+plot(2*gsp_cpy, x_axis);
+   xlabel('2*Groundspeed');
+   ylabel('as_c/sin(\eta)');
+   grid on
