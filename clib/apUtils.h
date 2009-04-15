@@ -39,6 +39,7 @@ float myAsin (float x);
 float mySin (float x);
 float myCos (float x);
 float myTan (float x);
+float myAcos (float x);
 #ifdef __cplusplus
       }
 #endif
