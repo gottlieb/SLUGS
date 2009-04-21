@@ -22,8 +22,8 @@ bankCommandLimit = single(30*pi/180);
 %% Nav Values
 
 L2_base = single(5);
-U_comm = single(25);
-R = single((U_comm + 7)^2/(ISA_g*tan(bankCommandLimit)));
+U_comm = single(20);
+R = single((U_comm + 3)^2/(ISA_g*tan(bankCommandLimit)));
 
 %% Curve fitting for PWM . Conversion from Radians to PWM
 % Calibration value in radians
