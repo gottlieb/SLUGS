@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.935"
+    ComputedModelVersion    "1.936"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -47,8 +47,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Apr 13 10:14:38 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:935>"
+  LastModifiedDate	  "Mon Apr 20 22:27:24 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:936>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -11823,6 +11823,16 @@ Model {
 		  RTWMemSecDataParameters "Inherit from model"
 		}
 		Block {
+		  BlockType		  Gain
+		  Name			  "Gain"
+		  Position		  [890, 290, 915, 320]
+		  ShowName		  off
+		  Gain			  "[ 1 1 0.3]"
+		  ParameterDataTypeMode	  "Inherit via internal rule"
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
 		  BlockType		  Selector
 		  Name			  "Get Z"
 		  Ports			  [1, 1]
@@ -11881,10 +11891,21 @@ Model {
 		  T0			  "288.15"
 		}
 		Block {
+		  BlockType		  Product
+		  Name			  "Matrix Multiply"
+		  Ports			  [2, 1]
+		  Position		  [1085, 349, 1140, 391]
+		  Multiplication	  "Matrix(*)"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  RndMeth		  "Floor"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
 		  BlockType		  Scope
 		  Name			  "Scope"
 		  Ports			  [1]
-		  Position		  [1100, 414, 1130, 446]
+		  Position		  [1195, 414, 1225, 446]
 		  Floating		  off
 		  Location		  [188, 390, 512, 629]
 		  Open			  off
@@ -11917,6 +11938,24 @@ Model {
 		  ShowName		  off
 		}
 		Block {
+		  BlockType		  Reference
+		  Name			  "Transpose"
+		  Ports			  [1, 1]
+		  Position		  [750, 205, 805, 245]
+		  SourceBlock		  "dspmtrx3/Transpose"
+		  SourceType		  "Transpose"
+		  ShowPortLabels	  "FromPortIcon"
+		  SystemSampleTime	  "-1"
+		  FunctionWithSeparateData off
+		  RTWMemSecFuncInitTerm	  "Inherit from model"
+		  RTWMemSecFuncExecute	  "Inherit from model"
+		  RTWMemSecDataConstants  "Inherit from model"
+		  RTWMemSecDataInternal	  "Inherit from model"
+		  RTWMemSecDataParameters "Inherit from model"
+		  Hermitian		  off
+		  overflowFlag		  off
+		}
+		Block {
 		  BlockType		  UnitDelay
 		  Name			  "Unit Delay"
 		  Position		  [520, 308, 555, 342]
@@ -11933,7 +11972,7 @@ Model {
 		Block {
 		  BlockType		  Outport
 		  Name			  "Wind"
-		  Position		  [1105, 363, 1135, 377]
+		  Position		  [1195, 363, 1225, 377]
 		  BackgroundColor	  "yellow"
 		  Port			  "2"
 		  IconDisplay		  "Port number"
@@ -12014,15 +12053,22 @@ Model {
 		  SrcBlock		  "Euler Angles to \nDirection Cosine "
 "Matrix"
 		  SrcPort		  1
-		  Points		  [110, 0; 0, 125]
+		  Points		  [110, 0]
 		  Branch {
+		    Points		    [0, 125]
+		    Branch {
 		    DstBlock		    "Dryden Wind Turbulence Model \n(D"
 "iscrete (+q -r))"
 		    DstPort		    3
-		  }
-		  Branch {
+		    }
+		    Branch {
 		    Points		    [0, 100]
 		    DstBlock		    "Horizontal Wind Model"
+		    DstPort		    1
+		    }
+		  }
+		  Branch {
+		    DstBlock		    "Transpose"
 		    DstPort		    1
 		  }
 		}
@@ -12049,8 +12095,7 @@ Model {
 		  SrcBlock		  "Dryden Wind Turbulence Model \n(Dis"
 "crete (+q -r))"
 		  SrcPort		  1
-		  Points		  [20, 0; 0, 50]
-		  DstBlock		  "Add"
+		  DstBlock		  "Gain"
 		  DstPort		  1
 		}
 		Line {
@@ -12059,21 +12104,6 @@ Model {
 		  Points		  [25, 0; 0, -65]
 		  DstBlock		  "Add"
 		  DstPort		  2
-		}
-		Line {
-		  SrcBlock		  "Switch"
-		  SrcPort		  1
-		  Points		  [15, 0; 0, -5]
-		  Branch {
-		    Points		    [0, -5]
-		    DstBlock		    "Wind"
-		    DstPort		    1
-		  }
-		  Branch {
-		    Points		    [0, 55]
-		    DstBlock		    "Scope"
-		    DstPort		    1
-		  }
 		}
 		Line {
 		  SrcBlock		  "Wind On"
@@ -12088,6 +12118,39 @@ Model {
 		  Points		  [5, 0; 0, -85]
 		  DstBlock		  "Switch"
 		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Transpose"
+		  SrcPort		  1
+		  Points		  [0, 5; 230, 0; 0, 130]
+		  DstBlock		  "Matrix Multiply"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Switch"
+		  SrcPort		  1
+		  DstBlock		  "Matrix Multiply"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Matrix Multiply"
+		  SrcPort		  1
+		  Points		  [20, 0]
+		  Branch {
+		    DstBlock		    "Wind"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 60]
+		    DstBlock		    "Scope"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Gain"
+		  SrcPort		  1
+		  DstBlock		  "Add"
+		  DstPort		  1
 		}
 	      }
 	    }
@@ -21290,8 +21353,10 @@ Model {
 	Block {
 	  BlockType		  Constant
 	  Name			  "UAV\nWeight"
-	  Position		  [845, 280, 875, 310]
-	  Value			  "mass"
+	  Position		  [900, 256, 965, 284]
+	  Orientation		  "left"
+	  ShowName		  off
+	  Value			  "ISA_g"
 	  OutDataTypeMode	  "single"
 	}
 	Block {
@@ -21306,20 +21371,108 @@ Model {
 	  LatchByCopyingInsideSignal off
 	}
 	Block {
-	  BlockType		  Reference
+	  BlockType		  SubSystem
 	  Name			  "as_c to phi_c"
 	  Ports			  [2, 1]
 	  Position		  [895, 153, 955, 217]
-	  SourceBlock		  "SLUGS_Library/Navigation/as_c to phi_c"
-	  SourceType		  "SubSystem"
-	  ShowPortLabels	  "FromPortIcon"
-	  SystemSampleTime	  "-1"
+	  AncestorBlock		  "SLUGS_Library/Navigation/as_c to phi_c"
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
-	  RTWMemSecFuncInitTerm	  "Inherit from model"
-	  RTWMemSecFuncExecute	  "Inherit from model"
-	  RTWMemSecDataConstants  "Inherit from model"
-	  RTWMemSecDataInternal	  "Inherit from model"
-	  RTWMemSecDataParameters "Inherit from model"
+	  MaskHideContents	  off
+	  System {
+	    Name		    "as_c to phi_c"
+	    Location		    [777, 732, 1143, 913]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "as_c"
+	      Position		      [25, 28, 55, 42]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "g"
+	      Position		      [25, 68, 55, 82]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Divide"
+	      Ports		      [2, 1]
+	      Position		      [80, 32, 110, 63]
+	      ShowName		      off
+	      Inputs		      "*/"
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutScaling	      "2^-10"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Subsystem2"
+	      Ports		      [1, 1]
+	      Position		      [150, 29, 210, 71]
+	      ShowName		      off
+	      SourceBlock	      "SLUGS_Library/Subsystem2"
+	      SourceType	      "SubSystem"
+	      ShowPortLabels	      "FromPortIcon"
+	      SystemSampleTime	      "-1"
+	      FunctionWithSeparateData off
+	      RTWMemSecFuncInitTerm   "Inherit from model"
+	      RTWMemSecFuncExecute    "Inherit from model"
+	      RTWMemSecDataConstants  "Inherit from model"
+	      RTWMemSecDataInternal   "Inherit from model"
+	      RTWMemSecDataParameters "Inherit from model"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "phi_c"
+	      Position		      [235, 43, 265, 57]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "g"
+	      SrcPort		      1
+	      Points		      [0, -20]
+	      DstBlock		      "Divide"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Subsystem2"
+	      SrcPort		      1
+	      DstBlock		      "phi_c"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "as_c"
+	      SrcPort		      1
+	      Points		      [0, 5]
+	      DstBlock		      "Divide"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Divide"
+	      SrcPort		      1
+	      DstBlock		      "Subsystem2"
+	      DstPort		      1
+	    }
+	  }
 	}
 	Block {
 	  BlockType		  Outport
@@ -21455,6 +21608,7 @@ Model {
 	Line {
 	  SrcBlock		  "UAV\nWeight"
 	  SrcPort		  1
+	  Points		  [-15, 0]
 	  DstBlock		  "as_c to phi_c"
 	  DstPort		  2
 	}
