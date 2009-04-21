@@ -235,7 +235,7 @@ subplot(4,1,3)
    ylabel('L2 Magnitude');
    grid on
 subplot(4,1,4)
-   plot(timePl,eta,'b'); 
+   plot(timePl,rad2deg(eta),'b'); 
    xlabel('Time(s)');
    ylabel('Eta(rad)');
    grid on
