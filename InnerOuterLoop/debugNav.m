@@ -189,6 +189,22 @@ subplot(3,1,3)
      datestr(now,'HH') '_' datestr(now,'MM') '_' datestr(now,'SS')]);
  figct = figct + 1;
 
+ 
+ figure(figct)
+ plot3(y,x,z,'b');
+ hold on;
+ plot3(Ypoints,Xpoints,Zpoints,'sk');
+ xlabel('X (m)');
+ ylabel('Y (m)');
+ zlabel('Z (m)');
+ 
+ grid on
+ hold off
+
+ eval(['print -depsc  '  num2str(figct) '_'  datestr(now,1) '_' ... 
+     datestr(now,'HH') '_' datestr(now,'MM') '_' datestr(now,'SS')]);
+ figct = figct + 1;
+
  figure(figct)
  subplot(4,1,1)
    plot(windTime,xw,'b'); 
