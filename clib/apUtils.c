@@ -711,3 +711,12 @@ float myTan(float x){
 		return tanf(x);
      #endif
 }
+
+float myAcos(float x){
+     #ifdef _IN_PC_
+        return acos(x);
+     #else
+		return acosf(x);
+     #endif
+	
+}

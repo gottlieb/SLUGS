@@ -4,7 +4,7 @@ apSampleTime = 0.01;
 
 %% Control Surface Limits
 deLimit = single(15*pi/180);
-daLimit = single(25*pi/180);
+daLimit = single(35*pi/180);
 dtLimit = single(1);
 drLimit = single(10*pi/180);
 
@@ -17,12 +17,13 @@ rollControlLimit = single(0.95*daLimit);     % controls aileron
 
 %% Command Limits
 pitchCommandLimit = single(15*pi/180);
-bankCommandLimit = single(40*pi/180);
+bankCommandLimit = single(30*pi/180);
 
 %% Nav Values
-R = single(200);
-L1_base = single(200);
-U_comm = single(25);
+
+L2_base = single(5);
+U_comm = single(20);
+R = single((U_comm)^2/(ISA_g*tan(bankCommandLimit)));
 
 %% Curve fitting for PWM . Conversion from Radians to PWM
 % Calibration value in radians
