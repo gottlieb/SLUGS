@@ -1,6 +1,6 @@
 Xpoints = [0   1500 1500 400 400  -600];
 Ypoints = [0   0    1500 600 1500 1500];
-Zpoints = [500 600  700  600 700  600 ];
+Zpoints = [500 600  700  600 500  600 ];
 
 wpCount = length(Xpoints);
 
