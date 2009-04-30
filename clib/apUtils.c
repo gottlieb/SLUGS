@@ -159,7 +159,7 @@ void updateStates(unsigned char * completeSentence){
 			// Note that as an additional tool the bias messages can be used as 
 			// diagnostic messages providing an additional 6 floating point values
 			// for diagnostics
-			#ifdef _IN_PC_ || USE_SENSOR_MCU_DIAG
+			#if defined(_IN_PC_) || defined(USE_SENSOR_MCU_DIAG)
 				biasControlData.axb.chData[0]	= completeSentence[4];
 				biasControlData.axb.chData[1]	= completeSentence[5];
 				biasControlData.axb.chData[2]	= completeSentence[6];
@@ -189,7 +189,7 @@ void updateStates(unsigned char * completeSentence){
 		case DIAMSG_ID:
 			//change comment on USE_SENSOR_MCU_DIAG (in apUtils.h) if you want to use diagnostic data
 			// from the sensor MCU
-			#ifdef _IN_PC_ || USE_SENSOR_MCU_DIAG
+			#if defined(_IN_PC_) || defined(USE_SENSOR_MCU_DIAG)
 				diagControlData.fl1.chData[0]	= completeSentence[4];
 				diagControlData.fl1.chData[1]	= completeSentence[5];
 				diagControlData.fl1.chData[2]	= completeSentence[6];
@@ -709,5 +709,22 @@ float myTan(float x){
         return tan(x);
      #else
 		return tanf(x);
+     #endif
+}
+
+float myAcos(float x){
+     #ifdef _IN_PC_
+        return acos(x);
+     #else
+		return acosf(x);
+     #endif
+	
+}
+
+float myExp(float x){
+     #ifdef _IN_PC_
+        return exp(x);
+     #else
+		return expf(x);
      #endif
 }
