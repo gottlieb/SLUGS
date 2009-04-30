@@ -5,6 +5,7 @@ HIL_K = 3;
 %% Run the standard setup files
 run ../InnerOuterLoop/Rascal_Var.m
 run ../InnerOuterLoop/innerOuterInit.m
+run ../InnerOuterLoop/failuresInit.m
 
 %% Set up the reverse lookup values for PWM to radians
 % Rudder
