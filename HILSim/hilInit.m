@@ -28,5 +28,5 @@ mPWMdt = P(1);
 bPWMdt = P(2);
 
 %% Override RascalVar values
-Pos_0   = [500; 750; 350]';     % Initial position vector (m)
+Pos_0   = [200; 350; 350]';     % Initial position vector (m)
 Euler_0 = [0; 0; 0*pi/180]';     % Initial Euler angles    (rad)
