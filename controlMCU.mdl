@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.324"
+    ComputedModelVersion    "1.329"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Apr 30 10:22:31 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:324>"
+  LastModifiedDate	  "Thu Apr 30 12:10:25 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:329>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -829,9 +829,6 @@ Model {
       LinearizeAsGain	      on
     }
     Block {
-      BlockType		      Reference
-    }
-    Block {
       BlockType		      RelationalOperator
       Operator		      ">="
       InputSameDT	      on
@@ -969,7 +966,7 @@ Model {
   System {
     Name		    "controlMCU"
     Location		    [2, 78, 949, 979]
-    Open		    off
+    Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    188
     ScreenColor		    "white"
@@ -995,14 +992,22 @@ Model {
     Block {
       BlockType		      Constant
       Name		      "Constant1"
-      Position		      [320, 720, 350, 750]
+      Position		      [315, 735, 345, 765]
       ShowName		      off
       OutDataTypeMode	      "uint8"
     }
     Block {
       BlockType		      Constant
+      Name		      "Constant2"
+      Position		      [80, 870, 110, 900]
+      ShowName		      off
+      Value		      "6"
+      OutDataTypeMode	      "uint8"
+    }
+    Block {
+      BlockType		      Constant
       Name		      "Constant5"
-      Position		      [80, 770, 110, 800]
+      Position		      [80, 795, 110, 825]
       ShowName		      off
       Value		      "5"
       OutDataTypeMode	      "uint8"
@@ -1011,7 +1016,7 @@ Model {
       BlockType		      SubSystem
       Name		      "Convert to PWM"
       Ports		      [1, 1]
-      Position		      [615, 224, 710, 276]
+      Position		      [615, 244, 710, 296]
       NamePlacement	      "alternate"
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
@@ -1156,7 +1161,7 @@ Model {
       BlockType		      SubSystem
       Name		      "Convert to PWM1"
       Ports		      [1, 1]
-      Position		      [615, 299, 710, 351]
+      Position		      [615, 319, 710, 371]
       NamePlacement	      "alternate"
       ShowName		      off
       MinAlgLoopOccurrences   off
@@ -1302,7 +1307,7 @@ Model {
       BlockType		      SubSystem
       Name		      "Convert to PWM2"
       Ports		      [1, 1]
-      Position		      [615, 374, 710, 426]
+      Position		      [615, 394, 710, 446]
       NamePlacement	      "alternate"
       ShowName		      off
       MinAlgLoopOccurrences   off
@@ -1448,7 +1453,7 @@ Model {
       BlockType		      SubSystem
       Name		      "Convert to PWM3"
       Ports		      [1, 1]
-      Position		      [615, 449, 710, 501]
+      Position		      [615, 469, 710, 521]
       NamePlacement	      "alternate"
       ShowName		      off
       MinAlgLoopOccurrences   off
@@ -1887,18 +1892,17 @@ Model {
     Block {
       BlockType		      Demux
       Name		      "Demux1"
-      Ports		      [1, 3]
-      Position		      [330, 534, 335, 586]
+      Ports		      [1, 4]
+      Position		      [330, 536, 335, 589]
       BackgroundColor	      "black"
       ShowName		      off
-      Outputs		      "3"
       DisplayOption	      "bar"
     }
     Block {
       BlockType		      Demux
       Name		      "Demux2"
       Ports		      [1, 2]
-      Position		      [330, 598, 335, 642]
+      Position		      [330, 618, 335, 662]
       BackgroundColor	      "black"
       ShowName		      off
       Outputs		      "[3 3]"
@@ -1908,7 +1912,17 @@ Model {
       BlockType		      Demux
       Name		      "Demux3"
       Ports		      [1, 3]
-      Position		      [295, 759, 300, 811]
+      Position		      [295, 784, 300, 836]
+      BackgroundColor	      "black"
+      ShowName		      off
+      Outputs		      "3"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Demux
+      Name		      "Demux4"
+      Ports		      [1, 3]
+      Position		      [295, 859, 300, 911]
       BackgroundColor	      "black"
       ShowName		      off
       Outputs		      "3"
@@ -1929,7 +1943,7 @@ Model {
       Name		      "Get Attitude"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [0, 1]
-      Position		      [125, 542, 230, 578]
+      Position		      [125, 547, 230, 583]
       BackgroundColor	      "orange"
       List {
 	ListType		RTWdata
@@ -1995,7 +2009,7 @@ Model {
       Name		      "Get Max WP"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [0, 1]
-      Position		      [190, 692, 295, 728]
+      Position		      [175, 707, 280, 743]
       BackgroundColor	      "orange"
       List {
 	ListType		RTWdata
@@ -2059,10 +2073,45 @@ Model {
     }
     Block {
       BlockType		      Reference
+      Name		      "Get Pid according\nto Index1"
+      Tag		      "dsPIC_dsPIC_CFunctionCall"
+      Ports		      [1, 1]
+      Position		      [135, 867, 240, 903]
+      BackgroundColor	      "orange"
+      ShowName		      off
+      List {
+	ListType		RTWdata
+	FctDeclaration		"extern void getPidIdx(uint8_T u1,real32_T* y1"
+");"
+	FctCall			"getPidIdx(%u1, *%y1);"
+	fctName			"getPidIdx"
+	INPUT_SIZE		"1"
+	OUTPUT_SIZE		"3"
+	NBR_INPUT		"1"
+	NBR_OUTPUT		"1"
+      }
+      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+      SourceType	      "C Function Call"
+      fctName		      "'getPidIdx'"
+      INPUT_SIZE	      "1"
+      INPUT1		      "uint8"
+      INPUT2		      "--"
+      INPUT3		      "--"
+      OUTPUT_SIZE	      "3"
+      OUTPUT1		      "real32"
+      SampleTime	      ".01"
+      InputType		      "[ 2 ]"
+      OutputType	      "[ 7 ]"
+      FctDeclaration	      "extern void getPidIdx(uint8_T u1,real32_T* y1);"
+      FctCall		      "getPidIdx(%u1, *%y1);"
+      OrderingInOutPopup      "None"
+    }
+    Block {
+      BlockType		      Reference
       Name		      "Get Pid according\nto Index4"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [1, 1]
-      Position		      [135, 767, 240, 803]
+      Position		      [135, 792, 240, 828]
       BackgroundColor	      "orange"
       ShowName		      off
       List {
@@ -2097,7 +2146,7 @@ Model {
       Name		      "Get XYZ"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [0, 1]
-      Position		      [125, 602, 230, 638]
+      Position		      [125, 622, 230, 658]
       BackgroundColor	      "orange"
       List {
 	ListType		RTWdata
@@ -2175,8 +2224,8 @@ Model {
     Block {
       BlockType		      SubSystem
       Name		      "Inner Loop/ Navigation"
-      Ports		      [25, 8]
-      Position		      [380, 199, 580, 821]
+      Ports		      [29, 7]
+      Position		      [380, 184, 580, 946]
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
@@ -2184,7 +2233,7 @@ Model {
       System {
 	Name			"Inner Loop/ Navigation"
 	Location		[214, 82, 1103, 902]
-	Open			on
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	141
 	ScreenColor		"white"
@@ -2214,7 +2263,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "psi_dot_c_man (rad)"
-	  Position		  [410, 478, 440, 492]
+	  Position		  [410, 483, 440, 497]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "3"
 	  IconDisplay		  "Port number"
@@ -2238,7 +2287,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "dA Trim (rad)"
-	  Position		  [510, 578, 540, 592]
+	  Position		  [510, 583, 540, 597]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "6"
 	  IconDisplay		  "Port number"
@@ -2246,7 +2295,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "dRTrim (rad)"
-	  Position		  [460, 453, 490, 467]
+	  Position		  [460, 458, 490, 472]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "7"
 	  IconDisplay		  "Port number"
@@ -2278,7 +2327,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "YawDamp PID"
-	  Position		  [405, 428, 435, 442]
+	  Position		  [405, 433, 435, 447]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "11"
 	  IconDisplay		  "Port number"
@@ -2286,7 +2335,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "Roll PID "
-	  Position		  [460, 553, 490, 567]
+	  Position		  [460, 558, 490, 572]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "12"
 	  IconDisplay		  "Port number"
@@ -2302,7 +2351,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "phi_m (rad)"
-	  Position		  [415, 528, 445, 542]
+	  Position		  [415, 533, 445, 547]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "14"
 	  IconDisplay		  "Port number"
@@ -2317,26 +2366,34 @@ Model {
 	}
 	Block {
 	  BlockType		  Inport
-	  Name			  "r_m (rad/s)"
-	  Position		  [355, 378, 385, 392]
+	  Name			  "q_m(rad)"
+	  Position		  [840, 563, 870, 577]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "16"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
-	  Name			  "XYZ (m)"
-	  Position		  [125, 243, 155, 257]
+	  Name			  "r_m (rad/s)"
+	  Position		  [355, 383, 385, 397]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "17"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
-	  Name			  "Vned (m/s)"
-	  Position		  [125, 343, 155, 357]
+	  Name			  "XYZ (m)"
+	  Position		  [125, 253, 155, 267]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "18"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Vned (m/s)"
+	  Position		  [125, 363, 155, 377]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "19"
 	  IconDisplay		  "Port number"
 	}
 	Block {
@@ -2344,7 +2401,7 @@ Model {
 	  Name			  "Manual?"
 	  Position		  [485, 278, 515, 292]
 	  BackgroundColor	  "darkGreen"
-	  Port			  "19"
+	  Port			  "20"
 	  IconDisplay		  "Port number"
 	}
 	Block {
@@ -2352,53 +2409,387 @@ Model {
 	  Name			  "wp Fly?"
 	  Position		  [450, 303, 480, 317]
 	  BackgroundColor	  "darkGreen"
-	  Port			  "20"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "Max Wp Idx"
-	  Position		  [125, 293, 155, 307]
-	  BackgroundColor	  "darkGreen"
 	  Port			  "21"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
-	  Name			  "Start WP Idx"
-	  Position		  [125, 393, 155, 407]
+	  Name			  "Max Wp Idx"
+	  Position		  [125, 308, 155, 322]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "22"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
-	  Name			  "L2 Base  (m)"
-	  Position		  [125, 443, 155, 457]
+	  Name			  "Start WP Idx"
+	  Position		  [125, 418, 155, 432]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "23"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
-	  Name			  "Preturn K"
-	  Position		  [125, 593, 155, 607]
+	  Name			  "L2 Base  (m)"
+	  Position		  [125, 473, 155, 487]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "24"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
-	  Name			  "Swithc T"
-	  Position		  [125, 643, 155, 657]
+	  Name			  "Preturn K"
+	  Position		  [125, 638, 155, 652]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "25"
 	  IconDisplay		  "Port number"
 	}
 	Block {
+	  BlockType		  Inport
+	  Name			  "gamma"
+	  Position		  [995, 623, 1025, 637]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "26"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "omega"
+	  Position		  [995, 588, 1025, 602]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "27"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "m"
+	  Position		  [995, 558, 1025, 572]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "28"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "L1OnOff"
+	  Position		  [955, 388, 985, 402]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "29"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Compute\npsi_dot_m"
+	  Ports			  [3, 1]
+	  Position		  [910, 483, 1010, 547]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Compute\npsi_dot_m"
+	    Location		    [-1438, 78, -2, 880]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "r_m"
+	      Position		      [155, 13, 185, 27]
+	      BackgroundColor	      "darkGreen"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "phi_m"
+	      Position		      [60, 58, 90, 72]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "q_m"
+	      Position		      [155, 88, 185, 102]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product"
+	      Ports		      [2, 1]
+	      Position		      [230, 37, 260, 68]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	      SampleTime	      "apSampleTime"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product1"
+	      Ports		      [2, 1]
+	      Position		      [230, 112, 260, 143]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	      SampleTime	      "apSampleTime"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Subsystem5"
+	      Ports		      [1, 1]
+	      Position		      [140, 50, 200, 80]
+	      ShowName		      off
+	      AncestorBlock	      "SLUGS_Library/Subsystem5"
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"Subsystem5"
+		Location		[-1438, 78, -2, 880]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "u"
+		  Position		  [25, 48, 55, 62]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "C Function Call1"
+		  Tag			  "dsPIC_dsPIC_CFunctionCall"
+		  Ports			  [1, 1]
+		  Position		  [205, 160, 330, 200]
+		  ShowName		  off
+		  List {
+		    ListType		    RTWdata
+		    FctDeclaration	    "extern real32_T myCos(real32_T u1"
+");"
+		    FctCall		    "%y1 = myCos(%u1);"
+		    fctName		    "myCos"
+		    INPUT_SIZE		    "1"
+		    OUTPUT_SIZE		    "1"
+		    NBR_INPUT		    "1"
+		    NBR_OUTPUT		    "1"
+		  }
+		  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+		  SourceType		  "C Function Call"
+		  fctName		  "'myCos'"
+		  INPUT_SIZE		  "1"
+		  INPUT1		  "real32"
+		  INPUT2		  "--"
+		  INPUT3		  "--"
+		  OUTPUT_SIZE		  "1"
+		  OUTPUT1		  "real32"
+		  SampleTime		  "-1"
+		  InputType		  "[ 7 ]"
+		  OutputType		  "[ 7 ]"
+		  FctDeclaration	  "extern real32_T myCos(real32_T u1);"
+		  FctCall		  "%y1 = myCos(%u1);"
+		  OrderingInOutPopup	  "None"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Environment\nController1"
+		  Ports			  [2, 1]
+		  Position		  [370, 121, 410, 159]
+		  ShowName		  off
+		  SourceBlock		  "simulink/Signal\nRouting/Environmen"
+"t\nController"
+		  SourceType		  "Environment Controller"
+		  ShowPortLabels	  "FromPortIcon"
+		  SystemSampleTime	  "-1"
+		  FunctionWithSeparateData off
+		  RTWMemSecFuncInitTerm	  "Inherit from model"
+		  RTWMemSecFuncExecute	  "Inherit from model"
+		  RTWMemSecDataConstants  "Inherit from model"
+		  RTWMemSecDataInternal	  "Inherit from model"
+		  RTWMemSecDataParameters "Inherit from model"
+		}
+		Block {
+		  BlockType		  Trigonometry
+		  Name			  "Trigonometric\nFunction"
+		  Ports			  [1, 1]
+		  Position		  [125, 45, 155, 75]
+		  Operator		  "cos"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "cos(u)"
+		  Position		  [435, 133, 465, 147]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Trigonometric\nFunction"
+		  SrcPort		  1
+		  Points		  [95, 0; 0, 70]
+		  DstBlock		  "Environment\nController1"
+		  DstPort		  1
+		}
+		Line {
+		  Labels		  [2, 0]
+		  SrcBlock		  "C Function Call1"
+		  SrcPort		  1
+		  Points		  [15, 0; 0, -30]
+		  DstBlock		  "Environment\nController1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Environment\nController1"
+		  SrcPort		  1
+		  DstBlock		  "cos(u)"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "u"
+		  SrcPort		  1
+		  Points		  [15, 0]
+		  Branch {
+		    Points		    [35, 0]
+		    DstBlock		    "Trigonometric\nFunction"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 125]
+		    DstBlock		    "C Function Call1"
+		    DstPort		    1
+		  }
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Subsystem7"
+	      Ports		      [1, 1]
+	      Position		      [140, 130, 200, 160]
+	      ShowName		      off
+	      SourceBlock	      "SLUGS_Library/Subsystem7"
+	      SourceType	      "SubSystem"
+	      ShowPortLabels	      "FromPortIcon"
+	      SystemSampleTime	      "-1"
+	      FunctionWithSeparateData off
+	      RTWMemSecFuncInitTerm   "Inherit from model"
+	      RTWMemSecFuncExecute    "Inherit from model"
+	      RTWMemSecDataConstants  "Inherit from model"
+	      RTWMemSecDataInternal   "Inherit from model"
+	      RTWMemSecDataParameters "Inherit from model"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Subtract"
+	      Ports		      [2, 1]
+	      Position		      [310, 82, 340, 113]
+	      ShowName		      off
+	      Inputs		      "2"
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutScaling	      "2^-10"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "psi_dot_m"
+	      Position		      [365, 93, 395, 107]
+	      BackgroundColor	      "yellow"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "q_m"
+	      SrcPort		      1
+	      Points		      [0, 25]
+	      DstBlock		      "Product1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Subtract"
+	      SrcPort		      1
+	      DstBlock		      "psi_dot_m"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "phi_m"
+	      SrcPort		      1
+	      Points		      [5, 0]
+	      Branch {
+		Points			[0, 80]
+		DstBlock		"Subsystem7"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"Subsystem5"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "r_m"
+	      SrcPort		      1
+	      Points		      [0, 25]
+	      DstBlock		      "Product"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Product1"
+	      SrcPort		      1
+	      Points		      [15, 0; 0, -25]
+	      DstBlock		      "Subtract"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Product"
+	      SrcPort		      1
+	      Points		      [15, 0; 0, 35]
+	      DstBlock		      "Subtract"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Subsystem7"
+	      SrcPort		      1
+	      Points		      [5, 0; 0, -10]
+	      DstBlock		      "Product1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Subsystem5"
+	      SrcPort		      1
+	      Points		      [5, 0; 0, -5]
+	      DstBlock		      "Product"
+	      DstPort		      2
+	    }
+	  }
+	}
+	Block {
 	  BlockType		  DataTypeConversion
 	  Name			  "Data Type Conversion"
-	  Position		  [410, 368, 485, 402]
+	  Position		  [410, 373, 485, 407]
 	  ShowName		  off
 	  OutDataTypeMode	  "double"
 	  RndMeth		  "Floor"
@@ -2407,9 +2798,9 @@ Model {
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "L1 Output Feedback\nController\nWith \nProj"
-"ection Operator\nCorrected"
+"ection Operator"
 	  Ports			  [5, 1, 1]
-	  Position		  [930, 633, 1030, 797]
+	  Position		  [1060, 463, 1160, 627]
 	  TreatAsAtomicUnit	  on
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
@@ -2417,7 +2808,7 @@ Model {
 	  MaskHideContents	  off
 	  System {
 	    Name		    "L1 Output Feedback\nController\nWith \nPr"
-"ojection Operator\nCorrected"
+"ojection Operator"
 	    Location		    [27, 461, 1254, 1144]
 	    Open		    off
 	    ModelBrowserVisibility  off
@@ -2664,33 +3055,44 @@ Model {
 		    Block {
 		    BlockType		    Inport
 		    Name		    "u"
-		    Position		    [55, 28, 85, 42]
+		    Position		    [85, 38, 115, 52]
 		    IconDisplay		    "Port number"
 		    }
 		    Block {
 		    BlockType		    Reference
-		    Name		    "Environment\nController"
-		    Ports		    [2, 1]
-		    Position		    [355, 26, 395, 64]
-		    ShowName		    off
-		    SourceBlock		    "simulink/Signal\nRouting/Environm"
-"ent\nController"
-		    SourceType		    "Environment Controller"
-		    ShowPortLabels	    "FromPortIcon"
-		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
-		    RTWMemSecFuncInitTerm   "Inherit from model"
-		    RTWMemSecFuncExecute    "Inherit from model"
-		    RTWMemSecDataConstants  "Inherit from model"
-		    RTWMemSecDataInternal   "Inherit from model"
-		    RTWMemSecDataParameters "Inherit from model"
-		    }
-		    Block {
-		    BlockType		    Math
-		    Name		    "Math\nFunction"
+		    Name		    "C Function Call"
+		    Tag			    "dsPIC_dsPIC_CFunctionCall"
 		    Ports		    [1, 1]
-		    Position		    [175, 19, 205, 51]
+		    Position		    [240, 25, 365, 65]
 		    ShowName		    off
+		    List {
+		    ListType		    RTWdata
+		    FctDeclaration	    "extern real32_T myExp(real32_T u1"
+");"
+		    FctCall		    "%y1 = myExp(%u1);"
+		    fctName		    "myExp"
+		    INPUT_SIZE		    "1"
+		    OUTPUT_SIZE		    "1"
+		    NBR_INPUT		    "1"
+		    NBR_OUTPUT		    "1"
+		    }
+		    SourceBlock		    "dsPICdrivers/OTHERS/C Function Ca"
+"ll"
+		    SourceType		    "C Function Call"
+		    fctName		    "'myExp'"
+		    INPUT_SIZE		    "1"
+		    INPUT1		    "real32"
+		    INPUT2		    "--"
+		    INPUT3		    "--"
+		    OUTPUT_SIZE		    "1"
+		    OUTPUT1		    "real32"
+		    SampleTime		    "-1"
+		    InputType		    "[ 7 ]"
+		    OutputType		    "[ 7 ]"
+		    FctDeclaration	    "extern real32_T myExp(real32_T u1"
+");"
+		    FctCall		    "%y1 = myExp(%u1);"
+		    OrderingInOutPopup	    "None"
 		    }
 		    Block {
 		    BlockType		    Outport
@@ -2700,21 +3102,15 @@ Model {
 		    BusOutputAsStruct	    off
 		    }
 		    Line {
-		    SrcBlock		    "u"
-		    SrcPort		    1
-		    DstBlock		    "Math\nFunction"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Math\nFunction"
-		    SrcPort		    1
-		    DstBlock		    "Environment\nController"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Environment\nController"
+		    SrcBlock		    "C Function Call"
 		    SrcPort		    1
 		    DstBlock		    "exp(u)"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "u"
+		    SrcPort		    1
+		    DstBlock		    "C Function Call"
 		    DstPort		    1
 		    }
 		    }
@@ -2825,7 +3221,7 @@ Model {
 		    SourceType		    "Difference"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -2835,9 +3231,9 @@ Model {
 		    OutputDataTypeScalingMode "Inherit via internal rule"
 		    OutDataType		    "sfix(16)"
 		    OutScaling		    "2^-10"
-		    LockScale		    "off"
+		    LockScale		    off
 		    RndMeth		    "Floor"
-		    DoSatur		    "off"
+		    DoSatur		    off
 		    }
 		    Block {
 		    BlockType		    Saturate
@@ -4067,28 +4463,39 @@ Model {
 		    }
 		    Block {
 		    BlockType		    Reference
-		    Name		    "Environment\nController"
-		    Ports		    [2, 1]
-		    Position		    [355, 26, 395, 64]
-		    ShowName		    off
-		    SourceBlock		    "simulink/Signal\nRouting/Environm"
-"ent\nController"
-		    SourceType		    "Environment Controller"
-		    ShowPortLabels	    "FromPortIcon"
-		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData off
-		    RTWMemSecFuncInitTerm   "Inherit from model"
-		    RTWMemSecFuncExecute    "Inherit from model"
-		    RTWMemSecDataConstants  "Inherit from model"
-		    RTWMemSecDataInternal   "Inherit from model"
-		    RTWMemSecDataParameters "Inherit from model"
-		    }
-		    Block {
-		    BlockType		    Math
-		    Name		    "Math\nFunction"
+		    Name		    "C Function Call"
+		    Tag			    "dsPIC_dsPIC_CFunctionCall"
 		    Ports		    [1, 1]
-		    Position		    [175, 19, 205, 51]
+		    Position		    [190, 20, 315, 60]
 		    ShowName		    off
+		    List {
+		    ListType		    RTWdata
+		    FctDeclaration	    "extern real32_T myExp(real32_T u1"
+");"
+		    FctCall		    "%y1 = myExp(%u1);"
+		    fctName		    "myExp"
+		    INPUT_SIZE		    "1"
+		    OUTPUT_SIZE		    "1"
+		    NBR_INPUT		    "1"
+		    NBR_OUTPUT		    "1"
+		    }
+		    SourceBlock		    "dsPICdrivers/OTHERS/C Function Ca"
+"ll"
+		    SourceType		    "C Function Call"
+		    fctName		    "'myExp'"
+		    INPUT_SIZE		    "1"
+		    INPUT1		    "real32"
+		    INPUT2		    "--"
+		    INPUT3		    "--"
+		    OUTPUT_SIZE		    "1"
+		    OUTPUT1		    "real32"
+		    SampleTime		    "-1"
+		    InputType		    "[ 7 ]"
+		    OutputType		    "[ 7 ]"
+		    FctDeclaration	    "extern real32_T myExp(real32_T u1"
+");"
+		    FctCall		    "%y1 = myExp(%u1);"
+		    OrderingInOutPopup	    "None"
 		    }
 		    Block {
 		    BlockType		    Outport
@@ -4100,18 +4507,14 @@ Model {
 		    Line {
 		    SrcBlock		    "u"
 		    SrcPort		    1
-		    DstBlock		    "Math\nFunction"
+		    Points		    [40, 0; 0, 5]
+		    DstBlock		    "C Function Call"
 		    DstPort		    1
 		    }
 		    Line {
-		    SrcBlock		    "Math\nFunction"
+		    SrcBlock		    "C Function Call"
 		    SrcPort		    1
-		    DstBlock		    "Environment\nController"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Environment\nController"
-		    SrcPort		    1
+		    Points		    [40, 0; 0, 5]
 		    DstBlock		    "exp(u)"
 		    DstPort		    1
 		    }
@@ -4223,7 +4626,7 @@ Model {
 		    SourceType		    "Difference"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -4233,9 +4636,9 @@ Model {
 		    OutputDataTypeScalingMode "Inherit via internal rule"
 		    OutDataType		    "sfix(16)"
 		    OutScaling		    "2^-10"
-		    LockScale		    "off"
+		    LockScale		    off
 		    RndMeth		    "Floor"
-		    DoSatur		    "off"
+		    DoSatur		    off
 		    }
 		    Block {
 		    BlockType		    Saturate
@@ -4669,10 +5072,20 @@ Model {
 	  }
 	}
 	Block {
+	  BlockType		  InportShadow
+	  Name			  "L1OnOff "
+	  Position		  [445, 683, 475, 697]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "29"
+	  IconDisplay		  "Port number"
+	  LatchByDelayingOutsideSignal off
+	  LatchByCopyingInsideSignal off
+	}
+	Block {
 	  BlockType		  SubSystem
 	  Name			  "Lateral Channel"
-	  Ports			  [11, 4]
-	  Position		  [565, 367, 760, 653]
+	  Ports			  [13, 4]
+	  Position		  [565, 374, 765, 706]
 	  AncestorBlock		  "SLUGS_Library/InnerLoop/Lateral Channel"
 	  TreatAsAtomicUnit	  on
 	  MinAlgLoopOccurrences	  off
@@ -4697,14 +5110,14 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "r_m"
-	      Position		      [100, 503, 130, 517]
+	      Position		      [85, 318, 115, 332]
 	      BackgroundColor	      "darkGreen"
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Inport
 	      Name		      "Manual?"
-	      Position		      [350, 553, 380, 567]
+	      Position		      [335, 368, 365, 382]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "2"
 	      IconDisplay	      "Port number"
@@ -4712,7 +5125,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "Yaw Damp \nPID Gains"
-	      Position		      [325, 653, 355, 667]
+	      Position		      [310, 468, 340, 482]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "3"
 	      IconDisplay	      "Port number"
@@ -4720,15 +5133,15 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "dR Trim"
-	      Position		      [505, 708, 535, 722]
+	      Position		      [490, 523, 520, 537]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "4"
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Inport
-	      Name		      "psi_dot_c"
-	      Position		      [65, 148, 95, 162]
+	      Name		      "psi_dot_c_noNav"
+	      Position		      [260, 148, 290, 162]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "5"
 	      IconDisplay	      "Port number"
@@ -4736,7 +5149,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "U_m"
-	      Position		      [65, 183, 95, 197]
+	      Position		      [65, 103, 95, 117]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "6"
 	      IconDisplay	      "Port number"
@@ -4744,7 +5157,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "phi_m"
-	      Position		      [340, 53, 370, 67]
+	      Position		      [650, 53, 680, 67]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "7"
 	      IconDisplay	      "Port number"
@@ -4752,7 +5165,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "Roll PID Gains"
-	      Position		      [500, 253, 530, 267]
+	      Position		      [695, 253, 725, 267]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "8"
 	      IconDisplay	      "Port number"
@@ -4760,7 +5173,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "dA Trim"
-	      Position		      [680, 303, 710, 317]
+	      Position		      [875, 303, 905, 317]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "9"
 	      IconDisplay	      "Port number"
@@ -4768,7 +5181,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "wpFly"
-	      Position		      [250, 108, 280, 122]
+	      Position		      [270, 108, 300, 122]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "10"
 	      IconDisplay	      "Port number"
@@ -4777,16 +5190,33 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "nav_phi_c"
-	      Position		      [190, 88, 220, 102]
+	      Position		      [55, 68, 85, 82]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "11"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "psi_dot_ad"
+	      Position		      [365, 43, 395, 57]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "12"
+	      IconDisplay	      "Port number"
+	      SampleTime	      "apSampleTime"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "L1OnOff"
+	      Position		      [390, 88, 420, 102]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "13"
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Sum
 	      Name		      "Add"
 	      Ports		      [2, 1]
-	      Position		      [605, 577, 635, 608]
+	      Position		      [590, 392, 620, 423]
 	      ShowName		      off
 	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
@@ -4798,7 +5228,7 @@ Model {
 	      BlockType		      Sum
 	      Name		      "Add1"
 	      Ports		      [2, 1]
-	      Position		      [440, 92, 470, 123]
+	      Position		      [705, 92, 735, 123]
 	      ShowName		      off
 	      Inputs		      "-+"
 	      CollapseMode	      "All dimensions"
@@ -4811,7 +5241,7 @@ Model {
 	      BlockType		      Sum
 	      Name		      "Add3"
 	      Ports		      [2, 1]
-	      Position		      [750, 177, 780, 208]
+	      Position		      [945, 177, 975, 208]
 	      ShowName		      off
 	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
@@ -4822,7 +5252,7 @@ Model {
 	    Block {
 	      BlockType		      Saturate
 	      Name		      "Aileron\nLimit"
-	      Position		      [825, 180, 855, 210]
+	      Position		      [1020, 180, 1050, 210]
 	      UpperLimit	      "daLimit"
 	      LowerLimit	      "-daLimit"
 	      SampleTime	      "apSampleTime"
@@ -4830,7 +5260,7 @@ Model {
 	    Block {
 	      BlockType		      Saturate
 	      Name		      "Bank  Limit\nCommand"
-	      Position		      [365, 100, 395, 130]
+	      Position		      [640, 100, 670, 130]
 	      UpperLimit	      "bankCommandLimit"
 	      LowerLimit	      "-bankCommandLimit"
 	      SampleTime	      "apSampleTime"
@@ -4839,7 +5269,7 @@ Model {
 	      BlockType		      Reference
 	      Name		      "Bank to Psi Dot"
 	      Ports		      [2, 1]
-	      Position		      [145, 280, 235, 355]
+	      Position		      [145, 55, 235, 130]
 	      SourceBlock	      "SLUGS_Library/Navigation/Bank to Psi Do"
 "t"
 	      SourceType	      "SubSystem"
@@ -4855,7 +5285,7 @@ Model {
 	    Block {
 	      BlockType		      Constant
 	      Name		      "Constant"
-	      Position		      [345, 595, 375, 625]
+	      Position		      [330, 410, 360, 440]
 	      ShowName		      off
 	      Value		      "0"
 	      OutDataTypeMode	      "single"
@@ -4863,7 +5293,7 @@ Model {
 	    Block {
 	      BlockType		      Constant
 	      Name		      "Constant1"
-	      Position		      [515, 195, 545, 225]
+	      Position		      [710, 195, 740, 225]
 	      ShowName		      off
 	      Value		      "0"
 	      OutDataTypeMode	      "single"
@@ -4871,7 +5301,7 @@ Model {
 	    Block {
 	      BlockType		      DataTypeConversion
 	      Name		      "Data Type Conversion3"
-	      Position		      [335, 497, 385, 523]
+	      Position		      [320, 312, 370, 338]
 	      ShowName		      off
 	      OutDataTypeMode	      "single"
 	      RndMeth		      "Floor"
@@ -4881,7 +5311,7 @@ Model {
 	      BlockType		      Reference
 	      Name		      "High Pass\n(Washout) Filter"
 	      Ports		      [1, 1]
-	      Position		      [255, 482, 315, 538]
+	      Position		      [240, 297, 300, 353]
 	      SourceBlock	      "SLUGS_Library/Singnal Routing\n& Condit"
 "ioning/Filter"
 	      SourceType	      "DiscretizedZeroPole"
@@ -4905,7 +5335,7 @@ Model {
 	      BlockType		      SubSystem
 	      Name		      "Log Using\nPWM High"
 	      Ports		      [2]
-	      Position		      [590, 14, 640, 61]
+	      Position		      [780, 474, 830, 521]
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
@@ -5087,7 +5517,7 @@ Model {
 	    Block {
 	      BlockType		      InportShadow
 	      Name		      "Manual?1"
-	      Position		      [515, 153, 545, 167]
+	      Position		      [710, 153, 740, 167]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "2"
 	      IconDisplay	      "Port number"
@@ -5097,7 +5527,7 @@ Model {
 	    Block {
 	      BlockType		      Gain
 	      Name		      "Neg\nFeedback"
-	      Position		      [190, 495, 220, 525]
+	      Position		      [175, 310, 205, 340]
 	      Gain		      "-1"
 	      ParameterDataTypeMode   "Inherit via internal rule"
 	      OutDataTypeMode	      "Specify via dialog"
@@ -5108,7 +5538,7 @@ Model {
 	      BlockType		      Reference
 	      Name		      "Roll Control"
 	      Ports		      [4, 1]
-	      Position		      [580, 87, 710, 283]
+	      Position		      [775, 87, 905, 283]
 	      SourceBlock	      "SLUGS_Library/Control Blocks/PID Contro"
 "ller"
 	      SourceType	      ""
@@ -5128,7 +5558,7 @@ Model {
 	    Block {
 	      BlockType		      Saturate
 	      Name		      "Rudder\nLimit"
-	      Position		      [680, 580, 710, 610]
+	      Position		      [665, 395, 695, 425]
 	      UpperLimit	      "apSampleTime"
 	      LowerLimit	      "-drLimit"
 	      SampleTime	      "apSampleTime"
@@ -5137,7 +5567,7 @@ Model {
 	      BlockType		      SubSystem
 	      Name		      "Scale Data"
 	      Ports		      [2, 2]
-	      Position		      [495, 16, 560, 54]
+	      Position		      [685, 476, 750, 514]
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
@@ -5299,7 +5729,8 @@ Model {
 	    Block {
 	      BlockType		      Switch
 	      Name		      "Switch"
-	      Position		      [310, 85, 345, 145]
+	      Position		      [440, 65, 475, 125]
+	      ShowName		      off
 	      Criteria		      "u2 > Threshold"
 	      Threshold		      "0.3"
 	      InputSameDT	      off
@@ -5308,16 +5739,28 @@ Model {
 	    Block {
 	      BlockType		      Switch
 	      Name		      "Switch1"
-	      Position		      [325, 290, 360, 350]
+	      Position		      [340, 85, 375, 145]
+	      ShowName		      off
 	      Criteria		      "u2 > Threshold"
 	      Threshold		      "0.3"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
+	      BlockType		      InportShadow
+	      Name		      "U_m  "
+	      Position		      [535, 178, 565, 192]
+	      Orientation	      "left"
+	      BackgroundColor	      "darkGreen"
+	      Port		      "6"
+	      IconDisplay	      "Port number"
+	      LatchByDelayingOutsideSignal off
+	      LatchByCopyingInsideSignal off
+	    }
+	    Block {
 	      BlockType		      Reference
 	      Name		      "Yaw Damper"
 	      Ports		      [4, 1]
-	      Position		      [410, 487, 540, 683]
+	      Position		      [395, 302, 525, 498]
 	      SourceBlock	      "SLUGS_Library/Control Blocks/PID Contro"
 "ller"
 	      SourceType	      ""
@@ -5335,20 +5778,10 @@ Model {
 	      lowerLimit	      "-yawDamperLimit"
 	    }
 	    Block {
-	      BlockType		      InportShadow
-	      Name		      "nav_phi_c  "
-	      Position		      [65, 293, 95, 307]
-	      BackgroundColor	      "darkGreen"
-	      Port		      "11"
-	      IconDisplay	      "Port number"
-	      LatchByDelayingOutsideSignal off
-	      LatchByCopyingInsideSignal off
-	    }
-	    Block {
 	      BlockType		      Reference
 	      Name		      "psi_dot to Bank"
 	      Ports		      [2, 1]
-	      Position		      [150, 135, 240, 210]
+	      Position		      [520, 75, 610, 150]
 	      SourceBlock	      "SLUGS_Library/Navigation/psi_dot to Ban"
 "k"
 	      SourceType	      "SubSystem"
@@ -5362,30 +5795,9 @@ Model {
 	      RTWMemSecDataParameters "Inherit from model"
 	    }
 	    Block {
-	      BlockType		      InportShadow
-	      Name		      "psi_dot_c1"
-	      Position		      [245, 358, 275, 372]
-	      BackgroundColor	      "darkGreen"
-	      Port		      "5"
-	      IconDisplay	      "Port number"
-	      LatchByDelayingOutsideSignal off
-	      LatchByCopyingInsideSignal off
-	    }
-	    Block {
-	      BlockType		      InportShadow
-	      Name		      "wpFly "
-	      Position		      [265, 313, 295, 327]
-	      BackgroundColor	      "darkGreen"
-	      Port		      "10"
-	      IconDisplay	      "Port number"
-	      SampleTime	      "apSampleTime"
-	      LatchByDelayingOutsideSignal off
-	      LatchByCopyingInsideSignal off
-	    }
-	    Block {
 	      BlockType		      Outport
 	      Name		      "dA"
-	      Position		      [905, 188, 935, 202]
+	      Position		      [1100, 188, 1130, 202]
 	      BackgroundColor	      "yellow"
 	      IconDisplay	      "Port number"
 	      BusOutputAsStruct	      off
@@ -5393,7 +5805,7 @@ Model {
 	    Block {
 	      BlockType		      Outport
 	      Name		      "dR"
-	      Position		      [755, 588, 785, 602]
+	      Position		      [740, 403, 770, 417]
 	      BackgroundColor	      "yellow"
 	      Port		      "2"
 	      IconDisplay	      "Port number"
@@ -5402,7 +5814,8 @@ Model {
 	    Block {
 	      BlockType		      Outport
 	      Name		      "phi_c"
-	      Position		      [445, 163, 475, 177]
+	      Position		      [640, 163, 670, 177]
+	      Orientation	      "left"
 	      BackgroundColor	      "yellow"
 	      Port		      "3"
 	      IconDisplay	      "Port number"
@@ -5411,7 +5824,8 @@ Model {
 	    Block {
 	      BlockType		      Outport
 	      Name		      "psi_dot_c "
-	      Position		      [420, 313, 450, 327]
+	      Position		      [365, 178, 395, 192]
+	      Orientation	      "left"
 	      BackgroundColor	      "yellow"
 	      Port		      "4"
 	      IconDisplay	      "Port number"
@@ -5424,97 +5838,31 @@ Model {
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "psi_dot_c1"
-	      SrcPort		      1
-	      Points		      [20, 0; 0, -25]
-	      DstBlock		      "Switch1"
-	      DstPort		      3
-	    }
-	    Line {
-	      SrcBlock		      "Bank to Psi Dot"
-	      SrcPort		      1
-	      Points		      [20, 0; 0, -20]
-	      DstBlock		      "Switch1"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "nav_phi_c  "
+	      SrcBlock		      "nav_phi_c"
 	      SrcPort		      1
 	      DstBlock		      "Bank to Psi Dot"
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "Switch1"
-	      SrcPort		      1
-	      DstBlock		      "psi_dot_c "
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "wpFly "
-	      SrcPort		      1
-	      DstBlock		      "Switch1"
-	      DstPort		      2
-	    }
-	    Line {
 	      SrcBlock		      "Bank  Limit\nCommand"
 	      SrcPort		      1
-	      Points		      [15, 0]
+	      Points		      [5, 0]
 	      Branch {
 		DstBlock		"Add1"
 		DstPort			2
 	      }
 	      Branch {
-		Points			[0, 55; 10, 0]
-		Branch {
-		  DstBlock		  "phi_c"
-		  DstPort		  1
-		}
-		Branch {
-		  Points		  [0, -145]
-		  DstBlock		  "Scale Data"
-		  DstPort		  1
-		}
+		Points			[5, 0]
+		DstBlock		"phi_c"
+		DstPort			1
 	      }
-	    }
-	    Line {
-	      SrcBlock		      "psi_dot to Bank"
-	      SrcPort		      1
-	      Points		      [45, 0; 0, -40]
-	      DstBlock		      "Switch"
-	      DstPort		      3
-	    }
-	    Line {
-	      SrcBlock		      "wpFly"
-	      SrcPort		      1
-	      DstBlock		      "Switch"
-	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "nav_phi_c"
-	      SrcPort		      1
-	      DstBlock		      "Switch"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Switch"
-	      SrcPort		      1
-	      DstBlock		      "Bank  Limit\nCommand"
-	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "phi_m"
 	      SrcPort		      1
-	      Points		      [20, 0]
-	      Branch {
-		Points			[0, -15]
-		DstBlock		"Scale Data"
-		DstPort			2
-	      }
-	      Branch {
-		Points			[25, 0; 0, 40]
-		DstBlock		"Add1"
-		DstPort			1
-	      }
+	      Points		      [5, 0]
+	      DstBlock		      "Add1"
+	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "Add1"
@@ -5568,22 +5916,8 @@ Model {
 	    Line {
 	      SrcBlock		      "U_m"
 	      SrcPort		      1
-	      Points		      [10, 0]
-	      Branch {
-		DstBlock		"psi_dot to Bank"
-		DstPort			2
-	      }
-	      Branch {
-		Points			[0, 145]
-		DstBlock		"Bank to Psi Dot"
-		DstPort			2
-	      }
-	    }
-	    Line {
-	      SrcBlock		      "psi_dot_c"
-	      SrcPort		      1
-	      DstBlock		      "psi_dot to Bank"
-	      DstPort		      1
+	      DstBlock		      "Bank to Psi Dot"
+	      DstPort		      2
 	    }
 	    Line {
 	      SrcBlock		      "dR Trim"
@@ -5656,6 +5990,71 @@ Model {
 	      SrcBlock		      "Scale Data"
 	      SrcPort		      2
 	      DstBlock		      "Log Using\nPWM High"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "psi_dot to Bank"
+	      SrcPort		      1
+	      DstBlock		      "Bank  Limit\nCommand"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Switch"
+	      SrcPort		      1
+	      DstBlock		      "psi_dot to Bank"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Switch1"
+	      SrcPort		      1
+	      Points		      [35, 0]
+	      Branch {
+		DstBlock		"Switch"
+		DstPort			3
+	      }
+	      Branch {
+		Points			[0, 70]
+		DstBlock		"psi_dot_c "
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "L1OnOff"
+	      SrcPort		      1
+	      DstBlock		      "Switch"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "psi_dot_ad"
+	      SrcPort		      1
+	      Points		      [10, 0; 0, 25]
+	      DstBlock		      "Switch"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "wpFly"
+	      SrcPort		      1
+	      DstBlock		      "Switch1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "psi_dot_c_noNav"
+	      SrcPort		      1
+	      Points		      [15, 0; 0, -20]
+	      DstBlock		      "Switch1"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Bank to Psi Dot"
+	      SrcPort		      1
+	      DstBlock		      "Switch1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "U_m  "
+	      SrcPort		      1
+	      Points		      [-35, 0; 0, -55]
+	      DstBlock		      "psi_dot to Bank"
 	      DstPort		      2
 	    }
 	  }
@@ -6334,8 +6733,8 @@ Model {
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "Navigation"
-	  Ports			  [9, 2]
-	  Position		  [190, 227, 315, 673]
+	  Ports			  [8, 2]
+	  Position		  [190, 229, 315, 676]
 	  Priority		  "13"
 	  AncestorBlock		  "SLUGS_Library/InnerLoop/Navigation"
 	  TreatAsAtomicUnit	  on
@@ -6401,7 +6800,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "U_com"
-	      Position		      [40, 198, 70, 212]
+	      Position		      [40, 213, 70, 227]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "6"
 	      IconDisplay	      "Port number"
@@ -6409,7 +6808,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "WP Fly"
-	      Position		      [40, 223, 70, 237]
+	      Position		      [40, 243, 70, 257]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "7"
 	      IconDisplay	      "Port number"
@@ -6417,17 +6816,9 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "Preturn K"
-	      Position		      [55, 298, 85, 312]
+	      Position		      [55, 333, 85, 347]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "8"
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Inport
-	      Name		      "Switch T"
-	      Position		      [55, 323, 85, 337]
-	      BackgroundColor	      "darkGreen"
-	      Port		      "9"
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
@@ -6450,7 +6841,7 @@ Model {
 	    Block {
 	      BlockType		      SubSystem
 	      Name		      "Compute WP Index"
-	      Ports		      [11, 6]
+	      Ports		      [10, 6]
 	      Position		      [100, 63, 240, 347]
 	      AncestorBlock	      "SLUGS_Library/Navigation/Compute WP Ind"
 "ex"
@@ -6555,14 +6946,6 @@ Model {
 		  Orientation		  "left"
 		  BackgroundColor	  "darkGreen"
 		  Port			  "10"
-		  IconDisplay		  "Port number"
-		}
-		Block {
-		  BlockType		  Inport
-		  Name			  "Switch \nTime"
-		  Position		  [345, 158, 375, 172]
-		  BackgroundColor	  "darkGreen"
-		  Port			  "11"
 		  IconDisplay		  "Port number"
 		}
 		Block {
@@ -6704,7 +7087,7 @@ Model {
 		    Block {
 		    BlockType		    Inport
 		    Name		    "U_com"
-		    Position		    [95, 30, 125, 44]
+		    Position		    [95, 28, 125, 42]
 		    BackgroundColor	    "darkGreen"
 		    IconDisplay		    "Port number"
 		    }
@@ -6742,9 +7125,10 @@ Model {
 		    Block {
 		    BlockType		    Outport
 		    Name		    "R"
-		    Position		    [300, 60, 330, 74]
+		    Position		    [300, 58, 330, 72]
 		    BackgroundColor	    "yellow"
 		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
 		    }
 		    Line {
 		    SrcBlock		    "Product"
@@ -13666,6 +14050,13 @@ Model {
 		  }
 		}
 		Block {
+		  BlockType		  Constant
+		  Name			  "Switching\nTime\nLimit"
+		  Position		  [350, 135, 380, 165]
+		  Value			  "300"
+		  OutDataTypeMode	  "single"
+		}
+		Block {
 		  BlockType		  InportShadow
 		  Name			  "T"
 		  Position		  [75, 203, 105, 217]
@@ -13928,9 +14319,8 @@ Model {
 		  DstPort		  2
 		}
 		Line {
-		  SrcBlock		  "Switch \nTime"
+		  SrcBlock		  "Switching\nTime\nLimit"
 		  SrcPort		  1
-		  Points		  [15, 0; 0, -15]
 		  DstBlock		  "Embedded\nMATLAB Function1"
 		  DstPort		  2
 		}
@@ -19281,7 +19671,7 @@ Model {
 	      Branch {
 		Points			[0, 25]
 		Branch {
-		  Points		  [-370, 0; 0, -215]
+		  Points		  [-370, 0; 0, -205]
 		  DstBlock		  "Compute WP Index"
 		  DstPort		  5
 		}
@@ -19331,7 +19721,6 @@ Model {
 	    Line {
 	      SrcBlock		      "Start WP Idx"
 	      SrcPort		      1
-	      Points		      [20, 0]
 	      DstBlock		      "Compute WP Index"
 	      DstPort		      4
 	    }
@@ -19344,7 +19733,6 @@ Model {
 	    Line {
 	      SrcBlock		      "Puav"
 	      SrcPort		      1
-	      Points		      [20, 0]
 	      DstBlock		      "Compute WP Index"
 	      DstPort		      2
 	    }
@@ -19358,7 +19746,7 @@ Model {
 		DstPort			2
 	      }
 	      Branch {
-		Points			[0, -65; -385, 0; 0, 55]
+		Points			[0, -65; -385, 0; 0, 45]
 		DstBlock		"Compute WP Index"
 		DstPort			1
 	      }
@@ -19429,7 +19817,7 @@ Model {
 	    Line {
 	      SrcBlock		      "Get Wps\nCompute Frenet"
 	      SrcPort		      4
-	      Points		      [10, 0; 0, 85; -345, 0; 0, -120]
+	      Points		      [10, 0; 0, 85; -345, 0; 0, -95]
 	      DstBlock		      "Compute WP Index"
 	      DstPort		      8
 	    }
@@ -19449,7 +19837,7 @@ Model {
 		DstPort			6
 	      }
 	      Branch {
-		Points			[0, 70; -660, 0; 0, -150]
+		Points			[0, 70; -665, 0; 0, -120]
 		DstBlock		"Compute WP Index"
 		DstPort			9
 	      }
@@ -19465,12 +19853,6 @@ Model {
 	      SrcPort		      1
 	      DstBlock		      "Compute WP Index"
 	      DstPort		      10
-	    }
-	    Line {
-	      SrcBlock		      "Switch T"
-	      SrcPort		      1
-	      DstBlock		      "Compute WP Index"
-	      DstPort		      11
 	    }
 	  }
 	}
@@ -19488,9 +19870,29 @@ Model {
 	Block {
 	  BlockType		  InportShadow
 	  Name			  "U_c (m/s) "
-	  Position		  [125, 493, 155, 507]
+	  Position		  [125, 528, 155, 542]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "1"
+	  IconDisplay		  "Port number"
+	  LatchByDelayingOutsideSignal off
+	  LatchByCopyingInsideSignal off
+	}
+	Block {
+	  BlockType		  InportShadow
+	  Name			  "phi_m (rad) "
+	  Position		  [840, 523, 870, 537]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "14"
+	  IconDisplay		  "Port number"
+	  LatchByDelayingOutsideSignal off
+	  LatchByCopyingInsideSignal off
+	}
+	Block {
+	  BlockType		  InportShadow
+	  Name			  "r_m (rad/s) "
+	  Position		  [840, 488, 870, 502]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "17"
 	  IconDisplay		  "Port number"
 	  LatchByDelayingOutsideSignal off
 	  LatchByCopyingInsideSignal off
@@ -19515,7 +19917,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "dA(rad)"
-	  Position		  [785, 398, 815, 412]
+	  Position		  [785, 408, 815, 422]
 	  BackgroundColor	  "yellow"
 	  Port			  "3"
 	  IconDisplay		  "Port number"
@@ -19524,7 +19926,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "dR(rad)"
-	  Position		  [785, 468, 815, 482]
+	  Position		  [785, 493, 815, 507]
 	  BackgroundColor	  "yellow"
 	  Port			  "4"
 	  IconDisplay		  "Port number"
@@ -19551,18 +19953,9 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "phi_c"
-	  Position		  [785, 538, 815, 552]
+	  Position		  [785, 578, 815, 592]
 	  BackgroundColor	  "yellow"
 	  Port			  "7"
-	  IconDisplay		  "Port number"
-	  BusOutputAsStruct	  off
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "psi_dot_c"
-	  Position		  [785, 608, 815, 622]
-	  BackgroundColor	  "yellow"
-	  Port			  "8"
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
 	}
@@ -19575,7 +19968,7 @@ Model {
 	    DstPort		    11
 	  }
 	  Branch {
-	    Points		    [0, 125]
+	    Points		    [0, 130]
 	    DstBlock		    "Lateral Channel"
 	    DstPort		    2
 	  }
@@ -19589,13 +19982,13 @@ Model {
 	    DstPort		    12
 	  }
 	  Branch {
-	    Points		    [0, 300]
+	    Points		    [0, 305]
 	    Branch {
 	      DstBlock		      "Lateral Channel"
 	      DstPort		      10
 	    }
 	    Branch {
-	      Points		      [0, 75; -395, 0; 0, -135]
+	      Points		      [0, 70; -395, 0; 0, -95]
 	      DstBlock		      "Navigation"
 	      DstPort		      7
 	    }
@@ -19748,13 +20141,15 @@ Model {
 	Line {
 	  SrcBlock		  "Lateral Channel"
 	  SrcPort		  4
-	  DstBlock		  "psi_dot_c"
+	  Points		  [180, 0; 0, -185]
+	  DstBlock		  "L1 Output Feedback\nController\nWith \nProj"
+"ection Operator"
 	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "Longitudinal Channel"
 	  SrcPort		  5
-	  Points		  [15, 0; 0, 55; -265, 0; 0, 150]
+	  Points		  [15, 0; 0, 55; -265, 0; 0, 155]
 	  DstBlock		  "Lateral Channel"
 	  DstPort		  6
 	}
@@ -19767,7 +20162,7 @@ Model {
 	    DstPort		    1
 	  }
 	  Branch {
-	    Points		    [0, -90]
+	    Points		    [0, -100]
 	    DstBlock		    "Selector"
 	    DstPort		    1
 	  }
@@ -19816,23 +20211,91 @@ Model {
 	  DstPort		  13
 	}
 	Line {
+	  Labels		  [3, 0]
 	  SrcBlock		  "Navigation"
 	  SrcPort		  2
-	  Points		  [80, 0; 0, 70]
+	  Points		  [80, 0; 0, 75]
 	  DstBlock		  "Lateral Channel"
 	  DstPort		  11
-	}
-	Line {
-	  SrcBlock		  "Swithc T"
-	  SrcPort		  1
-	  DstBlock		  "Navigation"
-	  DstPort		  9
 	}
 	Line {
 	  SrcBlock		  "Preturn K"
 	  SrcPort		  1
 	  DstBlock		  "Navigation"
 	  DstPort		  8
+	}
+	Line {
+	  SrcBlock		  "Compute\npsi_dot_m"
+	  SrcPort		  1
+	  DstBlock		  "L1 Output Feedback\nController\nWith \nProj"
+"ection Operator"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "m"
+	  SrcPort		  1
+	  Points		  [0, -20]
+	  DstBlock		  "L1 Output Feedback\nController\nWith \nProj"
+"ection Operator"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "omega"
+	  SrcPort		  1
+	  Points		  [5, 0; 0, -20]
+	  DstBlock		  "L1 Output Feedback\nController\nWith \nProj"
+"ection Operator"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "gamma"
+	  SrcPort		  1
+	  Points		  [5, 0; 0, -25]
+	  DstBlock		  "L1 Output Feedback\nController\nWith \nProj"
+"ection Operator"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "r_m (rad/s) "
+	  SrcPort		  1
+	  DstBlock		  "Compute\npsi_dot_m"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "phi_m (rad) "
+	  SrcPort		  1
+	  Points		  [10, 0; 0, -15]
+	  DstBlock		  "Compute\npsi_dot_m"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "q_m(rad)"
+	  SrcPort		  1
+	  Points		  [10, 0; 0, -35]
+	  DstBlock		  "Compute\npsi_dot_m"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "L1OnOff"
+	  SrcPort		  1
+	  Points		  [120, 0]
+	  DstBlock		  "L1 Output Feedback\nController\nWith \nProj"
+"ection Operator"
+	  DstPort		  enable
+	}
+	Line {
+	  SrcBlock		  "L1 Output Feedback\nController\nWith \nProj"
+"ection Operator"
+	  SrcPort		  1
+	  Points		  [0, 215; -650, 0; 0, -95]
+	  DstBlock		  "Lateral Channel"
+	  DstPort		  12
+	}
+	Line {
+	  SrcBlock		  "L1OnOff "
+	  SrcPort		  1
+	  DstBlock		  "Lateral Channel"
+	  DstPort		  13
 	}
       }
     }
@@ -19889,7 +20352,7 @@ Model {
       BlockType		      SubSystem
       Name		      "PID Gains"
       Ports		      [0, 5]
-      Position		      [235, 375, 305, 495]
+      Position		      [235, 365, 305, 485]
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
@@ -20426,34 +20889,28 @@ Model {
       BlockType		      Selector
       Name		      "Selector"
       Ports		      [1, 1]
-      Position		      [260, 541, 300, 579]
+      Position		      [260, 546, 300, 584]
       IndexOptions	      "Index vector (dialog)"
-      Indices		      "[1 2 6]"
+      Indices		      "[1 2 5 6]"
       OutputSizes	      "1"
       InputPortWidth	      "6"
     }
     Block {
       BlockType		      Terminator
-      Name		      "Terminator"
-      Position		      [625, 765, 645, 785]
-      ShowName		      off
-    }
-    Block {
-      BlockType		      Terminator
       Name		      "Terminator1"
-      Position		      [625, 540, 645, 560]
+      Position		      [620, 665, 640, 685]
       ShowName		      off
     }
     Block {
       BlockType		      Terminator
       Name		      "Terminator2"
-      Position		      [625, 615, 645, 635]
+      Position		      [620, 775, 640, 795]
       ShowName		      off
     }
     Block {
       BlockType		      Terminator
       Name		      "Terminator3"
-      Position		      [625, 690, 645, 710]
+      Position		      [615, 885, 635, 905]
       ShowName		      off
     }
     Block {
@@ -21907,7 +22364,7 @@ Model {
       BlockType		      SubSystem
       Name		      "Update PWM Commands\nand Send Telemetry"
       Ports		      [4]
-      Position		      [795, 329, 840, 396]
+      Position		      [795, 349, 840, 416]
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
@@ -22340,7 +22797,7 @@ Model {
       Name		      "wp Fly?"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [0, 1]
-      Position		      [40, 667, 145, 703]
+      Position		      [15, 682, 120, 718]
       BackgroundColor	      "orange"
       List {
 	ListType		RTWdata
@@ -22403,13 +22860,13 @@ Model {
     Line {
       SrcBlock		      "Demux"
       SrcPort		      1
-      Points		      [20, 0]
       DstBlock		      "Inner Loop/ Navigation"
       DstPort		      1
     }
     Line {
       SrcBlock		      "Demux"
       SrcPort		      2
+      Points		      [20, 0]
       DstBlock		      "Inner Loop/ Navigation"
       DstPort		      2
     }
@@ -22429,66 +22886,77 @@ Model {
     Line {
       SrcBlock		      "Trim Vals"
       SrcPort		      1
+      Points		      [260, 0]
       DstBlock		      "Inner Loop/ Navigation"
       DstPort		      4
     }
     Line {
       SrcBlock		      "Trim Vals"
       SrcPort		      2
+      Points		      [260, 0]
       DstBlock		      "Inner Loop/ Navigation"
       DstPort		      5
     }
     Line {
       SrcBlock		      "Trim Vals"
       SrcPort		      3
+      Points		      [260, 0]
       DstBlock		      "Inner Loop/ Navigation"
       DstPort		      6
     }
     Line {
       SrcBlock		      "Trim Vals"
       SrcPort		      4
+      Points		      [260, 0]
       DstBlock		      "Inner Loop/ Navigation"
       DstPort		      7
     }
     Line {
       SrcBlock		      "PID Gains"
       SrcPort		      1
+      Points		      [55, 0]
       DstBlock		      "Inner Loop/ Navigation"
       DstPort		      8
     }
     Line {
       SrcBlock		      "PID Gains"
       SrcPort		      2
+      Points		      [55, 0]
       DstBlock		      "Inner Loop/ Navigation"
       DstPort		      9
     }
     Line {
       SrcBlock		      "PID Gains"
       SrcPort		      3
+      Points		      [55, 0]
       DstBlock		      "Inner Loop/ Navigation"
       DstPort		      10
     }
     Line {
       SrcBlock		      "PID Gains"
       SrcPort		      4
+      Points		      [55, 0]
       DstBlock		      "Inner Loop/ Navigation"
       DstPort		      11
     }
     Line {
       SrcBlock		      "PID Gains"
       SrcPort		      5
+      Points		      [55, 0]
       DstBlock		      "Inner Loop/ Navigation"
       DstPort		      12
     }
     Line {
       SrcBlock		      "Constant1"
       SrcPort		      1
+      Points		      [15, 0]
       DstBlock		      "Inner Loop/ Navigation"
-      DstPort		      22
+      DstPort		      23
     }
     Line {
       SrcBlock		      "Get Dynamic P"
       SrcPort		      1
+      Points		      [130, 0]
       DstBlock		      "Inner Loop/ Navigation"
       DstPort		      13
     }
@@ -22507,35 +22975,29 @@ Model {
     Line {
       SrcBlock		      "Demux1"
       SrcPort		      1
-      Points		      [25, 0]
       DstBlock		      "Inner Loop/ Navigation"
       DstPort		      14
     }
     Line {
       SrcBlock		      "Demux1"
       SrcPort		      2
+      Points		      [0, 10]
       DstBlock		      "Inner Loop/ Navigation"
       DstPort		      15
     }
     Line {
-      SrcBlock		      "Demux1"
-      SrcPort		      3
-      Points		      [25, 0]
-      DstBlock		      "Inner Loop/ Navigation"
-      DstPort		      16
-    }
-    Line {
       SrcBlock		      "Demux2"
       SrcPort		      1
+      Points		      [25, 0]
       DstBlock		      "Inner Loop/ Navigation"
-      DstPort		      17
+      DstPort		      18
     }
     Line {
       SrcBlock		      "Demux2"
       SrcPort		      2
       Points		      [25, 0]
       DstBlock		      "Inner Loop/ Navigation"
-      DstPort		      18
+      DstPort		      19
     }
     Line {
       SrcBlock		      "Get XYZ"
@@ -22546,8 +23008,9 @@ Model {
     Line {
       SrcBlock		      "Get Max WP"
       SrcPort		      1
+      Points		      [80, 0]
       DstBlock		      "Inner Loop/ Navigation"
-      DstPort		      21
+      DstPort		      22
     }
     Line {
       SrcBlock		      "Update  States"
@@ -22558,19 +23021,21 @@ Model {
     Line {
       SrcBlock		      "Trim Vals"
       SrcPort		      5
-      Points		      [45, 0; 0, 40; -65, 0; 0, 235]
-      DstBlock		      "Inner Loop/ Navigation"
-      DstPort		      19
-    }
-    Line {
-      SrcBlock		      "wp Fly?"
-      SrcPort		      1
+      Points		      [45, 0; 0, 40; -65, 0; 0, 265]
       DstBlock		      "Inner Loop/ Navigation"
       DstPort		      20
     }
     Line {
+      SrcBlock		      "wp Fly?"
+      SrcPort		      1
+      Points		      [240, 0]
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      21
+    }
+    Line {
       SrcBlock		      "Inner Loop/ Navigation"
       SrcPort		      1
+      Points		      [0, 35]
       DstBlock		      "Convert to PWM"
       DstPort		      1
     }
@@ -22583,12 +23048,14 @@ Model {
     Line {
       SrcBlock		      "Inner Loop/ Navigation"
       SrcPort		      3
+      Points		      [0, -35]
       DstBlock		      "Convert to PWM2"
       DstPort		      1
     }
     Line {
       SrcBlock		      "Inner Loop/ Navigation"
       SrcPort		      4
+      Points		      [0, -70]
       DstBlock		      "Convert to PWM3"
       DstPort		      1
     }
@@ -22619,12 +23086,6 @@ Model {
       Points		      [40, 0; 0, -90]
       DstBlock		      "Update PWM Commands\nand Send Telemetry"
       DstPort		      4
-    }
-    Line {
-      SrcBlock		      "Inner Loop/ Navigation"
-      SrcPort		      8
-      DstBlock		      "Terminator"
-      DstPort		      1
     }
     Line {
       SrcBlock		      "Inner Loop/ Navigation"
@@ -22659,22 +23120,70 @@ Model {
     Line {
       SrcBlock		      "Demux3"
       SrcPort		      1
-      Points		      [30, 0; 0, -10]
-      DstBlock		      "Inner Loop/ Navigation"
-      DstPort		      23
-    }
-    Line {
-      SrcBlock		      "Demux3"
-      SrcPort		      2
+      Points		      [30, 0; 0, -5]
       DstBlock		      "Inner Loop/ Navigation"
       DstPort		      24
     }
     Line {
       SrcBlock		      "Demux3"
-      SrcPort		      3
-      Points		      [30, 0; 0, 10]
+      SrcPort		      2
+      Points		      [60, 0]
       DstBlock		      "Inner Loop/ Navigation"
       DstPort		      25
+    }
+    Line {
+      SrcBlock		      "Demux1"
+      SrcPort		      4
+      Points		      [25, 0]
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      17
+    }
+    Line {
+      SrcBlock		      "Demux1"
+      SrcPort		      3
+      Points		      [10, 0; 0, 20]
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      16
+    }
+    Line {
+      SrcBlock		      "Demux3"
+      SrcPort		      3
+      Points		      [30, 0; 0, 15]
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      26
+    }
+    Line {
+      SrcBlock		      "Constant2"
+      SrcPort		      1
+      DstBlock		      "Get Pid according\nto Index1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Get Pid according\nto Index1"
+      SrcPort		      1
+      DstBlock		      "Demux4"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux4"
+      SrcPort		      1
+      Points		      [30, 0; 0, -5]
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      27
+    }
+    Line {
+      SrcBlock		      "Demux4"
+      SrcPort		      2
+      Points		      [30, 0; 0, 5]
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      28
+    }
+    Line {
+      SrcBlock		      "Demux4"
+      SrcPort		      3
+      Points		      [30, 0; 0, 15]
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      29
     }
   }
 }
@@ -24945,8 +25454,6 @@ Stateflow {
 		viewObj                                   		109
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		113
@@ -25083,8 +25590,6 @@ Stateflow {
 		firstJunction                             		118
 		viewObj                                   		116
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		120
