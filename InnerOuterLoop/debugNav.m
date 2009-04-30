@@ -46,9 +46,9 @@ axis equal;
      %plot the velocity vector
      %plot ([y(j) y(j)+ve(j)], [x(j) x(j)+vn(j)], 'r');
      
-     %plot the L1 vector
+     %plot the L2 vector
   %   if j > 1000 && apMode(j) == 0
-  %      plot ([y(j) y(j)+L1(j,2)], [x(j) x(j)+L1(j,1)], 'b-');
+        plot ([y(j) y(j)+L1(j,2)], [x(j) x(j)+L1(j,1)], 'b-');
   %   end
      % plot N exagerated (multiplied by 20)
       %plot ([y(j) y(j)+20*N(j,2)], [x(j) x(j)+20*N(j,1)], 'c-');
@@ -154,32 +154,32 @@ subplot(3,1,3)
 
   figure(figct)
   subplot(4,2,1)
-    plot(timePl,decPl*180/pi,'b'); 
+    plot(timePl,decPl,'b'); 
     xlabel('Time(s)');
     ylabel('Elevator (deg)');
     title('Commanded');
     axis tight
   subplot(4,2,2)
-    plot(timePl,deservoPl*180/pi,'r'); 
+    plot(timePl,deservoPl,'r'); 
     xlabel('Time(s)');
     title('After Servo Dynamics');
     axis tight
   subplot(4,2,3)
-    plot(timePl,dacPl*180/pi,'b'); 
+    plot(timePl,dacPl,'b'); 
     xlabel('Time(s)');
     ylabel('Aileron (deg)');
     axis tight
   subplot(4,2,4)
-    plot(timePl,daservoPl*180/pi,'r'); 
+    plot(timePl,daservoPl,'r'); 
     xlabel('Time(s)');
     axis tight  
    subplot(4,2,5)
-    plot(timePl,drcPl*180/pi,'b'); 
+    plot(timePl,drcPl,'b'); 
     xlabel('Time(s)');
     ylabel('Rudder (deg)');
     axis tight
   subplot(4,2,6)
-    plot(timePl,drservoPl*180/pi,'r'); 
+    plot(timePl,drservoPl,'r'); 
     xlabel('Time(s)');
     axis tight  
   subplot(4,2,7)
@@ -247,18 +247,40 @@ subplot(4,1,4)
  figct = figct + 1;
  
 %% Create the plot comparison for L2 scheduling
+% 
+% x_axis = as_c./sin(eta);
+% idx = find (isnan(x_axis));
+% 
+% gsp_cpy = sqrt(Vxyz(:,1).^2 + Vxyz(:,2).^2 + Vxyz(:,3).^2);
+% 
+% x_axis(idx) =[];
+% gsp_cpy(idx) = [];
+% 
+% 
+%  figure(figct)
+% plot(2*gsp_cpy, x_axis);
+%    xlabel('2*Groundspeed');
+%    ylabel('as_c/sin(\eta)');
+%    grid on
 
-x_axis = as_c./sin(eta);
-idx = find (isnan(x_axis));
+%% Compute error value. For now just in straight segment
 
-gsp_cpy = sqrt(Vxyz(:,1).^2 + Vxyz(:,2).^2 + Vxyz(:,3).^2);
+idx = find(apMode ~= 1);
+Pey_c = Pey;
+Pey_c(idx) = 0;
 
-x_axis(idx) =[];
-gsp_cpy(idx) = [];
-
+pe_mean = mean(abs(Pey_c));
 
  figure(figct)
-plot(2*gsp_cpy, x_axis);
-   xlabel('2*Groundspeed');
-   ylabel('as_c/sin(\eta)');
+   plot(timePl, Pey_c);
+   hold on
+   plot(timePl, ones(size(Pey_c))*pe_mean, 'r-')
+   hold off
+   xlabel('Time(s)');
+   ylabel('Lateral Error in Line Mode (m)');
+      legend(['Mean Error = ', num2str(pe_mean), ' Max Error = ', num2str(max(abs(Pey_c)))])
    grid on
+
+eval(['print -depsc  '  num2str(figct) '_'  datestr(now,1) '_' ... 
+     datestr(now,'HH') '_' datestr(now,'MM') '_' datestr(now,'SS')]);
+ figct = figct + 1;
