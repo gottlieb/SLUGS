@@ -5,7 +5,7 @@ PchBs = PchB.signals.values;
 
 tp = 0:0.1:2*pi;
 
-figure(1)
+figure(figct)
 hold on;
 for ii = 6:2:length(cent)
     plot(cent(ii,2)+R*cos(tp), cent(ii,1)+R*sin(tp),'k');
