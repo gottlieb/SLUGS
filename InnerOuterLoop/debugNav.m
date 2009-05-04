@@ -14,7 +14,7 @@ vd = vd(:);
  l = 1;
  i =  length(eta);
  %i = 7260;
- figct = 1;
+ figct = 10;
  
 % Turn the Pause On
 pauseOn = 1;
@@ -47,9 +47,9 @@ axis equal;
      %plot ([y(j) y(j)+ve(j)], [x(j) x(j)+vn(j)], 'r');
      
      %plot the L2 vector
-  %   if j > 1000 && apMode(j) == 0
+     if j > 1000 && apMode(j) == 0
         plot ([y(j) y(j)+L1(j,2)], [x(j) x(j)+L1(j,1)], 'b-');
-  %   end
+     end
      % plot N exagerated (multiplied by 20)
       %plot ([y(j) y(j)+20*N(j,2)], [x(j) x(j)+20*N(j,1)], 'c-');
       
