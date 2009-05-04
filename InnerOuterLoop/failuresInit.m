@@ -2,13 +2,13 @@
 
 % Activate Failures
 daL_fail = 0;
-daR_fail = 0;
+daR_fail = 1;
 dr_fail  = 0;
 
 % Simulation time for the failure (secs)
-tfailure = 50;
+tfailure = 30;
 
-da_failamp = 15;
+da_failamp = 20;
 da_failper = 1500;
 da_failbias = 0;
 
