@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.1069"
+    ComputedModelVersion    "1.1073"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -48,8 +48,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon May 04 15:13:23 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:1069>"
+  LastModifiedDate	  "Tue May 05 09:04:20 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:1073>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -1026,8 +1026,8 @@ Model {
   }
   System {
     Name		    "InnerOuter_Sim"
-    Location		    [2, 78, 1227, 805]
-    Open		    on
+    Location		    [6, 82, 1231, 809]
+    Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "white"
@@ -3953,6 +3953,18 @@ Model {
 		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
 		  MaskHideContents	  off
+		  Port {
+		    PortNumber		    1
+		    Name		    "alpha"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		  }
+		  Port {
+		    PortNumber		    2
+		    Name		    "beta"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		  }
 		  System {
 		    Name		    "Alpha/Beta"
 		    Location		    [204, 361, 908, 768]
@@ -4414,7 +4426,7 @@ Model {
 		    Port {
 		    PortNumber		    1
 		    Name		    "aoa/beta, deg"
-		    PropagatedSignals	    ", "
+		    PropagatedSignals	    "alpha, beta"
 		    RTWStorageClass	    "Auto"
 		    DataLoggingNameMode	    "SignalName"
 		    }
@@ -10873,6 +10885,27 @@ Model {
 		  }
 		}
 		Block {
+		  BlockType		  Scope
+		  Name			  "Scope"
+		  Ports			  [2]
+		  Position		  [685, 21, 715, 54]
+		  Floating		  off
+		  Location		  [188, 390, 834, 839]
+		  Open			  off
+		  NumInputPorts		  "2"
+		  List {
+		    ListType		    AxesTitles
+		    axes1		    "%<SignalLabel>"
+		    axes2		    "%<SignalLabel>"
+		  }
+		  YMin			  "-0.4~-1"
+		  YMax			  "0~12"
+		  SaveName		  "ScopeData10"
+		  DataFormat		  "StructureWithTime"
+		  MaxDataPoints		  "15000"
+		  SampleTime		  "0"
+		}
+		Block {
 		  BlockType		  Sum
 		  Name			  "Sum"
 		  Ports			  [2, 1]
@@ -11055,10 +11088,21 @@ Model {
 		  DstPort		  10
 		}
 		Line {
+		  Name			  "beta"
+		  Labels		  [0, 0]
 		  SrcBlock		  "Alpha/Beta"
 		  SrcPort		  2
-		  DstBlock		  "Body Frame F & M"
-		  DstPort		  2
+		  Points		  [75, 0]
+		  Branch {
+		    DstBlock		    "Body Frame F & M"
+		    DstPort		    2
+		  }
+		  Branch {
+		    Labels		    [2, 0]
+		    Points		    [0, -60]
+		    DstBlock		    "Scope"
+		    DstPort		    2
+		  }
 		}
 		Line {
 		  SrcBlock		  "dr, deg"
@@ -11073,10 +11117,21 @@ Model {
 		  DstPort		  6
 		}
 		Line {
+		  Name			  "alpha"
+		  Labels		  [0, 0]
 		  SrcBlock		  "Alpha/Beta"
 		  SrcPort		  1
-		  DstBlock		  "Body Frame F & M"
-		  DstPort		  1
+		  Points		  [55, 0]
+		  Branch {
+		    DstBlock		    "Body Frame F & M"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Labels		    [2, 0]
+		    Points		    [0, -60]
+		    DstBlock		    "Scope"
+		    DstPort		    1
+		  }
 		}
 		Line {
 		  SrcBlock		  "de, deg"
@@ -16208,264 +16263,6 @@ Model {
     }
     Block {
       BlockType		      SubSystem
-      Name		      "Bank to Psi Dot"
-      Ports		      [2, 1]
-      Position		      [780, 995, 870, 1070]
-      ForegroundColor	      "yellow"
-      AncestorBlock	      "SLUGS_Library/Navigation/Bank to Psi Dot"
-      MinAlgLoopOccurrences   off
-      RTWSystemCode	      "Auto"
-      FunctionWithSeparateData off
-      MaskHideContents	      off
-      System {
-	Name			"Bank to Psi Dot"
-	Location		[2, 78, 1244, 1004]
-	Open			off
-	ModelBrowserVisibility	off
-	ModelBrowserWidth	200
-	ScreenColor		"white"
-	PaperOrientation	"landscape"
-	PaperPositionMode	"auto"
-	PaperType		"usletter"
-	PaperUnits		"inches"
-	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
-	TiledPageScale		1
-	ShowPageBoundaries	off
-	ZoomFactor		"100"
-	Block {
-	  BlockType		  Inport
-	  Name			  "phi_c"
-	  Position		  [160, 33, 190, 47]
-	  BackgroundColor	  "darkGreen"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "U_m"
-	  Position		  [55, 98, 85, 112]
-	  BackgroundColor	  "darkGreen"
-	  Port			  "2"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Constant
-	  Name			  "Constant1"
-	  Position		  [160, 149, 215, 181]
-	  ShowName		  off
-	  Value			  "9.80665"
-	  OutDataTypeMode	  "single"
-	}
-	Block {
-	  BlockType		  Product
-	  Name			  "Divide"
-	  Ports			  [2, 1]
-	  Position		  [270, 96, 300, 129]
-	  ShowName		  off
-	  Inputs		  "/*"
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "single"
-	  OutScaling		  "2^-10"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	  SampleTime		  "apSampleTime"
-	}
-	Block {
-	  BlockType		  Product
-	  Name			  "Divide1"
-	  Ports			  [2, 1]
-	  Position		  [375, 46, 405, 79]
-	  ShowName		  off
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "single"
-	  OutScaling		  "2^-10"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	  SampleTime		  "apSampleTime"
-	}
-	Block {
-	  BlockType		  Reference
-	  Name			  "Subsystem8"
-	  Ports			  [1, 1]
-	  Position		  [260, 34, 320, 76]
-	  ForegroundColor	  "green"
-	  ShowName		  off
-	  SourceBlock		  "SLUGS_Library/Subsystem8"
-	  SourceType		  "SubSystem"
-	  ShowPortLabels	  "FromPortIcon"
-	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData off
-	  RTWMemSecFuncInitTerm	  "Inherit from model"
-	  RTWMemSecFuncExecute	  "Inherit from model"
-	  RTWMemSecDataConstants  "Inherit from model"
-	  RTWMemSecDataInternal	  "Inherit from model"
-	  RTWMemSecDataParameters "Inherit from model"
-	}
-	Block {
-	  BlockType		  SubSystem
-	  Name			  "negprotect"
-	  Ports			  [1, 1]
-	  Position		  [115, 84, 220, 126]
-	  ForegroundColor	  "blue"
-	  ShowName		  off
-	  MinAlgLoopOccurrences	  off
-	  RTWSystemCode		  "Auto"
-	  FunctionWithSeparateData off
-	  Array {
-	    Type		    "Handle"
-	    Dimension		    0
-	    PropName		    "AvailSigsLoadSave"
-	  }
-	  MaskHideContents	  off
-	  MaskType		  "Stateflow"
-	  MaskDescription	  "Embedded MATLAB block"
-	  MaskDisplay		  "disp('negProt');"
-	  MaskSelfModifiable	  on
-	  MaskIconFrame		  on
-	  MaskIconOpaque	  off
-	  MaskIconRotate	  "none"
-	  MaskIconUnits		  "autoscale"
-	  System {
-	    Name		    "negprotect"
-	    Location		    [257, 457, 812, 717]
-	    Open		    off
-	    ModelBrowserVisibility  off
-	    ModelBrowserWidth	    200
-	    ScreenColor		    "white"
-	    PaperOrientation	    "landscape"
-	    PaperPositionMode	    "auto"
-	    PaperType		    "usletter"
-	    PaperUnits		    "inches"
-	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
-	    TiledPageScale	    1
-	    ShowPageBoundaries	    off
-	    ZoomFactor		    "100"
-	    Block {
-	      BlockType		      Inport
-	      Name		      "val"
-	      Position		      [20, 101, 40, 119]
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Demux
-	      Name		      " Demux "
-	      Ports		      [1, 1]
-	      Position		      [270, 160, 320, 200]
-	      Outputs		      "1"
-	    }
-	    Block {
-	      BlockType		      "S-Function"
-	      Name		      " SFunction "
-	      Tag		      "Stateflow S-Function InnerOuter_Sim 1"
-	      Ports		      [1, 2]
-	      Position		      [180, 100, 230, 160]
-	      FunctionName	      "sf_sfun"
-	      PortCounts	      "[1 2]"
-	      Port {
-		PortNumber		2
-		Name			"zpVal"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	    }
-	    Block {
-	      BlockType		      Terminator
-	      Name		      " Terminator "
-	      Position		      [460, 171, 480, 189]
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "zpVal"
-	      Position		      [460, 101, 480, 119]
-	      IconDisplay	      "Port number"
-	      BusOutputAsStruct	      off
-	    }
-	    Line {
-	      SrcBlock		      " SFunction "
-	      SrcPort		      1
-	      Points		      [0, 65]
-	      DstBlock		      " Demux "
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      " Demux "
-	      SrcPort		      1
-	      DstBlock		      " Terminator "
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "val"
-	      SrcPort		      1
-	      DstBlock		      " SFunction "
-	      DstPort		      1
-	    }
-	    Line {
-	      Name		      "zpVal"
-	      Labels		      [0, 0]
-	      SrcBlock		      " SFunction "
-	      SrcPort		      2
-	      DstBlock		      "zpVal"
-	      DstPort		      1
-	    }
-	  }
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "psi_dot_c"
-	  Position		  [475, 58, 505, 72]
-	  IconDisplay		  "Port number"
-	  BusOutputAsStruct	  off
-	}
-	Line {
-	  SrcBlock		  "negprotect"
-	  SrcPort		  1
-	  DstBlock		  "Divide"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Divide"
-	  SrcPort		  1
-	  Points		  [25, 0; 0, -45]
-	  DstBlock		  "Divide1"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "phi_c"
-	  SrcPort		  1
-	  Points		  [25, 0; 0, 15]
-	  DstBlock		  "Subsystem8"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Subsystem8"
-	  SrcPort		  1
-	  DstBlock		  "Divide1"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Divide1"
-	  SrcPort		  1
-	  DstBlock		  "psi_dot_c"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Constant1"
-	  SrcPort		  1
-	  Points		  [15, 0; 0, -45]
-	  DstBlock		  "Divide"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "U_m"
-	  SrcPort		  1
-	  DstBlock		  "negprotect"
-	  DstPort		  1
-	}
-      }
-    }
-    Block {
-      BlockType		      SubSystem
       Name		      "Compute\npsi_dot_m"
       Ports		      [3, 1]
       Position		      [770, 733, 870, 797]
@@ -17907,7 +17704,7 @@ Model {
     Block {
       BlockType		      From
       Name		      "From68"
-      Position		      [900, 996, 950, 1014]
+      Position		      [885, 1016, 935, 1034]
       BackgroundColor	      "cyan"
       ShowName		      off
       CloseFcn		      "tagdialog Close"
@@ -18032,26 +17829,8 @@ Model {
     }
     Block {
       BlockType		      From
-      Name		      "From80"
-      Position		      [695, 1041, 745, 1059]
-      BackgroundColor	      "cyan"
-      ShowName		      off
-      CloseFcn		      "tagdialog Close"
-      GotoTag		      "U_m"
-    }
-    Block {
-      BlockType		      From
-      Name		      "From81"
-      Position		      [695, 1006, 745, 1024]
-      BackgroundColor	      "cyan"
-      ShowName		      off
-      CloseFcn		      "tagdialog Close"
-      GotoTag		      "phi_m"
-    }
-    Block {
-      BlockType		      From
       Name		      "From82"
-      Position		      [900, 1056, 950, 1074]
+      Position		      [885, 1076, 935, 1094]
       BackgroundColor	      "cyan"
       ShowName		      off
       CloseFcn		      "tagdialog Close"
@@ -18060,7 +17839,7 @@ Model {
     Block {
       BlockType		      From
       Name		      "From83"
-      Position		      [900, 1086, 950, 1104]
+      Position		      [885, 1106, 935, 1124]
       BackgroundColor	      "cyan"
       ShowName		      off
       CloseFcn		      "tagdialog Close"
@@ -18069,7 +17848,7 @@ Model {
     Block {
       BlockType		      From
       Name		      "From84"
-      Position		      [900, 1116, 950, 1134]
+      Position		      [885, 1136, 935, 1154]
       BackgroundColor	      "cyan"
       ShowName		      off
       CloseFcn		      "tagdialog Close"
@@ -18078,7 +17857,7 @@ Model {
     Block {
       BlockType		      From
       Name		      "From85"
-      Position		      [930, 946, 980, 964]
+      Position		      [915, 966, 965, 984]
       BackgroundColor	      "cyan"
       ShowName		      off
       CloseFcn		      "tagdialog Close"
@@ -18101,6 +17880,15 @@ Model {
       ShowName		      off
       CloseFcn		      "tagdialog Close"
       GotoTag		      "Z"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From90"
+      Position		      [805, 346, 855, 364]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "L1Surface"
     }
     Block {
       BlockType		      From
@@ -18357,7 +18145,7 @@ Model {
     Block {
       BlockType		      Goto
       Name		      "Goto34"
-      Position		      [1110, 51, 1160, 69]
+      Position		      [1110, 56, 1160, 74]
       BackgroundColor	      "magenta"
       ShowName		      off
       GotoTag		      "dA"
@@ -18366,7 +18154,7 @@ Model {
     Block {
       BlockType		      Goto
       Name		      "Goto35"
-      Position		      [1115, 131, 1165, 149]
+      Position		      [1115, 141, 1165, 159]
       BackgroundColor	      "magenta"
       ShowName		      off
       GotoTag		      "dR"
@@ -18384,7 +18172,7 @@ Model {
     Block {
       BlockType		      Goto
       Name		      "Goto37"
-      Position		      [1110, 211, 1160, 229]
+      Position		      [1110, 226, 1160, 244]
       BackgroundColor	      "magenta"
       ShowName		      off
       GotoTag		      "phi_c"
@@ -18618,7 +18406,7 @@ Model {
     Block {
       BlockType		      Goto
       Name		      "Goto60"
-      Position		      [1110, 1055, 1180, 1075]
+      Position		      [1095, 1075, 1165, 1095]
       BackgroundColor	      "magenta"
       ShowName		      off
       GotoTag		      "dA_ad"
@@ -18672,7 +18460,7 @@ Model {
     Block {
       BlockType		      Goto
       Name		      "Goto9"
-      Position		      [1100, 289, 1170, 311]
+      Position		      [1100, 309, 1170, 331]
       BackgroundColor	      "magenta"
       ShowName		      off
       GotoTag		      "psi_dot_c"
@@ -21192,7 +20980,7 @@ Model {
       BlockType		      SubSystem
       Name		      "L1 Output Feedback\nController\nto Ctrl Surface"
       Ports		      [5, 1, 1]
-      Position		      [965, 983, 1065, 1147]
+      Position		      [950, 1003, 1050, 1167]
       TreatAsAtomicUnit	      on
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
@@ -23527,8 +23315,8 @@ Model {
     Block {
       BlockType		      SubSystem
       Name		      "Lateral Channel"
-      Ports		      [13, 4]
-      Position		      [880, 21, 1075, 339]
+      Ports		      [14, 4]
+      Position		      [880, 24, 1075, 361]
       TreatAsAtomicUnit	      on
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
@@ -23552,14 +23340,14 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "r_m"
-	  Position		  [80, 353, 110, 367]
+	  Position		  [175, 408, 205, 422]
 	  BackgroundColor	  "darkGreen"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
 	  Name			  "Manual?"
-	  Position		  [330, 403, 360, 417]
+	  Position		  [425, 458, 455, 472]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "2"
 	  IconDisplay		  "Port number"
@@ -23567,7 +23355,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "Yaw Damp \nPID Gains"
-	  Position		  [305, 503, 335, 517]
+	  Position		  [400, 558, 430, 572]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "3"
 	  IconDisplay		  "Port number"
@@ -23575,7 +23363,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "dR Trim"
-	  Position		  [485, 558, 515, 572]
+	  Position		  [580, 613, 610, 627]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "4"
 	  IconDisplay		  "Port number"
@@ -23599,7 +23387,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "phi_m"
-	  Position		  [680, 53, 710, 67]
+	  Position		  [795, 33, 825, 47]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "7"
 	  IconDisplay		  "Port number"
@@ -23607,7 +23395,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "Roll PID Gains"
-	  Position		  [720, 253, 750, 267]
+	  Position		  [835, 233, 865, 247]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "8"
 	  IconDisplay		  "Port number"
@@ -23615,7 +23403,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "dA Trim"
-	  Position		  [900, 303, 930, 317]
+	  Position		  [1015, 283, 1045, 297]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "9"
 	  IconDisplay		  "Port number"
@@ -23656,10 +23444,19 @@ Model {
 	  SampleTime		  "apSampleTime"
 	}
 	Block {
+	  BlockType		  Inport
+	  Name			  "L1Surf"
+	  Position		  [640, 88, 670, 102]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "14"
+	  IconDisplay		  "Port number"
+	  SampleTime		  "apSampleTime"
+	}
+	Block {
 	  BlockType		  Sum
 	  Name			  "Add"
 	  Ports			  [2, 1]
-	  Position		  [585, 427, 615, 458]
+	  Position		  [680, 482, 710, 513]
 	  ShowName		  off
 	  CollapseMode		  "All dimensions"
 	  InputSameDT		  off
@@ -23671,7 +23468,7 @@ Model {
 	  BlockType		  Sum
 	  Name			  "Add1"
 	  Ports			  [2, 1]
-	  Position		  [740, 92, 770, 123]
+	  Position		  [855, 72, 885, 103]
 	  ShowName		  off
 	  Inputs		  "-+"
 	  CollapseMode		  "All dimensions"
@@ -23684,7 +23481,7 @@ Model {
 	  BlockType		  Sum
 	  Name			  "Add3"
 	  Ports			  [2, 1]
-	  Position		  [970, 177, 1000, 208]
+	  Position		  [1085, 157, 1115, 188]
 	  ShowName		  off
 	  CollapseMode		  "All dimensions"
 	  InputSameDT		  off
@@ -23695,7 +23492,7 @@ Model {
 	Block {
 	  BlockType		  Saturate
 	  Name			  "Aileron\nLimit"
-	  Position		  [1020, 180, 1050, 210]
+	  Position		  [1135, 160, 1165, 190]
 	  UpperLimit		  "daLimit"
 	  LowerLimit		  "-daLimit"
 	  SampleTime		  "apSampleTime"
@@ -23703,7 +23500,7 @@ Model {
 	Block {
 	  BlockType		  Saturate
 	  Name			  "Bank  Limit\nCommand"
-	  Position		  [650, 100, 680, 130]
+	  Position		  [765, 80, 795, 110]
 	  UpperLimit		  "bankCommandLimit"
 	  LowerLimit		  "-bankCommandLimit"
 	  SampleTime		  "apSampleTime"
@@ -23971,7 +23768,7 @@ Model {
 	Block {
 	  BlockType		  Constant
 	  Name			  "Constant"
-	  Position		  [325, 445, 355, 475]
+	  Position		  [420, 500, 450, 530]
 	  ShowName		  off
 	  Value			  "0"
 	  OutDataTypeMode	  "single"
@@ -23979,7 +23776,7 @@ Model {
 	Block {
 	  BlockType		  Constant
 	  Name			  "Constant1"
-	  Position		  [735, 195, 765, 225]
+	  Position		  [850, 175, 880, 205]
 	  ShowName		  off
 	  Value			  "0"
 	  OutDataTypeMode	  "single"
@@ -23987,17 +23784,39 @@ Model {
 	Block {
 	  BlockType		  DataTypeConversion
 	  Name			  "Data Type Conversion3"
-	  Position		  [320, 347, 370, 373]
+	  Position		  [415, 402, 465, 428]
 	  ShowName		  off
 	  OutDataTypeMode	  "single"
 	  RndMeth		  "Floor"
 	  SaturateOnIntegerOverflow off
 	}
 	Block {
+	  BlockType		  Scope
+	  Name			  "Floating\nScope"
+	  Ports			  [3]
+	  Position		  [755, 214, 790, 266]
+	  Floating		  off
+	  Location		  [376, 294, 1141, 949]
+	  Open			  off
+	  NumInputPorts		  "3"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	    axes2		    "%<SignalLabel>"
+	    axes3		    "%<SignalLabel>"
+	  }
+	  YMin			  "-5~-5~-5"
+	  YMax			  "5~5~5"
+	  SaveName		  "ScopeData8"
+	  DataFormat		  "StructureWithTime"
+	  LimitDataPoints	  off
+	  SampleTime		  "0"
+	}
+	Block {
 	  BlockType		  Reference
 	  Name			  "High Pass\n(Washout) Filter"
 	  Ports			  [1, 1]
-	  Position		  [240, 332, 300, 388]
+	  Position		  [335, 387, 395, 443]
 	  ForegroundColor	  "green"
 	  SourceBlock		  "SLUGS_Library/Singnal Routing\n& Conditioni"
 "ng/Filter"
@@ -24021,7 +23840,7 @@ Model {
 	Block {
 	  BlockType		  InportShadow
 	  Name			  "Manual?1"
-	  Position		  [735, 153, 765, 167]
+	  Position		  [850, 133, 880, 147]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "2"
 	  IconDisplay		  "Port number"
@@ -24031,7 +23850,7 @@ Model {
 	Block {
 	  BlockType		  Gain
 	  Name			  "Neg\nFeedback"
-	  Position		  [170, 345, 200, 375]
+	  Position		  [265, 400, 295, 430]
 	  Gain			  "-1"
 	  ParameterDataTypeMode	  "Inherit via internal rule"
 	  OutDataTypeMode	  "Specify via dialog"
@@ -24042,7 +23861,7 @@ Model {
 	  BlockType		  Reference
 	  Name			  "Roll Control"
 	  Ports			  [4, 1]
-	  Position		  [800, 87, 930, 283]
+	  Position		  [915, 67, 1045, 263]
 	  ForegroundColor	  "green"
 	  SourceBlock		  "SLUGS_Library/Control Blocks/PID Controller"
 	  SourceType		  ""
@@ -24062,10 +23881,42 @@ Model {
 	Block {
 	  BlockType		  Saturate
 	  Name			  "Rudder\nLimit"
-	  Position		  [660, 430, 690, 460]
+	  Position		  [755, 485, 785, 515]
 	  UpperLimit		  "apSampleTime"
 	  LowerLimit		  "-drLimit"
 	  SampleTime		  "apSampleTime"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "Scope"
+	  Ports			  [1]
+	  Position		  [830, 309, 860, 341]
+	  Floating		  off
+	  Location		  [188, 390, 512, 629]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  YMin			  "-3e-008"
+	  YMax			  "3e-008"
+	  SaveName		  "ScopeData9"
+	  DataFormat		  "StructureWithTime"
+	  LimitDataPoints	  off
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Subtract"
+	  Ports			  [2, 1]
+	  Position		  [740, 302, 770, 333]
+	  Inputs		  "+-"
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutScaling		  "2^-10"
+	  SaturateOnIntegerOverflow off
 	}
 	Block {
 	  BlockType		  Switch
@@ -24089,6 +23940,17 @@ Model {
 	  SampleTime		  "apSampleTime"
 	}
 	Block {
+	  BlockType		  Switch
+	  Name			  "Switch2"
+	  Position		  [695, 65, 730, 125]
+	  ShowName		  off
+	  Criteria		  "u2 > Threshold"
+	  Threshold		  "0.3"
+	  InputSameDT		  off
+	  SaturateOnIntegerOverflow off
+	  SampleTime		  "apSampleTime"
+	}
+	Block {
 	  BlockType		  InportShadow
 	  Name			  "U_m "
 	  Position		  [545, 168, 575, 182]
@@ -24103,7 +23965,7 @@ Model {
 	  BlockType		  Reference
 	  Name			  "Yaw Damper"
 	  Ports			  [4, 1]
-	  Position		  [390, 337, 520, 533]
+	  Position		  [485, 392, 615, 588]
 	  ForegroundColor	  "green"
 	  SourceBlock		  "SLUGS_Library/Control Blocks/PID Controller"
 	  SourceType		  ""
@@ -24119,6 +23981,16 @@ Model {
 	  NDelay		  "derivativesConstant"
 	  upperLimit		  "yawDamperLimit"
 	  lowerLimit		  "-yawDamperLimit"
+	}
+	Block {
+	  BlockType		  InportShadow
+	  Name			  "nav_phi_c "
+	  Position		  [575, 43, 605, 57]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "11"
+	  IconDisplay		  "Port number"
+	  LatchByDelayingOutsideSignal off
+	  LatchByCopyingInsideSignal off
 	}
 	Block {
 	  BlockType		  SubSystem
@@ -24248,7 +24120,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "dA"
-	  Position		  [1070, 188, 1100, 202]
+	  Position		  [1185, 168, 1215, 182]
 	  BackgroundColor	  "yellow"
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
@@ -24256,7 +24128,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "dR"
-	  Position		  [735, 438, 765, 452]
+	  Position		  [830, 493, 860, 507]
 	  BackgroundColor	  "yellow"
 	  Port			  "2"
 	  IconDisplay		  "Port number"
@@ -24265,7 +24137,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "phi_c"
-	  Position		  [655, 168, 685, 182]
+	  Position		  [770, 148, 800, 162]
 	  Orientation		  "left"
 	  BackgroundColor	  "yellow"
 	  Port			  "3"
@@ -24457,12 +24329,6 @@ Model {
 	  }
 	}
 	Line {
-	  SrcBlock		  "psi_dot to Bank"
-	  SrcPort		  1
-	  DstBlock		  "Bank  Limit\nCommand"
-	  DstPort		  1
-	}
-	Line {
 	  SrcBlock		  "U_m "
 	  SrcPort		  1
 	  Points		  [-30, 0]
@@ -24493,6 +24359,74 @@ Model {
 	  SrcPort		  1
 	  Points		  [10, 0; 0, 15]
 	  DstBlock		  "Switch1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Switch2"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    DstBlock		    "Bank  Limit\nCommand"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Floating\nScope"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "psi_dot to Bank"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    DstBlock		    "Switch2"
+	    DstPort		    3
+	  }
+	  Branch {
+	    Points		    [0, 140; 50, 0]
+	    Branch {
+	      DstBlock		      "Floating\nScope"
+	      DstPort		      3
+	    }
+	    Branch {
+	      Points		      [0, 70]
+	      DstBlock		      "Subtract"
+	      DstPort		      2
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "L1Surf"
+	  SrcPort		  1
+	  DstBlock		  "Switch2"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "nav_phi_c "
+	  SrcPort		  1
+	  Points		  [35, 0; 0, 25; 30, 0]
+	  Branch {
+	    DstBlock		    "Switch2"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 165; 25, 0]
+	    Branch {
+	      DstBlock		      "Floating\nScope"
+	      DstPort		      2
+	    }
+	    Branch {
+	      Points		      [0, 70]
+	      DstBlock		      "Subtract"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "Subtract"
+	  SrcPort		  1
+	  Points		  [40, 0]
+	  DstBlock		  "Scope"
 	  DstPort		  1
 	}
       }
@@ -25958,7 +25892,7 @@ Model {
       RTWMemSecDataConstants  "Inherit from model"
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
-      sw		      "1"
+      sw		      "0"
       action		      "0"
       varsize		      off
     }
@@ -26209,7 +26143,7 @@ Model {
       System {
 	Name			"Navigation"
 	Location		[2, 82, 1244, 1000]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -35091,27 +35025,6 @@ Model {
       SampleTime	      "0"
     }
     Block {
-      BlockType		      Scope
-      Name		      "Scope"
-      Ports		      [2]
-      Position		      [925, 896, 955, 929]
-      Floating		      off
-      Location		      [-1439, 52, 1, 899]
-      Open		      on
-      NumInputPorts	      "2"
-      List {
-	ListType		AxesTitles
-	axes1			"%<SignalLabel>"
-	axes2			"%<SignalLabel>"
-      }
-      YMin		      "-0.225~-0.125"
-      YMax		      "0.325~0.275"
-      SaveName		      "ScopeData8"
-      DataFormat	      "StructureWithTime"
-      LimitDataPoints	      off
-      SampleTime	      "0"
-    }
-    Block {
       BlockType		      Reference
       Name		      "Slider\nGain"
       Ports		      [1, 1]
@@ -37190,16 +37103,17 @@ Model {
     Line {
       SrcBlock		      "Compute\npsi_dot_m"
       SrcPort		      1
-      Points		      [10, 0]
+      Points		      [5, 0]
       Branch {
 	DstBlock		"L1 Output Feedback\nController\nWith \nProjec"
 "tion Operator1"
 	DstPort			2
       }
       Branch {
-	Points			[0, 140]
-	DstBlock		"Scope"
-	DstPort			1
+	Points			[0, 290]
+	DstBlock		"L1 Output Feedback\nController\nto Ctrl Surfa"
+"ce"
+	DstPort			2
       }
     }
     Line {
@@ -37333,31 +37247,10 @@ Model {
       DstPort		      2
     }
     Line {
-      SrcBlock		      "Bank to Psi Dot"
+      SrcBlock		      "From90"
       SrcPort		      1
-      Points		      [10, 0]
-      Branch {
-	DstBlock		"L1 Output Feedback\nController\nto Ctrl Surfa"
-"ce"
-	DstPort			2
-      }
-      Branch {
-	Points			[0, -115]
-	DstBlock		"Scope"
-	DstPort			2
-      }
-    }
-    Line {
-      SrcBlock		      "From81"
-      SrcPort		      1
-      DstBlock		      "Bank to Psi Dot"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "From80"
-      SrcPort		      1
-      DstBlock		      "Bank to Psi Dot"
-      DstPort		      2
+      DstBlock		      "Lateral Channel"
+      DstPort		      14
     }
     Annotation {
       Name		      "Mid Level Commands"
@@ -37423,30 +37316,29 @@ Stateflow {
 		name                 		"InnerOuter_Sim"
 		created              		"18-Sep-2008 12:14:47"
 		isLibrary            		0
-		firstTarget          		81
+		firstTarget          		74
 		sfVersion            		66014000
 	}
 
 	chart {
 		id                                        		2
-		name                                      		"Bank to Psi Dot/negprotect"
-		windowPosition                            		[267.588 373.544 200.25 189.75]
+		name                                      		"6DOF Model/Plant/Get GPS/Embedded\n"
+					"MATLAB Function1"
+		windowPosition                            		[288.36 270 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
-		screen                                    		[1 1 1280 833 1.333333333333333]
+		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 3 0 0]
 		firstTransition                           		5
 		firstJunction                             		4
 		viewObj                                   		2
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		6
-		chartFileNumber                           		1
+		chartFileNumber                           		2
 		disableImplicitCasting                    		1
 		eml {
-			name       		"negProt"
+			name       		"getCOG"
 		}
 	}
 
@@ -37463,17 +37355,18 @@ Stateflow {
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function zpVal = negProt(val)\n"
+			script                   		"function cog = getCOG(Vn, Ve)\n"
 						"% This block supports an embeddable subset of the MATLAB la"
 						"nguage.\n"
 						"% See the help menu for details. \n"
 						"\n"
-						"if val >= single(0.001)\n"
-						"    zpVal = val;\n"
-						"else\n"
-						"    zpVal = single(0.001);\n"
-						"end"
-			editorLayout             		"100 M4x1[146 214 671 364]"
+						"cog = atan2(Ve,Vn);\n"
+						"if cog < 0;\n"
+						"    cog = cog + 2*pi;\n"
+						"end\n"
+						"\n"
+						"    "
+			editorLayout             		"100 M4x1[146 89 1036 780]"
 			treatIntsAsFixpt         		0
 		}
 	}
@@ -37510,9 +37403,9 @@ Stateflow {
 
 	data {
 		id                            		6
-		name                          		"val"
+		name                          		"cog"
 		linkNode                      		[2 0 7]
-		scope                         		INPUT_DATA
+		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
 			array {
@@ -37522,6 +37415,7 @@ Stateflow {
 				method    		SF_INHERITED_TYPE
 			}
 			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
 		}
 		dataType                      		"inherited"
 		fixptType {
@@ -37533,144 +37427,8 @@ Stateflow {
 
 	data {
 		id                            		7
-		name                          		"zpVal"
-		linkNode                      		[2 6 0]
-		scope                         		OUTPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_NO
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	instance {
-		id     		8
-		name   		"Bank to Psi Dot/negprotect"
-		machine		1
-		chart  		2
-	}
-
-	chart {
-		id                                        		9
-		name                                      		"6DOF Model/Plant/Get GPS/Embedded\n"
-					"MATLAB Function1"
-		windowPosition                            		[288.36 270 200.25 189.75]
-		viewLimits                                		[0 156.75 0 153.75]
-		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 10 0 0]
-		firstTransition                           		12
-		firstJunction                             		11
-		viewObj                                   		9
-		machine                                   		1
-		decomposition                             		CLUSTER_CHART
-		type                                      		EML_CHART
-		firstData                                 		13
-		chartFileNumber                           		2
-		disableImplicitCasting                    		1
-		eml {
-			name       		"getCOG"
-		}
-	}
-
-	state {
-		id                           		10
-		labelString                  		"eML_blk_kernel()"
-		position                     		[18 64.5 118 66]
-		fontSize                     		12
-		chart                        		9
-		treeNode                     		[9 0 0 0]
-		superState                   		SUBCHART
-		subviewer                    		9
-		type                         		FUNC_STATE
-		decomposition                		CLUSTER_STATE
-		eml {
-			isEML                    		1
-			script                   		"function cog = getCOG(Vn, Ve)\n"
-						"% This block supports an embeddable subset of the MATLAB la"
-						"nguage.\n"
-						"% See the help menu for details. \n"
-						"\n"
-						"cog = atan2(Ve,Vn);\n"
-						"if cog < 0;\n"
-						"    cog = cog + 2*pi;\n"
-						"end\n"
-						"\n"
-						"    "
-			editorLayout             		"100 M4x1[146 89 1036 780]"
-			treatIntsAsFixpt         		0
-		}
-	}
-
-	junction {
-		id         		11
-		position   		[23.5747 49.5747 7]
-		chart      		9
-		linkNode   		[9 0 0]
-		subviewer  		9
-		type       		CONNECTIVE_JUNCTION
-	}
-
-	transition {
-		id             		12
-		labelString    		"{eML_blk_kernel();}"
-		labelPosition  		[32.125 19.875 102.544 14.964]
-		fontSize       		12
-		src {
-			intersection		[0 0 1 0 23.5747 14.625 0 0]
-		}
-		dst {
-			id          		11
-			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
-		}
-		midPoint       		[23.5747 24.9468]
-		chart          		9
-		linkNode       		[9 0 0]
-		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		9
-		drawStyle      		SMART
-		executionOrder 		1
-	}
-
-	data {
-		id                            		13
-		name                          		"cog"
-		linkNode                      		[9 0 14]
-		scope                         		OUTPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_NO
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		14
 		name                          		"Vn"
-		linkNode                      		[9 13 15]
+		linkNode                      		[2 6 8]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -37692,9 +37450,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		15
+		id                            		8
 		name                          		"Ve"
-		linkNode                      		[9 14 0]
+		linkNode                      		[2 7 0]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -37715,15 +37473,15 @@ Stateflow {
 	}
 
 	instance {
-		id     		16
+		id     		9
 		name   		"6DOF Model/Plant/Get GPS/Embedded\n"
 					"MATLAB Function1"
 		machine		1
-		chart  		9
+		chart  		2
 	}
 
 	chart {
-		id                                        		17
+		id                                        		10
 		name                                      		"Navigation/Compute WP Index/Compute P/Get Circles/Compute CCW\n"
 					"Angle From 2\n"
 					"Vectors/Embedded\n"
@@ -37731,15 +37489,15 @@ Stateflow {
 		windowPosition                            		[187.884 369 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 310 1011 820 1.333333333333333]
-		treeNode                                  		[0 18 0 0]
-		firstTransition                           		20
-		firstJunction                             		19
-		viewObj                                   		17
+		treeNode                                  		[0 11 0 0]
+		firstTransition                           		13
+		firstJunction                             		12
+		viewObj                                   		10
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		21
+		firstData                                 		14
 		chartFileNumber                           		3
 		disableImplicitCasting                    		1
 		eml {
@@ -37748,14 +37506,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		18
+		id                           		11
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		17
-		treeNode                     		[17 0 0 0]
+		chart                        		10
+		treeNode                     		[10 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		17
+		subviewer                    		10
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -37773,16 +37531,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		19
+		id         		12
 		position   		[23.5747 49.5747 7]
-		chart      		17
-		linkNode   		[17 0 0]
-		subviewer  		17
+		chart      		10
+		linkNode   		[10 0 0]
+		subviewer  		10
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		20
+		id             		13
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -37790,22 +37548,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		19
+			id          		12
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		17
-		linkNode       		[17 0 0]
+		chart          		10
+		linkNode       		[10 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		17
+		subviewer      		10
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		21
+		id                            		14
 		name                          		"rawAngle"
-		linkNode                      		[17 0 22]
+		linkNode                      		[10 0 15]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -37826,9 +37584,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		22
+		id                            		15
 		name                          		"angle"
-		linkNode                      		[17 21 0]
+		linkNode                      		[10 14 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -37850,30 +37608,30 @@ Stateflow {
 	}
 
 	instance {
-		id     		23
+		id     		16
 		name   		"Navigation/Compute WP Index/Compute P/Get Circles/Compute CCW\n"
 					"Angle From 2\n"
 					"Vectors/Embedded\n"
 					"MATLAB Function1"
 		machine		1
-		chart  		17
+		chart  		10
 	}
 
 	chart {
-		id                                        		24
+		id                                        		17
 		name                                      		"Navigation/Compute WP Index/Embedded\n"
 					"MATLAB Function"
 		windowPosition                            		[187.884 369 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 310 1011 820 1.333333333333333]
-		treeNode                                  		[0 25 0 0]
-		firstTransition                           		27
-		firstJunction                             		26
-		viewObj                                   		24
+		treeNode                                  		[0 18 0 0]
+		firstTransition                           		20
+		firstJunction                             		19
+		viewObj                                   		17
 		machine                                   		1
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		28
+		firstData                                 		21
 		chartFileNumber                           		7
 		disableImplicitCasting                    		1
 		eml {
@@ -37883,14 +37641,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		25
+		id                           		18
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		24
-		treeNode                     		[24 0 0 0]
+		chart                        		17
+		treeNode                     		[17 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		24
+		subviewer                    		17
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -37942,16 +37700,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		26
+		id         		19
 		position   		[23.5747 49.5747 7]
-		chart      		24
-		linkNode   		[24 0 0]
-		subviewer  		24
+		chart      		17
+		linkNode   		[17 0 0]
+		subviewer  		17
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		27
+		id             		20
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -37959,22 +37717,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		26
+			id          		19
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		24
-		linkNode       		[24 0 0]
+		chart          		17
+		linkNode       		[17 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		24
+		subviewer      		17
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		28
+		id                            		21
 		name                          		"wpStart"
-		linkNode                      		[24 0 29]
+		linkNode                      		[17 0 22]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -37995,9 +37753,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		29
+		id                            		22
 		name                          		"wpCount"
-		linkNode                      		[24 28 30]
+		linkNode                      		[17 21 23]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -38018,9 +37776,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		30
+		id                            		23
 		name                          		"wp0"
-		linkNode                      		[24 29 31]
+		linkNode                      		[17 22 24]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -38042,9 +37800,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		31
+		id                            		24
 		name                          		"swIncrement"
-		linkNode                      		[24 30 32]
+		linkNode                      		[17 23 25]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -38065,9 +37823,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		32
+		id                            		25
 		name                          		"wp1"
-		linkNode                      		[24 31 33]
+		linkNode                      		[17 24 26]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -38088,9 +37846,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		33
+		id                            		26
 		name                          		"wp2"
-		linkNode                      		[24 32 34]
+		linkNode                      		[17 25 27]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -38111,9 +37869,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		34
+		id                            		27
 		name                          		"wpEnabl"
-		linkNode                      		[24 33 0]
+		linkNode                      		[17 26 0]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -38134,28 +37892,28 @@ Stateflow {
 	}
 
 	instance {
-		id     		35
+		id     		28
 		name   		"Navigation/Compute WP Index/Embedded\n"
 					"MATLAB Function"
 		machine		1
-		chart  		24
+		chart  		17
 	}
 
 	chart {
-		id                                        		36
+		id                                        		29
 		name                                      		"Navigation/Compute WP Index/Embedded\n"
 					"MATLAB Function1"
 		windowPosition                            		[247.884 302.593 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 37 0 0]
-		firstTransition                           		39
-		firstJunction                             		38
-		viewObj                                   		36
+		treeNode                                  		[0 30 0 0]
+		firstTransition                           		32
+		firstJunction                             		31
+		viewObj                                   		29
 		machine                                   		1
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		40
+		firstData                                 		33
 		chartFileNumber                           		11
 		disableImplicitCasting                    		1
 		eml {
@@ -38165,14 +37923,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		37
+		id                           		30
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		36
-		treeNode                     		[36 0 0 0]
+		chart                        		29
+		treeNode                     		[29 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		36
+		subviewer                    		29
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -38229,16 +37987,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		38
+		id         		31
 		position   		[23.5747 49.5747 7]
-		chart      		36
-		linkNode   		[36 0 0]
-		subviewer  		36
+		chart      		29
+		linkNode   		[29 0 0]
+		subviewer  		29
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		39
+		id             		32
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -38246,22 +38004,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		38
+			id          		31
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		36
-		linkNode       		[36 0 0]
+		chart          		29
+		linkNode       		[29 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		36
+		subviewer      		29
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		40
+		id                            		33
 		name                          		"timeLimit"
-		linkNode                      		[36 0 41]
+		linkNode                      		[29 0 34]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -38282,9 +38040,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		41
+		id                            		34
 		name                          		"swDistanceRdy"
-		linkNode                      		[36 40 42]
+		linkNode                      		[29 33 35]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -38305,9 +38063,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		42
+		id                            		35
 		name                          		"swIncrement"
-		linkNode                      		[36 41 43]
+		linkNode                      		[29 34 36]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -38328,9 +38086,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		43
+		id                            		36
 		name                          		"apMode"
-		linkNode                      		[36 42 0]
+		linkNode                      		[29 35 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -38351,29 +38109,29 @@ Stateflow {
 	}
 
 	instance {
-		id     		44
+		id     		37
 		name   		"Navigation/Compute WP Index/Embedded\n"
 					"MATLAB Function1"
 		machine		1
-		chart  		36
+		chart  		29
 	}
 
 	chart {
-		id                                        		45
+		id                                        		38
 		name                                      		"Navigation/Compute WP Index/Compute P/Get Circles/Compute \n"
 					"Circles"
 		windowPosition                            		[187.884 369 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 310 1011 820 1.333333333333333]
-		treeNode                                  		[0 46 0 0]
-		firstTransition                           		48
-		firstJunction                             		47
-		viewObj                                   		45
+		treeNode                                  		[0 39 0 0]
+		firstTransition                           		41
+		firstJunction                             		40
+		viewObj                                   		38
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		49
+		firstData                                 		42
 		chartFileNumber                           		12
 		disableImplicitCasting                    		1
 		eml {
@@ -38382,14 +38140,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		46
+		id                           		39
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		45
-		treeNode                     		[45 0 0 0]
+		chart                        		38
+		treeNode                     		[38 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		45
+		subviewer                    		38
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -38435,16 +38193,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		47
+		id         		40
 		position   		[23.5747 49.5747 7]
-		chart      		45
-		linkNode   		[45 0 0]
-		subviewer  		45
+		chart      		38
+		linkNode   		[38 0 0]
+		subviewer  		38
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		48
+		id             		41
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -38452,22 +38210,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		47
+			id          		40
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		45
-		linkNode       		[45 0 0]
+		chart          		38
+		linkNode       		[38 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		45
+		subviewer      		38
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		49
+		id                            		42
 		name                          		"sd"
-		linkNode                      		[45 0 50]
+		linkNode                      		[38 0 43]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -38484,14 +38242,176 @@ Stateflow {
 			slope   		1
 			baseType		SF_INT16_TYPE
 		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		43
+		name                          		"O"
+		linkNode                      		[38 42 44]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		44
+		name                          		"cd"
+		linkNode                      		[38 43 45]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		45
+		name                          		"WP1"
+		linkNode                      		[38 44 46]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		46
+		name                          		"R"
+		linkNode                      		[38 45 47]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		47
+		name                          		"T1"
+		linkNode                      		[38 46 48]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		48
+		name                          		"P"
+		linkNode                      		[38 47 49]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		49
+		name                          		"Pch"
+		linkNode                      		[38 48 50]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
 		complexity                    		SF_COMPLEX_INHERITED
 	}
 
 	data {
 		id                            		50
-		name                          		"O"
-		linkNode                      		[45 49 51]
-		scope                         		OUTPUT_DATA
+		name                          		"T2"
+		linkNode                      		[38 49 51]
+		scope                         		INPUT_DATA
 		machine                       		1
 		props {
 			array {
@@ -38499,183 +38419,21 @@ Stateflow {
 			}
 			type {
 				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
 			}
 			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_NO
+			frame                		SF_FRAME_INHERITED
 		}
 		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
 		complexity                    		SF_COMPLEX_INHERITED
 	}
 
 	data {
 		id                            		51
-		name                          		"cd"
-		linkNode                      		[45 50 52]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
-		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		52
-		name                          		"WP1"
-		linkNode                      		[45 51 53]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
-		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		53
-		name                          		"R"
-		linkNode                      		[45 52 54]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
-		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		54
-		name                          		"T1"
-		linkNode                      		[45 53 55]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
-		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		55
-		name                          		"P"
-		linkNode                      		[45 54 56]
-		scope                         		OUTPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_NO
-		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		56
-		name                          		"Pch"
-		linkNode                      		[45 55 57]
-		scope                         		OUTPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_NO
-		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		57
-		name                          		"T2"
-		linkNode                      		[45 56 58]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
-		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		58
 		name                          		"PchB"
-		linkNode                      		[45 57 0]
+		linkNode                      		[38 50 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -38696,16 +38454,150 @@ Stateflow {
 	}
 
 	instance {
-		id     		59
+		id     		52
 		name   		"Navigation/Compute WP Index/Compute P/Get Circles/Compute \n"
 					"Circles"
 		machine		1
-		chart  		45
+		chart  		38
+	}
+
+	chart {
+		id                                        		53
+		name                                      		"Lateral Channel/Bank to Psi Dot/negprotect"
+		windowPosition                            		[252.588 326.703 200.25 189.75]
+		viewLimits                                		[0 156.75 0 153.75]
+		screen                                    		[1 1 1280 1024 1.333333333333333]
+		treeNode                                  		[0 54 0 0]
+		firstTransition                           		56
+		firstJunction                             		55
+		viewObj                                   		53
+		machine                                   		1
+		decomposition                             		CLUSTER_CHART
+		type                                      		EML_CHART
+		firstData                                 		57
+		chartFileNumber                           		14
+		disableImplicitCasting                    		1
+		eml {
+			name       		"negProt"
+		}
+	}
+
+	state {
+		id                           		54
+		labelString                  		"eML_blk_kernel()"
+		position                     		[18 64.5 118 66]
+		fontSize                     		12
+		chart                        		53
+		treeNode                     		[53 0 0 0]
+		superState                   		SUBCHART
+		subviewer                    		53
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			isEML                    		1
+			script                   		"function zpVal = negProt(val)\n"
+						"% This block supports an embeddable subset of the MATLAB la"
+						"nguage.\n"
+						"% See the help menu for details. \n"
+						"\n"
+						"if val >= single(0.001)\n"
+						"    zpVal = val;\n"
+						"else\n"
+						"    zpVal = single(0.001);\n"
+						"end"
+			editorLayout             		"100 M4x1[146 214 671 364]"
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	junction {
+		id         		55
+		position   		[23.5747 49.5747 7]
+		chart      		53
+		linkNode   		[53 0 0]
+		subviewer  		53
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		56
+		labelString    		"{eML_blk_kernel();}"
+		labelPosition  		[32.125 19.875 102.544 14.964]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 23.5747 14.625 0 0]
+		}
+		dst {
+			id          		55
+			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
+		}
+		midPoint       		[23.5747 24.9468]
+		chart          		53
+		linkNode       		[53 0 0]
+		dataLimits     		[23.575 23.575 14.625 34.575]
+		subviewer      		53
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	data {
+		id                            		57
+		name                          		"val"
+		linkNode                      		[53 0 58]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		58
+		name                          		"zpVal"
+		linkNode                      		[53 57 0]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	instance {
+		id     		59
+		name   		"Lateral Channel/Bank to Psi Dot/negprotect"
+		machine		1
+		chart  		53
 	}
 
 	chart {
 		id                                        		60
-		name                                      		"Lateral Channel/Bank to Psi Dot/negprotect"
+		name                                      		"Navigation/Park, Deyst & How\n"
+					"Lat Accel Cmd/Compute Eta/negprotect"
 		windowPosition                            		[252.588 326.703 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
@@ -38717,7 +38609,7 @@ Stateflow {
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		64
-		chartFileNumber                           		14
+		chartFileNumber                           		15
 		disableImplicitCasting                    		1
 		eml {
 			name       		"negProt"
@@ -38747,7 +38639,7 @@ Stateflow {
 						"else\n"
 						"    zpVal = single(0.001);\n"
 						"end"
-			editorLayout             		"100 M4x1[146 214 671 364]"
+			editorLayout             		"100 M4x1[84 367 1060 705]"
 			treatIntsAsFixpt         		0
 		}
 	}
@@ -38831,7 +38723,8 @@ Stateflow {
 
 	instance {
 		id     		66
-		name   		"Lateral Channel/Bank to Psi Dot/negprotect"
+		name   		"Navigation/Park, Deyst & How\n"
+					"Lat Accel Cmd/Compute Eta/negprotect"
 		machine		1
 		chart  		60
 	}
@@ -38839,8 +38732,10 @@ Stateflow {
 	chart {
 		id                                        		67
 		name                                      		"Navigation/Park, Deyst & How\n"
-					"Lat Accel Cmd/Compute Eta/negprotect"
-		windowPosition                            		[252.588 326.703 200.25 189.75]
+					"Lat Accel Cmd/GainSchedule\n"
+					"L2 and Get\n"
+					"Groundspeed/negprotect1"
+		windowPosition                            		[297.588 281.703 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 68 0 0]
@@ -38848,10 +38743,11 @@ Stateflow {
 		firstJunction                             		69
 		viewObj                                   		67
 		machine                                   		1
+		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		71
-		chartFileNumber                           		15
+		chartFileNumber                           		16
 		disableImplicitCasting                    		1
 		eml {
 			name       		"negProt"
@@ -38881,7 +38777,7 @@ Stateflow {
 						"else\n"
 						"    zpVal = single(0.001);\n"
 						"end"
-			editorLayout             		"100 M4x1[84 367 1060 705]"
+			editorLayout             		"100 M4x1[146 214 671 364]"
 			treatIntsAsFixpt         		0
 		}
 	}
@@ -38966,166 +38862,28 @@ Stateflow {
 	instance {
 		id     		73
 		name   		"Navigation/Park, Deyst & How\n"
-					"Lat Accel Cmd/Compute Eta/negprotect"
+					"Lat Accel Cmd/GainSchedule\n"
+					"L2 and Get\n"
+					"Groundspeed/negprotect1"
 		machine		1
 		chart  		67
 	}
 
-	chart {
-		id                                        		74
-		name                                      		"Navigation/Park, Deyst & How\n"
-					"Lat Accel Cmd/GainSchedule\n"
-					"L2 and Get\n"
-					"Groundspeed/negprotect1"
-		windowPosition                            		[297.588 281.703 200.25 189.75]
-		viewLimits                                		[0 156.75 0 153.75]
-		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 75 0 0]
-		firstTransition                           		77
-		firstJunction                             		76
-		viewObj                                   		74
-		machine                                   		1
-		toolbarMode                               		LIBRARY_TOOLBAR
-		decomposition                             		CLUSTER_CHART
-		type                                      		EML_CHART
-		firstData                                 		78
-		chartFileNumber                           		16
-		disableImplicitCasting                    		1
-		eml {
-			name       		"negProt"
-		}
-	}
-
-	state {
-		id                           		75
-		labelString                  		"eML_blk_kernel()"
-		position                     		[18 64.5 118 66]
-		fontSize                     		12
-		chart                        		74
-		treeNode                     		[74 0 0 0]
-		superState                   		SUBCHART
-		subviewer                    		74
-		type                         		FUNC_STATE
-		decomposition                		CLUSTER_STATE
-		eml {
-			isEML                    		1
-			script                   		"function zpVal = negProt(val)\n"
-						"% This block supports an embeddable subset of the MATLAB la"
-						"nguage.\n"
-						"% See the help menu for details. \n"
-						"\n"
-						"if val >= single(0.001)\n"
-						"    zpVal = val;\n"
-						"else\n"
-						"    zpVal = single(0.001);\n"
-						"end"
-			editorLayout             		"100 M4x1[146 214 671 364]"
-			treatIntsAsFixpt         		0
-		}
-	}
-
-	junction {
-		id         		76
-		position   		[23.5747 49.5747 7]
-		chart      		74
-		linkNode   		[74 0 0]
-		subviewer  		74
-		type       		CONNECTIVE_JUNCTION
-	}
-
-	transition {
-		id             		77
-		labelString    		"{eML_blk_kernel();}"
-		labelPosition  		[32.125 19.875 102.544 14.964]
-		fontSize       		12
-		src {
-			intersection		[0 0 1 0 23.5747 14.625 0 0]
-		}
-		dst {
-			id          		76
-			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
-		}
-		midPoint       		[23.5747 24.9468]
-		chart          		74
-		linkNode       		[74 0 0]
-		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		74
-		drawStyle      		SMART
-		executionOrder 		1
-	}
-
-	data {
-		id                            		78
-		name                          		"val"
-		linkNode                      		[74 0 79]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		79
-		name                          		"zpVal"
-		linkNode                      		[74 78 0]
-		scope                         		OUTPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_NO
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	instance {
-		id     		80
-		name   		"Navigation/Park, Deyst & How\n"
-					"Lat Accel Cmd/GainSchedule\n"
-					"L2 and Get\n"
-					"Groundspeed/negprotect1"
-		machine		1
-		chart  		74
-	}
-
 	target {
-		id                        		81
+		id                        		74
 		name                      		"sfun"
 		description               		"Default Simulink S-Function Target."
 		machine                   		1
-		linkNode                  		[1 0 82]
+		linkNode                  		[1 0 75]
 	}
 
 	target {
-		id                        		82
+		id                        		75
 		name                      		"rtw"
 		codeFlags                 		" comments=1 statebitsets=1 databitsets=1 emitlogicalops=1 el"
 						"seifdetection=1 constantfolding=1 redundantloadelimination=0"
 						" preservenames=0 preservenameswithparent=0 exportcharts=0"
 		machine                   		1
-		linkNode                  		[1 81 0]
+		linkNode                  		[1 74 0]
 	}
 }
