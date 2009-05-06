@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.1083"
+    ComputedModelVersion    "1.1084"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -48,8 +48,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed May 06 00:35:01 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:1083>"
+  LastModifiedDate	  "Wed May 06 09:58:08 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:1084>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -1026,8 +1026,8 @@ Model {
   }
   System {
     Name		    "InnerOuter_Sim"
-    Location		    [121, 97, 1346, 824]
-    Open		    on
+    Location		    [2, 78, 1203, 987]
+    Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "white"
@@ -23328,7 +23328,7 @@ Model {
       System {
 	Name			"Lateral Channel"
 	Location		[499, 349, 774, 589]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -23498,6 +23498,27 @@ Model {
 	  UpperLimit		  "bankCommandLimit"
 	  LowerLimit		  "-bankCommandLimit"
 	  SampleTime		  "apSampleTime"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Bank Compensation\nDue to Sideslip"
+	  Ports			  [4, 1]
+	  Position		  [465, 97, 595, 293]
+	  ForegroundColor	  "green"
+	  SourceBlock		  "SLUGS_Library/Control Blocks/PID Controller"
+	  SourceType		  ""
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  TSample		  "apSampleTime"
+	  NDelay		  "derivativesConstant"
+	  upperLimit		  "0.7"
+	  lowerLimit		  "-0.7"
 	}
 	Block {
 	  BlockType		  SubSystem
@@ -23778,7 +23799,17 @@ Model {
 	Block {
 	  BlockType		  Constant
 	  Name			  "Constant2"
-	  Position		  [265, 255, 295, 285]
+	  Position		  [250, 252, 350, 288]
+	  Value			  "[0.1 0.07 0]"
+	  OutDataTypeMode	  "single"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant3"
+	  Position		  [390, 205, 420, 235]
+	  ShowName		  off
+	  Value			  "0"
+	  OutDataTypeMode	  "single"
 	}
 	Block {
 	  BlockType		  DataTypeConversion
@@ -23823,6 +23854,14 @@ Model {
 	  Lockdown		  off
 	}
 	Block {
+	  BlockType		  Display
+	  Name			  "Display4"
+	  Ports			  [1]
+	  Position		  [565, 45, 655, 75]
+	  Decimation		  "1"
+	  Lockdown		  off
+	}
+	Block {
 	  BlockType		  Reference
 	  Name			  "High Pass\n(Washout) Filter"
 	  Ports			  [1, 1]
@@ -23851,6 +23890,16 @@ Model {
 	  BlockType		  InportShadow
 	  Name			  "Manual?1"
 	  Position		  [855, 413, 885, 427]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  LatchByDelayingOutsideSignal off
+	  LatchByCopyingInsideSignal off
+	}
+	Block {
+	  BlockType		  InportShadow
+	  Name			  "Manual?2"
+	  Position		  [390, 163, 420, 177]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "2"
 	  IconDisplay		  "Port number"
@@ -23897,29 +23946,32 @@ Model {
 	  SampleTime		  "apSampleTime"
 	}
 	Block {
-	  BlockType		  Reference
-	  Name			  "Slider\nGain"
-	  Ports			  [1, 1]
-	  Position		  [330, 255, 360, 285]
-	  SourceBlock		  "simulink/Math\nOperations/Slider\nGain"
-	  SourceType		  "Slider Gain"
-	  ShowPortLabels	  "FromPortIcon"
-	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData off
-	  RTWMemSecFuncInitTerm	  "Inherit from model"
-	  RTWMemSecFuncExecute	  "Inherit from model"
-	  RTWMemSecDataConstants  "Inherit from model"
-	  RTWMemSecDataInternal	  "Inherit from model"
-	  RTWMemSecDataParameters "Inherit from model"
-	  low			  "-1"
-	  gain			  "-0.2"
-	  high			  "0"
+	  BlockType		  Scope
+	  Name			  "Scope"
+	  Ports			  [2]
+	  Position		  [800, 85, 830, 145]
+	  Floating		  off
+	  Location		  [-899, 69, -196, 873]
+	  Open			  on
+	  NumInputPorts		  "2"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	    axes2		    "%<SignalLabel>"
+	  }
+	  TimeRange		  "350"
+	  YMin			  "-5~-5"
+	  YMax			  "5~5"
+	  SaveName		  "ScopeData8"
+	  DataFormat		  "StructureWithTime"
+	  LimitDataPoints	  off
+	  SampleTime		  "0"
 	}
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "Subsystem"
-	  Ports			  [4, 1]
-	  Position		  [430, 158, 570, 227]
+	  Ports			  [3, 1]
+	  Position		  [250, 75, 390, 145]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
@@ -23958,19 +24010,6 @@ Model {
 	      Position		      [50, 183, 80, 197]
 	      Port		      "3"
 	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Inport
-	      Name		      "bank_factor"
-	      Position		      [490, 83, 520, 97]
-	      Port		      "4"
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Abs
-	      Name		      "Abs"
-	      Position		      [530, 160, 560, 190]
-	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
 	      BlockType		      SubSystem
@@ -24240,118 +24279,11 @@ Model {
 	      }
 	    }
 	    Block {
-	      BlockType		      Reference
-	      Name		      "Compare\nTo Constant"
-	      Ports		      [1, 1]
-	      Position		      [585, 160, 615, 190]
-	      SourceBlock	      "simulink/Logic and Bit\nOperations/Comp"
-"are\nTo Constant"
-	      SourceType	      "Compare To Constant"
-	      ShowPortLabels	      "FromPortIcon"
-	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData off
-	      RTWMemSecFuncInitTerm   "Inherit from model"
-	      RTWMemSecFuncExecute    "Inherit from model"
-	      RTWMemSecDataConstants  "Inherit from model"
-	      RTWMemSecDataInternal   "Inherit from model"
-	      RTWMemSecDataParameters "Inherit from model"
-	      relop		      ">="
-	      const		      "0.15"
-	      LogicOutDataTypeMode    "uint8"
-	      ZeroCross		      off
-	    }
-	    Block {
-	      BlockType		      Constant
-	      Name		      "Constant"
-	      Position		      [580, 235, 610, 265]
-	      Value		      "0"
-	      OutDataTypeMode	      "single"
-	    }
-	    Block {
-	      BlockType		      DataTypeConversion
-	      Name		      "Data Type Conversion6"
-	      Position		      [350, 159, 390, 191]
-	      OutDataTypeMode	      "double"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Display
-	      Name		      "Display"
-	      Ports		      [1]
-	      Position		      [725, 330, 815, 360]
-	      Decimation	      "1"
-	      Lockdown		      off
-	    }
-	    Block {
-	      BlockType		      Display
-	      Name		      "Display1"
-	      Ports		      [1]
-	      Position		      [800, 240, 890, 270]
-	      Decimation	      "1"
-	      Lockdown		      off
-	    }
-	    Block {
-	      BlockType		      Display
-	      Name		      "Display2"
-	      Ports		      [1]
-	      Position		      [600, 370, 690, 400]
-	      Decimation	      "1"
-	      Lockdown		      off
-	    }
-	    Block {
-	      BlockType		      Reference
-	      Name		      "High Pass\n(Washout) Filter"
-	      Ports		      [1, 1]
-	      Position		      [420, 147, 480, 203]
-	      ForegroundColor	      "green"
-	      SourceBlock	      "SLUGS_Library/Singnal Routing\n& Condit"
-"ioning/Filter"
-	      SourceType	      "DiscretizedZeroPole"
-	      ShowPortLabels	      "FromPortIcon"
-	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData off
-	      RTWMemSecFuncInitTerm   "Inherit from model"
-	      RTWMemSecFuncExecute    "Inherit from model"
-	      RTWMemSecDataConstants  "Inherit from model"
-	      RTWMemSecDataInternal   "Inherit from model"
-	      RTWMemSecDataParameters "Inherit from model"
-	      Zeros		      "[]"
-	      Poles		      "[-0.5]"
-	      Gain		      "0.5"
-	      AbsTol		      "auto"
-	      SampleTime	      "apSampleTime"
-	      method		      "tustin"
-	      Wc		      "1"
-	      Port {
-		PortNumber		1
-		Name			"fil"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	    }
-	    Block {
-	      BlockType		      Product
-	      Name		      "Product"
-	      Ports		      [2, 1]
-	      Position		      [590, 102, 620, 133]
-	      ShowName		      off
-	      CollapseMode	      "All dimensions"
-	      InputSameDT	      off
-	      OutDataTypeMode	      "single"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Signum
-	      Name		      "Sign"
-	      Position		      [520, 115, 550, 145]
-	    }
-	    Block {
 	      BlockType		      Sum
 	      Name		      "Subtract"
 	      Ports		      [2, 1]
 	      Position		      [285, 157, 315, 188]
-	      Inputs		      "-+"
+	      Inputs		      "+-"
 	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
 	      OutDataTypeMode	      "Inherit via internal rule"
@@ -24359,53 +24291,23 @@ Model {
 	      SaturateOnIntegerOverflow	off
 	      Port {
 		PortNumber		1
-		Name			"r - coord"
+		Name			"turn rate error"
 		RTWStorageClass		"Auto"
 		DataLoggingNameMode	"SignalName"
 	      }
 	    }
 	    Block {
-	      BlockType		      Switch
-	      Name		      "Switch"
-	      Position		      [680, 135, 705, 215]
-	      Criteria		      "u2 > Threshold"
-	      Threshold		      "0.3"
-	      InputSameDT	      off
-	      SaturateOnIntegerOverflow	off
-	      ZeroCross		      off
-	    }
-	    Block {
 	      BlockType		      Outport
-	      Name		      "bankK (rad)"
-	      Position		      [820, 168, 850, 182]
+	      Name		      "psi_dot_err"
+	      Position		      [460, 168, 490, 182]
 	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
 	    }
 	    Line {
 	      SrcBlock		      "phi_m"
 	      SrcPort		      1
 	      DstBlock		      "Bank to Psi Dot"
 	      DstPort		      1
-	    }
-	    Line {
-	      Name		      "fil"
-	      Labels		      [0, 0]
-	      SrcBlock		      "High Pass\n(Washout) Filter"
-	      SrcPort		      1
-	      Points		      [10, 0]
-	      Branch {
-		DstBlock		"Abs"
-		DstPort			1
-	      }
-	      Branch {
-		Points			[0, -45]
-		DstBlock		"Sign"
-		DstPort			1
-	      }
-	      Branch {
-		Points			[0, 210]
-		DstBlock		"Display2"
-		DstPort			1
-	      }
 	    }
 	    Line {
 	      SrcBlock		      "r_m"
@@ -24430,80 +24332,12 @@ Model {
 	      DstPort		      1
 	    }
 	    Line {
-	      Name		      "r - coord"
+	      Name		      "turn rate error"
 	      Labels		      [0, 0]
 	      SrcBlock		      "Subtract"
 	      SrcPort		      1
-	      DstBlock		      "Data Type Conversion6"
+	      DstBlock		      "psi_dot_err"
 	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Data Type Conversion6"
-	      SrcPort		      1
-	      DstBlock		      "High Pass\n(Washout) Filter"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Compare\nTo Constant"
-	      SrcPort		      1
-	      Points		      [15, 0]
-	      Branch {
-		DstBlock		"Switch"
-		DstPort			2
-	      }
-	      Branch {
-		Points			[0, 170]
-		DstBlock		"Display"
-		DstPort			1
-	      }
-	    }
-	    Line {
-	      SrcBlock		      "Abs"
-	      SrcPort		      1
-	      DstBlock		      "Compare\nTo Constant"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Switch"
-	      SrcPort		      1
-	      Points		      [45, 0]
-	      Branch {
-		DstBlock		"bankK (rad)"
-		DstPort			1
-	      }
-	      Branch {
-		Points			[0, 80]
-		DstBlock		"Display1"
-		DstPort			1
-	      }
-	    }
-	    Line {
-	      SrcBlock		      "Product"
-	      SrcPort		      1
-	      Points		      [10, 0; 0, 30]
-	      DstBlock		      "Switch"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "bank_factor"
-	      SrcPort		      1
-	      Points		      [25, 0; 0, 20]
-	      DstBlock		      "Product"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Sign"
-	      SrcPort		      1
-	      Points		      [10, 0; 0, -5]
-	      DstBlock		      "Product"
-	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "Constant"
-	      SrcPort		      1
-	      Points		      [15, 0; 0, -50]
-	      DstBlock		      "Switch"
-	      DstPort		      3
 	    }
 	  }
 	}
@@ -24555,7 +24389,7 @@ Model {
 	Block {
 	  BlockType		  InportShadow
 	  Name			  "U_m  "
-	  Position		  [330, 213, 360, 227]
+	  Position		  [150, 128, 180, 142]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "6"
 	  IconDisplay		  "Port number"
@@ -24586,7 +24420,7 @@ Model {
 	Block {
 	  BlockType		  InportShadow
 	  Name			  "phi_m "
-	  Position		  [325, 143, 355, 157]
+	  Position		  [145, 58, 175, 72]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "7"
 	  IconDisplay		  "Port number"
@@ -24721,7 +24555,7 @@ Model {
 	Block {
 	  BlockType		  InportShadow
 	  Name			  "r_m "
-	  Position		  [330, 178, 360, 192]
+	  Position		  [150, 93, 180, 107]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "1"
 	  IconDisplay		  "Port number"
@@ -24991,13 +24825,13 @@ Model {
 	Line {
 	  SrcBlock		  "r_m "
 	  SrcPort		  1
+	  Points		  [50, 0]
 	  DstBlock		  "Subsystem"
 	  DstPort		  2
 	}
 	Line {
 	  SrcBlock		  "U_m  "
 	  SrcPort		  1
-	  Points		  [25, 0; 0, -20]
 	  DstBlock		  "Subsystem"
 	  DstPort		  3
 	}
@@ -25007,19 +24841,6 @@ Model {
 	  Points		  [15, 0; 0, 20]
 	  DstBlock		  "Subsystem"
 	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Constant2"
-	  SrcPort		  1
-	  DstBlock		  "Slider\nGain"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Slider\nGain"
-	  SrcPort		  1
-	  Points		  [50, 0]
-	  DstBlock		  "Subsystem"
-	  DstPort		  4
 	}
 	Line {
 	  SrcBlock		  "Subtract"
@@ -25041,18 +24862,67 @@ Model {
 	  }
 	}
 	Line {
+	  SrcBlock		  "Bank Compensation\nDue to Sideslip"
+	  SrcPort		  1
+	  Points		  [30, 0]
+	  Branch {
+	    Points		    [0, 70]
+	    Branch {
+	      Points		      [0, 100]
+	      DstBlock		      "Subtract"
+	      DstPort		      1
+	    }
+	    Branch {
+	      DstBlock		      "Display"
+	      DstPort		      1
+	    }
+	  }
+	  Branch {
+	    Points		    [0, -65]
+	    DstBlock		    "Scope"
+	    DstPort		    2
+	  }
+	}
+	Line {
 	  SrcBlock		  "Subsystem"
 	  SrcPort		  1
-	  Points		  [55, 0; 0, 70]
+	  Points		  [25, 0]
 	  Branch {
-	    Points		    [0, 100]
-	    DstBlock		    "Subtract"
+	    Points		    [0, 10]
+	    DstBlock		    "Bank Compensation\nDue to Sideslip"
 	    DstPort		    1
 	  }
 	  Branch {
-	    DstBlock		    "Display"
-	    DstPort		    1
+	    Points		    [0, -20]
+	    Branch {
+	      Points		      [0, -30]
+	      DstBlock		      "Display4"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [365, 0]
+	      DstBlock		      "Scope"
+	      DstPort		      1
+	    }
 	  }
+	}
+	Line {
+	  SrcBlock		  "Manual?2"
+	  SrcPort		  1
+	  DstBlock		  "Bank Compensation\nDue to Sideslip"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Constant3"
+	  SrcPort		  1
+	  DstBlock		  "Bank Compensation\nDue to Sideslip"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Constant2"
+	  SrcPort		  1
+	  DstBlock		  "Bank Compensation\nDue to Sideslip"
+	  DstPort		  4
 	}
       }
     }
@@ -26477,7 +26347,7 @@ Model {
       RTWMemSecDataConstants  "Inherit from model"
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
-      sw		      "0"
+      sw		      "1"
       action		      "0"
       varsize		      off
     }
@@ -35684,23 +35554,20 @@ Model {
     Block {
       BlockType		      Scope
       Name		      "Scope"
-      Ports		      [5]
+      Ports		      [2]
       Position		      [1285, 1210, 1325, 1430]
       Floating		      off
-      Location		      [1356, 68, 1860, 1086]
-      Open		      off
-      NumInputPorts	      "5"
+      Location		      [-1413, 61, -909, 898]
+      Open		      on
+      NumInputPorts	      "2"
       ZoomMode		      "yonly"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
 	axes2			"%<SignalLabel>"
-	axes3			"%<SignalLabel>"
-	axes4			"%<SignalLabel>"
-	axes5			"%<SignalLabel>"
       }
-      YMin		      "-0.45~-0.45~-0.3~-0.45~-1"
-      YMax		      "0.35~0.3~0.7~0.4~1"
+      YMin		      "-0.45~-0.45"
+      YMax		      "0.35~0.3"
       SaveName		      "ScopeData12"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
@@ -35723,7 +35590,7 @@ Model {
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
       low		      "-20"
-      gain		      "-10"
+      gain		      "10"
       high		      "20"
     }
     Block {
@@ -37917,60 +37784,43 @@ Model {
       Labels		      [0, 0]
       SrcBlock		      "Compute\npsi_dot_m"
       SrcPort		      1
-      Points		      [20, 0]
+      Points		      [20, 0; 0, -170]
       Branch {
-	Points			[0, -170]
+	DstBlock		"L1 Output Feedback\nController\nto Ctrl Surfa"
+"ce"
+	DstPort			2
+      }
+      Branch {
+	Points			[0, -115]
 	Branch {
-	  DstBlock		  "L1 Output Feedback\nController\nto Ctrl Sur"
-"face"
+	  Points		  [0, -175]
+	  DstBlock		  "L1 Output Feedback\nController\nWith \nProj"
+"ection Operator1"
 	  DstPort		  2
 	}
 	Branch {
-	  Points		  [0, -115]
-	  Branch {
-	    Points		    [0, -175]
-	    DstBlock		    "L1 Output Feedback\nController\nWith \nPr"
-"ojection Operator1"
-	    DstPort		    2
-	  }
-	  Branch {
-	    DstBlock		    "Goto64"
-	    DstPort		    1
-	  }
+	  DstBlock		  "Goto64"
+	  DstPort		  1
 	}
       }
-      Branch {
-	Labels			[1, 0]
-	Points			[390, 0]
-	DstBlock		"Scope"
-	DstPort			1
-      }
-    }
-    Line {
-      Name		      "r"
-      Labels		      [0, 0]
-      SrcBlock		      "From86"
-      SrcPort		      1
-      Points		      [185, 0]
-      DstBlock		      "Scope"
-      DstPort		      2
     }
     Line {
       Name		      "[phi_m phi_c]"
       Labels		      [0, 0]
       SrcBlock		      "Mux9"
       SrcPort		      1
-      Points		      [0, 5]
+      Points		      [0, 5; 150, 0]
       DstBlock		      "Scope"
-      DstPort		      3
+      DstPort		      1
     }
     Line {
       Name		      "[psi_dot_m psi_dot_c]"
       Labels		      [0, 0]
       SrcBlock		      "Mux15"
       SrcPort		      1
+      Points		      [150, 0]
       DstBlock		      "Scope"
-      DstPort		      4
+      DstPort		      2
     }
     Line {
       SrcBlock		      "From80"
@@ -38077,8 +37927,6 @@ Stateflow {
 		firstJunction                             		4
 		viewObj                                   		2
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		6
