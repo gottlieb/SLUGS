@@ -14,7 +14,7 @@ vd = vd(:);
  l = 1;
  i =  length(eta);
  %i = 7260;
- figct = 10;
+ figct = 1;
  
 % Turn the Pause On
 pauseOn = 1;
