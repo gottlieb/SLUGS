@@ -6,7 +6,7 @@ daR_fail = 0;
 dr_fail  = 1;
 
 % Simulation time for the failure (secs)
-tfailure = 30;
+tfailure = 100;
 
 da_failamp = 10;
 da_failper = 1500;
