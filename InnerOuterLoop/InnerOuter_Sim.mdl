@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.1073"
+    ComputedModelVersion    "1.1076"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -48,8 +48,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu May 07 11:09:03 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:1073>"
+  LastModifiedDate	  "Thu May 07 11:23:56 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:1076>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -843,6 +843,9 @@ Model {
       SampleTimeMode	      "continuous"
       InitialCondition	      "0"
       LinearizeAsGain	      on
+    }
+    Block {
+      BlockType		      Reference
     }
     Block {
       BlockType		      RelationalOperator
@@ -11203,11 +11206,6 @@ Model {
 		  MinAlgLoopOccurrences	  off
 		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
-		  Array {
-		    Type		    "Handle"
-		    Dimension		    0
-		    PropName		    "AvailSigsLoadSave"
-		  }
 		  MaskHideContents	  off
 		  MaskType		  "Stateflow"
 		  MaskDescription	  "Embedded MATLAB block"
@@ -16792,6 +16790,14 @@ Model {
     }
     Block {
       BlockType		      Constant
+      Name		      "Constant41"
+      Position		      [395, 711, 485, 739]
+      ShowName		      off
+      Value		      "compensatorOn"
+      SampleTime	      "apSampleTime"
+    }
+    Block {
+      BlockType		      Constant
       Name		      "Constant42"
       Position		      [645, 900, 675, 930]
       ShowName		      off
@@ -17769,6 +17775,15 @@ Model {
     }
     Block {
       BlockType		      From
+      Name		      "From81"
+      Position		      [805, 346, 855, 364]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "CompensatorOn"
+    }
+    Block {
+      BlockType		      From
       Name		      "From82"
       Position		      [880, 1091, 930, 1109]
       BackgroundColor	      "cyan"
@@ -18368,6 +18383,15 @@ Model {
       BackgroundColor	      "magenta"
       ShowName		      off
       GotoTag		      "gamma_surf"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto64"
+      Position		      [515, 714, 585, 736]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "CompensatorOn"
       TagVisibility	      "local"
     }
     Block {
@@ -23239,8 +23263,8 @@ Model {
     Block {
       BlockType		      SubSystem
       Name		      "Lateral Channel"
-      Ports		      [13, 4]
-      Position		      [880, 21, 1075, 339]
+      Ports		      [14, 4]
+      Position		      [880, 22, 1075, 363]
       TreatAsAtomicUnit	      on
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
@@ -23366,6 +23390,14 @@ Model {
 	  Port			  "13"
 	  IconDisplay		  "Port number"
 	  SampleTime		  "apSampleTime"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Compensator On"
+	  Position		  [280, 98, 310, 112]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "14"
+	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Sum
@@ -23538,11 +23570,6 @@ Model {
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
-	      Array {
-		Type			"Handle"
-		Dimension		0
-		PropName		"AvailSigsLoadSave"
-	      }
 	      MaskHideContents	      off
 	      MaskType		      "Stateflow"
 	      MaskDescription	      "Embedded MATLAB block"
@@ -23794,7 +23821,7 @@ Model {
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "Sideslip Compensation"
-	  Ports			  [3, 1]
+	  Ports			  [3, 1, 1]
 	  Position		  [370, 155, 510, 225]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
@@ -23837,6 +23864,13 @@ Model {
 	      BackgroundColor	      "darkGreen"
 	      Port		      "3"
 	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      EnablePort
+	      Name		      "Enable"
+	      Ports		      []
+	      Position		      [475, 15, 495, 35]
+	      StatesWhenEnabling      "reset"
 	    }
 	    Block {
 	      BlockType		      SubSystem
@@ -23951,11 +23985,6 @@ Model {
 		  MinAlgLoopOccurrences	  off
 		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
-		  Array {
-		    Type		    "Handle"
-		    Dimension		    0
-		    PropName		    "AvailSigsLoadSave"
-		  }
 		  MaskHideContents	  off
 		  MaskType		  "Stateflow"
 		  MaskDescription	  "Embedded MATLAB block"
@@ -24724,6 +24753,8 @@ Model {
 	      BackgroundColor	      "yellow"
 	      IconDisplay	      "Port number"
 	      BusOutputAsStruct	      off
+	      OutputWhenDisabled      "reset"
+	      InitialOutput	      "0"
 	    }
 	    Line {
 	      SrcBlock		      "phi_m"
@@ -25284,6 +25315,13 @@ Model {
 	  Points		  [115, 0]
 	  DstBlock		  "Add2"
 	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Compensator On"
+	  SrcPort		  1
+	  Points		  [125, 0]
+	  DstBlock		  "Sideslip Compensation"
+	  DstPort		  enable
 	}
       }
     }
@@ -27450,11 +27488,6 @@ Model {
 		    MinAlgLoopOccurrences   off
 		    RTWSystemCode	    "Auto"
 		    FunctionWithSeparateData off
-		    Array {
-		    Type		    "Handle"
-		    Dimension		    0
-		    PropName		    "AvailSigsLoadSave"
-		    }
 		    MaskHideContents	    off
 		    MaskType		    "Stateflow"
 		    MaskDescription	    "Embedded MATLAB block"
@@ -27750,11 +27783,6 @@ Model {
 		    MinAlgLoopOccurrences   off
 		    RTWSystemCode	    "Auto"
 		    FunctionWithSeparateData off
-		    Array {
-		    Type		    "Handle"
-		    Dimension		    0
-		    PropName		    "AvailSigsLoadSave"
-		    }
 		    MaskHideContents	    off
 		    MaskType		    "Stateflow"
 		    MaskDescription	    "Embedded MATLAB block"
@@ -28994,11 +29022,6 @@ Model {
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
-	      Array {
-		Type			"Handle"
-		Dimension		0
-		PropName		"AvailSigsLoadSave"
-	      }
 	      MaskHideContents	      off
 	      MaskType		      "Stateflow"
 	      MaskDescription	      "Embedded MATLAB block"
@@ -29188,11 +29211,6 @@ Model {
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
-	      Array {
-		Type			"Handle"
-		Dimension		0
-		PropName		"AvailSigsLoadSave"
-	      }
 	      MaskHideContents	      off
 	      MaskType		      "Stateflow"
 	      MaskDescription	      "Embedded MATLAB block"
@@ -32211,11 +32229,6 @@ Model {
 		    RTWMemSecDataConstants  "Inherit from model"
 		    RTWMemSecDataInternal   "Inherit from model"
 		    RTWMemSecDataParameters "Inherit from model"
-		    Array {
-		    Type		    "Handle"
-		    Dimension		    0
-		    PropName		    "AvailSigsLoadSave"
-		    }
 		    }
 		    Block {
 		    BlockType		    Outport
@@ -32742,11 +32755,6 @@ Model {
 		    RTWMemSecDataConstants  "Inherit from model"
 		    RTWMemSecDataInternal   "Inherit from model"
 		    RTWMemSecDataParameters "Inherit from model"
-		    Array {
-		    Type		    "Handle"
-		    Dimension		    0
-		    PropName		    "AvailSigsLoadSave"
-		    }
 		    }
 		    Block {
 		    BlockType		    Scope
@@ -33142,11 +33150,6 @@ Model {
 		    RTWMemSecDataConstants  "Inherit from model"
 		    RTWMemSecDataInternal   "Inherit from model"
 		    RTWMemSecDataParameters "Inherit from model"
-		    Array {
-		    Type		    "Handle"
-		    Dimension		    0
-		    PropName		    "AvailSigsLoadSave"
-		    }
 		    }
 		    Block {
 		    BlockType		    Outport
@@ -33301,11 +33304,6 @@ Model {
 		    RTWMemSecDataConstants  "Inherit from model"
 		    RTWMemSecDataInternal   "Inherit from model"
 		    RTWMemSecDataParameters "Inherit from model"
-		    Array {
-		    Type		    "Handle"
-		    Dimension		    0
-		    PropName		    "AvailSigsLoadSave"
-		    }
 		    }
 		    Block {
 		    BlockType		    Selector
@@ -34029,11 +34027,6 @@ Model {
 		  MinAlgLoopOccurrences	  off
 		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
-		  Array {
-		    Type		    "Handle"
-		    Dimension		    0
-		    PropName		    "AvailSigsLoadSave"
-		  }
 		  MaskHideContents	  off
 		  MaskType		  "Stateflow"
 		  MaskDescription	  "Embedded MATLAB block"
@@ -34317,11 +34310,6 @@ Model {
 		  MinAlgLoopOccurrences	  off
 		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
-		  Array {
-		    Type		    "Handle"
-		    Dimension		    0
-		    PropName		    "AvailSigsLoadSave"
-		  }
 		  MaskHideContents	  off
 		  MaskType		  "Stateflow"
 		  MaskDescription	  "Embedded MATLAB block"
@@ -37135,6 +37123,7 @@ Model {
     Line {
       SrcBlock		      "Lateral Channel"
       SrcPort		      3
+      Points		      [0, -15]
       DstBlock		      "Goto37"
       DstPort		      1
     }
@@ -37686,6 +37675,7 @@ Model {
     Line {
       SrcBlock		      "Lateral Channel"
       SrcPort		      4
+      Points		      [0, -20]
       DstBlock		      "Goto9"
       DstPort		      1
     }
@@ -37730,12 +37720,14 @@ Model {
     Line {
       SrcBlock		      "Lateral Channel"
       SrcPort		      1
+      Points		      [0, -5]
       DstBlock		      "Goto34"
       DstPort		      1
     }
     Line {
       SrcBlock		      "Lateral Channel"
       SrcPort		      2
+      Points		      [0, -10]
       DstBlock		      "Goto35"
       DstPort		      1
     }
@@ -38108,6 +38100,18 @@ Model {
       DstBlock		      "L1 Output Feedback\nController\nto Ctrl Surface"
       DstPort		      6
     }
+    Line {
+      SrcBlock		      "Constant41"
+      SrcPort		      1
+      DstBlock		      "Goto64"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "From81"
+      SrcPort		      1
+      DstBlock		      "Lateral Channel"
+      DstPort		      14
+    }
     Annotation {
       Name		      "Mid Level Commands"
       Position		      [188, 343]
@@ -38187,8 +38191,6 @@ Stateflow {
 		firstJunction                             		4
 		viewObj                                   		2
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		6

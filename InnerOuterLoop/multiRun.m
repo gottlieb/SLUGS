@@ -1,6 +1,7 @@
 %% Initialize failure variables
 failuresInit;
-figct =1;
+figct =85;
+compensatorOn = 0;
 
 %% No L1 
 L1OF = 0;
