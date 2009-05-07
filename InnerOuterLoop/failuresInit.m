@@ -14,4 +14,6 @@ da_failbias = 0;
 
 
 
-%% Initialize the L1 values
+%% Initialize the L1
+L1OF = 0;
+L1CS =1;
