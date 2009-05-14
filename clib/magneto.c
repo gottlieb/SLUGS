@@ -44,8 +44,6 @@ void magDebugUartConfig(void){
 void magnetoInit (void){
 	magDebugUartConfig();
 	
-	
-	
 	printToUart2("Starting %s\n\r","sequence");
 	unsigned int i, j;
 	
@@ -101,14 +99,14 @@ void magnetoInit (void){
 		}
 	}	
 	
-	// Change the mode to continous
+	// Change the gain
 	// Change the register to config
-	reg2Config = 0x02;
+	reg2Config = 0x01;
 	// Start The Bus
 	i2c1Start();
 	// Wait for the bus stop
 	// this signal that the whole config went trhough
-	while(i2c1State != READ_IDLE){
+	while(i2c1State != CONFIG_IDLE){
 		printToUart2("Out of 2nd I: %d\n\r",i2c1State);
 	}
 
@@ -121,17 +119,39 @@ void magnetoInit (void){
 		}
 	}	
 	
-	printToUart2("Changed To %s\n\r","Continous");
+	printToUart2("Changed To %s\n\r","0.7 Gain");
 	
+
+
+	// Change the mode to continous
+	// Change the register to config
+	reg2Config = 0x02;
+	// Start The Bus
+	i2c1Start();
+	// Wait for the bus stop
+	// this signal that the whole config went trhough
+	while(i2c1State != READ_IDLE){
+		printToUart2("Out of 3rd I: %d\n\r",i2c1State);
+	}
+
+	// Put some huge delays to wait for Magnetometer power-up without the need of a timer
+	// 5 milliseconds are expected for power-up
+	for( i = 0; i < 15; i += 1 ){
+		for( j = 0; j < 32700; j += 1 )
+		{
+			Nop();
+		}
+	}	
+	
+	printToUart2("Changed To %s\n\r","Contrinous");
+
+
+
+
+
 	byteRead = 1;
 	wordRead = 0;
 	debugCount = 0;
-	//i2c1Start();
-	
-	// Test
-	//IEC1bits.MI2C1IE = 0;		// Enable the interrupts
-	//i2c1State = READ_IDLE;
-	//startMagRead ();
 }
 
 void startMagRead (void) {
@@ -227,8 +247,8 @@ void __attribute__((__interrupt__, no_auto_psv)) _MI2C1Interrupt(void){
 		break;
 		case CONFIG_REG_TX:
 			if (!I2C1STATbits.ACKSTAT){
-				i2c1State = CONFIG_VAL_TX;
-				if (!reg2Config){
+				i2c1State = CONFIG_VAL_TX;				
+				if (reg2Config==0){
 					// send the actual configuration for 50Hz
 					i2c1Write(0x18);
 				} else {
@@ -246,14 +266,13 @@ void __attribute__((__interrupt__, no_auto_psv)) _MI2C1Interrupt(void){
 		break;
 		case CONFIG_STOP:
 			if (!I2C1CONbits.PEN){
-				if (!reg2Config){
+				if (reg2Config!=0x02){
 					// Set the Config to idle, wait for next config
 					i2c1State = CONFIG_IDLE;
 				} else {
 					// Ready to read magnetometer data
 					i2c1State = READ_IDLE;
-				}
-				
+				}	
 			}
 		break;
 		case READ_START:
@@ -284,7 +303,7 @@ void __attribute__((__interrupt__, no_auto_psv)) _MI2C1Interrupt(void){
 				} else {
 					wordRead= (unsigned char)I2C1RCV;
 					byteRead = 1;
-					//printToUart2("ignored:%d\n\r", I2C1RCV);
+					printToUart2("ignored:%d\n\r", I2C1RCV);
 				}
 				
 				// if we just read a word (i.e. byteRead == 1)
