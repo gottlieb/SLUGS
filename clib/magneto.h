@@ -16,6 +16,7 @@
 #define MAG_READ		0x3D
 #define	MAG_WRITE		0x3C
 #define REGISTER_A		0x00
+#define REGISTER_B		0x01
 #define MODE_REGISTER	0x02
 
 // Configuration Settings
