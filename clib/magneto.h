@@ -50,6 +50,7 @@ void i2c1Start (void);
 void i2c1Stop (void);
 void i2c1Write (unsigned char byte2write);
 void printToUart2 (const char *fmt, ...);
+void dummyDelay (void);
 
 #ifdef __cplusplus
        }
