@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.193"
+    ComputedModelVersion    "1.195"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu May 14 10:39:30 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:193>"
+  LastModifiedDate	  "Thu May 14 12:15:55 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:195>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -770,7 +770,7 @@ Model {
   }
   System {
     Name		    "DevBoard"
-    Location		    [-699, 401, -44, 916]
+    Location		    [-663, 365, -8, 880]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    212
@@ -788,7 +788,7 @@ Model {
       BlockType		      SubSystem
       Name		      "3vector LPF"
       Ports		      [1, 1]
-      Position		      [325, 397, 375, 433]
+      Position		      [305, 332, 355, 368]
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
@@ -807,7 +807,7 @@ Model {
       MaskIconOpaque	      on
       MaskIconRotate	      "none"
       MaskIconUnits	      "autoscale"
-      MaskValueString	      "75|.01"
+      MaskValueString	      "75|.02"
       MaskTabNameString	      ","
       System {
 	Name			"3vector LPF"
@@ -1208,16 +1208,9 @@ Model {
       SourceType	      ""
     }
     Block {
-      BlockType		      Constant
-      Name		      "Constant"
-      Position		      [80, 350, 110, 380]
-      Value		      "2047"
-      OutDataTypeMode	      "int16"
-    }
-    Block {
       BlockType		      DataTypeConversion
       Name		      "Data Type Conversion"
-      Position		      [260, 400, 305, 430]
+      Position		      [225, 335, 270, 365]
       ShowName		      off
       OutDataTypeMode	      "double"
       RndMeth		      "Floor"
@@ -1226,7 +1219,7 @@ Model {
     Block {
       BlockType		      DataTypeConversion
       Name		      "Data Type Conversion1"
-      Position		      [395, 400, 435, 430]
+      Position		      [375, 335, 415, 365]
       ShowName		      off
       OutDataTypeMode	      "int16"
       RndMeth		      "Floor"
@@ -1236,7 +1229,7 @@ Model {
       BlockType		      Demux
       Name		      "Demux"
       Ports		      [1, 3]
-      Position		      [455, 396, 460, 434]
+      Position		      [435, 331, 440, 369]
       BackgroundColor	      "black"
       ShowName		      off
       Outputs		      "3"
@@ -1433,12 +1426,12 @@ Model {
       BlockType		      Reference
       Name		      "Read the Stored Data"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      [0, 2]
-      Position		      [20, 412, 125, 448]
+      Ports		      [0, 1]
+      Position		      [70, 332, 175, 368]
       BackgroundColor	      "yellow"
       List {
 	ListType		RTWdata
-	FctDeclaration		"extern void getMag(int16_T* y1);"
+	FctDeclaration		"extern void getMag(uint16_T* y1);"
 	FctCall			"getMag(*%y1);"
 	fctName			"getMag"
 	INPUT_SIZE		"1"
@@ -1454,32 +1447,20 @@ Model {
       INPUT2		      "--"
       INPUT3		      "--"
       OUTPUT_SIZE	      "3"
-      OUTPUT1		      "int16"
-      SampleTime	      ".01"
+      OUTPUT1		      "uint16"
+      SampleTime	      ".02"
       InputType		      "[ ]"
-      OutputType	      "[ 3 ]"
-      FctDeclaration	      "extern void getMag(int16_T* y1);"
+      OutputType	      "[ 4 ]"
+      FctDeclaration	      "extern void getMag(uint16_T* y1);"
       FctCall		      "getMag(*%y1);"
-      OrderingInOutPopup      "Output"
-    }
-    Block {
-      BlockType		      Sum
-      Name		      "Subtract"
-      Ports		      [2, 1]
-      Position		      [210, 397, 240, 428]
-      Inputs		      "2"
-      CollapseMode	      "All dimensions"
-      InputSameDT	      off
-      OutDataTypeMode	      "Inherit via internal rule"
-      OutScaling	      "2^-10"
-      SaturateOnIntegerOverflow	off
+      OrderingInOutPopup      "None"
     }
     Block {
       BlockType		      Reference
       Name		      "TX Output Multiplexed\nfor Matlab / Labview"
       Tag		      "dsPIC_TX_Multiplexed"
       Ports		      [3]
-      Position		      [500, 363, 630, 467]
+      Position		      [480, 298, 610, 402]
       Priority		      "5"
       SourceBlock	      "dsPICdrivers/Serial PORT/TX Output Multiplexed"
 "\nfor Matlab // Labview"
@@ -1553,22 +1534,9 @@ Model {
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Subtract"
-      SrcPort		      1
-      DstBlock		      "Data Type Conversion"
-      DstPort		      1
-    }
-    Line {
       SrcBlock		      "Read the Stored Data"
       SrcPort		      1
-      DstBlock		      "Subtract"
-      DstPort		      2
-    }
-    Line {
-      SrcBlock		      "Constant"
-      SrcPort		      1
-      Points		      [40, 0; 0, 40]
-      DstBlock		      "Subtract"
+      DstBlock		      "Data Type Conversion"
       DstPort		      1
     }
     Line {
