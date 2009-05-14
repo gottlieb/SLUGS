@@ -104,7 +104,28 @@ void magnetoInit (void){
 	// Wait 5 mS
 	dummyDelay();
 	
+	
+	// Change the gain
+	// ===============
+	// Change the register to config
+	reg2Config = REGISTER_B;
+	// Start The Bus
+	i2c1Start();
+	// Wait for the bus stop
+	// this signal that the whole config went trhough
+	while(i2c1State != CONFIG_IDLE){
+		printToUart2("Out of 2nd I: %d\n\r",i2c1State);
+	}
+
+	printToUart2("Changed To %s\n\r","0.7 Gain");
+	
+	// Wait 5 mS
+	dummyDelay();
+	
+	
+	
 	// Change the mode to continous
+	// ============================
 	// Change the register to config
 	reg2Config = MODE_REGISTER;
 	// Start The Bus
