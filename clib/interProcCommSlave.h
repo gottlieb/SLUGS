@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include "protDecoder.h"
+#include "apUtils.h"
 
 
 void spiSlaveInit (void);

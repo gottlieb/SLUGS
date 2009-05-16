@@ -8,9 +8,9 @@
 #include <i2c.h>
 #include "apDefinitions.h"
 #include "protDecoder.h"
+#include "apUtils.h"
 #include <uart.h>
-#include <stdlib.h>
-#include <stdarg.h>
+
 
 // Magnetomertometer Data
 #define MAG_READ		0x3D
@@ -50,7 +50,6 @@ void startMagRead (void);
 void i2c1Start (void);    	
 void i2c1Stop (void);
 void i2c1Write (unsigned char byte2write);
-void printToUart2 (const char *fmt, ...);
 void dummyDelay (void);
 
 #ifdef __cplusplus

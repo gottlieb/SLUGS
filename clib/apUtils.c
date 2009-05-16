@@ -728,3 +728,17 @@ float myExp(float x){
 		return expf(x);
      #endif
 }
+
+// ================================
+//    Debug Functions
+// ================================
+
+void printToUart2 (const char *fmt, ...){
+	va_list ap;
+	char buf [300];
+	
+	va_start(ap, fmt);
+	vsprintf(buf, fmt, ap);
+	va_end (ap);
+	putsUART2((unsigned int*)buf);
+}
