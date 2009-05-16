@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.197"
+    ComputedModelVersion    "1.201"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu May 14 14:44:56 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:197>"
+  LastModifiedDate	  "Fri May 15 17:03:40 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:201>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -325,7 +325,8 @@ Model {
 	  ConfigAtBuild		  off
 	  CustomHeaderCode	  "#include \"apDefinitions.h\"\n"
 	  CustomSource		  "clib\\circBuffer.c\nclib\\sbrk.c\nclib\\apU"
-"tils.c\nclib\\protDecoder.c\nclib\\magneto.c\nclib\\DEE.c\nclib\\DEES.s"
+"tils.c\nclib\\protDecoder.c\nclib\\magneto.c\nclib\\DEE.c\nclib\\DEES.s\nclib"
+"\\adisCube.c"
 	  IncludeHyperlinkInReport on
 	  LaunchReport		  on
 	  TargetLang		  "C"
@@ -576,7 +577,7 @@ Model {
 	PropName		"Components"
       }
       Name		      "Configuration"
-      CurrentDlgPage	      "Real-Time Workshop"
+      CurrentDlgPage	      "Real-Time Workshop/Custom Code"
     }
     PropName		    "ConfigurationSets"
   }
@@ -680,6 +681,13 @@ Model {
       InitialOutput	      "[]"
     }
     Block {
+      BlockType		      RateTransition
+      Integrity		      on
+      Deterministic	      on
+      X0		      "0"
+      OutPortSampleTime	      "-1"
+    }
+    Block {
       BlockType		      "S-Function"
       FunctionName	      "system"
       SFunctionModules	      "''"
@@ -770,7 +778,7 @@ Model {
   }
   System {
     Name		    "DevBoard"
-    Location		    [312, 254, 967, 769]
+    Location		    [498, 162, 1153, 677]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    212
@@ -788,7 +796,7 @@ Model {
       BlockType		      SubSystem
       Name		      "3vector LPF"
       Ports		      [1, 1]
-      Position		      [305, 332, 355, 368]
+      Position		      [225, 282, 275, 318]
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
@@ -1208,9 +1216,23 @@ Model {
       SourceType	      ""
     }
     Block {
+      BlockType		      Constant
+      Name		      "Constant"
+      Position		      [270, 225, 300, 255]
+      Value		      "2048"
+      OutDataTypeMode	      "int16"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant1"
+      Position		      [180, 340, 210, 370]
+      Value		      "8192"
+      OutDataTypeMode	      "int16"
+    }
+    Block {
       BlockType		      DataTypeConversion
       Name		      "Data Type Conversion"
-      Position		      [225, 335, 270, 365]
+      Position		      [160, 285, 205, 315]
       ShowName		      off
       OutDataTypeMode	      "double"
       RndMeth		      "Floor"
@@ -1219,7 +1241,7 @@ Model {
     Block {
       BlockType		      DataTypeConversion
       Name		      "Data Type Conversion1"
-      Position		      [375, 335, 415, 365]
+      Position		      [295, 285, 335, 315]
       ShowName		      off
       OutDataTypeMode	      "int16"
       RndMeth		      "Floor"
@@ -1229,10 +1251,20 @@ Model {
       BlockType		      Demux
       Name		      "Demux"
       Ports		      [1, 3]
-      Position		      [435, 331, 440, 369]
+      Position		      [465, 271, 470, 309]
       BackgroundColor	      "black"
       ShowName		      off
       Outputs		      "3"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Demux
+      Name		      "Demux1"
+      Ports		      [1, 4]
+      Position		      [335, 381, 340, 419]
+      BackgroundColor	      "black"
+      ShowName		      off
+      Outputs		      "[ 1 1 1 3]"
       DisplayOption	      "bar"
     }
     Block {
@@ -1247,16 +1279,16 @@ Model {
     }
     Block {
       BlockType		      Reference
-      Name		      "Initialize Sensor\nMCU"
+      Name		      "Initialize \nMagnetometers"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      []
       Position		      [30, 112, 135, 148]
       BackgroundColor	      "yellow"
       List {
 	ListType		RTWdata
-	FctDeclaration		"extern void magnetoInit();"
-	FctCall			"magnetoInit();"
-	fctName			"magnetoInit"
+	FctDeclaration		"extern void initDevBoard();"
+	FctCall			"initDevBoard();"
+	fctName			"initDevBoard"
 	INPUT_SIZE		"1"
 	OUTPUT_SIZE		"1"
 	NBR_INPUT		"0"
@@ -1264,7 +1296,7 @@ Model {
       }
       SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
       SourceType	      "C Function Call"
-      fctName		      "'magnetoInit'"
+      fctName		      "'initDevBoard'"
       INPUT_SIZE	      "1"
       INPUT1		      "--"
       INPUT2		      "--"
@@ -1274,8 +1306,8 @@ Model {
       SampleTime	      "inf"
       InputType		      "[ ]"
       OutputType	      "[ ]"
-      FctDeclaration	      "extern void magnetoInit();"
-      FctCall		      "magnetoInit();"
+      FctDeclaration	      "extern void initDevBoard();"
+      FctCall		      "initDevBoard();"
       OrderingInOutPopup      "None"
     }
     Block {
@@ -1423,15 +1455,21 @@ Model {
       }
     }
     Block {
+      BlockType		      RateTransition
+      Name		      "Rate Transition"
+      Position		      [410, 269, 445, 311]
+      OutPortSampleTime	      "0.01"
+    }
+    Block {
       BlockType		      Reference
       Name		      "Read the Stored Data"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [0, 1]
-      Position		      [70, 332, 175, 368]
+      Position		      [25, 282, 130, 318]
       BackgroundColor	      "yellow"
       List {
 	ListType		RTWdata
-	FctDeclaration		"extern void getMag(uint16_T* y1);"
+	FctDeclaration		"extern void getMag(int16_T* y1);"
 	FctCall			"getMag(*%y1);"
 	fctName			"getMag"
 	INPUT_SIZE		"1"
@@ -1447,20 +1485,77 @@ Model {
       INPUT2		      "--"
       INPUT3		      "--"
       OUTPUT_SIZE	      "3"
-      OUTPUT1		      "uint16"
+      OUTPUT1		      "int16"
       SampleTime	      ".02"
       InputType		      "[ ]"
-      OutputType	      "[ 4 ]"
-      FctDeclaration	      "extern void getMag(uint16_T* y1);"
+      OutputType	      "[ 3 ]"
+      FctDeclaration	      "extern void getMag(int16_T* y1);"
       FctCall		      "getMag(*%y1);"
       OrderingInOutPopup      "None"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Read the Stored Data1"
+      Tag		      "dsPIC_dsPIC_CFunctionCall"
+      Ports		      [0, 1]
+      Position		      [95, 392, 200, 428]
+      BackgroundColor	      "yellow"
+      List {
+	ListType		RTWdata
+	FctDeclaration		"extern void getCubeData(int16_T* y1);"
+	FctCall			"getCubeData(*%y1);"
+	fctName			"getCubeData"
+	INPUT_SIZE		"1"
+	OUTPUT_SIZE		"6"
+	NBR_INPUT		"0"
+	NBR_OUTPUT		"1"
+      }
+      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+      SourceType	      "C Function Call"
+      fctName		      "'getCubeData'"
+      INPUT_SIZE	      "1"
+      INPUT1		      "--"
+      INPUT2		      "--"
+      INPUT3		      "--"
+      OUTPUT_SIZE	      "6"
+      OUTPUT1		      "int16"
+      SampleTime	      ".01"
+      InputType		      "[ ]"
+      OutputType	      "[ 3 ]"
+      FctDeclaration	      "extern void getCubeData(int16_T* y1);"
+      FctCall		      "getCubeData(*%y1);"
+      OrderingInOutPopup      "None"
+    }
+    Block {
+      BlockType		      Sum
+      Name		      "Subtract"
+      Ports		      [2, 1]
+      Position		      [360, 272, 390, 303]
+      Inputs		      "2"
+      CollapseMode	      "All dimensions"
+      InputSameDT	      off
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutScaling	      "2^-10"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Sum
+      Name		      "Subtract1"
+      Ports		      [2, 1]
+      Position		      [260, 382, 290, 413]
+      Inputs		      "2"
+      CollapseMode	      "All dimensions"
+      InputSameDT	      off
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutScaling	      "2^-10"
+      SaturateOnIntegerOverflow	off
     }
     Block {
       BlockType		      Reference
       Name		      "TX Output Multiplexed\nfor Matlab / Labview"
       Tag		      "dsPIC_TX_Multiplexed"
       Ports		      [3]
-      Position		      [480, 298, 610, 402]
+      Position		      [520, 302, 650, 458]
       Priority		      "5"
       SourceBlock	      "dsPICdrivers/Serial PORT/TX Output Multiplexed"
 "\nfor Matlab // Labview"
@@ -1474,11 +1569,16 @@ Model {
       Status		      "OK"
     }
     Block {
+      BlockType		      Terminator
+      Name		      "Terminator"
+      Position		      [395, 415, 415, 435]
+    }
+    Block {
       BlockType		      Reference
       Name		      "UART Configuration"
       Tag		      "dsPIC_config_UART"
       Ports		      []
-      Position		      [220, 198, 320, 248]
+      Position		      [420, 28, 520, 78]
       BackgroundColor	      "lightBlue"
       DropShadow	      on
       Priority		      "2"
@@ -1509,7 +1609,7 @@ Model {
       BlockType		      Reference
       Name		      "dbl-click to open\nGraphical interface"
       Ports		      []
-      Position		      [390, 123, 490, 173]
+      Position		      [410, 108, 510, 158]
       BackgroundColor	      "cyan"
       DropShadow	      on
       SourceBlock	      "dsPICdrivers/Serial PORT/dbl-click to open\nGra"
@@ -1540,26 +1640,6 @@ Model {
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Demux"
-      SrcPort		      1
-      Points		      [10, 0; 0, -25]
-      DstBlock		      "TX Output Multiplexed\nfor Matlab / Labview"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Demux"
-      SrcPort		      2
-      DstBlock		      "TX Output Multiplexed\nfor Matlab / Labview"
-      DstPort		      2
-    }
-    Line {
-      SrcBlock		      "Demux"
-      SrcPort		      3
-      Points		      [10, 0; 0, 25]
-      DstBlock		      "TX Output Multiplexed\nfor Matlab / Labview"
-      DstPort		      3
-    }
-    Line {
       SrcBlock		      "3vector LPF"
       SrcPort		      1
       DstBlock		      "Data Type Conversion1"
@@ -1572,10 +1652,78 @@ Model {
       DstPort		      1
     }
     Line {
+      SrcBlock		      "Subtract"
+      SrcPort		      1
+      DstBlock		      "Rate Transition"
+      DstPort		      1
+    }
+    Line {
       SrcBlock		      "Data Type Conversion1"
+      SrcPort		      1
+      Points		      [0, -5]
+      DstBlock		      "Subtract"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Constant"
+      SrcPort		      1
+      Points		      [20, 0; 0, 40]
+      DstBlock		      "Subtract"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant1"
+      SrcPort		      1
+      Points		      [20, 0; 0, 35]
+      DstBlock		      "Subtract1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Read the Stored Data1"
+      SrcPort		      1
+      Points		      [40, 0]
+      DstBlock		      "Subtract1"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Subtract1"
+      SrcPort		      1
+      DstBlock		      "Demux1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux1"
+      SrcPort		      1
+      Points		      [90, 0; 0, -55]
+      DstBlock		      "TX Output Multiplexed\nfor Matlab / Labview"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux1"
+      SrcPort		      4
+      Points		      [25, 0; 0, 10]
+      DstBlock		      "Terminator"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Rate Transition"
       SrcPort		      1
       DstBlock		      "Demux"
       DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux1"
+      SrcPort		      3
+      Points		      [80, 0; 0, 25]
+      DstBlock		      "TX Output Multiplexed\nfor Matlab / Labview"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Demux1"
+      SrcPort		      2
+      Points		      [160, 0]
+      DstBlock		      "TX Output Multiplexed\nfor Matlab / Labview"
+      DstPort		      2
     }
   }
 }

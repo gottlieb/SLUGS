@@ -256,17 +256,17 @@ void hil_getRawRead(unsigned short * rawData){
 /*
 	
 	*/
-	rawData[0] =  	rawControlData.accelY.usData;
-	rawData[1] =  	rawControlData.accelZ.usData;
-	rawData[2] =  	rawControlData.gyroX.usData;
+	rawData[0] =  	rawControlData.accelY.shData;
+	rawData[1] =  	rawControlData.accelZ.shData;
+	rawData[2] =  	rawControlData.gyroX.shData;
 	rawData[3] = 	0;
-	rawData[4] = 	rawControlData.gyroY.usData;
-	rawData[5] = 	rawControlData.accelX.usData;
-	rawData[6] = 	rawControlData.gyroZ.usData;
+	rawData[4] = 	rawControlData.gyroY.shData;
+	rawData[5] = 	rawControlData.accelX.shData;
+	rawData[6] = 	rawControlData.gyroZ.shData;
 	rawData[7] = 	0;
-	rawData[8] = 	rawControlData.magY.usData;
-	rawData[9] = 	rawControlData.magX.usData;
-	rawData[10] = 	rawControlData.magZ.usData;
+	rawData[8] = 	rawControlData.magY.shData;
+	rawData[9] = 	rawControlData.magX.shData;
+	rawData[10] = 	rawControlData.magZ.shData;
 	rawData[11] = 	(unsigned short)dynTempControlData.stat.flData;
 	rawData[12] = 	(unsigned short)dynTempControlData.dynamic.flData;;
 	rawData[13] = 	(unsigned short)dynTempControlData.temp.shData;
@@ -395,15 +395,15 @@ static tPilotData		cppilControlData;
 
 	    // Print Raw Data
 	    fprintf(outFile, "%d,%d,%d,%d,%d,%d,%d,%d,%d,",
-	         cprawControlData.gyroX.usData,
-	         cprawControlData.gyroY.usData,
-	         cprawControlData.gyroZ.usData,
-	         cprawControlData.accelX.usData,
-	         cprawControlData.accelY.usData,
-	         cprawControlData.accelZ.usData,
-	         cprawControlData.magX.usData,
-	         cprawControlData.magY.usData,
-	         cprawControlData.magZ.usData);
+	         cprawControlData.gyroX.shData,
+	         cprawControlData.gyroY.shData,
+	         cprawControlData.gyroZ.shData,
+	         cprawControlData.accelX.shData,
+	         cprawControlData.accelY.shData,
+	         cprawControlData.accelZ.shData,
+	         cprawControlData.magX.shData,
+	         cprawControlData.magY.shData,
+	         cprawControlData.magZ.shData);
 
 
     // Print Bias Data

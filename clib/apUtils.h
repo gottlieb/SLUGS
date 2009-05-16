@@ -14,6 +14,8 @@
 #include <string.h>
 #include "apDefinitions.h"
 #include "protDecoder.h"
+#include <stdlib.h>
+#include <stdarg.h>
 
 // Uncomment if you want to use sensor
 // mcu diagnostic  data. Note that you can only
@@ -41,6 +43,7 @@ float myCos (float x);
 float myTan (float x);
 float myAcos (float x);
 float myExp (float x);
+void printToUart2 (const char *fmt, ...);
 #ifdef __cplusplus
       }
 #endif

@@ -163,19 +163,19 @@ void readMag (unsigned char idx, short val){
 	magReading[idx].shData	= val;
 	
 	if (idx == 2){
-		rawControlData.magX.usData = (unsigned short) (magReading[0].shData+ 2048);
-		rawControlData.magY.usData = (unsigned short) (magReading[1].shData+ 2048);
-		rawControlData.magZ.usData = (unsigned short) (magReading[2].shData+ 2048);
+		rawControlData.magX.shData = magReading[0].shData;
+		rawControlData.magY.shData = magReading[1].shData;
+		rawControlData.magZ.shData = magReading[2].shData;
 		
 	//	printToUart2("%d\t %d\t %d\n\r",magReading[0].shData, magReading[1].shData,magReading[2].shData);
 	}
 }
 
-void getMag (unsigned short * magVals){
+void getMag (short * magVals){
 	
-	magVals[0] =  rawControlData.magX.usData;
-	magVals[1] =  rawControlData.magY.usData;
-	magVals[2] =  rawControlData.magZ.usData;
+	magVals[0] =  rawControlData.magX.shData;
+	magVals[1] =  rawControlData.magY.shData;
+	magVals[2] =  rawControlData.magZ.shData;
 	//printToUart2("%u\t %u\t %u\n\r",magVals[0], magVals[1],magVals[2]);
 	
 	// After reporting the data start the reading for the next cycle
@@ -328,16 +328,6 @@ void __attribute__((__interrupt__, no_auto_psv)) _MI2C1Interrupt(void){
 
 	IFS1bits.MI2C1IF = 0;			// Clear the master interrupt
 	I2C1STATbits.IWCOL = 0;			// Clear the collision flag just in case		
-}
-
-void printToUart2 (const char *fmt, ...){
-	va_list ap;
-	char buf [300];
-	
-	va_start(ap, fmt);
-	vsprintf(buf, fmt, ap);
-	va_end (ap);
-	putsUART2((unsigned int*)buf);
 }
 
 void dummyDelay (void) {
