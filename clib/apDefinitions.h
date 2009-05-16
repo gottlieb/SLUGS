@@ -291,15 +291,15 @@ typedef struct tGpsData{
 }tGpsData;
 
 typedef struct tRawData{
-	tUnsignedShortToChar 	gyroX;
-	tUnsignedShortToChar 	gyroY;
-	tUnsignedShortToChar 	gyroZ;
-	tUnsignedShortToChar 	accelX;
-	tUnsignedShortToChar 	accelY;
-	tUnsignedShortToChar 	accelZ;
-	tUnsignedShortToChar 	magX;
-	tUnsignedShortToChar 	magY;
-	tUnsignedShortToChar 	magZ;
+	tShortToChar 	gyroX;
+	tShortToChar 	gyroY;
+	tShortToChar 	gyroZ;
+	tShortToChar 	accelX;
+	tShortToChar 	accelY;
+	tShortToChar 	accelZ;
+	tShortToChar 	magX;
+	tShortToChar 	magY;
+	tShortToChar 	magZ;
 }tRawData;
 
 typedef struct tAttitudeData{

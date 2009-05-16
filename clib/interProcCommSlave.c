@@ -77,17 +77,6 @@ void spiSlaveInit(void){
     INTCON1bits.NSTDIS	= 1;
 }
 
-void printToUart2 (const char *fmt, ...){
-	va_list ap;
-	char buf [300];
-	
-	va_start(ap, fmt);
-	vsprintf(buf, fmt, ap);
-	va_end (ap);
-	putsUART2((unsigned int*)buf);
-}
-
-
 void readIpc (unsigned char* bufferedData){
 	// fix the data length so if the interrupt adds data
 	// during execution of this block, it will be read
