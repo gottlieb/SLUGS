@@ -13,6 +13,15 @@
 #define deselectCube()		LATGbits.LATG9 = 1
 #define cubeDataReady()		PORTCbits.RC3
 
+#define BITMASK_14		(unsigned short)0x3FFF
+#define BITMASK_12		(unsigned short)0x0FFF
+
+#define BITTEST_14		(unsigned short)0x2000
+#define BITTEST_12		(unsigned short)0x0800
+
+#define BITEXTEND_14	(unsigned short)0xC000
+#define BITEXTEND_12	(unsigned short)0xF000
+
 
 // Register Addresses
 // ==================
@@ -50,7 +59,7 @@ DIO pin in the cube to let us know when data is ready
 Address = 0x34
 Value   = 0x86
 bits [6:7] of Address must be [1 0] since this will be a write
-=> [1 0 1 1][1 1 1 0][1 0 0 0] [0 1 1 0]
+=> [1 0 1 1][0 1 0 0][1 0 0 0] [0 1 1 0]
 => 0xB486
 
 */
@@ -116,6 +125,8 @@ unsigned short write2Cube (unsigned short data2Send);
 void getCubeData (short * cubeData);
 void startCubeRead (void);
 void initDevBoard (void);
+short convert12BitToShort (short wordData);
+short convert14BitToShort (short wordData);
 	
 #ifdef __cplusplus
     }

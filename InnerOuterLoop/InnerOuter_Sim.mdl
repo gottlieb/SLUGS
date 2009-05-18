@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.1077"
+    ComputedModelVersion    "1.1082"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -40,15 +40,16 @@ Model {
   BrowserLookUnderMasks	  on
   CloseFcn		  "rtwprivate ssgencode ModelCloseRequest AttitudeComp"
 "lementary"
-  InitFcn		  "clc\nRascal_Var\ninnerOuterInit\nwpFile"
+  InitFcn		  "clc\nRascal_Var\ninnerOuterInit\nwpFile\nfailuresIn"
+"it"
   Created		  "Wed Jul 02 09:38:16 2008"
   Creator		  "ASL_Lab"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu May 07 11:27:41 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:1077>"
+  LastModifiedDate	  "Fri May 15 17:59:28 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:1082>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -844,9 +845,6 @@ Model {
       LinearizeAsGain	      on
     }
     Block {
-      BlockType		      Reference
-    }
-    Block {
       BlockType		      RelationalOperator
       Operator		      ">="
       InputSameDT	      on
@@ -1028,7 +1026,7 @@ Model {
   }
   System {
     Name		    "InnerOuter_Sim"
-    Location		    [62, 84, 1287, 811]
+    Location		    [2, 78, 1203, 1004]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -11205,6 +11203,11 @@ Model {
 		  MinAlgLoopOccurrences	  off
 		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
+		  Array {
+		    Type		    "Handle"
+		    Dimension		    0
+		    PropName		    "AvailSigsLoadSave"
+		  }
 		  MaskHideContents	  off
 		  MaskType		  "Stateflow"
 		  MaskDescription	  "Embedded MATLAB block"
@@ -13958,6 +13961,97 @@ Model {
 	      OutPortSampleTime	      "apSampleTime"
 	    }
 	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Rudder\nFailure"
+	      Ports		      [0, 1]
+	      Position		      [210, 557, 280, 603]
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"Rudder\nFailure"
+		Location		[472, 781, 712, 975]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  DiscretePulseGenerator
+		  Name			  "Pulse\nGenerator1"
+		  Ports			  [0, 1]
+		  Position		  [40, 28, 85, 62]
+		  PulseType		  "Time based"
+		  Amplitude		  "dr_failamp"
+		  Period		  "dr_failper"
+		  PulseWidth		  "50"
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Vair2"
+		  Ports			  [3, 1]
+		  Position		  [135, 91, 160, 119]
+		  ShowName		  off
+		  Inputs		  "+++"
+		  CollapseMode		  "All dimensions"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "da_failbias"
+		  Position		  [25, 92, 90, 118]
+		  Value			  "dr_failbias"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "da_failbias1"
+		  Position		  [55, 150, 90, 170]
+		  Value			  "0"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "da, Fail, deg"
+		  Position		  [185, 98, 215, 112]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Vair2"
+		  SrcPort		  1
+		  DstBlock		  "da, Fail, deg"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "da_failbias1"
+		  SrcPort		  1
+		  Points		  [25, 0]
+		  DstBlock		  "Vair2"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "da_failbias"
+		  SrcPort		  1
+		  DstBlock		  "Vair2"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Pulse\nGenerator1"
+		  SrcPort		  1
+		  Points		  [30, 0]
+		  DstBlock		  "Vair2"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
 	      BlockType		      Reference
 	      Name		      "Second Order Linear Actuator"
 	      Ports		      [1, 1]
@@ -14348,16 +14442,9 @@ Model {
 		DstPort			3
 	      }
 	      Branch {
-		Points			[0, 120; 20, 0]
-		Branch {
-		  DstBlock		  " 1"
-		  DstPort		  1
-		}
-		Branch {
-		  Points		  [0, 165; 335, 0; 0, -35]
-		  DstBlock		  "daR_Switch1"
-		  DstPort		  3
-		}
+		Points			[0, 120]
+		DstBlock		" 1"
+		DstPort			1
 	      }
 	    }
 	    Line {
@@ -14503,6 +14590,13 @@ Model {
 	      SrcPort		      1
 	      DstBlock		      "Goto1"
 	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Rudder\nFailure"
+	      SrcPort		      1
+	      Points		      [505, 0; 0, -25]
+	      DstBlock		      "daR_Switch1"
+	      DstPort		      3
 	    }
 	    Annotation {
 	      Name		      "Inverse\nfor Right\nAil"
@@ -23569,6 +23663,11 @@ Model {
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
+	      Array {
+		Type			"Handle"
+		Dimension		0
+		PropName		"AvailSigsLoadSave"
+	      }
 	      MaskHideContents	      off
 	      MaskType		      "Stateflow"
 	      MaskDescription	      "Embedded MATLAB block"
@@ -23984,6 +24083,11 @@ Model {
 		  MinAlgLoopOccurrences	  off
 		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
+		  Array {
+		    Type		    "Handle"
+		    Dimension		    0
+		    PropName		    "AvailSigsLoadSave"
+		  }
 		  MaskHideContents	  off
 		  MaskType		  "Stateflow"
 		  MaskDescription	  "Embedded MATLAB block"
@@ -26785,7 +26889,7 @@ Model {
       RTWMemSecDataConstants  "Inherit from model"
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
-      sw		      "1"
+      sw		      "0"
       action		      "0"
       varsize		      off
     }
@@ -26865,7 +26969,7 @@ Model {
       RTWMemSecDataConstants  "Inherit from model"
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
-      sw		      "0"
+      sw		      "1"
       action		      "0"
       varsize		      off
     }
@@ -27487,6 +27591,11 @@ Model {
 		    MinAlgLoopOccurrences   off
 		    RTWSystemCode	    "Auto"
 		    FunctionWithSeparateData off
+		    Array {
+		    Type		    "Handle"
+		    Dimension		    0
+		    PropName		    "AvailSigsLoadSave"
+		    }
 		    MaskHideContents	    off
 		    MaskType		    "Stateflow"
 		    MaskDescription	    "Embedded MATLAB block"
@@ -27782,6 +27891,11 @@ Model {
 		    MinAlgLoopOccurrences   off
 		    RTWSystemCode	    "Auto"
 		    FunctionWithSeparateData off
+		    Array {
+		    Type		    "Handle"
+		    Dimension		    0
+		    PropName		    "AvailSigsLoadSave"
+		    }
 		    MaskHideContents	    off
 		    MaskType		    "Stateflow"
 		    MaskDescription	    "Embedded MATLAB block"
@@ -29021,6 +29135,11 @@ Model {
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
+	      Array {
+		Type			"Handle"
+		Dimension		0
+		PropName		"AvailSigsLoadSave"
+	      }
 	      MaskHideContents	      off
 	      MaskType		      "Stateflow"
 	      MaskDescription	      "Embedded MATLAB block"
@@ -29210,6 +29329,11 @@ Model {
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
+	      Array {
+		Type			"Handle"
+		Dimension		0
+		PropName		"AvailSigsLoadSave"
+	      }
 	      MaskHideContents	      off
 	      MaskType		      "Stateflow"
 	      MaskDescription	      "Embedded MATLAB block"
@@ -32228,6 +32352,11 @@ Model {
 		    RTWMemSecDataConstants  "Inherit from model"
 		    RTWMemSecDataInternal   "Inherit from model"
 		    RTWMemSecDataParameters "Inherit from model"
+		    Array {
+		    Type		    "Handle"
+		    Dimension		    0
+		    PropName		    "AvailSigsLoadSave"
+		    }
 		    }
 		    Block {
 		    BlockType		    Outport
@@ -32754,6 +32883,11 @@ Model {
 		    RTWMemSecDataConstants  "Inherit from model"
 		    RTWMemSecDataInternal   "Inherit from model"
 		    RTWMemSecDataParameters "Inherit from model"
+		    Array {
+		    Type		    "Handle"
+		    Dimension		    0
+		    PropName		    "AvailSigsLoadSave"
+		    }
 		    }
 		    Block {
 		    BlockType		    Scope
@@ -33149,6 +33283,11 @@ Model {
 		    RTWMemSecDataConstants  "Inherit from model"
 		    RTWMemSecDataInternal   "Inherit from model"
 		    RTWMemSecDataParameters "Inherit from model"
+		    Array {
+		    Type		    "Handle"
+		    Dimension		    0
+		    PropName		    "AvailSigsLoadSave"
+		    }
 		    }
 		    Block {
 		    BlockType		    Outport
@@ -33303,6 +33442,11 @@ Model {
 		    RTWMemSecDataConstants  "Inherit from model"
 		    RTWMemSecDataInternal   "Inherit from model"
 		    RTWMemSecDataParameters "Inherit from model"
+		    Array {
+		    Type		    "Handle"
+		    Dimension		    0
+		    PropName		    "AvailSigsLoadSave"
+		    }
 		    }
 		    Block {
 		    BlockType		    Selector
@@ -34026,6 +34170,11 @@ Model {
 		  MinAlgLoopOccurrences	  off
 		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
+		  Array {
+		    Type		    "Handle"
+		    Dimension		    0
+		    PropName		    "AvailSigsLoadSave"
+		  }
 		  MaskHideContents	  off
 		  MaskType		  "Stateflow"
 		  MaskDescription	  "Embedded MATLAB block"
@@ -34309,6 +34458,11 @@ Model {
 		  MinAlgLoopOccurrences	  off
 		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
+		  Array {
+		    Type		    "Handle"
+		    Dimension		    0
+		    PropName		    "AvailSigsLoadSave"
+		  }
 		  MaskHideContents	  off
 		  MaskType		  "Stateflow"
 		  MaskDescription	  "Embedded MATLAB block"
