@@ -7,17 +7,17 @@ void cubeInit (void){
     SPI2CON1bits.DISSCK = 0;    //Internal Serial Clock is Enabled.
     SPI2CON1bits.DISSDO = 0;    //SDOx pin is controlled by the module.
     SPI2CON1bits.MODE16 = 1;    //Communication is word-wide (16 bits).
-    SPI2CON1bits.SMP    = 0;    //Sample at the middle .
+    SPI2CON1bits.SMP    = 0;    //Sample at the middle.
     SPI2CON1bits.CKE    = 0;    //Serial output data changes on transition from
                                 //Idle clock state to active clock state
-    SPI2CON1bits.CKP    = 0;    //Idle state for clock is a low level;
-                                //active state is a high level
+    SPI2CON1bits.CKP    = 1;    //Idle state for clock is a high level;
+                                //active state is a low level
     SPI2CON1bits.SSEN   = 0;    // SS not Used ( Master mode)    
     SPI2CON1bits.MSTEN  = 1;    //Master Mode Enabled
     
     // Configure the clock for 2 MHz
     SPI2CON1bits.SPRE   = 3;    //Secondary prescaler to 5:1
-    SPI2CON1bits.PPRE   = 1;    //Primary prescaler 4:1
+    SPI2CON1bits.PPRE   = 2;    //Primary prescaler 4:1
     
     
     // Enable the module 
@@ -63,32 +63,40 @@ void cubeInit (void){
 	write2Cube(W_COMMAND_FULLCAL);
 	printToUart2("Starting %s\n\r","Full Cal");
 	// Drive SS
+	
+	while(!cubeDataReady());
+	printToUart2("Starting %s\n\r","Done Cal");
 	deselectCube();
 }
 
 void startCubeRead (void) {
 	// Drive SS
+	LATAbits.LATA0 = 1;
+	
 	selectCube();
 	Nop(); Nop(); Nop();
 	
 	// dummy read 
-	write2Cube(R_GYROX);
+	printToUart2("Config %X\n\r",write2Cube(R_GYROX));
 	
-	rawControlData.gyroX.shData = write2Cube(R_GYROY);
-	printToUart2("GYRO X %X\n\r",rawControlData.gyroX.shData);
-	rawControlData.gyroY.shData = write2Cube(R_GYROZ);
-	rawControlData.gyroZ.shData = write2Cube(R_ACCELX);
+	rawControlData.gyroX.shData = convert14BitToShort(write2Cube(R_GYROY));
+	printToUart2("GYRO X %d\n\r",rawControlData.gyroX.shData);
+	rawControlData.gyroY.shData = convert14BitToShort(write2Cube(R_GYROZ));
+	//printToUart2("GYRO Y %X\n\r",rawControlData.gyroY.shData);
+	rawControlData.gyroZ.shData = convert14BitToShort(write2Cube(R_ACCELX));
 	
-	rawControlData.accelX.shData = write2Cube(R_ACCELY);
-	rawControlData.accelY.shData = write2Cube(R_ACCELZ);
-	rawControlData.accelZ.shData = write2Cube(R_STATUS); // dummy write
+	rawControlData.accelX.shData =convert14BitToShort(write2Cube(R_ACCELY));
+	rawControlData.accelY.shData =convert14BitToShort(write2Cube(R_ACCELZ));
+	rawControlData.accelZ.shData =convert14BitToShort(write2Cube(R_STATUS)); // dummy write
 
 	// Drive SS
 	deselectCube();
 	
+	LATAbits.LATA0 = 0;
 }
 
 void getCubeData (short * cubeData) {
+	LATAbits.LATA15 = PORTCbits.RC3;
 	if (cubeDataReady()){
 		startCubeRead();
 	}
@@ -99,12 +107,15 @@ void getCubeData (short * cubeData) {
 	cubeData[3] = rawControlData.accelX.shData;
 	cubeData[4] = rawControlData.accelY.shData;
 	cubeData[5] = rawControlData.accelZ.shData;
+	LATAbits.LATA15 = PORTCbits.RC3;
 }
 
 // SPI Primitives
 // ==============
 unsigned short write2Cube (unsigned short data2Send) {
-	unsigned short temp = 3;
+	
+	unsigned short temp = 3, i;
+	
 	// Write the data to the SPI buffer
 	WriteSPI2(data2Send);
 	
@@ -116,6 +127,11 @@ unsigned short write2Cube (unsigned short data2Send) {
 	
 	// Read the receive buffer
 	temp =  ReadSPI2();
+	
+	for(i = 0; i < 700; i += 1 )
+	{
+		Nop();
+	}
 	return temp;
 	
 	// Clear the overflow for safekeeping
@@ -123,6 +139,16 @@ unsigned short write2Cube (unsigned short data2Send) {
 	SPI2STATbits.SPIROV  = 0;   
 }
 
+short convert14BitToShort (short wordData) {
+return (wordData & BITTEST_14)? (wordData | BITEXTEND_14) : (wordData & BITMASK_14);
+}
+
+
+short convert12BitToShort (short wordData) {
+
+	
+	return (wordData & BITTEST_12)? (wordData | BITEXTEND_12) : (wordData & BITMASK_12);
+}
 
 void initDevBoard (void){
 	magnetoInit();
