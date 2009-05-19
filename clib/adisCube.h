@@ -59,7 +59,7 @@ DIO pin in the cube to let us know when data is ready
 Address = 0x34
 Value   = 0x86
 bits [6:7] of Address must be [1 0] since this will be a write
-=> [1 0 1 1][0 1 0 0][1 0 0 0] [0 1 1 0]
+=> [1 0 1 1][1 1 1 0][1 0 0 0] [0 1 1 0]
 => 0xB486
 
 */
@@ -114,7 +114,7 @@ bits [6:7] of Address must be [1 0] since this will be a write
 #define W_SENS_AVG_H  	(unsigned short)0xB904		// DYNAMIC RANGE
 #define W_SENS_AVG_L  	(unsigned short)0xB802		// DIGITAL FILTERING
 
-
+#define W_MSC_CTRL_SELFTEST (unsigned short)0xB504
 /*
 Sleeping
 */
