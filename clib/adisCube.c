@@ -1,7 +1,7 @@
 #include "adisCube.h"
 
 void cubeInit (void){
-	unsigned short recvdData = 0;
+	long i = 0;
 	printToUart2("Starting %s\n\r","Cube Init");
     // SPI1CON1 Register Settings
     SPI2CON1bits.DISSCK = 0;    //Internal Serial Clock is Enabled.
@@ -42,6 +42,19 @@ void cubeInit (void){
 	// Drive SS
 	selectCube();
 	Nop(); Nop(); Nop();
+	
+	printToUart2("Starting %s\n\r","Self Test");
+	write2Cube(W_MSC_CTRL_SELFTEST);
+	
+	for(i = 0; i < 1500000; i += 1 )
+	{
+		Nop();
+	}
+	
+	//Send a status register message
+	write2Cube(R_STATUS);
+	
+	printToUart2("Status %X\n\r",write2Cube(R_ADISPWR));
 		
 	// Set the DIO pin and Gyro accel compensation
 	write2Cube(W_MSC_CTRL);
@@ -66,6 +79,21 @@ void cubeInit (void){
 	
 	while(!cubeDataReady());
 	printToUart2("Starting %s\n\r","Done Cal");
+	
+	
+	printToUart2("Starting %s\n\r","Self Test Again");
+	write2Cube(W_MSC_CTRL_SELFTEST);
+	
+	for(i = 0; i < 1500000; i += 1 )
+	{
+		Nop();
+	}
+	
+	//Send a status register message
+	write2Cube(R_STATUS);
+	
+	printToUart2(" === Status %X\n\r",write2Cube(R_ADISPWR));
+	
 	deselectCube();
 }
 
@@ -77,7 +105,8 @@ void startCubeRead (void) {
 	Nop(); Nop(); Nop();
 	
 	// dummy read 
-	printToUart2("Config %X\n\r",write2Cube(R_GYROX));
+	//printToUart2("Config %X\n\r",write2Cube(R_GYROX));
+	write2Cube(R_GYROX);
 	
 	rawControlData.gyroX.shData = convert14BitToShort(write2Cube(R_GYROY));
 	printToUart2("GYRO X %d\n\r",rawControlData.gyroX.shData);
