@@ -1,8 +1,17 @@
 #include "adisCube.h"
 
 void cubeInit (void){
-	long i = 0;
+	long long i = 0;
+	
 	printToUart2("Starting %s\n\r","Cube Init");
+
+	// 150 ms Delay for powerup
+	for(i = 0; i < 6000000; i += 1 )
+	{
+		Nop();
+	}	
+	
+
     // SPI1CON1 Register Settings
     SPI2CON1bits.DISSCK = 0;    //Internal Serial Clock is Enabled.
     SPI2CON1bits.DISSDO = 0;    //SDOx pin is controlled by the module.
@@ -16,8 +25,8 @@ void cubeInit (void){
     SPI2CON1bits.MSTEN  = 1;    //Master Mode Enabled
     
     // Configure the clock for 2 MHz
-    SPI2CON1bits.SPRE   = 3;    //Secondary prescaler to 5:1
-    SPI2CON1bits.PPRE   = 2;    //Primary prescaler 4:1
+    SPI2CON1bits.SPRE   = 5;    //Secondary prescaler to 5:1
+    SPI2CON1bits.PPRE   = 0;    //Primary prescaler 4:1
     
     
     // Enable the module 
@@ -37,29 +46,13 @@ void cubeInit (void){
 	TRISGbits.TRISG9	= 0;
 	
 	printToUart2("Starting %s\n\r","Cube Config");
+	
 	// Start the Configuration Process
 	// ===============================
-	// Drive SS
-	selectCube();
-	Nop(); Nop(); Nop();
 	
-	printToUart2("Starting %s\n\r","Self Test");
-	write2Cube(W_MSC_CTRL_SELFTEST);
-	
-	for(i = 0; i < 1500000; i += 1 )
-	{
-		Nop();
-	}
-	
-	//Send a status register message
-	write2Cube(R_STATUS);
-	
-	printToUart2("Status %X\n\r",write2Cube(R_ADISPWR));
-		
 	// Set the DIO pin and Gyro accel compensation
 	write2Cube(W_MSC_CTRL);
 	printToUart2("Starting %s\n\r","Gyro Comp");
-	
 	// Set the internal sample rate
 	write2Cube(W_SMPL_PRD);
 	printToUart2("Starting %s\n\r","Sample Rate");
@@ -75,60 +68,40 @@ void cubeInit (void){
 	// Start a full calibration
 	write2Cube(W_COMMAND_FULLCAL);
 	printToUart2("Starting %s\n\r","Full Cal");
-	// Drive SS
-	
-	while(!cubeDataReady());
+	//while(!cubeDataReady());
 	printToUart2("Starting %s\n\r","Done Cal");
 	
-	
-	printToUart2("Starting %s\n\r","Self Test Again");
-	write2Cube(W_MSC_CTRL_SELFTEST);
-	
-	for(i = 0; i < 1500000; i += 1 )
-	{
-		Nop();
-	}
-	
-	//Send a status register message
-	write2Cube(R_STATUS);
-	
-	printToUart2(" === Status %X\n\r",write2Cube(R_ADISPWR));
-	
-	deselectCube();
+	// Ch
+
 }
 
 void startCubeRead (void) {
 	// Drive SS
 	LATAbits.LATA0 = 1;
 	
-	selectCube();
-	Nop(); Nop(); Nop();
-	
 	// dummy read 
 	//printToUart2("Config %X\n\r",write2Cube(R_GYROX));
 	write2Cube(R_GYROX);
 	
 	rawControlData.gyroX.shData = convert14BitToShort(write2Cube(R_GYROY));
-	printToUart2("GYRO X %d\n\r",rawControlData.gyroX.shData);
+	printToUart2("GYRO X %X\n\r",rawControlData.gyroX.shData);
 	rawControlData.gyroY.shData = convert14BitToShort(write2Cube(R_GYROZ));
 	//printToUart2("GYRO Y %X\n\r",rawControlData.gyroY.shData);
 	rawControlData.gyroZ.shData = convert14BitToShort(write2Cube(R_ACCELX));
+	//printToUart2("GYRO Y %X\n\r",rawControlData.gyroY.shData);
 	
 	rawControlData.accelX.shData =convert14BitToShort(write2Cube(R_ACCELY));
 	rawControlData.accelY.shData =convert14BitToShort(write2Cube(R_ACCELZ));
 	rawControlData.accelZ.shData =convert14BitToShort(write2Cube(R_STATUS)); // dummy write
-
-	// Drive SS
-	deselectCube();
 	
 	LATAbits.LATA0 = 0;
 }
 
 void getCubeData (short * cubeData) {
 	LATAbits.LATA15 = PORTCbits.RC3;
-	if (cubeDataReady()){
+//	if (cubeDataReady()){
 		startCubeRead();
-	}
+//	}
 	
 	cubeData[0] = rawControlData.gyroX.shData;
 	cubeData[1] = rawControlData.gyroY.shData;
@@ -142,8 +115,15 @@ void getCubeData (short * cubeData) {
 // SPI Primitives
 // ==============
 unsigned short write2Cube (unsigned short data2Send) {
-	
 	unsigned short temp = 3, i;
+	
+	// Drive SS Low
+	selectCube();
+	Nop(); Nop(); Nop();
+	Nop(); Nop(); Nop();
+
+	
+	//printToUart2("Data 2 Send %X\n\r",data2Send);
 	
 	// Write the data to the SPI buffer
 	WriteSPI2(data2Send);
@@ -157,25 +137,31 @@ unsigned short write2Cube (unsigned short data2Send) {
 	// Read the receive buffer
 	temp =  ReadSPI2();
 	
-	for(i = 0; i < 700; i += 1 )
-	{
-		Nop();
-	}
-	return temp;
+	Nop(); Nop(); Nop();
+	Nop(); Nop(); Nop();
+
+	
+	//Drive SS High
+	deselectCube();
 	
 	// Clear the overflow for safekeeping
 	// If overflow occurs and the flag is not cleared the module will freeze
 	SPI2STATbits.SPIROV  = 0;   
+	
+	// Delay for 36 uS
+	for(i = 0; i < 1300; i += 1 )
+	{
+		Nop();
+	}
+	return temp;
 }
 
 short convert14BitToShort (short wordData) {
-return (wordData & BITTEST_14)? (wordData | BITEXTEND_14) : (wordData & BITMASK_14);
+	return (wordData & BITTEST_14)? (wordData | BITEXTEND_14) : (wordData & BITMASK_14);
 }
 
 
 short convert12BitToShort (short wordData) {
-
-	
 	return (wordData & BITTEST_12)? (wordData | BITEXTEND_12) : (wordData & BITMASK_12);
 }
 
@@ -183,3 +169,37 @@ void initDevBoard (void){
 	magnetoInit();
 	cubeInit();
 }
+
+
+/*
+	selectCube();
+
+	
+	printToUart2("Starting %s\n\r","Self Test");
+	write2Cube(W_MSC_CTRL_SELFTEST);
+	
+	for(i = 0; i < 1500000; i += 1 )
+	{
+		Nop();
+	}
+	
+	//Send a status register message
+	write2Cube(0x0000);
+	
+	printToUart2("Endurance %X\n\r",write2Cube(R_ADISPWR));
+*/
+	
+	/*
+		printToUart2("Starting %s\n\r","Self Test Again");
+	write2Cube(W_MSC_CTRL_SELFTEST);
+	
+	for(i = 0; i < 1500000; i += 1 )
+	{
+		Nop();
+	}
+	
+	//Send a status register message
+	write2Cube(R_STATUS);
+	
+	printToUart2(" === Status %X\n\r",write2Cube(R_ADISPWR));
+	*/
