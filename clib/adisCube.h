@@ -76,18 +76,18 @@ Ts = Tb(Ns+1) , where
 	 Tb is time base, it is either 0.61035e-3 S or 18.921e-3 S
 	 Ns is the multiplier, which is configured in register SMPL_PRD
 	 
-So desired Ts = 0.005 (200Hz) then
-	 0.005 = 0.61035e-3 * (7.1920 + 1)
-	 => Choose multiplier as 7 => Ts = 4.8828e-3 S => Fs= 204.8 Hz
+So desired Ts = 0.0025 (400Hz) then
+	 0.0025 = 0.61035e-3 * (3.096 + 1)
+	 => Choose multiplier as 3 => Ts = 2.4e-3 S => Fs= 409.601 Hz
 
 So the register configuration is as follows:
 Address = 0x36
-Value   = 0x07
+Value   = 0x03
 bits [6:7] of Address must be [1 0] since this will be a write
 => [1 0 1 1][0 1 1 0][0 0 0 0][0 1 1 1]
-=> 0xB607
+=> 0xB603
 */
-#define W_SMPL_PRD  	(unsigned short)0xB607		// INTERNAL SAMPLE RATE
+#define W_SMPL_PRD  	(unsigned short)0xB603		// INTERNAL SAMPLE RATE
 
 /*
 Digital Filtering and Dynamic Range
@@ -105,14 +105,14 @@ bits [6:7] of Address must be [1 0] since this will be a write
 The taps will be set at the minimum of 4  (therefore the value is 2 since
 they are powers of 2)
 Address	= 0x38
-Value	= 0x02
+Value	= 0x04
 bits [6:7] of Address must be [1 0] since this will be a write
-=> [1 0 1 1][1 0 0 0][0 0 0 0][0 0 1 0]
-=> 0xB802
+=> [1 0 1 1][1 0 0 0][0 0 0 0][0 1 0 0]
+=> 0xB804
 
 */
 #define W_SENS_AVG_H  	(unsigned short)0xB904		// DYNAMIC RANGE
-#define W_SENS_AVG_L  	(unsigned short)0xB802		// DIGITAL FILTERING
+#define W_SENS_AVG_L  	(unsigned short)0xB804		// DIGITAL FILTERING
 
 #define W_MSC_CTRL_SELFTEST (unsigned short)0xB504
 /*
