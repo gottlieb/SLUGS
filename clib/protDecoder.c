@@ -235,43 +235,54 @@ unsigned char getFilterOnOff (void){
 // ================================
 //  hardware in the loop methods
 // ================================
-
-void hil_getRawRead(unsigned short * rawData){
-	// data for the bus is as follows:
-	// Accel Y
-	// Accel Z
-	// Gyro X
-	// IDG Ref
-	// Gyro Y
-	// Accel X
-	// Gyro Z
-	// ADX Ref
-	// Mag23
-	// Mag01
-	// Mag Z
-	// Baro
-	// Pitot
-	// Thermistor
-	// Power
-/*
-	
+	#ifdef SLUGS1
+	void hil_getRawRead(unsigned short * rawData){
+	/*  // data for the bus is as follows:
+		Gyro X
+		Gyro Y
+		Gyro Z
+		Acce X
+		Acce Y
+		Acce Z
+		Mag	 X
+		Mag	 Y
+		Mag	 Z
+		Baro
+		Pito
+		Pwr
+		Therm
 	*/
-	rawData[0] =  	rawControlData.accelY.shData;
-	rawData[1] =  	rawControlData.accelZ.shData;
-	rawData[2] =  	rawControlData.gyroX.shData;
-	rawData[3] = 	0;
-	rawData[4] = 	rawControlData.gyroY.shData;
-	rawData[5] = 	rawControlData.accelX.shData;
-	rawData[6] = 	rawControlData.gyroZ.shData;
-	rawData[7] = 	0;
-	rawData[8] = 	rawControlData.magY.shData;
-	rawData[9] = 	rawControlData.magX.shData;
-	rawData[10] = 	rawControlData.magZ.shData;
-	rawData[11] = 	(unsigned short)dynTempControlData.stat.flData;
-	rawData[12] = 	(unsigned short)dynTempControlData.dynamic.flData;;
-	rawData[13] = 	(unsigned short)dynTempControlData.temp.shData;
-	rawData[14] = 	770;
-	
+		rawData[0] =  	rawControlData.accelY.shData;
+		rawData[1] =  	rawControlData.accelZ.shData;
+		rawData[2] =  	rawControlData.gyroX.shData;
+		rawData[3] = 	0;
+		rawData[4] = 	rawControlData.gyroY.shData;
+		rawData[5] = 	rawControlData.accelX.shData;
+		rawData[6] = 	rawControlData.gyroZ.shData;
+		rawData[7] = 	0;
+		rawData[8] = 	rawControlData.magY.shData;
+		rawData[9] = 	rawControlData.magX.shData;
+		rawData[10] = 	rawControlData.magZ.shData;
+		rawData[11] = 	(unsigned short)dynTempControlData.stat.flData;
+		rawData[12] = 	(unsigned short)dynTempControlData.dynamic.flData;
+		rawData[13] = 	(unsigned short)dynTempControlData.temp.shData;
+		rawData[14] = 	770;
+	#else
+	void hil_getRawRead(short * rawData){
+		rawData[0] =  	rawControlData.gyroX.shData;
+		rawData[1] =  	rawControlData.gyroY.shData;
+		rawData[2] =  	rawControlData.gyroZ.shData;
+		rawData[3] = 	rawControlData.accelX.shData;
+		rawData[4] = 	rawControlData.accelY.shData;
+		rawData[5] = 	rawControlData.accelZ.shData;
+		rawData[6] = 	rawControlData.magX.shData;
+		rawData[7] = 	rawControlData.magY.shData;
+		rawData[8] = 	rawControlData.magZ.shData;
+		rawData[9] = 	(unsigned short)dynTempControlData.stat.flData;
+		rawData[10] = 	(unsigned short)dynTempControlData.dynamic.flData;
+		rawData[11] = 	770;
+		rawData[12] = 	(unsigned short)dynTempControlData.temp.shData;
+	#endif
 }
 
 void hil_getGPSRead (unsigned char * gpsMsg){

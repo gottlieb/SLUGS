@@ -71,8 +71,12 @@ void protParserInit (void);
      void protParserInit (void);
 #endif
 
+#ifdef SLUGS1
+	void hil_getRawRead (unsigned short * rawData);
+#else
+	void hil_getRawRead (short * rawData);
+#endif
 
-void hil_getRawRead (unsigned short * rawData);
 void hil_getGPSRead (unsigned char * gpsMsg);
 void hil_getVned (float* vned);
 void hil_getXYZ (float* xyz);
