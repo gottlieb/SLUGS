@@ -356,12 +356,19 @@ void protParseDecodeGS(unsigned char* fromSPI){
 	} // big outer while (no more bytes)
 }
 
+/*
+	TODO: This function needs to be merged with logData
+	in dataLogger.c and moved to something like
+	apUtils.c
+	
+*/
+
 void prepareTelemetry( unsigned char* dataOut){
 	unsigned char rawSentence[35];
 	
 	// sample period variable
 	static unsigned char sampleTelemetry = 1;
-	static unsigned char telemetryBuf [35];
+	static unsigned char telemetryBuf [37];
 	
 	// temp var to store the assembled message
 	unsigned char i;
@@ -501,7 +508,7 @@ void prepareTelemetry( unsigned char* dataOut){
 				rawSentence[22]= xyzControlData.VZ.chData[2]	;	
 				rawSentence[23]= xyzControlData.VZ.chData[3]	;	
 						
-				// assemble the Diag data for protocol sending
+				// assemble the XYZ data for protocol sending
 				assembleMsg(&rawSentence[0], XYZMSG_LEN, XYZMSG_ID, telemetryBuf);
 
 				// add it to the out Array
@@ -531,7 +538,16 @@ void prepareTelemetry( unsigned char* dataOut){
 				rawSentence[15] =	rawControlData.magY.chData[1];	  
 				rawSentence[16] =	rawControlData.magZ.chData[0];	  
 				rawSentence[17] =	rawControlData.magZ.chData[1];	
-	
+				// included in SLUGS MKII
+				rawSentence[18] =	rawControlData.baro.chData[0];	  
+				rawSentence[19] =	rawControlData.baro.chData[1];	
+				rawSentence[20] =	rawControlData.pito.chData[0];	  
+				rawSentence[21] =	rawControlData.pito.chData[1];	
+				rawSentence[22] =	rawControlData.powr.chData[0];	  
+				rawSentence[23] =	rawControlData.powr.chData[1];
+				rawSentence[24] =	rawControlData.ther.chData[0];	  
+				rawSentence[25] =	rawControlData.ther.chData[1];
+
 				// assemble the Attitude data for protocol sending
 				assembleMsg(&rawSentence[0], RAWMSG_LEN, RAWMSG_ID, telemetryBuf);
 	
@@ -764,7 +780,16 @@ void prepareTelemetry( unsigned char* dataOut){
 					rawSentence[15] =	rawControlData.magY.chData[1];	  
 					rawSentence[16] =	rawControlData.magZ.chData[0];	  
 					rawSentence[17] =	rawControlData.magZ.chData[1];	
-				
+					// included in SLUGS MKII
+					rawSentence[18] =	rawControlData.baro.chData[0];	  
+					rawSentence[19] =	rawControlData.baro.chData[1];	
+					rawSentence[20] =	rawControlData.pito.chData[0];	  
+					rawSentence[21] =	rawControlData.pito.chData[1];	
+					rawSentence[22] =	rawControlData.powr.chData[0];	  
+					rawSentence[23] =	rawControlData.powr.chData[1];
+					rawSentence[24] =	rawControlData.ther.chData[0];	  
+					rawSentence[25] =	rawControlData.ther.chData[1];
+									
 					// assemble the Attitude data for protocol sending
 					assembleMsg(&rawSentence[0], RAWMSG_LEN, RAWMSG_ID, telemetryBuf);
 				
@@ -851,6 +876,15 @@ void prepareTelemetry( unsigned char* dataOut){
 		rawSentence[15] =	rawControlData.magY.chData[1];	  
 		rawSentence[16] =	rawControlData.magZ.chData[0];	  
 		rawSentence[17] =	rawControlData.magZ.chData[1];	
+		// included in SLUGS MKII
+		rawSentence[18] =	rawControlData.baro.chData[0];	  
+		rawSentence[19] =	rawControlData.baro.chData[1];	
+		rawSentence[20] =	rawControlData.pito.chData[0];	  
+		rawSentence[21] =	rawControlData.pito.chData[1];	
+		rawSentence[22] =	rawControlData.powr.chData[0];	  
+		rawSentence[23] =	rawControlData.powr.chData[1];
+		rawSentence[24] =	rawControlData.ther.chData[0];	  
+		rawSentence[25] =	rawControlData.ther.chData[1];		
 	
 		// assemble the Attitude data for protocol sending
 		assembleMsg(&rawSentence[0], RAWMSG_LEN, RAWMSG_ID, telemetryBuf);

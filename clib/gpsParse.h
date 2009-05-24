@@ -21,13 +21,21 @@ in_stream  [1...n-1]	... Incomming GPS Sentence
 in_stream [0] 			...	GPS Sentence Type
 in_stream[n]			... IsValid flag
 */
+#include "apDefinitions.h"
+#include <string.h>
+#include <stdlib.h>
+#include "protDecoder.h"
+
+#if DEBUG
+	#include <stdio.h>
+#endif
 
 #ifdef __cplusplus
        extern "C"{
 #endif
        	
-void gpsParse(unsigned char* inStream, unsigned char * parsedData);
-
+void gpsParse (unsigned char* inStream);
+void getGpsMainData (float* data);
 #ifdef __cplusplus
        }
 #endif

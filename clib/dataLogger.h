@@ -26,9 +26,19 @@
 
 void assembleMsg (unsigned char* rawData , unsigned char size, unsigned char type, unsigned char* protMsg );
 void copyBufferToDMA (unsigned char size);
-void logData (unsigned char* rawData, unsigned char* data4SPI);
+void logData (unsigned char hilOn, unsigned char* data4SPI);
 void hilRead (unsigned char* hilChunk);
 void loggerInit (void);
+void updateRawADCData (short * adcData);
+void updateAirData (float* airData);
+void updateLoadData (unsigned char load, unsigned short mvPower);
+void updateAttitude (float * attitudeData);
+void updatePosition (float * posData);
+void updateTimeStamp (unsigned short timeSt);
+void updatePilotConsole (unsigned short * pilData);
+void updateDiagnosticFl (float* diagFl);
+void updateDiagnosticSh (short* diagSh);
+void updateBias (float * biasData); 
 
 #endif /* _DATALOGGER_H_ */
 

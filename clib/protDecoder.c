@@ -278,10 +278,10 @@ unsigned char getFilterOnOff (void){
 		rawData[6] = 	rawControlData.magX.shData;
 		rawData[7] = 	rawControlData.magY.shData;
 		rawData[8] = 	rawControlData.magZ.shData;
-		rawData[9] = 	(unsigned short)dynTempControlData.stat.flData;
-		rawData[10] = 	(unsigned short)dynTempControlData.dynamic.flData;
-		rawData[11] = 	770;
-		rawData[12] = 	(unsigned short)dynTempControlData.temp.shData;
+		rawData[9] = 	rawControlData.baro.shData;
+		rawData[10] = 	rawControlData.pito.shData;
+		rawData[11] = 	rawControlData.powr.shData;
+		rawData[12] = 	rawControlData.ther.shData;
 	#endif
 }
 
@@ -405,7 +405,7 @@ static tPilotData		cppilControlData;
 	         cpgpsControlData.newValue);
 
 	    // Print Raw Data
-	    fprintf(outFile, "%d,%d,%d,%d,%d,%d,%d,%d,%d,",
+	    fprintf(outFile, "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,",
 	         cprawControlData.gyroX.shData,
 	         cprawControlData.gyroY.shData,
 	         cprawControlData.gyroZ.shData,
@@ -414,7 +414,11 @@ static tPilotData		cppilControlData;
 	         cprawControlData.accelZ.shData,
 	         cprawControlData.magX.shData,
 	         cprawControlData.magY.shData,
-	         cprawControlData.magZ.shData);
+	         cprawControlData.magZ.shData,
+	         cprawControlData.baro.shData,
+	         cprawControlData.pito.shData,
+	         cprawControlData.powr.shData,
+	         cprawControlData.ther.shData);
 
 
     // Print Bias Data

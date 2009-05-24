@@ -114,6 +114,15 @@ void updateStates(unsigned char * completeSentence){
 			rawControlData.magY.chData[1]	= completeSentence[19];	  
 			rawControlData.magZ.chData[0]	= completeSentence[20];	  
 			rawControlData.magZ.chData[1]	= completeSentence[21];	  
+			// included in SLUGS MKII
+			rawControlData.baro.chData[0]	= completeSentence[22];	  
+			rawControlData.baro.chData[1]	= completeSentence[23];	 
+			rawControlData.pito.chData[0]	= completeSentence[24];	  
+			rawControlData.pito.chData[1]	= completeSentence[25];	 
+			rawControlData.powr.chData[0]	= completeSentence[26];	  
+			rawControlData.powr.chData[1]	= completeSentence[27];
+			rawControlData.ther.chData[0]	= completeSentence[28];	  
+			rawControlData.ther.chData[1]	= completeSentence[29];	 
 		break;
 		case ATTMSG_ID:
 			attitudeControlData.roll.chData[0]		= completeSentence[4];

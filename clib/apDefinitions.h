@@ -72,7 +72,7 @@ and data types.
 
 #define RAW_START 		31
 #define RAWMSG_ID		3
-#define RAWMSG_LEN		18
+#define RAWMSG_LEN		26
 
 #define ATT_START		49
 #define ATTMSG_ID		4
@@ -300,6 +300,11 @@ typedef struct tRawData{
 	tShortToChar 	magX;
 	tShortToChar 	magY;
 	tShortToChar 	magZ;
+	// included in SLUGS MKII
+	tShortToChar 	baro;
+	tShortToChar 	pito;
+	tShortToChar 	powr;
+	tShortToChar 	ther;
 }tRawData;
 
 typedef struct tAttitudeData{
