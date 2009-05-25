@@ -172,6 +172,7 @@ void readMag (unsigned char idx, short val){
 }
 
 void getMag (short * magVals){
+	static unsigned char readMag = 1;
 	
 	magVals[0] =  rawControlData.magX.shData;
 	magVals[1] =  rawControlData.magY.shData;
@@ -179,7 +180,11 @@ void getMag (short * magVals){
 	//printToUart2("%u\t %u\t %u\n\r",magVals[0], magVals[1],magVals[2]);
 	
 	// After reporting the data start the reading for the next cycle
-	startMagRead();
+	// called every other time since the mags refresh @ 50 Hz
+	if (readMag) {startMagRead();}
+	
+	// flip the read flag
+	readMag = (readMag == 1)? 0: 1;
 }
 
 // I2C Primitives

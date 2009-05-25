@@ -425,7 +425,7 @@ void logData (unsigned char hilOn, unsigned char* data4SPI){
 		break;
 	}
 	
-	memset(tmpBuf, 0,  sizeof(tmpBuf);
+	memset(tmpBuf, 0,  sizeof(tmpBuf));
 	
 	// Attitude data. Gets included every sample time
 	// ==============================================
@@ -646,7 +646,7 @@ void updateAirData (float* airData) {
 
 void updateLoadData (unsigned char load, unsigned short mvPower) {
 	statusControlData.load = load;
-	statusControlData.bVolt.shData = mvPower;
+	statusControlData.bVolt.usData = mvPower;
 }
 
 void updateAttitude (float * attitudeData) {
@@ -672,11 +672,11 @@ void updatePosition (float * posData) {
 }
 
 void updatePilotConsole (unsigned short * pilData) {
-	pilControlData.dt.shData			= pilData[0];
-	pilControlData.dla.shData			= pilData[1];
-	pilControlData.dra.shData			= pilData[2];
-	pilControlData.dr.shData			= pilData[3];
-	pilControlData.de.shData			= pilData[4];
+	pilControlData.dt.usData			= pilData[0];
+	pilControlData.dla.usData			= pilData[1];
+	pilControlData.dra.usData			= pilData[2];
+	pilControlData.dr.usData			= pilData[3];
+	pilControlData.de.usData			= pilData[4];
 }
 
 void updateDiagnosticFl (float* diagFl) {
