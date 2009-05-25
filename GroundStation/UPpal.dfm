@@ -42,10 +42,10 @@ object FPpal: TFPpal
     Top = 25
     Width = 375
     Height = 668
-    ActivePage = TabSheet1
+    ActivePage = ts_sensors
     Align = alClient
     MultiLine = True
-    TabIndex = 2
+    TabIndex = 6
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth'
@@ -7262,9 +7262,9 @@ object FPpal: TFPpal
       end
       object GroupBox2: TGroupBox
         Left = 7
-        Top = 116
+        Top = 108
         Width = 350
-        Height = 107
+        Height = 173
         Caption = ' Raw Sensor Data '
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -7407,8 +7407,8 @@ object FPpal: TFPpal
           ShowHint = True
         end
         object Label26: TLabel
-          Left = 176
-          Top = 70
+          Left = 8
+          Top = 103
           Width = 37
           Height = 13
           Hint = 
@@ -7454,6 +7454,82 @@ object FPpal: TFPpal
             'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
             ' which such path is refreshed'
           Caption = 'TimeSt'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label154: TLabel
+          Left = 8
+          Top = 134
+          Width = 27
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'Baro'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label155: TLabel
+          Left = 8
+          Top = 150
+          Width = 27
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'Pitot'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label156: TLabel
+          Left = 176
+          Top = 134
+          Width = 36
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'Therm'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label157: TLabel
+          Left = 176
+          Top = 150
+          Width = 36
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'Power'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -7597,8 +7673,8 @@ object FPpal: TFPpal
           TabOrder = 6
         end
         object et_magy: TStaticText
-          Left = 224
-          Top = 70
+          Left = 56
+          Top = 103
           Width = 105
           Height = 17
           AutoSize = False
@@ -7653,10 +7729,86 @@ object FPpal: TFPpal
           ParentFont = False
           TabOrder = 9
         end
+        object et_baro: TStaticText
+          Left = 56
+          Top = 134
+          Width = 105
+          Height = 17
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = 'No Data Available'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 10
+        end
+        object et_pitot: TStaticText
+          Left = 56
+          Top = 150
+          Width = 105
+          Height = 17
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = 'No Data Available'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 11
+        end
+        object et_therm: TStaticText
+          Left = 224
+          Top = 134
+          Width = 105
+          Height = 17
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = 'No Data Available'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 12
+        end
+        object et_power: TStaticText
+          Left = 224
+          Top = 150
+          Width = 105
+          Height = 17
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = 'No Data Available'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 13
+        end
       end
       object GroupBox9: TGroupBox
         Left = 8
-        Top = 232
+        Top = 284
         Width = 350
         Height = 52
         Caption = ' Air Data '
@@ -7784,7 +7936,7 @@ object FPpal: TFPpal
       end
       object GroupBox10: TGroupBox
         Left = 8
-        Top = 296
+        Top = 341
         Width = 350
         Height = 52
         Caption = 'MCU Status '
@@ -7912,7 +8064,7 @@ object FPpal: TFPpal
       end
       object GroupBox14: TGroupBox
         Left = 8
-        Top = 357
+        Top = 402
         Width = 350
         Height = 47
         Caption = 'Protocol Status'
@@ -7964,7 +8116,7 @@ object FPpal: TFPpal
       end
       object CheckBox1: TCheckBox
         Left = 8
-        Top = 416
+        Top = 455
         Width = 97
         Height = 17
         Caption = 'Fast Update '

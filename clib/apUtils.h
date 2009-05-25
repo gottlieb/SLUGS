@@ -43,7 +43,11 @@ float myCos (float x);
 float myTan (float x);
 float myAcos (float x);
 float myExp (float x);
+
+#ifndef _IN_PC_
 void printToUart2 (const char *fmt, ...);
+#endif
+
 #ifdef __cplusplus
       }
 #endif

@@ -634,9 +634,9 @@ void TFPpal::updateGPSLabels(void){
                       IntToStr(gpsSamples[0].min) + ":" +
                       IntToStr(gpsSamples[0].sec);
 
-   et_lat->Caption = FloatToStr(gpsSamples[0].lat.flData);
-   et_lon->Caption = FloatToStr(gpsSamples[0].lon.flData);
-   et_height->Caption = FloatToStr(gpsSamples[0].height.flData);
+   et_lat->Caption = FormatFloat("0.00000",gpsSamples[0].lat.flData);
+   et_lon->Caption = FormatFloat("0.00000",gpsSamples[0].lon.flData);
+   et_height->Caption = FormatFloat("0.00",gpsSamples[0].height.flData);
 
    et_cog->Caption = IntToStr(gpsSamples[0].cog.usData);
    et_sog->Caption = IntToStr(gpsSamples[0].sog.usData);
@@ -651,17 +651,22 @@ void TFPpal::updateGPSLabels(void){
 void TFPpal::updateRawLabels(void){
    // update the display
    // ========= Raw =============
-   et_accelx->Caption = IntToStr(rawSample.accelX.usData);
-   et_accely->Caption = IntToStr(rawSample.accelY.usData);
-   et_accelz->Caption = IntToStr(rawSample.accelZ.usData);
+   et_accelx->Caption = IntToStr(rawSample.accelX.shData);
+   et_accely->Caption = IntToStr(rawSample.accelY.shData);
+   et_accelz->Caption = IntToStr(rawSample.accelZ.shData);
 
-   et_gyrox->Caption = IntToStr(rawSample.gyroX.usData);
-   et_gyroy->Caption = IntToStr(rawSample.gyroY.usData);
-   et_gyroz->Caption = IntToStr(rawSample.gyroZ.usData);
+   et_gyrox->Caption = IntToStr(rawSample.gyroX.shData);
+   et_gyroy->Caption = IntToStr(rawSample.gyroY.shData);
+   et_gyroz->Caption = IntToStr(rawSample.gyroZ.shData);
 
-   et_magx->Caption = IntToStr(rawSample.magX.usData);
-   et_magy->Caption = IntToStr(rawSample.magY.usData);
-   et_magz->Caption = IntToStr(rawSample.magZ.usData);
+   et_magx->Caption = IntToStr(rawSample.magX.shData);
+   et_magy->Caption = IntToStr(rawSample.magY.shData);
+   et_magz->Caption = IntToStr(rawSample.magZ.shData);
+
+   et_baro->Caption = IntToStr(rawSample.baro.shData);
+   et_pitot->Caption = IntToStr(rawSample.pito.shData);
+   et_therm->Caption = IntToStr(rawSample.ther.shData);
+   et_power->Caption = IntToStr(rawSample.powr.shData);
 }
 
 void TFPpal::updateAttitudeLabels(void){
@@ -684,23 +689,23 @@ void TFPpal::updateAttitudeLabels(void){
    et_psi->Caption = FloatToStr(RAD2DEG*attitudeSample.yaw.flData);*/
 
 
-   et_x->Caption = FloatToStr(xyzSample.Xcoord.flData);
-   et_y->Caption = FloatToStr(xyzSample.Ycoord.flData);
-   et_z->Caption = FloatToStr(xyzSample.Zcoord.flData);
+   et_x->Caption = FormatFloat("0.00",xyzSample.Xcoord.flData);
+   et_y->Caption = FormatFloat("0.00",xyzSample.Ycoord.flData);
+   et_z->Caption = FormatFloat("0.00",xyzSample.Zcoord.flData);
 
    gr_height->Value = xyzSample.Zcoord.flData;
 
-   et_vx->Caption = FloatToStr(xyzSample.VX.flData);
-   et_vy->Caption = FloatToStr(xyzSample.VY.flData);
-   et_vz->Caption = FloatToStr(xyzSample.VZ.flData);
+   et_vx->Caption = FormatFloat("0.00",xyzSample.VX.flData);
+   et_vy->Caption = FormatFloat("0.00",xyzSample.VY.flData);
+   et_vz->Caption = FormatFloat("0.00",xyzSample.VZ.flData);
 
-   et_p->Caption = FloatToStr(RAD2DEG*attitudeSample.p.flData);
-   et_q->Caption = FloatToStr(RAD2DEG*attitudeSample.q.flData);
-   et_r->Caption = FloatToStr(RAD2DEG*attitudeSample.r.flData);
+   et_p->Caption = FormatFloat("0.0000",RAD2DEG*attitudeSample.p.flData);
+   et_q->Caption = FormatFloat("0.0000",RAD2DEG*attitudeSample.q.flData);
+   et_r->Caption = FormatFloat("0.0000",RAD2DEG*attitudeSample.r.flData);
 
-   et_phi->Caption = FloatToStr(RAD2DEG*attitudeSample.roll.flData);
-   et_theta->Caption = FloatToStr(RAD2DEG*attitudeSample.pitch.flData);
-   et_psi->Caption = FloatToStr(RAD2DEG*attitudeSample.yaw.flData);
+   et_phi->Caption = FormatFloat("0.0000",RAD2DEG*attitudeSample.roll.flData);
+   et_theta->Caption = FormatFloat("0.0000",RAD2DEG*attitudeSample.pitch.flData);
+   et_psi->Caption = FormatFloat("0.0000",RAD2DEG*attitudeSample.yaw.flData);
 
    et_timeStamp->Caption =  IntToStr(attitudeSample.timeStamp.usData);
 }
@@ -708,36 +713,36 @@ void TFPpal::updateAttitudeLabels(void){
 void TFPpal::updatePlots(void){
   switch (rg_plot->ItemIndex){
      case 0:
-       mt_x->DigitCh1 = rawSample.accelX.usData;
-       mt_y->DigitCh1 = rawSample.accelY.usData;
-       mt_z->DigitCh1 = rawSample.accelZ.usData;
+       mt_x->DigitCh1 = rawSample.accelX.shData;
+       mt_y->DigitCh1 = rawSample.accelY.shData;
+       mt_z->DigitCh1 = rawSample.accelZ.shData;
     break;
     case 1:
-       mt_x->DigitCh1 = rawSample.gyroX.usData;
-       mt_y->DigitCh1 = rawSample.gyroY.usData;
-       mt_z->DigitCh1 = rawSample.gyroZ.usData;
+       mt_x->DigitCh1 = rawSample.gyroX.shData;
+       mt_y->DigitCh1 = rawSample.gyroY.shData;
+       mt_z->DigitCh1 = rawSample.gyroZ.shData;
     break;
     case 2:
-       mt_x->DigitCh1 = rawSample.magX.usData;
-       mt_y->DigitCh1 = rawSample.magY.usData;
-       mt_z->DigitCh1 = rawSample.magZ.usData;
+       mt_x->DigitCh1 = rawSample.magX.shData;
+       mt_y->DigitCh1 = rawSample.magY.shData;
+       mt_z->DigitCh1 = rawSample.magZ.shData;
      break;
   } 
 
 }
 
 void TFPpal::updateBiasLabels(void){
-  et_axb->Caption = FloatToStr(biasSample.axb.flData);
-  et_ayb->Caption = FloatToStr(biasSample.ayb.flData);
-  et_azb->Caption = FloatToStr(biasSample.azb.flData);
-  et_gxb->Caption = FloatToStr(biasSample.gxb.flData);
-  et_gyb->Caption = FloatToStr(biasSample.gyb.flData);
-  et_gzb->Caption = FloatToStr(biasSample.gzb.flData);
+  et_axb->Caption = FormatFloat("0.0000",biasSample.axb.flData);
+  et_ayb->Caption = FormatFloat("0.0000",biasSample.ayb.flData);
+  et_azb->Caption = FormatFloat("0.0000",biasSample.azb.flData);
+  et_gxb->Caption = FormatFloat("0.0000",RAD2DEG*biasSample.gxb.flData);
+  et_gyb->Caption = FormatFloat("0.0000",RAD2DEG*biasSample.gyb.flData);
+  et_gzb->Caption = FormatFloat("0.0000",RAD2DEG*biasSample.gzb.flData);
 
 }
 void TFPpal::updateDynLabels(void){
-  et_dyn->Caption = FloatToStr( dynSample.dynamic.flData);
-  et_sta->Caption = FloatToStr( dynSample.stat.flData);
+  et_dyn->Caption = FormatFloat("0.00",dynSample.dynamic.flData);
+  et_sta->Caption = FormatFloat("0.00",dynSample.stat.flData);
   et_temp->Caption = IntToStr( dynSample.temp.shData);
 
   // sensor mcu status
@@ -748,9 +753,9 @@ void TFPpal::updateDynLabels(void){
   gr_batt->Value = statusSample.bVolt.usData;
 }
 void TFPpal::updateDiagLabels(void){
-  et_fl1->Caption = FloatToStr(diagSample.fl1.flData);
-  et_fl2->Caption = FloatToStr(diagSample.fl2.flData);
-  et_fl3->Caption = FloatToStr(diagSample.fl3.flData);
+  et_fl1->Caption = FormatFloat("0.0000",diagSample.fl1.flData);
+  et_fl2->Caption = FormatFloat("0.0000",diagSample.fl2.flData);
+  et_fl3->Caption = FormatFloat("0.0000",diagSample.fl3.flData);
   et_sh1->Caption = IntToStr( diagSample.sh1.shData);
   et_sh2->Caption = IntToStr( diagSample.sh2.shData);
   et_sh3->Caption = IntToStr( diagSample.sh3.shData);
@@ -769,11 +774,11 @@ void TFPpal::updatePilotLabels(void){
   gr_de->Value = StrToInt(et_de->Caption);
   */
 
-  et_dla->Caption = pilControlSample.dla.usData;
-  et_dt->Caption =  pilControlSample.dt.usData;
-  et_dra->Caption = pilControlSample.dra.usData;
-  et_de->Caption =  pilControlSample.de.usData;
-  et_dr->Caption =  pilControlSample.dr.usData;
+  et_dla->Caption = IntToStr(pilControlSample.dla.usData);
+  et_dt->Caption =  IntToStr(pilControlSample.dt.usData);
+  et_dra->Caption = IntToStr(pilControlSample.dra.usData);
+  et_de->Caption =  IntToStr(pilControlSample.de.usData);
+  et_dr->Caption =  IntToStr(pilControlSample.dr.usData);
 }
 
 
@@ -1600,7 +1605,7 @@ void  TFPpal::processUdpMsg (unsigned char * buffer)
   assembleMsg(&buffer[HIL_RAW_START],RAWMSG_LEN,RAWMSG_ID,&hilMsg[0]);
   // Send the data
   cp_hil->PutBlock(&hilMsg[0],(RAWMSG_LEN+7));
-  
+
 
   // Att Data Sentence
   // =================
@@ -2463,4 +2468,5 @@ void __fastcall TFPpal::bt_allgainsClick(TObject *Sender)
  }
 }
 //---------------------------------------------------------------------------
+
 

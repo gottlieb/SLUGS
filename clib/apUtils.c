@@ -741,7 +741,7 @@ float myExp(float x){
 // ================================
 //    Debug Functions
 // ================================
-
+#ifndef _IN_PC_
 void printToUart2 (const char *fmt, ...){
 	va_list ap;
 	char buf [300];
@@ -751,3 +751,4 @@ void printToUart2 (const char *fmt, ...){
 	va_end (ap);
 	putsUART2((unsigned int*)buf);
 }
+#endif

@@ -663,6 +663,14 @@ __published:	// IDE-managed Components
         TSpeedButton *bt_setallcommands;
         TSpeedButton *bt_getallcommands;
     TSpeedButton *bt_allgains;
+        TLabel *Label154;
+        TStaticText *et_baro;
+        TLabel *Label155;
+        TStaticText *et_pitot;
+        TLabel *Label156;
+        TStaticText *et_therm;
+        TLabel *Label157;
+        TStaticText *et_power;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
