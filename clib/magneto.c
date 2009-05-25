@@ -61,8 +61,7 @@ void magDebugUartConfig(void){
 }
 
 void magnetoInit (void){
-	magDebugUartConfig();
-	
+	//magDebugUartConfig();
 	//printToUart2("Starting %s\n\r","sequence");
 	
 	

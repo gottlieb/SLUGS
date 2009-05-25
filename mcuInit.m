@@ -6,17 +6,17 @@ T = 0.01;
 
 % Straight Gains
 % ==============
-cubeGyroGain = 0.01;
-cubeAccelGain = 0.01;
+cubeGyroGain = .07326*pi/180;
+cubeAccelGain = (2.522e-3)*9.815;
 
 BaroGpsHDif = 20.0;
 
 % Temp Coefficients
 % =================
-baroTempK = 1;
+baroTempK = 0;
 baroMeanTemp = 0;
 
-magTempK = 1;
+magTempK = 0;
 magMeanTemp = 0;
 
 
@@ -25,7 +25,7 @@ magMeanTemp = 0;
 baroScale  = 1;
 baroOffset = 0;
 
-magScale  = 1;
+magScale  = 0.3418;
 magOffset = 0;
 
 pitotScale  = 1;

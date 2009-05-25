@@ -12,7 +12,9 @@
 #include "gpsSplit.h"
 #include "bufferedUART.h" //
 #include "dataLogger.h"
-#include "protDecoder.h"        
+#include "protDecoder.h"   
+#include "magneto.h"
+#include "adisCube.h"
 
 void spiMasterInit (void);
 void spiSend (unsigned char * data2Send);

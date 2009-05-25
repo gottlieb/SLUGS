@@ -68,6 +68,9 @@ void sensorMCUInit(void){
 	loggerInit();
 	spiMasterInit();
 	protParserInit();
+	magnetoInit();
+	cubeInit();
+	
 	
 	aknControlData.sensorReboot =1;
 }

@@ -692,10 +692,10 @@ void updateDiagnosticSh (short* diagSh) {
 }
 
 void updateBias (float * biasData) {
-	biasControlData.axb.flData		= biasData[0];
-	biasControlData.ayb.flData		= biasData[1];
-	biasControlData.azb.flData		= biasData[2];
-	biasControlData.gxb.flData		= biasData[3];
-	biasControlData.gyb.flData		= biasData[4];
-	biasControlData.gzb.flData		= biasData[5];
+	biasControlData.gxb.flData		= biasData[0];
+	biasControlData.gyb.flData		= biasData[1];
+	biasControlData.gzb.flData		= biasData[2];
+	biasControlData.axb.flData		= biasData[3];
+	biasControlData.ayb.flData		= biasData[4];
+	biasControlData.azb.flData		= biasData[5];
 }

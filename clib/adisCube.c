@@ -65,6 +65,11 @@ void cubeInit (void){
 	// Dont Sleep
 	write2Cube(W_SLP_CNT);
 	printToUart2("Starting %s\n\r","No Sleep");
+	// Correct Y Accel
+	write2Cube(W_YACC_OFFSET);
+	// Correct Z Accel
+	write2Cube(W_ZACC_OFFSET);
+	
 	// Start a full calibration
 	write2Cube(W_COMMAND_FULLCAL);
 	printToUart2("Starting %s\n\r","Full Cal");
