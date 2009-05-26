@@ -21,7 +21,9 @@ void setDiagnosticShort (short* shValues);
 void getWP (unsigned char idx, float* WPpos);
 void setDiagnosticAb (float * flValues);
 void setDiagnosticGb (float * flValues);
-       	
+unsigned char getApControlType (void);
+unsigned char getPassValues (unsigned char * pasVals);
+
 #ifdef __cplusplus
        }
 #endif

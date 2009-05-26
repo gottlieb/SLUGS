@@ -76,3 +76,13 @@ void setDiagnosticGb(float * flValues){
 	biasControlData.gzb.flData = flValues[2];	
 }
 
+unsigned char getApControlType (void) {
+	return apsControlData.controlType;
+}
+
+unsigned char getPassValues (unsigned char * pasVals){
+	pasVals[0] = apsControlData.dt_pass;
+	pasVals[1] = apsControlData.dla_pass;
+	pasVals[2] = apsControlData.dr_pass;
+	pasVals[3] = apsControlData.dle_pass;
+}

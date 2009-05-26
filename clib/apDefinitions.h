@@ -152,11 +152,11 @@ and data types.
 #define COMTYPE_ID		4
 
 // Control Types
-#define CTRL_TYPE_MANUAL	1
-#define CTRL_TYPE_AP_COMM	2
-#define CTRL_TYPE_AP_WP		3
-#define CTRL_TYPE_PASS		4
-#define CTRL_TYPE_SEL_PIL	5
+#define CTRL_TYPE_MANUAL	1		// Pilot in full control of aircraft
+#define CTRL_TYPE_AP_COMM	2		// Low level commands: airspeed, height and turnrate
+#define CTRL_TYPE_AP_WP		3		// Waypoint following
+#define CTRL_TYPE_PASS		4		// Passthrough the commands from the pilot console
+#define CTRL_TYPE_SEL_PIL	5		// Pass some from the pilot and some from the AP
 #define CTRL_TYPE_SEL_AP	6
 
 // Commands to AP ids
@@ -429,14 +429,14 @@ typedef struct tAPStatusData{
 	unsigned char	beaconStatus;
 	unsigned char 	hilStatus;
 	
-	char			dt_pass;
-	char			dla_pass;
-	char			dra_pass;
-	char			dr_pass;
-	char			dle_pass;
-	char 			dre_pass;
-	char			dlf_pass;
-	char			drf_pass;
+	unsigned char	dt_pass;
+	unsigned char	dla_pass;
+	unsigned char	dra_pass;
+	unsigned char	dr_pass;
+	unsigned char	dle_pass;
+	unsigned char 	dre_pass;
+	unsigned char	dlf_pass;
+	unsigned char	drf_pass;
 }tAPStatusData;
 
 
