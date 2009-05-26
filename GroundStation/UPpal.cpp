@@ -820,6 +820,11 @@ unsigned char i;
 void TFPpal::updateStatus(void){
    // update Status Panel
    et_status ->Caption = "Status: " +  str_modes[apsSample.controlType];
+   if (apsSample.controlType != rg_modes->Tag ) {
+      pn_status->Color = clRed;
+   } else {
+      pn_status->Color = clActiveBorder;
+   }
 
    // update the passtrough config
    cb_repptpdt->Checked = apsSample.dt_pass;
@@ -2240,21 +2245,24 @@ void __fastcall TFPpal::cb_stat1Click(TObject *Sender)
 void __fastcall TFPpal::rb_manualClick(TObject *Sender)
 {
  if (rb_manual->Checked == true){
-    rg_modes->Caption = " Manual ";
+    /*rg_modes->Caption = " Manual ";
     rg_modes->Items->Clear();
     rg_modes->Items->Add("Pilot Control");
     rg_modes->Items->Add("Passthrough");
-    rg_modes->Items->Add("Selective Passthrough");
-    rg_modes->Tag = 0;
-    rg_modes->ItemIndex = 0;
+    rg_modes->Items->Add("Selective Passthrough");     */
+    rg_modes->Tag = CTRL_TYPE_MANUAL;
+    rg_modes->Visible = false;
+    pc_commands->ActivePage = ts_none;
  } else {
-    rg_modes->Caption = " Automatic ";
+    rg_modes->Visible = true;
+    /*rg_modes->Caption = " Automatic ";
     rg_modes->Items->Clear();
     rg_modes->Items->Add("Direct Commands");
     rg_modes->Items->Add("Way Point Nav");
-    rg_modes->Items->Add("Selective Passthrough");
-    rg_modes->Tag = 1;
+    rg_modes->Items->Add("Selective Passthrough");*/
+    rg_modes->Tag = CTRL_TYPE_AP_COMM;
     rg_modes->ItemIndex = 0;
+    rg_modesClick(rg_modes);
  }
 }
 //---------------------------------------------------------------------------
@@ -2264,23 +2272,22 @@ void __fastcall TFPpal::rg_modesClick(TObject *Sender)
  switch (((TRadioGroup*)Sender)->ItemIndex){
 
     case 0:
-       if (rg_modes->Tag == 0){
-          pc_commands->ActivePage = ts_none;
-       } else {
           pc_commands->ActivePage = ts_direct;
-       }
+          rg_modes->Tag = CTRL_TYPE_AP_COMM;
     break;
 
     case 1:
-       if (rg_modes->Tag == 0){
-          pc_commands->ActivePage = ts_none;
-       } else {
           pc_commands->ActivePage = ts_wp;
-       }
+          rg_modes->Tag = CTRL_TYPE_AP_WP;
     break;
 
     case 2:
+         pc_commands->ActivePage = ts_none;
+         rg_modes->Tag = CTRL_TYPE_PASS;
+    break;
+    case 3:
        pc_commands->ActivePage = ts_ptpil;
+       rg_modes->Tag = CTRL_TYPE_SEL_PIL;
     break;
  }
 }
@@ -2289,36 +2296,41 @@ void __fastcall TFPpal::rg_modesClick(TObject *Sender)
 void __fastcall TFPpal::bt_modeClick(TObject *Sender)
 {
  unsigned char filtMsg[18];
- unsigned char rawMsg[9], status;
+ unsigned char rawMsg[9];
 
   memset(rawMsg,0,9);
 
-  switch (rg_modes->ItemIndex){
+  if  (rb_manual->Checked == true) {
+       rawMsg[0] = CTRL_TYPE_MANUAL;
+  } else {
+       switch (rg_modes->ItemIndex){
 
-    case 0:
-        status = (rg_modes->Tag == 0)? 1:2;
-    break;
+       case 0:
+            rawMsg[0] = CTRL_TYPE_AP_COMM;
+       break;
 
-    case 1:
-        status = (rg_modes->Tag == 0)? 4:3;
-    break;
+       case 1:
+            rawMsg[0] = CTRL_TYPE_AP_WP;
+       break;
 
-    case 2:
-        status = (rg_modes->Tag == 0)? 5:6;
-    break;
- }
+       case 2:
+            rawMsg[0] = CTRL_TYPE_PASS;
+       break;
 
- rawMsg[0]    =    status;
- if (status >4) {
-   rawMsg[1]    =    (unsigned char)cb_ptpdt->Checked;
-   rawMsg[2]    =    (unsigned char)cb_ptpdla->Checked;;
-   rawMsg[3]    =    (unsigned char)cb_ptpdra->Checked;;
-   rawMsg[4]    =    (unsigned char)cb_ptpdr->Checked;;
-   rawMsg[5]    =    (unsigned char)cb_ptpdle->Checked;;
-   rawMsg[6]    =    (unsigned char)cb_ptpdre->Checked;;
-   rawMsg[7]    =    (unsigned char)cb_ptpdlf->Checked;;
-   rawMsg[8]    =    (unsigned char)cb_ptpdrf->Checked;;
- }
+       case 3:
+            rawMsg[0]    =     CTRL_TYPE_SEL_PIL;
+            rawMsg[1]    =    (unsigned char)cb_ptpdt->Checked;
+            rawMsg[2]    =    (unsigned char)cb_ptpdla->Checked;;
+            rawMsg[3]    =    (unsigned char)cb_ptpdra->Checked;;
+            rawMsg[4]    =    (unsigned char)cb_ptpdr->Checked;;
+            rawMsg[5]    =    (unsigned char)cb_ptpdle->Checked;;
+            rawMsg[6]    =    (unsigned char)cb_ptpdre->Checked;;
+            rawMsg[7]    =    (unsigned char)cb_ptpdlf->Checked;;
+            rawMsg[8]    =    (unsigned char)cb_ptpdrf->Checked;;
+       break;
+
+       }
+  }
 
  assembleMsg(&rawMsg[0],CHSMSG_LEN,CHSMSG_ID,&filtMsg[0]);
 
@@ -2468,5 +2480,6 @@ void __fastcall TFPpal::bt_allgainsClick(TObject *Sender)
  }
 }
 //---------------------------------------------------------------------------
+
 
 

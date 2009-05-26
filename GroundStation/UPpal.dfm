@@ -1,6 +1,6 @@
 object FPpal: TFPpal
-  Left = 247
-  Top = 26
+  Left = 371
+  Top = 32
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 
@@ -42,10 +42,10 @@ object FPpal: TFPpal
     Top = 25
     Width = 375
     Height = 668
-    ActivePage = ts_sensors
+    ActivePage = ts_commands
     Align = alClient
     MultiLine = True
-    TabIndex = 6
+    TabIndex = 5
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth'
@@ -6742,11 +6742,12 @@ object FPpal: TFPpal
         end
       end
       object rg_modes: TRadioGroup
+        Tag = 1
         Left = 8
         Top = 72
         Width = 337
         Height = 89
-        Caption = ' Manual '
+        Caption = ' Automatic'
         Columns = 2
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -6755,11 +6756,13 @@ object FPpal: TFPpal
         Font.Style = [fsBold]
         ItemIndex = 0
         Items.Strings = (
-          'Pilot Control'
+          'Direct Commands'
+          'Way Point Nav'
           'Passthrough'
           'Selective Passthrough')
         ParentFont = False
         TabOrder = 4
+        Visible = False
         OnClick = rg_modesClick
       end
       object pn_mode: TPanel
@@ -6780,7 +6783,7 @@ object FPpal: TFPpal
       end
       object Panel3: TPanel
         Left = 8
-        Top = 200
+        Top = 488
         Width = 337
         Height = 38
         BevelOuter = bvNone
