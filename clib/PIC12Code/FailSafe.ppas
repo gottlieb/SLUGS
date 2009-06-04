@@ -1,0 +1,111 @@
+program FailSafe;
+var
+per_count, tmp, tmp2: word;
+
+
+procedure interrupt;
+begin
+    PIE1.CCP1IE := 0;   // Disable CCP1 interrupt (DataSheet)
+    if CCP1CON = 5 then // rising edge
+     begin
+          CCP1CON:= 0;
+          TMR1L:= 0;
+          TMR1H:= 0;
+          CCP1CON:= 4; // trigger on falling edge
+          //GPIO.0 := 1;
+          //GPIO.1 := 0;
+      end
+      else
+      begin
+          tmp := CCPR1H;
+          tmp := tmp shl 8;
+          tmp2:= CCPR1L;
+          per_count :=  tmp or tmp2;
+          CCP1CON:= 0;
+          CCP1CON:= 5; // trigger on falling edge
+          //GPIO.0 := 0;
+          //GPIO.1 := 1;
+      end;
+     {CCP1CON:= 0;
+     GPIO.1 := 0;
+     Delay_ms(1000);
+     GPIO.1 := 1;
+     Delay_ms(1000);
+     CCP1CON:= 5;
+    //per_count := 200;}
+    PIR1.CCP1IF := 0;
+    PIE1.CCP1IE := 1; // Enables the CCP1 interrupt
+end;
+
+begin
+// Period counter
+per_count := 0;
+
+// Configure the clock
+OSCCON := %01110000;
+
+// Disable ADC
+ADCON0.ADON := 0;
+ANSEL:= 0;
+
+// Disable the comparator
+CMCON0.CM2 := 1;
+CMCON0.CM1 := 1;
+CMCON0.CM0 := 1;
+
+// Configure the GPIO
+TRISIO := %00101100;
+{
+ GP5 = Not Connected
+ GP4 = PICSTATUS LED
+ GP3 = Not Used
+ GP2 = CCP1 Failsafe Monitor
+ GP1 = APOFFRXON
+ GP0 = APONRXOFF
+}
+
+OPTION_REG.7 := 0; // Enable pullups
+WPU:= %00110111;   // configure the pullups
+
+
+// Configure the CCP1
+CCP1CON:= 5;// Every rising edge
+CCPR1H := 0;
+CCPR1L := 0; // Clear the CCP1 Timer registers
+
+// Configure Timer1
+T1CON.TMR1CS  := 0; // fosc/4
+T1CON.T1CKPS1 := 1;
+T1CON.T1CKPS0 := 1; // 8:1 prescale T1 period = 4 uS
+TMR1L:= 0;
+TMR1H:= 0;          // Clear the timer count
+T1CON.TMR1ON  := 1; // turn the timer on
+
+// Configure the interrupts
+PIR1.CCP1IF := 0;   // Clear the flag to be sure
+PIE1.CCP1IE := 1;   // Enable the CCP1 interrup
+INTCON.PEIE := 1;   // Enable Periphereal Interrupts
+INTCON.GIE  := 1;   // Enable the Interrupts
+
+
+while (1) do
+begin
+     if per_count >= 280 then
+     begin
+          GPIO.0 := 1;
+          GPIO.1 := 0;
+     end
+     else
+     begin
+          GPIO.0 := 0;
+          GPIO.1 := 1;
+     end;
+     GPIO.4 := 0;
+     Delay_ms(100);
+     GPIO.4 := 1;
+     Delay_ms(100);
+end;
+
+
+
+end.
