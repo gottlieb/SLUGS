@@ -21,7 +21,7 @@
 // mcu diagnostic  data. Note that you can only
 // use diagnostic data from 1 MCU at a time
 // 
-//#define USE_SENSOR_MCU_DIAG		0
+//#define USE_SENSOR_MCU_DIAG		1
 
 	
 unsigned char getChecksum(unsigned char* sentence, unsigned char size);

@@ -180,7 +180,7 @@ void getMag (short * magVals){
 	
 	// After reporting the data start the reading for the next cycle
 	// called every other time since the mags refresh @ 50 Hz
-	if (readMag) {startMagRead();}
+	//if (readMag) {startMagRead();}
 	
 	// flip the read flag
 	readMag = (readMag == 1)? 0: 1;

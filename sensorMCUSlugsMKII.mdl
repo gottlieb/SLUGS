@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.713"
+    ComputedModelVersion    "1.714"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon May 25 11:16:39 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:713>"
+  LastModifiedDate	  "Thu Jun 18 20:24:13 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:714>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -832,7 +832,7 @@ Model {
   }
   System {
     Name		    "sensorMCUSlugsMKII"
-    Location		    [-1088, 107, -58, 954]
+    Location		    [206, 99, 1236, 929]
     Open		    off
     ModelBrowserVisibility  on
     ModelBrowserWidth	    212
@@ -2455,6 +2455,41 @@ Model {
 	    }
 	    Block {
 	      BlockType		      Reference
+	      Name		      "GetRawMsg\n[protDecoder.c]"
+	      Tag		      "dsPIC_dsPIC_CFunctionCall"
+	      Ports		      [1, 1]
+	      Position		      [385, 120, 510, 160]
+	      BackgroundColor	      "orange"
+	      List {
+		ListType		RTWdata
+		FctDeclaration		"extern void hil_getRawRead(int16_T* y"
+"1);"
+		FctCall			"hil_getRawRead(*%y1);"
+		fctName			"hil_getRawRead"
+		INPUT_SIZE		"1"
+		OUTPUT_SIZE		"13"
+		NBR_INPUT		"0"
+		NBR_OUTPUT		"1"
+	      }
+	      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+	      SourceType	      "C Function Call"
+	      fctName		      "'hil_getRawRead'"
+	      INPUT_SIZE	      "1"
+	      INPUT1		      "--"
+	      INPUT2		      "--"
+	      INPUT3		      "--"
+	      OUTPUT_SIZE	      "13"
+	      OUTPUT1		      "int16"
+	      SampleTime	      "0.01"
+	      InputType		      "[ ]"
+	      OutputType	      "[ 3 ]"
+	      FctDeclaration	      "extern void hil_getRawRead(int16_T* y1)"
+";"
+	      FctCall		      "hil_getRawRead(*%y1);"
+	      OrderingInOutPopup      "Input"
+	    }
+	    Block {
+	      BlockType		      Reference
 	      Name		      "Parser/Decoder\n[protDecoder.c]"
 	      Tag		      "dsPIC_dsPIC_CFunctionCall"
 	      Ports		      [1, 1]
@@ -2487,41 +2522,6 @@ Model {
 ");"
 	      FctCall		      "protParseDecode(*%u1);"
 	      OrderingInOutPopup      "Output"
-	    }
-	    Block {
-	      BlockType		      Reference
-	      Name		      "Read Data from HIL\n[protDecoder.c]"
-	      Tag		      "dsPIC_dsPIC_CFunctionCall"
-	      Ports		      [1, 1]
-	      Position		      [385, 120, 510, 160]
-	      BackgroundColor	      "orange"
-	      List {
-		ListType		RTWdata
-		FctDeclaration		"extern void hil_getRawRead(int16_T* y"
-"1);"
-		FctCall			"hil_getRawRead(*%y1);"
-		fctName			"hil_getRawRead"
-		INPUT_SIZE		"1"
-		OUTPUT_SIZE		"13"
-		NBR_INPUT		"0"
-		NBR_OUTPUT		"1"
-	      }
-	      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-	      SourceType	      "C Function Call"
-	      fctName		      "'hil_getRawRead'"
-	      INPUT_SIZE	      "1"
-	      INPUT1		      "--"
-	      INPUT2		      "--"
-	      INPUT3		      "--"
-	      OUTPUT_SIZE	      "13"
-	      OUTPUT1		      "int16"
-	      SampleTime	      "0.01"
-	      InputType		      "[ ]"
-	      OutputType	      "[ 3 ]"
-	      FctDeclaration	      "extern void hil_getRawRead(int16_T* y1)"
-";"
-	      FctCall		      "hil_getRawRead(*%y1);"
-	      OrderingInOutPopup      "Input"
 	    }
 	    Block {
 	      BlockType		      Reference
@@ -2565,7 +2565,7 @@ Model {
 	      BusOutputAsStruct	      off
 	    }
 	    Line {
-	      SrcBlock		      "Read Data from HIL\n[protDecoder.c]"
+	      SrcBlock		      "GetRawMsg\n[protDecoder.c]"
 	      SrcPort		      1
 	      DstBlock		      "Raw Msg"
 	      DstPort		      1
@@ -2579,7 +2579,7 @@ Model {
 	    Line {
 	      SrcBlock		      "Parser/Decoder\n[protDecoder.c]"
 	      SrcPort		      1
-	      DstBlock		      "Read Data from HIL\n[protDecoder.c]"
+	      DstBlock		      "GetRawMsg\n[protDecoder.c]"
 	      DstPort		      1
 	    }
 	  }
@@ -2596,7 +2596,7 @@ Model {
 	  System {
 	    Name		    "Sensor Suite"
 	    Location		    [-1179, 66, -149, 913]
-	    Open		    on
+	    Open		    off
 	    ModelBrowserVisibility  on
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -2872,7 +2872,7 @@ Model {
 	      System {
 		Name			"If no HIL then\nRead all the\nSensors"
 		Location		[-1179, 66, -149, 913]
-		Open			off
+		Open			on
 		ModelBrowserVisibility	on
 		ModelBrowserWidth	200
 		ScreenColor		"white"

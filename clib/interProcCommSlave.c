@@ -88,17 +88,17 @@ void readIpc (unsigned char* bufferedData){
 	unsigned int availBytes = 0, sendMore = 0;
 	unsigned char failureTrue = 0;
 	
-	static unsigned long long timeStamp = 0;
+	//static unsigned long long timeStamp = 0;
 	
 	
 	// Set the output size accordingly
 	bufferedData[0] = (tmpLen > MAXLOGLEN)? MAXLOGLEN: tmpLen;
 	
 	// TODO: Remove debugging info from readIPC
-	if ((timeStamp % 1000)== 0){
-		printToUart2("T: %6.0f\n\r\0",(float) timeStamp*0.01);
-	}
-	timeStamp++;
+	//if ((timeStamp % 1000)== 0){
+	//	printToUart2("T: %6.0f\n\r\0",(float) timeStamp*0.01);
+	//}
+	//timeStamp++;
 		
 	// write the data 
 	for(i = 1; i <= bufferedData[0]; i += 1 )
