@@ -368,6 +368,10 @@ static unsigned char    cpfilterControlData;
 static tAknData		    cpaknControlData;
 static tPilotData		cppilControlData;  
 
+static tPWMData			cppwmControlData;  
+static tAPStatusData	cpapsControlData;  
+static tCommandsData	cpcomControlData;  
+
 	if (cpattitudeControlData.timeStamp.usData != attitudeControlData.timeStamp.usData) {
 		// the time changed, so print the known state in the last sample time
 	    // Print Attitude and Position
@@ -459,8 +463,48 @@ static tPilotData		cppilControlData;
 	         cppilControlData.dr.usData,
 	         cppilControlData.de.usData);
 
-	    // Add new line
-	    fprintf(outFile, "\n");
+	// Print PWM Data
+    fprintf(outFile, "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",
+	         cppwmControlData.dt_c.usData,
+	         cppwmControlData.dla_c.usData,
+	         cppwmControlData.dra_c.usData,
+	         cppwmControlData.dr_c.usData,
+	         cppwmControlData.dle_c.usData,
+	         cppwmControlData.dre_c.usData,
+	         cppwmControlData.dlf_c.usData,
+	         cppwmControlData.drf_c.usData,
+	         cppwmControlData.da1_c.usData,
+	         cppwmControlData.da2_c.usData);	
+
+	// Print AP Status Data
+    fprintf(outFile, "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",
+	         cpapsControlData.controlType,
+	         cpapsControlData.beaconStatus,
+	         cpapsControlData.hilStatus,
+	         cpapsControlData.dt_pass,
+	         cpapsControlData.dla_pass,
+	         cpapsControlData.dra_pass,
+	         cpapsControlData.dr_pass,
+	         cpapsControlData.dle_pass,
+	         cpapsControlData.dre_pass,
+	         cpapsControlData.dlf_pass,
+		     cpapsControlData.drf_pass);
+	
+	// Print Commands Data
+    fprintf(outFile, "%f,%f,%f,%f,%f,%f,%f,%f,%d,%d",
+	         cpcomControlData.hCommand.flData,
+	         cpcomControlData.airspeedCommand.flData,
+	         cpcomControlData.phiCommand.flData,
+	         cpcomControlData.thetaCommand.flData,
+	         cpcomControlData.psiCommand.flData,
+	         cpcomControlData.pCommand.flData,
+	         cpcomControlData.qCommand.flData,
+	         cpcomControlData.rCommand.flData,
+	         cpcomControlData.currWPCommand,
+	         cpcomControlData.nextWPCommand);
+		     		     
+	// Add new line
+	fprintf(outFile, "\n");
 
 	}// if
 
@@ -475,8 +519,10 @@ static tPilotData		cppilControlData;
 	cpfilterControlData		= filterControlData;
 	cpaknControlData		= aknControlData;
     cppilControlData        = pilControlData;
-
-
+	cppwmControlData		= pwmControlData;
+	cpapsControlData		= apsControlData;
+	cpcomControlData		= comControlData;
+	
 }
 
 // ===============================================

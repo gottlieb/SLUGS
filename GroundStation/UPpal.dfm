@@ -1,6 +1,6 @@
 object FPpal: TFPpal
-  Left = 196
-  Top = 32
+  Left = 179
+  Top = 131
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 
@@ -42,10 +42,10 @@ object FPpal: TFPpal
     Top = 25
     Width = 375
     Height = 668
-    ActivePage = ts_commands
+    ActivePage = ts_export
     Align = alClient
     MultiLine = True
-    TabIndex = 5
+    TabIndex = 3
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth'

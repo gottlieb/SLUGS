@@ -1356,7 +1356,7 @@ void __fastcall TFPpal::cb_inflightClick(TObject *Sender)
         cb_inflightClick(NULL);
 	} else{
         logIsOpen = true;
-        printFileHeader();
+        printFileHeader(liveLog);
     }
 } else {
     ed_liveLog->Enabled = False;
@@ -1373,39 +1373,40 @@ void __fastcall TFPpal::bt_importLogClick(TObject *Sender)
     FILE* logFile;
     FILE* matFile;
 
-	unsigned char buffer[97];
-	unsigned long fileLen;
+    unsigned char buffer[97];
+    unsigned long fileLen;
     unsigned long i;
     //unsigned char amountToRead = 24;
     String toMatFile;
 
     //Open files
-	logFile = fopen(ed_importLog->FileName.c_str(), "rb");
+    logFile = fopen(ed_importLog->FileName.c_str(), "rb");
     matFile = fopen(ed_exportMat->FileName.c_str(), "wt");
 
-	if (!logFile)
-	{
-		ShowMessage("Unable to open Log file");
-	}else {
-
-        if (!matFile)
-	    {
-		   ShowMessage("Unable to create CSV file");
-	    } else {
+    if (!logFile){
+       ShowMessage("Unable to open Log file");
+    }else {
+        if (!matFile){
+               ShowMessage("Unable to create CSV file");
+        } else {
 	       //Get file length
 	       fseek(logFile, 0, SEEK_END);
 	       fileLen=ftell(logFile);
 	       fseek(logFile, 0, SEEK_SET);
 
-	       //Read file contents into buffer
-           i = 0;
+               // print header into MatFile
+               printFileHeader(matFile);
 
-           while (i<fileLen-96){
+	       //Read file contents into buffer and write to file
+               i = 0;
+               while (i<fileLen-96){
 	         fread(&(buffer[0]) + 1, sizeof(unsigned char), 96, logFile);
-             i+=96;
-             buffer[0] = 96;
-             protParseDecode(buffer, matFile);
-           }
+                 i+=96;
+                 buffer[0] = 96;
+                 protParseDecode(buffer, matFile);
+               } // while
+
+           // close th files
            fclose(logFile);
            fclose(matFile);
         }// else !matfile
@@ -1441,61 +1442,101 @@ void __fastcall TFPpal::ed_liveLogAfterDialog(TObject *Sender,
 }
 //---------------------------------------------------------------------------
 
-void TFPpal::printFileHeader(void){
-		   fprintf(liveLog,"% This is a log File for the UCSC AP data is organized as follows:\n" );
-           fprintf(liveLog,"%\n" );
-           fprintf(liveLog,"% (1)Time Stamp in Ticks (multiply by AP Sampling time to get Seconds) \n" );
-           fprintf(liveLog,"% (2)Roll (rad)  \n" );
-           fprintf(liveLog,"% (3)Pitch (rad)  \n" );
-           fprintf(liveLog,"% (4)Yaw (rad)   \n" );
-           fprintf(liveLog,"% (5)P (rad)   \n" );
-           fprintf(liveLog,"% (6)Q (rad)   \n" );
-           fprintf(liveLog,"% (7)R (rad)   \n" );
-           fprintf(liveLog,"% (8)X (m)   \n" );
-           fprintf(liveLog,"% (9)Y (m)  \n" );
-           fprintf(liveLog,"% (10)Z (m)   \n" );
-           fprintf(liveLog,"% (11)Vx (m/s)  \n" );
-           fprintf(liveLog,"% (12)Vy (m/s)  \n" );
-           fprintf(liveLog,"% (13)Vz (m/s)  \n" );
-           fprintf(liveLog,"% (14)GPS Year   \n" );
-           fprintf(liveLog,"% (15)GPS Month  \n" );
-           fprintf(liveLog,"% (16)GPS Day  \n" );
-           fprintf(liveLog,"% (17)GPS Hour   \n" );
-           fprintf(liveLog,"% (18)GPS min  \n" );
-           fprintf(liveLog,"% (19)GPS sec  \n" );
-           fprintf(liveLog,"% (20)GPS Lat (deg)  \n" );
-           fprintf(liveLog,"% (21)GPS Lon (deg) \n" );
-           fprintf(liveLog,"% (22)GPS Height (m)  \n" );
-           fprintf(liveLog,"% (23)GPS COG (deg)  \n" );
-           fprintf(liveLog,"% (24)GPS SOG (m/s)  \n" );
-           fprintf(liveLog,"% (25)GPS Hdop (in hundreths of unit)  \n" );
-           fprintf(liveLog,"% (26)GPS fix? (yes or no) \n" );
-           fprintf(liveLog,"% (27)GPS Number of Sats Used  \n" );
-           fprintf(liveLog,"% (28)GPS New Val? \n" );
-           fprintf(liveLog,"% (29)Raw Gyro X  \n" );
-           fprintf(liveLog,"% (30)Raw Gyro Y \n" );
-           fprintf(liveLog,"% (31)Raw Gyro Z  \n" );
-           fprintf(liveLog,"% (32)Raw Accel X  \n" );
-           fprintf(liveLog,"% (33)Raw Accel Y  \n" );
-           fprintf(liveLog,"% (34)Raw Accel Z  \n" );
-           fprintf(liveLog,"% (35)Raw Mag X  \n" );
-           fprintf(liveLog,"% (36)Raw Mag Y \n" );
-           fprintf(liveLog,"% (37)Raw Mag Z \n" );
-           fprintf(liveLog,"% (38)Bias Accel X (m/s) \n" );
-           fprintf(liveLog,"% (39)Bias Accel Y (m/s) \n" );
-           fprintf(liveLog,"% (40)Bias Accel Z (m/s) \n" );
-           fprintf(liveLog,"% (41)Bias Gyro X  (rad/s) \n" );
-           fprintf(liveLog,"% (42)Bias Gyro Y  (rad/s) \n" );
-           fprintf(liveLog,"% (43)Bias Gyro Z  (rad/s) \n" );
-           fprintf(liveLog,"% (44)Dynamic Pressure (Pa) \n" );
-           fprintf(liveLog,"% (45)Static Pressure (Pa)  \n" );
-           fprintf(liveLog,"% (46)Temperature (C)  \n" );
-           fprintf(liveLog,"% (47)Diagnostic Float 1  \n" );
-           fprintf(liveLog,"% (48)Diagnostic Float 2  \n" );
-           fprintf(liveLog,"% (49)Diagnostic Float 3  \n" );
-           fprintf(liveLog,"% (50)Diagnositc Short 1   \n" );
-           fprintf(liveLog,"% (51)Diagnostic Short 2   \n" );
-           fprintf(liveLog,"% (52)Diagnostic Short 3 \n%\n%\n%\n");
+void TFPpal::printFileHeader(FILE* fileLog){
+           fprintf(fileLog,"% This is a log File for the UCSC AP data is organized as follows:\n" );
+           fprintf(fileLog,"%\n" );
+           fprintf(fileLog,"% (1)Time Stamp in Ticks (multiply by AP Sampling time to get Seconds) \n" );
+           fprintf(fileLog,"% (2)Roll (rad)  \n" );
+           fprintf(fileLog,"% (3)Pitch (rad)  \n" );
+           fprintf(fileLog,"% (4)Yaw (rad)   \n" );
+           fprintf(fileLog,"% (5)P (rad)   \n" );
+           fprintf(fileLog,"% (6)Q (rad)   \n" );
+           fprintf(fileLog,"% (7)R (rad)   \n" );
+           fprintf(fileLog,"% (8)X (m)   \n" );
+           fprintf(fileLog,"% (9)Y (m)  \n" );
+           fprintf(fileLog,"% (10)Z (m)   \n" );
+           fprintf(fileLog,"% (11)Vx (m/s)  \n" );
+           fprintf(fileLog,"% (12)Vy (m/s)  \n" );
+           fprintf(fileLog,"% (13)Vz (m/s)  \n" );
+           fprintf(fileLog,"% (14)GPS Year   \n" );
+           fprintf(fileLog,"% (15)GPS Month  \n" );
+           fprintf(fileLog,"% (16)GPS Day  \n" );
+           fprintf(fileLog,"% (17)GPS Hour   \n" );
+           fprintf(fileLog,"% (18)GPS min  \n" );
+           fprintf(fileLog,"% (19)GPS sec  \n" );
+           fprintf(fileLog,"% (20)GPS Lat (deg)  \n" );
+           fprintf(fileLog,"% (21)GPS Lon (deg) \n" );
+           fprintf(fileLog,"% (22)GPS Height (m)  \n" );
+           fprintf(fileLog,"% (23)GPS COG (deg)  \n" );
+           fprintf(fileLog,"% (24)GPS SOG (m/s)  \n" );
+           fprintf(fileLog,"% (25)GPS Hdop (in hundreths of unit)  \n" );
+           fprintf(fileLog,"% (26)GPS fix? (yes or no) \n" );
+           fprintf(fileLog,"% (27)GPS Number of Sats Used  \n" );
+           fprintf(fileLog,"% (28)GPS New Val? \n" );
+           fprintf(fileLog,"% (29)Raw Gyro X  \n" );
+           fprintf(fileLog,"% (30)Raw Gyro Y \n" );
+           fprintf(fileLog,"% (31)Raw Gyro Z  \n" );
+           fprintf(fileLog,"% (32)Raw Accel X  \n" );
+           fprintf(fileLog,"% (33)Raw Accel Y  \n" );
+           fprintf(fileLog,"% (34)Raw Accel Z  \n" );
+           fprintf(fileLog,"% (35)Raw Mag X  \n" );
+           fprintf(fileLog,"% (36)Raw Mag Y \n" );
+           fprintf(fileLog,"% (37)Raw Mag Z \n" );
+           fprintf(fileLog,"% (38)Bias Accel X (m/s) \n" );
+           fprintf(fileLog,"% (39)Bias Accel Y (m/s) \n" );
+           fprintf(fileLog,"% (40)Bias Accel Z (m/s) \n" );
+           fprintf(fileLog,"% (41)Bias Gyro X  (rad/s) \n" );
+           fprintf(fileLog,"% (42)Bias Gyro Y  (rad/s) \n" );
+           fprintf(fileLog,"% (43)Bias Gyro Z  (rad/s) \n" );
+           fprintf(fileLog,"% (44)Dynamic Pressure (Pa) \n" );
+           fprintf(fileLog,"% (45)Static Pressure (Pa)  \n" );
+           fprintf(fileLog,"% (46)Temperature (C)  \n" );
+           fprintf(fileLog,"% (47)Diagnostic Float 1  \n" );
+           fprintf(fileLog,"% (48)Diagnostic Float 2  \n" );
+           fprintf(fileLog,"% (49)Diagnostic Float 3  \n" );
+           fprintf(fileLog,"% (50)Diagnositc Short 1   \n" );
+           fprintf(fileLog,"% (51)Diagnostic Short 2   \n" );
+           fprintf(fileLog,"% (52)Diagnostic Short 3 \n");
+           fprintf(fileLog,"% (53)Sensor MCU Load\n" );
+           fprintf(fileLog,"% (54)Control MCU Load\n" );
+           fprintf(fileLog,"% (55)Voltage\n" );
+           fprintf(fileLog,"% (56)Pilot Console Throttle\n" );
+           fprintf(fileLog,"% (57)Pilot Console Left Aileron\n");
+           fprintf(fileLog,"% (58)Pilot Console Failsafe\n" );
+           fprintf(fileLog,"% (59)Pilot Console Rudder\n" );
+           fprintf(fileLog,"% (60)Pilot Console Elevator\n" );
+           fprintf(fileLog,"% (61)PWM Throttle\n" );
+           fprintf(fileLog,"% (62)PWM Left Aileron\n");
+           fprintf(fileLog,"% (63)PWM Right Aileron\n" );
+           fprintf(fileLog,"% (64)PWM Rudder\n" );
+           fprintf(fileLog,"% (65)PWM Left Elevator\n" );
+           fprintf(fileLog,"% (66)PWM Right Elevator\n" );
+           fprintf(fileLog,"% (67)PWM Left Flap\n");
+           fprintf(fileLog,"% (68)PWM Right Flap\n" );
+           fprintf(fileLog,"% (69)PWM Aux 1\n" );
+           fprintf(fileLog,"% (70)PWM Aux 2\n" );
+           fprintf(fileLog,"% (71)AP Control Type\n" );
+           fprintf(fileLog,"% (72)AP Beacon Status\n");
+           fprintf(fileLog,"% (73)AP HIL status\n" );
+           fprintf(fileLog,"% (74)Throttle Passtrhough\n" );
+           fprintf(fileLog,"% (75)Left Aileron Passtrhough\n" );
+           fprintf(fileLog,"% (76)Right Aileron Passtrhough\n" );
+           fprintf(fileLog,"% (77)Rudder Passtrhough\n");
+           fprintf(fileLog,"% (78)Left Elevator Passtrhough\n" );
+           fprintf(fileLog,"% (79)Right Elevator Passtrhough\n" );
+           fprintf(fileLog,"% (80)Left Flap Passtrhough\n" );
+           fprintf(fileLog,"% (81)Right Flap Passtrhough\n" );
+           fprintf(fileLog,"% (82)Height Command\n");
+           fprintf(fileLog,"% (83)Airspeed Command\n" );
+           fprintf(fileLog,"% (84)Phi Command\n" );
+           fprintf(fileLog,"% (85)Theta Command\n" );
+           fprintf(fileLog,"% (86)Psi Command\n" );
+           fprintf(fileLog,"% (87)P Command\n");
+           fprintf(fileLog,"% (88)Q Command\n" );
+           fprintf(fileLog,"% (89)R Command\n" );
+           fprintf(fileLog,"% (90)Current WP\n" );
+           fprintf(fileLog,"% (91)Next WP\n");
+           fprintf(fileLog,"% ========================================");
 }
 
 /*

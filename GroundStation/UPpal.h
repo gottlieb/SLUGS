@@ -781,7 +781,7 @@ public:		// User declarations
         void updateDynLabels(void);
         void updateDiagLabels(void);
 
-        void printFileHeader(void);
+        void printFileHeader(FILE* fileLog);
 
         float computeDistance(float lat, float lon);
         float deg2Rad(float mDeg);
