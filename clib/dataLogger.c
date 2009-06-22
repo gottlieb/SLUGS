@@ -83,7 +83,7 @@ void loggerInit (void){
 
 	// Initialize the Interrupt  
   	// ========================
-	IPC7bits.U2RXIP   = 5;    		// Interrupt priority 6  
+	IPC7bits.U2RXIP   = 5;    		// Interrupt priority 5  
   	IFS1bits.U2RXIF   = 0;    		// Clear the interrupt flag
   	IEC1bits.U2RXIE   = 1;    		// Enable interrupts
   		
@@ -561,6 +561,7 @@ void logData (unsigned char hilOn, unsigned char* data4SPI){
 	
 	// if HIL is ON do not transmit diagnostic data in the diagnostic port
 	// let the circular buffer overwrite itself
+	hilOn =1;
 	if (hilOn!= 1){		
 		// if the interrupt catched up with the circularBuffer
 		//  then turn on the DMA

@@ -67,7 +67,7 @@ void magnetoInit (void){
 	
 	// Configure the I2C bus
 	I2C1CONbits.A10M = 0;		// 7 bit address
-	I2C1BRG =	63;				// I2CBRG = 63. 400Khz for a 40 Mhz clock
+	I2C1BRG =	363;			// I2CBRG = 363. 100Khz for a 40 Mhz clock
 	
 	
 	
@@ -76,6 +76,7 @@ void magnetoInit (void){
 	IFS1bits.SI2C1IF = 0;		// Clear the slave interrupt
 
 	IEC1bits.MI2C1IE = 1;		// Enable the interrupts
+	IPC4bits.MI2C1IP = 7;		// Highest Prority
 	
 	// turn on the I2C Module
 	I2C1CONbits.I2CEN = 1;
@@ -86,6 +87,9 @@ void magnetoInit (void){
 	reg2Config = REGISTER_A;
 	
 	//printToUart2("Starting %s\n\r","I2C");
+	
+	// Wait 5 mS
+	dummyDelay();
 	
 	// Change the mode to 50 Hz
 	// ========================
@@ -160,30 +164,31 @@ void readMag (unsigned char idx, short val){
 	static tShortToChar magReading[3];
 	
 	magReading[idx].shData	= val;
+	//printToUart2("%u.-\t %d\n\r", idx, val);
 	
 	if (idx == 2){
 		rawControlData.magX.shData = magReading[0].shData;
 		rawControlData.magY.shData = magReading[1].shData;
 		rawControlData.magZ.shData = magReading[2].shData;
 		
-	//	printToUart2("%d\t %d\t %d\n\r",magReading[0].shData, magReading[1].shData,magReading[2].shData);
+		//printToUart2("%d\t %d\t %d\n\r",magReading[0].shData, magReading[1].shData,magReading[2].shData);
 	}
 }
 
 void getMag (short * magVals){
-	static unsigned char readMag = 1;
+	static unsigned char readMagVar = 1;
 	
 	magVals[0] =  rawControlData.magX.shData;
 	magVals[1] =  rawControlData.magY.shData;
 	magVals[2] =  rawControlData.magZ.shData;
-	//printToUart2("%u\t %u\t %u\n\r",magVals[0], magVals[1],magVals[2]);
+	// printToUart2("%u\t %u\t %u\n\r",magVals[0], magVals[1],magVals[2]);
 	
 	// After reporting the data start the reading for the next cycle
 	// called every other time since the mags refresh @ 50 Hz
-	//if (readMag) {startMagRead();}
+	if (readMagVar) {startMagRead();}
 	
 	// flip the read flag
-	readMag = (readMag == 1)? 0: 1;
+	readMagVar = (readMagVar == 1)? 0: 1;
 }
 
 // I2C Primitives
@@ -191,14 +196,14 @@ void getMag (short * magVals){
 
 void i2c1Start(void){
 	// Change the mode to start
-	i2c1State = i2c1State == CONFIG_IDLE? CONFIG_START : READ_START;
+	i2c1State = (i2c1State == CONFIG_IDLE)? CONFIG_START : READ_START;
 	// Start the bus
 	I2C1CONbits.SEN =1;  
 }
 
 void i2c1Stop(void){
 	// Change the mode to start
-	i2c1State = i2c1State == CONFIG_DONE? CONFIG_STOP : READ_STOP;
+	i2c1State = (i2c1State == CONFIG_DONE)? CONFIG_STOP : READ_STOP;
 	// Stop the bus
 	I2C1CONbits.PEN =1;  
 }
@@ -329,7 +334,7 @@ void __attribute__((__interrupt__, no_auto_psv)) _MI2C1Interrupt(void){
 			}
 		break;	
 	}
-
+	//
 	IFS1bits.MI2C1IF = 0;			// Clear the master interrupt
 	I2C1STATbits.IWCOL = 0;			// Clear the collision flag just in case		
 }
