@@ -1,6 +1,6 @@
 object FPpal: TFPpal
-  Left = 180
-  Top = 124
+  Left = 402
+  Top = 13
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 
@@ -42,10 +42,10 @@ object FPpal: TFPpal
     Top = 25
     Width = 375
     Height = 668
-    ActivePage = ts_export
+    ActivePage = ts_graphical
     Align = alClient
     MultiLine = True
-    TabIndex = 3
+    TabIndex = 8
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth'
@@ -6064,6 +6064,7 @@ object FPpal: TFPpal
         Width = 339
         Height = 26
         Caption = 'Change the AP Mode'
+        Enabled = False
         Flat = True
         Glyph.Data = {
           76010000424D7601000000000000760000002800000020000000100000000100
@@ -6700,9 +6701,10 @@ object FPpal: TFPpal
         ParentFont = False
         TabOrder = 1
         TabStop = True
+        Visible = False
         OnClick = rb_manualClick
       end
-      object RadioButton2: TRadioButton
+      object rb_auto: TRadioButton
         Left = 88
         Top = 40
         Width = 113
@@ -6715,6 +6717,7 @@ object FPpal: TFPpal
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 2
+        Visible = False
         OnClick = rb_manualClick
       end
       object pn_status: TPanel
@@ -10175,13 +10178,13 @@ object FPpal: TFPpal
         object Label70: TLabel
           Left = 8
           Top = 35
-          Width = 20
+          Width = 17
           Height = 13
           Hint = 
             'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
             'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
             ' which such path is refreshed'
-          Caption = 'Dla'
+          Caption = 'Da'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -10194,13 +10197,13 @@ object FPpal: TFPpal
         object Label71: TLabel
           Left = 8
           Top = 51
-          Width = 21
+          Width = 17
           Height = 13
           Hint = 
             'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
             'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
             ' which such path is refreshed'
-          Caption = 'Dra'
+          Caption = 'De'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -10232,13 +10235,13 @@ object FPpal: TFPpal
         object Label73: TLabel
           Left = 8
           Top = 81
-          Width = 17
+          Width = 14
           Height = 13
           Hint = 
             'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
             'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
             ' which such path is refreshed'
-          Caption = 'De'
+          Caption = 'Fs'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11

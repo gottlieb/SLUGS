@@ -777,7 +777,7 @@ void TFPpal::updatePilotLabels(void){
   et_dla->Caption = IntToStr(pilControlSample.dla.usData);
   et_dt->Caption =  IntToStr(pilControlSample.dt.usData);
   et_dra->Caption = IntToStr(pilControlSample.dra.usData);
-  et_de->Caption =  IntToStr(pilControlSample.de.usData);
+  et_de->Caption =  pilControlSample.de.usData > 6000 ? "Manual":"Auto";
   et_dr->Caption =  IntToStr(pilControlSample.dr.usData);
 }
 
@@ -825,6 +825,19 @@ void TFPpal::updateStatus(void){
    } else {
       pn_status->Color = clActiveBorder;
    }
+
+   if (apsSample.controlType == CTRL_TYPE_MANUAL) {
+      bt_mode->Enabled = false;
+      rb_manual->Checked = true;
+   } else {
+      bt_mode->Enabled = true;
+      rb_auto->Checked = true;
+   }
+   rb_manualClick(NULL);
+
+      
+   bt_mode->Enabled =  !(apsSample.controlType == CTRL_TYPE_MANUAL);
+
 
    // update the passtrough config
    cb_repptpdt->Checked = apsSample.dt_pass;
@@ -1240,7 +1253,7 @@ try{
   if ( abs((int)attitudeSample.roll.flData) < 7 &&
        abs((int)attitudeSample.pitch.flData) < 7  &&
        abs((int)attitudeSample.yaw.flData) < 7){
-          ai_att->Roll = RAD2DEG*attitudeSample.roll.flData;
+          ai_att->Roll = -RAD2DEG*attitudeSample.roll.flData;
           ai_att->Pitch = RAD2DEG*attitudeSample.pitch.flData;
           ai_att->Course = RAD2DEG*attitudeSample.yaw.flData;
   }
@@ -2307,8 +2320,8 @@ void __fastcall TFPpal::rb_manualClick(TObject *Sender)
     rg_modes->Items->Add("Direct Commands");
     rg_modes->Items->Add("Way Point Nav");
     rg_modes->Items->Add("Selective Passthrough");*/
-    rg_modes->Tag = CTRL_TYPE_AP_COMM;
-    rg_modes->ItemIndex = 0;
+    //rg_modes->Tag = CTRL_TYPE_AP_COMM;
+    //rg_modes->ItemIndex = 0;
     rg_modesClick(rg_modes);
  }
 }
