@@ -116,7 +116,7 @@ void readIpc (unsigned char* bufferedData){
     	IFS0bits.SPI1IF 	= 0;
 		
     	printToUart2("\n=== %s =====\n\r\n\r\n\r", "BEGIN DUMP ");
-    	printToUart2("Ts: %f\n\r\0",(float) timeStamp*0.01);
+    	//printToUart2("Ts: %f\n\r\0",(float) timeStamp*0.01);
     	printToUart2("Ovrflw: %d\n\r", getOverflow(protBuffer));
  		printToUart2("Head: %d\n\r", readHead(protBuffer));
 		printToUart2("Tail: %d\n\r", readTail(protBuffer));

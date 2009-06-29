@@ -159,6 +159,9 @@ and data types.
 #define CTRL_TYPE_SEL_PIL	5		// Pass some from the pilot and some from the AP
 #define CTRL_TYPE_SEL_AP	6
 
+#define PIL_FAILSAFE		6000	// IC direct reading from the pilot console when failsafe is
+									// is turned ON i.e. the pilot is in control. 
+
 // Commands to AP ids
 #define COMM_TYPE_HEIGHT	1
 #define	COMM_TYPE_TURNRATE	2

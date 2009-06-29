@@ -268,7 +268,17 @@ void updateStates(unsigned char * completeSentence){
 			pilControlData.dr.chData[0]		= completeSentence[10];	 
 			pilControlData.dr.chData[1]		= completeSentence[11];	   
 			pilControlData.de.chData[0]		= completeSentence[12];	  
-			pilControlData.de.chData[1]		= completeSentence[13];	  
+			pilControlData.de.chData[1]		= completeSentence[13];	 
+			
+			// Change the mode to manual automatically when received 
+			// the pilot console message
+			#ifndef __BORLANDC__   // Make sure we are not in the GS
+				if(pilControlData.de.usData > PIL_FAILSAFE) {
+					apsControlData.controlType = CTRL_TYPE_MANUAL;
+				} else if (apsControlData.controlType == CTRL_TYPE_MANUAL) {
+					apsControlData.controlType = CTRL_TYPE_AP_COMM;
+				}
+			#endif 
 		break;
 		
 		case AKNMSG_ID: // Aknowledge Messages

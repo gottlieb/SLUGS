@@ -15,7 +15,7 @@ r_lim=200*pi/180;
 % Set the initial conditions based on the Piccolo Doublets File
 %  Initial Conditions in ENU (all vector data is represented as a column
 %  vectors)
-Pos_0   = [-200; 0 ;500]';     % Initial position vector (m)
+Pos_0   = [-200; 0 ;150]';     % Initial position vector (m)
 Euler_0 = [0; 0; 160*pi/180]';     % Initial Euler angles    (rad)
 Omega_0 = [0; 0; 0]';                              % Initial Omega           (rad/s)
 PQR_0   = [0;0;0]';      % Initial Omega           (rad/s)
@@ -80,3 +80,9 @@ CmDe    = -3.2;        %  pitch control power
 windBase = 3.5;
 windDirTurb = 180;
 windDirHor = 180;
+
+% Baro Altitude Computation
+% =========================
+baseHeight =150;
+baseTemp = 288.215;
+lapseRate = -0.00198122;

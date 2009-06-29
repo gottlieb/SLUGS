@@ -391,7 +391,7 @@ static tCommandsData	cpcomControlData;
 	         cpxyzControlData.VZ.flData);
 
 	    // Print GPS
-/*	    fprintf(outFile, "%d,%d,%d,%d,%d,%d,%f,%f,%f,%d,%d,%d,%d,%d,%d,",
+	    fprintf(outFile, "%d,%d,%d,%d,%d,%d,%f,%f,%f,%d,%d,%d,%d,%d,%d,",
 	         cpgpsControlData.year,
 	         cpgpsControlData.month,
 	         cpgpsControlData.day,
@@ -407,7 +407,7 @@ static tCommandsData	cpcomControlData;
 	         cpgpsControlData.fix,
 	         cpgpsControlData.sats,
 	         cpgpsControlData.newValue);
-*/
+
 	    // Print Raw Data
 	    fprintf(outFile, "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,",
 	         cprawControlData.gyroX.shData,

@@ -68,7 +68,7 @@ void sensorMCUInit(void){
 	loggerInit();
 	spiMasterInit();
 	protParserInit();
-	magnetoInit();
+	//magnetoInit();
 	cubeInit();
 	
 	
