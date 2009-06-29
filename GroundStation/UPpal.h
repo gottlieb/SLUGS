@@ -585,7 +585,7 @@ __published:	// IDE-managed Components
         TTabSheet *ts_wp;
         TTabSheet *ts_ptpil;
         TRadioButton *rb_manual;
-        TRadioButton *RadioButton2;
+    TRadioButton *rb_auto;
         TPanel *pn_status;
         TLabel *et_status;
         TRadioGroup *rg_modes;
