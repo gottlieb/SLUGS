@@ -95,7 +95,7 @@ void parseRMC(unsigned char* stream){
 	}
 	
 	// 5.- Longitude
-	// ddmm.mmmmmm
+	// dddmm.mmmmmm
 	token = strtok(NULL, ",");	
 	if (strlen(token)>0){
 		// get the first two values

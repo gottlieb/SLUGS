@@ -22,20 +22,65 @@ magMeanTemp = 0;
 
 % Scale/Offset sets
 % =================
-baroScale  = 1;
-baroOffset = 0;
+
+% Baro
+% From data sheet assuming linear mapping from 5 to 3.3 
+% into the micro ADC
+% 0.25*3.3/5  ->  15000
+% 4.75*3.3/5  -> 115000
+raw = 1.2412*[250*3300/5000 4750*3300/5000];
+pre = [15000 115000];
+P =  polyfit(raw,pre,1);
+baroScale  = P(1);
+baroOffset = P(2);
 
 magScale  = 0.3418;
 magOffset = 0;
 
-pitotScale  = 1;
-pitotOffset = 0;
+% Pito
+% ====
+raw = 1.2412*[1250*3300/5000 4750*3300/5000];
+pre = [0 4000];
+P =  polyfit(raw,pre,1);
 
-tempScale  = 1;
-tempOffset = 0;
+pitotScale  = P(1);
+pitotOffset = P(2);
 
-powerScale  = 1;
-powerOffset = 0;
+% Temp
+% 14.8  -> 1160
+% 17.9  -> 1180
+% 24.3  -> 1230
+% 32.0  -> 1265
+% 33.5  -> 1280
+% 35.1  -> 1301
+
+temp = [148 179 243 32 335 351];
+raw  = [1160 1180 1230 1265 1280 1301];
+P =  polyfit(raw,temp,1);
+tempScale  = P(1);
+tempOffset = P(2);
+
+% Power
+%  7.0 -> 1921
+%  7.5 -> 2075
+%  8.0 -> 2225
+%  8.5 -> 2383
+%  9.0 -> 2536
+%  9.5 -> 2712
+% 10.0 -> 2874
+% 10.5 -> 3026
+% 11.0 -> 3173
+% 11.5 -> 3341
+% 12.0 -> 3493
+% 12.5 -> 3632
+% 13.0 -> 3806
+% 13.5 -> 3966
+powr = [7000 7500 8000 8500 9000 9500 10000 10500 11000 11500 12000 12500 13000 13500];
+raw  = [1921 2075 2225 2383 2536 2712 2874 3026 3173 3341 3493 3632 3806 3966];
+
+P =  polyfit(raw,powr,1);
+powerScale  = P(1);
+powerOffset = P(2);
 
 % Baro Altitude Computation
 % =========================
@@ -53,62 +98,93 @@ run ./HILSim/hilInit.m
 %% Curve fitting for IC from Pilot Console. 
 % Conversion from IC output to Radians
 
-% Calibration value in radians
-calVal = 25*pi/180;
-
 % Rudder
-rudMin = 4550;
-rudMax = 3300;
-P =  polyfit([-calVal calVal],[rudMin rudMax],1);
-mICdr = P(1);
-bICdr = P(2);
+mICdr = mPWMdr/2;
+bICdr = bPWMdr;
 
 % Aileron
-ailMin = 4550;
-ailMax = 3300;
-P =  polyfit([-calVal calVal],[ailMin ailMax],1);
-mICda = P(1);
-bICda = P(2);
+mICda = mPWMda/2;
+bICda = bPWMda;
 
 % Elevator
-eleMin = 4550;
-eleMax = 3300;
-P =  polyfit([-calVal calVal],[eleMin eleMax],1);
-mICde = P(1);
-bICde = P(2);
+mICde = mPWMde/2;
+bICde = bPWMde;
 
 
 %Throttle
-thrMin = 4550;
-thrMax = 3300;
-P =  polyfit([0 1],[thrMin thrMax],1);
-mICdt = P(1);
-bICdt = P(2);
+mICdt = mPWMdt/2;
+bICdt = bPWMdt;
 
-%% Constants for IC to PWM conversion. 
-% This values to the following conversion IC -> rad -> PWM
-% This was obtained as follows:
-%    pwm(RAD) = m * RAD + b 
-%    rad(IC) = m_ic * IC + b_ic
-%  =>
-%    pwm(IC) = m(m_ic * IC + b_ic) + b
-%    pwm(IC) = m*m_ic * IC + m*b_ic + b
-%  
+%% 
 
+% The Values are as follows:
 % Rudder
-mICPWMdr = mdr*mICdr;
-bICPWMdr = mdr*bICdr + bdr;
+% -15 -> 5560
+% -10 -> 6300
+% -5  -> 6860
+% 0   -> 7550
+% +5  -> 8100
+% +10 -> 8647
+% +15 -> 9445
+% +16 -> 9500
 
-% Aileron
-mICPWMda = mda*mICda;
-bICPWMda = mda*bICda + bda;
+% rad = [-15 -10 -5 0 5 10 15 16]*pi/180;
+% ic = [5560 6300 6860 7550 8100 8647 9445 9500];
+% P =  polyfit(ic,rad,1);
 
-% Elevator
-mICPWMde = mde*mICde;
-bICPWMde = mde*bICde + bde;
+% The Values are as follows:
+% -15 -> 5570
+% -10 -> 6160
+% -5  -> 6747
+% 0   -> 7549
+% +5  -> 7830
+% +10 -> 8370
+% +15 -> 8987
+% +19 -> 9520
+% 
+% rad = [-15 -10 -5 0 5 10 15 19]*pi/180;
+% ic = [5570 6160 6747 7549 7830 8370 8987 9520];
+% P =  polyfit(ic,rad,1);
 
+% The Values are as follows:
+% -12 -> 5397
+% -10 -> 5920
+% -5  -> 6605
+% 0   -> 7380
+% +5  -> 8220
+% +10 -> 8960
+% +12 -> 9335
 
-%Throttle
-mICPWMdt = mdt*mICdt;
-bICPWMdt = mdt*bICdt + bdt;
+% rad = [-12 -10 -5 0 5 10 12]*pi/180;
+% ic = [5397 5920 6605 7380 8220 8960 9335];
+% P =  polyfit(ic,rad,1);
 
+% The Values are as follows:
+% 0   -> 5621
+% 1/6 -> 6060
+% 2/6 -> 6960
+% 3/6 -> 7696
+% 4/6 -> 8550
+% 5/6 -> 8863
+% 1   -> 9500
+
+% rad = [0 1 2 3 4 5 6]./6;
+% ic = [5621 6060 6960 7696 8550 8863 9500];
+% P =  polyfit(ic,rad,1);
+
+% % Rudder
+% mICPWMdr = mdr*mICdr;
+% bICPWMdr = mdr*bICdr + bdr;
+% 
+% % Aileron
+% mICPWMda = mda*mICda;
+% bICPWMda = mda*bICda + bda;
+% 
+% % Elevator
+% mICPWMde = mde*mICde;
+% bICPWMde = mde*bICde + bde;
+% 
+% 
+% %Throttle
+% mICPWMdt = mdt*mICdt;
+% bICPWMdt = mdt*bICdt + bdt;

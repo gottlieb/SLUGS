@@ -164,7 +164,7 @@ end;
 %PosAtt GPS Bias Raw AirDiag Time
 
 % Capture the Time counter to plot 
-time_plot   = (M(idxIni:idxEnd,timeStampIdx))*0.01 ;
+time_plot   = (M(idxIni:idxEnd,timeStampIdx));
 
 % Produce the Time vector
 time = 0:0.01:(size(M(idxIni:idxEnd,1))*.01 - 0.01);
