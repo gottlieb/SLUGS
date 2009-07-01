@@ -244,6 +244,9 @@ and data types.
 	#define DEBUG 1
 #endif
 
+// Uncomment if there is no magentometers
+//#define NO_MAGNETO 
+
 
 // ============= Unions Used for Data Transmission ====
 //Type definitions for standard unions used in sending
