@@ -185,8 +185,9 @@ void getMag (short * magVals){
 	
 	// After reporting the data start the reading for the next cycle
 	// called every other time since the mags refresh @ 50 Hz
-	//if (readMagVar) {startMagRead();}
-	
+	#ifndef NO_MAGNETO
+		if (readMagVar) {startMagRead();}
+	#endif
 	// flip the read flag
 	readMagVar = (readMagVar == 1)? 0: 1;
 }
