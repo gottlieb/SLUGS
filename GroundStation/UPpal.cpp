@@ -743,12 +743,12 @@ void TFPpal::updateBiasLabels(void){
 void TFPpal::updateDynLabels(void){
   et_dyn->Caption = FormatFloat("0.00",dynSample.dynamic.flData);
   et_sta->Caption = FormatFloat("0.00",dynSample.stat.flData);
-  et_temp->Caption = IntToStr( dynSample.temp.shData);
+  et_temp->Caption = FormatFloat("0.00",dynSample.temp.shData/10.0);
 
   // sensor mcu status
   et_load->Caption = IntToStr(statusSample.load);
   et_vdetect->Caption = IntToStr(statusSample.vdetect);
-  et_volt->Caption = IntToStr(statusSample.bVolt.usData);
+  et_volt->Caption = FormatFloat("0.00",statusSample.bVolt.usData/1000.0);
 
   gr_batt->Value = statusSample.bVolt.usData;
 }
