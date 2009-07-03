@@ -245,7 +245,7 @@ and data types.
 #endif
 
 // Uncomment if there is no magentometers
-//#define NO_MAGNETO 
+#define NO_MAGNETO 
 
 
 // ============= Unions Used for Data Transmission ====
