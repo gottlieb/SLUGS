@@ -36,7 +36,7 @@ and data types.
 
 // GPS Circular Buffers
 // ====================
-#define MSIZE			127
+#define MSIZE			150
 #define CSIZE			26 //[newBytes payload remaingBytes]  (comms buffer out of readGPS)
 
 // Data Logger Values
@@ -234,7 +234,7 @@ and data types.
 
 // ifdef switches for debugging and conditional inclusion
 // ======================================================
-#define __IN_DSPIC__ 	1 // switch for use in PC
+// #define __IN_DSPIC__ 	1 // switch for use in PC
 
 #if __IN_DSPIC__
 	#ifdef DEBUG

@@ -2,49 +2,81 @@
 #include <stdarg.h>
 #include <string.h>
 #include "circBuffer.h"
-#include "gpsSplit.h"
-#include "apDefinitions.h"
-#include "gpsParse.h"
+// #include "gpsSplit.h"
+ // #include "apDefinitions.h"
+// #include "gpsParse.h"
+#include "gps.h"
 
 int main(int argc, char* argv[])
 {
-   char i;
-   /*
-	//CBRef A = newCircBuffer(10);
-   //CBRef B = newCircBuffer(20);
-   struct CircBuffer Anp;
-   struct CircBuffer Bnp;
-   
-	CBRef A = &Anp;
-	CBRef B = &Bnp; 
+  /*char str[] ="- This,a,,,,,sample,string.";
+  char * pch;
+	char count = 0;
+	char str2[] = "This,is,a,,,,,,,sample,string";
+	char token[TOKEN_SIZE];
 	
-	newCircBuffer(A);
-	newCircBuffer(B);
-	
-   for(i=0; i<=12; i++)
-   {
-      writeBack(B, i);
-      writeBack(A, 15-i);
-   }
-   //printCircBuf(A);
-   //printCircBuf(B);
-   printf("\n");
-   printf("\n");
+  printf ("Splitting string \"%s\" into tokens using strtok:\n",str);
+  pch = strtok (str,",");
+  while (pch != NULL)
+  {
+    printf ("%d\t%s\n",count++,pch);
+    pch = strtok (NULL, ",");
+  }
 
-   for(i=0; i<=12; i++)
-   {
-	printf("Read byte A: %d\n", readFront(A));
-	printf("Read byte B: %d\n", readFront(B));
-	//printCircBuf(A);
-   }
 
-	makeEmpty(A);
-	//printCircBuf(A);
+  // char * pch;
+  printf ("Looking for the ',' character in \"%s\"... using strchr \n",str2);
+  pch=strchr(str2,',');
+  while (pch!=NULL)
+  {
+    printf ("found at %d\n",pch-str2+1);
+    pch=strchr(pch+1,',');
+  }
 
-	freeCircBuffer(&A);
-	freeCircBuffer(&B);
-	
+  printf ("Looking for the ',' character in \"%s\"... using myTokenizer \n",str2);
+  myTokenizer(str2,',', token);
+  printf ("found token %s\n",token);
+	while (!myTokenizer(NULL, ',', token))
+  {
+    printf ("found token %s\n",token);
+  }
+	printf ("found token %s\n",token);
 	*/
+	
+	unsigned char msg1 [] = "@$GPRMC,040302.663,A,3939.7,N,10506.6,W,5.27,358.86,200804,,*1A\r\n\0";
+	unsigned char msg2 [] = "N$GPGGA,213924.000,4221.1129,N,07102.9146,W,1,04,3.9,129.7,M,-33.7,M,,0000*68\r\n";
+	unsigned char msg3 [] = "&$GPGGA,213922.000,4221.1129,N,07102.91";
+	unsigned char msg4 [] = "(46,W,1,04,3.9,129.7,M,-33.7,M,,0000*6E\r\n";
+	
+	char i;
+	
+	float gpsData[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
+	gpsInit();
+	
+	for(i=0; i<strlen(msg1); i++){
+		writeBack(uartBuffer, (unsigned char)msg1[i]);
+	}
+	for(i=0; i<strlen(msg2); i++){
+		writeBack(uartBuffer, (unsigned char)msg2[i]);
+	}
+	for(i=0; i<strlen(msg3); i++){
+		writeBack(uartBuffer, (unsigned char)msg3[i]);
+	}
+	
+	printf("%c\n\r", peak(uartBuffer));
+	
+	getGpsMainData(gpsData);
+	
+	printf("%f\t%f\t%f\t%f\t%f\n\r", gpsData[0], gpsData[1], gpsData[2], gpsData[3], gpsData[4]);
+
+	printf("%d\n\r", getLength(uartBuffer));
+
+   return(0);
+}
+	
+	
+ /*  char i;
+ 
 	
 	unsigned char msg1 [] = "@$GPRMC,040302.663,A,3939.7,N,10506.6,W,5.27,358.86,200804,,*1A\r\n";
 	unsigned char msg2 [] = "N$GPGGA,213924.000,4221.1129,N,07102.9146,W,1,04,3.9,129.7,M,-33.7,M,,0000*68\r\n";
@@ -148,5 +180,3 @@ int main(int argc, char* argv[])
 	printf("Char: %d, Short: %d, Int: %d, Float: %d, Long:%d", sizeof(char), sizeof(short), sizeof(int), sizeof(float), sizeof(long));
 	printf("\n");	
 	*/
-   return(0);
-}
