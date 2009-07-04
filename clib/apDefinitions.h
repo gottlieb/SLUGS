@@ -234,7 +234,7 @@ and data types.
 
 // ifdef switches for debugging and conditional inclusion
 // ======================================================
- #define __IN_DSPIC__ 	1 // switch for use in PC
+#define __IN_DSPIC__ 	1 // switch for use in PC
 
 #if __IN_DSPIC__
 	#ifdef DEBUG
@@ -245,7 +245,7 @@ and data types.
 #endif
 
 // Uncomment if there is no magentometers
-// #define NO_MAGNETO 
+ #define NO_MAGNETO 
 
 
 // ============= Unions Used for Data Transmission ====

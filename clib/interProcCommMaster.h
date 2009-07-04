@@ -11,6 +11,7 @@
 #include <spi.h>
 // #include "gpsSplit.h"
 // #include "bufferedUART.h" //
+#include "gps.h"
 #include "dataLogger.h"
 #include "protDecoder.h"   
 #include "magneto.h"

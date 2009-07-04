@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.44"
+    ComputedModelVersion    "1.49"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -44,8 +44,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Jul 03 10:46:45 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:44>"
+  LastModifiedDate	  "Fri Jul 03 19:24:32 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:49>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -107,7 +107,7 @@ Model {
 	  StartTime		  "0.0"
 	  StopTime		  "10.0"
 	  AbsTol		  "auto"
-	  FixedStep		  "0.0005"
+	  FixedStep		  ".01"
 	  InitialStep		  "auto"
 	  MaxNumMinSteps	  "-1"
 	  MaxOrder		  5
@@ -465,7 +465,7 @@ Model {
 		  ExtModeStaticAlloc	  off
 		  ExtModeStaticAllocSize  1000000
 		  ExtModeTesting	  off
-		  ExtModeMexFile	  "ext_comm"
+		  ExtModeMexFile	  "noextcomm"
 		  ExtModeIntrfLevel	  "Level1"
 		  InlinedParameterPlacement "NonHierarchical"
 		  TargetOS		  "BareBoardExample"
@@ -620,6 +620,12 @@ Model {
       SampleTime	      "-1"
     }
     Block {
+      BlockType		      Demux
+      Outputs		      "4"
+      DisplayOption	      "none"
+      BusSelectionMode	      off
+    }
+    Block {
       BlockType		      Ground
     }
     Block {
@@ -746,7 +752,7 @@ Model {
   }
   System {
     Name		    "GPSRead"
-    Location		    [227, 222, 1070, 680]
+    Location		    [-1245, 273, -402, 731]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -772,12 +778,30 @@ Model {
     }
     Block {
       BlockType		      DataTypeConversion
+      Name		      "Data Type Conversion"
+      Position		      [370, 268, 445, 302]
+      OutDataTypeMode	      "uint16"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      DataTypeConversion
       Name		      "Data Type Conversion2"
       Position		      [590, 83, 640, 107]
       ShowName		      off
       OutDataTypeMode	      "boolean"
       RndMeth		      "Floor"
       SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Demux
+      Name		      "Demux"
+      Ports		      [1, 5]
+      Position		      [495, 245, 500, 325]
+      BackgroundColor	      "black"
+      ShowName		      off
+      Outputs		      "5"
+      DisplayOption	      "bar"
     }
     Block {
       BlockType		      Reference
@@ -824,8 +848,8 @@ Model {
       Quartz_33f	      "12e6"
       PLLActive_33f	      on
       fcyDesired_33f	      "40e6"
-      tmr1		      "[1  19999  0]"
-      tmr1Info		      "Time Step : 0.0005  ;   Error : 0%  PR1=19999"
+      tmr1		      "[8  49999  0]"
+      tmr1Info		      "Time Step : 0.01  ;   Error : 0%  PR1=49999"
       tmr2345		      "[0  0  0  0  0  0  0  0]"
       tmr2345cfg	      "[-1 -1 -1 -1 -1 -1 -1 -1]"
       IOautoConf	      on
@@ -833,7 +857,7 @@ Model {
 "   0   0   0   0  10  10   0   0   0   0  10   0   0   0   0   0   0   0   0 "
 "  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0  "
 " 0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   "
-"0   0   0   0   0   0   0   0   0   0   0   0   0   4   0   4   5   0   0   0"
+"0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   4   5   0   0   0"
 "   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 "
 "  0   0   0   0 ]"
       TRIS		      "[ 65535  65468  65535  65535  65535  65535  655"
@@ -880,60 +904,55 @@ Model {
     }
     Block {
       BlockType		      Reference
-      Name		      "Rx Input"
-      Tag		      "dsPIC_RX"
+      Name		      "Produce the GPS Main\nData and update the AP St"
+"ate\n(lat lon hei cog sog)\n[gps.c]"
+      Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      [0, 1]
-      Position		      [100, 269, 170, 301]
-      Priority		      "5"
-      SourceBlock	      "dsPICdrivers/Serial PORT/Rx Input"
-      SourceType	      "Rx"
-      UART		      "1"
-      SampleTime	      ".0005"
-      BlockingFctChk	      off
-      OutputDefault	      "0"
-      IsPresentFlagChk	      off
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Tx Output"
-      Tag		      "dsPIC_TX"
-      Ports		      [1]
-      Position		      [295, 269, 365, 301]
-      Priority		      "5"
-      SourceBlock	      "dsPICdrivers/Serial PORT/Tx Output"
-      SourceType	      "Serial Transmition"
-      UART		      "2"
+      Position		      [145, 262, 285, 308]
+      BackgroundColor	      "orange"
+      List {
+	ListType		RTWdata
+	FctDeclaration		"extern void getGpsMainData(real32_T* y1);"
+	FctCall			"getGpsMainData(*%y1);"
+	fctName			"getGpsMainData"
+	INPUT_SIZE		"1"
+	OUTPUT_SIZE		"5"
+	NBR_INPUT		"0"
+	NBR_OUTPUT		"1"
+      }
+      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+      SourceType	      "C Function Call"
+      fctName		      "'getGpsMainData'"
+      INPUT_SIZE	      "1"
+      INPUT1		      "--"
+      INPUT2		      "--"
+      INPUT3		      "--"
+      OUTPUT_SIZE	      "5"
+      OUTPUT1		      "real32"
+      SampleTime	      ".01"
+      InputType		      "[ ]"
+      OutputType	      "[ 7 ]"
+      FctDeclaration	      "extern void getGpsMainData(real32_T* y1);"
+      FctCall		      "getGpsMainData(*%y1);"
       OrderingInOutPopup      "None"
     }
     Block {
       BlockType		      Reference
-      Name		      "UART Configuration"
-      Tag		      "dsPIC_config_UART"
-      Ports		      []
-      Position		      [25, 164, 126, 194]
-      BackgroundColor	      "lightBlue"
-      Priority		      "2"
-      List {
-	ListType		RTWdata
-	RxBufferSize		"64"
-      }
-      SourceBlock	      "dsPICdrivers/Serial PORT/UART Configuration"
-      SourceType	      "Configure UART"
-      UART		      "1"
-      proposed_BAUD	      "19200"
-      ALT_TX_RX		      off
-      InterruptTxWhen	      "Do not use interrupt"
-      TXInterruptPri	      "1"
-      TxBufferSize	      "64"
-      TXEN		      off
-      InterruptRxWhen	      "Do not use interrupt"
-      RXInterruptPri	      "1"
-      RxBufferSize	      "64"
-      BAUD		      "19200"
-      UxBRG		      "129"
-      Info		      "UxBRG = 129   ||  Real Baud : 19231   ||  % err"
-"or : 0.16026  ||  max 0.96154 Bytes / Step"
-      RealBaud		      "0"
+      Name		      "TX Output Multiplexed\nfor Matlab / Labview"
+      Tag		      "dsPIC_TX_Multiplexed"
+      Ports		      [5]
+      Position		      [525, 252, 670, 318]
+      Priority		      "5"
+      SourceBlock	      "dsPICdrivers/Serial PORT/TX Output Multiplexed"
+"\nfor Matlab // Labview"
+      SourceType	      "send structured data frame to Matlab / Labview"
+      UART		      "2"
+      CleverSpreadingChk      on
+      CleverSpreading	      "1"
+      CHANNEL		      "[0 1 2 3 4]"
+      CHANNELBLOCKED	      "[]"
+      CHANNELBLOCKED_BITEWISE "0"
+      Status		      "OK"
     }
     Block {
       BlockType		      Reference
@@ -963,7 +982,7 @@ Model {
       BAUD		      "115200"
       UxBRG		      "21"
       Info		      "UxBRG = 21   ||  Real Baud : 113636   ||  % err"
-"or : -1.3573  ||  max 5.6818 Bytes / Step"
+"or : -1.3573  ||  max 113.6364 Bytes / Step"
       RealBaud		      "0"
     }
     Block {
@@ -1033,9 +1052,47 @@ Model {
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Rx Input"
+      SrcBlock		      "Produce the GPS Main\nData and update the AP St"
+"ate\n(lat lon hei cog sog)\n[gps.c]"
       SrcPort		      1
-      DstBlock		      "Tx Output"
+      DstBlock		      "Data Type Conversion"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux"
+      SrcPort		      1
+      DstBlock		      "TX Output Multiplexed\nfor Matlab / Labview"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux"
+      SrcPort		      2
+      DstBlock		      "TX Output Multiplexed\nfor Matlab / Labview"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Demux"
+      SrcPort		      3
+      DstBlock		      "TX Output Multiplexed\nfor Matlab / Labview"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Demux"
+      SrcPort		      4
+      Points		      [0, -5; 5, 0]
+      DstBlock		      "TX Output Multiplexed\nfor Matlab / Labview"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Demux"
+      SrcPort		      5
+      DstBlock		      "TX Output Multiplexed\nfor Matlab / Labview"
+      DstPort		      5
+    }
+    Line {
+      SrcBlock		      "Data Type Conversion"
+      SrcPort		      1
+      DstBlock		      "Demux"
       DstPort		      1
     }
     Annotation {

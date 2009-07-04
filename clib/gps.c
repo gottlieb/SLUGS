@@ -1,5 +1,5 @@
 // ==============================================================
-// gp.c
+// gps.c
 // This is code implements a fully interrupt driven UART reader to
 // be used in the UCSC Autopilot project. It makes use of the 
 // circular buffer data structure circBuffer.c. It has been 
@@ -355,7 +355,7 @@ void getGpsMainData (float* data){
 	data[0] = gpsControlData.lat.flData;
 	data[1] = gpsControlData.lon.flData;
 	data[2] = gpsControlData.height.flData;
-	data[3] = (float)gpsControlData.cog.usData;
+	data[3] = (float)gpsControlData.sec;//cog.usData;
 	data[4] = (float)gpsControlData.sog.usData/10.0;
 }
 

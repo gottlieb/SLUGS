@@ -35,14 +35,14 @@
 
 unsigned char hex2char (unsigned char halfhex);
 // void gpsRead (unsigned char* gpsChunk);
-void gpsInit(void);
-unsigned char gpsSeparate(unsigned char* outStream);
+void gpsInit (void);
+unsigned char gpsSeparate (unsigned char* outStream);
 void gpsParse (void);
 void getGpsMainData (float* data);
-float degMinToDeg(unsigned char degrees, float minutes);
-char gpSmbl(char symbl);
-void parseRMC(unsigned char* stream);
-void parseGGA(unsigned char* stream);
+float degMinToDeg (unsigned char degrees, float minutes);
+char gpSmbl (char symbl);
+void parseRMC (unsigned char* stream);
+void parseGGA (unsigned char* stream);
 
 #ifdef __cplusplus
        }
