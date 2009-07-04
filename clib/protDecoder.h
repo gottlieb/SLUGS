@@ -7,7 +7,6 @@
 #endif
 #include <stdio.h>
 #include <string.h>
-#include "apDefinitions.h"
 #include "circBuffer.h"
 #include "apUtils.h"
 

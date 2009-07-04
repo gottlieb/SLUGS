@@ -71,6 +71,7 @@ void sensorMCUInit(void){
 	#ifndef NO_MAGNETO
 		magnetoInit();
 	#endif
+		
 	cubeInit();
 	
 	

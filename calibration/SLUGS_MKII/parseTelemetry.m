@@ -211,25 +211,25 @@ if onlyRaw == 0
     sec =  M(idxIni:idxEnd,gpsScIdx);
     sat =  M(idxIni:idxEnd,gpsSatIdx);
 
-%     bax =  M(idxIni:idxEnd,biaAxIdx);
-%     bay =  M(idxIni:idxEnd,biaAyIdx);
-%     baz =  M(idxIni:idxEnd,biaAzIdx);
-% 
-%     bgx =  M(idxIni:idxEnd,biaGxIdx);
-%     bgy =  M(idxIni:idxEnd,biaGyIdx);
-%     bgz =  M(idxIni:idxEnd,biaGzIdx);
-% 
-%     dyn = M(idxIni:idxEnd,airDynIdx);
-%     sta = M(idxIni:idxEnd,airStaIdx);
-%     oat = M(idxIni:idxEnd,airTemIdx);
-% 
-%     fl1 = M(idxIni:idxEnd,diaFl1Idx);
-%     fl2 = M(idxIni:idxEnd,diaFl2Idx);
-%     fl3 = M(idxIni:idxEnd,diaFl3Idx);
-% 
-%     sh1 = M(idxIni:idxEnd,diaSh1Idx);
-%     sh2 = M(idxIni:idxEnd,diaSh2Idx);
-%     sh3 = M(idxIni:idxEnd,diaSh3Idx);
+    bax =  M(idxIni:idxEnd,biaAxIdx);
+    bay =  M(idxIni:idxEnd,biaAyIdx);
+    baz =  M(idxIni:idxEnd,biaAzIdx);
+
+    bgx =  M(idxIni:idxEnd,biaGxIdx);
+    bgy =  M(idxIni:idxEnd,biaGyIdx);
+    bgz =  M(idxIni:idxEnd,biaGzIdx);
+
+    dyn = M(idxIni:idxEnd,airDynIdx);
+    sta = M(idxIni:idxEnd,airStaIdx);
+    oat = M(idxIni:idxEnd,airTemIdx);
+
+    fl1 = M(idxIni:idxEnd,diaFl1Idx);
+    fl2 = M(idxIni:idxEnd,diaFl2Idx);
+    fl3 = M(idxIni:idxEnd,diaFl3Idx);
+
+    sh1 = M(idxIni:idxEnd,diaSh1Idx);
+    sh2 = M(idxIni:idxEnd,diaSh2Idx);
+    sh3 = M(idxIni:idxEnd,diaSh3Idx);
 end
 %%
  if plotData == 1
@@ -344,169 +344,169 @@ end
     figct = figct + 1;
         
     if onlyRaw == 0 
-%          Plot the Velocities
-%         figure(figct)
-%         subplot(3,1,1)
-%             plot(time, vx);
-%             title('Velocity X');        
-%         subplot(3,1,2)
-%             plot(time, vy);
-%             title('Velocity Y');                
-%         subplot(3,1,3)
-%             plot(time, vz);
-%             title('Velocity z');                
-%             xlabel('Time (s)');
-% 
-%         eval(['print -depsc  '  num2str(figct)]);
-%         figct = figct + 1;
-% 
-%         figure(figct)
-%         subplot(3,1,1)
-%             plot(time, x);
-%             title('Position X');        
-%         subplot(3,1,2)
-%             plot(time, y);
-%             title('Position Y');                
-%         subplot(3,1,3)
-%             plot(time, z);
-%             title('Position z');                
-%             xlabel('Time (s)');
-% 
-%         eval(['print -depsc  '  num2str(figct)]);
-%         figct = figct + 1;
-% 
-%         figure(figct)
-%             plot(y,x);
-%             title('XY Position plot');        
-%             xlabel('X (m)');
-%             ylabel('Y (m)');
-% 
-% 
-%         eval(['print -depsc  '  num2str(figct)]);
-%         figct = figct + 1;
-% 
-%         figure(figct)
-%             plot3(y,x,z);
-%             title('XYZ Position plot');        
-%             xlabel('X (m)');
-%             ylabel('Y (m)');
-%             zlabel('Z (m)');
-% 
-%         eval(['print -depsc  '  num2str(figct)]);
-%         figct = figct + 1;
+         %Plot the Velocities
+        figure(figct)
+        subplot(3,1,1)
+            plot(time, vx);
+            title('Velocity X');        
+        subplot(3,1,2)
+            plot(time, vy);
+            title('Velocity Y');                
+        subplot(3,1,3)
+            plot(time, vz);
+            title('Velocity z');                
+            xlabel('Time (s)');
 
-        % plot the Pressures
-%         figure(figct)
-%         subplot(2,1,1)
-%             plot(time, dyn);
-%             title('Dynamic Pressure');        
-%         subplot(2,1,2)
-%             plot(time, sta);
-%             title('Static Pressure');                
-%             xlabel('Time (s)');
-%         
-%         eval(['print -depsc  '  num2str(figct)]);
-%         figct = figct + 1;
+        eval(['print -depsc  '  num2str(figct)]);
+        figct = figct + 1;
+
+        figure(figct)
+        subplot(3,1,1)
+            plot(time, x);
+            title('Position X');        
+        subplot(3,1,2)
+            plot(time, y);
+            title('Position Y');                
+        subplot(3,1,3)
+            plot(time, z);
+            title('Position z');                
+            xlabel('Time (s)');
+
+        eval(['print -depsc  '  num2str(figct)]);
+        figct = figct + 1;
+
+        figure(figct)
+            plot(y,x);
+            title('XY Position plot');        
+            xlabel('X (m)');
+            ylabel('Y (m)');
 
 
-%         figure(figct)
-%             plot(lon, lat);
-%             title('Lat Lon Position plot');        
-%             xlabel ('Longitude (deg)');
-%             ylabel ('Latitude (deg)');
-%             
-%         eval(['print -depsc  '  num2str(figct)]);
-%         figct = figct + 1;
-% 
-%         figure(figct)
-%             plot3(lon,lat, hei);
-%             title('Lat Lon Height Position plot'); 
-%             xlabel ('Longitude (deg)');
-%             ylabel ('Latitude (deg)');
-%             zlabel ('Height (m)');
-%         eval(['print -depsc  '  num2str(figct)]);
-%         figct = figct + 1;
-% 
-%         
-%         figure(figct)
-%         subplot(3,1,1)
-%             plot(time, cog);
-%             title('Course Over Ground from GPS');        
-%         subplot(3,1,2)
-%             plot(time, sog);
-%             title('Speed Over Ground from GPS');                
-%         subplot(3,1,3)
-%             plot(time, sat);
-%             title('Satellites in Use');                
-%             xlabel('Time (ms)');
-%         eval(['print -depsc  '  num2str(figct)]);
-%         figct = figct + 1;
+        eval(['print -depsc  '  num2str(figct)]);
+        figct = figct + 1;
 
-%         figure(figct)
-%         subplot(2,3,1)
-%             plot(time, bgx);
-%             title('Bias Gyro X');
-%             ylabel('Radians/s');
-%         subplot(2,3,2)
-%             plot(time, bgy);
-%             title('Bias Gyro Y');        
-%         subplot(2,3,3)
-%             plot(time, bgz);
-%             title('Bias Gyro Z');        
-%         subplot(2,3,4)
-%             plot(time, bax);
-%             title('Bias Accel X');        
-%             xlabel('Time (ms)');
-%             ylabel ('m/s');
-%         subplot(2,3,5)
-%             plot(time, bay);
-%             title('Bias Accel Y');        
-%             xlabel('Time (ms)');
-%         subplot(2,3,6)
-%             plot(time, baz);
-%             title('Bias Accel Z');        
-%             xlabel('Time (ms)');
-%         eval(['print -depsc  '  num2str(figct)]);
-%         figct = figct + 1;
-% 
-%      figure(figct)
-%         subplot(3,1,1)
-%             plot(time, fl1);
-%             title('Diagnostics Float 1');        
-%         subplot(3,1,2)
-%             plot(time, fl2);
-%             title('Diagnostics Float 2');                
-%         subplot(3,1,3)
-%             plot(time, fl3);
-%             title('Diagnostics Float 3');                
-%             xlabel('Time (ms)');
-%         eval(['print -depsc  '  num2str(figct)]);
-%         figct = figct + 1;
-% 
-%      figure(figct)
-%         subplot(3,1,1)
-%             plot(time, sh1);
-%             title('Diagnostics Short 1');        
-%         subplot(3,1,2)
-%             plot(time, sh2);
-%             title('Diagnostics Short 2');                
-%         subplot(3,1,3)
-%             plot(time, sh3);
-%             title('Diagnostics Short 3');                
-%             xlabel('Time (ms)');
-%         eval(['print -depsc  '  num2str(figct)]);
-%         figct = figct + 1;
+        figure(figct)
+            plot3(y,x,z);
+            title('XYZ Position plot');        
+            xlabel('X (m)');
+            ylabel('Y (m)');
+            zlabel('Z (m)');
+
+        eval(['print -depsc  '  num2str(figct)]);
+        figct = figct + 1;
+
+        %plot the Pressures
+        figure(figct)
+        subplot(2,1,1)
+            plot(time, dyn);
+            title('Dynamic Pressure');        
+        subplot(2,1,2)
+            plot(time, sta);
+            title('Static Pressure');                
+            xlabel('Time (s)');
+        
+        eval(['print -depsc  '  num2str(figct)]);
+        figct = figct + 1;
+
+
+        figure(figct)
+            plot(lon, lat);
+            title('Lat Lon Position plot');        
+            xlabel ('Longitude (deg)');
+            ylabel ('Latitude (deg)');
+            
+        eval(['print -depsc  '  num2str(figct)]);
+        figct = figct + 1;
+
+        figure(figct)
+            plot3(lon,lat, hei);
+            title('Lat Lon Height Position plot'); 
+            xlabel ('Longitude (deg)');
+            ylabel ('Latitude (deg)');
+            zlabel ('Height (m)');
+        eval(['print -depsc  '  num2str(figct)]);
+        figct = figct + 1;
 
         
-%      figure(figct)
-%         subplot(2,1,1)
-%             plot(time, sec);
-%             title('GPS Seconds');        
-%         subplot(2,1,2)
-%             plot(diff(sec));
-%             title('Update Rate');                
-%         eval(['print -depsc  '  num2str(figct)]);
-%         figct = figct + 1;
+        figure(figct)
+        subplot(3,1,1)
+            plot(time, cog);
+            title('Course Over Ground from GPS');        
+        subplot(3,1,2)
+            plot(time, sog);
+            title('Speed Over Ground from GPS');                
+        subplot(3,1,3)
+            plot(time, sat);
+            title('Satellites in Use');                
+            xlabel('Time (ms)');
+        eval(['print -depsc  '  num2str(figct)]);
+        figct = figct + 1;
+
+        figure(figct)
+        subplot(2,3,1)
+            plot(time, bgx);
+            title('Bias Gyro X');
+            ylabel('Radians/s');
+        subplot(2,3,2)
+            plot(time, bgy);
+            title('Bias Gyro Y');        
+        subplot(2,3,3)
+            plot(time, bgz);
+            title('Bias Gyro Z');        
+        subplot(2,3,4)
+            plot(time, bax);
+            title('Bias Accel X');        
+            xlabel('Time (ms)');
+            ylabel ('m/s');
+        subplot(2,3,5)
+            plot(time, bay);
+            title('Bias Accel Y');        
+            xlabel('Time (ms)');
+        subplot(2,3,6)
+            plot(time, baz);
+            title('Bias Accel Z');        
+            xlabel('Time (ms)');
+        eval(['print -depsc  '  num2str(figct)]);
+        figct = figct + 1;
+
+     figure(figct)
+        subplot(3,1,1)
+            plot(time, fl1);
+            title('Diagnostics Float 1');        
+        subplot(3,1,2)
+            plot(time, fl2);
+            title('Diagnostics Float 2');                
+        subplot(3,1,3)
+            plot(time, fl3);
+            title('Diagnostics Float 3');                
+            xlabel('Time (ms)');
+        eval(['print -depsc  '  num2str(figct)]);
+        figct = figct + 1;
+
+     figure(figct)
+        subplot(3,1,1)
+            plot(time, sh1);
+            title('Diagnostics Short 1');        
+        subplot(3,1,2)
+            plot(time, sh2);
+            title('Diagnostics Short 2');                
+        subplot(3,1,3)
+            plot(time, sh3);
+            title('Diagnostics Short 3');                
+            xlabel('Time (ms)');
+        eval(['print -depsc  '  num2str(figct)]);
+        figct = figct + 1;
+
+        
+     figure(figct)
+        subplot(2,1,1)
+            plot(time, sec);
+            title('GPS Seconds');        
+        subplot(2,1,2)
+            plot(diff(sec));
+            title('Update Rate');                
+        eval(['print -depsc  '  num2str(figct)]);
+        figct = figct + 1;
 
     end
         
@@ -517,7 +517,7 @@ PosAtt = [phi the psi p q r x y z vx vy vz];
 Raw = [rgx rgy rgz rax ray raz rmx rmy rmz rba rpi rpo rth];
 if onlyRaw  == 0
     GPS = [lat lon hei cog sog sec];
-%     Bias = [bgx bgy bgz bax bay baz];
-%     AirDiag = [sta dyn oat];
+    Bias = [bgx bgy bgz bax bay baz];
+    AirDiag = [sta dyn oat];
 end
 

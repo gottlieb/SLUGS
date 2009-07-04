@@ -36,7 +36,7 @@ and data types.
 
 // GPS Circular Buffers
 // ====================
-#define MSIZE			127
+#define MSIZE			150
 #define CSIZE			26 //[newBytes payload remaingBytes]  (comms buffer out of readGPS)
 
 // Data Logger Values
@@ -245,7 +245,7 @@ and data types.
 #endif
 
 // Uncomment if there is no magentometers
-//#define NO_MAGNETO 
+ #define NO_MAGNETO 
 
 
 // ============= Unions Used for Data Transmission ====

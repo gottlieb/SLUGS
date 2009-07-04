@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.53"
+    ComputedModelVersion    "1.47"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -15,7 +15,7 @@ Model {
   SampleTimeColors	  on
   LibraryLinkDisplay	  "none"
   WideLines		  on
-  ShowLineDimensions	  on
+  ShowLineDimensions	  off
   ShowPortDataTypes	  off
   ShowLoopsOnError	  on
   IgnoreBidirectionalLines off
@@ -38,15 +38,14 @@ Model {
   StatusBar		  on
   BrowserShowLibraryLinks off
   BrowserLookUnderMasks	  off
-  InitFcn		  "initGPS"
   Created		  "Fri Aug 15 13:29:17 2008"
   Creator		  "ASL_Lab"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "ASL_Lab"
+  LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Aug 29 10:26:53 2008"
-  ModelVersionFormat	  "1.%<AutoIncrement:53>"
+  LastModifiedDate	  "Fri Jul 03 14:36:18 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:47>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -108,7 +107,7 @@ Model {
 	  StartTime		  "0.0"
 	  StopTime		  "10.0"
 	  AbsTol		  "auto"
-	  FixedStep		  "0.01"
+	  FixedStep		  "0.0005"
 	  InitialStep		  "auto"
 	  MaxNumMinSteps	  "-1"
 	  MaxOrder		  5
@@ -323,10 +322,9 @@ Model {
 	  ConfigurationMode	  "Optimized"
 	  ProcessScript		  "dspic_make_rtw_hook"
 	  ConfigAtBuild		  off
-	  CustomHeaderCode	  "\n"
-	  CustomSource		  "clib\\circBuffer.c\nclib\\gpsParse.c\nclib"
-"\\gpsSplit.c\nclib\\sbrk.c\nclib\\bufferedUART.c\nclib\\dataLogger.c\nclib\\i"
-"nterProcComm.c"
+	  CustomHeaderCode	  "#include \"apDefinitions.h\""
+	  CustomSource		  "clib\\circBuffer.c\nclib\\gps.c\nclib\\prot"
+"Decoder.c\nclib\\apUtils.c\nclib\\DEE.c\nclib\\DEES.s\n"
 	  IncludeHyperlinkInReport on
 	  LaunchReport		  on
 	  TargetLang		  "C"
@@ -467,7 +465,7 @@ Model {
 		  ExtModeStaticAlloc	  off
 		  ExtModeStaticAllocSize  1000000
 		  ExtModeTesting	  off
-		  ExtModeMexFile	  "noextcomm"
+		  ExtModeMexFile	  "ext_comm"
 		  ExtModeIntrfLevel	  "Level1"
 		  InlinedParameterPlacement "NonHierarchical"
 		  TargetOS		  "BareBoardExample"
@@ -532,7 +530,7 @@ Model {
 		DataType		"string"
 		Name			"OPTIM_GCC"
 		Value			"-mcpu=33fJ256MC710 -O3 -fschedule-ins"
-"ns -fschedule-insns2 -merrata=exch"
+"ns -fschedule-insns2"
 	      }
 	      CustomProperty {
 		DataType		"string"
@@ -543,27 +541,32 @@ Model {
 	      CustomProperty {
 		DataType		"string"
 		Name			"LDPICTYPE"
-		Value			"-T C:\\PROGRA~1\\MICROC~1\\MPLABC~1\\"
+		Value			"-T C:\\PROGRA~1\\MICROC~1\\MPLABC~2\\"
 "support\\dsPIC33F\\gld\\p33fJ256MC710.gld"
 	      }
 	      CustomProperty {
 		DataType		"string"
 		Name			"LDLIBPIC"
-		Value			"C:\\PROGRA~1\\MICROC~1\\MPLABC~1\\lib"
-"\\libpic30-coff.a  C:\\PROGRA~1\\MICROC~1\\MPLABC~1\\lib\\dsPIC33F\\libp33fJ2"
-"56MC710-coff.a C:\\PROGRA~1\\MICROC~1\\MPLABC~1\\lib\\libc-coff.a C:\\PROGRA~"
-"1\\MICROC~1\\MPLABC~1\\lib\\libm-coff.a"
+		Value			"C:\\PROGRA~1\\MICROC~1\\MPLABC~2\\lib"
+"\\libpic30-coff.a  C:\\PROGRA~1\\MICROC~1\\MPLABC~2\\lib\\dsPIC33F\\libp33fJ2"
+"56MC710-coff.a C:\\PROGRA~1\\MICROC~1\\MPLABC~2\\lib\\libc-coff.a C:\\PROGRA~"
+"1\\MICROC~1\\MPLABC~2\\lib\\libm-coff.a"
 	      }
 	      CustomProperty {
 		DataType		"string"
 		Name			"PIC_INCLUDES"
-		Value			"-I C:\\PROGRA~1\\MICROC~1\\MPLABC~1\\"
+		Value			"-I C:\\PROGRA~1\\MICROC~1\\MPLABC~2\\"
 "include"
 	      }
 	      CustomProperty {
 		DataType		"string"
 		Name			"PIC_REF"
 		Value			"33fJ256MC710"
+	      }
+	      CustomProperty {
+		DataType		"string"
+		Name			"GCCPATH"
+		Value			"''"
 	      }
 	    }
 	    PropName		    "Components"
@@ -572,7 +575,7 @@ Model {
 	PropName		"Components"
       }
       Name		      "Configuration"
-      CurrentDlgPage	      "Real-Time Workshop/Custom Code"
+      CurrentDlgPage	      "Solver"
     }
     PropName		    "ConfigurationSets"
   }
@@ -593,18 +596,6 @@ Model {
     ShowName		    on
   }
   BlockParameterDefaults {
-    Block {
-      BlockType		      BusCreator
-      Inputs		      "4"
-      DisplayOption	      "none"
-      UseBusObject	      off
-      BusObject		      "BusObject"
-      NonVirtualBus	      off
-    }
-    Block {
-      BlockType		      BusSelector
-      OutputAsBus	      off
-    }
     Block {
       BlockType		      Constant
       Value		      "1"
@@ -629,19 +620,10 @@ Model {
       SampleTime	      "-1"
     }
     Block {
-      BlockType		      Demux
-      Outputs		      "4"
-      DisplayOption	      "none"
-      BusSelectionMode	      off
-    }
-    Block {
-      BlockType		      DiscreteTransferFcn
-      Numerator		      "[1]"
-      Denominator	      "[1 0.5]"
-      SampleTime	      "1"
-      StateMustResolveToSignalObject off
-      RTWStateStorageClass    "Auto"
-      Realization	      "auto"
+      BlockType		      EnablePort
+      StatesWhenEnabling      "held"
+      ShowOutputPort	      off
+      ZeroCross		      on
     }
     Block {
       BlockType		      Ground
@@ -664,14 +646,6 @@ Model {
       Interpolate	      on
     }
     Block {
-      BlockType		      Mux
-      Inputs		      "4"
-      DisplayOption	      "none"
-      UseBusObject	      off
-      BusObject		      "BusObject"
-      NonVirtualBus	      off
-    }
-    Block {
       BlockType		      Outport
       Port		      "1"
       UseBusObject	      off
@@ -688,23 +662,13 @@ Model {
       InitialOutput	      "[]"
     }
     Block {
-      BlockType		      Product
-      Inputs		      "2"
-      Multiplication	      "Element-wise(.*)"
-      CollapseMode	      "All dimensions"
-      CollapseDim	      "1"
+      BlockType		      RelationalOperator
+      Operator		      ">="
       InputSameDT	      on
-      OutDataTypeMode	      "Same as first input"
-      OutDataType	      "sfix(16)"
-      OutScaling	      "2^0"
-      LockScale		      off
-      RndMeth		      "Zero"
-      SaturateOnIntegerOverflow	on
-      SampleTime	      "-1"
-    }
-    Block {
-      BlockType		      Rounding
-      Operator		      "floor"
+      LogicOutDataTypeMode    "Logical (see Configuration Parameters: Optimiza"
+"tion)"
+      LogicDataType	      "uint(8)"
+      ZeroCross		      on
       SampleTime	      "-1"
     }
     Block {
@@ -798,7 +762,7 @@ Model {
   }
   System {
     Name		    "GPSReadLog"
-    Location		    [284, 173, 1079, 627]
+    Location		    [227, 222, 1070, 680]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -813,138 +777,24 @@ Model {
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
     Block {
-      BlockType		      SubSystem
-      Name		      "Compute Load"
-      Ports		      [0, 1]
-      Position		      [50, 293, 130, 337]
-      BackgroundColor	      "orange"
-      MinAlgLoopOccurrences   off
-      RTWSystemCode	      "Auto"
+      BlockType		      Reference
+      Name		      "Compare\nTo Zero"
+      Ports		      [1, 1]
+      Position		      [370, 235, 400, 265]
+      SourceBlock	      "simulink/Logic and Bit\nOperations/Compare\nTo "
+"Zero"
+      SourceType	      "Compare To Zero"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
       FunctionWithSeparateData off
-      MaskHideContents	      off
-      System {
-	Name			"Compute Load"
-	Location		[338, 369, 968, 477]
-	Open			off
-	ModelBrowserVisibility	off
-	ModelBrowserWidth	200
-	ScreenColor		"white"
-	PaperOrientation	"landscape"
-	PaperPositionMode	"auto"
-	PaperType		"usletter"
-	PaperUnits		"inches"
-	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
-	TiledPageScale		1
-	ShowPageBoundaries	off
-	ZoomFactor		"100"
-	Block {
-	  BlockType		  Reference
-	  Name			  "Calculus Time Step"
-	  Tag			  "dsPIC_CalculusTimeStep"
-	  Ports			  [0, 2]
-	  Position		  [25, 25, 150, 65]
-	  SourceBlock		  "dsPICdrivers/OTHERS/Calculus Time Step"
-	  SourceType		  "Calculation Time"
-	  SampleTime		  "0.01"
-	  PR1chk		  on
-	}
-	Block {
-	  BlockType		  DataTypeConversion
-	  Name			  "Data Type Conversion1"
-	  Position		  [255, 42, 290, 68]
-	  ShowName		  off
-	  OutDataTypeMode	  "single"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  DataTypeConversion
-	  Name			  "Data Type Conversion12"
-	  Position		  [475, 32, 510, 58]
-	  ShowName		  off
-	  OutDataTypeMode	  "uint8"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  DataTypeConversion
-	  Name			  "Data Type Conversion2"
-	  Position		  [185, 22, 220, 48]
-	  ShowName		  off
-	  OutDataTypeMode	  "single"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Product
-	  Name			  "Divide"
-	  Ports			  [2, 1]
-	  Position		  [345, 27, 375, 58]
-	  Inputs		  "*/"
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "double"
-	  OutScaling		  "2^-10"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Rounding
-	  Name			  "Rounding\nFunction"
-	  Position		  [415, 30, 445, 60]
-	  ShowName		  off
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "Load (%)"
-	  Position		  [545, 38, 575, 52]
-	  IconDisplay		  "Port number"
-	  BusOutputAsStruct	  off
-	}
-	Line {
-	  SrcBlock		  "Calculus Time Step"
-	  SrcPort		  1
-	  DstBlock		  "Data Type Conversion2"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Calculus Time Step"
-	  SrcPort		  2
-	  DstBlock		  "Data Type Conversion1"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Divide"
-	  SrcPort		  1
-	  DstBlock		  "Rounding\nFunction"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Rounding\nFunction"
-	  SrcPort		  1
-	  DstBlock		  "Data Type Conversion12"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Data Type Conversion12"
-	  SrcPort		  1
-	  DstBlock		  "Load (%)"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Data Type Conversion1"
-	  SrcPort		  1
-	  Points		  [0, -5]
-	  DstBlock		  "Divide"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Data Type Conversion2"
-	  SrcPort		  1
-	  DstBlock		  "Divide"
-	  DstPort		  1
-	}
-      }
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      relop		      ">"
+      LogicOutDataTypeMode    "uint8"
+      ZeroCross		      off
     }
     Block {
       BlockType		      Reference
@@ -957,41 +807,9 @@ Model {
       SourceType	      ""
     }
     Block {
-      BlockType		      Reference
-      Name		      "Data Logger"
-      Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      [1]
-      Position		      [260, 237, 365, 273]
-      List {
-	ListType		RTWdata
-	FctDeclaration		"extern void logData(uint8_T* u1);"
-	FctCall			"logData(*%u1);"
-	fctName			"logData"
-	INPUT_SIZE		"46"
-	OUTPUT_SIZE		"1"
-	NBR_INPUT		"1"
-	NBR_OUTPUT		"0"
-      }
-      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-      SourceType	      "C Function Call"
-      fctName		      "'logData'"
-      INPUT_SIZE	      "46"
-      INPUT1		      "uint8"
-      INPUT2		      "--"
-      INPUT3		      "--"
-      OUTPUT_SIZE	      "1"
-      OUTPUT1		      "--"
-      SampleTime	      "-1"
-      InputType		      "[ 2 ]"
-      OutputType	      "[ ]"
-      FctDeclaration	      "extern void logData(uint8_T* u1);"
-      FctCall		      "logData(*%u1);"
-      OrderingInOutPopup      "None"
-    }
-    Block {
       BlockType		      DataTypeConversion
       Name		      "Data Type Conversion2"
-      Position		      [590, 63, 640, 87]
+      Position		      [590, 83, 640, 107]
       ShowName		      off
       OutDataTypeMode	      "boolean"
       RndMeth		      "Floor"
@@ -1002,39 +820,29 @@ Model {
       Name		      "Digital Output Write"
       Tag		      "dsPIC_Digital_Output"
       Ports		      [1]
-      Position		      [660, 55, 760, 95]
+      Position		      [660, 75, 760, 115]
       BackgroundColor	      "darkGreen"
       Priority		      "5"
       SourceBlock	      "dsPICdrivers/Digital I//O/Digital Output Write"
       SourceType	      ""
-      PORT		      "G"
-      Pin		      "[ 14]"
+      PORT		      "B"
+      Pin		      "[ 0]"
       Simultaneous	      off
       OrderingInOutPopup      "None"
     }
     Block {
-      BlockType		      Reference
-      Name		      "Generate Code"
-      Ports		      []
-      Position		      [145, 69, 257, 125]
-      BackgroundColor	      "yellow"
-      SourceBlock	      "dsPICdrivers/Simulink Configuration/Generate Co"
-"de"
-      SourceType	      ""
-    }
-    Block {
       BlockType		      SubSystem
-      Name		      "Get GPS"
-      Ports		      [0, 2]
-      Position		      [25, 240, 130, 275]
-      BackgroundColor	      "orange"
+      Name		      "Enabled\nSubsystem"
+      Ports		      [1, 0, 1]
+      Position		      [485, 274, 585, 316]
+      TreatAsAtomicUnit	      on
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
       MaskHideContents	      off
       System {
-	Name			"Get GPS"
-	Location		[299, 373, 840, 627]
+	Name			"Enabled\nSubsystem"
+	Location		[421, 301, 919, 601]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1048,318 +856,46 @@ Model {
 	ShowPageBoundaries	off
 	ZoomFactor		"100"
 	Block {
-	  BlockType		  Demux
-	  Name			  "Demux"
-	  Ports			  [1, 2]
-	  Position		  [160, 56, 165, 94]
-	  BackgroundColor	  "black"
-	  ShowName		  off
-	  Outputs		  "[25 1]"
-	  DisplayOption		  "bar"
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [110, 103, 140, 117]
+	  IconDisplay		  "Port number"
 	}
 	Block {
-	  BlockType		  Demux
-	  Name			  "Demux1"
-	  Ports			  [1, 2]
-	  Position		  [350, 26, 355, 64]
-	  BackgroundColor	  "black"
-	  ShowName		  off
-	  Outputs		  "[1 24]"
-	  DisplayOption		  "bar"
+	  BlockType		  EnablePort
+	  Name			  "Enable"
+	  Ports			  []
+	  Position		  [235, 20, 255, 40]
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "GPS Read"
-	  Tag			  "dsPIC_dsPIC_CFunctionCall"
-	  Ports			  [0, 1]
-	  Position		  [25, 57, 130, 93]
-	  List {
-	    ListType		    RTWdata
-	    FctDeclaration	    "extern void gpsRead(uint8_T* y1);"
-	    FctCall		    "gpsRead(*%y1);"
-	    fctName		    "gpsRead"
-	    INPUT_SIZE		    "1"
-	    OUTPUT_SIZE		    "26"
-	    NBR_INPUT		    "0"
-	    NBR_OUTPUT		    "1"
-	  }
-	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
-	  SourceType		  "C Function Call"
-	  fctName		  "'gpsRead'"
-	  INPUT_SIZE		  "1"
-	  INPUT1		  "--"
-	  INPUT2		  "--"
-	  INPUT3		  "--"
-	  OUTPUT_SIZE		  "26"
-	  OUTPUT1		  "uint8"
-	  SampleTime		  "-1"
-	  InputType		  "[ ]"
-	  OutputType		  "[ 2 ]"
-	  FctDeclaration	  "extern void gpsRead(uint8_T* y1);"
-	  FctCall		  "gpsRead(*%y1);"
+	  Name			  "Tx Output"
+	  Tag			  "dsPIC_TX"
+	  Ports			  [1]
+	  Position		  [195, 94, 265, 126]
+	  Priority		  "5"
+	  SourceBlock		  "dsPICdrivers/Serial PORT/Tx Output"
+	  SourceType		  "Serial Transmition"
+	  UART			  "2"
 	  OrderingInOutPopup	  "None"
 	}
-	Block {
-	  BlockType		  Reference
-	  Name			  "GPS Sentence\nParser"
-	  Tag			  "dsPIC_dsPIC_CFunctionCall"
-	  Ports			  [1, 2]
-	  Position		  [235, 142, 340, 178]
-	  List {
-	    ListType		    RTWdata
-	    FctDeclaration	    "extern void gpsParse(uint8_T* u1,uint8_T*"
-" y1);"
-	    FctCall		    "gpsParse(*%u1, *%y1);"
-	    fctName		    "gpsParse"
-	    INPUT_SIZE		    "127"
-	    OUTPUT_SIZE		    "27"
-	    NBR_INPUT		    "1"
-	    NBR_OUTPUT		    "1"
-	  }
-	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
-	  SourceType		  "C Function Call"
-	  fctName		  "'gpsParse'"
-	  INPUT_SIZE		  "127"
-	  INPUT1		  "uint8"
-	  INPUT2		  "--"
-	  INPUT3		  "--"
-	  OUTPUT_SIZE		  "27"
-	  OUTPUT1		  "uint8"
-	  SampleTime		  "-1"
-	  InputType		  "[ 2 ]"
-	  OutputType		  "[ 2 ]"
-	  FctDeclaration	  "extern void gpsParse(uint8_T* u1,uint8_T* y"
-"1);"
-	  FctCall		  "gpsParse(*%u1, *%y1);"
-	  OrderingInOutPopup	  "Output"
-	}
-	Block {
-	  BlockType		  Reference
-	  Name			  "GPS Sentence Split"
-	  Tag			  "dsPIC_dsPIC_CFunctionCall"
-	  Ports			  [1, 1]
-	  Position		  [220, 62, 325, 98]
-	  List {
-	    ListType		    RTWdata
-	    FctDeclaration	    "extern void gpsSeparate(uint8_T* u1,uint8"
-"_T* y1);"
-	    FctCall		    "gpsSeparate(*%u1, *%y1);"
-	    fctName		    "gpsSeparate"
-	    INPUT_SIZE		    "25"
-	    OUTPUT_SIZE		    "127"
-	    NBR_INPUT		    "1"
-	    NBR_OUTPUT		    "1"
-	  }
-	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
-	  SourceType		  "C Function Call"
-	  fctName		  "'gpsSeparate'"
-	  INPUT_SIZE		  "25"
-	  INPUT1		  "uint8"
-	  INPUT2		  "--"
-	  INPUT3		  "--"
-	  OUTPUT_SIZE		  "127"
-	  OUTPUT1		  "uint8"
-	  SampleTime		  "-1"
-	  InputType		  "[ 2 ]"
-	  OutputType		  "[ 2 ]"
-	  FctDeclaration	  "extern void gpsSeparate(uint8_T* u1,uint8_T"
-"* y1);"
-	  FctCall		  "gpsSeparate(*%u1, *%y1);"
-	  OrderingInOutPopup	  "None"
-	}
-	Block {
-	  BlockType		  Terminator
-	  Name			  "Terminator"
-	  Position		  [135, 105, 155, 125]
-	  Orientation		  "left"
-	  ShowName		  off
-	}
-	Block {
-	  BlockType		  Terminator
-	  Name			  "Terminator1"
-	  Position		  [370, 45, 390, 65]
-	  ShowName		  off
-	}
-	Block {
-	  BlockType		  Terminator
-	  Name			  "Terminator2"
-	  Position		  [395, 25, 415, 45]
-	  ShowName		  off
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "GPS\nStream"
-	  Position		  [380, 143, 410, 157]
-	  IconDisplay		  "Port number"
-	  BusOutputAsStruct	  off
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "Sync Pulse"
-	  Position		  [375, 193, 405, 207]
-	  Port			  "2"
-	  IconDisplay		  "Port number"
-	  BusOutputAsStruct	  off
-	}
 	Line {
-	  SrcBlock		  "GPS Sentence Split"
+	  SrcBlock		  "In1"
 	  SrcPort		  1
-	  Points		  [0, 40; -130, 0; 0, 40]
-	  DstBlock		  "GPS Sentence\nParser"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "GPS Read"
-	  SrcPort		  1
-	  DstBlock		  "Demux"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  1
-	  Points		  [10, 0]
-	  Branch {
-	    Points		    [0, 15]
-	    DstBlock		    "GPS Sentence Split"
-	    DstPort		    1
-	  }
-	  Branch {
-	    Points		    [0, -20]
-	    DstBlock		    "Demux1"
-	    DstPort		    1
-	  }
-	}
-	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  2
-	  DstBlock		  "Terminator"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Demux1"
-	  SrcPort		  2
-	  DstBlock		  "Terminator1"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Demux1"
-	  SrcPort		  1
-	  DstBlock		  "Terminator2"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "GPS Sentence\nParser"
-	  SrcPort		  1
-	  DstBlock		  "GPS\nStream"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "GPS Sentence\nParser"
-	  SrcPort		  2
-	  Points		  [5, 0; 0, 30]
-	  DstBlock		  "Sync Pulse"
+	  DstBlock		  "Tx Output"
 	  DstPort		  1
 	}
       }
     }
     Block {
       BlockType		      Reference
-      Name		      "Initialize Data \nLogger"
-      Tag		      "dsPIC_dsPIC_CFunctionCall"
+      Name		      "Generate Code"
       Ports		      []
-      Position		      [370, 162, 475, 198]
+      Position		      [145, 69, 257, 125]
       BackgroundColor	      "yellow"
-      List {
-	ListType		RTWdata
-	FctDeclaration		"extern void loggerInit();"
-	FctCall			"loggerInit();"
-	fctName			"loggerInit"
-	INPUT_SIZE		"1"
-	OUTPUT_SIZE		"1"
-	NBR_INPUT		"0"
-	NBR_OUTPUT		"0"
-      }
-      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-      SourceType	      "C Function Call"
-      fctName		      "'loggerInit'"
-      INPUT_SIZE	      "1"
-      INPUT1		      "--"
-      INPUT2		      "--"
-      INPUT3		      "--"
-      OUTPUT_SIZE	      "1"
-      OUTPUT1		      "--"
-      SampleTime	      "inf"
-      InputType		      "[ ]"
-      OutputType	      "[ ]"
-      FctDeclaration	      "extern void loggerInit();"
-      FctCall		      "loggerInit();"
-      OrderingInOutPopup      "None"
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Initialize SPI\nMaster"
-      Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      []
-      Position		      [500, 162, 605, 198]
-      BackgroundColor	      "yellow"
-      List {
-	ListType		RTWdata
-	FctDeclaration		"extern void spiMasterInit();"
-	FctCall			"spiMasterInit();"
-	fctName			"spiMasterInit"
-	INPUT_SIZE		"1"
-	OUTPUT_SIZE		"1"
-	NBR_INPUT		"0"
-	NBR_OUTPUT		"0"
-      }
-      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-      SourceType	      "C Function Call"
-      fctName		      "'spiMasterInit'"
-      INPUT_SIZE	      "1"
-      INPUT1		      "--"
-      INPUT2		      "--"
-      INPUT3		      "--"
-      OUTPUT_SIZE	      "1"
-      OUTPUT1		      "--"
-      SampleTime	      "inf"
-      InputType		      "[ ]"
-      OutputType	      "[ ]"
-      FctDeclaration	      "extern void spiMasterInit();"
-      FctCall		      "spiMasterInit();"
-      OrderingInOutPopup      "None"
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Initialize UART 1 for\nGPS"
-      Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      []
-      Position		      [255, 162, 360, 198]
-      BackgroundColor	      "yellow"
-      List {
-	ListType		RTWdata
-	FctDeclaration		"extern void uartInit();"
-	FctCall			"uartInit();"
-	fctName			"uartInit"
-	INPUT_SIZE		"1"
-	OUTPUT_SIZE		"1"
-	NBR_INPUT		"0"
-	NBR_OUTPUT		"0"
-      }
-      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-      SourceType	      "C Function Call"
-      fctName		      "'uartInit'"
-      INPUT_SIZE	      "1"
-      INPUT1		      "--"
-      INPUT2		      "--"
-      INPUT3		      "--"
-      OUTPUT_SIZE	      "1"
-      OUTPUT1		      "--"
-      SampleTime	      "inf"
-      InputType		      "[ ]"
-      OutputType	      "[ ]"
-      FctDeclaration	      "extern void uartInit();"
-      FctCall		      "uartInit();"
-      OrderingInOutPopup      "None"
+      SourceBlock	      "dsPICdrivers/Simulink Configuration/Generate Co"
+"de"
+      SourceType	      ""
     }
     Block {
       BlockType		      Reference
@@ -1381,44 +917,40 @@ Model {
       Quartz_33f	      "12e6"
       PLLActive_33f	      on
       fcyDesired_33f	      "40e6"
-      tmr1		      "[8  49999  0]"
-      tmr1Info		      "Time Step : 0.01  ;   Error : 0%  PR1=49999"
+      tmr1		      "[1  19999  0]"
+      tmr1Info		      "Time Step : 0.0005  ;   Error : 0%  PR1=19999"
       tmr2345		      "[0  0  0  0  0  0  0  0]"
       tmr2345cfg	      "[-1 -1 -1 -1 -1 -1 -1 -1]"
       IOautoConf	      on
       typePort		      "[ 0   0   0   0   0   0   0   0   0   0   0   0"
-"   0   0   0   0   8   8   0   8   8   8   8   8   8   8   8   8   8   8   0 "
-"  8   0   8   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0  "
+"   0   0   0   0  10  10   0   0   0   0  10   0   0   0   0   0   0   0   0 "
+"  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0  "
 " 0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   "
-"0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0"
+"0   0   0   0   0   0   0   0   0   0   0   0   0   4   0   4   5   0   0   0"
 "   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 "
-"  0   0  10   0 ]"
-      TRIS		      "[ 65535  65535  65535  65535  65535  65535  491"
-"51 ]"
-      ADPCFG		      "0"
-      MasterBusyPort	      "None"
-      MasterOverloadPort      "None"
-      FOSC		      "Quartz (XT - HS)"
+"  0   0   0   0 ]"
+      TRIS		      "[ 65535  65468  65535  65535  65535  65535  655"
+"35 ]"
+      ADPCFG		      "67"
+      MasterBusyPort	      "B1"
+      MasterOverloadPort      "B6"
+      FOSC		      "External Clock"
+      ClockSwitchMonitor      "Both disabled"
       TempProtection_33f      "TEMP_ON"
       FPBOR		      "<empty>"
-      PWRT		      "disable"
+      PWRT		      "64ms"
       MCLR		      "<empty>"
       PowerSave		      off
-    }
-    Block {
-      BlockType		      Mux
-      Name		      "Mux"
-      Ports		      [3, 1]
-      Position		      [200, 266, 205, 304]
-      ShowName		      off
-      Inputs		      "3"
-      DisplayOption	      "bar"
+      OverrideFcy	      off
+      NewFcy		      "1e6"
+      PR2345		      "[65535  65535  65535  65535  65535  65535  6553"
+"5  65535]"
     }
     Block {
       BlockType		      Reference
       Name		      "Pilot"
       Ports		      [0, 1]
-      Position		      [535, 60, 565, 90]
+      Position		      [535, 80, 565, 110]
       BackgroundColor	      "orange"
       SourceBlock	      "simulink/Sources/Counter\nLimited"
       SourceType	      "Counter Limited"
@@ -1440,1208 +972,80 @@ Model {
       }
     }
     Block {
-      BlockType		      SubSystem
-      Name		      "Raw Sensors"
+      BlockType		      Reference
+      Name		      "Rx Input"
+      Tag		      "dsPIC_RX"
       Ports		      [0, 1]
-      Position		      [45, 361, 130, 419]
-      BackgroundColor	      "orange"
-      MinAlgLoopOccurrences   off
-      RTWSystemCode	      "Auto"
-      FunctionWithSeparateData off
-      MaskHideContents	      off
-      System {
-	Name			"Raw Sensors"
-	Location		[324, 524, 579, 724]
-	Open			off
-	ModelBrowserVisibility	off
-	ModelBrowserWidth	200
-	ScreenColor		"white"
-	PaperOrientation	"landscape"
-	PaperPositionMode	"auto"
-	PaperType		"usletter"
-	PaperUnits		"inches"
-	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
-	TiledPageScale		1
-	ShowPageBoundaries	off
-	ZoomFactor		"100"
-	Block {
-	  BlockType		  Reference
-	  Name			  "Pack"
-	  Ports			  [9, 1]
-	  Position		  [130, 26, 175, 174]
-	  SourceBlock		  "xpclib/UDP/Pack"
-	  SourceType		  "xpcany2byte"
-	  datatypes		  "{'uint16', 'uint16', 'uint16', 'uint16', 'u"
-"int16', 'uint16', 'uint16', 'uint16', 'uint16',}"
-	  byteAlign		  "1"
-	}
-	Block {
-	  BlockType		  SubSystem
-	  Name			  "Sensor Suite"
-	  Ports			  [0, 9]
-	  Position		  [25, 29, 85, 171]
-	  MinAlgLoopOccurrences	  off
-	  RTWSystemCode		  "Auto"
-	  FunctionWithSeparateData off
-	  MaskHideContents	  off
-	  System {
-	    Name		    "Sensor Suite"
-	    Location		    [89, 300, 809, 666]
-	    Open		    off
-	    ModelBrowserVisibility  off
-	    ModelBrowserWidth	    200
-	    ScreenColor		    "white"
-	    PaperOrientation	    "landscape"
-	    PaperPositionMode	    "auto"
-	    PaperType		    "usletter"
-	    PaperUnits		    "inches"
-	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
-	    TiledPageScale	    1
-	    ShowPageBoundaries	    off
-	    ZoomFactor		    "100"
-	    Block {
-	      BlockType		      SubSystem
-	      Name		      "Analog Sensors"
-	      Ports		      [0, 1]
-	      Position		      [25, 90, 100, 120]
-	      MinAlgLoopOccurrences   off
-	      RTWSystemCode	      "Auto"
-	      FunctionWithSeparateData off
-	      MaskHideContents	      off
-	      System {
-		Name			"Analog Sensors"
-		Location		[125, 367, 420, 653]
-		Open			off
-		ModelBrowserVisibility	off
-		ModelBrowserWidth	200
-		ScreenColor		"white"
-		PaperOrientation	"landscape"
-		PaperPositionMode	"auto"
-		PaperType		"usletter"
-		PaperUnits		"inches"
-		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
-"00]"
-		TiledPageScale		1
-		ShowPageBoundaries	off
-		ZoomFactor		"100"
-		Block {
-		  BlockType		  Reference
-		  Name			  "ADC Input"
-		  Tag			  "dsPIC_ADC"
-		  Ports			  [0, 15]
-		  Position		  [25, 28, 160, 262]
-		  Priority		  "5"
-		  List {
-		    ListType		    RTWdata
-		    DMAChannel		    "1"
-		  }
-		  SourceBlock		  "dsPICdrivers/Peripheral I//O/ADC In"
-"put"
-		  SourceType		  "dsPIC : ADC10"
-		  ADC_TYPE		  "12 bits"
-		  ADC_MODE		  "Continuous sampling & get last chan"
-"nel value"
-		  NbrSampleStep		  "1"
-		  VoltRefpopup		  "AVdd  -  AVss"
-		  OutFormatBitspopup	  "0000 dddd dddd dddd : Integer"
-		  InterruptPriority	  "6"
-		  ANCHANNELS		  "[0 1 3 4 5 6 7 8 9 10 11 12 13 15 1"
-"6]"
-		  MaxName		  "ANmax = 4096"
-		  Rin			  "1e2"
-		  ADCS			  "53"
-		  SAMC			  "1"
-		  Temperature		  "25"
-		  DMAChannel		  "1"
-		  SampleTime		  ".01"
-		  Status		  "OK  |  Tsmp=6.750e-007 |  T/Channel"
-"=1.012e-005 |  Tall=1.519e-004"
-		}
-		Block {
-		  BlockType		  Mux
-		  Name			  "Mux"
-		  Ports			  [15, 1]
-		  Position		  [210, 30, 215, 260]
-		  ShowName		  off
-		  Inputs		  "15"
-		  DisplayOption		  "bar"
-		}
-		Block {
-		  BlockType		  Outport
-		  Name			  "Sensors"
-		  Position		  [240, 138, 270, 152]
-		  IconDisplay		  "Port number"
-		  BusOutputAsStruct	  off
-		}
-		Line {
-		  SrcBlock		  "ADC Input"
-		  SrcPort		  1
-		  DstBlock		  "Mux"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "ADC Input"
-		  SrcPort		  2
-		  DstBlock		  "Mux"
-		  DstPort		  2
-		}
-		Line {
-		  SrcBlock		  "ADC Input"
-		  SrcPort		  3
-		  DstBlock		  "Mux"
-		  DstPort		  3
-		}
-		Line {
-		  SrcBlock		  "ADC Input"
-		  SrcPort		  4
-		  DstBlock		  "Mux"
-		  DstPort		  4
-		}
-		Line {
-		  SrcBlock		  "ADC Input"
-		  SrcPort		  5
-		  DstBlock		  "Mux"
-		  DstPort		  5
-		}
-		Line {
-		  SrcBlock		  "ADC Input"
-		  SrcPort		  6
-		  DstBlock		  "Mux"
-		  DstPort		  6
-		}
-		Line {
-		  SrcBlock		  "ADC Input"
-		  SrcPort		  7
-		  DstBlock		  "Mux"
-		  DstPort		  7
-		}
-		Line {
-		  SrcBlock		  "ADC Input"
-		  SrcPort		  8
-		  DstBlock		  "Mux"
-		  DstPort		  8
-		}
-		Line {
-		  SrcBlock		  "ADC Input"
-		  SrcPort		  9
-		  DstBlock		  "Mux"
-		  DstPort		  9
-		}
-		Line {
-		  SrcBlock		  "ADC Input"
-		  SrcPort		  10
-		  DstBlock		  "Mux"
-		  DstPort		  10
-		}
-		Line {
-		  SrcBlock		  "ADC Input"
-		  SrcPort		  11
-		  DstBlock		  "Mux"
-		  DstPort		  11
-		}
-		Line {
-		  SrcBlock		  "ADC Input"
-		  SrcPort		  12
-		  DstBlock		  "Mux"
-		  DstPort		  12
-		}
-		Line {
-		  SrcBlock		  "ADC Input"
-		  SrcPort		  13
-		  DstBlock		  "Mux"
-		  DstPort		  13
-		}
-		Line {
-		  SrcBlock		  "ADC Input"
-		  SrcPort		  14
-		  DstBlock		  "Mux"
-		  DstPort		  14
-		}
-		Line {
-		  SrcBlock		  "ADC Input"
-		  SrcPort		  15
-		  DstBlock		  "Mux"
-		  DstPort		  15
-		}
-		Line {
-		  SrcBlock		  "Mux"
-		  SrcPort		  1
-		  DstBlock		  "Sensors"
-		  DstPort		  1
-		}
-	      }
-	    }
-	    Block {
-	      BlockType		      BusCreator
-	      Name		      "Bus\nCreator"
-	      Ports		      [15, 1]
-	      Position		      [310, 30, 315, 180]
-	      ShowName		      off
-	      Inputs		      "15"
-	      DisplayOption	      "bar"
-	    }
-	    Block {
-	      BlockType		      BusSelector
-	      Name		      "Bus\nSelector"
-	      Ports		      [1, 9]
-	      Position		      [350, 55, 355, 155]
-	      ShowName		      off
-	      OutputSignals	      "GyroX,Gyro y,Gyro Z,Accel X,Accel y,Acc"
-"el z,Baro,Pitot,Thermistor"
-	      Port {
-		PortNumber		1
-		Name			"<GyroX>"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	      Port {
-		PortNumber		2
-		Name			"<Gyro y>"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	      Port {
-		PortNumber		3
-		Name			"<Gyro Z>"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	      Port {
-		PortNumber		4
-		Name			"<Accel X>"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	      Port {
-		PortNumber		5
-		Name			"<Accel y>"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	      Port {
-		PortNumber		6
-		Name			"<Accel z>"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	      Port {
-		PortNumber		7
-		Name			"<Baro>"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	      Port {
-		PortNumber		8
-		Name			"<Pitot>"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	      Port {
-		PortNumber		9
-		Name			"<Thermistor>"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	    }
-	    Block {
-	      BlockType		      DataTypeConversion
-	      Name		      "Data Type Conversion1"
-	      Position		      [585, 37, 640, 53]
-	      ShowName		      off
-	      OutDataTypeMode	      "uint16"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      DataTypeConversion
-	      Name		      "Data Type Conversion10"
-	      Position		      [445, 142, 500, 158]
-	      ShowName		      off
-	      OutDataTypeMode	      "double"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      DataTypeConversion
-	      Name		      "Data Type Conversion11"
-	      Position		      [445, 177, 500, 193]
-	      ShowName		      off
-	      OutDataTypeMode	      "double"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      DataTypeConversion
-	      Name		      "Data Type Conversion12"
-	      Position		      [450, 212, 500, 228]
-	      ShowName		      off
-	      OutDataTypeMode	      "double"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      DataTypeConversion
-	      Name		      "Data Type Conversion13"
-	      Position		      [440, 247, 495, 263]
-	      ShowName		      off
-	      OutDataTypeMode	      "double"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      DataTypeConversion
-	      Name		      "Data Type Conversion14"
-	      Position		      [445, 282, 500, 298]
-	      ShowName		      off
-	      OutDataTypeMode	      "double"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      DataTypeConversion
-	      Name		      "Data Type Conversion15"
-	      Position		      [445, 317, 495, 333]
-	      ShowName		      off
-	      OutDataTypeMode	      "double"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      DataTypeConversion
-	      Name		      "Data Type Conversion16"
-	      Position		      [585, 247, 640, 263]
-	      ShowName		      off
-	      OutDataTypeMode	      "uint16"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      DataTypeConversion
-	      Name		      "Data Type Conversion17"
-	      Position		      [585, 282, 640, 298]
-	      ShowName		      off
-	      OutDataTypeMode	      "uint16"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      DataTypeConversion
-	      Name		      "Data Type Conversion18"
-	      Position		      [585, 317, 640, 333]
-	      ShowName		      off
-	      OutDataTypeMode	      "uint16"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      DataTypeConversion
-	      Name		      "Data Type Conversion2"
-	      Position		      [585, 72, 640, 88]
-	      ShowName		      off
-	      OutDataTypeMode	      "uint16"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      DataTypeConversion
-	      Name		      "Data Type Conversion3"
-	      Position		      [585, 107, 640, 123]
-	      ShowName		      off
-	      OutDataTypeMode	      "uint16"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      DataTypeConversion
-	      Name		      "Data Type Conversion4"
-	      Position		      [445, 37, 500, 53]
-	      ShowName		      off
-	      OutDataTypeMode	      "double"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      DataTypeConversion
-	      Name		      "Data Type Conversion5"
-	      Position		      [445, 72, 500, 88]
-	      ShowName		      off
-	      OutDataTypeMode	      "double"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      DataTypeConversion
-	      Name		      "Data Type Conversion6"
-	      Position		      [445, 107, 495, 123]
-	      ShowName		      off
-	      OutDataTypeMode	      "double"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      DataTypeConversion
-	      Name		      "Data Type Conversion7"
-	      Position		      [585, 142, 640, 158]
-	      ShowName		      off
-	      OutDataTypeMode	      "uint16"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      DataTypeConversion
-	      Name		      "Data Type Conversion8"
-	      Position		      [585, 177, 640, 193]
-	      ShowName		      off
-	      OutDataTypeMode	      "uint16"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      DataTypeConversion
-	      Name		      "Data Type Conversion9"
-	      Position		      [585, 212, 640, 228]
-	      ShowName		      off
-	      OutDataTypeMode	      "uint16"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Demux
-	      Name		      "Demux"
-	      Ports		      [1, 15]
-	      Position		      [205, 30, 210, 180]
-	      BackgroundColor	      "black"
-	      ShowName		      off
-	      Outputs		      "15"
-	      DisplayOption	      "bar"
-	      Port {
-		PortNumber		1
-		Name			"Accel y"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	      Port {
-		PortNumber		2
-		Name			"Accel z"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	      Port {
-		PortNumber		3
-		Name			"GyroX"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	      Port {
-		PortNumber		4
-		Name			"IDGRef"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	      Port {
-		PortNumber		5
-		Name			"Gyro y"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	      Port {
-		PortNumber		6
-		Name			"Accel X"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	      Port {
-		PortNumber		7
-		Name			"Gyro Z"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	      Port {
-		PortNumber		8
-		Name			"ADX Ref"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	      Port {
-		PortNumber		9
-		Name			"Mag23"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	      Port {
-		PortNumber		10
-		Name			"Mag01"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	      Port {
-		PortNumber		11
-		Name			"Mag Z"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	      Port {
-		PortNumber		12
-		Name			"Baro"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	      Port {
-		PortNumber		13
-		Name			"Pitot"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	      Port {
-		PortNumber		14
-		Name			"Thermistor"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	      Port {
-		PortNumber		15
-		Name			"Power"
-		RTWStorageClass		"Auto"
-		DataLoggingNameMode	"SignalName"
-	      }
-	    }
-	    Block {
-	      BlockType		      DiscreteTransferFcn
-	      Name		      "Low Pass Filter"
-	      Position		      [520, 29, 560, 61]
-	      NamePlacement	      "alternate"
-	      Numerator		      "[.01478 .01478]"
-	      Denominator	      "[1 -.9704]"
-	      SampleTime	      ".01"
-	    }
-	    Block {
-	      BlockType		      DiscreteTransferFcn
-	      Name		      "Low Pass Filter1"
-	      Position		      [520, 64, 560, 96]
-	      ShowName		      off
-	      Numerator		      "[.01478 .01478]"
-	      Denominator	      "[1 -.9704]"
-	      SampleTime	      ".01"
-	    }
-	    Block {
-	      BlockType		      DiscreteTransferFcn
-	      Name		      "Low Pass Filter2"
-	      Position		      [520, 99, 560, 131]
-	      ShowName		      off
-	      Numerator		      "[.01478 .01478]"
-	      Denominator	      "[1 -.9704]"
-	      SampleTime	      ".01"
-	    }
-	    Block {
-	      BlockType		      DiscreteTransferFcn
-	      Name		      "Low Pass Filter3"
-	      Position		      [520, 134, 560, 166]
-	      NamePlacement	      "alternate"
-	      ShowName		      off
-	      Numerator		      "[.01478 .01478]"
-	      Denominator	      "[1 -.9704]"
-	      SampleTime	      ".01"
-	    }
-	    Block {
-	      BlockType		      DiscreteTransferFcn
-	      Name		      "Low Pass Filter4"
-	      Position		      [520, 169, 560, 201]
-	      ShowName		      off
-	      Numerator		      "[.01478 .01478]"
-	      Denominator	      "[1 -.9704]"
-	      SampleTime	      ".01"
-	    }
-	    Block {
-	      BlockType		      DiscreteTransferFcn
-	      Name		      "Low Pass Filter5"
-	      Position		      [520, 204, 560, 236]
-	      ShowName		      off
-	      Numerator		      "[.01478 .01478]"
-	      Denominator	      "[1 -.9704]"
-	      SampleTime	      ".01"
-	    }
-	    Block {
-	      BlockType		      DiscreteTransferFcn
-	      Name		      "Low Pass Filter6"
-	      Position		      [520, 239, 560, 271]
-	      NamePlacement	      "alternate"
-	      ShowName		      off
-	      Numerator		      "[.01478 .01478]"
-	      Denominator	      "[1 -.9704]"
-	      SampleTime	      ".01"
-	    }
-	    Block {
-	      BlockType		      DiscreteTransferFcn
-	      Name		      "Low Pass Filter7"
-	      Position		      [520, 274, 560, 306]
-	      ShowName		      off
-	      Numerator		      "[.01478 .01478]"
-	      Denominator	      "[1 -.9704]"
-	      SampleTime	      ".01"
-	    }
-	    Block {
-	      BlockType		      DiscreteTransferFcn
-	      Name		      "Low Pass Filter8"
-	      Position		      [520, 309, 560, 341]
-	      ShowName		      off
-	      Numerator		      "[.01478 .01478]"
-	      Denominator	      "[1 -.9704]"
-	      SampleTime	      ".01"
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "Gyro X"
-	      Position		      [665, 38, 695, 52]
-	      IconDisplay	      "Port number"
-	      BusOutputAsStruct	      off
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "Gyro Y"
-	      Position		      [665, 73, 695, 87]
-	      Port		      "2"
-	      IconDisplay	      "Port number"
-	      BusOutputAsStruct	      off
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "Gyro Z"
-	      Position		      [665, 108, 695, 122]
-	      Port		      "3"
-	      IconDisplay	      "Port number"
-	      BusOutputAsStruct	      off
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "Accel X"
-	      Position		      [665, 143, 695, 157]
-	      Port		      "4"
-	      IconDisplay	      "Port number"
-	      BusOutputAsStruct	      off
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "Accel Y"
-	      Position		      [665, 178, 695, 192]
-	      Port		      "5"
-	      IconDisplay	      "Port number"
-	      BusOutputAsStruct	      off
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "Accel Z"
-	      Position		      [665, 213, 695, 227]
-	      Port		      "6"
-	      IconDisplay	      "Port number"
-	      BusOutputAsStruct	      off
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "Baro"
-	      Position		      [665, 248, 695, 262]
-	      Port		      "7"
-	      IconDisplay	      "Port number"
-	      BusOutputAsStruct	      off
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "Pitot"
-	      Position		      [665, 283, 695, 297]
-	      Port		      "8"
-	      IconDisplay	      "Port number"
-	      BusOutputAsStruct	      off
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "Temp"
-	      Position		      [665, 318, 695, 332]
-	      Port		      "9"
-	      IconDisplay	      "Port number"
-	      BusOutputAsStruct	      off
-	    }
-	    Line {
-	      Name		      "Accel y"
-	      Labels		      [0, 1]
-	      SrcBlock		      "Demux"
-	      SrcPort		      1
-	      DstBlock		      "Bus\nCreator"
-	      DstPort		      1
-	    }
-	    Line {
-	      Name		      "Accel z"
-	      Labels		      [0, 1]
-	      SrcBlock		      "Demux"
-	      SrcPort		      2
-	      DstBlock		      "Bus\nCreator"
-	      DstPort		      2
-	    }
-	    Line {
-	      Name		      "GyroX"
-	      Labels		      [0, 1]
-	      SrcBlock		      "Demux"
-	      SrcPort		      3
-	      DstBlock		      "Bus\nCreator"
-	      DstPort		      3
-	    }
-	    Line {
-	      Name		      "IDGRef"
-	      Labels		      [0, 1]
-	      SrcBlock		      "Demux"
-	      SrcPort		      4
-	      DstBlock		      "Bus\nCreator"
-	      DstPort		      4
-	    }
-	    Line {
-	      Name		      "Gyro y"
-	      Labels		      [0, 1]
-	      SrcBlock		      "Demux"
-	      SrcPort		      5
-	      DstBlock		      "Bus\nCreator"
-	      DstPort		      5
-	    }
-	    Line {
-	      Name		      "Accel X"
-	      Labels		      [0, 1]
-	      SrcBlock		      "Demux"
-	      SrcPort		      6
-	      DstBlock		      "Bus\nCreator"
-	      DstPort		      6
-	    }
-	    Line {
-	      Name		      "Gyro Z"
-	      Labels		      [0, 1]
-	      SrcBlock		      "Demux"
-	      SrcPort		      7
-	      DstBlock		      "Bus\nCreator"
-	      DstPort		      7
-	    }
-	    Line {
-	      Name		      "ADX Ref"
-	      Labels		      [0, 1]
-	      SrcBlock		      "Demux"
-	      SrcPort		      8
-	      DstBlock		      "Bus\nCreator"
-	      DstPort		      8
-	    }
-	    Line {
-	      Name		      "Mag23"
-	      Labels		      [0, 1]
-	      SrcBlock		      "Demux"
-	      SrcPort		      9
-	      DstBlock		      "Bus\nCreator"
-	      DstPort		      9
-	    }
-	    Line {
-	      Name		      "Mag01"
-	      Labels		      [0, 1]
-	      SrcBlock		      "Demux"
-	      SrcPort		      10
-	      DstBlock		      "Bus\nCreator"
-	      DstPort		      10
-	    }
-	    Line {
-	      Name		      "Mag Z"
-	      Labels		      [0, 1]
-	      SrcBlock		      "Demux"
-	      SrcPort		      11
-	      DstBlock		      "Bus\nCreator"
-	      DstPort		      11
-	    }
-	    Line {
-	      Name		      "Baro"
-	      Labels		      [0, 1]
-	      SrcBlock		      "Demux"
-	      SrcPort		      12
-	      DstBlock		      "Bus\nCreator"
-	      DstPort		      12
-	    }
-	    Line {
-	      Name		      "Pitot"
-	      Labels		      [0, 1]
-	      SrcBlock		      "Demux"
-	      SrcPort		      13
-	      DstBlock		      "Bus\nCreator"
-	      DstPort		      13
-	    }
-	    Line {
-	      Name		      "Thermistor"
-	      Labels		      [0, 1]
-	      SrcBlock		      "Demux"
-	      SrcPort		      14
-	      DstBlock		      "Bus\nCreator"
-	      DstPort		      14
-	    }
-	    Line {
-	      Name		      "Power"
-	      Labels		      [0, 1]
-	      SrcBlock		      "Demux"
-	      SrcPort		      15
-	      DstBlock		      "Bus\nCreator"
-	      DstPort		      15
-	    }
-	    Line {
-	      SrcBlock		      "Bus\nCreator"
-	      SrcPort		      1
-	      DstBlock		      "Bus\nSelector"
-	      DstPort		      1
-	    }
-	    Line {
-	      Name		      "<GyroX>"
-	      Labels		      [0, 0]
-	      SrcBlock		      "Bus\nSelector"
-	      SrcPort		      1
-	      Points		      [70, 0]
-	      DstBlock		      "Data Type Conversion4"
-	      DstPort		      1
-	    }
-	    Line {
-	      Name		      "<Gyro y>"
-	      Labels		      [0, 0]
-	      SrcBlock		      "Bus\nSelector"
-	      SrcPort		      2
-	      Points		      [0, 5]
-	      DstBlock		      "Data Type Conversion5"
-	      DstPort		      1
-	    }
-	    Line {
-	      Name		      "<Gyro Z>"
-	      Labels		      [0, 0]
-	      SrcBlock		      "Bus\nSelector"
-	      SrcPort		      3
-	      Points		      [70, 0]
-	      DstBlock		      "Data Type Conversion6"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Low Pass Filter"
-	      SrcPort		      1
-	      DstBlock		      "Data Type Conversion1"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Low Pass Filter1"
-	      SrcPort		      1
-	      DstBlock		      "Data Type Conversion2"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Data Type Conversion4"
-	      SrcPort		      1
-	      DstBlock		      "Low Pass Filter"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Data Type Conversion5"
-	      SrcPort		      1
-	      DstBlock		      "Low Pass Filter1"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Analog Sensors"
-	      SrcPort		      1
-	      DstBlock		      "Demux"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Data Type Conversion6"
-	      SrcPort		      1
-	      DstBlock		      "Low Pass Filter2"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Low Pass Filter2"
-	      SrcPort		      1
-	      DstBlock		      "Data Type Conversion3"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Low Pass Filter3"
-	      SrcPort		      1
-	      DstBlock		      "Data Type Conversion7"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Low Pass Filter4"
-	      SrcPort		      1
-	      DstBlock		      "Data Type Conversion8"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Data Type Conversion10"
-	      SrcPort		      1
-	      DstBlock		      "Low Pass Filter3"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Data Type Conversion11"
-	      SrcPort		      1
-	      DstBlock		      "Low Pass Filter4"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Data Type Conversion12"
-	      SrcPort		      1
-	      DstBlock		      "Low Pass Filter5"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Low Pass Filter5"
-	      SrcPort		      1
-	      DstBlock		      "Data Type Conversion9"
-	      DstPort		      1
-	    }
-	    Line {
-	      Name		      "<Accel X>"
-	      Labels		      [0, 0]
-	      SrcBlock		      "Bus\nSelector"
-	      SrcPort		      4
-	      Points		      [55, 0; 0, 55]
-	      DstBlock		      "Data Type Conversion10"
-	      DstPort		      1
-	    }
-	    Line {
-	      Name		      "<Accel y>"
-	      Labels		      [0, 0]
-	      SrcBlock		      "Bus\nSelector"
-	      SrcPort		      5
-	      Points		      [50, 0; 0, 80]
-	      DstBlock		      "Data Type Conversion11"
-	      DstPort		      1
-	    }
-	    Line {
-	      Name		      "<Accel z>"
-	      Labels		      [0, 0]
-	      SrcBlock		      "Bus\nSelector"
-	      SrcPort		      6
-	      Points		      [45, 0; 0, 105]
-	      DstBlock		      "Data Type Conversion12"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Low Pass Filter7"
-	      SrcPort		      1
-	      DstBlock		      "Data Type Conversion17"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Data Type Conversion14"
-	      SrcPort		      1
-	      DstBlock		      "Low Pass Filter7"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Data Type Conversion15"
-	      SrcPort		      1
-	      DstBlock		      "Low Pass Filter8"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Low Pass Filter8"
-	      SrcPort		      1
-	      DstBlock		      "Data Type Conversion18"
-	      DstPort		      1
-	    }
-	    Line {
-	      Name		      "<Baro>"
-	      Labels		      [0, 0]
-	      SrcBlock		      "Bus\nSelector"
-	      SrcPort		      7
-	      Points		      [35, 0; 0, 130]
-	      DstBlock		      "Data Type Conversion13"
-	      DstPort		      1
-	    }
-	    Line {
-	      Name		      "<Pitot>"
-	      Labels		      [0, 0]
-	      SrcBlock		      "Bus\nSelector"
-	      SrcPort		      8
-	      Points		      [25, 0; 0, 150; 45, 0]
-	      DstBlock		      "Data Type Conversion14"
-	      DstPort		      1
-	    }
-	    Line {
-	      Name		      "<Thermistor>"
-	      Labels		      [0, 0]
-	      SrcBlock		      "Bus\nSelector"
-	      SrcPort		      9
-	      Points		      [20, 0; 0, 180]
-	      DstBlock		      "Data Type Conversion15"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Data Type Conversion13"
-	      SrcPort		      1
-	      DstBlock		      "Low Pass Filter6"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Low Pass Filter6"
-	      SrcPort		      1
-	      DstBlock		      "Data Type Conversion16"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Data Type Conversion1"
-	      SrcPort		      1
-	      DstBlock		      "Gyro X"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Data Type Conversion2"
-	      SrcPort		      1
-	      DstBlock		      "Gyro Y"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Data Type Conversion3"
-	      SrcPort		      1
-	      DstBlock		      "Gyro Z"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Data Type Conversion7"
-	      SrcPort		      1
-	      DstBlock		      "Accel X"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Data Type Conversion8"
-	      SrcPort		      1
-	      DstBlock		      "Accel Y"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Data Type Conversion9"
-	      SrcPort		      1
-	      DstBlock		      "Accel Z"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Data Type Conversion16"
-	      SrcPort		      1
-	      DstBlock		      "Baro"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Data Type Conversion17"
-	      SrcPort		      1
-	      DstBlock		      "Pitot"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Data Type Conversion18"
-	      SrcPort		      1
-	      DstBlock		      "Temp"
-	      DstPort		      1
-	    }
-	  }
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "Sensors"
-	  Position		  [200, 93, 230, 107]
-	  IconDisplay		  "Port number"
-	  BusOutputAsStruct	  off
-	}
-	Line {
-	  SrcBlock		  "Sensor Suite"
-	  SrcPort		  1
-	  DstBlock		  "Pack"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Sensor Suite"
-	  SrcPort		  2
-	  DstBlock		  "Pack"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Sensor Suite"
-	  SrcPort		  3
-	  DstBlock		  "Pack"
-	  DstPort		  3
-	}
-	Line {
-	  SrcBlock		  "Sensor Suite"
-	  SrcPort		  4
-	  DstBlock		  "Pack"
-	  DstPort		  4
-	}
-	Line {
-	  SrcBlock		  "Sensor Suite"
-	  SrcPort		  5
-	  DstBlock		  "Pack"
-	  DstPort		  5
-	}
-	Line {
-	  SrcBlock		  "Sensor Suite"
-	  SrcPort		  6
-	  DstBlock		  "Pack"
-	  DstPort		  6
-	}
-	Line {
-	  SrcBlock		  "Sensor Suite"
-	  SrcPort		  7
-	  DstBlock		  "Pack"
-	  DstPort		  7
-	}
-	Line {
-	  SrcBlock		  "Sensor Suite"
-	  SrcPort		  8
-	  DstBlock		  "Pack"
-	  DstPort		  8
-	}
-	Line {
-	  SrcBlock		  "Sensor Suite"
-	  SrcPort		  9
-	  DstBlock		  "Pack"
-	  DstPort		  9
-	}
-	Line {
-	  SrcBlock		  "Pack"
-	  SrcPort		  1
-	  DstBlock		  "Sensors"
-	  DstPort		  1
-	}
-      }
+      Position		      [100, 269, 170, 301]
+      Priority		      "5"
+      SourceBlock	      "dsPICdrivers/Serial PORT/Rx Input"
+      SourceType	      "Rx"
+      UART		      "1"
+      SampleTime	      ".0005"
+      BlockingFctChk	      off
+      OutputDefault	      "0"
+      IsPresentFlagChk	      off
     }
     Block {
       BlockType		      Reference
-      Name		      "Send Data via SPI"
-      Tag		      "dsPIC_dsPIC_CFunctionCall"
-      Ports		      [1]
-      Position		      [270, 302, 375, 338]
+      Name		      "UART Configuration"
+      Tag		      "dsPIC_config_UART"
+      Ports		      []
+      Position		      [25, 164, 126, 194]
+      BackgroundColor	      "lightBlue"
+      Priority		      "2"
       List {
 	ListType		RTWdata
-	FctDeclaration		"extern void spiSend(uint8_T* u1);"
-	FctCall			"spiSend(*%u1);"
-	fctName			"spiSend"
-	INPUT_SIZE		"46"
-	OUTPUT_SIZE		"1"
-	NBR_INPUT		"1"
-	NBR_OUTPUT		"0"
+	RxBufferSize		"32"
       }
-      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-      SourceType	      "C Function Call"
-      fctName		      "'spiSend'"
-      INPUT_SIZE	      "46"
-      INPUT1		      "uint8"
-      INPUT2		      "--"
-      INPUT3		      "--"
-      OUTPUT_SIZE	      "1"
-      OUTPUT1		      "--"
-      SampleTime	      "-1"
-      InputType		      "[ 2 ]"
-      OutputType	      "[ ]"
-      FctDeclaration	      "extern void spiSend(uint8_T* u1);"
-      FctCall		      "spiSend(*%u1);"
-      OrderingInOutPopup      "None"
+      SourceBlock	      "dsPICdrivers/Serial PORT/UART Configuration"
+      SourceType	      "Configure UART"
+      UART		      "1"
+      proposed_BAUD	      "19200"
+      ALT_TX_RX		      off
+      InterruptTxWhen	      "Do not use interrupt"
+      TXInterruptPri	      "1"
+      TxBufferSize	      "64"
+      TXEN		      off
+      InterruptRxWhen	      "Do not use interrupt"
+      RXInterruptPri	      "1"
+      RxBufferSize	      "64"
+      BAUD		      "19200"
+      UxBRG		      "129"
+      Info		      "UxBRG = 129   ||  Real Baud : 19231   ||  % err"
+"or : 0.16026  ||  max 0.96154 Bytes / Step"
+      RealBaud		      "0"
     }
     Block {
-      BlockType		      Terminator
-      Name		      "Terminator"
-      Position		      [155, 258, 165, 272]
-      ShowName		      off
+      BlockType		      Reference
+      Name		      "UART Configuration1"
+      Tag		      "dsPIC_config_UART"
+      Ports		      []
+      Position		      [145, 164, 246, 194]
+      BackgroundColor	      "lightBlue"
+      Priority		      "2"
+      List {
+	ListType		RTWdata
+	RxBufferSize		"32"
+      }
+      SourceBlock	      "dsPICdrivers/Serial PORT/UART Configuration"
+      SourceType	      "Configure UART"
+      UART		      "2"
+      proposed_BAUD	      "115200"
+      ALT_TX_RX		      off
+      InterruptTxWhen	      "When Transmit Buffer has one empty space (conta"
+"in 3 characters)"
+      TXInterruptPri	      "6"
+      TxBufferSize	      "64"
+      TXEN		      on
+      InterruptRxWhen	      "Do not use interrupt"
+      RXInterruptPri	      "1"
+      RxBufferSize	      "64"
+      BAUD		      "115200"
+      UxBRG		      "21"
+      Info		      "UxBRG = 21   ||  Real Baud : 113636   ||  % err"
+"or : -1.3573  ||  max 5.6818 Bytes / Step"
+      RealBaud		      "0"
     }
     Block {
       BlockType		      Reference
@@ -2667,7 +1071,7 @@ Model {
       Name		      "gpsParser Init"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      []
-      Position		      [140, 162, 245, 198]
+      Position		      [280, 162, 385, 198]
       BackgroundColor	      "yellow"
       List {
 	ListType		RTWdata
@@ -2710,46 +1114,26 @@ Model {
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Get GPS"
+      SrcBlock		      "Rx Input"
       SrcPort		      1
-      Points		      [50, 0]
-      DstBlock		      "Mux"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Mux"
-      SrcPort		      1
-      Points		      [15, 0]
+      Points		      [65, 0]
       Branch {
-	Points			[20, 0]
-	DstBlock		"Data Logger"
+	Points			[0, -35]
+	DstBlock		"Compare\nTo Zero"
 	DstPort			1
       }
       Branch {
-	Points			[0, 35]
-	DstBlock		"Send Data via SPI"
+	Points			[0, 10]
+	DstBlock		"Enabled\nSubsystem"
 	DstPort			1
       }
     }
     Line {
-      SrcBlock		      "Compute Load"
+      SrcBlock		      "Compare\nTo Zero"
       SrcPort		      1
-      Points		      [20, 0; 0, -30]
-      DstBlock		      "Mux"
-      DstPort		      2
-    }
-    Line {
-      SrcBlock		      "Raw Sensors"
-      SrcPort		      1
-      Points		      [50, 0]
-      DstBlock		      "Mux"
-      DstPort		      3
-    }
-    Line {
-      SrcBlock		      "Get GPS"
-      SrcPort		      2
-      DstBlock		      "Terminator"
-      DstPort		      1
+      Points		      [130, 0]
+      DstBlock		      "Enabled\nSubsystem"
+      DstPort		      enable
     }
     Annotation {
       Name		      "GPS Reader/Decoder"

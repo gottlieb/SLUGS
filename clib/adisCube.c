@@ -71,10 +71,10 @@ void cubeInit (void){
 	write2Cube(W_ZACC_OFFSET);
 	
 	// Start a full calibration
-	//write2Cube(W_COMMAND_FULLCAL);
-	//printToUart2("Starting %s\n\r","Full Cal");
-	//while(!cubeDataReady());
-	//printToUart2("Starting %s\n\r","Done Cal");
+	write2Cube(W_COMMAND_FULLCAL);
+	printToUart2("Starting %s\n\r","Full Cal");
+	while(!cubeDataReady());
+	printToUart2("%s\n\r","Done Cal");
 	
 	// Change the SPI Speed
 	SPI2STATbits.SPIEN   = 0;   //Disable SPI Module

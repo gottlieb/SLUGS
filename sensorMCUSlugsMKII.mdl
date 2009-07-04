@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.730"
+    ComputedModelVersion    "1.737"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jul 01 09:21:38 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:730>"
+  LastModifiedDate	  "Fri Jul 03 19:24:23 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:737>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -324,10 +324,10 @@ Model {
 	  ProcessScript		  "dspic_make_rtw_hook"
 	  ConfigAtBuild		  off
 	  CustomHeaderCode	  "#include \"apDefinitions.h\"\n"
-	  CustomSource		  "clib\\circBuffer.c\nclib\\gpsParse.c\nclib"
-"\\gpsSplit.c\nclib\\sbrk.c\nclib\\bufferedUART.c\nclib\\dataLogger.c\nclib\\i"
-"nterProcCommMaster.c\nclib\\conversions.c\nclib\\apUtils.c\nclib\\protDecoder"
-".c\nclib\\DEE.c\nclib\\DEES.s\nclib\\magneto.c\nclib\\adisCube.c"
+	  CustomSource		  "clib\\circBuffer.c\nclib\\sbrk.c\nclib\\gps"
+".c\nclib\\dataLogger.c\nclib\\interProcCommMaster.c\nclib\\conversions.c\ncli"
+"b\\apUtils.c\nclib\\protDecoder.c\nclib\\DEE.c\nclib\\DEES.s\nclib\\magneto.c"
+"\nclib\\adisCube.c"
 	  IncludeHyperlinkInReport on
 	  LaunchReport		  on
 	  TargetLang		  "C"
@@ -578,7 +578,7 @@ Model {
 	PropName		"Components"
       }
       Name		      "Configuration"
-      CurrentDlgPage	      "Real-Time Workshop"
+      CurrentDlgPage	      "Real-Time Workshop/Custom Code"
     }
     PropName		    "ConfigurationSets"
   }
@@ -865,8 +865,8 @@ Model {
   }
   System {
     Name		    "sensorMCUSlugsMKII"
-    Location		    [214, 78, 1244, 908]
-    Open		    on
+    Location		    [214, 82, 1244, 912]
+    Open		    off
     ModelBrowserVisibility  on
     ModelBrowserWidth	    212
     ScreenColor		    "white"
@@ -2611,7 +2611,7 @@ Model {
 	  BlockType		  SubSystem
 	  Name			  "Sensor Suite"
 	  Ports			  [2, 7]
-	  Position		  [335, 57, 445, 333]
+	  Position		  [335, 61, 445, 339]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
@@ -2886,8 +2886,8 @@ Model {
 	    Block {
 	      BlockType		      SubSystem
 	      Name		      "If no HIL then\nRead all the\nSensors"
-	      Ports		      [0, 1, 1]
-	      Position		      [85, 215, 160, 245]
+	      Ports		      [0, 2, 1]
+	      Position		      [90, 214, 150, 281]
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
@@ -2895,7 +2895,7 @@ Model {
 	      System {
 		Name			"If no HIL then\nRead all the\nSensors"
 		Location		[-1179, 66, -149, 913]
-		Open			off
+		Open			on
 		ModelBrowserVisibility	on
 		ModelBrowserWidth	200
 		ScreenColor		"white"
@@ -3029,116 +3029,39 @@ Model {
 		  DisplayOption		  "bar"
 		}
 		Block {
-		  BlockType		  Demux
-		  Name			  "Demux2"
-		  Ports			  [1, 2]
-		  Position		  [250, 651, 255, 689]
-		  BackgroundColor	  "black"
-		  ShowName		  off
-		  Outputs		  "[25 1]"
-		  DisplayOption		  "bar"
-		}
-		Block {
 		  BlockType		  Reference
-		  Name			  "GPS Read\n[bufferedUART.c]"
+		  Name			  "Produce the GPS Main\nData and upda"
+"te the AP State\n(lat lon hei cog sog)\n[gps.c]"
 		  Tag			  "dsPIC_dsPIC_CFunctionCall"
 		  Ports			  [0, 1]
-		  Position		  [115, 652, 220, 688]
+		  Position		  [185, 612, 325, 658]
 		  BackgroundColor	  "orange"
 		  List {
 		    ListType		    RTWdata
-		    FctDeclaration	    "extern void gpsRead(uint8_T* y1);"
-		    FctCall		    "gpsRead(*%y1);"
-		    fctName		    "gpsRead"
+		    FctDeclaration	    "extern void getGpsMainData(real32"
+"_T* y1);"
+		    FctCall		    "getGpsMainData(*%y1);"
+		    fctName		    "getGpsMainData"
 		    INPUT_SIZE		    "1"
-		    OUTPUT_SIZE		    "26"
+		    OUTPUT_SIZE		    "5"
 		    NBR_INPUT		    "0"
 		    NBR_OUTPUT		    "1"
 		  }
 		  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
 		  SourceType		  "C Function Call"
-		  fctName		  "'gpsRead'"
+		  fctName		  "'getGpsMainData'"
 		  INPUT_SIZE		  "1"
 		  INPUT1		  "--"
 		  INPUT2		  "--"
 		  INPUT3		  "--"
-		  OUTPUT_SIZE		  "26"
-		  OUTPUT1		  "uint8"
+		  OUTPUT_SIZE		  "5"
+		  OUTPUT1		  "real32"
 		  SampleTime		  ".01"
 		  InputType		  "[ ]"
-		  OutputType		  "[ 2 ]"
-		  FctDeclaration	  "extern void gpsRead(uint8_T* y1);"
-		  FctCall		  "gpsRead(*%y1);"
-		  OrderingInOutPopup	  "None"
-		}
-		Block {
-		  BlockType		  Reference
-		  Name			  "GPS Sentence\nParser and\nState Upd"
-"ater\n[gpsParse.c]"
-		  Tag			  "dsPIC_dsPIC_CFunctionCall"
-		  Ports			  [1]
-		  Position		  [455, 657, 560, 693]
-		  BackgroundColor	  "orange"
-		  List {
-		    ListType		    RTWdata
-		    FctDeclaration	    "extern void gpsParse(uint8_T* u1)"
-";"
-		    FctCall		    "gpsParse(*%u1);"
-		    fctName		    "gpsParse"
-		    INPUT_SIZE		    "127"
-		    OUTPUT_SIZE		    "1"
-		    NBR_INPUT		    "1"
-		    NBR_OUTPUT		    "0"
-		  }
-		  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
-		  SourceType		  "C Function Call"
-		  fctName		  "'gpsParse'"
-		  INPUT_SIZE		  "127"
-		  INPUT1		  "uint8"
-		  INPUT2		  "--"
-		  INPUT3		  "--"
-		  OUTPUT_SIZE		  "1"
-		  OUTPUT1		  "--"
-		  SampleTime		  "-1"
-		  InputType		  "[ 2 ]"
-		  OutputType		  "[ ]"
-		  FctDeclaration	  "extern void gpsParse(uint8_T* u1);"
-		  FctCall		  "gpsParse(*%u1);"
-		  OrderingInOutPopup	  "None"
-		}
-		Block {
-		  BlockType		  Reference
-		  Name			  "GPS Sentence Split\n[gpsSplit.c]"
-		  Tag			  "dsPIC_dsPIC_CFunctionCall"
-		  Ports			  [1, 1]
-		  Position		  [310, 657, 415, 693]
-		  BackgroundColor	  "orange"
-		  List {
-		    ListType		    RTWdata
-		    FctDeclaration	    "extern void gpsSeparate(uint8_T* "
-"u1,uint8_T* y1);"
-		    FctCall		    "gpsSeparate(*%u1, *%y1);"
-		    fctName		    "gpsSeparate"
-		    INPUT_SIZE		    "25"
-		    OUTPUT_SIZE		    "127"
-		    NBR_INPUT		    "1"
-		    NBR_OUTPUT		    "1"
-		  }
-		  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
-		  SourceType		  "C Function Call"
-		  fctName		  "'gpsSeparate'"
-		  INPUT_SIZE		  "25"
-		  INPUT1		  "uint8"
-		  INPUT2		  "--"
-		  INPUT3		  "--"
-		  OUTPUT_SIZE		  "127"
-		  OUTPUT1		  "uint8"
-		  SampleTime		  "-1"
-		  InputType		  "[ 2 ]"
-		  OutputType		  "[ 2 ]"
-		  FctDeclaration	  "extern void gpsSeparate(uint8_T* u1"
-",uint8_T* y1);"
-		  FctCall		  "gpsSeparate(*%u1, *%y1);"
+		  OutputType		  "[ 7 ]"
+		  FctDeclaration	  "extern void getGpsMainData(real32_T"
+"* y1);"
+		  FctCall		  "getGpsMainData(*%y1);"
 		  OrderingInOutPopup	  "None"
 		}
 		Block {
@@ -3214,13 +3137,6 @@ Model {
 		  FctDeclaration	  "extern void getMag(int16_T* y1);"
 		  FctCall		  "getMag(*%y1);"
 		  OrderingInOutPopup	  "None"
-		}
-		Block {
-		  BlockType		  Terminator
-		  Name			  "Terminator"
-		  Position		  [225, 700, 245, 720]
-		  Orientation		  "left"
-		  ShowName		  off
 		}
 		Block {
 		  BlockType		  Reference
@@ -3674,6 +3590,15 @@ Model {
 		  IconDisplay		  "Port number"
 		  BusOutputAsStruct	  off
 		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "GPS"
+		  Position		  [375, 628, 405, 642]
+		  BackgroundColor	  "yellow"
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
 		Line {
 		  SrcBlock		  "myMux Fun4"
 		  SrcPort		  1
@@ -3787,32 +3712,6 @@ Model {
 		  DstPort		  1
 		}
 		Line {
-		  SrcBlock		  "GPS Sentence Split\n[gpsSplit.c]"
-		  SrcPort		  1
-		  DstBlock		  "GPS Sentence\nParser and\nState Upd"
-"ater\n[gpsParse.c]"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "GPS Read\n[bufferedUART.c]"
-		  SrcPort		  1
-		  DstBlock		  "Demux2"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "Demux2"
-		  SrcPort		  1
-		  Points		  [10, 0; 0, 15]
-		  DstBlock		  "GPS Sentence Split\n[gpsSplit.c]"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "Demux2"
-		  SrcPort		  2
-		  DstBlock		  "Terminator"
-		  DstPort		  1
-		}
-		Line {
 		  SrcBlock		  "Rate Transition"
 		  SrcPort		  1
 		  DstBlock		  "Demux1"
@@ -3873,6 +3772,13 @@ Model {
 		    DstBlock		    "myMux Fun"
 		    DstPort		    4
 		  }
+		}
+		Line {
+		  SrcBlock		  "Produce the GPS Main\nData and upda"
+"te the AP State\n(lat lon hei cog sog)\n[gps.c]"
+		  SrcPort		  1
+		  DstBlock		  "GPS"
+		  DstPort		  1
 		}
 	      }
 	    }
@@ -5913,7 +5819,7 @@ Model {
 		  MaskIconOpaque	  on
 		  MaskIconRotate	  "port"
 		  MaskIconUnits		  "normalized"
-		  MaskValueString	  "[]|[-50]|50|auto|T|tustin|1"
+		  MaskValueString	  "[]|[-30]|30|auto|T|tustin|1"
 		  MaskTabNameString	  ",,,,,,"
 		  System {
 		    Name		    "Low Pass1"
@@ -7185,42 +7091,6 @@ Model {
 	      }
 	    }
 	    Block {
-	      BlockType		      Reference
-	      Name		      "Produce the GPS Main\nData from the AP "
-"State\n(lat lon hei cog sog)\n[gpsParse.c]"
-	      Tag		      "dsPIC_dsPIC_CFunctionCall"
-	      Ports		      [0, 1]
-	      Position		      [475, 672, 615, 718]
-	      BackgroundColor	      "orange"
-	      List {
-		ListType		RTWdata
-		FctDeclaration		"extern void getGpsMainData(real32_T* "
-"y1);"
-		FctCall			"getGpsMainData(*%y1);"
-		fctName			"getGpsMainData"
-		INPUT_SIZE		"1"
-		OUTPUT_SIZE		"5"
-		NBR_INPUT		"0"
-		NBR_OUTPUT		"1"
-	      }
-	      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-	      SourceType	      "C Function Call"
-	      fctName		      "'getGpsMainData'"
-	      INPUT_SIZE	      "1"
-	      INPUT1		      "--"
-	      INPUT2		      "--"
-	      INPUT3		      "--"
-	      OUTPUT_SIZE	      "5"
-	      OUTPUT1		      "real32"
-	      SampleTime	      ".01"
-	      InputType		      "[ ]"
-	      OutputType	      "[ 7 ]"
-	      FctDeclaration	      "extern void getGpsMainData(real32_T* y1"
-");"
-	      FctCall		      "getGpsMainData(*%y1);"
-	      OrderingInOutPopup      "None"
-	    }
-	    Block {
 	      BlockType		      Switch
 	      Name		      "Switch"
 	      Position		      [190, 95, 220, 255]
@@ -7490,7 +7360,8 @@ Model {
 	    Block {
 	      BlockType		      Outport
 	      Name		      "GPS"
-	      Position		      [670, 688, 700, 702]
+	      Position		      [105, 328, 135, 342]
+	      Orientation	      "left"
 	      BackgroundColor	      "yellow"
 	      Port		      "7"
 	      IconDisplay	      "Port number"
@@ -7699,9 +7570,9 @@ Model {
 	      DstPort		      2
 	    }
 	    Line {
-	      SrcBlock		      "Produce the GPS Main\nData from the AP "
-"State\n(lat lon hei cog sog)\n[gpsParse.c]"
-	      SrcPort		      1
+	      SrcBlock		      "If no HIL then\nRead all the\nSensors"
+	      SrcPort		      2
+	      Points		      [25, 0; 0, 70]
 	      DstBlock		      "GPS"
 	      DstPort		      1
 	    }
@@ -7710,7 +7581,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Omega (rad/s)"
-	  Position		  [465, 68, 495, 82]
+	  Position		  [465, 73, 495, 87]
 	  BackgroundColor	  "yellow"
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
@@ -7718,7 +7589,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Accel (m/s^2)"
-	  Position		  [465, 108, 495, 122]
+	  Position		  [465, 113, 495, 127]
 	  BackgroundColor	  "yellow"
 	  Port			  "2"
 	  IconDisplay		  "Port number"
@@ -7727,7 +7598,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Mag (mG)"
-	  Position		  [465, 148, 495, 162]
+	  Position		  [465, 153, 495, 167]
 	  BackgroundColor	  "yellow"
 	  Port			  "3"
 	  IconDisplay		  "Port number"
@@ -7736,7 +7607,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Static (Pa)"
-	  Position		  [465, 188, 495, 202]
+	  Position		  [465, 193, 495, 207]
 	  BackgroundColor	  "yellow"
 	  Port			  "4"
 	  IconDisplay		  "Port number"
@@ -7745,7 +7616,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Pito (Pa)"
-	  Position		  [465, 228, 495, 242]
+	  Position		  [465, 233, 495, 247]
 	  BackgroundColor	  "yellow"
 	  Port			  "5"
 	  IconDisplay		  "Port number"
@@ -7754,7 +7625,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Baro Alt (m)"
-	  Position		  [465, 268, 495, 282]
+	  Position		  [465, 273, 495, 287]
 	  BackgroundColor	  "yellow"
 	  Port			  "6"
 	  IconDisplay		  "Port number"
@@ -7772,7 +7643,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "GPS"
-	  Position		  [465, 308, 495, 322]
+	  Position		  [465, 313, 495, 327]
 	  BackgroundColor	  "yellow"
 	  Port			  "8"
 	  IconDisplay		  "Port number"
@@ -7781,6 +7652,7 @@ Model {
 	Line {
 	  SrcBlock		  "Raw HIL \nReadings"
 	  SrcPort		  1
+	  Points		  [10, 0]
 	  DstBlock		  "Sensor Suite"
 	  DstPort		  2
 	}
@@ -7796,7 +7668,7 @@ Model {
 	      DstPort		      enable
 	    }
 	    Branch {
-	      Points		      [0, -65]
+	      Points		      [0, -60]
 	      DstBlock		      "Sensor Suite"
 	      DstPort		      1
 	    }
