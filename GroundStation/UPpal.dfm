@@ -42,10 +42,10 @@ object FPpal: TFPpal
     Top = 25
     Width = 375
     Height = 668
-    ActivePage = ts_graphical
+    ActivePage = ts_export
     Align = alClient
     MultiLine = True
-    TabIndex = 8
+    TabIndex = 3
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth'
@@ -5760,7 +5760,7 @@ object FPpal: TFPpal
             3BB33773333773333773B333333B3333333B7333333733333337}
           NumGlyphs = 2
           TabOrder = 1
-          Text = 'C:\Mariano\UCSC\APCode\GroundStation\FlightLogs\cartTest'
+          Text = 'C:\live.log'
         end
         object cb_over: TCheckBox
           Left = 8
@@ -5768,6 +5768,8 @@ object FPpal: TFPpal
           Width = 273
           Height = 17
           Caption = 'Use Same File. Old files will be overwritten'
+          Checked = True
+          State = cbChecked
           TabOrder = 2
           OnClick = cb_inflightClick
         end

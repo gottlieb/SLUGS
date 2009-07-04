@@ -634,9 +634,9 @@ void TFPpal::updateGPSLabels(void){
                       IntToStr(gpsSamples[0].min) + ":" +
                       IntToStr(gpsSamples[0].sec);
 
-   et_lat->Caption = FormatFloat("0.00000",gpsSamples[0].lat.flData);
-   et_lon->Caption = FormatFloat("0.00000",gpsSamples[0].lon.flData);
-   et_height->Caption = FormatFloat("0.00",gpsSamples[0].height.flData);
+   et_lat->Caption = FormatFloat("0.0000000",gpsSamples[0].lat.flData);
+   et_lon->Caption = FormatFloat("0.0000000",gpsSamples[0].lon.flData);
+   et_height->Caption = FormatFloat("0.000",gpsSamples[0].height.flData);
 
    et_cog->Caption = IntToStr(gpsSamples[0].cog.usData);
    et_sog->Caption = IntToStr(gpsSamples[0].sog.usData);
