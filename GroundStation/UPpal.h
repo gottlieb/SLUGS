@@ -29,7 +29,6 @@
 #include <math.h>
 #include <exception.h>
 #include "AbVCInd.hpp"
-#include "gpsSplit.h"
 #include "AbCBitBt.hpp"
 #include "ToolEdit.hpp"
 #include "gsDefinitions.h"

@@ -424,7 +424,7 @@ static tCommandsData	cpcomControlData;
 	         cprawControlData.powr.shData,
 	         cprawControlData.ther.shData);
 
-/*
+
     // Print Bias Data
 	    fprintf(outFile, "%f,%f,%f,%f,%f,%f,",
 	         cpbiasControlData.axb.flData,
@@ -502,7 +502,7 @@ static tCommandsData	cpcomControlData;
 	         cpcomControlData.rCommand.flData,
 	         cpcomControlData.currWPCommand,
 	         cpcomControlData.nextWPCommand);
- */		     		     
+ 		     		     
 	// Add new line
 	fprintf(outFile, "\n");
 
