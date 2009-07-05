@@ -13,11 +13,18 @@ BaroGpsHDif = 20.0;
 
 % Temp Coefficients
 % =================
-baroTempK = 0;
-baroMeanTemp = 0;
 
-magTempK = 0;
-magMeanTemp = 0;
+% No gyro, accels temp compensation needed
+
+% Mags
+magTempK = [.0057 -.0423 .0426];
+magMeanTemp = [162.42 162.42 162.42];
+
+baroTempK = 0.7085;
+baroMeanTemp = 205.64;
+
+pitTempK = -0.0333;
+pitMeanTemp = 205.64;
 
 
 % Scale/Offset sets
@@ -39,12 +46,9 @@ magOffset = 0;
 
 % Pito
 % ====
-raw = 1.2412*[1250*3300/5000 4750*3300/5000];
-pre = [0 4000];
-P =  polyfit(raw,pre,1);
 
-pitotScale  = P(1);
-pitotOffset = P(2);
+pitotScale  = 0.9308094217080;
+pitotOffset = -867.9432823678868;
 
 % Temp
 % 14.8  -> 1160

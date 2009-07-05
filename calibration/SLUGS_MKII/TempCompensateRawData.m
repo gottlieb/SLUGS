@@ -1,12 +1,12 @@
-function TempCompensateRawData (data, plotData)
+function [tmean tgains] = TempCompensateRawData (data, plotData, use_ext_tgains, tg_param, tm_param)
 %% Temperature Compensation for Main Sensors
-figct = 100;
+figct = 1;
 
 % If plotting only raw make this 15, otherwise make it 0;
-onlyRaw = 15;
+onlyRaw = 0;
 
 % set an initial and final offset if one is required
-ini = 1;
+ini = 1;%35000;
 %fin = size(data,1)-3000;
 fin = size(data,1);
 
@@ -27,64 +27,87 @@ rawPitIdx       = 39 - onlyRaw;
 rawPwrIdx       = 40 - onlyRaw;
 rawTheIdx       = 41 - onlyRaw;
 
+% Air data and Diagnostics
+airDynIdx       = 48;
+airStaIdx       = 49;
+airTemIdx       = 50;
+diaFl1Idx       = 51;
+diaFl2Idx       = 52;
+diaFl3Idx       = 53;
+diaSh1Idx       = 54;
+diaSh2Idx       = 55;
+diaSh3Idx       = 56;
+
+% Load message
+loaSenIdx       = 57;
+loaCtrIdx       = 58;
+loaVolIdx       = 59;
+
 % Produce the Time vector
 time = 0:0.01:(size(data(ini:fin,1))*.01 - 0.01);
 
 % Produce the Temperature vector
-temp = data(ini:fin,rawTheIdx);
+temp = data(ini:fin,airTemIdx);
 
 
 %% Start computing the offsets
 
-% ======= GYROS ============
-fit_data =  polyfit(temp, data(ini:fin, rawGxIdx),1);
-gxTGain = fit_data(1);
+if use_ext_tgains == 0
+    % ======= GYROS ============
+    fit_data =  polyfit(temp, data(ini:fin, rawGxIdx),1);
+    gxTGain = fit_data(1);
 
-fit_data =  polyfit(temp, data(ini:fin, rawGyIdx),1);
-gyTGain = fit_data(1);
+    fit_data =  polyfit(temp, data(ini:fin, rawGyIdx),1);
+    gyTGain = fit_data(1);
 
-fit_data =  polyfit(temp, data(ini:fin, rawGzIdx),1);
-gzTGain = fit_data(1);
+    fit_data =  polyfit(temp, data(ini:fin, rawGzIdx),1);
+    gzTGain = fit_data(1);
 
-% ======= ACCEL ============
-fit_data =  polyfit(temp, data(ini:fin, rawAxIdx),1);
-axTGain = fit_data(1);
+    % ======= ACCEL ============
+    fit_data =  polyfit(temp, data(ini:fin, rawAxIdx),1);
+    axTGain = fit_data(1);
 
-fit_data =  polyfit(temp, data(ini:fin, rawAyIdx),1);
-ayTGain = fit_data(1);
+    fit_data =  polyfit(temp, data(ini:fin, rawAyIdx),1);
+    ayTGain = fit_data(1);
 
-fit_data =  polyfit(temp, data(ini:fin, rawAzIdx),1);
-azTGain = fit_data(1);
+    fit_data =  polyfit(temp, data(ini:fin, rawAzIdx),1);
+    azTGain = fit_data(1);
 
-% ======= MAGS ============
-fit_data =  polyfit(temp, data(ini:fin, rawMxIdx),1);
-mxTGain = fit_data(1);
+    % ======= MAGS ============
+    fit_data =  polyfit(temp, data(ini:fin, rawMxIdx),1);
+    mxTGain = fit_data(1);
 
-fit_data =  polyfit(temp, data(ini:fin, rawMyIdx),1);
-myTGain = fit_data(1);
+    fit_data =  polyfit(temp, data(ini:fin, rawMyIdx),1);
+    myTGain = fit_data(1);
 
-fit_data =  polyfit(temp, data(ini:fin, rawMzIdx),1);
-mzTGain = fit_data(1);
+    fit_data =  polyfit(temp, data(ini:fin, rawMzIdx),1);
+    mzTGain = fit_data(1);
 
-% ======= EXTRA SENSORS ============
-fit_data =  polyfit(temp, data(ini:fin, rawBarIdx),1);
-barTGain = fit_data(1);
+    % ======= EXTRA SENSORS ============
+    fit_data =  polyfit(temp, data(ini:fin, airStaIdx),1);
+    barTGain = fit_data(1);
 
-fit_data =  polyfit(temp, data(ini:fin, rawPitIdx),1);
-pitTGain = fit_data(1);
+    fit_data =  polyfit(temp, data(ini:fin, airDynIdx),1);
+    pitTGain = fit_data(1);
 
-fit_data =  polyfit(temp, data(ini:fin, rawPwrIdx),1);
-pwrTGain = fit_data(1);
+    fit_data =  polyfit(temp, data(ini:fin, loaVolIdx),1);
+    pwrTGain = fit_data(1);
 
-
-
+    tgains = [gxTGain gyTGain gzTGain axTGain ayTGain azTGain ...
+              mxTGain myTGain mzTGain barTGain pitTGain pwrTGain];
+          
+    tmean = mean(temp);
+else
+    tgains = tg_param;
+    tmean = tm_param;
+end
 %% If asked for plot the data
 if plotData == 1
     figure(figct);
         plot(time,temp);
         title('Temperature Run');
         xlabel('Time (s)');
-        ylabel('Count (12bits)');   
+        ylabel('Temp 0.1(C)');   
     eval(['print -depsc  '  num2str(figct)]);
     figct= figct+1; 
 
@@ -93,72 +116,101 @@ if plotData == 1
         subplot(3,3,1)
             plot(temp,data(ini:fin, rawGxIdx));
             title('Gyro X');
-            legend(num2str(gxTGain));
+            legend(num2str(tgains(1)));
             ylabel('Gyro counts');
         subplot(3,3,2)
             plot(temp,data(ini:fin, rawGyIdx));
             title('Gyro Y');
-            legend(num2str(gyTGain));
+            legend(num2str(tgains(2)));
          subplot(3,3,3)
             plot(temp,data(ini:fin, rawGzIdx));
             title('Gyro Z');
-            legend(num2str(gzTGain));
+            legend(num2str(tgains(3)));
 
         subplot(3,3,4)
             plot(temp,data(ini:fin, rawAxIdx));
             title('Accel X');
-            legend(num2str(axTGain));
+            legend(num2str(tgains(4)));
             ylabel('Accel counts');
         subplot(3,3,5)
             plot(temp,data(ini:fin, rawAyIdx));
             title('Accel Y');
-            legend(num2str(ayTGain));
+            legend(num2str(tgains(5)));
          subplot(3,3,6)
             plot(temp,data(ini:fin, rawAzIdx));
             title('Accel Z');
-            legend(num2str(azTGain));
+            legend(num2str(tgains(6)));
 
         subplot(3,3,7)
             plot(temp,data(ini:fin, rawMxIdx));
             title('Mag X');
-            legend(num2str(mxTGain));
+            legend(num2str(tgains(7)));
             ylabel('Magn counts');
-            xlabel ('Temp counts');
+            xlabel ('Temp 0.1(C)');
         subplot(3,3,8)
             plot(temp,data(ini:fin, rawMyIdx));
             title('Mag Y');
-            legend(num2str(myTGain));
-            xlabel ('Temp counts');
+            legend(num2str(tgains(8)));
+            xlabel ('Temp 0.1(C)');
          subplot(3,3,9)
             plot(temp,data(ini:fin, rawMzIdx));
             title('Mag Z');
-            legend(num2str(mzTGain));
-            xlabel ('Temp counts');
+            legend(num2str(tgains(9)));
+            xlabel ('Temp 0.1(C)');
         
     eval(['print -depsc  '  num2str(figct)]);
     figct= figct+1;    
 
     figure(figct)
         subplot(3,1,1);
-            plot(temp,data(ini:fin, rawBarIdx));            
+            plot(temp,data(ini:fin, airStaIdx));            
             title('Barometer');
-            legend(num2str(barTGain));
-            ylabel('Barometer counts');
+            legend(num2str(tgains(10)));
+            ylabel('Barometer Pa');
         subplot(3,1,2);
-            plot(temp,data(ini:fin, rawPitIdx));            
+            plot(temp,data(ini:fin, airDynIdx));            
             title('Differential Pressure');
-            legend(num2str(pitTGain));
-            ylabel('Differential counts');
+            legend(num2str(tgains(11)));
+            ylabel('Differential Pressure (Pa)');
         subplot(3,1,3);
-            plot(temp,data(ini:fin, rawPwrIdx));            
+            plot(temp,data(ini:fin, loaVolIdx));            
             title('Power');
-            legend(num2str(pwrTGain));
-            ylabel('Power counts');
-            xlabel ('Temp counts');         
+            legend(num2str(tgains(12)));
+            ylabel('Power mV');
+            xlabel ('Temp 0.1(C)');         
             
     eval(['print -depsc  '  num2str(figct)]);
     figct= figct+1;    
+%% Start plotting the temperature compensated ones    
+    figure(figct)
+    [sta_comp, bia_ini, tmean] =  cTemp(data(ini:fin, airStaIdx), temp, tgains(10), 0, 1, tmean);
+    plot(time,data(ini:fin, airStaIdx),'b');
+    hold on
+    plot(time,sta_comp, 'r');
+    title (['Temperature Compensated Static.' 'Mean Temp = ' num2str(tmean)]);
+    hold off
+    ylabel ('Static (Pa)');
+    xlabel ('Time (s)');
+    legend ('Raw Data','Temp Comp' );
            
+    eval(['print -depsc  '  num2str(figct)]);
+    figct= figct+1;    
+    
+    figure(figct)
+    [dyn_comp, bia_ini, tmean] =  cTemp(data(ini:fin, airDynIdx), temp, tgains(11), 0, 1, tmean);
+    plot(time,data(ini:fin, airDynIdx),'b');
+    hold on
+    plot(time,dyn_comp, 'r');
+    title (['Temperature Compensated Dynamic.' 'Mean Temp = ' num2str(tmean)]);
+    hold off
+    ylabel ('Dynamic (Pa)');
+    xlabel ('Time (s)');
+    legend ('Raw Data','Temp Comp' );
+           
+    eval(['print -depsc  '  num2str(figct)]);
+    figct= figct+1;    
+    
+    
 end
 
 
