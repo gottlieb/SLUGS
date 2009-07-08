@@ -60,6 +60,7 @@ void spiSend(unsigned char * data2Send){
 		while(!DataRdySPI1());
 		rcvdIdx = ReadSPI1();		
 	}
+	
 }
 
 void sensorMCUInit(void){
@@ -71,9 +72,7 @@ void sensorMCUInit(void){
 	#ifndef NO_MAGNETO
 		magnetoInit();
 	#endif
-		
 	cubeInit();
-	
 	
 	aknControlData.sensorReboot =1;
 }

@@ -190,6 +190,7 @@ void getMag (short * magVals){
 	#endif
 	// flip the read flag
 	readMagVar = (readMagVar == 1)? 0: 1;
+	
 }
 
 // I2C Primitives

@@ -86,3 +86,9 @@ unsigned char getPassValues (unsigned char * pasVals){
 	pasVals[2] = apsControlData.dr_pass;
 	pasVals[3] = apsControlData.dle_pass;
 }
+
+void setCurrentCommands (float airSpeed){
+	comControlData.hCommand.flData = xyzControlData.Zcoord.flData;
+	comControlData.airspeedCommand.flData = airSpeed; 
+	comControlData.rCommand.flData = 0.0;
+}

@@ -33,6 +33,7 @@ void cubeInit (void){
     SPI2STATbits.SPIROV  = 0;   //Clear overflow bit
     SPI2STATbits.SPIEN   = 1;   //Enable SPI Module
     
+    
     printToUart2("Starting %s\n\r","SPI Enabled");
     // AN18 is used for data reading
     
@@ -71,11 +72,12 @@ void cubeInit (void){
 	write2Cube(W_ZACC_OFFSET);
 	
 	// Start a full calibration
-	write2Cube(W_COMMAND_FULLCAL);
-	printToUart2("Starting %s\n\r","Full Cal");
-	while(!cubeDataReady());
-	printToUart2("%s\n\r","Done Cal");
-	
+	#ifdef DO_FULL_CAL
+		write2Cube(W_COMMAND_FULLCAL);
+		printToUart2("Starting %s\n\r","Full Cal");
+		while(!cubeDataReady());
+		printToUart2("%s\n\r","Done Cal");
+	#endif
 	// Change the SPI Speed
 	SPI2STATbits.SPIEN   = 0;   //Disable SPI Module
 	

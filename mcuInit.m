@@ -9,7 +9,6 @@ T = 0.01;
 cubeGyroGain = .07326*pi/180;
 cubeAccelGain = (2.522e-3)*9.815;
 
-BaroGpsHDif = 20.0;
 
 % Temp Coefficients
 % =================
@@ -47,8 +46,8 @@ magOffset = 0;
 % Pito
 % ====
 
-pitotScale  = 0.9308094217080;
-pitotOffset = -867.9432823678868;
+pitotScale  = 0.9258;
+pitotOffset = -830.6641;
 
 % Temp
 % 14.8  -> 1160

@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.742"
+    ComputedModelVersion    "1.749"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sat Jul 04 22:00:39 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:742>"
+  LastModifiedDate	  "Wed Jul 08 11:31:23 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:749>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -865,7 +865,7 @@ Model {
   }
   System {
     Name		    "sensorMCUSlugsMKII"
-    Location		    [2, 82, 1032, 912]
+    Location		    [224, 114, 1254, 944]
     Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    212
@@ -1862,7 +1862,8 @@ Model {
 	Block {
 	  BlockType		  DataTypeConversion
 	  Name			  "Data Type Conversion"
-	  Position		  [170, 108, 245, 142]
+	  Position		  [170, 114, 225, 136]
+	  ShowName		  off
 	  OutDataTypeMode	  "uint8"
 	  RndMeth		  "Floor"
 	  SaturateOnIntegerOverflow off
@@ -2367,7 +2368,7 @@ Model {
 	Line {
 	  SrcBlock		  "Data Type Conversion"
 	  SrcPort		  1
-	  Points		  [30, 0; 0, -50]
+	  Points		  [50, 0; 0, -50]
 	  DstBlock		  "Product"
 	  DstPort		  2
 	}
@@ -2409,7 +2410,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Sensor Data"
-	Location		[267, 149, 929, 727]
+	Location		[205, 99, 1235, 946]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -2619,7 +2620,7 @@ Model {
 	  System {
 	    Name		    "Sensor Suite"
 	    Location		    [-1179, 66, -149, 913]
-	    Open		    off
+	    Open		    on
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -2894,7 +2895,7 @@ Model {
 	      MaskHideContents	      off
 	      System {
 		Name			"If no HIL then\nRead all the\nSensors"
-		Location		[-1179, 66, -149, 913]
+		Location		[125, 88, 1155, 935]
 		Open			off
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
@@ -3783,6 +3784,88 @@ Model {
 	      }
 	    }
 	    Block {
+	      BlockType		      SubSystem
+	      Name		      "If no HIL then\nupdate Air Data"
+	      Ports		      [1, 0, 1]
+	      Position		      [760, 135, 850, 205]
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"If no HIL then\nupdate Air Data"
+		Location		[224, 114, 1254, 961]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "AirData"
+		  Position		  [50, 128, 80, 142]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  EnablePort
+		  Name			  "Enable"
+		  Ports			  []
+		  Position		  [140, 55, 160, 75]
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Update the Air\nCalibrated Data\n[d"
+"ataLogger.c]"
+		  Tag			  "dsPIC_dsPIC_CFunctionCall"
+		  Ports			  [1]
+		  Position		  [185, 112, 325, 158]
+		  BackgroundColor	  "orange"
+		  List {
+		    ListType		    RTWdata
+		    FctDeclaration	    "extern void updateAirData(real32_"
+"T* u1);"
+		    FctCall		    "updateAirData(*%u1);"
+		    fctName		    "updateAirData"
+		    INPUT_SIZE		    "3"
+		    OUTPUT_SIZE		    "1"
+		    NBR_INPUT		    "1"
+		    NBR_OUTPUT		    "0"
+		  }
+		  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+		  SourceType		  "C Function Call"
+		  fctName		  "'updateAirData'"
+		  INPUT_SIZE		  "3"
+		  INPUT1		  "real32"
+		  INPUT2		  "--"
+		  INPUT3		  "--"
+		  OUTPUT_SIZE		  "1"
+		  OUTPUT1		  "--"
+		  SampleTime		  ".01"
+		  InputType		  "[ 7 ]"
+		  OutputType		  "[ ]"
+		  FctDeclaration	  "extern void updateAirData(real32_T*"
+" u1);"
+		  FctCall		  "updateAirData(*%u1);"
+		  OrderingInOutPopup	  "None"
+		}
+		Line {
+		  SrcBlock		  "AirData"
+		  SrcPort		  1
+		  DstBlock		  "Update the Air\nCalibrated Data\n[d"
+"ataLogger.c]"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
 	      BlockType		      Logic
 	      Name		      "Logical\nOperator"
 	      Ports		      [1, 1]
@@ -3806,7 +3889,7 @@ Model {
 		Name			"Low Pass Filtering,Temperature\nCompe"
 "nsation and Calibration"
 		Location		[205, 99, 1235, 946]
-		Open			on
+		Open			off
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	212
 		ScreenColor		"white"
@@ -7107,6 +7190,13 @@ Model {
 		  }
 		}
 		Block {
+		  BlockType		  Saturate
+		  Name			  "[0.001  2000]"
+		  Position		  [680, 455, 710, 485]
+		  UpperLimit		  "2000"
+		  LowerLimit		  "0.001"
+		}
+		Block {
 		  BlockType		  Outport
 		  Name			  "Baro Alt (m)"
 		  Position		  [830, 58, 860, 72]
@@ -7349,7 +7439,7 @@ Model {
 		Line {
 		  SrcBlock		  "Pitot Temp\nCompensation"
 		  SrcPort		  1
-		  DstBlock		  "Pitot (Pa)"
+		  DstBlock		  "[0.001  2000]"
 		  DstPort		  1
 		}
 		Line {
@@ -7364,6 +7454,12 @@ Model {
 		  DstBlock		  "Magnetometer (mG)"
 		  DstPort		  1
 		}
+		Line {
+		  SrcBlock		  "[0.001  2000]"
+		  SrcPort		  1
+		  DstBlock		  "Pitot (Pa)"
+		  DstPort		  1
+		}
 	      }
 	    }
 	    Block {
@@ -7374,42 +7470,6 @@ Model {
 	      InputSameDT	      off
 	      SaturateOnIntegerOverflow	off
 	      SampleTime	      "0.01"
-	    }
-	    Block {
-	      BlockType		      Reference
-	      Name		      "Update the Air\nCalibrated Data\n[dataL"
-"ogger.c]"
-	      Tag		      "dsPIC_dsPIC_CFunctionCall"
-	      Ports		      [1]
-	      Position		      [780, 147, 920, 193]
-	      BackgroundColor	      "orange"
-	      List {
-		ListType		RTWdata
-		FctDeclaration		"extern void updateAirData(real32_T* u"
-"1);"
-		FctCall			"updateAirData(*%u1);"
-		fctName			"updateAirData"
-		INPUT_SIZE		"3"
-		OUTPUT_SIZE		"1"
-		NBR_INPUT		"1"
-		NBR_OUTPUT		"0"
-	      }
-	      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-	      SourceType	      "C Function Call"
-	      fctName		      "'updateAirData'"
-	      INPUT_SIZE	      "3"
-	      INPUT1		      "real32"
-	      INPUT2		      "--"
-	      INPUT3		      "--"
-	      OUTPUT_SIZE	      "1"
-	      OUTPUT1		      "--"
-	      SampleTime	      ".01"
-	      InputType		      "[ 7 ]"
-	      OutputType	      "[ ]"
-	      FctDeclaration	      "extern void updateAirData(real32_T* u1)"
-";"
-	      FctCall		      "updateAirData(*%u1);"
-	      OrderingInOutPopup      "None"
 	    }
 	    Block {
 	      BlockType		      Reference
@@ -7672,9 +7732,16 @@ Model {
 	    Line {
 	      SrcBlock		      "Logical\nOperator"
 	      SrcPort		      1
-	      Points		      [10, 0]
-	      DstBlock		      "If no HIL then\nRead all the\nSensors"
-	      DstPort		      enable
+	      Points		      [10, 0; 0, 4]
+	      Branch {
+		DstBlock		"If no HIL then\nRead all the\nSensors"
+		DstPort			enable
+	      }
+	      Branch {
+		Points			[0, -44; -60, 0; 0, -90; 745, 0]
+		DstBlock		"If no HIL then\nupdate Air Data"
+		DstPort			enable
+	      }
 	    }
 	    Line {
 	      SrcBlock		      "Raw HIL"
@@ -7817,8 +7884,7 @@ Model {
 	    Line {
 	      SrcBlock		      "myMux Fun"
 	      SrcPort		      1
-	      DstBlock		      "Update the Air\nCalibrated Data\n[dataL"
-"ogger.c]"
+	      DstBlock		      "If no HIL then\nupdate Air Data"
 	      DstPort		      1
 	    }
 	    Line {
@@ -10695,11 +10761,11 @@ Stateflow {
 						"    tIni = 1;\n"
 						"end;\n"
 						"\n"
-						"if aveCount < 500\n"
+						"if aveCount < 2500\n"
 						"    aveCount = aveCount + 1;\n"
 						"end\n"
 						"\n"
-						"if aveCount == 500\n"
+						"if aveCount == 2500\n"
 						"    tIni =0;\n"
 						"    aveCount = aveCount + 1;\n"
 						"end\n"
