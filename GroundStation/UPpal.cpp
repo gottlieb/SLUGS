@@ -762,7 +762,7 @@ void TFPpal::updateDiagLabels(void){
 }
 
 void TFPpal::updatePilotLabels(void){
-/*  et_dla->Caption =  IntToStr(Floor(pilControlSample.dla.usData*0.2+20.0));
+  et_dla->Caption =  IntToStr(Floor(pilControlSample.dla.usData*0.2+20.0));
   et_dt->Caption = IntToStr(Floor(pilControlSample.dt.usData*0.2+20.0));
   et_dra->Caption = IntToStr(Floor(pilControlSample.dra.usData*0.2+20.0));
   et_de->Caption =  IntToStr(Floor(pilControlSample.de.usData*0.2+20.0));
@@ -771,8 +771,8 @@ void TFPpal::updatePilotLabels(void){
   gr_dt->Value = StrToInt(et_dt->Caption);
   gr_dr->Value = StrToInt(et_dr->Caption);
   gr_da->Value = StrToInt(et_dla->Caption);
-  gr_de->Value = StrToInt(et_de->Caption);
-  */
+  gr_de->Value = StrToInt(et_dra->Caption);
+  
 
   et_dla->Caption = IntToStr(pilControlSample.dla.usData);
   et_dt->Caption =  IntToStr(pilControlSample.dt.usData);
@@ -1298,6 +1298,17 @@ void __fastcall TFPpal::bt_filterClick(TObject *Sender)
 
  bt_filter->Tag ^=1;
 
+ if (!bt_filter->Tag){
+
+    if (StartButton->Enabled){
+       StartButtonClick(Sender);
+       }
+
+    if (bt_startSend->Enabled){
+       bt_startSendClick(Sender);
+    }
+ }
+
  ld_filter->StatusInt= bt_filter->Tag;
 
  bt_filter->Caption = bt_filter->Tag? "HIL Off":"HIL On";
@@ -1611,12 +1622,13 @@ void __fastcall TFPpal::skt_rcvSessionConnected(TObject *Sender,
 
 void __fastcall TFPpal::skt_rcvDataAvailable(TObject *Sender, WORD ErrCode)
 {
-    char        Buffer[105];
+    char        Buffer[113];
     int         Len;
-    Winsock::TSockAddrIn Src;
+    //Winsock::TSockAddrIn Src;
+    TSockAddrIn Src;
     int         SrcLen;
 
-    memset(&Buffer, 0, 105);
+    memset(&Buffer, 0, 113);
 
     SrcLen = sizeof(Src);
     Len    = skt_rcv->ReceiveFrom(Buffer, sizeof(Buffer), Src, SrcLen);
@@ -1713,6 +1725,8 @@ void TFPpal::TxPWMMsg (void){
    send_buffer[7] 	= pwmSampleLocal.dr_c.chData[1];
    send_buffer[8] 	= pwmSampleLocal.dle_c.chData[0];
    send_buffer[9] 	= pwmSampleLocal.dle_c.chData[1];
+
+
    send_buffer[10] 	= pwmSampleLocal.dre_c.chData[0];
    send_buffer[11] 	= pwmSampleLocal.dre_c.chData[1];
    send_buffer[12] 	= pwmSampleLocal.dlf_c.chData[0];
@@ -2540,6 +2554,7 @@ void __fastcall TFPpal::bt_allgainsClick(TObject *Sender)
  }
 }
 //---------------------------------------------------------------------------
+
 
 
 

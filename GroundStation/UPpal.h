@@ -202,7 +202,6 @@ __published:	// IDE-managed Components
     TEdit *ed_portSend;
     TEdit *ed_hostSend;
     TWSocket *skt_send;
-    TWSocket *skt_rcv;
     TGroupBox *GroupBox12;
     TLabel *DataAvailableLabel;
     TLabel *InfoLabel;
@@ -670,6 +669,7 @@ __published:	// IDE-managed Components
         TStaticText *et_therm;
         TLabel *Label157;
         TStaticText *et_power;
+    TWSocket *skt_rcv;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
