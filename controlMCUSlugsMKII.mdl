@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.392"
+    ComputedModelVersion    "1.419"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jul 01 10:17:49 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:392>"
+  LastModifiedDate	  "Wed Jul 08 12:43:44 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:419>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -324,9 +324,9 @@ Model {
 	  ProcessScript		  "dspic_make_rtw_hook"
 	  ConfigAtBuild		  off
 	  CustomHeaderCode	  "\n"
-	  CustomSource		  "clib\\circBuffer.c\nclib\\gpsSplit.c\nclib"
-"\\sbrk.c\nclib\\interProcCommSlave.c\nclib\\protDecoder.c\nclib\\groundStatio"
-"nDriver.c\nclib\\apUtils.c\nclib\\DEE.c\nclib\\DEES.s\nclib\\navSupport.c"
+	  CustomSource		  "clib\\circBuffer.c\nclib\\sbrk.c\nclib\\int"
+"erProcCommSlave.c\nclib\\protDecoder.c\nclib\\groundStationDriver.c\nclib\\ap"
+"Utils.c\nclib\\DEE.c\nclib\\DEES.s\nclib\\navSupport.c"
 	  IncludeHyperlinkInReport on
 	  LaunchReport		  on
 	  TargetLang		  "C"
@@ -576,7 +576,7 @@ Model {
 	PropName		"Components"
       }
       Name		      "Configuration"
-      CurrentDlgPage	      "Real-Time Workshop/DsPIC options"
+      CurrentDlgPage	      "Real-Time Workshop/Custom Code"
     }
     PropName		    "ConfigurationSets"
   }
@@ -978,7 +978,7 @@ Model {
   }
   System {
     Name		    "controlMCUSlugsMKII"
-    Location		    [7, 83, 1156, 1001]
+    Location		    [31, 101, 1180, 1019]
     Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    188
@@ -1370,6 +1370,15 @@ Model {
       GotoTag		      "FailSafe"
     }
     Block {
+      BlockType		      From
+      Name		      "From2"
+      Position		      [15, 357, 70, 373]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "U_m"
+    }
+    Block {
       BlockType		      Reference
       Name		      "Generate Code"
       Ports		      []
@@ -1548,7 +1557,7 @@ Model {
     Block {
       BlockType		      Goto
       Name		      "Goto"
-      Position		      [130, 381, 185, 399]
+      Position		      [175, 381, 230, 399]
       BackgroundColor	      "magenta"
       ShowName		      off
       GotoTag		      "PilotCons"
@@ -1557,10 +1566,19 @@ Model {
     Block {
       BlockType		      Goto
       Name		      "Goto1"
-      Position		      [130, 406, 185, 424]
+      Position		      [175, 406, 230, 424]
       BackgroundColor	      "magenta"
       ShowName		      off
       GotoTag		      "FailSafe"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto2"
+      Position		      [600, 891, 655, 909]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "U_m"
       TagVisibility	      "local"
     }
     Block {
@@ -1613,7 +1631,7 @@ Model {
     Block {
       BlockType		      SubSystem
       Name		      "Inner Loop/ Navigation"
-      Ports		      [29, 7]
+      Ports		      [29, 8]
       Position		      [380, 184, 580, 946]
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
@@ -1659,18 +1677,10 @@ Model {
 	}
 	Block {
 	  BlockType		  Inport
-	  Name			  "dE Trim (rad)"
-	  Position		  [395, 253, 425, 267]
-	  BackgroundColor	  "darkGreen"
-	  Port			  "4"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
 	  Name			  "dTTrim (abs)"
 	  Position		  [385, 103, 415, 117]
 	  BackgroundColor	  "darkGreen"
-	  Port			  "5"
+	  Port			  "4"
 	  IconDisplay		  "Port number"
 	}
 	Block {
@@ -1678,13 +1688,21 @@ Model {
 	  Name			  "dA Trim (rad)"
 	  Position		  [510, 583, 540, 597]
 	  BackgroundColor	  "darkGreen"
-	  Port			  "6"
+	  Port			  "5"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
 	  Name			  "dRTrim (rad)"
 	  Position		  [460, 458, 490, 472]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "dE Trim (rad)"
+	  Position		  [395, 253, 425, 267]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "7"
 	  IconDisplay		  "Port number"
@@ -6051,7 +6069,7 @@ Model {
 	    Block {
 	      BlockType		      InportShadow
 	      Name		      "Manual?1"
-	      Position		      [225, 373, 255, 387]
+	      Position		      [180, 373, 210, 387]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "11"
 	      IconDisplay	      "Port number"
@@ -6091,11 +6109,12 @@ Model {
 	    }
 	    Block {
 	      BlockType		      RateLimiter
-	      Name		      "Rate Limiter1"
+	      Name		      "Rate Limiter"
 	      Position		      [160, 280, 190, 310]
-	      RisingSlewLimit	      "10"
-	      FallingSlewLimit	      "-10"
+	      RisingSlewLimit	      "7"
+	      FallingSlewLimit	      "-5"
 	      SampleTimeMode	      "inherited"
+	      InitialCondition	      "baseHeight"
 	    }
 	    Block {
 	      BlockType		      Switch
@@ -6183,7 +6202,7 @@ Model {
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "Rate Limiter1"
+	      SrcBlock		      "Rate Limiter"
 	      SrcPort		      1
 	      Points		      [15, 0]
 	      Branch {
@@ -6212,7 +6231,7 @@ Model {
 	    Line {
 	      SrcBlock		      "Switch"
 	      SrcPort		      1
-	      DstBlock		      "Rate Limiter1"
+	      DstBlock		      "Rate Limiter"
 	      DstPort		      1
 	    }
 	    Line {
@@ -6338,7 +6357,7 @@ Model {
 	    Line {
 	      SrcBlock		      "h_m"
 	      SrcPort		      1
-	      Points		      [95, 0; 0, -15]
+	      Points		      [20, 0; 0, -15]
 	      DstBlock		      "Add2"
 	      DstPort		      2
 	    }
@@ -6401,7 +6420,7 @@ Model {
 		DstPort			1
 	      }
 	      Branch {
-		Points			[10, 0; 0, -45]
+		Points			[0, -45]
 		DstBlock		"Add"
 		DstPort			2
 	      }
@@ -6540,7 +6559,7 @@ Model {
 	      System {
 		Name			"Compute WP Index"
 		Location		[6, 82, 1351, 1056]
-		Open			off
+		Open			on
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	188
 		ScreenColor		"white"
@@ -20747,6 +20766,15 @@ Model {
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
 	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "U_m"
+	  Position		  [805, 298, 835, 312]
+	  BackgroundColor	  "yellow"
+	  Port			  "8"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
 	Line {
 	  SrcBlock		  "Manual?"
 	  SrcPort		  1
@@ -20936,9 +20964,16 @@ Model {
 	Line {
 	  SrcBlock		  "Longitudinal Channel"
 	  SrcPort		  5
-	  Points		  [15, 0; 0, 55; -265, 0; 0, 155]
-	  DstBlock		  "Lateral Channel"
-	  DstPort		  6
+	  Points		  [15, 0]
+	  Branch {
+	    Points		    [0, 55; -265, 0; 0, 155]
+	    DstBlock		    "Lateral Channel"
+	    DstPort		    6
+	  }
+	  Branch {
+	    DstBlock		    "U_m"
+	    DstPort		    1
+	  }
 	}
 	Line {
 	  SrcBlock		  "XYZ (m)"
@@ -21681,19 +21716,19 @@ Model {
     Block {
       BlockType		      Terminator
       Name		      "Terminator1"
-      Position		      [620, 665, 640, 685]
+      Position		      [610, 605, 630, 625]
       ShowName		      off
     }
     Block {
       BlockType		      Terminator
       Name		      "Terminator2"
-      Position		      [620, 775, 640, 795]
+      Position		      [610, 700, 630, 720]
       ShowName		      off
     }
     Block {
       BlockType		      Terminator
       Name		      "Terminator3"
-      Position		      [615, 885, 635, 905]
+      Position		      [605, 795, 625, 815]
       ShowName		      off
     }
     Block {
@@ -21705,15 +21740,15 @@ Model {
     Block {
       BlockType		      SubSystem
       Name		      "Trim Vals"
-      Ports		      [0, 7]
-      Position		      [60, 282, 100, 448]
+      Ports		      [1, 7]
+      Position		      [85, 284, 155, 446]
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
       MaskHideContents	      off
       System {
 	Name			"Trim Vals"
-	Location		[176, 554, 561, 735]
+	Location		[31, 101, 1197, 1019]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -21727,20 +21762,65 @@ Model {
 	ShowPageBoundaries	off
 	ZoomFactor		"100"
 	Block {
+	  BlockType		  Inport
+	  Name			  "U_m"
+	  Position		  [510, 253, 540, 267]
+	  Orientation		  "left"
+	  BackgroundColor	  "darkGreen"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Abs
+	  Name			  "Abs"
+	  Position		  [825, 355, 855, 385]
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Abs
+	  Name			  "Abs1"
+	  Position		  [825, 425, 855, 455]
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Abs
+	  Name			  "Abs2"
+	  Position		  [895, 390, 925, 420]
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
 	  BlockType		  Selector
 	  Name			  "Control\nSurfaces\n[dT dA dR dE]"
 	  Ports			  [1, 1]
 	  Position		  [220, 176, 260, 214]
 	  IndexOptions		  "Index vector (dialog)"
-	  Indices		  "[1 2 4 5]"
+	  Indices		  "[1 2 4 3]"
 	  OutputSizes		  "1"
 	  InputPortWidth	  "5"
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion4"
+	  Position		  [400, 540, 450, 560]
+	  ShowName		  off
+	  OutDataTypeMode	  "uint16"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	  SampleTime		  "apSampleTime"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux1"
+	  Ports			  [1, 4]
+	  Position		  [610, 317, 615, 458]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  DisplayOption		  "bar"
 	}
 	Block {
 	  BlockType		  Demux
 	  Name			  "Demux2"
 	  Ports			  [1, 4]
-	  Position		  [575, 161, 580, 224]
+	  Position		  [575, 171, 580, 234]
 	  BackgroundColor	  "black"
 	  ShowName		  off
 	  DisplayOption		  "bar"
@@ -21803,7 +21883,7 @@ Model {
 	      Name		      "Hit \nCrossing"
 	      Ports		      [1, 1]
 	      Position		      [165, 30, 195, 60]
-	      HitCrossingOffset	      "0.3"
+	      HitCrossingOffset	      "0.5"
 	      HitCrossingDirection    "falling"
 	      SampleTime	      "apSampleTime"
 	    }
@@ -21888,15 +21968,60 @@ Model {
 	  Ports			  [1, 1]
 	  Position		  [220, 271, 260, 309]
 	  IndexOptions		  "Index vector (dialog)"
-	  Indices		  "[3]"
+	  Indices		  "5"
 	  OutputSizes		  "1"
 	  InputPortWidth	  "5"
 	}
 	Block {
+	  BlockType		  Gain
+	  Name			  "Gain"
+	  Position		  [785, 310, 815, 340]
+	  Gain			  "100"
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain1"
+	  Position		  [765, 355, 795, 385]
+	  Gain			  "(180/pi)*100"
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain2"
+	  Position		  [795, 390, 825, 420]
+	  Gain			  "(180/pi)*100"
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain3"
+	  Position		  [755, 425, 785, 455]
+	  Gain			  "(180/pi)*100"
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain4"
+	  Position		  [355, 535, 385, 565]
+	  Gain			  "100"
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
 	  BlockType		  SubSystem
 	  Name			  "Grab I.C."
-	  Ports			  [1, 1, 1]
-	  Position		  [420, 173, 540, 217]
+	  Ports			  [2, 1, 1]
+	  Position		  [420, 183, 540, 227]
 	  TreatAsAtomicUnit	  on
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
@@ -21922,6 +22047,14 @@ Model {
 	      Name		      "IC \nTrim"
 	      Position		      [55, 168, 85, 182]
 	      BackgroundColor	      "darkGreen"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "U_m"
+	      Position		      [130, 343, 160, 357]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "2"
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
@@ -22527,347 +22660,40 @@ Model {
 	      DisplayOption	      "bar"
 	    }
 	    Block {
-	      BlockType		      SubSystem
-	      Name		      "Log Using\nPWM High\n[groundStationDriv"
-"er.c]"
-	      Ports		      [4]
-	      Position		      [250, 273, 305, 342]
-	      MinAlgLoopOccurrences   off
-	      RTWSystemCode	      "Auto"
-	      FunctionWithSeparateData off
-	      MaskHideContents	      off
-	      System {
-		Name			"Log Using\nPWM High\n[groundStationDr"
-"iver.c]"
-		Location		[7, 83, 1085, 804]
-		Open			off
-		ModelBrowserVisibility	off
-		ModelBrowserWidth	200
-		ScreenColor		"white"
-		PaperOrientation	"landscape"
-		PaperPositionMode	"auto"
-		PaperType		"usletter"
-		PaperUnits		"inches"
-		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
-"00]"
-		TiledPageScale		1
-		ShowPageBoundaries	off
-		ZoomFactor		"100"
-		Block {
-		  BlockType		  Inport
-		  Name			  "In1"
-		  Position		  [25, 28, 55, 42]
-		  IconDisplay		  "Port number"
-		}
-		Block {
-		  BlockType		  Inport
-		  Name			  "In2"
-		  Position		  [25, 133, 55, 147]
-		  Port			  "2"
-		  IconDisplay		  "Port number"
-		}
-		Block {
-		  BlockType		  Inport
-		  Name			  "In3"
-		  Position		  [25, 288, 55, 302]
-		  Port			  "3"
-		  IconDisplay		  "Port number"
-		}
-		Block {
-		  BlockType		  Inport
-		  Name			  "In4"
-		  Position		  [25, 393, 55, 407]
-		  Port			  "4"
-		  IconDisplay		  "Port number"
-		}
-		Block {
-		  BlockType		  DataTypeConversion
-		  Name			  "Data Type Conversion1"
-		  Position		  [80, 285, 130, 305]
-		  ShowName		  off
-		  OutDataTypeMode	  "uint16"
-		  RndMeth		  "Floor"
-		  SaturateOnIntegerOverflow off
-		  SampleTime		  "apSampleTime"
-		}
-		Block {
-		  BlockType		  DataTypeConversion
-		  Name			  "Data Type Conversion2"
-		  Position		  [80, 25, 130, 45]
-		  ShowName		  off
-		  OutDataTypeMode	  "uint16"
-		  RndMeth		  "Floor"
-		  SaturateOnIntegerOverflow off
-		  SampleTime		  "apSampleTime"
-		}
-		Block {
-		  BlockType		  DataTypeConversion
-		  Name			  "Data Type Conversion3"
-		  Position		  [80, 130, 130, 150]
-		  ShowName		  off
-		  OutDataTypeMode	  "uint16"
-		  RndMeth		  "Floor"
-		  SaturateOnIntegerOverflow off
-		  SampleTime		  "apSampleTime"
-		}
-		Block {
-		  BlockType		  DataTypeConversion
-		  Name			  "Data Type Conversion4"
-		  Position		  [80, 390, 130, 410]
-		  ShowName		  off
-		  OutDataTypeMode	  "uint16"
-		  RndMeth		  "Floor"
-		  SaturateOnIntegerOverflow off
-		  SampleTime		  "apSampleTime"
-		}
-		Block {
-		  BlockType		  Reference
-		  Name			  "Update PWM \nCommands1"
-		  Tag			  "dsPIC_dsPIC_CFunctionCall"
-		  Ports			  [2]
-		  Position		  [275, 87, 380, 123]
-		  BackgroundColor	  "darkGreen"
-		  List {
-		    ListType		    RTWdata
-		    FctDeclaration	    "extern void updatePWM2(uint16_T u"
-"1, uint8_T u2);"
-		    FctCall		    "updatePWM2(%u1, %u2);"
-		    fctName		    "updatePWM2"
-		    INPUT_SIZE		    "1"
-		    OUTPUT_SIZE		    "1"
-		    NBR_INPUT		    "2"
-		    NBR_OUTPUT		    "0"
-		  }
-		  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
-		  SourceType		  "C Function Call"
-		  fctName		  "'updatePWM2'"
-		  INPUT_SIZE		  "1"
-		  INPUT1		  "uint16"
-		  INPUT2		  "uint8"
-		  INPUT3		  "--"
-		  OUTPUT_SIZE		  "1"
-		  OUTPUT1		  "--"
-		  SampleTime		  "-1"
-		  InputType		  "[ 4 2 ]"
-		  OutputType		  "[ ]"
-		  FctDeclaration	  "extern void updatePWM2(uint16_T u1,"
-" uint8_T u2);"
-		  FctCall		  "updatePWM2(%u1, %u2);"
-		  OrderingInOutPopup	  "None"
-		}
-		Block {
-		  BlockType		  Reference
-		  Name			  "Update PWM \nCommands2"
-		  Tag			  "dsPIC_dsPIC_CFunctionCall"
-		  Ports			  [2]
-		  Position		  [280, 177, 385, 213]
-		  BackgroundColor	  "darkGreen"
-		  List {
-		    ListType		    RTWdata
-		    FctDeclaration	    "extern void updatePWM2(uint16_T u"
-"1, uint8_T u2);"
-		    FctCall		    "updatePWM2(%u1, %u2);"
-		    fctName		    "updatePWM2"
-		    INPUT_SIZE		    "1"
-		    OUTPUT_SIZE		    "1"
-		    NBR_INPUT		    "2"
-		    NBR_OUTPUT		    "0"
-		  }
-		  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
-		  SourceType		  "C Function Call"
-		  fctName		  "'updatePWM2'"
-		  INPUT_SIZE		  "1"
-		  INPUT1		  "uint16"
-		  INPUT2		  "uint8"
-		  INPUT3		  "--"
-		  OUTPUT_SIZE		  "1"
-		  OUTPUT1		  "--"
-		  SampleTime		  "-1"
-		  InputType		  "[ 4 2 ]"
-		  OutputType		  "[ ]"
-		  FctDeclaration	  "extern void updatePWM2(uint16_T u1,"
-" uint8_T u2);"
-		  FctCall		  "updatePWM2(%u1, %u2);"
-		  OrderingInOutPopup	  "None"
-		}
-		Block {
-		  BlockType		  Reference
-		  Name			  "Update PWM \nCommands3"
-		  Tag			  "dsPIC_dsPIC_CFunctionCall"
-		  Ports			  [2]
-		  Position		  [275, 347, 380, 383]
-		  BackgroundColor	  "darkGreen"
-		  List {
-		    ListType		    RTWdata
-		    FctDeclaration	    "extern void updatePWM2(uint16_T u"
-"1, uint8_T u2);"
-		    FctCall		    "updatePWM2(%u1, %u2);"
-		    fctName		    "updatePWM2"
-		    INPUT_SIZE		    "1"
-		    OUTPUT_SIZE		    "1"
-		    NBR_INPUT		    "2"
-		    NBR_OUTPUT		    "0"
-		  }
-		  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
-		  SourceType		  "C Function Call"
-		  fctName		  "'updatePWM2'"
-		  INPUT_SIZE		  "1"
-		  INPUT1		  "uint16"
-		  INPUT2		  "uint8"
-		  INPUT3		  "--"
-		  OUTPUT_SIZE		  "1"
-		  OUTPUT1		  "--"
-		  SampleTime		  "-1"
-		  InputType		  "[ 4 2 ]"
-		  OutputType		  "[ ]"
-		  FctDeclaration	  "extern void updatePWM2(uint16_T u1,"
-" uint8_T u2);"
-		  FctCall		  "updatePWM2(%u1, %u2);"
-		  OrderingInOutPopup	  "None"
-		}
-		Block {
-		  BlockType		  Reference
-		  Name			  "Update PWM \nCommands4"
-		  Tag			  "dsPIC_dsPIC_CFunctionCall"
-		  Ports			  [2]
-		  Position		  [280, 437, 385, 473]
-		  BackgroundColor	  "darkGreen"
-		  List {
-		    ListType		    RTWdata
-		    FctDeclaration	    "extern void updatePWM2(uint16_T u"
-"1, uint8_T u2);"
-		    FctCall		    "updatePWM2(%u1, %u2);"
-		    fctName		    "updatePWM2"
-		    INPUT_SIZE		    "1"
-		    OUTPUT_SIZE		    "1"
-		    NBR_INPUT		    "2"
-		    NBR_OUTPUT		    "0"
-		  }
-		  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
-		  SourceType		  "C Function Call"
-		  fctName		  "'updatePWM2'"
-		  INPUT_SIZE		  "1"
-		  INPUT1		  "uint16"
-		  INPUT2		  "uint8"
-		  INPUT3		  "--"
-		  OUTPUT_SIZE		  "1"
-		  OUTPUT1		  "--"
-		  SampleTime		  "-1"
-		  InputType		  "[ 4 2 ]"
-		  OutputType		  "[ ]"
-		  FctDeclaration	  "extern void updatePWM2(uint16_T u1,"
-" uint8_T u2);"
-		  FctCall		  "updatePWM2(%u1, %u2);"
-		  OrderingInOutPopup	  "None"
-		}
-		Block {
-		  BlockType		  Constant
-		  Name			  "dlf"
-		  Position		  [200, 255, 230, 285]
-		  OutDataTypeMode	  "uint8"
-		}
-		Block {
-		  BlockType		  Constant
-		  Name			  "dlf1"
-		  Position		  [200, 515, 230, 545]
-		  Value			  "3"
-		  OutDataTypeMode	  "uint8"
-		}
-		Block {
-		  BlockType		  Constant
-		  Name			  "dre"
-		  Position		  [215, 115, 245, 145]
-		  Value			  "0"
-		  OutDataTypeMode	  "uint8"
-		}
-		Block {
-		  BlockType		  Constant
-		  Name			  "dre1"
-		  Position		  [215, 375, 245, 405]
-		  Value			  "2"
-		  OutDataTypeMode	  "uint8"
-		}
-		Line {
-		  SrcBlock		  "Data Type Conversion2"
-		  SrcPort		  1
-		  Points		  [125, 0]
-		  DstBlock		  "Update PWM \nCommands1"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "Data Type Conversion3"
-		  SrcPort		  1
-		  Points		  [65, 0; 0, 45]
-		  DstBlock		  "Update PWM \nCommands2"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "In1"
-		  SrcPort		  1
-		  DstBlock		  "Data Type Conversion2"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "In2"
-		  SrcPort		  1
-		  DstBlock		  "Data Type Conversion3"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "dre"
-		  SrcPort		  1
-		  Points		  [5, 0; 0, -15]
-		  DstBlock		  "Update PWM \nCommands1"
-		  DstPort		  2
-		}
-		Line {
-		  SrcBlock		  "dlf"
-		  SrcPort		  1
-		  Points		  [-15, 0; 0, -65]
-		  DstBlock		  "Update PWM \nCommands2"
-		  DstPort		  2
-		}
-		Line {
-		  SrcBlock		  "Data Type Conversion1"
-		  SrcPort		  1
-		  Points		  [125, 0]
-		  DstBlock		  "Update PWM \nCommands3"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "Data Type Conversion4"
-		  SrcPort		  1
-		  Points		  [65, 0; 0, 45]
-		  DstBlock		  "Update PWM \nCommands4"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "In3"
-		  SrcPort		  1
-		  DstBlock		  "Data Type Conversion1"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "In4"
-		  SrcPort		  1
-		  DstBlock		  "Data Type Conversion4"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "dre1"
-		  SrcPort		  1
-		  Points		  [5, 0; 0, -15]
-		  DstBlock		  "Update PWM \nCommands3"
-		  DstPort		  2
-		}
-		Line {
-		  SrcBlock		  "dlf1"
-		  SrcPort		  1
-		  Points		  [-15, 0; 0, -65]
-		  DstBlock		  "Update PWM \nCommands4"
-		  DstPort		  2
-		}
+	      BlockType		      Reference
+	      Name		      "Set Current Height and\nAirspeed as Com"
+"mands\n[navSupport.c]"
+	      Tag		      "dsPIC_dsPIC_CFunctionCall"
+	      Ports		      [1]
+	      Position		      [255, 332, 360, 368]
+	      BackgroundColor	      "orange"
+	      List {
+		ListType		RTWdata
+		FctDeclaration		"extern void setCurrentCommands(real32"
+"_T u1);"
+		FctCall			"setCurrentCommands(%u1);"
+		fctName			"setCurrentCommands"
+		INPUT_SIZE		"1"
+		OUTPUT_SIZE		"1"
+		NBR_INPUT		"1"
+		NBR_OUTPUT		"0"
 	      }
+	      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+	      SourceType	      "C Function Call"
+	      fctName		      "'setCurrentCommands'"
+	      INPUT_SIZE	      "1"
+	      INPUT1		      "real32"
+	      INPUT2		      "--"
+	      INPUT3		      "--"
+	      OUTPUT_SIZE	      "1"
+	      OUTPUT1		      "--"
+	      SampleTime	      ".01"
+	      InputType		      "[ 7 ]"
+	      OutputType	      "[ ]"
+	      FctDeclaration	      "extern void setCurrentCommands(real32_T"
+" u1);"
+	      FctCall		      "setCurrentCommands(%u1);"
+	      OrderingInOutPopup      "None"
 	    }
 	    Block {
 	      BlockType		      SubSystem
@@ -23032,62 +22858,29 @@ Model {
 	    Line {
 	      SrcBlock		      "Demux"
 	      SrcPort		      1
-	      Points		      [50, 0; 0, -10; 35, 0]
-	      Branch {
-		DstBlock		"Convert to Rad"
-		DstPort			1
-	      }
-	      Branch {
-		Points			[0, 150]
-		DstBlock		"Log Using\nPWM High\n[groundStationDr"
-"iver.c]"
-		DstPort			1
-	      }
+	      Points		      [50, 0; 0, -10]
+	      DstBlock		      "Convert to Rad"
+	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "Demux"
 	      SrcPort		      2
-	      Points		      [75, 0]
-	      Branch {
-		DstBlock		"Convert to Rad1"
-		DstPort			1
-	      }
-	      Branch {
-		Points			[0, 135]
-		DstBlock		"Log Using\nPWM High\n[groundStationDr"
-"iver.c]"
-		DstPort			2
-	      }
+	      DstBlock		      "Convert to Rad1"
+	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "Demux"
 	      SrcPort		      3
-	      Points		      [50, 0; 0, 10; 15, 0]
-	      Branch {
-		DstBlock		"Convert to Rad2"
-		DstPort			1
-	      }
-	      Branch {
-		Points			[0, 120]
-		DstBlock		"Log Using\nPWM High\n[groundStationDr"
-"iver.c]"
-		DstPort			3
-	      }
+	      Points		      [50, 0; 0, 10]
+	      DstBlock		      "Convert to Rad2"
+	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "Demux"
 	      SrcPort		      4
-	      Points		      [40, 0; 0, 20; 15, 0]
-	      Branch {
-		DstBlock		"Convert to Rad3"
-		DstPort			1
-	      }
-	      Branch {
-		Points			[0, 105]
-		DstBlock		"Log Using\nPWM High\n[groundStationDr"
-"iver.c]"
-		DstPort			4
-	      }
+	      Points		      [40, 0; 0, 20]
+	      DstBlock		      "Convert to Rad3"
+	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "myMux Fun1"
@@ -23121,6 +22914,368 @@ Model {
 	      Points		      [65, 0; 0, -10]
 	      DstBlock		      "myMux Fun1"
 	      DstPort		      4
+	    }
+	    Line {
+	      SrcBlock		      "U_m"
+	      SrcPort		      1
+	      DstBlock		      "Set Current Height and\nAirspeed as Com"
+"mands\n[navSupport.c]"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Integer Delay"
+	  Ports			  [1, 1]
+	  Position		  [430, 243, 465, 277]
+	  Orientation		  "left"
+	  ShowName		  off
+	  SourceBlock		  "simulink/Discrete/Integer Delay"
+	  SourceType		  "Integer Delay"
+	  vinit			  "0.0"
+	  samptime		  ".01"
+	  NumDelays		  "1"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Log Using\nPWM High\n[groundStationDriver.c"
+"]"
+	  Ports			  [4]
+	  Position		  [1015, 320, 1070, 450]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Log Using\nPWM High\n[groundStationDriver"
+".c]"
+	    Location		    [27, 92, 1193, 815]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [25, 28, 55, 42]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In2"
+	      Position		      [25, 133, 55, 147]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In3"
+	      Position		      [25, 288, 55, 302]
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In4"
+	      Position		      [25, 393, 55, 407]
+	      Port		      "4"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion1"
+	      Position		      [80, 285, 130, 305]
+	      ShowName		      off
+	      OutDataTypeMode	      "uint16"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	      SampleTime	      "apSampleTime"
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion2"
+	      Position		      [80, 25, 130, 45]
+	      ShowName		      off
+	      OutDataTypeMode	      "uint16"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	      SampleTime	      "apSampleTime"
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion3"
+	      Position		      [80, 130, 130, 150]
+	      ShowName		      off
+	      OutDataTypeMode	      "uint16"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	      SampleTime	      "apSampleTime"
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion4"
+	      Position		      [80, 390, 130, 410]
+	      ShowName		      off
+	      OutDataTypeMode	      "uint16"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	      SampleTime	      "apSampleTime"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Update PWM \nCommands1"
+	      Tag		      "dsPIC_dsPIC_CFunctionCall"
+	      Ports		      [2]
+	      Position		      [275, 87, 380, 123]
+	      BackgroundColor	      "darkGreen"
+	      List {
+		ListType		RTWdata
+		FctDeclaration		"extern void updatePWM2(uint16_T u1, u"
+"int8_T u2);"
+		FctCall			"updatePWM2(%u1, %u2);"
+		fctName			"updatePWM2"
+		INPUT_SIZE		"1"
+		OUTPUT_SIZE		"1"
+		NBR_INPUT		"2"
+		NBR_OUTPUT		"0"
+	      }
+	      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+	      SourceType	      "C Function Call"
+	      fctName		      "'updatePWM2'"
+	      INPUT_SIZE	      "1"
+	      INPUT1		      "uint16"
+	      INPUT2		      "uint8"
+	      INPUT3		      "--"
+	      OUTPUT_SIZE	      "1"
+	      OUTPUT1		      "--"
+	      SampleTime	      "-1"
+	      InputType		      "[ 4 2 ]"
+	      OutputType	      "[ ]"
+	      FctDeclaration	      "extern void updatePWM2(uint16_T u1, uin"
+"t8_T u2);"
+	      FctCall		      "updatePWM2(%u1, %u2);"
+	      OrderingInOutPopup      "None"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Update PWM \nCommands2"
+	      Tag		      "dsPIC_dsPIC_CFunctionCall"
+	      Ports		      [2]
+	      Position		      [280, 177, 385, 213]
+	      BackgroundColor	      "darkGreen"
+	      List {
+		ListType		RTWdata
+		FctDeclaration		"extern void updatePWM2(uint16_T u1, u"
+"int8_T u2);"
+		FctCall			"updatePWM2(%u1, %u2);"
+		fctName			"updatePWM2"
+		INPUT_SIZE		"1"
+		OUTPUT_SIZE		"1"
+		NBR_INPUT		"2"
+		NBR_OUTPUT		"0"
+	      }
+	      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+	      SourceType	      "C Function Call"
+	      fctName		      "'updatePWM2'"
+	      INPUT_SIZE	      "1"
+	      INPUT1		      "uint16"
+	      INPUT2		      "uint8"
+	      INPUT3		      "--"
+	      OUTPUT_SIZE	      "1"
+	      OUTPUT1		      "--"
+	      SampleTime	      "-1"
+	      InputType		      "[ 4 2 ]"
+	      OutputType	      "[ ]"
+	      FctDeclaration	      "extern void updatePWM2(uint16_T u1, uin"
+"t8_T u2);"
+	      FctCall		      "updatePWM2(%u1, %u2);"
+	      OrderingInOutPopup      "None"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Update PWM \nCommands3"
+	      Tag		      "dsPIC_dsPIC_CFunctionCall"
+	      Ports		      [2]
+	      Position		      [275, 347, 380, 383]
+	      BackgroundColor	      "darkGreen"
+	      List {
+		ListType		RTWdata
+		FctDeclaration		"extern void updatePWM2(uint16_T u1, u"
+"int8_T u2);"
+		FctCall			"updatePWM2(%u1, %u2);"
+		fctName			"updatePWM2"
+		INPUT_SIZE		"1"
+		OUTPUT_SIZE		"1"
+		NBR_INPUT		"2"
+		NBR_OUTPUT		"0"
+	      }
+	      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+	      SourceType	      "C Function Call"
+	      fctName		      "'updatePWM2'"
+	      INPUT_SIZE	      "1"
+	      INPUT1		      "uint16"
+	      INPUT2		      "uint8"
+	      INPUT3		      "--"
+	      OUTPUT_SIZE	      "1"
+	      OUTPUT1		      "--"
+	      SampleTime	      "-1"
+	      InputType		      "[ 4 2 ]"
+	      OutputType	      "[ ]"
+	      FctDeclaration	      "extern void updatePWM2(uint16_T u1, uin"
+"t8_T u2);"
+	      FctCall		      "updatePWM2(%u1, %u2);"
+	      OrderingInOutPopup      "None"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Update PWM \nCommands4"
+	      Tag		      "dsPIC_dsPIC_CFunctionCall"
+	      Ports		      [2]
+	      Position		      [280, 437, 385, 473]
+	      BackgroundColor	      "darkGreen"
+	      List {
+		ListType		RTWdata
+		FctDeclaration		"extern void updatePWM2(uint16_T u1, u"
+"int8_T u2);"
+		FctCall			"updatePWM2(%u1, %u2);"
+		fctName			"updatePWM2"
+		INPUT_SIZE		"1"
+		OUTPUT_SIZE		"1"
+		NBR_INPUT		"2"
+		NBR_OUTPUT		"0"
+	      }
+	      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+	      SourceType	      "C Function Call"
+	      fctName		      "'updatePWM2'"
+	      INPUT_SIZE	      "1"
+	      INPUT1		      "uint16"
+	      INPUT2		      "uint8"
+	      INPUT3		      "--"
+	      OUTPUT_SIZE	      "1"
+	      OUTPUT1		      "--"
+	      SampleTime	      "-1"
+	      InputType		      "[ 4 2 ]"
+	      OutputType	      "[ ]"
+	      FctDeclaration	      "extern void updatePWM2(uint16_T u1, uin"
+"t8_T u2);"
+	      FctCall		      "updatePWM2(%u1, %u2);"
+	      OrderingInOutPopup      "None"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "dlf"
+	      Position		      [200, 255, 230, 285]
+	      OutDataTypeMode	      "uint8"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "dlf1"
+	      Position		      [200, 515, 230, 545]
+	      Value		      "3"
+	      OutDataTypeMode	      "uint8"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "dre"
+	      Position		      [215, 115, 245, 145]
+	      Value		      "0"
+	      OutDataTypeMode	      "uint8"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "dre1"
+	      Position		      [215, 375, 245, 405]
+	      Value		      "2"
+	      OutDataTypeMode	      "uint8"
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion2"
+	      SrcPort		      1
+	      Points		      [125, 0]
+	      DstBlock		      "Update PWM \nCommands1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion3"
+	      SrcPort		      1
+	      Points		      [65, 0; 0, 45]
+	      DstBlock		      "Update PWM \nCommands2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      DstBlock		      "Data Type Conversion2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "In2"
+	      SrcPort		      1
+	      DstBlock		      "Data Type Conversion3"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "dre"
+	      SrcPort		      1
+	      Points		      [5, 0; 0, -15]
+	      DstBlock		      "Update PWM \nCommands1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "dlf"
+	      SrcPort		      1
+	      Points		      [-15, 0; 0, -65]
+	      DstBlock		      "Update PWM \nCommands2"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion1"
+	      SrcPort		      1
+	      Points		      [125, 0]
+	      DstBlock		      "Update PWM \nCommands3"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion4"
+	      SrcPort		      1
+	      Points		      [65, 0; 0, 45]
+	      DstBlock		      "Update PWM \nCommands4"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "In3"
+	      SrcPort		      1
+	      DstBlock		      "Data Type Conversion1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "In4"
+	      SrcPort		      1
+	      DstBlock		      "Data Type Conversion4"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "dre1"
+	      SrcPort		      1
+	      Points		      [5, 0; 0, -15]
+	      DstBlock		      "Update PWM \nCommands3"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "dlf1"
+	      SrcPort		      1
+	      Points		      [-15, 0; 0, -65]
+	      DstBlock		      "Update PWM \nCommands4"
+	      DstPort		      2
 	    }
 	  }
 	}
@@ -23192,17 +23347,59 @@ Model {
 	  OrderingInOutPopup	  "None"
 	}
 	Block {
+	  BlockType		  Reference
+	  Name			  "Update PWM \nCommands4"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [2]
+	  Position		  [560, 587, 665, 623]
+	  BackgroundColor	  "darkGreen"
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void updatePWM2(uint16_T u1, uint8"
+"_T u2);"
+	    FctCall		    "updatePWM2(%u1, %u2);"
+	    fctName		    "updatePWM2"
+	    INPUT_SIZE		    "1"
+	    OUTPUT_SIZE		    "1"
+	    NBR_INPUT		    "2"
+	    NBR_OUTPUT		    "0"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'updatePWM2'"
+	  INPUT_SIZE		  "1"
+	  INPUT1		  "uint16"
+	  INPUT2		  "uint8"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "1"
+	  OUTPUT1		  "--"
+	  SampleTime		  "-1"
+	  InputType		  "[ 4 2 ]"
+	  OutputType		  "[ ]"
+	  FctDeclaration	  "extern void updatePWM2(uint16_T u1, uint8_T"
+" u2);"
+	  FctCall		  "updatePWM2(%u1, %u2);"
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "dlf1"
+	  Position		  [480, 665, 510, 695]
+	  Value			  "4"
+	  OutDataTypeMode	  "uint8"
+	}
+	Block {
 	  BlockType		  Outport
-	  Name			  "dE Trim"
-	  Position		  [610, 208, 640, 222]
+	  Name			  "dT Trim"
+	  Position		  [980, 173, 1010, 187]
 	  BackgroundColor	  "yellow"
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
 	}
 	Block {
 	  BlockType		  Outport
-	  Name			  "dT Trim"
-	  Position		  [730, 163, 760, 177]
+	  Name			  "dA Trim"
+	  Position		  [940, 188, 970, 202]
 	  BackgroundColor	  "yellow"
 	  Port			  "2"
 	  IconDisplay		  "Port number"
@@ -23210,8 +23407,8 @@ Model {
 	}
 	Block {
 	  BlockType		  Outport
-	  Name			  "dA Trim"
-	  Position		  [690, 178, 720, 192]
+	  Name			  "dR Trim"
+	  Position		  [900, 203, 930, 217]
 	  BackgroundColor	  "yellow"
 	  Port			  "3"
 	  IconDisplay		  "Port number"
@@ -23219,8 +23416,8 @@ Model {
 	}
 	Block {
 	  BlockType		  Outport
-	  Name			  "dR Trim"
-	  Position		  [650, 193, 680, 207]
+	  Name			  "dE Trim"
+	  Position		  [860, 218, 890, 232]
 	  BackgroundColor	  "yellow"
 	  Port			  "4"
 	  IconDisplay		  "Port number"
@@ -23229,7 +23426,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Pil Console"
-	  Position		  [365, 218, 395, 232]
+	  Position		  [340, 218, 370, 232]
 	  BackgroundColor	  "yellow"
 	  Port			  "5"
 	  IconDisplay		  "Port number"
@@ -23238,7 +23435,8 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Failsafe "
-	  Position		  [360, 283, 390, 297]
+	  Position		  [210, 358, 240, 372]
+	  Orientation		  "left"
 	  BackgroundColor	  "yellow"
 	  Port			  "6"
 	  IconDisplay		  "Port number"
@@ -23271,8 +23469,16 @@ Model {
 	Line {
 	  SrcBlock		  "Grab I.C."
 	  SrcPort		  1
-	  DstBlock		  "Demux2"
-	  DstPort		  1
+	  Points		  [10, 0]
+	  Branch {
+	    DstBlock		    "Demux2"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 185]
+	    DstBlock		    "Demux1"
+	    DstPort		    1
+	  }
 	}
 	Line {
 	  SrcBlock		  "Demux2"
@@ -23325,19 +23531,135 @@ Model {
 	  SrcPort		  1
 	  Points		  [55, 0]
 	  Branch {
-	    Points		    [0, 30]
-	    DstBlock		    "Pil Console"
+	    DstBlock		    "Grab I.C."
 	    DstPort		    1
 	  }
 	  Branch {
-	    DstBlock		    "Grab I.C."
+	    Points		    [0, 30]
+	    DstBlock		    "Pil Console"
 	    DstPort		    1
 	  }
 	}
 	Line {
 	  SrcBlock		  "Failsafe"
 	  SrcPort		  1
+	  Points		  [5, 0; 0, 75]
 	  DstBlock		  "Failsafe "
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain"
+	  SrcPort		  1
+	  Points		  [180, 0]
+	  DstBlock		  "Log Using\nPWM High\n[groundStationDriver.c"
+"]"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain1"
+	  SrcPort		  1
+	  DstBlock		  "Abs"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain2"
+	  SrcPort		  1
+	  DstBlock		  "Abs2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain3"
+	  SrcPort		  1
+	  DstBlock		  "Abs1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Abs"
+	  SrcPort		  1
+	  DstBlock		  "Log Using\nPWM High\n[groundStationDriver.c"
+"]"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Abs1"
+	  SrcPort		  1
+	  Points		  [110, 0; 0, -40]
+	  DstBlock		  "Log Using\nPWM High\n[groundStationDriver.c"
+"]"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Abs2"
+	  SrcPort		  1
+	  Points		  [70, 0]
+	  DstBlock		  "Log Using\nPWM High\n[groundStationDriver.c"
+"]"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Demux1"
+	  SrcPort		  1
+	  Points		  [0, -10]
+	  DstBlock		  "Gain"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux1"
+	  SrcPort		  2
+	  DstBlock		  "Gain1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux1"
+	  SrcPort		  3
+	  DstBlock		  "Gain2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux1"
+	  SrcPort		  4
+	  DstBlock		  "Gain3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "U_m"
+	  SrcPort		  1
+	  DstBlock		  "Integer Delay"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Integer Delay"
+	  SrcPort		  1
+	  Points		  [-30, 0]
+	  Branch {
+	    Points		    [0, -45]
+	    DstBlock		    "Grab I.C."
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [-55, 0]
+	    DstBlock		    "Gain4"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion4"
+	  SrcPort		  1
+	  Points		  [25, 0; 0, 45]
+	  DstBlock		  "Update PWM \nCommands4"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "dlf1"
+	  SrcPort		  1
+	  Points		  [-15, 0; 0, -65]
+	  DstBlock		  "Update PWM \nCommands4"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Gain4"
+	  SrcPort		  1
+	  DstBlock		  "Data Type Conversion4"
 	  DstPort		  1
 	}
       }
@@ -23681,7 +24003,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "Pilot Console (IC)"
-	      Position		      [300, 303, 330, 317]
+	      Position		      [50, 303, 80, 317]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "3"
 	      IconDisplay	      "Port number"
@@ -23709,7 +24031,7 @@ Model {
 	    Block {
 	      BlockType		      SubSystem
 	      Name		      "If  Control Type\nIs Manual"
-	      Ports		      [0, 1, 0, 0, 0, 0, 0, 1]
+	      Ports		      [1, 1, 0, 0, 0, 0, 0, 1]
 	      Position		      [255, 162, 325, 198]
 	      TreatAsAtomicUnit	      on
 	      MinAlgLoopOccurrences   off
@@ -23733,32 +24055,281 @@ Model {
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
 		Block {
+		  BlockType		  Inport
+		  Name			  "Pilot (IC)"
+		  Position		  [75, 188, 105, 202]
+		  BackgroundColor	  "darkGreen"
+		  IconDisplay		  "Port number"
+		}
+		Block {
 		  BlockType		  ActionPort
 		  Name			  "Action Port"
 		  Position		  [170, 15, 229, 43]
 		  ActionType		  "then"
 		}
 		Block {
-		  BlockType		  Constant
-		  Name			  "Put the Control Surfaces at \nZero "
-"from Calib"
-		  Position		  [135, 86, 270, 114]
-		  Value			  "[bdt bda bdr bde]"
-		  OutDataTypeMode	  "uint16"
+		  BlockType		  Demux
+		  Name			  "Demux"
+		  Ports			  [1, 4]
+		  Position		  [180, 143, 185, 242]
+		  BackgroundColor	  "black"
+		  ShowName		  off
+		  DisplayOption		  "bar"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain"
+		  Position		  [305, 125, 335, 155]
+		  ShowName		  off
+		  Gain			  "0.5"
+		  ParameterDataTypeMode	  "Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain1"
+		  Position		  [305, 165, 335, 195]
+		  ShowName		  off
+		  Gain			  "0.5"
+		  ParameterDataTypeMode	  "Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain2"
+		  Position		  [305, 215, 335, 245]
+		  ShowName		  off
+		  Gain			  "0.5"
+		  ParameterDataTypeMode	  "Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain3"
+		  Position		  [305, 255, 335, 285]
+		  ShowName		  off
+		  Gain			  "0.5"
+		  ParameterDataTypeMode	  "Inherit via internal rule"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "myMux Fun1"
+		  Ports			  [4, 1]
+		  Position		  [500, 163, 505, 237]
+		  BackgroundColor	  "black"
+		  ShowName		  off
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Auto"
+		  FunctionWithSeparateData off
+		  MaskHideContents	  off
+		  MaskType		  "Stateflow"
+		  MaskDescription	  "Embedded MATLAB block"
+		  MaskDisplay		  "disp('myMux');"
+		  MaskSelfModifiable	  on
+		  MaskIconFrame		  on
+		  MaskIconOpaque	  off
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  System {
+		    Name		    "myMux Fun1"
+		    Location		    [257, 457, 812, 717]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "u1"
+		    Position		    [20, 101, 40, 119]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Inport
+		    Name		    "u2"
+		    Position		    [20, 136, 40, 154]
+		    Port		    "2"
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Inport
+		    Name		    "u3"
+		    Position		    [20, 171, 40, 189]
+		    Port		    "3"
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Inport
+		    Name		    "u4"
+		    Position		    [20, 206, 40, 224]
+		    Port		    "4"
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Demux
+		    Name		    " Demux "
+		    Ports		    [1, 1]
+		    Position		    [270, 220, 320, 260]
+		    Outputs		    "1"
+		    }
+		    Block {
+		    BlockType		    "S-Function"
+		    Name		    " SFunction "
+		    Tag			    "Stateflow S-Function controlMCUSl"
+"ugsMKII 2"
+		    Ports		    [4, 2]
+		    Position		    [180, 100, 230, 220]
+		    FunctionName	    "sf_sfun"
+		    PortCounts		    "[4 2]"
+		    Port {
+		    PortNumber		    2
+		    Name		    "y"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Terminator
+		    Name		    " Terminator "
+		    Position		    [460, 231, 480, 249]
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "y"
+		    Position		    [460, 101, 480, 119]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    " SFunction "
+		    SrcPort		    1
+		    Points		    [0, 110]
+		    DstBlock		    " Demux "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    " Demux "
+		    SrcPort		    1
+		    DstBlock		    " Terminator "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "u1"
+		    SrcPort		    1
+		    Points		    [120, 0]
+		    DstBlock		    " SFunction "
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "y"
+		    Labels		    [0, 0]
+		    SrcBlock		    " SFunction "
+		    SrcPort		    2
+		    DstBlock		    "y"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "u2"
+		    SrcPort		    1
+		    DstBlock		    " SFunction "
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "u3"
+		    SrcPort		    1
+		    DstBlock		    " SFunction "
+		    DstPort		    3
+		    }
+		    Line {
+		    SrcBlock		    "u4"
+		    SrcPort		    1
+		    DstBlock		    " SFunction "
+		    DstPort		    4
+		    }
+		  }
 		}
 		Block {
 		  BlockType		  Outport
 		  Name			  "PWM"
-		  Position		  [395, 93, 425, 107]
+		  Position		  [570, 193, 600, 207]
 		  BackgroundColor	  "yellow"
 		  IconDisplay		  "Port number"
 		  BusOutputAsStruct	  off
 		}
 		Line {
-		  SrcBlock		  "Put the Control Surfaces at \nZero "
-"from Calib"
+		  SrcBlock		  "Gain"
+		  SrcPort		  1
+		  Points		  [95, 0; 0, 30]
+		  DstBlock		  "myMux Fun1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Gain1"
+		  SrcPort		  1
+		  Points		  [85, 0; 0, 10]
+		  DstBlock		  "myMux Fun1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Gain2"
+		  SrcPort		  1
+		  Points		  [85, 0; 0, -20]
+		  DstBlock		  "myMux Fun1"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Gain3"
+		  SrcPort		  1
+		  Points		  [95, 0; 0, -40]
+		  DstBlock		  "myMux Fun1"
+		  DstPort		  4
+		}
+		Line {
+		  SrcBlock		  "Demux"
+		  SrcPort		  1
+		  Points		  [40, 0; 0, -15]
+		  DstBlock		  "Gain"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Demux"
+		  SrcPort		  2
+		  DstBlock		  "Gain1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Demux"
+		  SrcPort		  3
+		  Points		  [40, 0; 0, 25]
+		  DstBlock		  "Gain2"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Demux"
+		  SrcPort		  4
+		  Points		  [30, 0; 0, 40]
+		  DstBlock		  "Gain3"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "myMux Fun1"
 		  SrcPort		  1
 		  DstBlock		  "PWM"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Pilot (IC)"
+		  SrcPort		  1
+		  DstBlock		  "Demux"
 		  DstPort		  1
 		}
 	      }
@@ -24084,7 +24655,7 @@ Model {
 		Name			"If  Control Type\nIs Selective\nPasst"
 "hrough"
 		Location		[342, 471, 840, 771]
-		Open			on
+		Open			off
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
@@ -26141,16 +26712,24 @@ Model {
 	    Line {
 	      SrcBlock		      "Pilot Console (IC)"
 	      SrcPort		      1
-	      Points		      [85, 0]
+	      Points		      [40, 0]
 	      Branch {
-		DstBlock		"If  Control Type\nIs Passthrough"
-		DstPort			1
+		Points			[295, 0]
+		Branch {
+		  DstBlock		  "If  Control Type\nIs Passthrough"
+		  DstPort		  1
+		}
+		Branch {
+		  Points		  [0, 100]
+		  DstBlock		  "If  Control Type\nIs Selective\nPas"
+"sthrough"
+		  DstPort		  2
+		}
 	      }
 	      Branch {
-		Points			[0, 100]
-		DstBlock		"If  Control Type\nIs Selective\nPasst"
-"hrough"
-		DstPort			2
+		Points			[0, -130]
+		DstBlock		"If  Control Type\nIs Manual"
+		DstPort			1
 	      }
 	    }
 	    Line {
@@ -26273,7 +26852,7 @@ Model {
 ".c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [1, 1]
-	  Position		  [575, 67, 680, 103]
+	  Position		  [525, 67, 630, 103]
 	  BackgroundColor	  "orange"
 	  List {
 	    ListType		    RTWdata
@@ -26313,13 +26892,14 @@ Model {
 	}
 	Block {
 	  BlockType		  Selector
-	  Name			  "[dT dA Fail dR dE]"
+	  Name			  "[dT dA dE dR]"
 	  Ports			  [1, 1]
-	  Position		  [485, 66, 525, 104]
+	  Position		  [381, 125, 419, 165]
+	  Orientation		  "up"
 	  IndexOptions		  "Index vector (dialog)"
-	  Indices		  "[1 2 5 3 4]"
+	  Indices		  "[1 2 4 3 ]"
 	  OutputSizes		  "1"
-	  InputPortWidth	  "5"
+	  InputPortWidth	  "4"
 	}
 	Block {
 	  BlockType		  SubSystem
@@ -26503,8 +27083,7 @@ Model {
 	    DstPort		    1
 	  }
 	  Branch {
-	    Points		    [0, -165]
-	    DstBlock		    "myMux Fun1"
+	    DstBlock		    "[dT dA dE dR]"
 	    DstPort		    1
 	  }
 	}
@@ -26531,14 +27110,15 @@ Model {
 	Line {
 	  SrcBlock		  "myMux Fun1"
 	  SrcPort		  1
-	  DstBlock		  "[dT dA Fail dR dE]"
+	  DstBlock		  "Update PWM \nCommands\n[groundStationDriver"
+".c]"
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "[dT dA Fail dR dE]"
+	  SrcBlock		  "[dT dA dE dR]"
 	  SrcPort		  1
-	  DstBlock		  "Update PWM \nCommands\n[groundStationDriver"
-".c]"
+	  Points		  [0, -55]
+	  DstBlock		  "myMux Fun1"
 	  DstPort		  1
 	}
       }
@@ -26847,6 +27427,12 @@ Model {
     }
     Line {
       SrcBlock		      "Trim Vals"
+      SrcPort		      4
+      DstBlock		      "Inner Loop/ Navigation"
+      DstPort		      7
+    }
+    Line {
+      SrcBlock		      "Trim Vals"
       SrcPort		      1
       DstBlock		      "Inner Loop/ Navigation"
       DstPort		      4
@@ -26862,12 +27448,6 @@ Model {
       SrcPort		      3
       DstBlock		      "Inner Loop/ Navigation"
       DstPort		      6
-    }
-    Line {
-      SrcBlock		      "Trim Vals"
-      SrcPort		      4
-      DstBlock		      "Inner Loop/ Navigation"
-      DstPort		      7
     }
     Line {
       SrcBlock		      "PID Gains"
@@ -26971,7 +27551,7 @@ Model {
     Line {
       SrcBlock		      "Trim Vals"
       SrcPort		      7
-      Points		      [40, 0; 0, 55; -60, 0; 0, 195]
+      Points		      [50, 0; 0, 55; -125, 0; 0, 195]
       DstBlock		      "Inner Loop/ Navigation"
       DstPort		      20
     }
@@ -27101,20 +27681,21 @@ Model {
     Line {
       SrcBlock		      "Inner Loop/ Navigation"
       SrcPort		      2
+      Points		      [0, 15]
       DstBlock		      "myMux Fun1"
       DstPort		      2
     }
     Line {
       SrcBlock		      "Inner Loop/ Navigation"
       SrcPort		      3
-      Points		      [30, 0; 0, -90]
+      Points		      [30, 0; 0, -60]
       DstBlock		      "myMux Fun1"
       DstPort		      3
     }
     Line {
       SrcBlock		      "Inner Loop/ Navigation"
       SrcPort		      4
-      Points		      [45, 0; 0, -180]
+      Points		      [45, 0; 0, -135]
       DstBlock		      "myMux Fun1"
       DstPort		      4
     }
@@ -27136,6 +27717,18 @@ Model {
       DstBlock		      "Update PWM Commands\nand Send Telemetry"
       DstPort		      1
     }
+    Line {
+      SrcBlock		      "Inner Loop/ Navigation"
+      SrcPort		      8
+      DstBlock		      "Goto2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "From2"
+      SrcPort		      1
+      DstBlock		      "Trim Vals"
+      DstPort		      1
+    }
   }
 }
 
@@ -27152,7 +27745,7 @@ Stateflow {
 		name                 		"controlMCUSlugsMKII"
 		created              		"30-Oct-2008 13:16:33"
 		isLibrary            		0
-		firstTarget          		166
+		firstTarget          		176
 		sfVersion            		66014000
 	}
 
@@ -27356,8 +27949,11 @@ Stateflow {
 
 	chart {
 		id                                        		12
-		name                                      		"Trim Vals/Grab I.C./myMux Fun1"
-		windowPosition                            		[296.827 321.356 200.25 189.75]
+		name                                      		"Update PWM Commands\n"
+					"and Send Telemetry/Generate PWM Signals\n"
+					"Based on the Control Type/If  Control Type\n"
+					"Is Manual/myMux Fun1"
+		windowPosition                            		[341.827 276.356 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 13 0 0]
@@ -27368,7 +27964,7 @@ Stateflow {
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		16
-		chartFileNumber                           		4
+		chartFileNumber                           		2
 		disableImplicitCasting                    		1
 		eml {
 			name       		"myMux"
@@ -27547,18 +28143,18 @@ Stateflow {
 
 	instance {
 		id     		21
-		name   		"Trim Vals/Grab I.C./myMux Fun1"
+		name   		"Update PWM Commands\n"
+					"and Send Telemetry/Generate PWM Signals\n"
+					"Based on the Control Type/If  Control Type\n"
+					"Is Manual/myMux Fun1"
 		machine		1
 		chart  		12
 	}
 
 	chart {
 		id                                        		22
-		name                                      		"Inner Loop/ Navigation/Navigation/Compute WP Index/Compute P/Comp"
-					"ute T \n"
-					"in Frenet/Normalize Vector/Norm/Subsystem3/Embedded\n"
-					"MATLAB Function"
-		windowPosition                            		[311.813 207.525 200.25 189.75]
+		name                                      		"Trim Vals/Grab I.C./myMux Fun1"
+		windowPosition                            		[296.827 321.356 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 23 0 0]
@@ -27569,10 +28165,10 @@ Stateflow {
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		26
-		chartFileNumber                           		5
+		chartFileNumber                           		4
 		disableImplicitCasting                    		1
 		eml {
-			name       		"myDot"
+			name       		"myMux"
 		}
 	}
 
@@ -27589,13 +28185,13 @@ Stateflow {
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function xDoty = myDot(x,y)\n"
+			script                   		"function y = myMux(u1, u2, u3, u4 )\n"
 						"% This block supports an embeddable subset of the MATLAB la"
 						"nguage.\n"
 						"% See the help menu for details. \n"
 						"\n"
-						"xDoty = x(1)*y(1) + x(2)*y(2) + x(3)*y(3);"
-			editorLayout             		"100 M4x1[146 214 671 364]"
+						"y = [u1(1); u2(1); u3(1); u4(1)];"
+			editorLayout             		"100 M4x1[222 263 720 640]"
 			treatIntsAsFixpt         		0
 		}
 	}
@@ -27632,7 +28228,7 @@ Stateflow {
 
 	data {
 		id                            		26
-		name                          		"x"
+		name                          		"u1"
 		linkNode                      		[22 0 27]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -27657,7 +28253,7 @@ Stateflow {
 		id                            		27
 		name                          		"y"
 		linkNode                      		[22 26 28]
-		scope                         		INPUT_DATA
+		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
 			array {
@@ -27679,8 +28275,209 @@ Stateflow {
 
 	data {
 		id                            		28
+		name                          		"u2"
+		linkNode                      		[22 27 29]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		29
+		name                          		"u3"
+		linkNode                      		[22 28 30]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		30
+		name                          		"u4"
+		linkNode                      		[22 29 0]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	instance {
+		id     		31
+		name   		"Trim Vals/Grab I.C./myMux Fun1"
+		machine		1
+		chart  		22
+	}
+
+	chart {
+		id                                        		32
+		name                                      		"Inner Loop/ Navigation/Navigation/Compute WP Index/Compute P/Comp"
+					"ute T \n"
+					"in Frenet/Normalize Vector/Norm/Subsystem3/Embedded\n"
+					"MATLAB Function"
+		windowPosition                            		[311.813 207.525 200.25 189.75]
+		viewLimits                                		[0 156.75 0 153.75]
+		screen                                    		[1 1 1280 1024 1.333333333333333]
+		treeNode                                  		[0 33 0 0]
+		firstTransition                           		35
+		firstJunction                             		34
+		viewObj                                   		32
+		machine                                   		1
+		decomposition                             		CLUSTER_CHART
+		type                                      		EML_CHART
+		firstData                                 		36
+		chartFileNumber                           		5
+		disableImplicitCasting                    		1
+		eml {
+			name       		"myDot"
+		}
+	}
+
+	state {
+		id                           		33
+		labelString                  		"eML_blk_kernel()"
+		position                     		[18 64.5 118 66]
+		fontSize                     		12
+		chart                        		32
+		treeNode                     		[32 0 0 0]
+		superState                   		SUBCHART
+		subviewer                    		32
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			isEML                    		1
+			script                   		"function xDoty = myDot(x,y)\n"
+						"% This block supports an embeddable subset of the MATLAB la"
+						"nguage.\n"
+						"% See the help menu for details. \n"
+						"\n"
+						"xDoty = x(1)*y(1) + x(2)*y(2) + x(3)*y(3);"
+			editorLayout             		"100 M4x1[146 214 671 364]"
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	junction {
+		id         		34
+		position   		[23.5747 49.5747 7]
+		chart      		32
+		linkNode   		[32 0 0]
+		subviewer  		32
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		35
+		labelString    		"{eML_blk_kernel();}"
+		labelPosition  		[32.125 19.875 102.544 14.964]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 23.5747 14.625 0 0]
+		}
+		dst {
+			id          		34
+			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
+		}
+		midPoint       		[23.5747 24.9468]
+		chart          		32
+		linkNode       		[32 0 0]
+		dataLimits     		[23.575 23.575 14.625 34.575]
+		subviewer      		32
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	data {
+		id                            		36
+		name                          		"x"
+		linkNode                      		[32 0 37]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		37
+		name                          		"y"
+		linkNode                      		[32 36 38]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		38
 		name                          		"xDoty"
-		linkNode                      		[22 27 0]
+		linkNode                      		[32 37 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -27701,32 +28498,32 @@ Stateflow {
 	}
 
 	instance {
-		id     		29
+		id     		39
 		name   		"Inner Loop// Navigation/Navigation/Compute WP Index/Compute P/Com"
 					"pute T \n"
 					"in Frenet/Normalize Vector/Norm/Subsystem3/Embedded\n"
 					"MATLAB Function"
 		machine		1
-		chart  		22
+		chart  		32
 	}
 
 	chart {
-		id                                        		30
+		id                                        		40
 		name                                      		"Inner Loop/ Navigation/Navigation/Compute WP Index/Compute P/Get "
 					"Circles/Compute \n"
 					"Circles"
 		windowPosition                            		[217.884 339 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 31 0 0]
-		firstTransition                           		33
-		firstJunction                             		32
-		viewObj                                   		30
+		treeNode                                  		[0 41 0 0]
+		firstTransition                           		43
+		firstJunction                             		42
+		viewObj                                   		40
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		34
+		firstData                                 		44
 		chartFileNumber                           		8
 		disableImplicitCasting                    		1
 		eml {
@@ -27735,14 +28532,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		31
+		id                           		41
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		30
-		treeNode                     		[30 0 0 0]
+		chart                        		40
+		treeNode                     		[40 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		30
+		subviewer                    		40
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -27788,16 +28585,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		32
+		id         		42
 		position   		[23.5747 49.5747 7]
-		chart      		30
-		linkNode   		[30 0 0]
-		subviewer  		30
+		chart      		40
+		linkNode   		[40 0 0]
+		subviewer  		40
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		33
+		id             		43
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -27805,22 +28602,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		32
+			id          		42
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		30
-		linkNode       		[30 0 0]
+		chart          		40
+		linkNode       		[40 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		30
+		subviewer      		40
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		34
+		id                            		44
 		name                          		"sd"
-		linkNode                      		[30 0 35]
+		linkNode                      		[40 0 45]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -27841,9 +28638,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		35
+		id                            		45
 		name                          		"O"
-		linkNode                      		[30 34 36]
+		linkNode                      		[40 44 46]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -27865,9 +28662,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		36
+		id                            		46
 		name                          		"cd"
-		linkNode                      		[30 35 37]
+		linkNode                      		[40 45 47]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -27888,9 +28685,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		37
+		id                            		47
 		name                          		"WP1"
-		linkNode                      		[30 36 38]
+		linkNode                      		[40 46 48]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -27911,9 +28708,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		38
+		id                            		48
 		name                          		"R"
-		linkNode                      		[30 37 39]
+		linkNode                      		[40 47 49]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -27934,9 +28731,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		39
+		id                            		49
 		name                          		"T1"
-		linkNode                      		[30 38 40]
+		linkNode                      		[40 48 50]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -27957,9 +28754,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		40
+		id                            		50
 		name                          		"P"
-		linkNode                      		[30 39 41]
+		linkNode                      		[40 49 51]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -27980,9 +28777,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		41
+		id                            		51
 		name                          		"Pch"
-		linkNode                      		[30 40 42]
+		linkNode                      		[40 50 52]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -28003,9 +28800,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		42
+		id                            		52
 		name                          		"T2"
-		linkNode                      		[30 41 43]
+		linkNode                      		[40 51 53]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -28026,9 +28823,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		43
+		id                            		53
 		name                          		"PchB"
-		linkNode                      		[30 42 0]
+		linkNode                      		[40 52 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -28049,16 +28846,16 @@ Stateflow {
 	}
 
 	instance {
-		id     		44
+		id     		54
 		name   		"Inner Loop// Navigation/Navigation/Compute WP Index/Compute P/Get"
 					" Circles/Compute \n"
 					"Circles"
 		machine		1
-		chart  		30
+		chart  		40
 	}
 
 	chart {
-		id                                        		45
+		id                                        		55
 		name                                      		"Inner Loop/ Navigation/Navigation/Compute WP Index/Compute P/Get "
 					"Circles/Compute CCW\n"
 					"Angle From 2\n"
@@ -28067,15 +28864,15 @@ Stateflow {
 		windowPosition                            		[217.884 339 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 46 0 0]
-		firstTransition                           		48
-		firstJunction                             		47
-		viewObj                                   		45
+		treeNode                                  		[0 56 0 0]
+		firstTransition                           		58
+		firstJunction                             		57
+		viewObj                                   		55
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		49
+		firstData                                 		59
 		chartFileNumber                           		9
 		disableImplicitCasting                    		1
 		eml {
@@ -28084,14 +28881,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		46
+		id                           		56
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		45
-		treeNode                     		[45 0 0 0]
+		chart                        		55
+		treeNode                     		[55 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		45
+		subviewer                    		55
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -28109,16 +28906,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		47
+		id         		57
 		position   		[23.5747 49.5747 7]
-		chart      		45
-		linkNode   		[45 0 0]
-		subviewer  		45
+		chart      		55
+		linkNode   		[55 0 0]
+		subviewer  		55
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		48
+		id             		58
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -28126,22 +28923,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		47
+			id          		57
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		45
-		linkNode       		[45 0 0]
+		chart          		55
+		linkNode       		[55 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		45
+		subviewer      		55
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		49
+		id                            		59
 		name                          		"rawAngle"
-		linkNode                      		[45 0 50]
+		linkNode                      		[55 0 60]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -28162,9 +28959,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		50
+		id                            		60
 		name                          		"angle"
-		linkNode                      		[45 49 0]
+		linkNode                      		[55 59 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -28186,31 +28983,31 @@ Stateflow {
 	}
 
 	instance {
-		id     		51
+		id     		61
 		name   		"Inner Loop// Navigation/Navigation/Compute WP Index/Compute P/Get"
 					" Circles/Compute CCW\n"
 					"Angle From 2\n"
 					"Vectors/Embedded\n"
 					"MATLAB Function1"
 		machine		1
-		chart  		45
+		chart  		55
 	}
 
 	chart {
-		id                                        		52
+		id                                        		62
 		name                                      		"Inner Loop/ Navigation/Navigation/Compute WP Index/Embedded\n"
 					"MATLAB Function"
 		windowPosition                            		[217.884 339 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 53 0 0]
-		firstTransition                           		55
-		firstJunction                             		54
-		viewObj                                   		52
+		treeNode                                  		[0 63 0 0]
+		firstTransition                           		65
+		firstJunction                             		64
+		viewObj                                   		62
 		machine                                   		1
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		56
+		firstData                                 		66
 		chartFileNumber                           		10
 		disableImplicitCasting                    		1
 		eml {
@@ -28220,14 +29017,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		53
+		id                           		63
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		52
-		treeNode                     		[52 0 0 0]
+		chart                        		62
+		treeNode                     		[62 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		52
+		subviewer                    		62
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -28279,16 +29076,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		54
+		id         		64
 		position   		[23.5747 49.5747 7]
-		chart      		52
-		linkNode   		[52 0 0]
-		subviewer  		52
+		chart      		62
+		linkNode   		[62 0 0]
+		subviewer  		62
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		55
+		id             		65
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -28296,22 +29093,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		54
+			id          		64
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		52
-		linkNode       		[52 0 0]
+		chart          		62
+		linkNode       		[62 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		52
+		subviewer      		62
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		56
+		id                            		66
 		name                          		"wpStart"
-		linkNode                      		[52 0 57]
+		linkNode                      		[62 0 67]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -28332,9 +29129,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		57
+		id                            		67
 		name                          		"wpCount"
-		linkNode                      		[52 56 58]
+		linkNode                      		[62 66 68]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -28355,9 +29152,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		58
+		id                            		68
 		name                          		"wp0"
-		linkNode                      		[52 57 59]
+		linkNode                      		[62 67 69]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -28379,9 +29176,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		59
+		id                            		69
 		name                          		"swIncrement"
-		linkNode                      		[52 58 60]
+		linkNode                      		[62 68 70]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -28402,9 +29199,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		60
+		id                            		70
 		name                          		"wp1"
-		linkNode                      		[52 59 61]
+		linkNode                      		[62 69 71]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -28425,9 +29222,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		61
+		id                            		71
 		name                          		"wp2"
-		linkNode                      		[52 60 62]
+		linkNode                      		[62 70 72]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -28448,9 +29245,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		62
+		id                            		72
 		name                          		"wpEnabl"
-		linkNode                      		[52 61 0]
+		linkNode                      		[62 71 0]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -28471,28 +29268,28 @@ Stateflow {
 	}
 
 	instance {
-		id     		63
+		id     		73
 		name   		"Inner Loop// Navigation/Navigation/Compute WP Index/Embedded\n"
 					"MATLAB Function"
 		machine		1
-		chart  		52
+		chart  		62
 	}
 
 	chart {
-		id                                        		64
+		id                                        		74
 		name                                      		"Inner Loop/ Navigation/Navigation/Compute WP Index/Embedded\n"
 					"MATLAB Function1"
 		windowPosition                            		[232.884 354.456 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 953 1.333333333333333]
-		treeNode                                  		[0 65 0 0]
-		firstTransition                           		67
-		firstJunction                             		66
-		viewObj                                   		64
+		treeNode                                  		[0 75 0 0]
+		firstTransition                           		77
+		firstJunction                             		76
+		viewObj                                   		74
 		machine                                   		1
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		68
+		firstData                                 		78
 		chartFileNumber                           		11
 		disableImplicitCasting                    		1
 		eml {
@@ -28502,14 +29299,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		65
+		id                           		75
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		64
-		treeNode                     		[64 0 0 0]
+		chart                        		74
+		treeNode                     		[74 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		64
+		subviewer                    		74
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -28548,16 +29345,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		66
+		id         		76
 		position   		[23.5747 49.5747 7]
-		chart      		64
-		linkNode   		[64 0 0]
-		subviewer  		64
+		chart      		74
+		linkNode   		[74 0 0]
+		subviewer  		74
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		67
+		id             		77
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -28565,22 +29362,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		66
+			id          		76
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		64
-		linkNode       		[64 0 0]
+		chart          		74
+		linkNode       		[74 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		64
+		subviewer      		74
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		68
+		id                            		78
 		name                          		"swDistanceRdy"
-		linkNode                      		[64 0 69]
+		linkNode                      		[74 0 79]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -28601,9 +29398,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		69
+		id                            		79
 		name                          		"timeLimit"
-		linkNode                      		[64 68 70]
+		linkNode                      		[74 78 80]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -28624,9 +29421,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		70
+		id                            		80
 		name                          		"swIncrement"
-		linkNode                      		[64 69 0]
+		linkNode                      		[74 79 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -28647,30 +29444,30 @@ Stateflow {
 	}
 
 	instance {
-		id     		71
+		id     		81
 		name   		"Inner Loop// Navigation/Navigation/Compute WP Index/Embedded\n"
 					"MATLAB Function1"
 		machine		1
-		chart  		64
+		chart  		74
 	}
 
 	chart {
-		id                                        		72
+		id                                        		82
 		name                                      		"Inner Loop/ Navigation/Navigation/Get Wps\n"
 					"Compute Frenet/Compute Frenet/Normalize Vector/Norm/Subsystem1/ne"
 					"gprotect"
 		windowPosition                            		[252.588 326.703 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 73 0 0]
-		firstTransition                           		75
-		firstJunction                             		74
-		viewObj                                   		72
+		treeNode                                  		[0 83 0 0]
+		firstTransition                           		85
+		firstJunction                             		84
+		viewObj                                   		82
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		76
+		firstData                                 		86
 		chartFileNumber                           		12
 		disableImplicitCasting                    		1
 		eml {
@@ -28679,14 +29476,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		73
+		id                           		83
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		72
-		treeNode                     		[72 0 0 0]
+		chart                        		82
+		treeNode                     		[82 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		72
+		subviewer                    		82
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -28707,16 +29504,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		74
+		id         		84
 		position   		[23.5747 49.5747 7]
-		chart      		72
-		linkNode   		[72 0 0]
-		subviewer  		72
+		chart      		82
+		linkNode   		[82 0 0]
+		subviewer  		82
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		75
+		id             		85
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -28724,22 +29521,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		74
+			id          		84
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		72
-		linkNode       		[72 0 0]
+		chart          		82
+		linkNode       		[82 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		72
+		subviewer      		82
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		76
+		id                            		86
 		name                          		"val"
-		linkNode                      		[72 0 77]
+		linkNode                      		[82 0 87]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -28760,9 +29557,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		77
+		id                            		87
 		name                          		"zpVal"
-		linkNode                      		[72 76 0]
+		linkNode                      		[82 86 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -28784,31 +29581,31 @@ Stateflow {
 	}
 
 	instance {
-		id     		78
+		id     		88
 		name   		"Inner Loop// Navigation/Navigation/Get Wps\n"
 					"Compute Frenet/Compute Frenet/Normalize Vector/Norm/Subsystem1/ne"
 					"gprotect"
 		machine		1
-		chart  		72
+		chart  		82
 	}
 
 	chart {
-		id                                        		79
+		id                                        		89
 		name                                      		"Inner Loop/ Navigation/Navigation/Compute WP Index/Compute P/Comp"
 					"ute T \n"
 					"in Frenet/Normalize Vector/Norm/Subsystem1/negprotect"
 		windowPosition                            		[252.588 326.703 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 80 0 0]
-		firstTransition                           		82
-		firstJunction                             		81
-		viewObj                                   		79
+		treeNode                                  		[0 90 0 0]
+		firstTransition                           		92
+		firstJunction                             		91
+		viewObj                                   		89
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		83
+		firstData                                 		93
 		chartFileNumber                           		13
 		disableImplicitCasting                    		1
 		eml {
@@ -28817,14 +29614,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		80
+		id                           		90
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		79
-		treeNode                     		[79 0 0 0]
+		chart                        		89
+		treeNode                     		[89 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		79
+		subviewer                    		89
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -28845,16 +29642,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		81
+		id         		91
 		position   		[23.5747 49.5747 7]
-		chart      		79
-		linkNode   		[79 0 0]
-		subviewer  		79
+		chart      		89
+		linkNode   		[89 0 0]
+		subviewer  		89
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		82
+		id             		92
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -28862,22 +29659,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		81
+			id          		91
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		79
-		linkNode       		[79 0 0]
+		chart          		89
+		linkNode       		[89 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		79
+		subviewer      		89
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		83
+		id                            		93
 		name                          		"val"
-		linkNode                      		[79 0 84]
+		linkNode                      		[89 0 94]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -28898,9 +29695,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		84
+		id                            		94
 		name                          		"zpVal"
-		linkNode                      		[79 83 0]
+		linkNode                      		[89 93 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -28922,31 +29719,31 @@ Stateflow {
 	}
 
 	instance {
-		id     		85
+		id     		95
 		name   		"Inner Loop// Navigation/Navigation/Compute WP Index/Compute P/Com"
 					"pute T \n"
 					"in Frenet/Normalize Vector/Norm/Subsystem1/negprotect"
 		machine		1
-		chart  		79
+		chart  		89
 	}
 
 	chart {
-		id                                        		86
+		id                                        		96
 		name                                      		"Inner Loop/ Navigation/Navigation/Get Wps\n"
 					"Compute Frenet/Compute Frenet/Select N \n"
 					"Terms"
 		windowPosition                            		[296.813 314.45 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 87 0 0]
-		firstTransition                           		89
-		firstJunction                             		88
-		viewObj                                   		86
+		treeNode                                  		[0 97 0 0]
+		firstTransition                           		99
+		firstJunction                             		98
+		viewObj                                   		96
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		90
+		firstData                                 		100
 		chartFileNumber                           		14
 		disableImplicitCasting                    		1
 		eml {
@@ -28955,14 +29752,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		87
+		id                           		97
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		86
-		treeNode                     		[86 0 0 0]
+		chart                        		96
+		treeNode                     		[96 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		86
+		subviewer                    		96
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -28979,16 +29776,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		88
+		id         		98
 		position   		[23.5747 49.5747 7]
-		chart      		86
-		linkNode   		[86 0 0]
-		subviewer  		86
+		chart      		96
+		linkNode   		[96 0 0]
+		subviewer  		96
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		89
+		id             		99
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -28996,22 +29793,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		88
+			id          		98
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		86
-		linkNode       		[86 0 0]
+		chart          		96
+		linkNode       		[96 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		86
+		subviewer      		96
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		90
+		id                            		100
 		name                          		"T"
-		linkNode                      		[86 0 91]
+		linkNode                      		[96 0 101]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -29032,9 +29829,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		91
+		id                            		101
 		name                          		"N"
-		linkNode                      		[86 90 0]
+		linkNode                      		[96 100 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -29056,30 +29853,30 @@ Stateflow {
 	}
 
 	instance {
-		id     		92
+		id     		102
 		name   		"Inner Loop// Navigation/Navigation/Get Wps\n"
 					"Compute Frenet/Compute Frenet/Select N \n"
 					"Terms"
 		machine		1
-		chart  		86
+		chart  		96
 	}
 
 	chart {
-		id                                        		93
+		id                                        		103
 		name                                      		"Inner Loop/ Navigation/Navigation/Park, Deyst & How\n"
 					"Lat Accel Cmd/Compute Eta/negprotect"
 		windowPosition                            		[252.588 326.703 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 94 0 0]
-		firstTransition                           		96
-		firstJunction                             		95
-		viewObj                                   		93
+		treeNode                                  		[0 104 0 0]
+		firstTransition                           		106
+		firstJunction                             		105
+		viewObj                                   		103
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		97
+		firstData                                 		107
 		chartFileNumber                           		15
 		disableImplicitCasting                    		1
 		eml {
@@ -29088,14 +29885,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		94
+		id                           		104
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		93
-		treeNode                     		[93 0 0 0]
+		chart                        		103
+		treeNode                     		[103 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		93
+		subviewer                    		103
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -29116,16 +29913,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		95
+		id         		105
 		position   		[23.5747 49.5747 7]
-		chart      		93
-		linkNode   		[93 0 0]
-		subviewer  		93
+		chart      		103
+		linkNode   		[103 0 0]
+		subviewer  		103
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		96
+		id             		106
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -29133,22 +29930,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		95
+			id          		105
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		93
-		linkNode       		[93 0 0]
+		chart          		103
+		linkNode       		[103 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		93
+		subviewer      		103
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		97
+		id                            		107
 		name                          		"val"
-		linkNode                      		[93 0 98]
+		linkNode                      		[103 0 108]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -29169,9 +29966,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		98
+		id                            		108
 		name                          		"zpVal"
-		linkNode                      		[93 97 0]
+		linkNode                      		[103 107 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -29193,29 +29990,29 @@ Stateflow {
 	}
 
 	instance {
-		id     		99
+		id     		109
 		name   		"Inner Loop// Navigation/Navigation/Park, Deyst & How\n"
 					"Lat Accel Cmd/Compute Eta/negprotect"
 		machine		1
-		chart  		93
+		chart  		103
 	}
 
 	chart {
-		id                                        		100
+		id                                        		110
 		name                                      		"Inner Loop/ Navigation/Navigation/GainSchedule\n"
 					"L2 and Get\n"
 					"Groundspeed/negprotect1"
 		windowPosition                            		[327.588 251.703 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 101 0 0]
-		firstTransition                           		103
-		firstJunction                             		102
-		viewObj                                   		100
+		treeNode                                  		[0 111 0 0]
+		firstTransition                           		113
+		firstJunction                             		112
+		viewObj                                   		110
 		machine                                   		1
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		104
+		firstData                                 		114
 		chartFileNumber                           		16
 		disableImplicitCasting                    		1
 		eml {
@@ -29224,14 +30021,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		101
+		id                           		111
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		100
-		treeNode                     		[100 0 0 0]
+		chart                        		110
+		treeNode                     		[110 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		100
+		subviewer                    		110
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -29252,16 +30049,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		102
+		id         		112
 		position   		[23.5747 49.5747 7]
-		chart      		100
-		linkNode   		[100 0 0]
-		subviewer  		100
+		chart      		110
+		linkNode   		[110 0 0]
+		subviewer  		110
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		103
+		id             		113
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -29269,22 +30066,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		102
+			id          		112
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		100
-		linkNode       		[100 0 0]
+		chart          		110
+		linkNode       		[110 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		100
+		subviewer      		110
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		104
+		id                            		114
 		name                          		"val"
-		linkNode                      		[100 0 105]
+		linkNode                      		[110 0 115]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -29305,9 +30102,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		105
+		id                            		115
 		name                          		"zpVal"
-		linkNode                      		[100 104 0]
+		linkNode                      		[110 114 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -29329,31 +30126,31 @@ Stateflow {
 	}
 
 	instance {
-		id     		106
+		id     		116
 		name   		"Inner Loop// Navigation/Navigation/GainSchedule\n"
 					"L2 and Get\n"
 					"Groundspeed/negprotect1"
 		machine		1
-		chart  		100
+		chart  		110
 	}
 
 	chart {
-		id                                        		107
+		id                                        		117
 		name                                      		"Inner Loop/ Navigation/Navigation/GainSchedule\n"
 					"L2 and Get\n"
 					"Groundspeed/Norm /Subsystem1/negprotect"
 		windowPosition                            		[252.588 326.703 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 108 0 0]
-		firstTransition                           		110
-		firstJunction                             		109
-		viewObj                                   		107
+		treeNode                                  		[0 118 0 0]
+		firstTransition                           		120
+		firstJunction                             		119
+		viewObj                                   		117
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		111
+		firstData                                 		121
 		chartFileNumber                           		17
 		disableImplicitCasting                    		1
 		eml {
@@ -29362,14 +30159,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		108
+		id                           		118
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		107
-		treeNode                     		[107 0 0 0]
+		chart                        		117
+		treeNode                     		[117 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		107
+		subviewer                    		117
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -29390,16 +30187,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		109
+		id         		119
 		position   		[23.5747 49.5747 7]
-		chart      		107
-		linkNode   		[107 0 0]
-		subviewer  		107
+		chart      		117
+		linkNode   		[117 0 0]
+		subviewer  		117
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		110
+		id             		120
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -29407,22 +30204,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		109
+			id          		119
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		107
-		linkNode       		[107 0 0]
+		chart          		117
+		linkNode       		[117 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		107
+		subviewer      		117
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		111
+		id                            		121
 		name                          		"val"
-		linkNode                      		[107 0 112]
+		linkNode                      		[117 0 122]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -29443,9 +30240,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		112
+		id                            		122
 		name                          		"zpVal"
-		linkNode                      		[107 111 0]
+		linkNode                      		[117 121 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -29467,31 +30264,31 @@ Stateflow {
 	}
 
 	instance {
-		id     		113
+		id     		123
 		name   		"Inner Loop// Navigation/Navigation/GainSchedule\n"
 					"L2 and Get\n"
 					"Groundspeed/Norm /Subsystem1/negprotect"
 		machine		1
-		chart  		107
+		chart  		117
 	}
 
 	chart {
-		id                                        		114
+		id                                        		124
 		name                                      		"Inner Loop/ Navigation/Navigation/Park, Deyst & How\n"
 					"Lat Accel Cmd/Compute L1 Vector\n"
 					"LINE MODE/Subsystem1/negprotect"
 		windowPosition                            		[252.588 326.703 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 115 0 0]
-		firstTransition                           		117
-		firstJunction                             		116
-		viewObj                                   		114
+		treeNode                                  		[0 125 0 0]
+		firstTransition                           		127
+		firstJunction                             		126
+		viewObj                                   		124
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		118
+		firstData                                 		128
 		chartFileNumber                           		18
 		disableImplicitCasting                    		1
 		eml {
@@ -29500,14 +30297,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		115
+		id                           		125
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		114
-		treeNode                     		[114 0 0 0]
+		chart                        		124
+		treeNode                     		[124 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		114
+		subviewer                    		124
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -29528,16 +30325,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		116
+		id         		126
 		position   		[23.5747 49.5747 7]
-		chart      		114
-		linkNode   		[114 0 0]
-		subviewer  		114
+		chart      		124
+		linkNode   		[124 0 0]
+		subviewer  		124
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		117
+		id             		127
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -29545,22 +30342,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		116
+			id          		126
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		114
-		linkNode       		[114 0 0]
+		chart          		124
+		linkNode       		[124 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		114
+		subviewer      		124
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		118
+		id                            		128
 		name                          		"val"
-		linkNode                      		[114 0 119]
+		linkNode                      		[124 0 129]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -29581,9 +30378,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		119
+		id                            		129
 		name                          		"zpVal"
-		linkNode                      		[114 118 0]
+		linkNode                      		[124 128 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -29605,30 +30402,30 @@ Stateflow {
 	}
 
 	instance {
-		id     		120
+		id     		130
 		name   		"Inner Loop// Navigation/Navigation/Park, Deyst & How\n"
 					"Lat Accel Cmd/Compute L1 Vector\n"
 					"LINE MODE/Subsystem1/negprotect"
 		machine		1
-		chart  		114
+		chart  		124
 	}
 
 	chart {
-		id                                        		121
+		id                                        		131
 		name                                      		"Inner Loop/ Navigation/Navigation/Park, Deyst & How\n"
 					"Lat Accel Cmd/Compute Eta/Norm/Subsystem1/negprotect"
 		windowPosition                            		[252.588 326.703 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 122 0 0]
-		firstTransition                           		124
-		firstJunction                             		123
-		viewObj                                   		121
+		treeNode                                  		[0 132 0 0]
+		firstTransition                           		134
+		firstJunction                             		133
+		viewObj                                   		131
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		125
+		firstData                                 		135
 		chartFileNumber                           		19
 		disableImplicitCasting                    		1
 		eml {
@@ -29637,14 +30434,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		122
+		id                           		132
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		121
-		treeNode                     		[121 0 0 0]
+		chart                        		131
+		treeNode                     		[131 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		121
+		subviewer                    		131
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -29665,16 +30462,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		123
+		id         		133
 		position   		[23.5747 49.5747 7]
-		chart      		121
-		linkNode   		[121 0 0]
-		subviewer  		121
+		chart      		131
+		linkNode   		[131 0 0]
+		subviewer  		131
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		124
+		id             		134
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -29682,226 +30479,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		123
+			id          		133
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		121
-		linkNode       		[121 0 0]
+		chart          		131
+		linkNode       		[131 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		121
+		subviewer      		131
 		drawStyle      		SMART
 		executionOrder 		1
-	}
-
-	data {
-		id                            		125
-		name                          		"val"
-		linkNode                      		[121 0 126]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		126
-		name                          		"zpVal"
-		linkNode                      		[121 125 0]
-		scope                         		OUTPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_NO
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	instance {
-		id     		127
-		name   		"Inner Loop// Navigation/Navigation/Park, Deyst & How\n"
-					"Lat Accel Cmd/Compute Eta/Norm/Subsystem1/negprotect"
-		machine		1
-		chart  		121
-	}
-
-	chart {
-		id                                        		128
-		name                                      		"Update PWM Commands\n"
-					"and Send Telemetry/Generate PWM Signals\n"
-					"Based on the Control Type/If  Control Type\n"
-					"Is Wp Follow \n"
-					"or Inner Cmds/myMux Fun1"
-		windowPosition                            		[311.827 306.356 200.25 189.75]
-		viewLimits                                		[0 156.75 0 153.75]
-		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 129 0 0]
-		firstTransition                           		131
-		firstJunction                             		130
-		viewObj                                   		128
-		machine                                   		1
-		decomposition                             		CLUSTER_CHART
-		type                                      		EML_CHART
-		firstData                                 		132
-		chartFileNumber                           		20
-		disableImplicitCasting                    		1
-		eml {
-			name       		"myMux"
-		}
-	}
-
-	state {
-		id                           		129
-		labelString                  		"eML_blk_kernel()"
-		position                     		[18 64.5 118 66]
-		fontSize                     		12
-		chart                        		128
-		treeNode                     		[128 0 0 0]
-		superState                   		SUBCHART
-		subviewer                    		128
-		type                         		FUNC_STATE
-		decomposition                		CLUSTER_STATE
-		eml {
-			isEML                    		1
-			script                   		"function y = myMux(u1, u2, u3, u4 )\n"
-						"% This block supports an embeddable subset of the MATLAB la"
-						"nguage.\n"
-						"% See the help menu for details. \n"
-						"\n"
-						"y = [u1(1); u2(1); u3(1); u4(1)];"
-			editorLayout             		"100 M4x1[222 263 720 640]"
-			treatIntsAsFixpt         		0
-		}
-	}
-
-	junction {
-		id         		130
-		position   		[23.5747 49.5747 7]
-		chart      		128
-		linkNode   		[128 0 0]
-		subviewer  		128
-		type       		CONNECTIVE_JUNCTION
-	}
-
-	transition {
-		id             		131
-		labelString    		"{eML_blk_kernel();}"
-		labelPosition  		[32.125 19.875 102.544 14.964]
-		fontSize       		12
-		src {
-			intersection		[0 0 1 0 23.5747 14.625 0 0]
-		}
-		dst {
-			id          		130
-			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
-		}
-		midPoint       		[23.5747 24.9468]
-		chart          		128
-		linkNode       		[128 0 0]
-		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		128
-		drawStyle      		SMART
-		executionOrder 		1
-	}
-
-	data {
-		id                            		132
-		name                          		"u1"
-		linkNode                      		[128 0 133]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		133
-		name                          		"y"
-		linkNode                      		[128 132 134]
-		scope                         		OUTPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_NO
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		134
-		name                          		"u2"
-		linkNode                      		[128 133 135]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
-		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
 	}
 
 	data {
 		id                            		135
-		name                          		"u3"
-		linkNode                      		[128 134 136]
+		name                          		"val"
+		linkNode                      		[131 0 136]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -29910,22 +30503,22 @@ Stateflow {
 			}
 			type {
 				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
 			}
 			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
 		}
 		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
 		complexity                    		SF_COMPLEX_INHERITED
 	}
 
 	data {
 		id                            		136
-		name                          		"u4"
-		linkNode                      		[128 135 0]
-		scope                         		INPUT_DATA
+		name                          		"zpVal"
+		linkNode                      		[131 135 0]
+		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
 			array {
@@ -29933,26 +30526,24 @@ Stateflow {
 			}
 			type {
 				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
 			}
 			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
+			frame                		SF_FRAME_NO
 		}
 		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
 		complexity                    		SF_COMPLEX_INHERITED
 	}
 
 	instance {
 		id     		137
-		name   		"Update PWM Commands\n"
-					"and Send Telemetry/Generate PWM Signals\n"
-					"Based on the Control Type/If  Control Type\n"
-					"Is Wp Follow \n"
-					"or Inner Cmds/myMux Fun1"
+		name   		"Inner Loop// Navigation/Navigation/Park, Deyst & How\n"
+					"Lat Accel Cmd/Compute Eta/Norm/Subsystem1/negprotect"
 		machine		1
-		chart  		128
+		chart  		131
 	}
 
 	chart {
@@ -29960,8 +30551,9 @@ Stateflow {
 		name                                      		"Update PWM Commands\n"
 					"and Send Telemetry/Generate PWM Signals\n"
 					"Based on the Control Type/If  Control Type\n"
-					"Is Passthrough/myMux Fun1"
-		windowPosition                            		[326.827 291.356 200.25 189.75]
+					"Is Wp Follow \n"
+					"or Inner Cmds/myMux Fun1"
+		windowPosition                            		[311.827 306.356 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 139 0 0]
@@ -29972,7 +30564,7 @@ Stateflow {
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		142
-		chartFileNumber                           		21
+		chartFileNumber                           		20
 		disableImplicitCasting                    		1
 		eml {
 			name       		"myMux"
@@ -30154,7 +30746,8 @@ Stateflow {
 		name   		"Update PWM Commands\n"
 					"and Send Telemetry/Generate PWM Signals\n"
 					"Based on the Control Type/If  Control Type\n"
-					"Is Passthrough/myMux Fun1"
+					"Is Wp Follow \n"
+					"or Inner Cmds/myMux Fun1"
 		machine		1
 		chart  		138
 	}
@@ -30164,9 +30757,8 @@ Stateflow {
 		name                                      		"Update PWM Commands\n"
 					"and Send Telemetry/Generate PWM Signals\n"
 					"Based on the Control Type/If  Control Type\n"
-					"Is Selective\n"
-					"Passthrough/myMux Fun1"
-		windowPosition                            		[341.827 276.356 200.25 189.75]
+					"Is Passthrough/myMux Fun1"
+		windowPosition                            		[326.827 291.356 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 149 0 0]
@@ -30177,7 +30769,7 @@ Stateflow {
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		152
-		chartFileNumber                           		22
+		chartFileNumber                           		21
 		disableImplicitCasting                    		1
 		eml {
 			name       		"myMux"
@@ -30359,8 +30951,7 @@ Stateflow {
 		name   		"Update PWM Commands\n"
 					"and Send Telemetry/Generate PWM Signals\n"
 					"Based on the Control Type/If  Control Type\n"
-					"Is Selective\n"
-					"Passthrough/myMux Fun1"
+					"Is Passthrough/myMux Fun1"
 		machine		1
 		chart  		148
 	}
@@ -30368,8 +30959,11 @@ Stateflow {
 	chart {
 		id                                        		158
 		name                                      		"Update PWM Commands\n"
-					"and Send Telemetry/myMux Fun1"
-		windowPosition                            		[311.827 306.356 200.25 189.75]
+					"and Send Telemetry/Generate PWM Signals\n"
+					"Based on the Control Type/If  Control Type\n"
+					"Is Selective\n"
+					"Passthrough/myMux Fun1"
+		windowPosition                            		[341.827 276.356 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 159 0 0]
@@ -30380,7 +30974,7 @@ Stateflow {
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		162
-		chartFileNumber                           		23
+		chartFileNumber                           		22
 		disableImplicitCasting                    		1
 		eml {
 			name       		"myMux"
@@ -30400,12 +30994,12 @@ Stateflow {
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function y = myMux(u1, u2)\n"
+			script                   		"function y = myMux(u1, u2, u3, u4 )\n"
 						"% This block supports an embeddable subset of the MATLAB la"
 						"nguage.\n"
 						"% See the help menu for details. \n"
 						"\n"
-						"y = [u1(1:4); u2(1)];"
+						"y = [u1(1); u2(1); u3(1); u4(1)];"
 			editorLayout             		"100 M4x1[222 263 720 640]"
 			treatIntsAsFixpt         		0
 		}
@@ -30491,7 +31085,53 @@ Stateflow {
 	data {
 		id                            		164
 		name                          		"u2"
-		linkNode                      		[158 163 0]
+		linkNode                      		[158 163 165]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		165
+		name                          		"u3"
+		linkNode                      		[158 164 166]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		166
+		name                          		"u4"
+		linkNode                      		[158 165 0]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -30512,28 +31152,185 @@ Stateflow {
 	}
 
 	instance {
-		id     		165
+		id     		167
 		name   		"Update PWM Commands\n"
-					"and Send Telemetry/myMux Fun1"
+					"and Send Telemetry/Generate PWM Signals\n"
+					"Based on the Control Type/If  Control Type\n"
+					"Is Selective\n"
+					"Passthrough/myMux Fun1"
 		machine		1
 		chart  		158
 	}
 
-	target {
-		id                        		166
-		name                      		"sfun"
-		description               		"Default Simulink S-Function Target."
-		machine                   		1
-		linkNode                  		[1 0 167]
+	chart {
+		id                                        		168
+		name                                      		"Update PWM Commands\n"
+					"and Send Telemetry/myMux Fun1"
+		windowPosition                            		[311.827 306.356 200.25 189.75]
+		viewLimits                                		[0 156.75 0 153.75]
+		screen                                    		[1 1 1280 1024 1.333333333333333]
+		treeNode                                  		[0 169 0 0]
+		firstTransition                           		171
+		firstJunction                             		170
+		viewObj                                   		168
+		machine                                   		1
+		decomposition                             		CLUSTER_CHART
+		type                                      		EML_CHART
+		firstData                                 		172
+		chartFileNumber                           		23
+		disableImplicitCasting                    		1
+		eml {
+			name       		"myMux"
+		}
+	}
+
+	state {
+		id                           		169
+		labelString                  		"eML_blk_kernel()"
+		position                     		[18 64.5 118 66]
+		fontSize                     		12
+		chart                        		168
+		treeNode                     		[168 0 0 0]
+		superState                   		SUBCHART
+		subviewer                    		168
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			isEML                    		1
+			script                   		"function y = myMux(u1, u2)\n"
+						"% This block supports an embeddable subset of the MATLAB la"
+						"nguage.\n"
+						"% See the help menu for details. \n"
+						"\n"
+						"y = [u1(1:4); u2(1)];"
+			editorLayout             		"100 M4x1[410 347 720 640]"
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	junction {
+		id         		170
+		position   		[23.5747 49.5747 7]
+		chart      		168
+		linkNode   		[168 0 0]
+		subviewer  		168
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		171
+		labelString    		"{eML_blk_kernel();}"
+		labelPosition  		[32.125 19.875 102.544 14.964]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 23.5747 14.625 0 0]
+		}
+		dst {
+			id          		170
+			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
+		}
+		midPoint       		[23.5747 24.9468]
+		chart          		168
+		linkNode       		[168 0 0]
+		dataLimits     		[23.575 23.575 14.625 34.575]
+		subviewer      		168
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	data {
+		id                            		172
+		name                          		"u1"
+		linkNode                      		[168 0 173]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		173
+		name                          		"y"
+		linkNode                      		[168 172 174]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		174
+		name                          		"u2"
+		linkNode                      		[168 173 0]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	instance {
+		id     		175
+		name   		"Update PWM Commands\n"
+					"and Send Telemetry/myMux Fun1"
+		machine		1
+		chart  		168
 	}
 
 	target {
-		id                        		167
+		id                        		176
+		name                      		"sfun"
+		description               		"Default Simulink S-Function Target."
+		machine                   		1
+		linkNode                  		[1 0 177]
+	}
+
+	target {
+		id                        		177
 		name                      		"rtw"
 		codeFlags                 		" comments=1 statebitsets=1 databitsets=1 emitlogicalops=1 el"
 						"seifdetection=1 constantfolding=1 redundantloadelimination=0"
 						" preservenames=0 preservenameswithparent=0 exportcharts=0"
 		machine                   		1
-		linkNode                  		[1 166 0]
+		linkNode                  		[1 176 0]
 	}
 }

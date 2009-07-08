@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.29"
+    ComputedModelVersion    "1.34"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -44,8 +44,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sat Jul 04 22:14:45 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:29>"
+  LastModifiedDate	  "Tue Jul 07 08:01:35 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:34>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -769,7 +769,7 @@ Model {
   }
   System {
     Name		    "telemetrySources"
-    Location		    [-1438, 78, -688, 694]
+    Location		    [122, 277, 778, 905]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -954,7 +954,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "Dyn"
-	  Position		  [25, 35, 55, 49]
+	  Position		  [25, 33, 55, 47]
 	  IconDisplay		  "Port number"
 	}
 	Block {
@@ -970,19 +970,27 @@ Model {
 	  BlockType		  Math
 	  Name			  "Math\nFunction"
 	  Ports			  [1, 1]
-	  Position		  [155, 25, 185, 55]
+	  Position		  [230, 25, 260, 55]
 	  Operator		  "sqrt"
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "[0.001  2000]"
+	  Position		  [150, 25, 180, 55]
+	  UpperLimit		  "2000"
+	  LowerLimit		  "0.001"
 	}
 	Block {
 	  BlockType		  Outport
 	  Name			  "m/s"
-	  Position		  [210, 35, 240, 49]
+	  Position		  [285, 33, 315, 47]
 	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
 	}
 	Line {
 	  SrcBlock		  "Gain"
 	  SrcPort		  1
-	  DstBlock		  "Math\nFunction"
+	  DstBlock		  "[0.001  2000]"
 	  DstPort		  1
 	}
 	Line {
@@ -995,6 +1003,12 @@ Model {
 	  SrcBlock		  "Math\nFunction"
 	  SrcPort		  1
 	  DstBlock		  "m/s"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "[0.001  2000]"
+	  SrcPort		  1
+	  DstBlock		  "Math\nFunction"
 	  DstPort		  1
 	}
       }
@@ -1026,13 +1040,13 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "Temp"
-	  Position		  [465, 123, 495, 137]
+	  Position		  [470, 123, 500, 137]
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  DataTypeConversion
 	  Name			  "Data Type Conversion1"
-	  Position		  [265, 57, 320, 73]
+	  Position		  [315, 57, 370, 73]
 	  ShowName		  off
 	  OutDataTypeMode	  "single"
 	  RndMeth		  "Floor"
@@ -1144,7 +1158,7 @@ Model {
 	  BlockType		  SubSystem
 	  Name			  "Pitot\nUnit Conversion"
 	  Ports			  [1, 1]
-	  Position		  [405, 51, 475, 79]
+	  Position		  [425, 51, 495, 79]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
@@ -1273,7 +1287,7 @@ Model {
 	  BlockType		  SubSystem
 	  Name			  "Pitot Temp\nCompensation"
 	  Ports			  [2, 1]
-	  Position		  [540, 48, 630, 117]
+	  Position		  [560, 48, 650, 117]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
@@ -1455,12 +1469,6 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Pitot\nUnit Conversion"
-	  SrcPort		  1
-	  DstBlock		  "Pitot Temp\nCompensation"
-	  DstPort		  1
-	}
-	Line {
 	  SrcBlock		  "Data Type Conversion1"
 	  SrcPort		  1
 	  DstBlock		  "Pitot\nUnit Conversion"
@@ -1475,15 +1483,1373 @@ Model {
 	Line {
 	  SrcBlock		  "Temp"
 	  SrcPort		  1
-	  Points		  [10, 0; 0, -30]
+	  Points		  [20, 0; 0, -30]
 	  DstBlock		  "Pitot Temp\nCompensation"
 	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Pitot\nUnit Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Pitot Temp\nCompensation"
+	  DstPort		  1
 	}
       }
     }
     Block {
       BlockType		      SubSystem
-      Name		      "Dynamic1"
+      Name		      "Magnetic Field"
+      Ports		      [1, 1]
+      Position		      [195, 178, 280, 212]
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      MaskHideContents	      off
+      System {
+	Name			"Magnetic Field"
+	Location		[280, 93, 1016, 386]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Temp"
+	  Position		  [680, 88, 710, 102]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "3D Filter"
+	  Ports			  [1, 1]
+	  Position		  [545, 26, 605, 84]
+	  AncestorBlock		  "SLUGS_Library/Singnal Routing\n& Conditioni"
+"ng/3D Filter"
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Reusable function"
+	  RTWFcnNameOpts	  "User specified"
+	  RTWFcnName		  "TustinFilter3D"
+	  RTWFileNameOpts	  "Use function name"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  MaskPromptString	  "Zeros|Poles|Gains|Sample Time"
+	  MaskStyleString	  "edit,edit,edit,edit"
+	  MaskTunableValueString  "on,on,on,on"
+	  MaskCallbackString	  "|||"
+	  MaskEnableString	  "on,on,on,on"
+	  MaskVisibilityString	  "on,on,on,on"
+	  MaskToolTipString	  "on,on,on,on"
+	  MaskVarAliasString	  ",,,"
+	  MaskVariables		  "zval=@1;pval=@2;kval=@3;TSample=@4;"
+	  MaskDisplay		  "droots(zval,pval,kval)\nport_label('input',"
+"1,'3D')\n"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "[]|-150|150|0.01"
+	  MaskTabNameString	  ",,,"
+	  System {
+	    Name		    "3D Filter"
+	    Location		    [775, 320, 1085, 558]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [25, 113, 55, 127]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Demux
+	      Name		      "Demux"
+	      Ports		      [1, 3]
+	      Position		      [80, 101, 85, 139]
+	      BackgroundColor	      "black"
+	      ShowName		      off
+	      Outputs		      "3"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Filter1"
+	      Ports		      [1, 1]
+	      Position		      [125, 27, 185, 83]
+	      ShowName		      off
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      MaskType		      "DiscretizedZeroPole"
+	      MaskDescription	      "Continuous mask uses c2d to transform p"
+"arameters onto the Discrete Zero-Pole block inside."
+	      MaskPromptString	      "Zeros (enter in s-main:)|Poles (enter i"
+"n s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:|Metho"
+"d:|Critical Frequency (Hz):"
+	      MaskStyleString	      "edit,edit,edit,edit,edit,popup(zoh|foh|"
+"tustin|prewarp|matched),edit"
+	      MaskTunableValueString  "on,on,on,on,on,on,on"
+	      MaskCallbackString      "|||||hidecrit|"
+	      MaskEnableString	      "on,on,on,on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on,on,on,off"
+	      MaskToolTipString	      "on,on,on,on,on,on,on"
+	      MaskVarAliasString      ",,,,,,"
+	      MaskVariables	      "Zeros=@1;Poles=@2;Gain=@3;AbsTol=&4;Sam"
+"pleTime=@5;method=&6;Wc=@7;"
+	      MaskInitialization      "st=SampleTime;\nif length(st)>1\n    st"
+"=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil('discz"
+"pk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,'maskv"
+"alues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eval(zero"
+"ss);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('initzpkma"
+"sk', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance', AbsT"
+"ol);\nend"
+	      MaskDisplay	      "droots(zeross,poless,gainss)\ntext( 0.5"
+", 1.0, method, 'verticalAlignment','top')"
+	      MaskSelfModifiable      on
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "port"
+	      MaskIconUnits	      "normalized"
+	      MaskValueString	      "zval|pval|kval|auto|TSample|tustin|1"
+	      MaskTabNameString	      ",,,,,,"
+	      System {
+		Name			"Filter1"
+		Location		[499, 349, 791, 606]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [60, 103, 90, 117]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  DiscreteZeroPole
+		  Name			  "Discrete\nZero-Pole"
+		  Position		  [115, 92, 200, 128]
+		  Zeros			  "zerosd"
+		  Poles			  "polesd"
+		  Gain			  "gaind"
+		  SampleTime		  "SampleTime"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [235, 103, 265, 117]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Discrete\nZero-Pole"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Discrete\nZero-Pole"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Filter2"
+	      Ports		      [1, 1]
+	      Position		      [125, 92, 185, 148]
+	      ShowName		      off
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      MaskType		      "DiscretizedZeroPole"
+	      MaskDescription	      "Continuous mask uses c2d to transform p"
+"arameters onto the Discrete Zero-Pole block inside."
+	      MaskPromptString	      "Zeros (enter in s-main:)|Poles (enter i"
+"n s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:|Metho"
+"d:|Critical Frequency (Hz):"
+	      MaskStyleString	      "edit,edit,edit,edit,edit,popup(zoh|foh|"
+"tustin|prewarp|matched),edit"
+	      MaskTunableValueString  "on,on,on,on,on,on,on"
+	      MaskCallbackString      "|||||hidecrit|"
+	      MaskEnableString	      "on,on,on,on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on,on,on,off"
+	      MaskToolTipString	      "on,on,on,on,on,on,on"
+	      MaskVarAliasString      ",,,,,,"
+	      MaskVariables	      "Zeros=@1;Poles=@2;Gain=@3;AbsTol=&4;Sam"
+"pleTime=@5;method=&6;Wc=@7;"
+	      MaskInitialization      "st=SampleTime;\nif length(st)>1\n    st"
+"=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil('discz"
+"pk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,'maskv"
+"alues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eval(zero"
+"ss);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('initzpkma"
+"sk', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance', AbsT"
+"ol);\nend"
+	      MaskDisplay	      "droots(zeross,poless,gainss)\ntext( 0.5"
+", 1.0, method, 'verticalAlignment','top')"
+	      MaskSelfModifiable      on
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "port"
+	      MaskIconUnits	      "normalized"
+	      MaskValueString	      "zval|pval|kval|auto|TSample|tustin|1"
+	      MaskTabNameString	      ",,,,,,"
+	      System {
+		Name			"Filter2"
+		Location		[499, 349, 791, 606]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [60, 103, 90, 117]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  DiscreteZeroPole
+		  Name			  "Discrete\nZero-Pole"
+		  Position		  [115, 92, 200, 128]
+		  Zeros			  "zerosd"
+		  Poles			  "polesd"
+		  Gain			  "gaind"
+		  SampleTime		  "SampleTime"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [235, 103, 265, 117]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Discrete\nZero-Pole"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Discrete\nZero-Pole"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Filter3"
+	      Ports		      [1, 1]
+	      Position		      [125, 157, 185, 213]
+	      ShowName		      off
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      MaskType		      "DiscretizedZeroPole"
+	      MaskDescription	      "Continuous mask uses c2d to transform p"
+"arameters onto the Discrete Zero-Pole block inside."
+	      MaskPromptString	      "Zeros (enter in s-main:)|Poles (enter i"
+"n s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:|Metho"
+"d:|Critical Frequency (Hz):"
+	      MaskStyleString	      "edit,edit,edit,edit,edit,popup(zoh|foh|"
+"tustin|prewarp|matched),edit"
+	      MaskTunableValueString  "on,on,on,on,on,on,on"
+	      MaskCallbackString      "|||||hidecrit|"
+	      MaskEnableString	      "on,on,on,on,on,on,on"
+	      MaskVisibilityString    "on,on,on,on,on,on,off"
+	      MaskToolTipString	      "on,on,on,on,on,on,on"
+	      MaskVarAliasString      ",,,,,,"
+	      MaskVariables	      "Zeros=@1;Poles=@2;Gain=@3;AbsTol=&4;Sam"
+"pleTime=@5;method=&6;Wc=@7;"
+	      MaskInitialization      "st=SampleTime;\nif length(st)>1\n    st"
+"=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil('discz"
+"pk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,'maskv"
+"alues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eval(zero"
+"ss);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('initzpkma"
+"sk', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance', AbsT"
+"ol);\nend"
+	      MaskDisplay	      "droots(zeross,poless,gainss)\ntext( 0.5"
+", 1.0, method, 'verticalAlignment','top')"
+	      MaskSelfModifiable      on
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "port"
+	      MaskIconUnits	      "normalized"
+	      MaskValueString	      "zval|pval|kval|auto|TSample|tustin|1"
+	      MaskTabNameString	      ",,,,,,"
+	      System {
+		Name			"Filter3"
+		Location		[499, 349, 791, 606]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [60, 103, 90, 117]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  DiscreteZeroPole
+		  Name			  "Discrete\nZero-Pole"
+		  Position		  [115, 92, 200, 128]
+		  Zeros			  "zerosd"
+		  Poles			  "polesd"
+		  Gain			  "gaind"
+		  SampleTime		  "SampleTime"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [235, 103, 265, 117]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Discrete\nZero-Pole"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Discrete\nZero-Pole"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "myMux Fun1"
+	      Ports		      [3, 1]
+	      Position		      [225, 96, 230, 144]
+	      ForegroundColor	      "blue"
+	      BackgroundColor	      "black"
+	      ShowName		      off
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      Array {
+		Type			"Handle"
+		Dimension		0
+		PropName		"AvailSigsLoadSave"
+	      }
+	      MaskHideContents	      off
+	      MaskType		      "Stateflow"
+	      MaskDescription	      "Embedded MATLAB block"
+	      MaskDisplay	      "disp('myMux');"
+	      MaskSelfModifiable      on
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      off
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      System {
+		Name			"myMux Fun1"
+		Location		[257, 457, 812, 717]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "u1"
+		  Position		  [20, 101, 40, 119]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "u2"
+		  Position		  [20, 136, 40, 154]
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "u3"
+		  Position		  [20, 171, 40, 189]
+		  Port			  "3"
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Demux
+		  Name			  " Demux "
+		  Ports			  [1, 1]
+		  Position		  [270, 180, 320, 220]
+		  Outputs		  "1"
+		}
+		Block {
+		  BlockType		  "S-Function"
+		  Name			  " SFunction "
+		  Tag			  "Stateflow S-Function telemetrySourc"
+"es 6"
+		  Ports			  [3, 2]
+		  Position		  [180, 100, 230, 180]
+		  FunctionName		  "sf_sfun"
+		  PortCounts		  "[3 2]"
+		  Port {
+		    PortNumber		    2
+		    Name		    "y"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		  }
+		}
+		Block {
+		  BlockType		  Terminator
+		  Name			  " Terminator "
+		  Position		  [460, 191, 480, 209]
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "y"
+		  Position		  [460, 101, 480, 119]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  " SFunction "
+		  SrcPort		  1
+		  Points		  [20, 0]
+		  DstBlock		  " Demux "
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  " Demux "
+		  SrcPort		  1
+		  DstBlock		  " Terminator "
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "u1"
+		  SrcPort		  1
+		  DstBlock		  " SFunction "
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "u2"
+		  SrcPort		  1
+		  Points		  [120, 0]
+		  DstBlock		  " SFunction "
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "u3"
+		  SrcPort		  1
+		  DstBlock		  " SFunction "
+		  DstPort		  3
+		}
+		Line {
+		  Name			  "y"
+		  Labels		  [0, 0]
+		  SrcBlock		  " SFunction "
+		  SrcPort		  2
+		  DstBlock		  "y"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [255, 113, 285, 127]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "myMux Fun1"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      DstBlock		      "Demux"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Filter3"
+	      SrcPort		      1
+	      Points		      [10, 0; 0, -50]
+	      DstBlock		      "myMux Fun1"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Filter2"
+	      SrcPort		      1
+	      DstBlock		      "myMux Fun1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Filter1"
+	      SrcPort		      1
+	      Points		      [5, 0; 0, 50]
+	      DstBlock		      "myMux Fun1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      3
+	      Points		      [5, 0; 0, 55]
+	      DstBlock		      "Filter3"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      2
+	      DstBlock		      "Filter2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      1
+	      Points		      [5, 0; 0, -55]
+	      DstBlock		      "Filter1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion2"
+	  Position		  [460, 47, 510, 63]
+	  ShowName		  off
+	  OutDataTypeMode	  "double"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion7"
+	  Position		  [645, 47, 700, 63]
+	  ShowName		  off
+	  OutDataTypeMode	  "single"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Divide"
+	  Ports			  [2, 1]
+	  Position		  [345, 31, 385, 69]
+	  ShowName		  off
+	  Multiplication	  "Matrix(*)"
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutScaling		  "2^-10"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Magnetometer\nUnit Conversion"
+	  Ports			  [1, 1]
+	  Position		  [980, 61, 1050, 89]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  MaskDescription	  "Convert Analog readings to units"
+	  MaskPromptString	  "Initial Bias|Initial Gains"
+	  MaskStyleString	  "edit,edit"
+	  MaskTunableValueString  "on,on"
+	  MaskCallbackString	  "|"
+	  MaskEnableString	  "on,on"
+	  MaskVisibilityString	  "on,on"
+	  MaskToolTipString	  "on,on"
+	  MaskVarAliasString	  ","
+	  MaskVariables		  "bias=@1;gains=@2;"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "magOffset|magScale"
+	  MaskTabNameString	  ","
+	  System {
+	    Name		    "Magnetometer\nUnit Conversion"
+	    Location		    [205, 99, 1235, 946]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Raw"
+	      Position		      [25, 148, 55, 162]
+	      BackgroundColor	      "darkGreen"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Bias"
+	      Position		      [85, 250, 195, 270]
+	      Value		      "bias"
+	      OutDataTypeMode	      "single"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Divide"
+	      Ports		      [2, 1]
+	      Position		      [155, 132, 185, 163]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "single"
+	      OutScaling	      "2^-10"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Gains"
+	      Position		      [20, 95, 115, 115]
+	      Value		      "gains"
+	      OutDataTypeMode	      "single"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      Ports		      [2, 1]
+	      Position		      [260, 140, 280, 160]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "|++"
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "single"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Comp"
+	      Position		      [315, 143, 345, 157]
+	      BackgroundColor	      "yellow"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "Bias"
+	      SrcPort		      1
+	      Points		      [70, 0]
+	      DstBlock		      "Sum"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Raw"
+	      SrcPort		      1
+	      DstBlock		      "Divide"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Gains"
+	      SrcPort		      1
+	      Points		      [10, 0; 0, 35]
+	      DstBlock		      "Divide"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Divide"
+	      SrcPort		      1
+	      DstBlock		      "Sum"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      DstBlock		      "Comp"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Magnetometers Temp\nCompensation"
+	  Ports			  [2, 1]
+	  Position		  [780, 38, 870, 107]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  MaskDescription	  "This block implements a temperature compens"
+"ation. It implmements the following equation:\n\nM_tc = M_raw - K_t(T - T_avg"
+")"
+	  MaskPromptString	  "Tempearature Coeficient (K_t)|Calibration T"
+"emperature Mean (T_avg)"
+	  MaskStyleString	  "edit,edit"
+	  MaskTunableValueString  "on,on"
+	  MaskCallbackString	  "|"
+	  MaskEnableString	  "on,on"
+	  MaskVisibilityString	  "on,on"
+	  MaskToolTipString	  "on,on"
+	  MaskVarAliasString	  ","
+	  MaskVariables		  "alpha=@1;tempMean=@2;"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "magTempK|magMeanTemp"
+	  MaskTabNameString	  ","
+	  System {
+	    Name		    "Magnetometers Temp\nCompensation"
+	    Location		    [205, 99, 1235, 946]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Raw"
+	      Position		      [500, 148, 530, 162]
+	      BackgroundColor	      "darkGreen"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Temp Raw"
+	      Position		      [420, 228, 450, 242]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Divide1"
+	      Ports		      [2, 1]
+	      Position		      [545, 212, 575, 243]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "single"
+	      OutScaling	      "2^-10"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Mean Temperature\nfor Calibration"
+	      Position		      [385, 280, 495, 300]
+	      Value		      "tempMean"
+	      OutDataTypeMode	      "single"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum1"
+	      Ports		      [2, 1]
+	      Position		      [500, 225, 520, 245]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "|+-"
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "single"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum2"
+	      Ports		      [2, 1]
+	      Position		      [590, 145, 610, 165]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "|+-"
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "single"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "gains"
+	      Position		      [405, 185, 515, 205]
+	      Value		      "alpha"
+	      OutDataTypeMode	      "single"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Comp"
+	      Position		      [665, 148, 695, 162]
+	      BackgroundColor	      "yellow"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "Sum2"
+	      SrcPort		      1
+	      DstBlock		      "Comp"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Divide1"
+	      SrcPort		      1
+	      Points		      [20, 0]
+	      DstBlock		      "Sum2"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "gains"
+	      SrcPort		      1
+	      Points		      [5, 0; 0, 25]
+	      DstBlock		      "Divide1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Sum1"
+	      SrcPort		      1
+	      DstBlock		      "Divide1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Temp Raw"
+	      SrcPort		      1
+	      DstBlock		      "Sum1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Raw"
+	      SrcPort		      1
+	      DstBlock		      "Sum2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Mean Temperature\nfor Calibration"
+	      SrcPort		      1
+	      Points		      [10, 0]
+	      DstBlock		      "Sum1"
+	      DstPort		      2
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  Ports			  [3, 1]
+	  Position		  [215, 61, 220, 99]
+	  ShowName		  off
+	  Inputs		  "3"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  FromWorkspace
+	  Name			  "Mx"
+	  Position		  [25, 27, 130, 53]
+	  VariableName		  "[time MAG_hil(:,1)]"
+	  SampleTime		  "0.01"
+	  ZeroCross		  on
+	  OutputAfterFinalValue	  "Setting to zero"
+	}
+	Block {
+	  BlockType		  FromWorkspace
+	  Name			  "My"
+	  Position		  [25, 67, 130, 93]
+	  VariableName		  "[time MAG_hil(:,2)]"
+	  SampleTime		  "0.01"
+	  ZeroCross		  on
+	  OutputAfterFinalValue	  "Setting to zero"
+	}
+	Block {
+	  BlockType		  FromWorkspace
+	  Name			  "Mz"
+	  Position		  [25, 107, 130, 133]
+	  VariableName		  "[time MAG_hil(:,3)]"
+	  SampleTime		  "0.01"
+	  ZeroCross		  on
+	  OutputAfterFinalValue	  "Setting to zero"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Rotate\nAxis"
+	  Position		  [255, 15, 285, 45]
+	  Value			  "[0 -1 0; -1 0 0; 0 0 -1]"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Mags raw"
+	  Position		  [1145, 68, 1175, 82]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "Mx"
+	  SrcPort		  1
+	  Points		  [25, 0; 0, 30]
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "My"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Mz"
+	  SrcPort		  1
+	  Points		  [30, 0; 0, -30]
+	  DstBlock		  "Mux"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Rotate\nAxis"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, 10]
+	  DstBlock		  "Divide"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  Points		  [105, 0]
+	  DstBlock		  "Divide"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion2"
+	  SrcPort		  1
+	  DstBlock		  "3D Filter"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "3D Filter"
+	  SrcPort		  1
+	  DstBlock		  "Data Type Conversion7"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion7"
+	  SrcPort		  1
+	  DstBlock		  "Magnetometers Temp\nCompensation"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Magnetometers Temp\nCompensation"
+	  SrcPort		  1
+	  DstBlock		  "Magnetometer\nUnit Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Divide"
+	  SrcPort		  1
+	  Points		  [25, 0; 0, 5]
+	  DstBlock		  "Data Type Conversion2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Temp"
+	  SrcPort		  1
+	  Points		  [25, 0; 0, -5]
+	  DstBlock		  "Magnetometers Temp\nCompensation"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Magnetometer\nUnit Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Mags raw"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux"
+      Ports		      [2, 1]
+      Position		      [455, 416, 460, 454]
+      ShowName		      off
+      Inputs		      "2"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux1"
+      Ports		      [2, 1]
+      Position		      [450, 276, 455, 314]
+      ShowName		      off
+      Inputs		      "2"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "PQR"
+      Ports		      [0, 1]
+      Position		      [205, 52, 280, 88]
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      MaskHideContents	      off
+      System {
+	Name			"PQR"
+	Location		[530, 95, 830, 253]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion1"
+	  Position		  [420, 47, 475, 63]
+	  ShowName		  off
+	  OutDataTypeMode	  "single"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Divide"
+	  Ports			  [2, 1]
+	  Position		  [335, 36, 375, 74]
+	  ShowName		  off
+	  Multiplication	  "Matrix(*)"
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutScaling		  "2^-10"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  Ports			  [3, 1]
+	  Position		  [215, 61, 220, 99]
+	  ShowName		  off
+	  Inputs		  "3"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Rotate\nAxis"
+	  Position		  [245, 20, 275, 50]
+	  Value			  "[0 -1 0; -1 0 0; 0 0 -1]"
+	}
+	Block {
+	  BlockType		  FromWorkspace
+	  Name			  "p"
+	  Position		  [25, 27, 130, 53]
+	  VariableName		  "[time PQR_hil(:,1)]"
+	  SampleTime		  "0.01"
+	  ZeroCross		  on
+	  OutputAfterFinalValue	  "Setting to zero"
+	}
+	Block {
+	  BlockType		  FromWorkspace
+	  Name			  "q"
+	  Position		  [25, 67, 130, 93]
+	  VariableName		  "[time PQR_hil(:,2)]"
+	  SampleTime		  "0.01"
+	  ZeroCross		  on
+	  OutputAfterFinalValue	  "Setting to zero"
+	}
+	Block {
+	  BlockType		  FromWorkspace
+	  Name			  "r"
+	  Position		  [25, 107, 130, 133]
+	  VariableName		  "[time PQR_hil(:,3)]"
+	  SampleTime		  "0.01"
+	  ZeroCross		  on
+	  OutputAfterFinalValue	  "Setting to zero"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "pqr (rad/s)"
+	  Position		  [495, 48, 525, 62]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "p"
+	  SrcPort		  1
+	  Points		  [25, 0; 0, 30]
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "q"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "r"
+	  SrcPort		  1
+	  Points		  [30, 0; 0, -30]
+	  DstBlock		  "Mux"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion1"
+	  SrcPort		  1
+	  DstBlock		  "pqr (rad/s)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rotate\nAxis"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, 10]
+	  DstBlock		  "Divide"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  Points		  [95, 0]
+	  DstBlock		  "Divide"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Divide"
+	  SrcPort		  1
+	  DstBlock		  "Data Type Conversion1"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope"
+      Ports		      [1]
+      Position		      [340, 54, 370, 86]
+      Floating		      off
+      Location		      [450, 179, 993, 522]
+      Open		      off
+      NumInputPorts	      "1"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope1"
+      Ports		      [1]
+      Position		      [390, 504, 420, 536]
+      Floating		      off
+      Location		      [294, 360, 618, 599]
+      Open		      off
+      NumInputPorts	      "1"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      TimeRange		      "60"
+      YMin		      "-1500"
+      YMax		      "1500"
+      SaveName		      "ScopeData1"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope2"
+      Ports		      [1]
+      Position		      [340, 114, 370, 146]
+      Floating		      off
+      Location		      [324, 232, 1112, 811]
+      Open		      off
+      NumInputPorts	      "1"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      SaveName		      "ScopeData2"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope3"
+      Ports		      [1]
+      Position		      [500, 419, 530, 451]
+      Floating		      off
+      Location		      [163, 259, 895, 790]
+      Open		      off
+      NumInputPorts	      "1"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      TimeRange		      "1540.45         "
+      YMin		      "70"
+      YMax		      "260"
+      SaveName		      "ScopeData3"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope4"
+      Ports		      [1]
+      Position		      [340, 179, 370, 211]
+      Floating		      off
+      Location		      [491, 402, 1178, 855]
+      Open		      off
+      NumInputPorts	      "1"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      SaveName		      "ScopeData4"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope5"
+      Ports		      [1]
+      Position		      [495, 279, 525, 311]
+      Floating		      off
+      Location		      [373, 66, 1167, 690]
+      Open		      off
+      NumInputPorts	      "1"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      TimeRange		      "500"
+      YMin		      "-40"
+      YMax		      "30"
+      SaveName		      "ScopeData5"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope6"
+      Ports		      [1]
+      Position		      [380, 569, 410, 601]
+      Floating		      off
+      Location		      [294, 360, 618, 599]
+      Open		      off
+      NumInputPorts	      "1"
+      ZoomMode		      "xonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      TimeRange		      "60"
+      YMin		      "-1500"
+      YMax		      "1500"
+      SaveName		      "ScopeData6"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Selector
+      Name		      "Selector"
+      Ports		      [1, 1]
+      Position		      [360, 386, 400, 424]
+      IndexOptions	      "Index vector (dialog)"
+      Indices		      "[3]"
+      OutputSizes	      "1"
+      InputPortWidth	      "3"
+    }
+    Block {
+      BlockType		      Selector
+      Name		      "Selector1"
+      Ports		      [1, 1]
+      Position		      [355, 316, 395, 354]
+      IndexOptions	      "Index vector (dialog)"
+      Indices		      "[5]"
+      OutputSizes	      "1"
+      InputPortWidth	      "5"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Static"
       Ports		      [1, 1]
       Position		      [185, 402, 275, 438]
       MinAlgLoopOccurrences   off
@@ -1491,7 +2857,7 @@ Model {
       FunctionWithSeparateData off
       MaskHideContents	      off
       System {
-	Name			"Dynamic1"
+	Name			"Static"
 	Location		[84, 123, 1210, 761]
 	Open			off
 	ModelBrowserVisibility	off
@@ -3034,1358 +4400,6 @@ Model {
     }
     Block {
       BlockType		      SubSystem
-      Name		      "Magnetic Field"
-      Ports		      [1, 1]
-      Position		      [195, 178, 280, 212]
-      MinAlgLoopOccurrences   off
-      RTWSystemCode	      "Auto"
-      FunctionWithSeparateData off
-      MaskHideContents	      off
-      System {
-	Name			"Magnetic Field"
-	Location		[280, 93, 1016, 386]
-	Open			off
-	ModelBrowserVisibility	off
-	ModelBrowserWidth	200
-	ScreenColor		"white"
-	PaperOrientation	"landscape"
-	PaperPositionMode	"auto"
-	PaperType		"usletter"
-	PaperUnits		"inches"
-	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
-	TiledPageScale		1
-	ShowPageBoundaries	off
-	ZoomFactor		"100"
-	Block {
-	  BlockType		  Inport
-	  Name			  "Temp"
-	  Position		  [680, 88, 710, 102]
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  SubSystem
-	  Name			  "3D Filter"
-	  Ports			  [1, 1]
-	  Position		  [545, 26, 605, 84]
-	  AncestorBlock		  "SLUGS_Library/Singnal Routing\n& Conditioni"
-"ng/3D Filter"
-	  MinAlgLoopOccurrences	  off
-	  RTWSystemCode		  "Reusable function"
-	  RTWFcnNameOpts	  "User specified"
-	  RTWFcnName		  "TustinFilter3D"
-	  RTWFileNameOpts	  "Use function name"
-	  FunctionWithSeparateData off
-	  MaskHideContents	  off
-	  MaskPromptString	  "Zeros|Poles|Gains|Sample Time"
-	  MaskStyleString	  "edit,edit,edit,edit"
-	  MaskTunableValueString  "on,on,on,on"
-	  MaskCallbackString	  "|||"
-	  MaskEnableString	  "on,on,on,on"
-	  MaskVisibilityString	  "on,on,on,on"
-	  MaskToolTipString	  "on,on,on,on"
-	  MaskVarAliasString	  ",,,"
-	  MaskVariables		  "zval=@1;pval=@2;kval=@3;TSample=@4;"
-	  MaskDisplay		  "droots(zval,pval,kval)\nport_label('input',"
-"1,'3D')\n"
-	  MaskIconFrame		  on
-	  MaskIconOpaque	  on
-	  MaskIconRotate	  "none"
-	  MaskIconUnits		  "autoscale"
-	  MaskValueString	  "[]|-150|150|0.01"
-	  MaskTabNameString	  ",,,"
-	  System {
-	    Name		    "3D Filter"
-	    Location		    [775, 320, 1085, 558]
-	    Open		    off
-	    ModelBrowserVisibility  off
-	    ModelBrowserWidth	    200
-	    ScreenColor		    "white"
-	    PaperOrientation	    "landscape"
-	    PaperPositionMode	    "auto"
-	    PaperType		    "usletter"
-	    PaperUnits		    "inches"
-	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
-	    TiledPageScale	    1
-	    ShowPageBoundaries	    off
-	    ZoomFactor		    "100"
-	    Block {
-	      BlockType		      Inport
-	      Name		      "In1"
-	      Position		      [25, 113, 55, 127]
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Demux
-	      Name		      "Demux"
-	      Ports		      [1, 3]
-	      Position		      [80, 101, 85, 139]
-	      BackgroundColor	      "black"
-	      ShowName		      off
-	      Outputs		      "3"
-	      DisplayOption	      "bar"
-	    }
-	    Block {
-	      BlockType		      SubSystem
-	      Name		      "Filter1"
-	      Ports		      [1, 1]
-	      Position		      [125, 27, 185, 83]
-	      ShowName		      off
-	      MinAlgLoopOccurrences   off
-	      RTWSystemCode	      "Auto"
-	      FunctionWithSeparateData off
-	      MaskHideContents	      off
-	      MaskType		      "DiscretizedZeroPole"
-	      MaskDescription	      "Continuous mask uses c2d to transform p"
-"arameters onto the Discrete Zero-Pole block inside."
-	      MaskPromptString	      "Zeros (enter in s-main:)|Poles (enter i"
-"n s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:|Metho"
-"d:|Critical Frequency (Hz):"
-	      MaskStyleString	      "edit,edit,edit,edit,edit,popup(zoh|foh|"
-"tustin|prewarp|matched),edit"
-	      MaskTunableValueString  "on,on,on,on,on,on,on"
-	      MaskCallbackString      "|||||hidecrit|"
-	      MaskEnableString	      "on,on,on,on,on,on,on"
-	      MaskVisibilityString    "on,on,on,on,on,on,off"
-	      MaskToolTipString	      "on,on,on,on,on,on,on"
-	      MaskVarAliasString      ",,,,,,"
-	      MaskVariables	      "Zeros=@1;Poles=@2;Gain=@3;AbsTol=&4;Sam"
-"pleTime=@5;method=&6;Wc=@7;"
-	      MaskInitialization      "st=SampleTime;\nif length(st)>1\n    st"
-"=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil('discz"
-"pk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,'maskv"
-"alues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eval(zero"
-"ss);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('initzpkma"
-"sk', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance', AbsT"
-"ol);\nend"
-	      MaskDisplay	      "droots(zeross,poless,gainss)\ntext( 0.5"
-", 1.0, method, 'verticalAlignment','top')"
-	      MaskSelfModifiable      on
-	      MaskIconFrame	      on
-	      MaskIconOpaque	      on
-	      MaskIconRotate	      "port"
-	      MaskIconUnits	      "normalized"
-	      MaskValueString	      "zval|pval|kval|auto|TSample|tustin|1"
-	      MaskTabNameString	      ",,,,,,"
-	      System {
-		Name			"Filter1"
-		Location		[499, 349, 791, 606]
-		Open			off
-		ModelBrowserVisibility	off
-		ModelBrowserWidth	200
-		ScreenColor		"white"
-		PaperOrientation	"landscape"
-		PaperPositionMode	"auto"
-		PaperType		"usletter"
-		PaperUnits		"inches"
-		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
-"00]"
-		TiledPageScale		1
-		ShowPageBoundaries	off
-		ZoomFactor		"100"
-		Block {
-		  BlockType		  Inport
-		  Name			  "In1"
-		  Position		  [60, 103, 90, 117]
-		  IconDisplay		  "Port number"
-		}
-		Block {
-		  BlockType		  DiscreteZeroPole
-		  Name			  "Discrete\nZero-Pole"
-		  Position		  [115, 92, 200, 128]
-		  Zeros			  "zerosd"
-		  Poles			  "polesd"
-		  Gain			  "gaind"
-		  SampleTime		  "SampleTime"
-		}
-		Block {
-		  BlockType		  Outport
-		  Name			  "Out1"
-		  Position		  [235, 103, 265, 117]
-		  IconDisplay		  "Port number"
-		  BusOutputAsStruct	  off
-		}
-		Line {
-		  SrcBlock		  "Discrete\nZero-Pole"
-		  SrcPort		  1
-		  DstBlock		  "Out1"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "In1"
-		  SrcPort		  1
-		  DstBlock		  "Discrete\nZero-Pole"
-		  DstPort		  1
-		}
-	      }
-	    }
-	    Block {
-	      BlockType		      SubSystem
-	      Name		      "Filter2"
-	      Ports		      [1, 1]
-	      Position		      [125, 92, 185, 148]
-	      ShowName		      off
-	      MinAlgLoopOccurrences   off
-	      RTWSystemCode	      "Auto"
-	      FunctionWithSeparateData off
-	      MaskHideContents	      off
-	      MaskType		      "DiscretizedZeroPole"
-	      MaskDescription	      "Continuous mask uses c2d to transform p"
-"arameters onto the Discrete Zero-Pole block inside."
-	      MaskPromptString	      "Zeros (enter in s-main:)|Poles (enter i"
-"n s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:|Metho"
-"d:|Critical Frequency (Hz):"
-	      MaskStyleString	      "edit,edit,edit,edit,edit,popup(zoh|foh|"
-"tustin|prewarp|matched),edit"
-	      MaskTunableValueString  "on,on,on,on,on,on,on"
-	      MaskCallbackString      "|||||hidecrit|"
-	      MaskEnableString	      "on,on,on,on,on,on,on"
-	      MaskVisibilityString    "on,on,on,on,on,on,off"
-	      MaskToolTipString	      "on,on,on,on,on,on,on"
-	      MaskVarAliasString      ",,,,,,"
-	      MaskVariables	      "Zeros=@1;Poles=@2;Gain=@3;AbsTol=&4;Sam"
-"pleTime=@5;method=&6;Wc=@7;"
-	      MaskInitialization      "st=SampleTime;\nif length(st)>1\n    st"
-"=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil('discz"
-"pk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,'maskv"
-"alues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eval(zero"
-"ss);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('initzpkma"
-"sk', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance', AbsT"
-"ol);\nend"
-	      MaskDisplay	      "droots(zeross,poless,gainss)\ntext( 0.5"
-", 1.0, method, 'verticalAlignment','top')"
-	      MaskSelfModifiable      on
-	      MaskIconFrame	      on
-	      MaskIconOpaque	      on
-	      MaskIconRotate	      "port"
-	      MaskIconUnits	      "normalized"
-	      MaskValueString	      "zval|pval|kval|auto|TSample|tustin|1"
-	      MaskTabNameString	      ",,,,,,"
-	      System {
-		Name			"Filter2"
-		Location		[499, 349, 791, 606]
-		Open			off
-		ModelBrowserVisibility	off
-		ModelBrowserWidth	200
-		ScreenColor		"white"
-		PaperOrientation	"landscape"
-		PaperPositionMode	"auto"
-		PaperType		"usletter"
-		PaperUnits		"inches"
-		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
-"00]"
-		TiledPageScale		1
-		ShowPageBoundaries	off
-		ZoomFactor		"100"
-		Block {
-		  BlockType		  Inport
-		  Name			  "In1"
-		  Position		  [60, 103, 90, 117]
-		  IconDisplay		  "Port number"
-		}
-		Block {
-		  BlockType		  DiscreteZeroPole
-		  Name			  "Discrete\nZero-Pole"
-		  Position		  [115, 92, 200, 128]
-		  Zeros			  "zerosd"
-		  Poles			  "polesd"
-		  Gain			  "gaind"
-		  SampleTime		  "SampleTime"
-		}
-		Block {
-		  BlockType		  Outport
-		  Name			  "Out1"
-		  Position		  [235, 103, 265, 117]
-		  IconDisplay		  "Port number"
-		  BusOutputAsStruct	  off
-		}
-		Line {
-		  SrcBlock		  "In1"
-		  SrcPort		  1
-		  DstBlock		  "Discrete\nZero-Pole"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "Discrete\nZero-Pole"
-		  SrcPort		  1
-		  DstBlock		  "Out1"
-		  DstPort		  1
-		}
-	      }
-	    }
-	    Block {
-	      BlockType		      SubSystem
-	      Name		      "Filter3"
-	      Ports		      [1, 1]
-	      Position		      [125, 157, 185, 213]
-	      ShowName		      off
-	      MinAlgLoopOccurrences   off
-	      RTWSystemCode	      "Auto"
-	      FunctionWithSeparateData off
-	      MaskHideContents	      off
-	      MaskType		      "DiscretizedZeroPole"
-	      MaskDescription	      "Continuous mask uses c2d to transform p"
-"arameters onto the Discrete Zero-Pole block inside."
-	      MaskPromptString	      "Zeros (enter in s-main:)|Poles (enter i"
-"n s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:|Metho"
-"d:|Critical Frequency (Hz):"
-	      MaskStyleString	      "edit,edit,edit,edit,edit,popup(zoh|foh|"
-"tustin|prewarp|matched),edit"
-	      MaskTunableValueString  "on,on,on,on,on,on,on"
-	      MaskCallbackString      "|||||hidecrit|"
-	      MaskEnableString	      "on,on,on,on,on,on,on"
-	      MaskVisibilityString    "on,on,on,on,on,on,off"
-	      MaskToolTipString	      "on,on,on,on,on,on,on"
-	      MaskVarAliasString      ",,,,,,"
-	      MaskVariables	      "Zeros=@1;Poles=@2;Gain=@3;AbsTol=&4;Sam"
-"pleTime=@5;method=&6;Wc=@7;"
-	      MaskInitialization      "st=SampleTime;\nif length(st)>1\n    st"
-"=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil('discz"
-"pk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,'maskv"
-"alues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eval(zero"
-"ss);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('initzpkma"
-"sk', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance', AbsT"
-"ol);\nend"
-	      MaskDisplay	      "droots(zeross,poless,gainss)\ntext( 0.5"
-", 1.0, method, 'verticalAlignment','top')"
-	      MaskSelfModifiable      on
-	      MaskIconFrame	      on
-	      MaskIconOpaque	      on
-	      MaskIconRotate	      "port"
-	      MaskIconUnits	      "normalized"
-	      MaskValueString	      "zval|pval|kval|auto|TSample|tustin|1"
-	      MaskTabNameString	      ",,,,,,"
-	      System {
-		Name			"Filter3"
-		Location		[499, 349, 791, 606]
-		Open			off
-		ModelBrowserVisibility	off
-		ModelBrowserWidth	200
-		ScreenColor		"white"
-		PaperOrientation	"landscape"
-		PaperPositionMode	"auto"
-		PaperType		"usletter"
-		PaperUnits		"inches"
-		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
-"00]"
-		TiledPageScale		1
-		ShowPageBoundaries	off
-		ZoomFactor		"100"
-		Block {
-		  BlockType		  Inport
-		  Name			  "In1"
-		  Position		  [60, 103, 90, 117]
-		  IconDisplay		  "Port number"
-		}
-		Block {
-		  BlockType		  DiscreteZeroPole
-		  Name			  "Discrete\nZero-Pole"
-		  Position		  [115, 92, 200, 128]
-		  Zeros			  "zerosd"
-		  Poles			  "polesd"
-		  Gain			  "gaind"
-		  SampleTime		  "SampleTime"
-		}
-		Block {
-		  BlockType		  Outport
-		  Name			  "Out1"
-		  Position		  [235, 103, 265, 117]
-		  IconDisplay		  "Port number"
-		  BusOutputAsStruct	  off
-		}
-		Line {
-		  SrcBlock		  "Discrete\nZero-Pole"
-		  SrcPort		  1
-		  DstBlock		  "Out1"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "In1"
-		  SrcPort		  1
-		  DstBlock		  "Discrete\nZero-Pole"
-		  DstPort		  1
-		}
-	      }
-	    }
-	    Block {
-	      BlockType		      SubSystem
-	      Name		      "myMux Fun1"
-	      Ports		      [3, 1]
-	      Position		      [225, 96, 230, 144]
-	      ForegroundColor	      "blue"
-	      BackgroundColor	      "black"
-	      ShowName		      off
-	      MinAlgLoopOccurrences   off
-	      RTWSystemCode	      "Auto"
-	      FunctionWithSeparateData off
-	      Array {
-		Type			"Handle"
-		Dimension		0
-		PropName		"AvailSigsLoadSave"
-	      }
-	      MaskHideContents	      off
-	      MaskType		      "Stateflow"
-	      MaskDescription	      "Embedded MATLAB block"
-	      MaskDisplay	      "disp('myMux');"
-	      MaskSelfModifiable      on
-	      MaskIconFrame	      on
-	      MaskIconOpaque	      off
-	      MaskIconRotate	      "none"
-	      MaskIconUnits	      "autoscale"
-	      System {
-		Name			"myMux Fun1"
-		Location		[257, 457, 812, 717]
-		Open			off
-		ModelBrowserVisibility	off
-		ModelBrowserWidth	200
-		ScreenColor		"white"
-		PaperOrientation	"landscape"
-		PaperPositionMode	"auto"
-		PaperType		"usletter"
-		PaperUnits		"inches"
-		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
-"00]"
-		TiledPageScale		1
-		ShowPageBoundaries	off
-		ZoomFactor		"100"
-		Block {
-		  BlockType		  Inport
-		  Name			  "u1"
-		  Position		  [20, 101, 40, 119]
-		  IconDisplay		  "Port number"
-		}
-		Block {
-		  BlockType		  Inport
-		  Name			  "u2"
-		  Position		  [20, 136, 40, 154]
-		  Port			  "2"
-		  IconDisplay		  "Port number"
-		}
-		Block {
-		  BlockType		  Inport
-		  Name			  "u3"
-		  Position		  [20, 171, 40, 189]
-		  Port			  "3"
-		  IconDisplay		  "Port number"
-		}
-		Block {
-		  BlockType		  Demux
-		  Name			  " Demux "
-		  Ports			  [1, 1]
-		  Position		  [270, 180, 320, 220]
-		  Outputs		  "1"
-		}
-		Block {
-		  BlockType		  "S-Function"
-		  Name			  " SFunction "
-		  Tag			  "Stateflow S-Function telemetrySourc"
-"es 6"
-		  Ports			  [3, 2]
-		  Position		  [180, 100, 230, 180]
-		  FunctionName		  "sf_sfun"
-		  PortCounts		  "[3 2]"
-		  Port {
-		    PortNumber		    2
-		    Name		    "y"
-		    RTWStorageClass	    "Auto"
-		    DataLoggingNameMode	    "SignalName"
-		  }
-		}
-		Block {
-		  BlockType		  Terminator
-		  Name			  " Terminator "
-		  Position		  [460, 191, 480, 209]
-		}
-		Block {
-		  BlockType		  Outport
-		  Name			  "y"
-		  Position		  [460, 101, 480, 119]
-		  IconDisplay		  "Port number"
-		  BusOutputAsStruct	  off
-		}
-		Line {
-		  SrcBlock		  " SFunction "
-		  SrcPort		  1
-		  Points		  [20, 0]
-		  DstBlock		  " Demux "
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  " Demux "
-		  SrcPort		  1
-		  DstBlock		  " Terminator "
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "u1"
-		  SrcPort		  1
-		  DstBlock		  " SFunction "
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "u2"
-		  SrcPort		  1
-		  Points		  [120, 0]
-		  DstBlock		  " SFunction "
-		  DstPort		  2
-		}
-		Line {
-		  SrcBlock		  "u3"
-		  SrcPort		  1
-		  DstBlock		  " SFunction "
-		  DstPort		  3
-		}
-		Line {
-		  Name			  "y"
-		  Labels		  [0, 0]
-		  SrcBlock		  " SFunction "
-		  SrcPort		  2
-		  DstBlock		  "y"
-		  DstPort		  1
-		}
-	      }
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "Out1"
-	      Position		      [255, 113, 285, 127]
-	      IconDisplay	      "Port number"
-	      BusOutputAsStruct	      off
-	    }
-	    Line {
-	      SrcBlock		      "myMux Fun1"
-	      SrcPort		      1
-	      DstBlock		      "Out1"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "In1"
-	      SrcPort		      1
-	      DstBlock		      "Demux"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Filter3"
-	      SrcPort		      1
-	      Points		      [10, 0; 0, -50]
-	      DstBlock		      "myMux Fun1"
-	      DstPort		      3
-	    }
-	    Line {
-	      SrcBlock		      "Filter2"
-	      SrcPort		      1
-	      DstBlock		      "myMux Fun1"
-	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "Filter1"
-	      SrcPort		      1
-	      Points		      [5, 0; 0, 50]
-	      DstBlock		      "myMux Fun1"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Demux"
-	      SrcPort		      3
-	      Points		      [5, 0; 0, 55]
-	      DstBlock		      "Filter3"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Demux"
-	      SrcPort		      2
-	      DstBlock		      "Filter2"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Demux"
-	      SrcPort		      1
-	      Points		      [5, 0; 0, -55]
-	      DstBlock		      "Filter1"
-	      DstPort		      1
-	    }
-	  }
-	}
-	Block {
-	  BlockType		  DataTypeConversion
-	  Name			  "Data Type Conversion2"
-	  Position		  [460, 47, 510, 63]
-	  ShowName		  off
-	  OutDataTypeMode	  "double"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  DataTypeConversion
-	  Name			  "Data Type Conversion7"
-	  Position		  [645, 47, 700, 63]
-	  ShowName		  off
-	  OutDataTypeMode	  "single"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Product
-	  Name			  "Divide"
-	  Ports			  [2, 1]
-	  Position		  [345, 31, 385, 69]
-	  ShowName		  off
-	  Multiplication	  "Matrix(*)"
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutScaling		  "2^-10"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  SubSystem
-	  Name			  "Magnetometer\nUnit Conversion"
-	  Ports			  [1, 1]
-	  Position		  [980, 61, 1050, 89]
-	  MinAlgLoopOccurrences	  off
-	  RTWSystemCode		  "Auto"
-	  FunctionWithSeparateData off
-	  MaskHideContents	  off
-	  MaskDescription	  "Convert Analog readings to units"
-	  MaskPromptString	  "Initial Bias|Initial Gains"
-	  MaskStyleString	  "edit,edit"
-	  MaskTunableValueString  "on,on"
-	  MaskCallbackString	  "|"
-	  MaskEnableString	  "on,on"
-	  MaskVisibilityString	  "on,on"
-	  MaskToolTipString	  "on,on"
-	  MaskVarAliasString	  ","
-	  MaskVariables		  "bias=@1;gains=@2;"
-	  MaskIconFrame		  on
-	  MaskIconOpaque	  on
-	  MaskIconRotate	  "none"
-	  MaskIconUnits		  "autoscale"
-	  MaskValueString	  "magOffset|magScale"
-	  MaskTabNameString	  ","
-	  System {
-	    Name		    "Magnetometer\nUnit Conversion"
-	    Location		    [205, 99, 1235, 946]
-	    Open		    off
-	    ModelBrowserVisibility  off
-	    ModelBrowserWidth	    200
-	    ScreenColor		    "white"
-	    PaperOrientation	    "landscape"
-	    PaperPositionMode	    "auto"
-	    PaperType		    "usletter"
-	    PaperUnits		    "inches"
-	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
-	    TiledPageScale	    1
-	    ShowPageBoundaries	    off
-	    ZoomFactor		    "100"
-	    Block {
-	      BlockType		      Inport
-	      Name		      "Raw"
-	      Position		      [25, 148, 55, 162]
-	      BackgroundColor	      "darkGreen"
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Constant
-	      Name		      "Bias"
-	      Position		      [85, 250, 195, 270]
-	      Value		      "bias"
-	      OutDataTypeMode	      "single"
-	    }
-	    Block {
-	      BlockType		      Product
-	      Name		      "Divide"
-	      Ports		      [2, 1]
-	      Position		      [155, 132, 185, 163]
-	      ShowName		      off
-	      CollapseMode	      "All dimensions"
-	      InputSameDT	      off
-	      OutDataTypeMode	      "single"
-	      OutScaling	      "2^-10"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Constant
-	      Name		      "Gains"
-	      Position		      [20, 95, 115, 115]
-	      Value		      "gains"
-	      OutDataTypeMode	      "single"
-	    }
-	    Block {
-	      BlockType		      Sum
-	      Name		      "Sum"
-	      Ports		      [2, 1]
-	      Position		      [260, 140, 280, 160]
-	      ShowName		      off
-	      IconShape		      "round"
-	      Inputs		      "|++"
-	      CollapseMode	      "All dimensions"
-	      InputSameDT	      off
-	      OutDataTypeMode	      "single"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "Comp"
-	      Position		      [315, 143, 345, 157]
-	      BackgroundColor	      "yellow"
-	      IconDisplay	      "Port number"
-	      BusOutputAsStruct	      off
-	    }
-	    Line {
-	      SrcBlock		      "Bias"
-	      SrcPort		      1
-	      Points		      [70, 0]
-	      DstBlock		      "Sum"
-	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "Raw"
-	      SrcPort		      1
-	      DstBlock		      "Divide"
-	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "Gains"
-	      SrcPort		      1
-	      Points		      [10, 0; 0, 35]
-	      DstBlock		      "Divide"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Divide"
-	      SrcPort		      1
-	      DstBlock		      "Sum"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Sum"
-	      SrcPort		      1
-	      DstBlock		      "Comp"
-	      DstPort		      1
-	    }
-	  }
-	}
-	Block {
-	  BlockType		  SubSystem
-	  Name			  "Magnetometers Temp\nCompensation"
-	  Ports			  [2, 1]
-	  Position		  [780, 38, 870, 107]
-	  MinAlgLoopOccurrences	  off
-	  RTWSystemCode		  "Auto"
-	  FunctionWithSeparateData off
-	  MaskHideContents	  off
-	  MaskDescription	  "This block implements a temperature compens"
-"ation. It implmements the following equation:\n\nM_tc = M_raw - K_t(T - T_avg"
-")"
-	  MaskPromptString	  "Tempearature Coeficient (K_t)|Calibration T"
-"emperature Mean (T_avg)"
-	  MaskStyleString	  "edit,edit"
-	  MaskTunableValueString  "on,on"
-	  MaskCallbackString	  "|"
-	  MaskEnableString	  "on,on"
-	  MaskVisibilityString	  "on,on"
-	  MaskToolTipString	  "on,on"
-	  MaskVarAliasString	  ","
-	  MaskVariables		  "alpha=@1;tempMean=@2;"
-	  MaskIconFrame		  on
-	  MaskIconOpaque	  on
-	  MaskIconRotate	  "none"
-	  MaskIconUnits		  "autoscale"
-	  MaskValueString	  "magTempK|magMeanTemp"
-	  MaskTabNameString	  ","
-	  System {
-	    Name		    "Magnetometers Temp\nCompensation"
-	    Location		    [205, 99, 1235, 946]
-	    Open		    off
-	    ModelBrowserVisibility  off
-	    ModelBrowserWidth	    200
-	    ScreenColor		    "white"
-	    PaperOrientation	    "landscape"
-	    PaperPositionMode	    "auto"
-	    PaperType		    "usletter"
-	    PaperUnits		    "inches"
-	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
-	    TiledPageScale	    1
-	    ShowPageBoundaries	    off
-	    ZoomFactor		    "100"
-	    Block {
-	      BlockType		      Inport
-	      Name		      "Raw"
-	      Position		      [500, 148, 530, 162]
-	      BackgroundColor	      "darkGreen"
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Inport
-	      Name		      "Temp Raw"
-	      Position		      [420, 228, 450, 242]
-	      BackgroundColor	      "darkGreen"
-	      Port		      "2"
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Product
-	      Name		      "Divide1"
-	      Ports		      [2, 1]
-	      Position		      [545, 212, 575, 243]
-	      ShowName		      off
-	      CollapseMode	      "All dimensions"
-	      InputSameDT	      off
-	      OutDataTypeMode	      "single"
-	      OutScaling	      "2^-10"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Constant
-	      Name		      "Mean Temperature\nfor Calibration"
-	      Position		      [385, 280, 495, 300]
-	      Value		      "tempMean"
-	      OutDataTypeMode	      "single"
-	    }
-	    Block {
-	      BlockType		      Sum
-	      Name		      "Sum1"
-	      Ports		      [2, 1]
-	      Position		      [500, 225, 520, 245]
-	      ShowName		      off
-	      IconShape		      "round"
-	      Inputs		      "|+-"
-	      CollapseMode	      "All dimensions"
-	      InputSameDT	      off
-	      OutDataTypeMode	      "single"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Sum
-	      Name		      "Sum2"
-	      Ports		      [2, 1]
-	      Position		      [590, 145, 610, 165]
-	      ShowName		      off
-	      IconShape		      "round"
-	      Inputs		      "|+-"
-	      CollapseMode	      "All dimensions"
-	      InputSameDT	      off
-	      OutDataTypeMode	      "single"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Constant
-	      Name		      "gains"
-	      Position		      [405, 185, 515, 205]
-	      Value		      "alpha"
-	      OutDataTypeMode	      "single"
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "Comp"
-	      Position		      [665, 148, 695, 162]
-	      BackgroundColor	      "yellow"
-	      IconDisplay	      "Port number"
-	      BusOutputAsStruct	      off
-	    }
-	    Line {
-	      SrcBlock		      "Sum2"
-	      SrcPort		      1
-	      DstBlock		      "Comp"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Divide1"
-	      SrcPort		      1
-	      Points		      [20, 0]
-	      DstBlock		      "Sum2"
-	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "gains"
-	      SrcPort		      1
-	      Points		      [5, 0; 0, 25]
-	      DstBlock		      "Divide1"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Sum1"
-	      SrcPort		      1
-	      DstBlock		      "Divide1"
-	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "Temp Raw"
-	      SrcPort		      1
-	      DstBlock		      "Sum1"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Raw"
-	      SrcPort		      1
-	      DstBlock		      "Sum2"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Mean Temperature\nfor Calibration"
-	      SrcPort		      1
-	      Points		      [10, 0]
-	      DstBlock		      "Sum1"
-	      DstPort		      2
-	    }
-	  }
-	}
-	Block {
-	  BlockType		  Mux
-	  Name			  "Mux"
-	  Ports			  [3, 1]
-	  Position		  [215, 61, 220, 99]
-	  ShowName		  off
-	  Inputs		  "3"
-	  DisplayOption		  "bar"
-	}
-	Block {
-	  BlockType		  FromWorkspace
-	  Name			  "Mx"
-	  Position		  [25, 27, 130, 53]
-	  VariableName		  "[time MAG_hil(:,1)]"
-	  SampleTime		  "0.01"
-	  ZeroCross		  on
-	  OutputAfterFinalValue	  "Setting to zero"
-	}
-	Block {
-	  BlockType		  FromWorkspace
-	  Name			  "My"
-	  Position		  [25, 67, 130, 93]
-	  VariableName		  "[time MAG_hil(:,2)]"
-	  SampleTime		  "0.01"
-	  ZeroCross		  on
-	  OutputAfterFinalValue	  "Setting to zero"
-	}
-	Block {
-	  BlockType		  FromWorkspace
-	  Name			  "Mz"
-	  Position		  [25, 107, 130, 133]
-	  VariableName		  "[time MAG_hil(:,3)]"
-	  SampleTime		  "0.01"
-	  ZeroCross		  on
-	  OutputAfterFinalValue	  "Setting to zero"
-	}
-	Block {
-	  BlockType		  Constant
-	  Name			  "Rotate\nAxis"
-	  Position		  [255, 15, 285, 45]
-	  Value			  "[0 -1 0; -1 0 0; 0 0 -1]"
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "Mags raw"
-	  Position		  [1145, 68, 1175, 82]
-	  IconDisplay		  "Port number"
-	  BusOutputAsStruct	  off
-	}
-	Line {
-	  SrcBlock		  "Mx"
-	  SrcPort		  1
-	  Points		  [25, 0; 0, 30]
-	  DstBlock		  "Mux"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "My"
-	  SrcPort		  1
-	  DstBlock		  "Mux"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Mz"
-	  SrcPort		  1
-	  Points		  [30, 0; 0, -30]
-	  DstBlock		  "Mux"
-	  DstPort		  3
-	}
-	Line {
-	  SrcBlock		  "Rotate\nAxis"
-	  SrcPort		  1
-	  Points		  [20, 0; 0, 10]
-	  DstBlock		  "Divide"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Mux"
-	  SrcPort		  1
-	  Points		  [105, 0]
-	  DstBlock		  "Divide"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Data Type Conversion2"
-	  SrcPort		  1
-	  DstBlock		  "3D Filter"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "3D Filter"
-	  SrcPort		  1
-	  DstBlock		  "Data Type Conversion7"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Data Type Conversion7"
-	  SrcPort		  1
-	  DstBlock		  "Magnetometers Temp\nCompensation"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Magnetometers Temp\nCompensation"
-	  SrcPort		  1
-	  DstBlock		  "Magnetometer\nUnit Conversion"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Divide"
-	  SrcPort		  1
-	  Points		  [25, 0; 0, 5]
-	  DstBlock		  "Data Type Conversion2"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Temp"
-	  SrcPort		  1
-	  Points		  [25, 0; 0, -5]
-	  DstBlock		  "Magnetometers Temp\nCompensation"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Magnetometer\nUnit Conversion"
-	  SrcPort		  1
-	  DstBlock		  "Mags raw"
-	  DstPort		  1
-	}
-      }
-    }
-    Block {
-      BlockType		      Mux
-      Name		      "Mux"
-      Ports		      [2, 1]
-      Position		      [455, 416, 460, 454]
-      ShowName		      off
-      Inputs		      "2"
-      DisplayOption	      "bar"
-    }
-    Block {
-      BlockType		      Mux
-      Name		      "Mux1"
-      Ports		      [2, 1]
-      Position		      [450, 276, 455, 314]
-      ShowName		      off
-      Inputs		      "2"
-      DisplayOption	      "bar"
-    }
-    Block {
-      BlockType		      SubSystem
-      Name		      "PQR"
-      Ports		      [0, 1]
-      Position		      [205, 52, 280, 88]
-      MinAlgLoopOccurrences   off
-      RTWSystemCode	      "Auto"
-      FunctionWithSeparateData off
-      MaskHideContents	      off
-      System {
-	Name			"PQR"
-	Location		[530, 95, 830, 253]
-	Open			off
-	ModelBrowserVisibility	off
-	ModelBrowserWidth	200
-	ScreenColor		"white"
-	PaperOrientation	"landscape"
-	PaperPositionMode	"auto"
-	PaperType		"usletter"
-	PaperUnits		"inches"
-	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
-	TiledPageScale		1
-	ShowPageBoundaries	off
-	ZoomFactor		"100"
-	Block {
-	  BlockType		  DataTypeConversion
-	  Name			  "Data Type Conversion1"
-	  Position		  [420, 47, 475, 63]
-	  ShowName		  off
-	  OutDataTypeMode	  "single"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Product
-	  Name			  "Divide"
-	  Ports			  [2, 1]
-	  Position		  [335, 36, 375, 74]
-	  ShowName		  off
-	  Multiplication	  "Matrix(*)"
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutScaling		  "2^-10"
-	  RndMeth		  "Floor"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Mux
-	  Name			  "Mux"
-	  Ports			  [3, 1]
-	  Position		  [215, 61, 220, 99]
-	  ShowName		  off
-	  Inputs		  "3"
-	  DisplayOption		  "bar"
-	}
-	Block {
-	  BlockType		  Constant
-	  Name			  "Rotate\nAxis"
-	  Position		  [245, 20, 275, 50]
-	  Value			  "[0 -1 0; -1 0 0; 0 0 -1]"
-	}
-	Block {
-	  BlockType		  FromWorkspace
-	  Name			  "p"
-	  Position		  [25, 27, 130, 53]
-	  VariableName		  "[time PQR_hil(:,1)]"
-	  SampleTime		  "0.01"
-	  ZeroCross		  on
-	  OutputAfterFinalValue	  "Setting to zero"
-	}
-	Block {
-	  BlockType		  FromWorkspace
-	  Name			  "q"
-	  Position		  [25, 67, 130, 93]
-	  VariableName		  "[time PQR_hil(:,2)]"
-	  SampleTime		  "0.01"
-	  ZeroCross		  on
-	  OutputAfterFinalValue	  "Setting to zero"
-	}
-	Block {
-	  BlockType		  FromWorkspace
-	  Name			  "r"
-	  Position		  [25, 107, 130, 133]
-	  VariableName		  "[time PQR_hil(:,3)]"
-	  SampleTime		  "0.01"
-	  ZeroCross		  on
-	  OutputAfterFinalValue	  "Setting to zero"
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "pqr (rad/s)"
-	  Position		  [495, 48, 525, 62]
-	  IconDisplay		  "Port number"
-	  BusOutputAsStruct	  off
-	}
-	Line {
-	  SrcBlock		  "p"
-	  SrcPort		  1
-	  Points		  [25, 0; 0, 30]
-	  DstBlock		  "Mux"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "q"
-	  SrcPort		  1
-	  DstBlock		  "Mux"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "r"
-	  SrcPort		  1
-	  Points		  [30, 0; 0, -30]
-	  DstBlock		  "Mux"
-	  DstPort		  3
-	}
-	Line {
-	  SrcBlock		  "Data Type Conversion1"
-	  SrcPort		  1
-	  DstBlock		  "pqr (rad/s)"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Rotate\nAxis"
-	  SrcPort		  1
-	  Points		  [20, 0; 0, 10]
-	  DstBlock		  "Divide"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Mux"
-	  SrcPort		  1
-	  Points		  [95, 0]
-	  DstBlock		  "Divide"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Divide"
-	  SrcPort		  1
-	  DstBlock		  "Data Type Conversion1"
-	  DstPort		  1
-	}
-      }
-    }
-    Block {
-      BlockType		      Scope
-      Name		      "Scope"
-      Ports		      [1]
-      Position		      [340, 54, 370, 86]
-      Floating		      off
-      Location		      [450, 179, 993, 522]
-      Open		      off
-      NumInputPorts	      "1"
-      List {
-	ListType		AxesTitles
-	axes1			"%<SignalLabel>"
-      }
-      DataFormat	      "StructureWithTime"
-      LimitDataPoints	      off
-      SampleTime	      "0"
-    }
-    Block {
-      BlockType		      Scope
-      Name		      "Scope1"
-      Ports		      [1]
-      Position		      [390, 504, 420, 536]
-      Floating		      off
-      Location		      [294, 360, 618, 599]
-      Open		      off
-      NumInputPorts	      "1"
-      List {
-	ListType		AxesTitles
-	axes1			"%<SignalLabel>"
-      }
-      TimeRange		      "60"
-      YMin		      "-1500"
-      YMax		      "1500"
-      SaveName		      "ScopeData1"
-      DataFormat	      "StructureWithTime"
-      LimitDataPoints	      off
-      SampleTime	      "0"
-    }
-    Block {
-      BlockType		      Scope
-      Name		      "Scope2"
-      Ports		      [1]
-      Position		      [340, 114, 370, 146]
-      Floating		      off
-      Location		      [491, 402, 815, 641]
-      Open		      off
-      NumInputPorts	      "1"
-      List {
-	ListType		AxesTitles
-	axes1			"%<SignalLabel>"
-      }
-      SaveName		      "ScopeData2"
-      DataFormat	      "StructureWithTime"
-      LimitDataPoints	      off
-      SampleTime	      "0"
-    }
-    Block {
-      BlockType		      Scope
-      Name		      "Scope3"
-      Ports		      [1]
-      Position		      [500, 419, 530, 451]
-      Floating		      off
-      Location		      [1, 52, 1247, 1023]
-      Open		      off
-      NumInputPorts	      "1"
-      ZoomMode		      "xonly"
-      List {
-	ListType		AxesTitles
-	axes1			"%<SignalLabel>"
-      }
-      TimeRange		      "400"
-      YMin		      "224.4721291730966"
-      YMax		      "259.2495012985058"
-      SaveName		      "ScopeData3"
-      DataFormat	      "StructureWithTime"
-      LimitDataPoints	      off
-      SampleTime	      "0"
-    }
-    Block {
-      BlockType		      Scope
-      Name		      "Scope4"
-      Ports		      [1]
-      Position		      [340, 179, 370, 211]
-      Floating		      off
-      Location		      [491, 402, 1178, 855]
-      Open		      off
-      NumInputPorts	      "1"
-      ZoomMode		      "yonly"
-      List {
-	ListType		AxesTitles
-	axes1			"%<SignalLabel>"
-      }
-      SaveName		      "ScopeData4"
-      DataFormat	      "StructureWithTime"
-      LimitDataPoints	      off
-      SampleTime	      "0"
-    }
-    Block {
-      BlockType		      Scope
-      Name		      "Scope5"
-      Ports		      [1]
-      Position		      [495, 279, 525, 311]
-      Floating		      off
-      Location		      [1, 52, 1247, 1023]
-      Open		      off
-      NumInputPorts	      "1"
-      ZoomMode		      "xonly"
-      List {
-	ListType		AxesTitles
-	axes1			"%<SignalLabel>"
-      }
-      TimeRange		      "400"
-      YMin		      "-10"
-      YMax		      "15"
-      SaveName		      "ScopeData5"
-      DataFormat	      "StructureWithTime"
-      LimitDataPoints	      off
-      SampleTime	      "0"
-    }
-    Block {
-      BlockType		      Scope
-      Name		      "Scope6"
-      Ports		      [1]
-      Position		      [380, 569, 410, 601]
-      Floating		      off
-      Location		      [294, 360, 618, 599]
-      Open		      off
-      NumInputPorts	      "1"
-      ZoomMode		      "xonly"
-      List {
-	ListType		AxesTitles
-	axes1			"%<SignalLabel>"
-      }
-      TimeRange		      "60"
-      YMin		      "-1500"
-      YMax		      "1500"
-      SaveName		      "ScopeData6"
-      DataFormat	      "StructureWithTime"
-      LimitDataPoints	      off
-      SampleTime	      "0"
-    }
-    Block {
-      BlockType		      Selector
-      Name		      "Selector"
-      Ports		      [1, 1]
-      Position		      [360, 386, 400, 424]
-      IndexOptions	      "Index vector (dialog)"
-      Indices		      "[3]"
-      OutputSizes	      "1"
-      InputPortWidth	      "3"
-    }
-    Block {
-      BlockType		      Selector
-      Name		      "Selector1"
-      Ports		      [1, 1]
-      Position		      [355, 316, 395, 354]
-      IndexOptions	      "Index vector (dialog)"
-      Indices		      "[5]"
-      OutputSizes	      "1"
-      InputPortWidth	      "5"
-    }
-    Block {
-      BlockType		      SubSystem
       Name		      "Temp"
       Ports		      [0, 1]
       Position		      [30, 248, 145, 302]
@@ -4651,8 +4665,9 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Temp"
-	  Position		  [530, 130, 560, 144]
+	  Position		  [530, 128, 560, 142]
 	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
 	}
 	Line {
 	  SrcBlock		  "Dyn"
@@ -7433,12 +7448,12 @@ Model {
       SrcPort		      2
       Points		      [50, 0]
       Branch {
-	DstBlock		"Scope1"
+	Points			[0, -115]
+	DstBlock		"Selector"
 	DstPort			1
       }
       Branch {
-	Points			[0, -115]
-	DstBlock		"Selector"
+	DstBlock		"Scope1"
 	DstPort			1
       }
     }
@@ -7449,7 +7464,7 @@ Model {
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Dynamic1"
+      SrcBlock		      "Static"
       SrcPort		      1
       Points		      [0, 25]
       DstBlock		      "Mux"
@@ -7489,7 +7504,7 @@ Model {
       }
       Branch {
 	Points			[0, 145]
-	DstBlock		"Dynamic1"
+	DstBlock		"Static"
 	DstPort			1
       }
     }
@@ -7564,8 +7579,6 @@ Stateflow {
 		firstJunction                             		4
 		viewObj                                   		2
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		6
@@ -7733,7 +7746,7 @@ Stateflow {
 
 	chart {
 		id                                        		11
-		name                                      		"Dynamic1/Baro Altimeter/Enables/Disables\n"
+		name                                      		"Static/Baro Altimeter/Enables/Disables\n"
 					"the Computation of \n"
 					"initial Baro Bias"
 		windowPosition                            		[360.45 195 200.25 189.75]
@@ -7777,11 +7790,11 @@ Stateflow {
 						"    tIni = 1;\n"
 						"end;\n"
 						"\n"
-						"if aveCount < 500\n"
+						"if aveCount < 2500\n"
 						"    aveCount = aveCount + 1;\n"
 						"end\n"
 						"\n"
-						"if aveCount == 500\n"
+						"if aveCount == 2500\n"
 						"    tIni =0;\n"
 						"    aveCount = aveCount + 1;\n"
 						"end\n"
@@ -7872,7 +7885,7 @@ Stateflow {
 
 	instance {
 		id     		16
-		name   		"Dynamic1/Baro Altimeter/Enables//Disables\n"
+		name   		"Static/Baro Altimeter/Enables//Disables\n"
 					"the Computation of \n"
 					"initial Baro Bias"
 		machine		1
