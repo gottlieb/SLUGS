@@ -92,7 +92,7 @@ GS_location = [0 36.9898376464844 -122.051963806152];
 
 %  Initial Conditions in ENU (all vector data is represented as a column
 %  vectors) for the quaternion
-Euler_quat = [-5*pi/180; 5*pi/180;  10*pi/180]';     % Initial Euler angles    (rad)
+Euler_quat = [0; 0;  -160*pi/180]';     % Initial Euler angles    (rad)
 
 % initial quaternion
 cph = cos(Euler_quat(1)/2); sph = sin(Euler_quat(1)/2);
