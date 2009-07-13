@@ -17,7 +17,7 @@ The endianess of the dsPIC was determined with an experiment as follows
 
 */
 
-unsigned char i2c1State;		// State Machine State
+volatile unsigned char i2c1State;		// State Machine State
 unsigned char reg2Config;		// Register to config
 
 // Declared global to avoid having them be static 
@@ -347,7 +347,7 @@ void dummyDelay (void) {
 	// without the need of a timer
 	// 5 milliseconds are expected for power-up
 	// @ 40Mhz requires aprox 200,000 nops
-	for( i = 0; i < 7; i += 1 ){
+	for( i = 0; i < 10; i += 1 ){
 		for( j = 0; j < 32700; j += 1 )
 		{
 			Nop();

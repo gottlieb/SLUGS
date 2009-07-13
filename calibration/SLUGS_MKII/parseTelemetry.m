@@ -23,7 +23,7 @@ clc;
 M = filename;
 
 % If plotting only raw make this 15, otherwise make it 0;
-onlyRaw = 0;
+onlyRaw = 15;
 
 %% Index Definitions
 

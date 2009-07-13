@@ -46,8 +46,11 @@ magOffset = 0;
 % Pito
 % ====
 
-pitotScale  = 0.9258;
-pitotOffset = -830.6641;
+% pitotScale  = 0.9258;
+% pitotOffset = -830.6641;
+pitotScale  = 0.9909;
+pitotOffset = -940.1001;
+
 
 % Temp
 % 14.8  -> 1160
@@ -98,8 +101,11 @@ param_mag.xo =  62.582994105307556;
 param_mag.yo =  59.395539601652828;
 param_mag.zo = -66.523069120295460;
 param_mag.a =   2.447039991696393e+002;
+param_mag.one_over_a = 1/param_mag.a;
 param_mag.c =   2.357258726014612e+002;
+param_mag.one_over_c = 1/param_mag.c;
 param_mag.b =   2.529708146776011e+002;
+param_mag.one_over_b = 1/param_mag.b;
 param_mag.phi= -7.564558089048317;
 param_mag.rho = 4.431438455319272;
 param_mag.lambda = -3.931339025635420;
@@ -111,8 +117,11 @@ param_acc.xo =  -0.870652332890343;
 param_acc.yo =  0.392105017623336;
 param_acc.zo = 0.058285827021149;
 param_acc.a =   1.028348124236639;
+param_acc.one_over_a = 1/param_acc.a;
 param_acc.c =   0.989537431181334;
+param_acc.one_over_c = 1/param_acc.c;
 param_acc.b =   1.051705796999721;
+param_acc.one_over_b = 1/param_acc.b;
 param_acc.phi= -2.270537506584771;
 param_acc.rho = 0.056163200653814;
 param_acc.lambda = 0.268027255513422;
