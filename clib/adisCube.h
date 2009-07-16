@@ -129,25 +129,33 @@ This is used to zero out any offset in the accelerometer reading
 Values are in twos complement
 
 X accel -> currently no offset
-
+Address	= 0x20
+Value	= 0xFB (-5)
+bits [6:7] of Address must be [1 0] since this will be a write
+=> [1 0 1 0][0 0 0 0][1 1 1 1][1 0 1 1]
+=> 0xA0FB
 
 Y accel -> showing a -43 count offset
 Address	= 0x22
-Value	= 0x2B (+43)
+Value	= 0x21 (+33)
 bits [6:7] of Address must be [1 0] since this will be a write
 => [1 0 1 0][0 0 1 0][0 0 0 0][0 1 0 0]
 => 0xA22B
 
-Z accel -> currently a -2 offset ( -396.5 counts = 1000 mg)
+Z accel -> currently a +4 offset ( -396.5 counts = 1000 mg)
 Address	= 0x24
-Value	= 0x02 (+2)
+Value	= 0xF6 (-10)
 bits [6:7] of Address must be [1 0] since this will be a write
-=> [1 0 1 0][0 1 0 0][0 0 0 0][0 1 0 0]
+=> [1 0 1 0][0 1 0 0][1 1 1 1][0 1 1 0]
 => 0xA402
 
 */
-#define W_YACC_OFFSET	(unsigned short)0xA22B
-#define W_ZACC_OFFSET	(unsigned short)0xA402
+#define W_XACC_OFFSET_LO	(unsigned short)0xA000
+#define W_XACC_OFFSET_HI	(unsigned short)0xA100
+#define W_YACC_OFFSET_LO	(unsigned short)0xA220
+#define W_YACC_OFFSET_HI	(unsigned short)0xA300
+#define W_ZACC_OFFSET_LO	(unsigned short)0xA40D
+#define W_ZACC_OFFSET_HI	(unsigned short)0xA500
 
 unsigned short write2Cube (unsigned short data2Send);
 void getCubeData (short * cubeData);

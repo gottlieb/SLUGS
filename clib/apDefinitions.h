@@ -248,7 +248,7 @@ and data types.
 //#define NO_MAGNETO 
 
 // Uncomment to allow full gyro calibration
-//#define DO_FULL_CALL
+#define DO_FULL_CALL
 
 
 // ============= Unions Used for Data Transmission ====
