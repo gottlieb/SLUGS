@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.819"
+    ComputedModelVersion    "1.825"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jul 15 18:36:04 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:819>"
+  LastModifiedDate	  "Fri Jul 17 00:31:45 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:825>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -954,8 +954,8 @@ Model {
   }
   System {
     Name		    "sensorMCUSlugsMKII_ren"
-    Location		    [2, 82, 1421, 884]
-    Open		    off
+    Location		    [6, 82, 1888, 1184]
+    Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    212
     ScreenColor		    "white"
@@ -2392,7 +2392,7 @@ Model {
       System {
 	Name			"Position and Attitude Filter"
 	Location		[577, 611, 1157, 960]
-	Open			on
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -2407,14 +2407,14 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "A_sens(m/s^2)"
-	  Position		  [180, 113, 210, 127]
+	  Position		  [395, 113, 425, 127]
 	  BackgroundColor	  "darkGreen"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
 	  Name			  "Omega (rad/s)"
-	  Position		  [180, 213, 210, 227]
+	  Position		  [395, 213, 425, 227]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "2"
 	  IconDisplay		  "Port number"
@@ -2422,7 +2422,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "Mags (unitless)"
-	  Position		  [180, 163, 210, 177]
+	  Position		  [395, 163, 425, 177]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "3"
 	  IconDisplay		  "Port number"
@@ -2446,8 +2446,8 @@ Model {
 	  MaskHideContents	  off
 	  System {
 	    Name		    "Attitude\nComplimentary\nFilter"
-	    Location		    [2, 82, 1244, 1008]
-	    Open		    on
+	    Location		    [6, 82, 1045, 875]
+	    Open		    off
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -11947,6 +11947,15 @@ Model {
 	  }
 	}
 	Block {
+	  BlockType		  Gain
+	  Name			  "[1 1 -1]"
+	  Position		  [485, 515, 515, 545]
+	  Gain			  "[1 1 -1]"
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
 	  BlockType		  Outport
 	  Name			  "euler_hat (rad)"
 	  Position		  [795, 123, 825, 137]
@@ -12039,11 +12048,11 @@ Model {
 	  SrcPort		  1
 	  Points		  [20, 0]
 	  Branch {
-	    DstBlock		    "Velocity/Position\nKalman Filter"
-	    DstPort		    2
+	    DstBlock		    "GPS Update"
+	    DstPort		    1
 	  }
 	  Branch {
-	    DstBlock		    "GPS Update"
+	    DstBlock		    "[1 1 -1]"
 	    DstPort		    1
 	  }
 	}
@@ -12141,8 +12150,7 @@ Model {
 	Line {
 	  SrcBlock		  "A_sens(m/s^2)"
 	  SrcPort		  1
-	  Points		  "[40, 0; 0, -15; 10, 0; 0, -5; 10, 0; 0, 20;"
-" 200, 0]"
+	  Points		  [45, 0]
 	  Branch {
 	    Points		    [0, 365]
 	    DstBlock		    "Velocity/Position\nKalman Filter"
@@ -12156,16 +12164,20 @@ Model {
 	Line {
 	  SrcBlock		  "Mags (unitless)"
 	  SrcPort		  1
-	  Points		  [45, 0; 0, -5; 30, 0; 0, 5]
 	  DstBlock		  "Attitude\nComplimentary\nFilter"
 	  DstPort		  2
 	}
 	Line {
 	  SrcBlock		  "Omega (rad/s)"
 	  SrcPort		  1
-	  Points		  [45, 0; 0, 5; 20, 0; 0, -5]
 	  DstBlock		  "Attitude\nComplimentary\nFilter"
 	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "[1 1 -1]"
+	  SrcPort		  1
+	  DstBlock		  "Velocity/Position\nKalman Filter"
+	  DstPort		  2
 	}
       }
     }
@@ -13245,6 +13257,1126 @@ Model {
 		  IconDisplay		  "Port number"
 		}
 		Block {
+		  BlockType		  SubSystem
+		  Name			  "3D Filter"
+		  Ports			  [1, 1]
+		  Position		  [620, 76, 680, 134]
+		  AncestorBlock		  "SLUGS_Library/Singnal Routing\n& Co"
+"nditioning/3D Filter"
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Reusable function"
+		  RTWFcnNameOpts	  "User specified"
+		  RTWFcnName		  "TustinFilter3D"
+		  RTWFileNameOpts	  "Use function name"
+		  FunctionWithSeparateData off
+		  MaskHideContents	  off
+		  MaskPromptString	  "Zeros|Poles|Gains|Sample Time"
+		  MaskStyleString	  "edit,edit,edit,edit"
+		  MaskTunableValueString  "on,on,on,on"
+		  MaskCallbackString	  "|||"
+		  MaskEnableString	  "on,on,on,on"
+		  MaskVisibilityString	  "on,on,on,on"
+		  MaskToolTipString	  "on,on,on,on"
+		  MaskVarAliasString	  ",,,"
+		  MaskVariables		  "zval=@1;pval=@2;kval=@3;TSample=@4;"
+		  MaskDisplay		  "droots(zval,pval,kval)\nport_label("
+"'input',1,'3D')\n"
+		  MaskIconFrame		  on
+		  MaskIconOpaque	  on
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  MaskValueString	  "[]|-2*pi*10|2*pi*10|0.01"
+		  MaskTabNameString	  ",,,"
+		  System {
+		    Name		    "3D Filter"
+		    Location		    [775, 320, 1085, 558]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [25, 113, 55, 127]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Demux
+		    Name		    "Demux"
+		    Ports		    [1, 3]
+		    Position		    [80, 101, 85, 139]
+		    BackgroundColor	    "black"
+		    ShowName		    off
+		    Outputs		    "3"
+		    DisplayOption	    "bar"
+		    }
+		    Block {
+		    BlockType		    SubSystem
+		    Name		    "Filter1"
+		    Ports		    [1, 1]
+		    Position		    [125, 27, 185, 83]
+		    ShowName		    off
+		    MinAlgLoopOccurrences   off
+		    RTWSystemCode	    "Auto"
+		    FunctionWithSeparateData off
+		    MaskHideContents	    off
+		    MaskType		    "DiscretizedZeroPole"
+		    MaskDescription	    "Continuous mask uses c2d to trans"
+"form parameters onto the Discrete Zero-Pole block inside."
+		    MaskPromptString	    "Zeros (enter in s-main:)|Poles (e"
+"nter in s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:"
+"|Method:|Critical Frequency (Hz):"
+		    MaskStyleString	    "edit,edit,edit,edit,edit,popup(zo"
+"h|foh|tustin|prewarp|matched),edit"
+		    MaskTunableValueString  "on,on,on,on,on,on,on"
+		    MaskCallbackString	    "|||||hidecrit|"
+		    MaskEnableString	    "on,on,on,on,on,on,on"
+		    MaskVisibilityString    "on,on,on,on,on,on,off"
+		    MaskToolTipString	    "on,on,on,on,on,on,on"
+		    MaskVarAliasString	    ",,,,,,"
+		    MaskVariables	    "Zeros=@1;Poles=@2;Gain=@3;AbsTol="
+"&4;SampleTime=@5;method=&6;Wc=@7;"
+		    MaskInitialization	    "st=SampleTime;\nif length(st)>1\n"
+"    st=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil("
+"'disczpk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,"
+"'maskvalues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eva"
+"l(zeross);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('ini"
+"tzpkmask', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance'"
+", AbsTol);\nend"
+		    MaskDisplay		    "droots(zeross,poless,gainss)\ntex"
+"t( 0.5, 1.0, method, 'verticalAlignment','top')"
+		    MaskSelfModifiable	    on
+		    MaskIconFrame	    on
+		    MaskIconOpaque	    on
+		    MaskIconRotate	    "port"
+		    MaskIconUnits	    "normalized"
+		    MaskValueString	    "zval|pval|kval|auto|TSample|tusti"
+"n|1"
+		    MaskTabNameString	    ",,,,,,"
+		    System {
+		    Name		    "Filter1"
+		    Location		    [499, 349, 791, 606]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [60, 103, 90, 117]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    DiscreteZeroPole
+		    Name		    "Discrete\nZero-Pole"
+		    Position		    [115, 92, 200, 128]
+		    Zeros		    "zerosd"
+		    Poles		    "polesd"
+		    Gain		    "gaind"
+		    SampleTime		    "SampleTime"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [235, 103, 265, 117]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "Discrete\nZero-Pole"
+		    SrcPort		    1
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    DstBlock		    "Discrete\nZero-Pole"
+		    DstPort		    1
+		    }
+		    }
+		    }
+		    Block {
+		    BlockType		    SubSystem
+		    Name		    "Filter2"
+		    Ports		    [1, 1]
+		    Position		    [125, 92, 185, 148]
+		    ShowName		    off
+		    MinAlgLoopOccurrences   off
+		    RTWSystemCode	    "Auto"
+		    FunctionWithSeparateData off
+		    MaskHideContents	    off
+		    MaskType		    "DiscretizedZeroPole"
+		    MaskDescription	    "Continuous mask uses c2d to trans"
+"form parameters onto the Discrete Zero-Pole block inside."
+		    MaskPromptString	    "Zeros (enter in s-main:)|Poles (e"
+"nter in s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:"
+"|Method:|Critical Frequency (Hz):"
+		    MaskStyleString	    "edit,edit,edit,edit,edit,popup(zo"
+"h|foh|tustin|prewarp|matched),edit"
+		    MaskTunableValueString  "on,on,on,on,on,on,on"
+		    MaskCallbackString	    "|||||hidecrit|"
+		    MaskEnableString	    "on,on,on,on,on,on,on"
+		    MaskVisibilityString    "on,on,on,on,on,on,off"
+		    MaskToolTipString	    "on,on,on,on,on,on,on"
+		    MaskVarAliasString	    ",,,,,,"
+		    MaskVariables	    "Zeros=@1;Poles=@2;Gain=@3;AbsTol="
+"&4;SampleTime=@5;method=&6;Wc=@7;"
+		    MaskInitialization	    "st=SampleTime;\nif length(st)>1\n"
+"    st=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil("
+"'disczpk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,"
+"'maskvalues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eva"
+"l(zeross);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('ini"
+"tzpkmask', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance'"
+", AbsTol);\nend"
+		    MaskDisplay		    "droots(zeross,poless,gainss)\ntex"
+"t( 0.5, 1.0, method, 'verticalAlignment','top')"
+		    MaskSelfModifiable	    on
+		    MaskIconFrame	    on
+		    MaskIconOpaque	    on
+		    MaskIconRotate	    "port"
+		    MaskIconUnits	    "normalized"
+		    MaskValueString	    "zval|pval|kval|auto|TSample|tusti"
+"n|1"
+		    MaskTabNameString	    ",,,,,,"
+		    System {
+		    Name		    "Filter2"
+		    Location		    [499, 349, 791, 606]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [60, 103, 90, 117]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    DiscreteZeroPole
+		    Name		    "Discrete\nZero-Pole"
+		    Position		    [115, 92, 200, 128]
+		    Zeros		    "zerosd"
+		    Poles		    "polesd"
+		    Gain		    "gaind"
+		    SampleTime		    "SampleTime"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [235, 103, 265, 117]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    DstBlock		    "Discrete\nZero-Pole"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Discrete\nZero-Pole"
+		    SrcPort		    1
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    }
+		    }
+		    Block {
+		    BlockType		    SubSystem
+		    Name		    "Filter3"
+		    Ports		    [1, 1]
+		    Position		    [125, 157, 185, 213]
+		    ShowName		    off
+		    MinAlgLoopOccurrences   off
+		    RTWSystemCode	    "Auto"
+		    FunctionWithSeparateData off
+		    MaskHideContents	    off
+		    MaskType		    "DiscretizedZeroPole"
+		    MaskDescription	    "Continuous mask uses c2d to trans"
+"form parameters onto the Discrete Zero-Pole block inside."
+		    MaskPromptString	    "Zeros (enter in s-main:)|Poles (e"
+"nter in s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:"
+"|Method:|Critical Frequency (Hz):"
+		    MaskStyleString	    "edit,edit,edit,edit,edit,popup(zo"
+"h|foh|tustin|prewarp|matched),edit"
+		    MaskTunableValueString  "on,on,on,on,on,on,on"
+		    MaskCallbackString	    "|||||hidecrit|"
+		    MaskEnableString	    "on,on,on,on,on,on,on"
+		    MaskVisibilityString    "on,on,on,on,on,on,off"
+		    MaskToolTipString	    "on,on,on,on,on,on,on"
+		    MaskVarAliasString	    ",,,,,,"
+		    MaskVariables	    "Zeros=@1;Poles=@2;Gain=@3;AbsTol="
+"&4;SampleTime=@5;method=&6;Wc=@7;"
+		    MaskInitialization	    "st=SampleTime;\nif length(st)>1\n"
+"    st=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil("
+"'disczpk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,"
+"'maskvalues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eva"
+"l(zeross);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('ini"
+"tzpkmask', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance'"
+", AbsTol);\nend"
+		    MaskDisplay		    "droots(zeross,poless,gainss)\ntex"
+"t( 0.5, 1.0, method, 'verticalAlignment','top')"
+		    MaskSelfModifiable	    on
+		    MaskIconFrame	    on
+		    MaskIconOpaque	    on
+		    MaskIconRotate	    "port"
+		    MaskIconUnits	    "normalized"
+		    MaskValueString	    "zval|pval|kval|auto|TSample|tusti"
+"n|1"
+		    MaskTabNameString	    ",,,,,,"
+		    System {
+		    Name		    "Filter3"
+		    Location		    [499, 349, 791, 606]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [60, 103, 90, 117]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    DiscreteZeroPole
+		    Name		    "Discrete\nZero-Pole"
+		    Position		    [115, 92, 200, 128]
+		    Zeros		    "zerosd"
+		    Poles		    "polesd"
+		    Gain		    "gaind"
+		    SampleTime		    "SampleTime"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [235, 103, 265, 117]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "Discrete\nZero-Pole"
+		    SrcPort		    1
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    DstBlock		    "Discrete\nZero-Pole"
+		    DstPort		    1
+		    }
+		    }
+		    }
+		    Block {
+		    BlockType		    SubSystem
+		    Name		    "myMux Fun1"
+		    Ports		    [3, 1]
+		    Position		    [225, 96, 230, 144]
+		    ForegroundColor	    "blue"
+		    BackgroundColor	    "black"
+		    ShowName		    off
+		    MinAlgLoopOccurrences   off
+		    RTWSystemCode	    "Auto"
+		    FunctionWithSeparateData off
+		    MaskHideContents	    off
+		    MaskType		    "Stateflow"
+		    MaskDescription	    "Embedded MATLAB block"
+		    MaskDisplay		    "disp('myMux');"
+		    MaskSelfModifiable	    on
+		    MaskIconFrame	    on
+		    MaskIconOpaque	    off
+		    MaskIconRotate	    "none"
+		    MaskIconUnits	    "autoscale"
+		    System {
+		    Name		    "myMux Fun1"
+		    Location		    [257, 457, 812, 717]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "u1"
+		    Position		    [20, 101, 40, 119]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Inport
+		    Name		    "u2"
+		    Position		    [20, 136, 40, 154]
+		    Port		    "2"
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Inport
+		    Name		    "u3"
+		    Position		    [20, 171, 40, 189]
+		    Port		    "3"
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Demux
+		    Name		    " Demux "
+		    Ports		    [1, 1]
+		    Position		    [270, 180, 320, 220]
+		    Outputs		    "1"
+		    }
+		    Block {
+		    BlockType		    "S-Function"
+		    Name		    " SFunction "
+		    Tag			    "Stateflow S-Function sensorMCUSlu"
+"gsMKII_ren 33"
+		    Ports		    [3, 2]
+		    Position		    [180, 100, 230, 180]
+		    FunctionName	    "sf_sfun"
+		    PortCounts		    "[3 2]"
+		    Port {
+		    PortNumber		    2
+		    Name		    "y"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Terminator
+		    Name		    " Terminator "
+		    Position		    [460, 191, 480, 209]
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "y"
+		    Position		    [460, 101, 480, 119]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    " SFunction "
+		    SrcPort		    1
+		    Points		    [20, 0]
+		    DstBlock		    " Demux "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    " Demux "
+		    SrcPort		    1
+		    DstBlock		    " Terminator "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "u1"
+		    SrcPort		    1
+		    DstBlock		    " SFunction "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "u2"
+		    SrcPort		    1
+		    Points		    [120, 0]
+		    DstBlock		    " SFunction "
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "u3"
+		    SrcPort		    1
+		    DstBlock		    " SFunction "
+		    DstPort		    3
+		    }
+		    Line {
+		    Name		    "y"
+		    Labels		    [0, 0]
+		    SrcBlock		    " SFunction "
+		    SrcPort		    2
+		    DstBlock		    "y"
+		    DstPort		    1
+		    }
+		    }
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [255, 113, 285, 127]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "myMux Fun1"
+		    SrcPort		    1
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    DstBlock		    "Demux"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Filter3"
+		    SrcPort		    1
+		    Points		    [10, 0; 0, -50]
+		    DstBlock		    "myMux Fun1"
+		    DstPort		    3
+		    }
+		    Line {
+		    SrcBlock		    "Filter2"
+		    SrcPort		    1
+		    DstBlock		    "myMux Fun1"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "Filter1"
+		    SrcPort		    1
+		    Points		    [5, 0; 0, 50]
+		    DstBlock		    "myMux Fun1"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Demux"
+		    SrcPort		    3
+		    Points		    [5, 0; 0, 55]
+		    DstBlock		    "Filter3"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Demux"
+		    SrcPort		    2
+		    DstBlock		    "Filter2"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Demux"
+		    SrcPort		    1
+		    Points		    [5, 0; 0, -55]
+		    DstBlock		    "Filter1"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "3D Filter1"
+		  Ports			  [1, 1]
+		  Position		  [640, 196, 700, 254]
+		  AncestorBlock		  "SLUGS_Library/Singnal Routing\n& Co"
+"nditioning/3D Filter"
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Reusable function"
+		  RTWFcnNameOpts	  "User specified"
+		  RTWFcnName		  "TustinFilter3D"
+		  RTWFileNameOpts	  "Use function name"
+		  FunctionWithSeparateData off
+		  MaskHideContents	  off
+		  MaskPromptString	  "Zeros|Poles|Gains|Sample Time"
+		  MaskStyleString	  "edit,edit,edit,edit"
+		  MaskTunableValueString  "on,on,on,on"
+		  MaskCallbackString	  "|||"
+		  MaskEnableString	  "on,on,on,on"
+		  MaskVisibilityString	  "on,on,on,on"
+		  MaskToolTipString	  "on,on,on,on"
+		  MaskVarAliasString	  ",,,"
+		  MaskVariables		  "zval=@1;pval=@2;kval=@3;TSample=@4;"
+		  MaskDisplay		  "droots(zval,pval,kval)\nport_label("
+"'input',1,'3D')\n"
+		  MaskIconFrame		  on
+		  MaskIconOpaque	  on
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  MaskValueString	  "[]|-2*pi*10|2*pi*10|0.01"
+		  MaskTabNameString	  ",,,"
+		  System {
+		    Name		    "3D Filter1"
+		    Location		    [775, 320, 1085, 558]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [25, 113, 55, 127]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Demux
+		    Name		    "Demux"
+		    Ports		    [1, 3]
+		    Position		    [80, 101, 85, 139]
+		    BackgroundColor	    "black"
+		    ShowName		    off
+		    Outputs		    "3"
+		    DisplayOption	    "bar"
+		    }
+		    Block {
+		    BlockType		    SubSystem
+		    Name		    "Filter1"
+		    Ports		    [1, 1]
+		    Position		    [125, 27, 185, 83]
+		    ShowName		    off
+		    MinAlgLoopOccurrences   off
+		    RTWSystemCode	    "Auto"
+		    FunctionWithSeparateData off
+		    MaskHideContents	    off
+		    MaskType		    "DiscretizedZeroPole"
+		    MaskDescription	    "Continuous mask uses c2d to trans"
+"form parameters onto the Discrete Zero-Pole block inside."
+		    MaskPromptString	    "Zeros (enter in s-main:)|Poles (e"
+"nter in s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:"
+"|Method:|Critical Frequency (Hz):"
+		    MaskStyleString	    "edit,edit,edit,edit,edit,popup(zo"
+"h|foh|tustin|prewarp|matched),edit"
+		    MaskTunableValueString  "on,on,on,on,on,on,on"
+		    MaskCallbackString	    "|||||hidecrit|"
+		    MaskEnableString	    "on,on,on,on,on,on,on"
+		    MaskVisibilityString    "on,on,on,on,on,on,off"
+		    MaskToolTipString	    "on,on,on,on,on,on,on"
+		    MaskVarAliasString	    ",,,,,,"
+		    MaskVariables	    "Zeros=@1;Poles=@2;Gain=@3;AbsTol="
+"&4;SampleTime=@5;method=&6;Wc=@7;"
+		    MaskInitialization	    "st=SampleTime;\nif length(st)>1\n"
+"    st=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil("
+"'disczpk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,"
+"'maskvalues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eva"
+"l(zeross);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('ini"
+"tzpkmask', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance'"
+", AbsTol);\nend"
+		    MaskDisplay		    "droots(zeross,poless,gainss)\ntex"
+"t( 0.5, 1.0, method, 'verticalAlignment','top')"
+		    MaskSelfModifiable	    on
+		    MaskIconFrame	    on
+		    MaskIconOpaque	    on
+		    MaskIconRotate	    "port"
+		    MaskIconUnits	    "normalized"
+		    MaskValueString	    "zval|pval|kval|auto|TSample|tusti"
+"n|1"
+		    MaskTabNameString	    ",,,,,,"
+		    System {
+		    Name		    "Filter1"
+		    Location		    [499, 349, 791, 606]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [60, 103, 90, 117]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    DiscreteZeroPole
+		    Name		    "Discrete\nZero-Pole"
+		    Position		    [115, 92, 200, 128]
+		    Zeros		    "zerosd"
+		    Poles		    "polesd"
+		    Gain		    "gaind"
+		    SampleTime		    "SampleTime"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [235, 103, 265, 117]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    DstBlock		    "Discrete\nZero-Pole"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Discrete\nZero-Pole"
+		    SrcPort		    1
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    }
+		    }
+		    Block {
+		    BlockType		    SubSystem
+		    Name		    "Filter2"
+		    Ports		    [1, 1]
+		    Position		    [125, 92, 185, 148]
+		    ShowName		    off
+		    MinAlgLoopOccurrences   off
+		    RTWSystemCode	    "Auto"
+		    FunctionWithSeparateData off
+		    MaskHideContents	    off
+		    MaskType		    "DiscretizedZeroPole"
+		    MaskDescription	    "Continuous mask uses c2d to trans"
+"form parameters onto the Discrete Zero-Pole block inside."
+		    MaskPromptString	    "Zeros (enter in s-main:)|Poles (e"
+"nter in s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:"
+"|Method:|Critical Frequency (Hz):"
+		    MaskStyleString	    "edit,edit,edit,edit,edit,popup(zo"
+"h|foh|tustin|prewarp|matched),edit"
+		    MaskTunableValueString  "on,on,on,on,on,on,on"
+		    MaskCallbackString	    "|||||hidecrit|"
+		    MaskEnableString	    "on,on,on,on,on,on,on"
+		    MaskVisibilityString    "on,on,on,on,on,on,off"
+		    MaskToolTipString	    "on,on,on,on,on,on,on"
+		    MaskVarAliasString	    ",,,,,,"
+		    MaskVariables	    "Zeros=@1;Poles=@2;Gain=@3;AbsTol="
+"&4;SampleTime=@5;method=&6;Wc=@7;"
+		    MaskInitialization	    "st=SampleTime;\nif length(st)>1\n"
+"    st=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil("
+"'disczpk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,"
+"'maskvalues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eva"
+"l(zeross);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('ini"
+"tzpkmask', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance'"
+", AbsTol);\nend"
+		    MaskDisplay		    "droots(zeross,poless,gainss)\ntex"
+"t( 0.5, 1.0, method, 'verticalAlignment','top')"
+		    MaskSelfModifiable	    on
+		    MaskIconFrame	    on
+		    MaskIconOpaque	    on
+		    MaskIconRotate	    "port"
+		    MaskIconUnits	    "normalized"
+		    MaskValueString	    "zval|pval|kval|auto|TSample|tusti"
+"n|1"
+		    MaskTabNameString	    ",,,,,,"
+		    System {
+		    Name		    "Filter2"
+		    Location		    [499, 349, 791, 606]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [60, 103, 90, 117]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    DiscreteZeroPole
+		    Name		    "Discrete\nZero-Pole"
+		    Position		    [115, 92, 200, 128]
+		    Zeros		    "zerosd"
+		    Poles		    "polesd"
+		    Gain		    "gaind"
+		    SampleTime		    "SampleTime"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [235, 103, 265, 117]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "Discrete\nZero-Pole"
+		    SrcPort		    1
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    DstBlock		    "Discrete\nZero-Pole"
+		    DstPort		    1
+		    }
+		    }
+		    }
+		    Block {
+		    BlockType		    SubSystem
+		    Name		    "Filter3"
+		    Ports		    [1, 1]
+		    Position		    [125, 157, 185, 213]
+		    ShowName		    off
+		    MinAlgLoopOccurrences   off
+		    RTWSystemCode	    "Auto"
+		    FunctionWithSeparateData off
+		    MaskHideContents	    off
+		    MaskType		    "DiscretizedZeroPole"
+		    MaskDescription	    "Continuous mask uses c2d to trans"
+"form parameters onto the Discrete Zero-Pole block inside."
+		    MaskPromptString	    "Zeros (enter in s-main:)|Poles (e"
+"nter in s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:"
+"|Method:|Critical Frequency (Hz):"
+		    MaskStyleString	    "edit,edit,edit,edit,edit,popup(zo"
+"h|foh|tustin|prewarp|matched),edit"
+		    MaskTunableValueString  "on,on,on,on,on,on,on"
+		    MaskCallbackString	    "|||||hidecrit|"
+		    MaskEnableString	    "on,on,on,on,on,on,on"
+		    MaskVisibilityString    "on,on,on,on,on,on,off"
+		    MaskToolTipString	    "on,on,on,on,on,on,on"
+		    MaskVarAliasString	    ",,,,,,"
+		    MaskVariables	    "Zeros=@1;Poles=@2;Gain=@3;AbsTol="
+"&4;SampleTime=@5;method=&6;Wc=@7;"
+		    MaskInitialization	    "st=SampleTime;\nif length(st)>1\n"
+"    st=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil("
+"'disczpk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,"
+"'maskvalues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eva"
+"l(zeross);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('ini"
+"tzpkmask', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance'"
+", AbsTol);\nend"
+		    MaskDisplay		    "droots(zeross,poless,gainss)\ntex"
+"t( 0.5, 1.0, method, 'verticalAlignment','top')"
+		    MaskSelfModifiable	    on
+		    MaskIconFrame	    on
+		    MaskIconOpaque	    on
+		    MaskIconRotate	    "port"
+		    MaskIconUnits	    "normalized"
+		    MaskValueString	    "zval|pval|kval|auto|TSample|tusti"
+"n|1"
+		    MaskTabNameString	    ",,,,,,"
+		    System {
+		    Name		    "Filter3"
+		    Location		    [499, 349, 791, 606]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [60, 103, 90, 117]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    DiscreteZeroPole
+		    Name		    "Discrete\nZero-Pole"
+		    Position		    [115, 92, 200, 128]
+		    Zeros		    "zerosd"
+		    Poles		    "polesd"
+		    Gain		    "gaind"
+		    SampleTime		    "SampleTime"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [235, 103, 265, 117]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    DstBlock		    "Discrete\nZero-Pole"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Discrete\nZero-Pole"
+		    SrcPort		    1
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    }
+		    }
+		    Block {
+		    BlockType		    SubSystem
+		    Name		    "myMux Fun1"
+		    Ports		    [3, 1]
+		    Position		    [225, 96, 230, 144]
+		    ForegroundColor	    "blue"
+		    BackgroundColor	    "black"
+		    ShowName		    off
+		    MinAlgLoopOccurrences   off
+		    RTWSystemCode	    "Auto"
+		    FunctionWithSeparateData off
+		    MaskHideContents	    off
+		    MaskType		    "Stateflow"
+		    MaskDescription	    "Embedded MATLAB block"
+		    MaskDisplay		    "disp('myMux');"
+		    MaskSelfModifiable	    on
+		    MaskIconFrame	    on
+		    MaskIconOpaque	    off
+		    MaskIconRotate	    "none"
+		    MaskIconUnits	    "autoscale"
+		    System {
+		    Name		    "myMux Fun1"
+		    Location		    [257, 457, 812, 717]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "u1"
+		    Position		    [20, 101, 40, 119]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Inport
+		    Name		    "u2"
+		    Position		    [20, 136, 40, 154]
+		    Port		    "2"
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Inport
+		    Name		    "u3"
+		    Position		    [20, 171, 40, 189]
+		    Port		    "3"
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Demux
+		    Name		    " Demux "
+		    Ports		    [1, 1]
+		    Position		    [270, 180, 320, 220]
+		    Outputs		    "1"
+		    }
+		    Block {
+		    BlockType		    "S-Function"
+		    Name		    " SFunction "
+		    Tag			    "Stateflow S-Function sensorMCUSlu"
+"gsMKII_ren 34"
+		    Ports		    [3, 2]
+		    Position		    [180, 100, 230, 180]
+		    FunctionName	    "sf_sfun"
+		    PortCounts		    "[3 2]"
+		    Port {
+		    PortNumber		    2
+		    Name		    "y"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Terminator
+		    Name		    " Terminator "
+		    Position		    [460, 191, 480, 209]
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "y"
+		    Position		    [460, 101, 480, 119]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    Name		    "y"
+		    Labels		    [0, 0]
+		    SrcBlock		    " SFunction "
+		    SrcPort		    2
+		    DstBlock		    "y"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "u3"
+		    SrcPort		    1
+		    DstBlock		    " SFunction "
+		    DstPort		    3
+		    }
+		    Line {
+		    SrcBlock		    "u2"
+		    SrcPort		    1
+		    Points		    [120, 0]
+		    DstBlock		    " SFunction "
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "u1"
+		    SrcPort		    1
+		    DstBlock		    " SFunction "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    " Demux "
+		    SrcPort		    1
+		    DstBlock		    " Terminator "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    " SFunction "
+		    SrcPort		    1
+		    Points		    [20, 0]
+		    DstBlock		    " Demux "
+		    DstPort		    1
+		    }
+		    }
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [255, 113, 285, 127]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "Demux"
+		    SrcPort		    1
+		    Points		    [5, 0; 0, -55]
+		    DstBlock		    "Filter1"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Demux"
+		    SrcPort		    2
+		    DstBlock		    "Filter2"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Demux"
+		    SrcPort		    3
+		    Points		    [5, 0; 0, 55]
+		    DstBlock		    "Filter3"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Filter1"
+		    SrcPort		    1
+		    Points		    [5, 0; 0, 50]
+		    DstBlock		    "myMux Fun1"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Filter2"
+		    SrcPort		    1
+		    DstBlock		    "myMux Fun1"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "Filter3"
+		    SrcPort		    1
+		    Points		    [10, 0; 0, -50]
+		    DstBlock		    "myMux Fun1"
+		    DstPort		    3
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    DstBlock		    "Demux"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "myMux Fun1"
+		    SrcPort		    1
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  DataTypeConversion
+		  Name			  "Data Type Conversion1"
+		  Position		  [570, 217, 620, 233]
+		  ShowName		  off
+		  OutDataTypeMode	  "double"
+		  RndMeth		  "Floor"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  DataTypeConversion
+		  Name			  "Data Type Conversion2"
+		  Position		  [550, 97, 600, 113]
+		  ShowName		  off
+		  OutDataTypeMode	  "double"
+		  RndMeth		  "Floor"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  DataTypeConversion
+		  Name			  "Data Type Conversion3"
+		  Position		  [720, 217, 775, 233]
+		  ShowName		  off
+		  OutDataTypeMode	  "single"
+		  RndMeth		  "Floor"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  DataTypeConversion
+		  Name			  "Data Type Conversion7"
+		  Position		  [700, 97, 755, 113]
+		  ShowName		  off
+		  OutDataTypeMode	  "single"
+		  RndMeth		  "Floor"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
 		  BlockType		  Product
 		  Name			  "Divide"
 		  Ports			  [2, 1]
@@ -14103,7 +15235,7 @@ Model {
 		Block {
 		  BlockType		  Outport
 		  Name			  "Omega (rad/s)"
-		  Position		  [430, 98, 460, 112]
+		  Position		  [790, 98, 820, 112]
 		  BackgroundColor	  "yellow"
 		  IconDisplay		  "Port number"
 		  BusOutputAsStruct	  off
@@ -14111,7 +15243,7 @@ Model {
 		Block {
 		  BlockType		  Outport
 		  Name			  "Accel (m/s^2)"
-		  Position		  [590, 218, 620, 232]
+		  Position		  [795, 218, 825, 232]
 		  BackgroundColor	  "yellow"
 		  Port			  "2"
 		  IconDisplay		  "Port number"
@@ -14134,12 +15266,6 @@ Model {
 		  SrcBlock		  "Divide1"
 		  SrcPort		  1
 		  DstBlock		  "Rotate Cube Axis "
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "Rotate Cube Axis"
-		  SrcPort		  1
-		  DstBlock		  "Omega (rad/s)"
 		  DstPort		  1
 		}
 		Line {
@@ -14169,9 +15295,51 @@ Model {
 		  DstPort		  1
 		}
 		Line {
-		  SrcBlock		  "Ellipse Correction"
+		  SrcBlock		  "Data Type Conversion2"
+		  SrcPort		  1
+		  DstBlock		  "3D Filter"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "3D Filter"
+		  SrcPort		  1
+		  DstBlock		  "Data Type Conversion7"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Data Type Conversion7"
+		  SrcPort		  1
+		  DstBlock		  "Omega (rad/s)"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Rotate Cube Axis"
+		  SrcPort		  1
+		  DstBlock		  "Data Type Conversion2"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Data Type Conversion1"
+		  SrcPort		  1
+		  DstBlock		  "3D Filter1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "3D Filter1"
+		  SrcPort		  1
+		  DstBlock		  "Data Type Conversion3"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Data Type Conversion3"
 		  SrcPort		  1
 		  DstBlock		  "Accel (m/s^2)"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Ellipse Correction"
+		  SrcPort		  1
+		  DstBlock		  "Data Type Conversion1"
 		  DstPort		  1
 		}
 	      }
@@ -14255,7 +15423,7 @@ Model {
 		  Name			  "ADC Input"
 		  Tag			  "dsPIC_ADC"
 		  Ports			  [0, 4]
-		  Position		  [20, 319, 150, 401]
+		  Position		  [15, 319, 145, 401]
 		  BackgroundColor	  "lightBlue"
 		  Priority		  "5"
 		  List {
@@ -14268,20 +15436,20 @@ Model {
 		  ADC_TYPE		  "12 bits"
 		  ADC_MODE		  "Continuous sampling & get last chan"
 "nel value"
-		  NbrSampleStep		  "1"
+		  NbrSampleStep		  "4"
 		  VoltRefpopup		  "AVdd  -  AVss"
 		  OutFormatBitspopup	  "0000 dddd dddd dddd : Integer"
 		  InterruptPriority	  "6"
 		  ANCHANNELS		  "[8 9 10 11]"
 		  MaxName		  "ANmax = 4095"
 		  Rin			  "200"
-		  ADCS			  "53"
-		  SAMC			  "1"
+		  ADCS			  "63"
+		  SAMC			  "31"
 		  Temperature		  "25"
 		  DMAChannel		  "1"
 		  SampleTime		  ".01"
-		  Status		  "OK  |  Tsmp=6.750e-007 |  T/Channel"
-"=1.012e-005 |  Tall=4.050e-005"
+		  Status		  "OK  |  Tsmp=2.480e-005 |  T/Channel"
+"=3.600e-005 |  Tall=5.760e-004"
 		  SSRC			  "auto convert"
 		  Port {
 		    PortNumber		    1
@@ -14311,7 +15479,7 @@ Model {
 		Block {
 		  BlockType		  DataTypeConversion
 		  Name			  "Data Type Conversion"
-		  Position		  [235, 321, 300, 339]
+		  Position		  [330, 321, 395, 339]
 		  ShowName		  off
 		  OutDataTypeMode	  "int16"
 		  RndMeth		  "Floor"
@@ -14320,7 +15488,7 @@ Model {
 		Block {
 		  BlockType		  DataTypeConversion
 		  Name			  "Data Type Conversion1"
-		  Position		  [235, 341, 300, 359]
+		  Position		  [330, 341, 395, 359]
 		  ShowName		  off
 		  OutDataTypeMode	  "int16"
 		  RndMeth		  "Floor"
@@ -14329,7 +15497,7 @@ Model {
 		Block {
 		  BlockType		  DataTypeConversion
 		  Name			  "Data Type Conversion2"
-		  Position		  [235, 361, 300, 379]
+		  Position		  [330, 361, 395, 379]
 		  ShowName		  off
 		  OutDataTypeMode	  "int16"
 		  RndMeth		  "Floor"
@@ -14338,7 +15506,7 @@ Model {
 		Block {
 		  BlockType		  DataTypeConversion
 		  Name			  "Data Type Conversion3"
-		  Position		  [235, 381, 300, 399]
+		  Position		  [330, 381, 395, 399]
 		  ShowName		  off
 		  OutDataTypeMode	  "int16"
 		  RndMeth		  "Floor"
@@ -14348,7 +15516,7 @@ Model {
 		  BlockType		  Demux
 		  Name			  "Demux"
 		  Ports			  [1, 6]
-		  Position		  [375, 143, 380, 257]
+		  Position		  [470, 143, 475, 257]
 		  BackgroundColor	  "black"
 		  ShowName		  off
 		  Outputs		  "6"
@@ -14358,11 +15526,427 @@ Model {
 		  BlockType		  Demux
 		  Name			  "Demux1"
 		  Ports			  [1, 3]
-		  Position		  [375, 257, 380, 323]
+		  Position		  [470, 257, 475, 323]
 		  BackgroundColor	  "black"
 		  ShowName		  off
 		  Outputs		  "3"
 		  DisplayOption		  "bar"
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "Embedded\nMATLAB Function"
+		  Ports			  [1, 1]
+		  Position		  [200, 320, 300, 340]
+		  ShowName		  off
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Auto"
+		  FunctionWithSeparateData off
+		  MaskHideContents	  off
+		  MaskType		  "Stateflow"
+		  MaskDescription	  "Embedded MATLAB block"
+		  MaskDisplay		  "disp('averageADC');"
+		  MaskSelfModifiable	  on
+		  MaskIconFrame		  on
+		  MaskIconOpaque	  off
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  System {
+		    Name		    "Embedded\nMATLAB Function"
+		    Location		    [257, 457, 812, 717]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "u"
+		    Position		    [20, 101, 40, 119]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Demux
+		    Name		    " Demux "
+		    Ports		    [1, 1]
+		    Position		    [270, 160, 320, 200]
+		    Outputs		    "1"
+		    }
+		    Block {
+		    BlockType		    "S-Function"
+		    Name		    " SFunction "
+		    Tag			    "Stateflow S-Function sensorMCUSlu"
+"gsMKII_ren 27"
+		    Ports		    [1, 2]
+		    Position		    [180, 100, 230, 160]
+		    FunctionName	    "sf_sfun"
+		    PortCounts		    "[1 2]"
+		    Port {
+		    PortNumber		    2
+		    Name		    "y"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Terminator
+		    Name		    " Terminator "
+		    Position		    [460, 171, 480, 189]
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "y"
+		    Position		    [460, 101, 480, 119]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    " SFunction "
+		    SrcPort		    1
+		    Points		    [0, 65]
+		    DstBlock		    " Demux "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    " Demux "
+		    SrcPort		    1
+		    DstBlock		    " Terminator "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "u"
+		    SrcPort		    1
+		    DstBlock		    " SFunction "
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "y"
+		    Labels		    [0, 0]
+		    SrcBlock		    " SFunction "
+		    SrcPort		    2
+		    DstBlock		    "y"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "Embedded\nMATLAB Function1"
+		  Ports			  [1, 1]
+		  Position		  [200, 340, 300, 360]
+		  ShowName		  off
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Auto"
+		  FunctionWithSeparateData off
+		  MaskHideContents	  off
+		  MaskType		  "Stateflow"
+		  MaskDescription	  "Embedded MATLAB block"
+		  MaskDisplay		  "disp('averageADC');"
+		  MaskSelfModifiable	  on
+		  MaskIconFrame		  on
+		  MaskIconOpaque	  off
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  System {
+		    Name		    "Embedded\nMATLAB Function1"
+		    Location		    [257, 457, 812, 717]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "u"
+		    Position		    [20, 101, 40, 119]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Demux
+		    Name		    " Demux "
+		    Ports		    [1, 1]
+		    Position		    [270, 160, 320, 200]
+		    Outputs		    "1"
+		    }
+		    Block {
+		    BlockType		    "S-Function"
+		    Name		    " SFunction "
+		    Tag			    "Stateflow S-Function sensorMCUSlu"
+"gsMKII_ren 28"
+		    Ports		    [1, 2]
+		    Position		    [180, 100, 230, 160]
+		    FunctionName	    "sf_sfun"
+		    PortCounts		    "[1 2]"
+		    Port {
+		    PortNumber		    2
+		    Name		    "y"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Terminator
+		    Name		    " Terminator "
+		    Position		    [460, 171, 480, 189]
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "y"
+		    Position		    [460, 101, 480, 119]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    Name		    "y"
+		    Labels		    [0, 0]
+		    SrcBlock		    " SFunction "
+		    SrcPort		    2
+		    DstBlock		    "y"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "u"
+		    SrcPort		    1
+		    DstBlock		    " SFunction "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    " Demux "
+		    SrcPort		    1
+		    DstBlock		    " Terminator "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    " SFunction "
+		    SrcPort		    1
+		    Points		    [0, 65]
+		    DstBlock		    " Demux "
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "Embedded\nMATLAB Function2"
+		  Ports			  [1, 1]
+		  Position		  [200, 360, 300, 380]
+		  ShowName		  off
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Auto"
+		  FunctionWithSeparateData off
+		  MaskHideContents	  off
+		  MaskType		  "Stateflow"
+		  MaskDescription	  "Embedded MATLAB block"
+		  MaskDisplay		  "disp('averageADC');"
+		  MaskSelfModifiable	  on
+		  MaskIconFrame		  on
+		  MaskIconOpaque	  off
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  System {
+		    Name		    "Embedded\nMATLAB Function2"
+		    Location		    [257, 457, 812, 717]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "u"
+		    Position		    [20, 101, 40, 119]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Demux
+		    Name		    " Demux "
+		    Ports		    [1, 1]
+		    Position		    [270, 160, 320, 200]
+		    Outputs		    "1"
+		    }
+		    Block {
+		    BlockType		    "S-Function"
+		    Name		    " SFunction "
+		    Tag			    "Stateflow S-Function sensorMCUSlu"
+"gsMKII_ren 31"
+		    Ports		    [1, 2]
+		    Position		    [180, 100, 230, 160]
+		    FunctionName	    "sf_sfun"
+		    PortCounts		    "[1 2]"
+		    Port {
+		    PortNumber		    2
+		    Name		    "y"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Terminator
+		    Name		    " Terminator "
+		    Position		    [460, 171, 480, 189]
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "y"
+		    Position		    [460, 101, 480, 119]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    " SFunction "
+		    SrcPort		    1
+		    Points		    [0, 65]
+		    DstBlock		    " Demux "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    " Demux "
+		    SrcPort		    1
+		    DstBlock		    " Terminator "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "u"
+		    SrcPort		    1
+		    DstBlock		    " SFunction "
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "y"
+		    Labels		    [0, 0]
+		    SrcBlock		    " SFunction "
+		    SrcPort		    2
+		    DstBlock		    "y"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "Embedded\nMATLAB Function3"
+		  Ports			  [1, 1]
+		  Position		  [200, 380, 300, 400]
+		  ShowName		  off
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Auto"
+		  FunctionWithSeparateData off
+		  MaskHideContents	  off
+		  MaskType		  "Stateflow"
+		  MaskDescription	  "Embedded MATLAB block"
+		  MaskDisplay		  "disp('averageADC');"
+		  MaskSelfModifiable	  on
+		  MaskIconFrame		  on
+		  MaskIconOpaque	  off
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  System {
+		    Name		    "Embedded\nMATLAB Function3"
+		    Location		    [257, 457, 812, 717]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "u"
+		    Position		    [20, 101, 40, 119]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Demux
+		    Name		    " Demux "
+		    Ports		    [1, 1]
+		    Position		    [270, 160, 320, 200]
+		    Outputs		    "1"
+		    }
+		    Block {
+		    BlockType		    "S-Function"
+		    Name		    " SFunction "
+		    Tag			    "Stateflow S-Function sensorMCUSlu"
+"gsMKII_ren 32"
+		    Ports		    [1, 2]
+		    Position		    [180, 100, 230, 160]
+		    FunctionName	    "sf_sfun"
+		    PortCounts		    "[1 2]"
+		    Port {
+		    PortNumber		    2
+		    Name		    "y"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Terminator
+		    Name		    " Terminator "
+		    Position		    [460, 171, 480, 189]
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "y"
+		    Position		    [460, 101, 480, 119]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    Name		    "y"
+		    Labels		    [0, 0]
+		    SrcBlock		    " SFunction "
+		    SrcPort		    2
+		    DstBlock		    "y"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "u"
+		    SrcPort		    1
+		    DstBlock		    " SFunction "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    " Demux "
+		    SrcPort		    1
+		    DstBlock		    " Terminator "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    " SFunction "
+		    SrcPort		    1
+		    Points		    [0, 65]
+		    DstBlock		    " Demux "
+		    DstPort		    1
+		    }
+		  }
 		}
 		Block {
 		  BlockType		  Reference
@@ -14370,7 +15954,7 @@ Model {
 "te the AP State\n(lat lon hei cog sog)\n[gps.c]"
 		  Tag			  "dsPIC_dsPIC_CFunctionCall"
 		  Ports			  [0, 1]
-		  Position		  [185, 612, 325, 658]
+		  Position		  [280, 612, 420, 658]
 		  BackgroundColor	  "orange"
 		  List {
 		    ListType		    RTWdata
@@ -14403,7 +15987,7 @@ Model {
 		Block {
 		  BlockType		  RateTransition
 		  Name			  "Rate Transition"
-		  Position		  [270, 269, 310, 311]
+		  Position		  [365, 269, 405, 311]
 		  OutPortSampleTime	  "0.01"
 		}
 		Block {
@@ -14411,7 +15995,7 @@ Model {
 		  Name			  "Read the Cube Data\n[adisCube.c]"
 		  Tag			  "dsPIC_dsPIC_CFunctionCall"
 		  Ports			  [0, 1]
-		  Position		  [165, 182, 270, 218]
+		  Position		  [260, 182, 365, 218]
 		  BackgroundColor	  "orange"
 		  List {
 		    ListType		    RTWdata
@@ -14446,7 +16030,7 @@ Model {
 		  Name			  "Read the I2C Mag\n[magneto.c]"
 		  Tag			  "dsPIC_dsPIC_CFunctionCall"
 		  Ports			  [0, 1]
-		  Position		  [70, 242, 175, 278]
+		  Position		  [165, 242, 270, 278]
 		  BackgroundColor	  "orange"
 		  List {
 		    ListType		    RTWdata
@@ -14480,7 +16064,7 @@ Model {
 "er.c]"
 		  Tag			  "dsPIC_dsPIC_CFunctionCall"
 		  Ports			  [1]
-		  Position		  [455, 467, 595, 513]
+		  Position		  [550, 467, 690, 513]
 		  BackgroundColor	  "orange"
 		  List {
 		    ListType		    RTWdata
@@ -14514,7 +16098,7 @@ Model {
 		  BlockType		  SubSystem
 		  Name			  "myMux Fun"
 		  Ports			  [4, 1]
-		  Position		  [410, 436, 415, 539]
+		  Position		  [505, 436, 510, 539]
 		  BackgroundColor	  "black"
 		  ShowName		  off
 		  MinAlgLoopOccurrences	  off
@@ -14659,7 +16243,7 @@ Model {
 		  BlockType		  SubSystem
 		  Name			  "myMux Fun4"
 		  Ports			  [13, 1]
-		  Position		  [445, 150, 450, 390]
+		  Position		  [540, 150, 545, 390]
 		  BackgroundColor	  "black"
 		  ShowName		  off
 		  MinAlgLoopOccurrences	  off
@@ -14921,7 +16505,7 @@ Model {
 		Block {
 		  BlockType		  Outport
 		  Name			  "Sensors"
-		  Position		  [495, 263, 525, 277]
+		  Position		  [590, 263, 620, 277]
 		  BackgroundColor	  "yellow"
 		  IconDisplay		  "Port number"
 		  BusOutputAsStruct	  off
@@ -14929,7 +16513,7 @@ Model {
 		Block {
 		  BlockType		  Outport
 		  Name			  "GPS"
-		  Position		  [375, 628, 405, 642]
+		  Position		  [470, 628, 500, 642]
 		  BackgroundColor	  "yellow"
 		  Port			  "2"
 		  IconDisplay		  "Port number"
@@ -15013,7 +16597,7 @@ Model {
 		  Labels		  [0, 0]
 		  SrcBlock		  "ADC Input"
 		  SrcPort		  1
-		  DstBlock		  "Data Type Conversion"
+		  DstBlock		  "Embedded\nMATLAB Function"
 		  DstPort		  1
 		}
 		Line {
@@ -15021,7 +16605,7 @@ Model {
 		  Labels		  [0, 0]
 		  SrcBlock		  "ADC Input"
 		  SrcPort		  2
-		  DstBlock		  "Data Type Conversion1"
+		  DstBlock		  "Embedded\nMATLAB Function1"
 		  DstPort		  1
 		}
 		Line {
@@ -15029,7 +16613,7 @@ Model {
 		  Labels		  [0, 0]
 		  SrcBlock		  "ADC Input"
 		  SrcPort		  3
-		  DstBlock		  "Data Type Conversion2"
+		  DstBlock		  "Embedded\nMATLAB Function2"
 		  DstPort		  1
 		}
 		Line {
@@ -15037,7 +16621,7 @@ Model {
 		  Labels		  [0, 0]
 		  SrcBlock		  "ADC Input"
 		  SrcPort		  4
-		  DstBlock		  "Data Type Conversion3"
+		  DstBlock		  "Embedded\nMATLAB Function3"
 		  DstPort		  1
 		}
 		Line {
@@ -15114,6 +16698,30 @@ Model {
 "te the AP State\n(lat lon hei cog sog)\n[gps.c]"
 		  SrcPort		  1
 		  DstBlock		  "GPS"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Embedded\nMATLAB Function"
+		  SrcPort		  1
+		  DstBlock		  "Data Type Conversion"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Embedded\nMATLAB Function1"
+		  SrcPort		  1
+		  DstBlock		  "Data Type Conversion1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Embedded\nMATLAB Function2"
+		  SrcPort		  1
+		  DstBlock		  "Data Type Conversion2"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Embedded\nMATLAB Function3"
+		  SrcPort		  1
+		  DstBlock		  "Data Type Conversion3"
 		  DstPort		  1
 		}
 	      }
@@ -15305,7 +16913,7 @@ Model {
 		  MaskIconOpaque	  on
 		  MaskIconRotate	  "none"
 		  MaskIconUnits		  "autoscale"
-		  MaskValueString	  "[]|-125|125|0.01"
+		  MaskValueString	  "[]|-2*pi*10|2*pi*10|0.01"
 		  MaskTabNameString	  ",,,"
 		  System {
 		    Name		    "3D Filter"
@@ -18009,7 +19617,7 @@ Model {
 		  MaskIconOpaque	  on
 		  MaskIconRotate	  "port"
 		  MaskIconUnits		  "normalized"
-		  MaskValueString	  "[]|[-30]|30|auto|T|tustin|1"
+		  MaskValueString	  "[]|[-10]|10|auto|T|tustin|1"
 		  MaskTabNameString	  ",,,,,,"
 		  System {
 		    Name		    "Low Pass1"
@@ -18103,7 +19711,7 @@ Model {
 		  MaskIconOpaque	  on
 		  MaskIconRotate	  "port"
 		  MaskIconUnits		  "normalized"
-		  MaskValueString	  "[]|[-30]|30|auto|T|tustin|1"
+		  MaskValueString	  "[]|[-20]|20|auto|T|tustin|1"
 		  MaskTabNameString	  ",,,,,,"
 		  System {
 		    Name		    "Low Pass2"
@@ -18197,7 +19805,7 @@ Model {
 		  MaskIconOpaque	  on
 		  MaskIconRotate	  "port"
 		  MaskIconUnits		  "normalized"
-		  MaskValueString	  "[]|[-3]|3|auto|T|tustin|1"
+		  MaskValueString	  "[]|[-0.5]|0.5|auto|T|tustin|1"
 		  MaskTabNameString	  ",,,,,,"
 		  System {
 		    Name		    "Low Pass4"
@@ -18291,7 +19899,7 @@ Model {
 		  MaskIconOpaque	  on
 		  MaskIconRotate	  "port"
 		  MaskIconUnits		  "normalized"
-		  MaskValueString	  "[]|[-1]|1|auto|T|tustin|1"
+		  MaskValueString	  "[]|[-0.5]|0.5|auto|T|tustin|1"
 		  MaskTabNameString	  ",,,,,,"
 		  System {
 		    Name		    "Low Pass8"
@@ -22649,7 +24257,7 @@ Stateflow {
 		name                 		"sensorMCUSlugsMKII_ren"
 		created              		"31-Aug-2008 19:55:28"
 		isLibrary            		0
-		firstTarget          		256
+		firstTarget          		302
 		sfVersion            		66014000
 	}
 
@@ -27661,23 +29269,27 @@ Stateflow {
 
 	chart {
 		id                                        		241
-		name                                      		"Norm/Subsystem1/negprotect"
-		windowPosition                            		[309.591 284.864 200.25 189.75]
+		name                                      		"Sensor Data/Sensor Suite/If no HIL then\n"
+					"Read all the\n"
+					"Sensors/Embedded\n"
+					"MATLAB Function"
+		windowPosition                            		[375.75 203.25 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
-		screen                                    		[1 1 1280 833 1.333333333333333]
+		screen                                    		[1 1 1920 1200 1.333333333333333]
 		treeNode                                  		[0 242 0 0]
 		firstTransition                           		244
 		firstJunction                             		243
 		viewObj                                   		241
 		machine                                   		1
-		toolbarMode                               		LIBRARY_TOOLBAR
+		subviewS {
+		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		245
-		chartFileNumber                           		29
+		chartFileNumber                           		27
 		disableImplicitCasting                    		1
 		eml {
-			name       		"negProt"
+			name       		"averageADC"
 		}
 	}
 
@@ -27694,16 +29306,12 @@ Stateflow {
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function zpVal = negProt(val)\n"
+			script                   		"function y = averageADC(u)\n"
 						"% This block supports an embeddable subset of the MATLAB la"
 						"nguage.\n"
 						"% See the help menu for details. \n"
 						"\n"
-						"if val >= single(0.001)\n"
-						"    zpVal = val;\n"
-						"else\n"
-						"    zpVal = single(0.001);\n"
-						"end"
+						"y = (u(1)+ u(2) + u(3) + u(4))*0.25;"
 			editorLayout             		"100 M4x1[146 214 671 364]"
 			treatIntsAsFixpt         		0
 		}
@@ -27741,7 +29349,7 @@ Stateflow {
 
 	data {
 		id                            		245
-		name                          		"val"
+		name                          		"u"
 		linkNode                      		[241 0 246]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -27764,7 +29372,7 @@ Stateflow {
 
 	data {
 		id                            		246
-		name                          		"zpVal"
+		name                          		"y"
 		linkNode                      		[241 245 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
@@ -27788,31 +29396,37 @@ Stateflow {
 
 	instance {
 		id     		247
-		name   		"Norm/Subsystem1/negprotect"
+		name   		"Sensor Data/Sensor Suite/If no HIL then\n"
+					"Read all the\n"
+					"Sensors/Embedded\n"
+					"MATLAB Function"
 		machine		1
 		chart  		241
 	}
 
 	chart {
 		id                                        		248
-		name                                      		"Norm/Subsystem3/Embedded\n"
-					"MATLAB Function"
-		windowPosition                            		[354.715 190.316 200.25 189.75]
+		name                                      		"Sensor Data/Sensor Suite/If no HIL then\n"
+					"Read all the\n"
+					"Sensors/Embedded\n"
+					"MATLAB Function1"
+		windowPosition                            		[390.75 188.25 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
-		screen                                    		[1 1 1280 833 1.333333333333333]
+		screen                                    		[1 1 1920 1200 1.333333333333333]
 		treeNode                                  		[0 249 0 0]
 		firstTransition                           		251
 		firstJunction                             		250
 		viewObj                                   		248
 		machine                                   		1
-		toolbarMode                               		LIBRARY_TOOLBAR
+		subviewS {
+		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		252
-		chartFileNumber                           		30
+		chartFileNumber                           		28
 		disableImplicitCasting                    		1
 		eml {
-			name       		"myDot"
+			name       		"averageADC"
 		}
 	}
 
@@ -27829,12 +29443,12 @@ Stateflow {
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function xDoty = myDot(x,y)\n"
+			script                   		"function y = averageADC(u)\n"
 						"% This block supports an embeddable subset of the MATLAB la"
 						"nguage.\n"
 						"% See the help menu for details. \n"
 						"\n"
-						"xDoty = x(1)*y(1) + x(2)*y(2) + x(3)*y(3);"
+						"y = (u(1)+ u(2) + u(3) + u(4))*0.25;"
 			editorLayout             		"100 M4x1[146 214 671 364]"
 			treatIntsAsFixpt         		0
 		}
@@ -27872,7 +29486,7 @@ Stateflow {
 
 	data {
 		id                            		252
-		name                          		"x"
+		name                          		"u"
 		linkNode                      		[248 0 253]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -27896,7 +29510,275 @@ Stateflow {
 	data {
 		id                            		253
 		name                          		"y"
-		linkNode                      		[248 252 254]
+		linkNode                      		[248 252 0]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	instance {
+		id     		254
+		name   		"Sensor Data/Sensor Suite/If no HIL then\n"
+					"Read all the\n"
+					"Sensors/Embedded\n"
+					"MATLAB Function1"
+		machine		1
+		chart  		248
+	}
+
+	chart {
+		id                                        		255
+		name                                      		"Norm/Subsystem1/negprotect"
+		windowPosition                            		[309.591 284.864 200.25 189.75]
+		viewLimits                                		[0 156.75 0 153.75]
+		screen                                    		[1 1 1280 833 1.333333333333333]
+		treeNode                                  		[0 256 0 0]
+		firstTransition                           		258
+		firstJunction                             		257
+		viewObj                                   		255
+		machine                                   		1
+		toolbarMode                               		LIBRARY_TOOLBAR
+		decomposition                             		CLUSTER_CHART
+		type                                      		EML_CHART
+		firstData                                 		259
+		chartFileNumber                           		29
+		disableImplicitCasting                    		1
+		eml {
+			name       		"negProt"
+		}
+	}
+
+	state {
+		id                           		256
+		labelString                  		"eML_blk_kernel()"
+		position                     		[18 64.5 118 66]
+		fontSize                     		12
+		chart                        		255
+		treeNode                     		[255 0 0 0]
+		superState                   		SUBCHART
+		subviewer                    		255
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			isEML                    		1
+			script                   		"function zpVal = negProt(val)\n"
+						"% This block supports an embeddable subset of the MATLAB la"
+						"nguage.\n"
+						"% See the help menu for details. \n"
+						"\n"
+						"if val >= single(0.001)\n"
+						"    zpVal = val;\n"
+						"else\n"
+						"    zpVal = single(0.001);\n"
+						"end"
+			editorLayout             		"100 M4x1[146 214 671 364]"
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	junction {
+		id         		257
+		position   		[23.5747 49.5747 7]
+		chart      		255
+		linkNode   		[255 0 0]
+		subviewer  		255
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		258
+		labelString    		"{eML_blk_kernel();}"
+		labelPosition  		[32.125 19.875 102.544 14.964]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 23.5747 14.625 0 0]
+		}
+		dst {
+			id          		257
+			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
+		}
+		midPoint       		[23.5747 24.9468]
+		chart          		255
+		linkNode       		[255 0 0]
+		dataLimits     		[23.575 23.575 14.625 34.575]
+		subviewer      		255
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	data {
+		id                            		259
+		name                          		"val"
+		linkNode                      		[255 0 260]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		260
+		name                          		"zpVal"
+		linkNode                      		[255 259 0]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	instance {
+		id     		261
+		name   		"Norm/Subsystem1/negprotect"
+		machine		1
+		chart  		255
+	}
+
+	chart {
+		id                                        		262
+		name                                      		"Norm/Subsystem3/Embedded\n"
+					"MATLAB Function"
+		windowPosition                            		[354.715 190.316 200.25 189.75]
+		viewLimits                                		[0 156.75 0 153.75]
+		screen                                    		[1 1 1280 833 1.333333333333333]
+		treeNode                                  		[0 263 0 0]
+		firstTransition                           		265
+		firstJunction                             		264
+		viewObj                                   		262
+		machine                                   		1
+		toolbarMode                               		LIBRARY_TOOLBAR
+		decomposition                             		CLUSTER_CHART
+		type                                      		EML_CHART
+		firstData                                 		266
+		chartFileNumber                           		30
+		disableImplicitCasting                    		1
+		eml {
+			name       		"myDot"
+		}
+	}
+
+	state {
+		id                           		263
+		labelString                  		"eML_blk_kernel()"
+		position                     		[18 64.5 118 66]
+		fontSize                     		12
+		chart                        		262
+		treeNode                     		[262 0 0 0]
+		superState                   		SUBCHART
+		subviewer                    		262
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			isEML                    		1
+			script                   		"function xDoty = myDot(x,y)\n"
+						"% This block supports an embeddable subset of the MATLAB la"
+						"nguage.\n"
+						"% See the help menu for details. \n"
+						"\n"
+						"xDoty = x(1)*y(1) + x(2)*y(2) + x(3)*y(3);"
+			editorLayout             		"100 M4x1[146 214 671 364]"
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	junction {
+		id         		264
+		position   		[23.5747 49.5747 7]
+		chart      		262
+		linkNode   		[262 0 0]
+		subviewer  		262
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		265
+		labelString    		"{eML_blk_kernel();}"
+		labelPosition  		[32.125 19.875 102.544 14.964]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 23.5747 14.625 0 0]
+		}
+		dst {
+			id          		264
+			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
+		}
+		midPoint       		[23.5747 24.9468]
+		chart          		262
+		linkNode       		[262 0 0]
+		dataLimits     		[23.575 23.575 14.625 34.575]
+		subviewer      		262
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	data {
+		id                            		266
+		name                          		"x"
+		linkNode                      		[262 0 267]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		267
+		name                          		"y"
+		linkNode                      		[262 266 268]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -27918,9 +29800,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		254
+		id                            		268
 		name                          		"xDoty"
-		linkNode                      		[248 253 0]
+		linkNode                      		[262 267 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -27941,28 +29823,658 @@ Stateflow {
 	}
 
 	instance {
-		id     		255
+		id     		269
 		name   		"Norm/Subsystem3/Embedded\n"
 					"MATLAB Function"
 		machine		1
-		chart  		248
+		chart  		262
+	}
+
+	chart {
+		id                                        		270
+		name                                      		"Sensor Data/Sensor Suite/If no HIL then\n"
+					"Read all the\n"
+					"Sensors/Embedded\n"
+					"MATLAB Function2"
+		windowPosition                            		[405.75 173.25 200.25 189.75]
+		viewLimits                                		[0 156.75 0 153.75]
+		screen                                    		[1 1 1920 1200 1.333333333333333]
+		treeNode                                  		[0 271 0 0]
+		firstTransition                           		273
+		firstJunction                             		272
+		viewObj                                   		270
+		machine                                   		1
+		subviewS {
+		}
+		decomposition                             		CLUSTER_CHART
+		type                                      		EML_CHART
+		firstData                                 		274
+		chartFileNumber                           		31
+		disableImplicitCasting                    		1
+		eml {
+			name       		"averageADC"
+		}
+	}
+
+	state {
+		id                           		271
+		labelString                  		"eML_blk_kernel()"
+		position                     		[18 64.5 118 66]
+		fontSize                     		12
+		chart                        		270
+		treeNode                     		[270 0 0 0]
+		superState                   		SUBCHART
+		subviewer                    		270
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			isEML                    		1
+			script                   		"function y = averageADC(u)\n"
+						"% This block supports an embeddable subset of the MATLAB la"
+						"nguage.\n"
+						"% See the help menu for details. \n"
+						"\n"
+						"y = (u(1)+ u(2) + u(3) + u(4))*0.25;"
+			editorLayout             		"100 M4x1[146 214 671 364]"
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	junction {
+		id         		272
+		position   		[23.5747 49.5747 7]
+		chart      		270
+		linkNode   		[270 0 0]
+		subviewer  		270
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		273
+		labelString    		"{eML_blk_kernel();}"
+		labelPosition  		[32.125 19.875 102.544 14.964]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 23.5747 14.625 0 0]
+		}
+		dst {
+			id          		272
+			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
+		}
+		midPoint       		[23.5747 24.9468]
+		chart          		270
+		linkNode       		[270 0 0]
+		dataLimits     		[23.575 23.575 14.625 34.575]
+		subviewer      		270
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	data {
+		id                            		274
+		name                          		"u"
+		linkNode                      		[270 0 275]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		275
+		name                          		"y"
+		linkNode                      		[270 274 0]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	instance {
+		id     		276
+		name   		"Sensor Data/Sensor Suite/If no HIL then\n"
+					"Read all the\n"
+					"Sensors/Embedded\n"
+					"MATLAB Function2"
+		machine		1
+		chart  		270
+	}
+
+	chart {
+		id                                        		277
+		name                                      		"Sensor Data/Sensor Suite/If no HIL then\n"
+					"Read all the\n"
+					"Sensors/Embedded\n"
+					"MATLAB Function3"
+		windowPosition                            		[420.75 158.25 200.25 189.75]
+		viewLimits                                		[0 156.75 0 153.75]
+		screen                                    		[1 1 1920 1200 1.333333333333333]
+		treeNode                                  		[0 278 0 0]
+		firstTransition                           		280
+		firstJunction                             		279
+		viewObj                                   		277
+		machine                                   		1
+		subviewS {
+		}
+		decomposition                             		CLUSTER_CHART
+		type                                      		EML_CHART
+		firstData                                 		281
+		chartFileNumber                           		32
+		disableImplicitCasting                    		1
+		eml {
+			name       		"averageADC"
+		}
+	}
+
+	state {
+		id                           		278
+		labelString                  		"eML_blk_kernel()"
+		position                     		[18 64.5 118 66]
+		fontSize                     		12
+		chart                        		277
+		treeNode                     		[277 0 0 0]
+		superState                   		SUBCHART
+		subviewer                    		277
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			isEML                    		1
+			script                   		"function y = averageADC(u)\n"
+						"% This block supports an embeddable subset of the MATLAB la"
+						"nguage.\n"
+						"% See the help menu for details. \n"
+						"\n"
+						"y = (u(1)+ u(2) + u(3) + u(4))*0.25;"
+			editorLayout             		"100 M4x1[146 214 671 364]"
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	junction {
+		id         		279
+		position   		[23.5747 49.5747 7]
+		chart      		277
+		linkNode   		[277 0 0]
+		subviewer  		277
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		280
+		labelString    		"{eML_blk_kernel();}"
+		labelPosition  		[32.125 19.875 102.544 14.964]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 23.5747 14.625 0 0]
+		}
+		dst {
+			id          		279
+			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
+		}
+		midPoint       		[23.5747 24.9468]
+		chart          		277
+		linkNode       		[277 0 0]
+		dataLimits     		[23.575 23.575 14.625 34.575]
+		subviewer      		277
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	data {
+		id                            		281
+		name                          		"u"
+		linkNode                      		[277 0 282]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		282
+		name                          		"y"
+		linkNode                      		[277 281 0]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	instance {
+		id     		283
+		name   		"Sensor Data/Sensor Suite/If no HIL then\n"
+					"Read all the\n"
+					"Sensors/Embedded\n"
+					"MATLAB Function3"
+		machine		1
+		chart  		277
+	}
+
+	chart {
+		id                                        		284
+		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond/3D Filter/myMux Fun1"
+		windowPosition                            		[401.813 158.776 200.25 189.75]
+		viewLimits                                		[0 156.75 0 153.75]
+		screen                                    		[1 1 1920 1200 1.333333333333333]
+		treeNode                                  		[0 285 0 0]
+		firstTransition                           		287
+		firstJunction                             		286
+		viewObj                                   		284
+		machine                                   		1
+		subviewS {
+		}
+		decomposition                             		CLUSTER_CHART
+		type                                      		EML_CHART
+		firstData                                 		288
+		chartFileNumber                           		33
+		disableImplicitCasting                    		1
+		eml {
+			name       		"myMux"
+			noDebugging		1
+		}
+	}
+
+	state {
+		id                           		285
+		labelString                  		"eML_blk_kernel()"
+		position                     		[18 64.5 118 66]
+		fontSize                     		12
+		chart                        		284
+		treeNode                     		[284 0 0 0]
+		superState                   		SUBCHART
+		subviewer                    		284
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			isEML                    		1
+			script                   		"function y = myMux(u1, u2, u3)\n"
+						"% This block supports an embeddable subset of the MATLAB la"
+						"nguage.\n"
+						"% See the help menu for details. \n"
+						"\n"
+						"y = [u1(1); u2(1); u3(1)];"
+			editorLayout             		"100 M4x1[332 95 720 640]"
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	junction {
+		id         		286
+		position   		[23.5747 49.5747 7]
+		chart      		284
+		linkNode   		[284 0 0]
+		subviewer  		284
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		287
+		labelString    		"{eML_blk_kernel();}"
+		labelPosition  		[32.125 19.875 102.544 14.964]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 23.5747 14.625 0 0]
+		}
+		dst {
+			id          		286
+			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
+		}
+		midPoint       		[23.5747 24.9468]
+		chart          		284
+		linkNode       		[284 0 0]
+		dataLimits     		[23.575 23.575 14.625 34.575]
+		subviewer      		284
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	data {
+		id                            		288
+		name                          		"u1"
+		linkNode                      		[284 0 289]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		289
+		name                          		"y"
+		linkNode                      		[284 288 290]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		290
+		name                          		"u2"
+		linkNode                      		[284 289 291]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		291
+		name                          		"u3"
+		linkNode                      		[284 290 0]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	instance {
+		id     		292
+		name   		"Sensor Data/Sensor Suite/Cube Signal Cond/3D Filter/myMux Fun1"
+		machine		1
+		chart  		284
+	}
+
+	chart {
+		id                                        		293
+		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond/3D Filter1/myMux Fun1"
+		windowPosition                            		[416.813 143.776 200.25 189.75]
+		viewLimits                                		[0 156.75 0 153.75]
+		screen                                    		[1 1 1920 1200 1.333333333333333]
+		treeNode                                  		[0 294 0 0]
+		firstTransition                           		296
+		firstJunction                             		295
+		viewObj                                   		293
+		machine                                   		1
+		subviewS {
+		}
+		decomposition                             		CLUSTER_CHART
+		type                                      		EML_CHART
+		firstData                                 		297
+		chartFileNumber                           		34
+		disableImplicitCasting                    		1
+		eml {
+			name       		"myMux"
+			noDebugging		1
+		}
+	}
+
+	state {
+		id                           		294
+		labelString                  		"eML_blk_kernel()"
+		position                     		[18 64.5 118 66]
+		fontSize                     		12
+		chart                        		293
+		treeNode                     		[293 0 0 0]
+		superState                   		SUBCHART
+		subviewer                    		293
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			isEML                    		1
+			script                   		"function y = myMux(u1, u2, u3)\n"
+						"% This block supports an embeddable subset of the MATLAB la"
+						"nguage.\n"
+						"% See the help menu for details. \n"
+						"\n"
+						"y = [u1(1); u2(1); u3(1)];"
+			editorLayout             		"100 M4x1[332 95 720 640]"
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	junction {
+		id         		295
+		position   		[23.5747 49.5747 7]
+		chart      		293
+		linkNode   		[293 0 0]
+		subviewer  		293
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		296
+		labelString    		"{eML_blk_kernel();}"
+		labelPosition  		[32.125 19.875 102.544 14.964]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 23.5747 14.625 0 0]
+		}
+		dst {
+			id          		295
+			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
+		}
+		midPoint       		[23.5747 24.9468]
+		chart          		293
+		linkNode       		[293 0 0]
+		dataLimits     		[23.575 23.575 14.625 34.575]
+		subviewer      		293
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	data {
+		id                            		297
+		name                          		"u1"
+		linkNode                      		[293 0 298]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		298
+		name                          		"y"
+		linkNode                      		[293 297 299]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		299
+		name                          		"u2"
+		linkNode                      		[293 298 300]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		300
+		name                          		"u3"
+		linkNode                      		[293 299 0]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	instance {
+		id     		301
+		name   		"Sensor Data/Sensor Suite/Cube Signal Cond/3D Filter1/myMux Fun1"
+		machine		1
+		chart  		293
 	}
 
 	target {
-		id                        		256
+		id                        		302
 		name                      		"sfun"
 		description               		"Default Simulink S-Function Target."
 		machine                   		1
-		linkNode                  		[1 0 257]
+		linkNode                  		[1 0 303]
 	}
 
 	target {
-		id                        		257
+		id                        		303
 		name                      		"rtw"
 		codeFlags                 		" comments=1 statebitsets=1 databitsets=1 emitlogicalops=1 el"
 						"seifdetection=1 constantfolding=1 redundantloadelimination=0"
 						" preservenames=0 preservenameswithparent=0 exportcharts=0"
 		machine                   		1
-		linkNode                  		[1 256 0]
+		linkNode                  		[1 302 0]
 	}
 }
