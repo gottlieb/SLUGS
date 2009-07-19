@@ -448,6 +448,15 @@ typedef struct tAPStatusData{
 	unsigned char	drf_pass;
 }tAPStatusData;
 
+typedef struct tCubeBuffer {
+  tShortToChar  ax[4];
+  tShortToChar  ay[4];
+  tShortToChar  az[4];
+  tShortToChar  gx[4];
+  tShortToChar  gx[4];
+  tShortToChar  gz[4];
+  unsigned char smple_count;
+}tCubeBuffer;
 
 #ifdef __cplusplus
       }

@@ -23,6 +23,12 @@
 #define BITEXTEND_12	(unsigned short)0xF000
 
 
+#define convert14BitToShort (wordData) (wordData & BITTEST_14)? (wordData | BITEXTEND_14) : (wordData & BITMASK_14)
+#define convert12BitToShort (wordData) (wordData & BITTEST_12)? (wordData | BITEXTEND_12) : (wordData & BITMASK_12)
+
+// Max readings is MAX_CUBE_READ + 1
+#define MAX_CUBE_READ		3
+
 // Register Addresses
 // ==================
 // Note that FOR READING register addresses are in the MSB, assigning dont cares
@@ -76,18 +82,18 @@ Ts = Tb(Ns+1) , where
 	 Tb is time base, it is either 0.61035e-3 S or 18.921e-3 S
 	 Ns is the multiplier, which is configured in register SMPL_PRD
 	 
-So desired Ts = 0.0025 (400Hz) then
-	 0.0025 = 0.61035e-3 * (3.096 + 1)
-	 => Choose multiplier as 3 => Ts = 2.4e-3 S => Fs= 409.601 Hz
+So desired Ts = 0.00125 (800Hz) then
+	 0.00125 = 0.61035e-3 * (3.096 + 1)
+	 => Choose multiplier as 1 => Ts = 1.22e-3 S => Fs= 819.2 Hz
 
 So the register configuration is as follows:
 Address = 0x36
-Value   = 0x03
+Value   = 0x01
 bits [6:7] of Address must be [1 0] since this will be a write
-=> [1 0 1 1][0 1 1 0][0 0 0 0][0 1 1 1]
+=> [1 0 1 1][0 1 1 0][0 0 0 0][0 0 0 1]
 => 0xB603
 */
-#define W_SMPL_PRD  	(unsigned short)0xB603		// INTERNAL SAMPLE RATE
+#define W_SMPL_PRD  	(unsigned short)0xB601		// INTERNAL SAMPLE RATE
 
 /*
 Digital Filtering and Dynamic Range
@@ -159,10 +165,13 @@ bits [6:7] of Address must be [1 0] since this will be a write
 
 unsigned short write2Cube (unsigned short data2Send);
 void getCubeData (short * cubeData);
-void startCubeRead (void);
-void initDevBoard (void);
-short convert12BitToShort (short wordData);
-short convert14BitToShort (short wordData);
+void updateCubeData(void);
+short averageData(tShortToChar * theData, unsigned char count);
+
+// void startCubeRead (void);
+// void initDevBoard (void);
+// short convert12BitToShort (short wordData);
+// short convert14BitToShort (short wordData);
 	
 #ifdef __cplusplus
     }
