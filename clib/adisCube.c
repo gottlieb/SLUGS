@@ -100,7 +100,7 @@ void cubeInit (void){
     
 
 	// Configure TIMER5 for the cube sampling
-	memset(cubeBuffer, 0, sizeof(cubeBuffer));
+	memset(&cubeBuffer, 0, sizeof(cubeBuffer));
 	
 	T5CONbits.TSIDL			= 1;		// stop in idle mode
 	T5CONbits.TCKPS			= 3;		// 256:1 prescaler
@@ -119,13 +119,13 @@ void cubeInit (void){
 // 	// dummy read 
 // 	write2Cube(R_GYROX);
 // 	
-// 	cubeBuffer.gx[cubeBuffer.sample_count].shData = convert14BitToShort(write2Cube(R_GYROY));
-// 	cubeBuffer.gy[cubeBuffer.sample_count].shData = convert14BitToShort(write2Cube(R_GYROZ));
-// 	cubeBuffer.gz[cubeBuffer.sample_count].shData = convert14BitToShort(write2Cube(R_ACCELX));
+// 	cubeBuffer.gx[cubeBuffer.sampleCount].shData = convert14BitToShort(write2Cube(R_GYROY));
+// 	cubeBuffer.gy[cubeBuffer.sampleCount].shData = convert14BitToShort(write2Cube(R_GYROZ));
+// 	cubeBuffer.gz[cubeBuffer.sampleCount].shData = convert14BitToShort(write2Cube(R_ACCELX));
 // 
-// 	cubeBuffer.ax[cubeBuffer.sample_count].shData =convert14BitToShort(write2Cube(R_ACCELY));
-// 	cubeBuffer.ay[cubeBuffer.sample_count].shData =convert14BitToShort(write2Cube(R_ACCELZ));
-// 	cubeBuffer.az[cubeBuffer.sample_count++].shData =convert14BitToShort(write2Cube(R_STATUS)); // dummy write
+// 	cubeBuffer.ax[cubeBuffer.sampleCount].shData =convert14BitToShort(write2Cube(R_ACCELY));
+// 	cubeBuffer.ay[cubeBuffer.sampleCount].shData =convert14BitToShort(write2Cube(R_ACCELZ));
+// 	cubeBuffer.az[cubeBuffer.sampleCount++].shData =convert14BitToShort(write2Cube(R_STATUS)); // dummy write
 // 	
 // }
 
@@ -133,13 +133,13 @@ void getCubeData (short * cubeData) {
 	// Do the last reading
 	write2Cube(R_GYROX);
 	
-	cubeBuffer.gx[cubeBuffer.sample_count].shData = convert14BitToShort(write2Cube(R_GYROY));
-	cubeBuffer.gy[cubeBuffer.sample_count].shData = convert14BitToShort(write2Cube(R_GYROZ));
-	cubeBuffer.gz[cubeBuffer.sample_count].shData = convert14BitToShort(write2Cube(R_ACCELX));
+	cubeBuffer.gx[cubeBuffer.sampleCount].shData = convert14BitToShort(write2Cube(R_GYROY));
+	cubeBuffer.gy[cubeBuffer.sampleCount].shData = convert14BitToShort(write2Cube(R_GYROZ));
+	cubeBuffer.gz[cubeBuffer.sampleCount].shData = convert14BitToShort(write2Cube(R_ACCELX));
 
-	cubeBuffer.ax[cubeBuffer.sample_count].shData =convert14BitToShort(write2Cube(R_ACCELY));
-	cubeBuffer.ay[cubeBuffer.sample_count].shData =convert14BitToShort(write2Cube(R_ACCELZ));
-	cubeBuffer.az[cubeBuffer.sample_count++].shData =convert14BitToShort(write2Cube(R_STATUS)); // dummy write
+	cubeBuffer.ax[cubeBuffer.sampleCount].shData =convert14BitToShort(write2Cube(R_ACCELY));
+	cubeBuffer.ay[cubeBuffer.sampleCount].shData =convert14BitToShort(write2Cube(R_ACCELZ));
+	cubeBuffer.az[cubeBuffer.sampleCount++].shData =convert14BitToShort(write2Cube(R_STATUS)); // dummy write
 
 	// Update the state structure with the collected values
 	updateCubeData();
@@ -160,13 +160,13 @@ void updateCubeData(void){
 	char i;
 	
 	// Read the buffered measurements
-	rawControlData.gyroX.shData = averageData(&cubeBuffer.gx, cubeBuffer.sample_count);
-	rawControlData.gyroY.shData = averageData(&cubeBuffer.gy, cubeBuffer.sample_count);
-	rawControlData.gyroZ.shData = averageData(&cubeBuffer.gz, cubeBuffer.sample_count);
+	rawControlData.gyroX.shData = averageData(&cubeBuffer.gx[0], cubeBuffer.sampleCount);
+	rawControlData.gyroY.shData = averageData(&cubeBuffer.gy[0], cubeBuffer.sampleCount);
+	rawControlData.gyroZ.shData = averageData(&cubeBuffer.gz[0], cubeBuffer.sampleCount);
 
-	rawControlData.accelX.shData = averageData(&cubeBuffer.ax, cubeBuffer.sample_count);
-	rawControlData.accelY.shData = averageData(&cubeBuffer.ay, cubeBuffer.sample_count);
-	rawControlData.accelZ.shData = averageData(&cubeBuffer.az, cubeBuffer.sample_count);
+	rawControlData.accelX.shData = averageData(&cubeBuffer.ax[0], cubeBuffer.sampleCount);
+	rawControlData.accelY.shData = averageData(&cubeBuffer.ay[0], cubeBuffer.sampleCount);
+	rawControlData.accelZ.shData = averageData(&cubeBuffer.az[0], cubeBuffer.sampleCount);
 	
 	// Clear the count for the next reading
 	cubeBuffer.sampleCount = 0;
@@ -177,7 +177,7 @@ short averageData(tShortToChar * theData, unsigned char count){
 	char i;
 	short value = 0;
 	for (i=0; i< count; i++){
-		value+= theData.shData[i];
+		value+= theData[i].shData;
 	}
 	
 	return (short)(value/count);
@@ -227,16 +227,16 @@ void __attribute__ ((interrupt, no_auto_psv)) _T5Interrupt(void)
 	// Do the reading
 	write2Cube(R_GYROX);
 	
-	cubeBuffer.gx[cubeBuffer.sample_count].shData = convert14BitToShort(write2Cube(R_GYROY));
-	cubeBuffer.gy[cubeBuffer.sample_count].shData = convert14BitToShort(write2Cube(R_GYROZ));
-	cubeBuffer.gz[cubeBuffer.sample_count].shData = convert14BitToShort(write2Cube(R_ACCELX));
+	cubeBuffer.gx[cubeBuffer.sampleCount].shData = convert14BitToShort(write2Cube(R_GYROY));
+	cubeBuffer.gy[cubeBuffer.sampleCount].shData = convert14BitToShort(write2Cube(R_GYROZ));
+	cubeBuffer.gz[cubeBuffer.sampleCount].shData = convert14BitToShort(write2Cube(R_ACCELX));
 
-	cubeBuffer.ax[cubeBuffer.sample_count].shData =convert14BitToShort(write2Cube(R_ACCELY));
-	cubeBuffer.ay[cubeBuffer.sample_count].shData =convert14BitToShort(write2Cube(R_ACCELZ));
-	cubeBuffer.az[cubeBuffer.sample_count++].shData =convert14BitToShort(write2Cube(R_STATUS)); // dummy write
+	cubeBuffer.ax[cubeBuffer.sampleCount].shData =convert14BitToShort(write2Cube(R_ACCELY));
+	cubeBuffer.ay[cubeBuffer.sampleCount].shData =convert14BitToShort(write2Cube(R_ACCELZ));
+	cubeBuffer.az[cubeBuffer.sampleCount++].shData =convert14BitToShort(write2Cube(R_STATUS)); // dummy write
 	
 	// If this is the MAX_CUBE_READ read value turn the timer off
-	if(MAX_CUBE_READ == cubeBuffer.sample_count){
+	if(MAX_CUBE_READ == cubeBuffer.sampleCount){
 		T5CONbits.TON = 0;
 	}
 	

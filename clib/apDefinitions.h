@@ -453,9 +453,9 @@ typedef struct tCubeBuffer {
   tShortToChar  ay[4];
   tShortToChar  az[4];
   tShortToChar  gx[4];
-  tShortToChar  gx[4];
+  tShortToChar  gy[4];
   tShortToChar  gz[4];
-  unsigned char smple_count;
+  unsigned char sampleCount;
 }tCubeBuffer;
 
 #ifdef __cplusplus

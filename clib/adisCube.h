@@ -23,8 +23,8 @@
 #define BITEXTEND_12	(unsigned short)0xF000
 
 
-#define convert14BitToShort (wordData) (wordData & BITTEST_14)? (wordData | BITEXTEND_14) : (wordData & BITMASK_14)
-#define convert12BitToShort (wordData) (wordData & BITTEST_12)? (wordData | BITEXTEND_12) : (wordData & BITMASK_12)
+#define convert14BitToShort(x) (x & BITTEST_14)? (x | BITEXTEND_14) : (x & BITMASK_14)
+#define convert12BitToShort(x) (x & BITTEST_12)? (x | BITEXTEND_12) : (x & BITMASK_12)
 
 // Max readings is MAX_CUBE_READ + 1
 #define MAX_CUBE_READ		3
