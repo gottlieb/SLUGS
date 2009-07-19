@@ -23,8 +23,8 @@
 #define BITEXTEND_12	(unsigned short)0xF000
 
 
-#define convert14BitToShort(x) (x & BITTEST_14)? (x | BITEXTEND_14) : (x & BITMASK_14)
-#define convert12BitToShort(x) (x & BITTEST_12)? (x | BITEXTEND_12) : (x & BITMASK_12)
+// #define convert14BitToShort(x) (x & BITTEST_14)? (x | BITEXTEND_14) : (x & BITMASK_14)
+// #define convert12BitToShort(x) (x & BITTEST_12)? (x | BITEXTEND_12) : (x & BITMASK_12)
 
 // Max readings is MAX_CUBE_READ + 1
 #define MAX_CUBE_READ		3
@@ -170,8 +170,8 @@ short averageData(tShortToChar * theData, unsigned char count);
 
 // void startCubeRead (void);
 // void initDevBoard (void);
-// short convert12BitToShort (short wordData);
-// short convert14BitToShort (short wordData);
+short convert12BitToShort (short wordData);
+short convert14BitToShort (short wordData);
 	
 #ifdef __cplusplus
     }

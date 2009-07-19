@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.835"
+    ComputedModelVersion    "1.837"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sun Jul 19 12:27:23 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:835>"
+  LastModifiedDate	  "Sun Jul 19 15:26:40 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:837>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -962,7 +962,7 @@ Model {
   }
   System {
     Name		    "sensorMCUSlugsMKII_ren"
-    Location		    [5, 86, 757, 796]
+    Location		    [2, 78, 1168, 987]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    212
@@ -1491,6 +1491,7 @@ Model {
       ShowName		      off
       CloseFcn		      "tagdialog Close"
       GotoTag		      "DSh2"
+      TagVisibility	      "global"
     }
     Block {
       BlockType		      From
@@ -1807,15 +1808,6 @@ Model {
       BackgroundColor	      "magenta"
       ShowName		      off
       GotoTag		      "BaroAlt"
-      TagVisibility	      "local"
-    }
-    Block {
-      BlockType		      Goto
-      Name		      "Goto6"
-      Position		      [1000, 676, 1050, 694]
-      BackgroundColor	      "magenta"
-      ShowName		      off
-      GotoTag		      "DSh2"
       TagVisibility	      "local"
     }
     Block {
@@ -2445,7 +2437,7 @@ Model {
 	  MaskHideContents	  off
 	  System {
 	    Name		    "Attitude\nComplimentary\nFilter COG"
-	    Location		    [10, 109, 1241, 819]
+	    Location		    [6, 82, 1147, 792]
 	    Open		    on
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
@@ -19396,10 +19388,19 @@ Model {
 	      DisplayOption	      "bar"
 	    }
 	    Block {
+	      BlockType		      Goto
+	      Name		      "Goto6"
+	      Position		      [200, 276, 250, 294]
+	      BackgroundColor	      "magenta"
+	      ShowName		      off
+	      GotoTag		      "DSh2"
+	      TagVisibility	      "global"
+	    }
+	    Block {
 	      BlockType		      SubSystem
 	      Name		      "If no HIL then\nRead all the\nSensors"
-	      Ports		      [0, 2, 1]
-	      Position		      [90, 214, 150, 281]
+	      Ports		      [0, 3, 1]
+	      Position		      [90, 216, 150, 284]
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
@@ -19538,6 +19539,16 @@ Model {
 		  BackgroundColor	  "black"
 		  ShowName		  off
 		  Outputs		  "3"
+		  DisplayOption		  "bar"
+		}
+		Block {
+		  BlockType		  Demux
+		  Name			  "Demux2"
+		  Ports			  [1, 2]
+		  Position		  [355, 191, 360, 229]
+		  BackgroundColor	  "black"
+		  ShowName		  off
+		  Outputs		  "[6 1]"
 		  DisplayOption		  "bar"
 		}
 		Block {
@@ -20003,7 +20014,7 @@ Model {
 		  Name			  "Read the Cube Data\n[adisCube.c]"
 		  Tag			  "dsPIC_dsPIC_CFunctionCall"
 		  Ports			  [0, 1]
-		  Position		  [260, 182, 365, 218]
+		  Position		  [220, 172, 325, 208]
 		  BackgroundColor	  "orange"
 		  List {
 		    ListType		    RTWdata
@@ -20012,7 +20023,7 @@ Model {
 		    FctCall		    "getCubeData(*%y1);"
 		    fctName		    "getCubeData"
 		    INPUT_SIZE		    "1"
-		    OUTPUT_SIZE		    "6"
+		    OUTPUT_SIZE		    "7"
 		    NBR_INPUT		    "0"
 		    NBR_OUTPUT		    "1"
 		  }
@@ -20023,7 +20034,7 @@ Model {
 		  INPUT1		  "--"
 		  INPUT2		  "--"
 		  INPUT3		  "--"
-		  OUTPUT_SIZE		  "6"
+		  OUTPUT_SIZE		  "7"
 		  OUTPUT1		  "int16"
 		  SampleTime		  ".01"
 		  InputType		  "[ ]"
@@ -20527,6 +20538,15 @@ Model {
 		  IconDisplay		  "Port number"
 		  BusOutputAsStruct	  off
 		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "tmr_ct"
+		  Position		  [395, 218, 425, 232]
+		  BackgroundColor	  "yellow"
+		  Port			  "3"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
 		Line {
 		  SrcBlock		  "myMux Fun4"
 		  SrcPort		  1
@@ -20534,7 +20554,7 @@ Model {
 		  DstPort		  1
 		}
 		Line {
-		  SrcBlock		  "Read the Cube Data\n[adisCube.c]"
+		  SrcBlock		  "Demux2"
 		  SrcPort		  1
 		  DstBlock		  "Demux"
 		  DstPort		  1
@@ -20730,6 +20750,20 @@ Model {
 		  SrcBlock		  "Embedded\nMATLAB Function3"
 		  SrcPort		  1
 		  DstBlock		  "Data Type Conversion3"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Read the Cube Data\n[adisCube.c]"
+		  SrcPort		  1
+		  Points		  [5, 0; 0, 20]
+		  DstBlock		  "Demux2"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Demux2"
+		  SrcPort		  2
+		  Points		  [5, 0; 0, 5]
+		  DstBlock		  "tmr_ct"
 		  DstPort		  1
 		}
 	      }
@@ -26369,7 +26403,7 @@ Model {
 	    Line {
 	      SrcBlock		      "If no HIL then\nRead all the\nSensors"
 	      SrcPort		      2
-	      Points		      [25, 0; 0, 70]
+	      Points		      [25, 0; 0, 85]
 	      DstBlock		      "GPS"
 	      DstPort		      1
 	    }
@@ -26391,6 +26425,13 @@ Model {
 	      SrcBlock		      "Cube Signal Cond"
 	      SrcPort		      2
 	      DstBlock		      "Accel (m/s^2)"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "If no HIL then\nRead all the\nSensors"
+	      SrcPort		      3
+	      Points		      [30, 0]
+	      DstBlock		      "Goto6"
 	      DstPort		      1
 	    }
 	  }
@@ -28207,8 +28248,7 @@ Model {
     Line {
       SrcBlock		      "Data Type Conversion2"
       SrcPort		      1
-      DstBlock		      "Goto6"
-      DstPort		      1
+      Points		      [40, 0; 0, -20; 10, 0]
     }
     Line {
       SrcBlock		      "Gain2"

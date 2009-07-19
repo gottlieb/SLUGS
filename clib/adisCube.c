@@ -139,8 +139,10 @@ void getCubeData (short * cubeData) {
 
 	cubeBuffer.ax[cubeBuffer.sampleCount].shData =convert14BitToShort(write2Cube(R_ACCELY));
 	cubeBuffer.ay[cubeBuffer.sampleCount].shData =convert14BitToShort(write2Cube(R_ACCELZ));
-	cubeBuffer.az[cubeBuffer.sampleCount++].shData =convert14BitToShort(write2Cube(R_STATUS)); // dummy write
-
+	cubeBuffer.az[cubeBuffer.sampleCount].shData =convert14BitToShort(write2Cube(R_STATUS)); // dummy write
+	cubeBuffer.sampleCount++;
+	
+	cubeData[6]= cubeBuffer.sampleCount;
 	// Update the state structure with the collected values
 	updateCubeData();
 	
@@ -180,7 +182,7 @@ short averageData(tShortToChar * theData, unsigned char count){
 		value+= theData[i].shData;
 	}
 	
-	return (short)(value/count);
+	return (count>0)? ((short)(value/count)) : 0;
 }
 
 // SPI Primitives
@@ -233,10 +235,11 @@ void __attribute__ ((interrupt, no_auto_psv)) _T5Interrupt(void)
 
 	cubeBuffer.ax[cubeBuffer.sampleCount].shData =convert14BitToShort(write2Cube(R_ACCELY));
 	cubeBuffer.ay[cubeBuffer.sampleCount].shData =convert14BitToShort(write2Cube(R_ACCELZ));
-	cubeBuffer.az[cubeBuffer.sampleCount++].shData =convert14BitToShort(write2Cube(R_STATUS)); // dummy write
+	cubeBuffer.az[cubeBuffer.sampleCount].shData =convert14BitToShort(write2Cube(R_STATUS)); // dummy write
+	cubeBuffer.sampleCount++;
 	
 	// If this is the MAX_CUBE_READ read value turn the timer off
-	if(MAX_CUBE_READ == cubeBuffer.sampleCount){
+	if(MAX_CUBE_READ <= cubeBuffer.sampleCount){
 		T5CONbits.TON = 0;
 	}
 	
@@ -247,17 +250,17 @@ void __attribute__ ((interrupt, no_auto_psv)) _T5Interrupt(void)
 
 
 
-// short convert14BitToShort (short wordData) {
-// 	return (wordData & BITTEST_14)? (wordData | BITEXTEND_14) : (wordData & BITMASK_14);
-// }
-// 
-// 
-// short convert12BitToShort (short wordData) {
-// 	return (wordData & BITTEST_12)? (wordData | BITEXTEND_12) : (wordData & BITMASK_12);
-// }
+short convert14BitToShort (short wordData) {
+	return (wordData & BITTEST_14)? (wordData | BITEXTEND_14) : (wordData & BITMASK_14);
+}
 
-// void initDevBoard (void){
-// 	magnetoInit();
-// 	cubeInit();
-// }
+
+short convert12BitToShort (short wordData) {
+	return (wordData & BITTEST_12)? (wordData | BITEXTEND_12) : (wordData & BITMASK_12);
+}
+
+void initDevBoard (void){
+	magnetoInit();
+	cubeInit();
+}
 
