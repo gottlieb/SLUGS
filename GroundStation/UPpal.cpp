@@ -735,9 +735,9 @@ void TFPpal::updateBiasLabels(void){
   et_axb->Caption = FormatFloat("0.0000",biasSample.axb.flData);
   et_ayb->Caption = FormatFloat("0.0000",biasSample.ayb.flData);
   et_azb->Caption = FormatFloat("0.0000",biasSample.azb.flData);
-  et_gxb->Caption = FormatFloat("0.0000",RAD2DEG*biasSample.gxb.flData);
-  et_gyb->Caption = FormatFloat("0.0000",RAD2DEG*biasSample.gyb.flData);
-  et_gzb->Caption = FormatFloat("0.0000",RAD2DEG*biasSample.gzb.flData);
+  et_gxb->Caption = FormatFloat("0.0000",biasSample.gxb.flData);
+  et_gyb->Caption = FormatFloat("0.0000",biasSample.gyb.flData);
+  et_gzb->Caption = FormatFloat("0.0000",biasSample.gzb.flData);
 
 }
 void TFPpal::updateDynLabels(void){

@@ -385,15 +385,15 @@ end
         eval(['print -depsc  '  num2str(figct)]);
         figct = figct + 1;
 
-        figure(figct)
-            plot3(y,x,z);
-            title('XYZ Position plot');        
-            xlabel('X (m)');
-            ylabel('Y (m)');
-            zlabel('Z (m)');
-
-        eval(['print -depsc  '  num2str(figct)]);
-        figct = figct + 1;
+%         figure(figct)
+%             plot3(y,x,z);
+%             title('XYZ Position plot');        
+%             xlabel('X (m)');
+%             ylabel('Y (m)');
+%             zlabel('Z (m)');
+% 
+%         eval(['print -depsc  '  num2str(figct)]);
+%         figct = figct + 1;
 
         %plot the Pressures
         figure(figct)
@@ -418,14 +418,14 @@ end
         eval(['print -depsc  '  num2str(figct)]);
         figct = figct + 1;
 
-        figure(figct)
-            plot3(lon,lat, hei);
-            title('Lat Lon Height Position plot'); 
-            xlabel ('Longitude (deg)');
-            ylabel ('Latitude (deg)');
-            zlabel ('Height (m)');
-        eval(['print -depsc  '  num2str(figct)]);
-        figct = figct + 1;
+%         figure(figct)
+%             plot3(lon,lat, hei);
+%             title('Lat Lon Height Position plot'); 
+%             xlabel ('Longitude (deg)');
+%             ylabel ('Latitude (deg)');
+%             zlabel ('Height (m)');
+%         eval(['print -depsc  '  num2str(figct)]);
+%         figct = figct + 1;
 
         
         figure(figct)
