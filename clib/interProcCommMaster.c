@@ -73,6 +73,5 @@ void sensorMCUInit(void){
 		magnetoInit();
 	#endif
 	cubeInit();
-	
 	aknControlData.sensorReboot =1;
 }

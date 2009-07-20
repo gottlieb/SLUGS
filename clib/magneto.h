@@ -56,5 +56,4 @@ void dummyDelay (void);
        }
 #endif
 
-
 #endif /* _MAGNETO_H_ */

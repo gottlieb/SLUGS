@@ -245,10 +245,10 @@ and data types.
 #endif
 
 // Uncomment if there is no magentometers
-#define NO_MAGNETO 
+//#define NO_MAGNETO 
 
 // Uncomment to allow full gyro calibration
-//#define DO_FULL_CALL
+#define DO_FULL_CALL
 
 
 // ============= Unions Used for Data Transmission ====
@@ -448,6 +448,15 @@ typedef struct tAPStatusData{
 	unsigned char	drf_pass;
 }tAPStatusData;
 
+typedef struct tCubeBuffer {
+  tShortToChar  ax[4];
+  tShortToChar  ay[4];
+  tShortToChar  az[4];
+  tShortToChar  gx[4];
+  tShortToChar  gy[4];
+  tShortToChar  gz[4];
+  unsigned char sampleCount;
+}tCubeBuffer;
 
 #ifdef __cplusplus
       }
