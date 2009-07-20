@@ -245,7 +245,6 @@ void __attribute__ ((interrupt, no_auto_psv)) _T5Interrupt(void)
 	
 	IFS1bits.T5IF = 0;		// clear the interrupt flag
 	TMR5 = 0;							// Start the count again
-	
 }
 
 

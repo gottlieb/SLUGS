@@ -19,11 +19,25 @@ cubeAccelGain = (2.522e-3)*9.815;
 magTempK = [.0057 -.0423 .0426];
 magMeanTemp = [162.42 162.42 162.42];
 
-baroTempK = 0.7085;
-baroMeanTemp = 205.64;
+barTGain1 = -0.0102663;
+barTGain2 = 0.0207608;
+barTMean1 = -161.3;
+barTMean2 = 347.23;
+barAdjust = -6;
+baroCutTemp = -50.0;
 
-pitTempK = -0.0333;
-pitMeanTemp = 205.64;
+pitTGain1 = -0.0552923;
+pitTGain2 = -0.0950433;
+pitTMean1 = -202.93;
+pitTMean2 = 293.053;
+pitAdjust = -41;
+pitCutTemp = -130.0;
+
+axTGain1 = -0.0332796;
+axTGain2 = 0.0543519;
+axTMean1 = 68.41;
+axTMean2 = 500.7;
+accelXCutTemp = 350.0;
 
 
 % Scale/Offset sets

@@ -102,7 +102,7 @@ if use_ext_tgains == 0
     pitTGain2 = -0.0950433;
     pitTMean1 = -202.93;
     pitTMean2 = 293.053;
-    pitAdjust = +41;
+    pitAdjust = -41;
 
     fit_data =  polyfit(temp, data(ini:fin, rawPwrIdx),1);
     pwrTGain = fit_data(1);
@@ -267,8 +267,8 @@ figure(figct)
     plot(time,data(ini:fin, rawPitIdx),'b');
     hold on
 %     plot(time,dyn_comp, 'r');
-    plot(time(1:1.55e4-ini+1),dyn_comp1, 'r');
-    plot(time(1.55e4-ini+2:end),dyn_comp2+pitAdjust, 'r');    
+    plot(time(1:1.55e4-ini+1),dyn_comp1+pitAdjust, 'r');
+    plot(time(1.55e4-ini+2:end),dyn_comp2, 'r');    
     title (['Temperature Compensated Dynamic.' 'Mean Temp = ' num2str(tmean)]);
     hold off
     ylabel ('Dynamic (counts)');

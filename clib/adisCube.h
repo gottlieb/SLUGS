@@ -156,11 +156,11 @@ bits [6:7] of Address must be [1 0] since this will be a write
 => 0xA402
 
 */
-#define W_XACC_OFFSET_LO	(unsigned short)0xA000
-#define W_XACC_OFFSET_HI	(unsigned short)0xA100
+#define W_XACC_OFFSET_LO	(unsigned short)0xA0F6
+#define W_XACC_OFFSET_HI	(unsigned short)0xA11F
 #define W_YACC_OFFSET_LO	(unsigned short)0xA220
 #define W_YACC_OFFSET_HI	(unsigned short)0xA300
-#define W_ZACC_OFFSET_LO	(unsigned short)0xA40D
+#define W_ZACC_OFFSET_LO	(unsigned short)0xA407
 #define W_ZACC_OFFSET_HI	(unsigned short)0xA500
 
 unsigned short write2Cube (unsigned short data2Send);
