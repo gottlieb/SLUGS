@@ -431,7 +431,7 @@ static tCommandsData	cpcomControlData;
 	         cppilControlData.de.usData);
 
 	// Print PWM Data
-    fprintf(outFile, "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",
+    fprintf(outFile, "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,",
 	         cppwmControlData.dt_c.usData,
 	         cppwmControlData.dla_c.usData,
 	         cppwmControlData.dra_c.usData,
@@ -444,7 +444,7 @@ static tCommandsData	cpcomControlData;
 	         cppwmControlData.da2_c.usData);	
 
 	// Print AP Status Data
-    fprintf(outFile, "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",
+    fprintf(outFile, "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,",
 	         cpapsControlData.controlType,
 	         cpapsControlData.beaconStatus,
 	         cpapsControlData.hilStatus,
@@ -455,10 +455,10 @@ static tCommandsData	cpcomControlData;
 	         cpapsControlData.dle_pass,
 	         cpapsControlData.dre_pass,
 	         cpapsControlData.dlf_pass,
-		     cpapsControlData.drf_pass);
+		       cpapsControlData.drf_pass);
 	
 	// Print Commands Data
-    fprintf(outFile, "%f,%f,%f,%f,%f,%f,%f,%f,%d,%d",
+    fprintf(outFile, "%f,%f,%f,%f,%f,%f,%f,%f,%d,%d,",
 	         cpcomControlData.hCommand.flData,
 	         cpcomControlData.airspeedCommand.flData,
 	         cpcomControlData.phiCommand.flData,
