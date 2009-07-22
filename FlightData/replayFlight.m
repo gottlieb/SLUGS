@@ -101,11 +101,25 @@ cubeAccelGain = (2.522e-3)*9.815;
 magTempK = [.0057 -.0423 .0426];
 magMeanTemp = [162.42 162.42 162.42];
 
-baroTempK = 0.7085;
-baroMeanTemp = 205.64;
+barTGain1 = -0.0102663;
+barTGain2 = 0.0207608;
+barTMean1 = -161.3;
+barTMean2 = 347.23;
+barAdjust = -6;
+baroCutTemp = -50.0;
 
-pitTempK = -0.0333;
-pitMeanTemp = 205.64;
+pitTGain1 = -0.0552923;
+pitTGain2 = -0.0950433;
+pitTMean1 = -202.93;
+pitTMean2 = 293.053;
+pitAdjust = -41;
+pitCutTemp = -130.0;
+
+axTGain1 = -0.0332796;
+axTGain2 = 0.0543519;
+axTMean1 = 68.41;
+axTMean2 = 500.7;
+accelXCutTemp = 350.0;
 
 
 % Scale/Offset sets
@@ -130,8 +144,8 @@ magOffset = 0;
 
 % pitotScale  = 0.9258;
 % pitotOffset = -830.6641;
-pitotScale  = 0.9909;
-pitotOffset = -940.1001;
+pitotScale  = 1.213292590242;
+pitotOffset = -1083.881038056753;
 
 
 % Temp
@@ -176,38 +190,42 @@ basePressure = 98192.64;
 baseTemp = 288.215;
 lapseRate = -0.00198122;
 baseH = 225;
-
+       
 % Ellipse Compensation for Magnetometers
 % =========================
-param_mag.xo =  62.582994105307556;
-param_mag.yo =  59.395539601652828;
-param_mag.zo = -66.523069120295460;
-param_mag.a =   2.447039991696393e+002;
-param_mag.one_over_a = 1/param_mag.a;
-param_mag.c =   2.357258726014612e+002;
-param_mag.one_over_c = 1/param_mag.c;
-param_mag.b =   2.529708146776011e+002;
-param_mag.one_over_b = 1/param_mag.b;
-param_mag.phi= -7.564558089048317;
-param_mag.rho = 4.431438455319272;
-param_mag.lambda = -3.931339025635420;
+param_mag.xo = 52.298979126589039;
+param_mag.yo = 57.602648678399504;
+param_mag.zo = 52.984329390038532;
+param_mag.a =   240.2003709561940;
+param_mag.c =   230.2578675792432;
+param_mag.b =   244.9911695537955;
+param_mag.phi= -7.433915262037260;
+param_mag.rho = -4.077131534516775;
+param_mag.lambda = 4.050279490811578;
 param_mag.R = 1;
+param_mag.one_over_a = 1/param_mag.a;
+param_mag.one_over_b = 1/param_mag.b;
+param_mag.one_over_c = 1/param_mag.c;
 
-% Ellipse Compensation for Accelerometers
+  % Ellipse Compensation for Accelerometers
 % =========================
-param_acc.xo =  -0.870652332890343;
-param_acc.yo =  0.392105017623336;
-param_acc.zo = 0.058285827021149;
-param_acc.a =   1.028348124236639;
-param_acc.one_over_a = 1/param_acc.a;
-param_acc.c =   0.989537431181334;
-param_acc.one_over_c = 1/param_acc.c;
-param_acc.b =   1.051705796999721;
-param_acc.one_over_b = 1/param_acc.b;
-param_acc.phi= -2.270537506584771;
-param_acc.rho = 0.056163200653814;
-param_acc.lambda = 0.268027255513422;
+param_acc.xo =  0.570077407545699;
+param_acc.yo =  -0.037320719350785;
+param_acc.zo = -0.155871603576177;
+param_acc.a =   1.021447629870704;
+param_acc.c =   0.965852814030698;
+param_acc.b =   1.012956660540617;
+param_acc.phi= -0.587227044344071;
+param_acc.rho = 0.768452775068802;
+param_acc.lambda = 0.179663683262263;
 param_acc.R = 9.810000000000001;
+param_acc.one_over_a = 1/param_acc.a;
+param_acc.one_over_b = 1/param_acc.b;
+param_acc.one_over_c = 1/param_acc.c;
+
+
+
+
 
 
 %% HIL INIT BEGIN
@@ -501,79 +519,30 @@ bICde = bPWMde;
 mICdt = mPWMdt/2;
 bICdt = bPWMdt;
 
-%% 
+%% Sensor Lowpass filter cutoff filters and other limits
+mainSensorCutoff = 10;
 
-% The Values are as follows:
-% Rudder
-% -15 -> 5560
-% -10 -> 6300
-% -5  -> 6860
-% 0   -> 7550
-% +5  -> 8100
-% +10 -> 8647
-% +15 -> 9445
-% +16 -> 9500
+pressureSensorCutoff = 5;
 
-% rad = [-15 -10 -5 0 5 10 15 16]*pi/180;
-% ic = [5560 6300 6860 7550 8100 8647 9445 9500];
-% P =  polyfit(ic,rad,1);
+lowRateSensorCutoff = 0.02;
 
-% The Values are as follows:
-% -15 -> 5570
-% -10 -> 6160
-% -5  -> 6747
-% 0   -> 7549
-% +5  -> 7830
-% +10 -> 8370
-% +15 -> 8987
-% +19 -> 9520
-% 
-% rad = [-15 -10 -5 0 5 10 15 19]*pi/180;
-% ic = [5570 6160 6747 7549 7830 8370 8987 9520];
-% P =  polyfit(ic,rad,1);
+maxDynPressure = 3000;
 
-% The Values are as follows:
-% -12 -> 5397
-% -10 -> 5920
-% -5  -> 6605
-% 0   -> 7380
-% +5  -> 8220
-% +10 -> 8960
-% +12 -> 9335
+%% Data for Ren's Complementary Filters
+% Position Comp Filters
+xCutoff = 10;
+yCutoff = 10;
+zCutoff = .2;
+baroCutoff = 0.2/(2*pi);
 
-% rad = [-12 -10 -5 0 5 10 12]*pi/180;
-% ic = [5397 5920 6605 7380 8220 8960 9335];
-% P =  polyfit(ic,rad,1);
+%Velocity Comp filters
+vzCutoff = 1;
 
-% The Values are as follows:
-% 0   -> 5621
-% 1/6 -> 6060
-% 2/6 -> 6960
-% 3/6 -> 7696
-% 4/6 -> 8550
-% 5/6 -> 8863
-% 1   -> 9500
+% Accelerometer bias rate limiter
+accBiasRateLimit = 2*(.014844)/300*apSampleTime;
 
-% rad = [0 1 2 3 4 5 6]./6;
-% ic = [5621 6060 6960 7696 8550 8863 9500];
-% P =  polyfit(ic,rad,1);
-
-% % Rudder
-% mICPWMdr = mdr*mICdr;
-% bICPWMdr = mdr*bICdr + bdr;
-% 
-% % Aileron
-% mICPWMda = mda*mICda;
-% bICPWMda = mda*bICda + bda;
-% 
-% % Elevator
-% mICPWMde = mde*mICde;
-% bICPWMde = mde*bICde + bde;
-% 
-% 
-% %Throttle
-% mICPWMdt = mdt*mICdt;
-% bICPWMdt = mdt*bICdt + bdt;
+% Gyro bias rate limiter
+gyroBiasRateLimit = 2*(.006393)/500*apSampleTime;
 
 %% MCU INIT END
 % ===============

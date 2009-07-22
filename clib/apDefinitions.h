@@ -53,7 +53,7 @@ and data types.
 
 // Define log raw data at 100 hz. Comment out to have
 // XYZ data come at 100 Hz instead. COMMENT not Change to 0 (using #ifdef)
-//#define LOGRAW100	1
+#define LOGRAW100	1
 
 
 

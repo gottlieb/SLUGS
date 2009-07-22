@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.421"
+    ComputedModelVersion    "1.426"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Jul 14 11:23:39 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:421>"
+  LastModifiedDate	  "Tue Jul 21 15:39:02 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:426>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -978,7 +978,7 @@ Model {
   }
   System {
     Name		    "controlMCUSlugsMKII"
-    Location		    [31, 101, 1180, 828]
+    Location		    [2, 78, 1151, 801]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    188
@@ -5440,7 +5440,7 @@ Model {
 	      BlockType		      Saturate
 	      Name		      "Rudder\nLimit"
 	      Position		      [665, 395, 695, 425]
-	      UpperLimit	      "apSampleTime"
+	      UpperLimit	      "drLimit"
 	      LowerLimit	      "-drLimit"
 	      SampleTime	      "apSampleTime"
 	    }
@@ -6558,7 +6558,7 @@ Model {
 	      MaskHideContents	      off
 	      System {
 		Name			"Compute WP Index"
-		Location		[6, 82, 1257, 809]
+		Location		[6, 82, 1274, 1000]
 		Open			on
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	188
@@ -21144,13 +21144,13 @@ Model {
       tmr2345cfg	      "[-1 -1 -1 -1 -1 -1 -1 -1]"
       IOautoConf	      on
       typePort		      "[ 0   0   0   0   0   0   0   0   0   0   0   0"
-"   0   0  10  10   0   0   9   0   0   0  10   0   0   0   0   0   0   0   0 "
+"   0   0   0   0   0   0   9   0   0   0  10   0   0   0   0   0   0   0   0 "
 "  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0  "
-" 0   0   0   0   0   0   0   0   0   0   0   0   0   0  11   0  11   0  11   "
+" 0   0   0   0   0   0   0   6   6   6   6   0   0   6  11   0  11   0  11   "
 "0  11   0   0  10   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0"
 "   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 "
 "  0   0   0   0 ]"
-      TRIS		      "[ 16383  65471  65535  65535  65023  65535  655"
+      TRIS		      "[ 65535  65471  65535  65535  65023  65535  655"
 "35 ]"
       ADPCFG		      "2097220"
       MasterBusyPort	      "None"
@@ -21785,6 +21785,262 @@ Model {
 	  Indices		  "[1 2 4 3]"
 	  OutputSizes		  "1"
 	  InputPortWidth	  "5"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Control Surface Input"
+	  Ports			  [0, 1]
+	  Position		  [55, 173, 135, 217]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Control Surface Input"
+	    Location		    [280, 704, 825, 928]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Input Capture"
+	      Tag		      "dsPIC_PWM_IC"
+	      Ports		      [0, 5]
+	      Position		      [25, 29, 185, 201]
+	      BackgroundColor	      "lightBlue"
+	      Priority		      "5"
+	      SourceBlock	      "dsPICdrivers/Peripheral I//O/Input Capt"
+"ure"
+	      SourceType	      "Input driver for Input Capture Peripher"
+"al"
+	      IntPriority	      "6"
+	      Channel		      "[ 2 3 4 5 8]"
+	      Channel_UP_Down_Periode "[1  1  1  1  1]"
+	      MaxChannel	      "[0.0025      0.0025      0.0025      0."
+"0025      0.0025]"
+	      SafeMarge		      "[10  10  10  10  10]"
+	      MaxName		      " ' IC2max , IC3max , IC4max , IC5max , "
+"IC8max ' "
+	      Precision		      "[13.7469      13.7469      13.7469     "
+" 13.7469      13.7469]"
+	      Timer		      "[2  2  2  2  2]"
+	      ChangeDetected	      "[0  0  0  0  0]"
+	      ChangeDetectedPortRef   "3"
+	      SampleTime	      ".01"
+	      Status		      "OK"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "myMux Fun5"
+	      Ports		      [5, 1]
+	      Position		      [285, 29, 290, 201]
+	      BackgroundColor	      "black"
+	      ShowName		      off
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      MaskType		      "Stateflow"
+	      MaskDescription	      "Embedded MATLAB block"
+	      MaskDisplay	      "disp('myMux');"
+	      MaskSelfModifiable      on
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      off
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      System {
+		Name			"myMux Fun5"
+		Location		[257, 457, 812, 717]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "u1"
+		  Position		  [20, 101, 40, 119]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "u2"
+		  Position		  [20, 136, 40, 154]
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "u3"
+		  Position		  [20, 171, 40, 189]
+		  Port			  "3"
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "u4"
+		  Position		  [20, 206, 40, 224]
+		  Port			  "4"
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "u5"
+		  Position		  [20, 246, 40, 264]
+		  Port			  "5"
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Demux
+		  Name			  " Demux "
+		  Ports			  [1, 1]
+		  Position		  [270, 220, 320, 260]
+		  Outputs		  "1"
+		}
+		Block {
+		  BlockType		  "S-Function"
+		  Name			  " SFunction "
+		  Tag			  "Stateflow S-Function controlMCUSlug"
+"sMKII 3"
+		  Ports			  [5, 2]
+		  Position		  [180, 100, 230, 220]
+		  FunctionName		  "sf_sfun"
+		  PortCounts		  "[5 2]"
+		  Port {
+		    PortNumber		    2
+		    Name		    "y"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		  }
+		}
+		Block {
+		  BlockType		  Terminator
+		  Name			  " Terminator "
+		  Position		  [460, 231, 480, 249]
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "y"
+		  Position		  [460, 101, 480, 119]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "u3"
+		  SrcPort		  1
+		  DstBlock		  " SFunction "
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "u2"
+		  SrcPort		  1
+		  Points		  [120, 0]
+		  DstBlock		  " SFunction "
+		  DstPort		  2
+		}
+		Line {
+		  Name			  "y"
+		  Labels		  [0, 0]
+		  SrcBlock		  " SFunction "
+		  SrcPort		  2
+		  DstBlock		  "y"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "u1"
+		  SrcPort		  1
+		  DstBlock		  " SFunction "
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  " Demux "
+		  SrcPort		  1
+		  DstBlock		  " Terminator "
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  " SFunction "
+		  SrcPort		  1
+		  Points		  [0, 110]
+		  DstBlock		  " Demux "
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "u4"
+		  SrcPort		  1
+		  DstBlock		  " SFunction "
+		  DstPort		  4
+		}
+		Line {
+		  SrcBlock		  "u5"
+		  SrcPort		  1
+		  DstBlock		  " SFunction "
+		  DstPort		  5
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Pilot Console"
+	      Position		      [370, 108, 400, 122]
+	      BackgroundColor	      "yellow"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "myMux Fun5"
+	      SrcPort		      1
+	      DstBlock		      "Pilot Console"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Input Capture"
+	      SrcPort		      1
+	      DstBlock		      "myMux Fun5"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Input Capture"
+	      SrcPort		      2
+	      DstBlock		      "myMux Fun5"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Input Capture"
+	      SrcPort		      3
+	      DstBlock		      "myMux Fun5"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Input Capture"
+	      SrcPort		      4
+	      DstBlock		      "myMux Fun5"
+	      DstPort		      4
+	    }
+	    Line {
+	      SrcBlock		      "Input Capture"
+	      SrcPort		      5
+	      DstBlock		      "myMux Fun5"
+	      DstPort		      5
+	    }
+	  }
 	}
 	Block {
 	  BlockType		  DataTypeConversion
@@ -23303,40 +23559,6 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "Pilot Console \nCommands\n[groundStationDri"
-"ver.c]"
-	  Tag			  "dsPIC_dsPIC_CFunctionCall"
-	  Ports			  [0, 1]
-	  Position		  [35, 177, 140, 213]
-	  BackgroundColor	  "orange"
-	  List {
-	    ListType		    RTWdata
-	    FctDeclaration	    "extern void pilotCommands(uint16_T* y1);"
-	    FctCall		    "pilotCommands(*%y1);"
-	    fctName		    "pilotCommands"
-	    INPUT_SIZE		    "1"
-	    OUTPUT_SIZE		    "5"
-	    NBR_INPUT		    "0"
-	    NBR_OUTPUT		    "1"
-	  }
-	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
-	  SourceType		  "C Function Call"
-	  fctName		  "'pilotCommands'"
-	  INPUT_SIZE		  "1"
-	  INPUT1		  "--"
-	  INPUT2		  "--"
-	  INPUT3		  "--"
-	  OUTPUT_SIZE		  "5"
-	  OUTPUT1		  "uint16"
-	  SampleTime		  ".01"
-	  InputType		  "[ ]"
-	  OutputType		  "[ 4 ]"
-	  FctDeclaration	  "extern void pilotCommands(uint16_T* y1);"
-	  FctCall		  "pilotCommands(*%y1);"
-	  OrderingInOutPopup	  "None"
-	}
-	Block {
-	  BlockType		  Reference
 	  Name			  "Update PWM \nCommands4"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [2]
@@ -23501,10 +23723,9 @@ Model {
 	  DstPort		  enable
 	}
 	Line {
-	  SrcBlock		  "Pilot Console \nCommands\n[groundStationDri"
-"ver.c]"
+	  SrcBlock		  "Control Surface Input"
 	  SrcPort		  1
-	  Points		  [40, 0]
+	  Points		  [45, 0]
 	  Branch {
 	    DstBlock		    "Control\nSurfaces\n[dT dA dR dE]"
 	    DstPort		    1
@@ -27734,7 +27955,7 @@ Stateflow {
 		name                 		"controlMCUSlugsMKII"
 		created              		"30-Oct-2008 13:16:33"
 		isLibrary            		0
-		firstTarget          		176
+		firstTarget          		187
 		sfVersion            		66014000
 	}
 
@@ -28142,22 +28363,25 @@ Stateflow {
 
 	chart {
 		id                                        		22
-		name                                      		"Trim Vals/Grab I.C./myMux Fun1"
-		windowPosition                            		[296.827 321.356 200.25 189.75]
+		name                                      		"Trim Vals/Control Surface Input/myMux Fun5"
+		windowPosition                            		[254.739 361.652 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
-		screen                                    		[1 1 1280 1024 1.333333333333333]
+		screen                                    		[1 1 1280 829 1.333333333333333]
 		treeNode                                  		[0 23 0 0]
 		firstTransition                           		25
 		firstJunction                             		24
 		viewObj                                   		22
 		machine                                   		1
+		subviewS {
+		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		26
-		chartFileNumber                           		4
+		chartFileNumber                           		3
 		disableImplicitCasting                    		1
 		eml {
 			name       		"myMux"
+			noDebugging		1
 		}
 	}
 
@@ -28174,13 +28398,13 @@ Stateflow {
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function y = myMux(u1, u2, u3, u4 )\n"
+			script                   		"function y = myMux(u1, u2, u3, u4, u5)\n"
 						"% This block supports an embeddable subset of the MATLAB la"
 						"nguage.\n"
 						"% See the help menu for details. \n"
 						"\n"
-						"y = [u1(1); u2(1); u3(1); u4(1)];"
-			editorLayout             		"100 M4x1[222 263 720 640]"
+						"y = [u1(1); u2(1); u3(1); u4(1); u5(1)];"
+			editorLayout             		"100 M4x1[369 313 720 640]"
 			treatIntsAsFixpt         		0
 		}
 	}
@@ -28311,7 +28535,30 @@ Stateflow {
 	data {
 		id                            		30
 		name                          		"u4"
-		linkNode                      		[22 29 0]
+		linkNode                      		[22 29 31]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		31
+		name                          		"u5"
+		linkNode                      		[22 30 0]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -28332,71 +28579,68 @@ Stateflow {
 	}
 
 	instance {
-		id     		31
-		name   		"Trim Vals/Grab I.C./myMux Fun1"
+		id     		32
+		name   		"Trim Vals/Control Surface Input/myMux Fun5"
 		machine		1
 		chart  		22
 	}
 
 	chart {
-		id                                        		32
-		name                                      		"Inner Loop/ Navigation/Navigation/Compute WP Index/Compute P/Comp"
-					"ute T \n"
-					"in Frenet/Normalize Vector/Norm/Subsystem3/Embedded\n"
-					"MATLAB Function"
-		windowPosition                            		[311.813 207.525 200.25 189.75]
+		id                                        		33
+		name                                      		"Trim Vals/Grab I.C./myMux Fun1"
+		windowPosition                            		[296.827 321.356 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 33 0 0]
-		firstTransition                           		35
-		firstJunction                             		34
-		viewObj                                   		32
+		treeNode                                  		[0 34 0 0]
+		firstTransition                           		36
+		firstJunction                             		35
+		viewObj                                   		33
 		machine                                   		1
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		36
-		chartFileNumber                           		5
+		firstData                                 		37
+		chartFileNumber                           		4
 		disableImplicitCasting                    		1
 		eml {
-			name       		"myDot"
+			name       		"myMux"
 		}
 	}
 
 	state {
-		id                           		33
+		id                           		34
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		32
-		treeNode                     		[32 0 0 0]
+		chart                        		33
+		treeNode                     		[33 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		32
+		subviewer                    		33
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function xDoty = myDot(x,y)\n"
+			script                   		"function y = myMux(u1, u2, u3, u4 )\n"
 						"% This block supports an embeddable subset of the MATLAB la"
 						"nguage.\n"
 						"% See the help menu for details. \n"
 						"\n"
-						"xDoty = x(1)*y(1) + x(2)*y(2) + x(3)*y(3);"
-			editorLayout             		"100 M4x1[146 214 671 364]"
+						"y = [u1(1); u2(1); u3(1); u4(1)];"
+			editorLayout             		"100 M4x1[222 263 720 640]"
 			treatIntsAsFixpt         		0
 		}
 	}
 
 	junction {
-		id         		34
+		id         		35
 		position   		[23.5747 49.5747 7]
-		chart      		32
-		linkNode   		[32 0 0]
-		subviewer  		32
+		chart      		33
+		linkNode   		[33 0 0]
+		subviewer  		33
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		35
+		id             		36
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -28404,22 +28648,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		34
+			id          		35
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		32
-		linkNode       		[32 0 0]
+		chart          		33
+		linkNode       		[33 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		32
+		subviewer      		33
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		36
-		name                          		"x"
-		linkNode                      		[32 0 37]
+		id                            		37
+		name                          		"u1"
+		linkNode                      		[33 0 38]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -28440,9 +28684,210 @@ Stateflow {
 	}
 
 	data {
-		id                            		37
+		id                            		38
 		name                          		"y"
-		linkNode                      		[32 36 38]
+		linkNode                      		[33 37 39]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		39
+		name                          		"u2"
+		linkNode                      		[33 38 40]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		40
+		name                          		"u3"
+		linkNode                      		[33 39 41]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		41
+		name                          		"u4"
+		linkNode                      		[33 40 0]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	instance {
+		id     		42
+		name   		"Trim Vals/Grab I.C./myMux Fun1"
+		machine		1
+		chart  		33
+	}
+
+	chart {
+		id                                        		43
+		name                                      		"Inner Loop/ Navigation/Navigation/Compute WP Index/Compute P/Comp"
+					"ute T \n"
+					"in Frenet/Normalize Vector/Norm/Subsystem3/Embedded\n"
+					"MATLAB Function"
+		windowPosition                            		[311.813 207.525 200.25 189.75]
+		viewLimits                                		[0 156.75 0 153.75]
+		screen                                    		[1 1 1280 1024 1.333333333333333]
+		treeNode                                  		[0 44 0 0]
+		firstTransition                           		46
+		firstJunction                             		45
+		viewObj                                   		43
+		machine                                   		1
+		decomposition                             		CLUSTER_CHART
+		type                                      		EML_CHART
+		firstData                                 		47
+		chartFileNumber                           		5
+		disableImplicitCasting                    		1
+		eml {
+			name       		"myDot"
+		}
+	}
+
+	state {
+		id                           		44
+		labelString                  		"eML_blk_kernel()"
+		position                     		[18 64.5 118 66]
+		fontSize                     		12
+		chart                        		43
+		treeNode                     		[43 0 0 0]
+		superState                   		SUBCHART
+		subviewer                    		43
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			isEML                    		1
+			script                   		"function xDoty = myDot(x,y)\n"
+						"% This block supports an embeddable subset of the MATLAB la"
+						"nguage.\n"
+						"% See the help menu for details. \n"
+						"\n"
+						"xDoty = x(1)*y(1) + x(2)*y(2) + x(3)*y(3);"
+			editorLayout             		"100 M4x1[146 214 671 364]"
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	junction {
+		id         		45
+		position   		[23.5747 49.5747 7]
+		chart      		43
+		linkNode   		[43 0 0]
+		subviewer  		43
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		46
+		labelString    		"{eML_blk_kernel();}"
+		labelPosition  		[32.125 19.875 102.544 14.964]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 23.5747 14.625 0 0]
+		}
+		dst {
+			id          		45
+			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
+		}
+		midPoint       		[23.5747 24.9468]
+		chart          		43
+		linkNode       		[43 0 0]
+		dataLimits     		[23.575 23.575 14.625 34.575]
+		subviewer      		43
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	data {
+		id                            		47
+		name                          		"x"
+		linkNode                      		[43 0 48]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		48
+		name                          		"y"
+		linkNode                      		[43 47 49]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -28464,9 +28909,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		38
+		id                            		49
 		name                          		"xDoty"
-		linkNode                      		[32 37 0]
+		linkNode                      		[43 48 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -28487,32 +28932,32 @@ Stateflow {
 	}
 
 	instance {
-		id     		39
+		id     		50
 		name   		"Inner Loop// Navigation/Navigation/Compute WP Index/Compute P/Com"
 					"pute T \n"
 					"in Frenet/Normalize Vector/Norm/Subsystem3/Embedded\n"
 					"MATLAB Function"
 		machine		1
-		chart  		32
+		chart  		43
 	}
 
 	chart {
-		id                                        		40
+		id                                        		51
 		name                                      		"Inner Loop/ Navigation/Navigation/Compute WP Index/Compute P/Get "
 					"Circles/Compute \n"
 					"Circles"
 		windowPosition                            		[217.884 339 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 41 0 0]
-		firstTransition                           		43
-		firstJunction                             		42
-		viewObj                                   		40
+		treeNode                                  		[0 52 0 0]
+		firstTransition                           		54
+		firstJunction                             		53
+		viewObj                                   		51
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		44
+		firstData                                 		55
 		chartFileNumber                           		8
 		disableImplicitCasting                    		1
 		eml {
@@ -28521,14 +28966,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		41
+		id                           		52
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		40
-		treeNode                     		[40 0 0 0]
+		chart                        		51
+		treeNode                     		[51 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		40
+		subviewer                    		51
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -28574,16 +29019,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		42
+		id         		53
 		position   		[23.5747 49.5747 7]
-		chart      		40
-		linkNode   		[40 0 0]
-		subviewer  		40
+		chart      		51
+		linkNode   		[51 0 0]
+		subviewer  		51
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		43
+		id             		54
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -28591,22 +29036,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		42
+			id          		53
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		40
-		linkNode       		[40 0 0]
+		chart          		51
+		linkNode       		[51 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		40
+		subviewer      		51
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		44
+		id                            		55
 		name                          		"sd"
-		linkNode                      		[40 0 45]
+		linkNode                      		[51 0 56]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -28627,9 +29072,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		45
+		id                            		56
 		name                          		"O"
-		linkNode                      		[40 44 46]
+		linkNode                      		[51 55 57]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -28651,9 +29096,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		46
+		id                            		57
 		name                          		"cd"
-		linkNode                      		[40 45 47]
+		linkNode                      		[51 56 58]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -28674,9 +29119,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		47
+		id                            		58
 		name                          		"WP1"
-		linkNode                      		[40 46 48]
+		linkNode                      		[51 57 59]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -28697,9 +29142,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		48
+		id                            		59
 		name                          		"R"
-		linkNode                      		[40 47 49]
+		linkNode                      		[51 58 60]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -28720,9 +29165,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		49
+		id                            		60
 		name                          		"T1"
-		linkNode                      		[40 48 50]
+		linkNode                      		[51 59 61]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -28743,9 +29188,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		50
+		id                            		61
 		name                          		"P"
-		linkNode                      		[40 49 51]
+		linkNode                      		[51 60 62]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -28766,9 +29211,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		51
+		id                            		62
 		name                          		"Pch"
-		linkNode                      		[40 50 52]
+		linkNode                      		[51 61 63]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -28789,9 +29234,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		52
+		id                            		63
 		name                          		"T2"
-		linkNode                      		[40 51 53]
+		linkNode                      		[51 62 64]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -28812,9 +29257,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		53
+		id                            		64
 		name                          		"PchB"
-		linkNode                      		[40 52 0]
+		linkNode                      		[51 63 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -28835,16 +29280,16 @@ Stateflow {
 	}
 
 	instance {
-		id     		54
+		id     		65
 		name   		"Inner Loop// Navigation/Navigation/Compute WP Index/Compute P/Get"
 					" Circles/Compute \n"
 					"Circles"
 		machine		1
-		chart  		40
+		chart  		51
 	}
 
 	chart {
-		id                                        		55
+		id                                        		66
 		name                                      		"Inner Loop/ Navigation/Navigation/Compute WP Index/Compute P/Get "
 					"Circles/Compute CCW\n"
 					"Angle From 2\n"
@@ -28853,15 +29298,15 @@ Stateflow {
 		windowPosition                            		[217.884 339 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 56 0 0]
-		firstTransition                           		58
-		firstJunction                             		57
-		viewObj                                   		55
+		treeNode                                  		[0 67 0 0]
+		firstTransition                           		69
+		firstJunction                             		68
+		viewObj                                   		66
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		59
+		firstData                                 		70
 		chartFileNumber                           		9
 		disableImplicitCasting                    		1
 		eml {
@@ -28870,14 +29315,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		56
+		id                           		67
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		55
-		treeNode                     		[55 0 0 0]
+		chart                        		66
+		treeNode                     		[66 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		55
+		subviewer                    		66
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -28895,16 +29340,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		57
+		id         		68
 		position   		[23.5747 49.5747 7]
-		chart      		55
-		linkNode   		[55 0 0]
-		subviewer  		55
+		chart      		66
+		linkNode   		[66 0 0]
+		subviewer  		66
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		58
+		id             		69
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -28912,22 +29357,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		57
+			id          		68
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		55
-		linkNode       		[55 0 0]
+		chart          		66
+		linkNode       		[66 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		55
+		subviewer      		66
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		59
+		id                            		70
 		name                          		"rawAngle"
-		linkNode                      		[55 0 60]
+		linkNode                      		[66 0 71]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -28948,9 +29393,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		60
+		id                            		71
 		name                          		"angle"
-		linkNode                      		[55 59 0]
+		linkNode                      		[66 70 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -28972,31 +29417,31 @@ Stateflow {
 	}
 
 	instance {
-		id     		61
+		id     		72
 		name   		"Inner Loop// Navigation/Navigation/Compute WP Index/Compute P/Get"
 					" Circles/Compute CCW\n"
 					"Angle From 2\n"
 					"Vectors/Embedded\n"
 					"MATLAB Function1"
 		machine		1
-		chart  		55
+		chart  		66
 	}
 
 	chart {
-		id                                        		62
+		id                                        		73
 		name                                      		"Inner Loop/ Navigation/Navigation/Compute WP Index/Embedded\n"
 					"MATLAB Function"
 		windowPosition                            		[217.884 339 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 63 0 0]
-		firstTransition                           		65
-		firstJunction                             		64
-		viewObj                                   		62
+		treeNode                                  		[0 74 0 0]
+		firstTransition                           		76
+		firstJunction                             		75
+		viewObj                                   		73
 		machine                                   		1
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		66
+		firstData                                 		77
 		chartFileNumber                           		10
 		disableImplicitCasting                    		1
 		eml {
@@ -29006,14 +29451,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		63
+		id                           		74
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		62
-		treeNode                     		[62 0 0 0]
+		chart                        		73
+		treeNode                     		[73 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		62
+		subviewer                    		73
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -29065,16 +29510,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		64
+		id         		75
 		position   		[23.5747 49.5747 7]
-		chart      		62
-		linkNode   		[62 0 0]
-		subviewer  		62
+		chart      		73
+		linkNode   		[73 0 0]
+		subviewer  		73
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		65
+		id             		76
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -29082,22 +29527,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		64
+			id          		75
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		62
-		linkNode       		[62 0 0]
+		chart          		73
+		linkNode       		[73 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		62
+		subviewer      		73
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		66
+		id                            		77
 		name                          		"wpStart"
-		linkNode                      		[62 0 67]
+		linkNode                      		[73 0 78]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -29118,9 +29563,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		67
+		id                            		78
 		name                          		"wpCount"
-		linkNode                      		[62 66 68]
+		linkNode                      		[73 77 79]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -29141,9 +29586,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		68
+		id                            		79
 		name                          		"wp0"
-		linkNode                      		[62 67 69]
+		linkNode                      		[73 78 80]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -29165,9 +29610,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		69
+		id                            		80
 		name                          		"swIncrement"
-		linkNode                      		[62 68 70]
+		linkNode                      		[73 79 81]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -29188,9 +29633,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		70
+		id                            		81
 		name                          		"wp1"
-		linkNode                      		[62 69 71]
+		linkNode                      		[73 80 82]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -29211,9 +29656,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		71
+		id                            		82
 		name                          		"wp2"
-		linkNode                      		[62 70 72]
+		linkNode                      		[73 81 83]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -29234,9 +29679,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		72
+		id                            		83
 		name                          		"wpEnabl"
-		linkNode                      		[62 71 0]
+		linkNode                      		[73 82 0]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -29257,28 +29702,28 @@ Stateflow {
 	}
 
 	instance {
-		id     		73
+		id     		84
 		name   		"Inner Loop// Navigation/Navigation/Compute WP Index/Embedded\n"
 					"MATLAB Function"
 		machine		1
-		chart  		62
+		chart  		73
 	}
 
 	chart {
-		id                                        		74
+		id                                        		85
 		name                                      		"Inner Loop/ Navigation/Navigation/Compute WP Index/Embedded\n"
 					"MATLAB Function1"
 		windowPosition                            		[232.884 354.456 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 953 1.333333333333333]
-		treeNode                                  		[0 75 0 0]
-		firstTransition                           		77
-		firstJunction                             		76
-		viewObj                                   		74
+		treeNode                                  		[0 86 0 0]
+		firstTransition                           		88
+		firstJunction                             		87
+		viewObj                                   		85
 		machine                                   		1
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		78
+		firstData                                 		89
 		chartFileNumber                           		11
 		disableImplicitCasting                    		1
 		eml {
@@ -29288,14 +29733,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		75
+		id                           		86
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		74
-		treeNode                     		[74 0 0 0]
+		chart                        		85
+		treeNode                     		[85 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		74
+		subviewer                    		85
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -29334,16 +29779,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		76
+		id         		87
 		position   		[23.5747 49.5747 7]
-		chart      		74
-		linkNode   		[74 0 0]
-		subviewer  		74
+		chart      		85
+		linkNode   		[85 0 0]
+		subviewer  		85
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		77
+		id             		88
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -29351,22 +29796,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		76
+			id          		87
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		74
-		linkNode       		[74 0 0]
+		chart          		85
+		linkNode       		[85 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		74
+		subviewer      		85
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		78
+		id                            		89
 		name                          		"swDistanceRdy"
-		linkNode                      		[74 0 79]
+		linkNode                      		[85 0 90]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -29387,9 +29832,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		79
+		id                            		90
 		name                          		"timeLimit"
-		linkNode                      		[74 78 80]
+		linkNode                      		[85 89 91]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -29410,9 +29855,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		80
+		id                            		91
 		name                          		"swIncrement"
-		linkNode                      		[74 79 0]
+		linkNode                      		[85 90 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -29433,30 +29878,30 @@ Stateflow {
 	}
 
 	instance {
-		id     		81
+		id     		92
 		name   		"Inner Loop// Navigation/Navigation/Compute WP Index/Embedded\n"
 					"MATLAB Function1"
 		machine		1
-		chart  		74
+		chart  		85
 	}
 
 	chart {
-		id                                        		82
+		id                                        		93
 		name                                      		"Inner Loop/ Navigation/Navigation/Get Wps\n"
 					"Compute Frenet/Compute Frenet/Normalize Vector/Norm/Subsystem1/ne"
 					"gprotect"
 		windowPosition                            		[252.588 326.703 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 83 0 0]
-		firstTransition                           		85
-		firstJunction                             		84
-		viewObj                                   		82
+		treeNode                                  		[0 94 0 0]
+		firstTransition                           		96
+		firstJunction                             		95
+		viewObj                                   		93
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		86
+		firstData                                 		97
 		chartFileNumber                           		12
 		disableImplicitCasting                    		1
 		eml {
@@ -29465,14 +29910,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		83
+		id                           		94
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		82
-		treeNode                     		[82 0 0 0]
+		chart                        		93
+		treeNode                     		[93 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		82
+		subviewer                    		93
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -29493,16 +29938,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		84
+		id         		95
 		position   		[23.5747 49.5747 7]
-		chart      		82
-		linkNode   		[82 0 0]
-		subviewer  		82
+		chart      		93
+		linkNode   		[93 0 0]
+		subviewer  		93
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		85
+		id             		96
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -29510,22 +29955,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		84
+			id          		95
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		82
-		linkNode       		[82 0 0]
+		chart          		93
+		linkNode       		[93 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		82
+		subviewer      		93
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		86
+		id                            		97
 		name                          		"val"
-		linkNode                      		[82 0 87]
+		linkNode                      		[93 0 98]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -29546,9 +29991,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		87
+		id                            		98
 		name                          		"zpVal"
-		linkNode                      		[82 86 0]
+		linkNode                      		[93 97 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -29570,31 +30015,31 @@ Stateflow {
 	}
 
 	instance {
-		id     		88
+		id     		99
 		name   		"Inner Loop// Navigation/Navigation/Get Wps\n"
 					"Compute Frenet/Compute Frenet/Normalize Vector/Norm/Subsystem1/ne"
 					"gprotect"
 		machine		1
-		chart  		82
+		chart  		93
 	}
 
 	chart {
-		id                                        		89
+		id                                        		100
 		name                                      		"Inner Loop/ Navigation/Navigation/Compute WP Index/Compute P/Comp"
 					"ute T \n"
 					"in Frenet/Normalize Vector/Norm/Subsystem1/negprotect"
 		windowPosition                            		[252.588 326.703 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 90 0 0]
-		firstTransition                           		92
-		firstJunction                             		91
-		viewObj                                   		89
+		treeNode                                  		[0 101 0 0]
+		firstTransition                           		103
+		firstJunction                             		102
+		viewObj                                   		100
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		93
+		firstData                                 		104
 		chartFileNumber                           		13
 		disableImplicitCasting                    		1
 		eml {
@@ -29603,14 +30048,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		90
+		id                           		101
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		89
-		treeNode                     		[89 0 0 0]
+		chart                        		100
+		treeNode                     		[100 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		89
+		subviewer                    		100
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -29631,16 +30076,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		91
+		id         		102
 		position   		[23.5747 49.5747 7]
-		chart      		89
-		linkNode   		[89 0 0]
-		subviewer  		89
+		chart      		100
+		linkNode   		[100 0 0]
+		subviewer  		100
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		92
+		id             		103
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -29648,22 +30093,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		91
+			id          		102
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		89
-		linkNode       		[89 0 0]
+		chart          		100
+		linkNode       		[100 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		89
+		subviewer      		100
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		93
+		id                            		104
 		name                          		"val"
-		linkNode                      		[89 0 94]
+		linkNode                      		[100 0 105]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -29684,9 +30129,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		94
+		id                            		105
 		name                          		"zpVal"
-		linkNode                      		[89 93 0]
+		linkNode                      		[100 104 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -29708,31 +30153,31 @@ Stateflow {
 	}
 
 	instance {
-		id     		95
+		id     		106
 		name   		"Inner Loop// Navigation/Navigation/Compute WP Index/Compute P/Com"
 					"pute T \n"
 					"in Frenet/Normalize Vector/Norm/Subsystem1/negprotect"
 		machine		1
-		chart  		89
+		chart  		100
 	}
 
 	chart {
-		id                                        		96
+		id                                        		107
 		name                                      		"Inner Loop/ Navigation/Navigation/Get Wps\n"
 					"Compute Frenet/Compute Frenet/Select N \n"
 					"Terms"
 		windowPosition                            		[296.813 314.45 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 97 0 0]
-		firstTransition                           		99
-		firstJunction                             		98
-		viewObj                                   		96
+		treeNode                                  		[0 108 0 0]
+		firstTransition                           		110
+		firstJunction                             		109
+		viewObj                                   		107
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		100
+		firstData                                 		111
 		chartFileNumber                           		14
 		disableImplicitCasting                    		1
 		eml {
@@ -29741,14 +30186,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		97
+		id                           		108
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		96
-		treeNode                     		[96 0 0 0]
+		chart                        		107
+		treeNode                     		[107 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		96
+		subviewer                    		107
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -29765,16 +30210,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		98
+		id         		109
 		position   		[23.5747 49.5747 7]
-		chart      		96
-		linkNode   		[96 0 0]
-		subviewer  		96
+		chart      		107
+		linkNode   		[107 0 0]
+		subviewer  		107
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		99
+		id             		110
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -29782,22 +30227,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		98
+			id          		109
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		96
-		linkNode       		[96 0 0]
+		chart          		107
+		linkNode       		[107 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		96
+		subviewer      		107
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		100
+		id                            		111
 		name                          		"T"
-		linkNode                      		[96 0 101]
+		linkNode                      		[107 0 112]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -29818,9 +30263,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		101
+		id                            		112
 		name                          		"N"
-		linkNode                      		[96 100 0]
+		linkNode                      		[107 111 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -29842,30 +30287,30 @@ Stateflow {
 	}
 
 	instance {
-		id     		102
+		id     		113
 		name   		"Inner Loop// Navigation/Navigation/Get Wps\n"
 					"Compute Frenet/Compute Frenet/Select N \n"
 					"Terms"
 		machine		1
-		chart  		96
+		chart  		107
 	}
 
 	chart {
-		id                                        		103
+		id                                        		114
 		name                                      		"Inner Loop/ Navigation/Navigation/Park, Deyst & How\n"
 					"Lat Accel Cmd/Compute Eta/negprotect"
 		windowPosition                            		[252.588 326.703 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 104 0 0]
-		firstTransition                           		106
-		firstJunction                             		105
-		viewObj                                   		103
+		treeNode                                  		[0 115 0 0]
+		firstTransition                           		117
+		firstJunction                             		116
+		viewObj                                   		114
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		107
+		firstData                                 		118
 		chartFileNumber                           		15
 		disableImplicitCasting                    		1
 		eml {
@@ -29874,14 +30319,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		104
+		id                           		115
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		103
-		treeNode                     		[103 0 0 0]
+		chart                        		114
+		treeNode                     		[114 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		103
+		subviewer                    		114
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -29902,16 +30347,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		105
+		id         		116
 		position   		[23.5747 49.5747 7]
-		chart      		103
-		linkNode   		[103 0 0]
-		subviewer  		103
+		chart      		114
+		linkNode   		[114 0 0]
+		subviewer  		114
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		106
+		id             		117
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -29919,22 +30364,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		105
+			id          		116
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		103
-		linkNode       		[103 0 0]
+		chart          		114
+		linkNode       		[114 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		103
+		subviewer      		114
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		107
+		id                            		118
 		name                          		"val"
-		linkNode                      		[103 0 108]
+		linkNode                      		[114 0 119]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -29955,9 +30400,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		108
+		id                            		119
 		name                          		"zpVal"
-		linkNode                      		[103 107 0]
+		linkNode                      		[114 118 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -29979,29 +30424,29 @@ Stateflow {
 	}
 
 	instance {
-		id     		109
+		id     		120
 		name   		"Inner Loop// Navigation/Navigation/Park, Deyst & How\n"
 					"Lat Accel Cmd/Compute Eta/negprotect"
 		machine		1
-		chart  		103
+		chart  		114
 	}
 
 	chart {
-		id                                        		110
+		id                                        		121
 		name                                      		"Inner Loop/ Navigation/Navigation/GainSchedule\n"
 					"L2 and Get\n"
 					"Groundspeed/negprotect1"
 		windowPosition                            		[327.588 251.703 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 111 0 0]
-		firstTransition                           		113
-		firstJunction                             		112
-		viewObj                                   		110
+		treeNode                                  		[0 122 0 0]
+		firstTransition                           		124
+		firstJunction                             		123
+		viewObj                                   		121
 		machine                                   		1
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		114
+		firstData                                 		125
 		chartFileNumber                           		16
 		disableImplicitCasting                    		1
 		eml {
@@ -30010,14 +30455,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		111
+		id                           		122
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		110
-		treeNode                     		[110 0 0 0]
+		chart                        		121
+		treeNode                     		[121 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		110
+		subviewer                    		121
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -30038,16 +30483,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		112
+		id         		123
 		position   		[23.5747 49.5747 7]
-		chart      		110
-		linkNode   		[110 0 0]
-		subviewer  		110
+		chart      		121
+		linkNode   		[121 0 0]
+		subviewer  		121
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		113
+		id             		124
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -30055,22 +30500,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		112
+			id          		123
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		110
-		linkNode       		[110 0 0]
+		chart          		121
+		linkNode       		[121 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		110
+		subviewer      		121
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		114
+		id                            		125
 		name                          		"val"
-		linkNode                      		[110 0 115]
+		linkNode                      		[121 0 126]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -30091,9 +30536,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		115
+		id                            		126
 		name                          		"zpVal"
-		linkNode                      		[110 114 0]
+		linkNode                      		[121 125 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -30115,31 +30560,31 @@ Stateflow {
 	}
 
 	instance {
-		id     		116
+		id     		127
 		name   		"Inner Loop// Navigation/Navigation/GainSchedule\n"
 					"L2 and Get\n"
 					"Groundspeed/negprotect1"
 		machine		1
-		chart  		110
+		chart  		121
 	}
 
 	chart {
-		id                                        		117
+		id                                        		128
 		name                                      		"Inner Loop/ Navigation/Navigation/GainSchedule\n"
 					"L2 and Get\n"
 					"Groundspeed/Norm /Subsystem1/negprotect"
 		windowPosition                            		[252.588 326.703 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 118 0 0]
-		firstTransition                           		120
-		firstJunction                             		119
-		viewObj                                   		117
+		treeNode                                  		[0 129 0 0]
+		firstTransition                           		131
+		firstJunction                             		130
+		viewObj                                   		128
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		121
+		firstData                                 		132
 		chartFileNumber                           		17
 		disableImplicitCasting                    		1
 		eml {
@@ -30148,14 +30593,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		118
+		id                           		129
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		117
-		treeNode                     		[117 0 0 0]
+		chart                        		128
+		treeNode                     		[128 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		117
+		subviewer                    		128
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -30176,16 +30621,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		119
+		id         		130
 		position   		[23.5747 49.5747 7]
-		chart      		117
-		linkNode   		[117 0 0]
-		subviewer  		117
+		chart      		128
+		linkNode   		[128 0 0]
+		subviewer  		128
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		120
+		id             		131
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -30193,22 +30638,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		119
+			id          		130
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		117
-		linkNode       		[117 0 0]
+		chart          		128
+		linkNode       		[128 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		117
+		subviewer      		128
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		121
+		id                            		132
 		name                          		"val"
-		linkNode                      		[117 0 122]
+		linkNode                      		[128 0 133]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -30229,9 +30674,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		122
+		id                            		133
 		name                          		"zpVal"
-		linkNode                      		[117 121 0]
+		linkNode                      		[128 132 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -30253,31 +30698,31 @@ Stateflow {
 	}
 
 	instance {
-		id     		123
+		id     		134
 		name   		"Inner Loop// Navigation/Navigation/GainSchedule\n"
 					"L2 and Get\n"
 					"Groundspeed/Norm /Subsystem1/negprotect"
 		machine		1
-		chart  		117
+		chart  		128
 	}
 
 	chart {
-		id                                        		124
+		id                                        		135
 		name                                      		"Inner Loop/ Navigation/Navigation/Park, Deyst & How\n"
 					"Lat Accel Cmd/Compute L1 Vector\n"
 					"LINE MODE/Subsystem1/negprotect"
 		windowPosition                            		[252.588 326.703 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 125 0 0]
-		firstTransition                           		127
-		firstJunction                             		126
-		viewObj                                   		124
+		treeNode                                  		[0 136 0 0]
+		firstTransition                           		138
+		firstJunction                             		137
+		viewObj                                   		135
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		128
+		firstData                                 		139
 		chartFileNumber                           		18
 		disableImplicitCasting                    		1
 		eml {
@@ -30286,14 +30731,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		125
+		id                           		136
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		124
-		treeNode                     		[124 0 0 0]
+		chart                        		135
+		treeNode                     		[135 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		124
+		subviewer                    		135
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -30314,16 +30759,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		126
+		id         		137
 		position   		[23.5747 49.5747 7]
-		chart      		124
-		linkNode   		[124 0 0]
-		subviewer  		124
+		chart      		135
+		linkNode   		[135 0 0]
+		subviewer  		135
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		127
+		id             		138
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -30331,22 +30776,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		126
+			id          		137
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		124
-		linkNode       		[124 0 0]
+		chart          		135
+		linkNode       		[135 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		124
+		subviewer      		135
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		128
+		id                            		139
 		name                          		"val"
-		linkNode                      		[124 0 129]
+		linkNode                      		[135 0 140]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -30367,9 +30812,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		129
+		id                            		140
 		name                          		"zpVal"
-		linkNode                      		[124 128 0]
+		linkNode                      		[135 139 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -30391,30 +30836,30 @@ Stateflow {
 	}
 
 	instance {
-		id     		130
+		id     		141
 		name   		"Inner Loop// Navigation/Navigation/Park, Deyst & How\n"
 					"Lat Accel Cmd/Compute L1 Vector\n"
 					"LINE MODE/Subsystem1/negprotect"
 		machine		1
-		chart  		124
+		chart  		135
 	}
 
 	chart {
-		id                                        		131
+		id                                        		142
 		name                                      		"Inner Loop/ Navigation/Navigation/Park, Deyst & How\n"
 					"Lat Accel Cmd/Compute Eta/Norm/Subsystem1/negprotect"
 		windowPosition                            		[252.588 326.703 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 132 0 0]
-		firstTransition                           		134
-		firstJunction                             		133
-		viewObj                                   		131
+		treeNode                                  		[0 143 0 0]
+		firstTransition                           		145
+		firstJunction                             		144
+		viewObj                                   		142
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		135
+		firstData                                 		146
 		chartFileNumber                           		19
 		disableImplicitCasting                    		1
 		eml {
@@ -30423,14 +30868,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		132
+		id                           		143
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		131
-		treeNode                     		[131 0 0 0]
+		chart                        		142
+		treeNode                     		[142 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		131
+		subviewer                    		142
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -30451,16 +30896,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		133
+		id         		144
 		position   		[23.5747 49.5747 7]
-		chart      		131
-		linkNode   		[131 0 0]
-		subviewer  		131
+		chart      		142
+		linkNode   		[142 0 0]
+		subviewer  		142
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		134
+		id             		145
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -30468,22 +30913,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		133
+			id          		144
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		131
-		linkNode       		[131 0 0]
+		chart          		142
+		linkNode       		[142 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		131
+		subviewer      		142
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		135
+		id                            		146
 		name                          		"val"
-		linkNode                      		[131 0 136]
+		linkNode                      		[142 0 147]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -30504,9 +30949,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		136
+		id                            		147
 		name                          		"zpVal"
-		linkNode                      		[131 135 0]
+		linkNode                      		[142 146 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -30528,15 +30973,15 @@ Stateflow {
 	}
 
 	instance {
-		id     		137
+		id     		148
 		name   		"Inner Loop// Navigation/Navigation/Park, Deyst & How\n"
 					"Lat Accel Cmd/Compute Eta/Norm/Subsystem1/negprotect"
 		machine		1
-		chart  		131
+		chart  		142
 	}
 
 	chart {
-		id                                        		138
+		id                                        		149
 		name                                      		"Update PWM Commands\n"
 					"and Send Telemetry/Generate PWM Signals\n"
 					"Based on the Control Type/If  Control Type\n"
@@ -30545,14 +30990,14 @@ Stateflow {
 		windowPosition                            		[311.827 306.356 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 139 0 0]
-		firstTransition                           		141
-		firstJunction                             		140
-		viewObj                                   		138
+		treeNode                                  		[0 150 0 0]
+		firstTransition                           		152
+		firstJunction                             		151
+		viewObj                                   		149
 		machine                                   		1
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		142
+		firstData                                 		153
 		chartFileNumber                           		20
 		disableImplicitCasting                    		1
 		eml {
@@ -30561,14 +31006,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		139
+		id                           		150
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		138
-		treeNode                     		[138 0 0 0]
+		chart                        		149
+		treeNode                     		[149 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		138
+		subviewer                    		149
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -30585,16 +31030,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		140
+		id         		151
 		position   		[23.5747 49.5747 7]
-		chart      		138
-		linkNode   		[138 0 0]
-		subviewer  		138
+		chart      		149
+		linkNode   		[149 0 0]
+		subviewer  		149
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		141
+		id             		152
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -30602,251 +31047,23 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		140
+			id          		151
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		138
-		linkNode       		[138 0 0]
+		chart          		149
+		linkNode       		[149 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		138
+		subviewer      		149
 		drawStyle      		SMART
 		executionOrder 		1
-	}
-
-	data {
-		id                            		142
-		name                          		"u1"
-		linkNode                      		[138 0 143]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		143
-		name                          		"y"
-		linkNode                      		[138 142 144]
-		scope                         		OUTPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_NO
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		144
-		name                          		"u2"
-		linkNode                      		[138 143 145]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
-		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		145
-		name                          		"u3"
-		linkNode                      		[138 144 146]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
-		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		146
-		name                          		"u4"
-		linkNode                      		[138 145 0]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
-		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	instance {
-		id     		147
-		name   		"Update PWM Commands\n"
-					"and Send Telemetry/Generate PWM Signals\n"
-					"Based on the Control Type/If  Control Type\n"
-					"Is Wp Follow \n"
-					"or Inner Cmds/myMux Fun1"
-		machine		1
-		chart  		138
-	}
-
-	chart {
-		id                                        		148
-		name                                      		"Update PWM Commands\n"
-					"and Send Telemetry/Generate PWM Signals\n"
-					"Based on the Control Type/If  Control Type\n"
-					"Is Passthrough/myMux Fun1"
-		windowPosition                            		[326.827 291.356 200.25 189.75]
-		viewLimits                                		[0 156.75 0 153.75]
-		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 149 0 0]
-		firstTransition                           		151
-		firstJunction                             		150
-		viewObj                                   		148
-		machine                                   		1
-		decomposition                             		CLUSTER_CHART
-		type                                      		EML_CHART
-		firstData                                 		152
-		chartFileNumber                           		21
-		disableImplicitCasting                    		1
-		eml {
-			name       		"myMux"
-		}
-	}
-
-	state {
-		id                           		149
-		labelString                  		"eML_blk_kernel()"
-		position                     		[18 64.5 118 66]
-		fontSize                     		12
-		chart                        		148
-		treeNode                     		[148 0 0 0]
-		superState                   		SUBCHART
-		subviewer                    		148
-		type                         		FUNC_STATE
-		decomposition                		CLUSTER_STATE
-		eml {
-			isEML                    		1
-			script                   		"function y = myMux(u1, u2, u3, u4 )\n"
-						"% This block supports an embeddable subset of the MATLAB la"
-						"nguage.\n"
-						"% See the help menu for details. \n"
-						"\n"
-						"y = [u1(1); u2(1); u3(1); u4(1)];"
-			editorLayout             		"100 M4x1[222 263 720 640]"
-			treatIntsAsFixpt         		0
-		}
-	}
-
-	junction {
-		id         		150
-		position   		[23.5747 49.5747 7]
-		chart      		148
-		linkNode   		[148 0 0]
-		subviewer  		148
-		type       		CONNECTIVE_JUNCTION
-	}
-
-	transition {
-		id             		151
-		labelString    		"{eML_blk_kernel();}"
-		labelPosition  		[32.125 19.875 102.544 14.964]
-		fontSize       		12
-		src {
-			intersection		[0 0 1 0 23.5747 14.625 0 0]
-		}
-		dst {
-			id          		150
-			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
-		}
-		midPoint       		[23.5747 24.9468]
-		chart          		148
-		linkNode       		[148 0 0]
-		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		148
-		drawStyle      		SMART
-		executionOrder 		1
-	}
-
-	data {
-		id                            		152
-		name                          		"u1"
-		linkNode                      		[148 0 153]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
 	}
 
 	data {
 		id                            		153
-		name                          		"y"
-		linkNode                      		[148 152 154]
-		scope                         		OUTPUT_DATA
+		name                          		"u1"
+		linkNode                      		[149 0 154]
+		scope                         		INPUT_DATA
 		machine                       		1
 		props {
 			array {
@@ -30856,7 +31073,6 @@ Stateflow {
 				method    		SF_INHERITED_TYPE
 			}
 			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_NO
 		}
 		dataType                      		"inherited"
 		fixptType {
@@ -30868,9 +31084,9 @@ Stateflow {
 
 	data {
 		id                            		154
-		name                          		"u2"
-		linkNode                      		[148 153 155]
-		scope                         		INPUT_DATA
+		name                          		"y"
+		linkNode                      		[149 153 155]
+		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
 			array {
@@ -30878,21 +31094,22 @@ Stateflow {
 			}
 			type {
 				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
 			}
 			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
+			frame                		SF_FRAME_NO
 		}
 		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
 		complexity                    		SF_COMPLEX_INHERITED
 	}
 
 	data {
 		id                            		155
-		name                          		"u3"
-		linkNode                      		[148 154 156]
+		name                          		"u2"
+		linkNode                      		[149 154 156]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -30914,8 +31131,31 @@ Stateflow {
 
 	data {
 		id                            		156
+		name                          		"u3"
+		linkNode                      		[149 155 157]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		157
 		name                          		"u4"
-		linkNode                      		[148 155 0]
+		linkNode                      		[149 156 0]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -30936,34 +31176,34 @@ Stateflow {
 	}
 
 	instance {
-		id     		157
+		id     		158
 		name   		"Update PWM Commands\n"
 					"and Send Telemetry/Generate PWM Signals\n"
 					"Based on the Control Type/If  Control Type\n"
-					"Is Passthrough/myMux Fun1"
+					"Is Wp Follow \n"
+					"or Inner Cmds/myMux Fun1"
 		machine		1
-		chart  		148
+		chart  		149
 	}
 
 	chart {
-		id                                        		158
+		id                                        		159
 		name                                      		"Update PWM Commands\n"
 					"and Send Telemetry/Generate PWM Signals\n"
 					"Based on the Control Type/If  Control Type\n"
-					"Is Selective\n"
-					"Passthrough/myMux Fun1"
-		windowPosition                            		[341.827 276.356 200.25 189.75]
+					"Is Passthrough/myMux Fun1"
+		windowPosition                            		[326.827 291.356 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 159 0 0]
-		firstTransition                           		161
-		firstJunction                             		160
-		viewObj                                   		158
+		treeNode                                  		[0 160 0 0]
+		firstTransition                           		162
+		firstJunction                             		161
+		viewObj                                   		159
 		machine                                   		1
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		162
-		chartFileNumber                           		22
+		firstData                                 		163
+		chartFileNumber                           		21
 		disableImplicitCasting                    		1
 		eml {
 			name       		"myMux"
@@ -30971,14 +31211,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		159
+		id                           		160
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		158
-		treeNode                     		[158 0 0 0]
+		chart                        		159
+		treeNode                     		[159 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		158
+		subviewer                    		159
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -30995,16 +31235,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		160
+		id         		161
 		position   		[23.5747 49.5747 7]
-		chart      		158
-		linkNode   		[158 0 0]
-		subviewer  		158
+		chart      		159
+		linkNode   		[159 0 0]
+		subviewer  		159
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		161
+		id             		162
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -31012,22 +31252,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		160
+			id          		161
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		158
-		linkNode       		[158 0 0]
+		chart          		159
+		linkNode       		[159 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		158
+		subviewer      		159
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		162
+		id                            		163
 		name                          		"u1"
-		linkNode                      		[158 0 163]
+		linkNode                      		[159 0 164]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -31048,9 +31288,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		163
+		id                            		164
 		name                          		"y"
-		linkNode                      		[158 162 164]
+		linkNode                      		[159 163 165]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -31072,32 +31312,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		164
-		name                          		"u2"
-		linkNode                      		[158 163 165]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
-		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
 		id                            		165
-		name                          		"u3"
-		linkNode                      		[158 164 166]
+		name                          		"u2"
+		linkNode                      		[159 164 166]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -31119,8 +31336,31 @@ Stateflow {
 
 	data {
 		id                            		166
+		name                          		"u3"
+		linkNode                      		[159 165 167]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		167
 		name                          		"u4"
-		linkNode                      		[158 165 0]
+		linkNode                      		[159 166 0]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -31141,32 +31381,34 @@ Stateflow {
 	}
 
 	instance {
-		id     		167
+		id     		168
 		name   		"Update PWM Commands\n"
+					"and Send Telemetry/Generate PWM Signals\n"
+					"Based on the Control Type/If  Control Type\n"
+					"Is Passthrough/myMux Fun1"
+		machine		1
+		chart  		159
+	}
+
+	chart {
+		id                                        		169
+		name                                      		"Update PWM Commands\n"
 					"and Send Telemetry/Generate PWM Signals\n"
 					"Based on the Control Type/If  Control Type\n"
 					"Is Selective\n"
 					"Passthrough/myMux Fun1"
-		machine		1
-		chart  		158
-	}
-
-	chart {
-		id                                        		168
-		name                                      		"Update PWM Commands\n"
-					"and Send Telemetry/myMux Fun1"
-		windowPosition                            		[311.827 306.356 200.25 189.75]
+		windowPosition                            		[341.827 276.356 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 169 0 0]
-		firstTransition                           		171
-		firstJunction                             		170
-		viewObj                                   		168
+		treeNode                                  		[0 170 0 0]
+		firstTransition                           		172
+		firstJunction                             		171
+		viewObj                                   		169
 		machine                                   		1
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		172
-		chartFileNumber                           		23
+		firstData                                 		173
+		chartFileNumber                           		22
 		disableImplicitCasting                    		1
 		eml {
 			name       		"myMux"
@@ -31174,40 +31416,40 @@ Stateflow {
 	}
 
 	state {
-		id                           		169
+		id                           		170
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		168
-		treeNode                     		[168 0 0 0]
+		chart                        		169
+		treeNode                     		[169 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		168
+		subviewer                    		169
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function y = myMux(u1, u2)\n"
+			script                   		"function y = myMux(u1, u2, u3, u4 )\n"
 						"% This block supports an embeddable subset of the MATLAB la"
 						"nguage.\n"
 						"% See the help menu for details. \n"
 						"\n"
-						"y = [u1(1:4); u2(1)];"
-			editorLayout             		"100 M4x1[410 347 720 640]"
+						"y = [u1(1); u2(1); u3(1); u4(1)];"
+			editorLayout             		"100 M4x1[222 263 720 640]"
 			treatIntsAsFixpt         		0
 		}
 	}
 
 	junction {
-		id         		170
+		id         		171
 		position   		[23.5747 49.5747 7]
-		chart      		168
-		linkNode   		[168 0 0]
-		subviewer  		168
+		chart      		169
+		linkNode   		[169 0 0]
+		subviewer  		169
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		171
+		id             		172
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -31215,22 +31457,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		170
+			id          		171
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		168
-		linkNode       		[168 0 0]
+		chart          		169
+		linkNode       		[169 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		168
+		subviewer      		169
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		172
+		id                            		173
 		name                          		"u1"
-		linkNode                      		[168 0 173]
+		linkNode                      		[169 0 174]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -31251,9 +31493,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		173
+		id                            		174
 		name                          		"y"
-		linkNode                      		[168 172 174]
+		linkNode                      		[169 173 175]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -31275,9 +31517,55 @@ Stateflow {
 	}
 
 	data {
-		id                            		174
+		id                            		175
 		name                          		"u2"
-		linkNode                      		[168 173 0]
+		linkNode                      		[169 174 176]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		176
+		name                          		"u3"
+		linkNode                      		[169 175 177]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		177
+		name                          		"u4"
+		linkNode                      		[169 176 0]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -31298,28 +31586,185 @@ Stateflow {
 	}
 
 	instance {
-		id     		175
+		id     		178
+		name   		"Update PWM Commands\n"
+					"and Send Telemetry/Generate PWM Signals\n"
+					"Based on the Control Type/If  Control Type\n"
+					"Is Selective\n"
+					"Passthrough/myMux Fun1"
+		machine		1
+		chart  		169
+	}
+
+	chart {
+		id                                        		179
+		name                                      		"Update PWM Commands\n"
+					"and Send Telemetry/myMux Fun1"
+		windowPosition                            		[311.827 306.356 200.25 189.75]
+		viewLimits                                		[0 156.75 0 153.75]
+		screen                                    		[1 1 1280 1024 1.333333333333333]
+		treeNode                                  		[0 180 0 0]
+		firstTransition                           		182
+		firstJunction                             		181
+		viewObj                                   		179
+		machine                                   		1
+		decomposition                             		CLUSTER_CHART
+		type                                      		EML_CHART
+		firstData                                 		183
+		chartFileNumber                           		23
+		disableImplicitCasting                    		1
+		eml {
+			name       		"myMux"
+		}
+	}
+
+	state {
+		id                           		180
+		labelString                  		"eML_blk_kernel()"
+		position                     		[18 64.5 118 66]
+		fontSize                     		12
+		chart                        		179
+		treeNode                     		[179 0 0 0]
+		superState                   		SUBCHART
+		subviewer                    		179
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			isEML                    		1
+			script                   		"function y = myMux(u1, u2)\n"
+						"% This block supports an embeddable subset of the MATLAB la"
+						"nguage.\n"
+						"% See the help menu for details. \n"
+						"\n"
+						"y = [u1(1:4); u2(1)];"
+			editorLayout             		"100 M4x1[410 347 720 640]"
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	junction {
+		id         		181
+		position   		[23.5747 49.5747 7]
+		chart      		179
+		linkNode   		[179 0 0]
+		subviewer  		179
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		182
+		labelString    		"{eML_blk_kernel();}"
+		labelPosition  		[32.125 19.875 102.544 14.964]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 23.5747 14.625 0 0]
+		}
+		dst {
+			id          		181
+			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
+		}
+		midPoint       		[23.5747 24.9468]
+		chart          		179
+		linkNode       		[179 0 0]
+		dataLimits     		[23.575 23.575 14.625 34.575]
+		subviewer      		179
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	data {
+		id                            		183
+		name                          		"u1"
+		linkNode                      		[179 0 184]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		184
+		name                          		"y"
+		linkNode                      		[179 183 185]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		185
+		name                          		"u2"
+		linkNode                      		[179 184 0]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	instance {
+		id     		186
 		name   		"Update PWM Commands\n"
 					"and Send Telemetry/myMux Fun1"
 		machine		1
-		chart  		168
+		chart  		179
 	}
 
 	target {
-		id                        		176
+		id                        		187
 		name                      		"sfun"
 		description               		"Default Simulink S-Function Target."
 		machine                   		1
-		linkNode                  		[1 0 177]
+		linkNode                  		[1 0 188]
 	}
 
 	target {
-		id                        		177
+		id                        		188
 		name                      		"rtw"
 		codeFlags                 		" comments=1 statebitsets=1 databitsets=1 emitlogicalops=1 el"
 						"seifdetection=1 constantfolding=1 redundantloadelimination=0"
 						" preservenames=0 preservenameswithparent=0 exportcharts=0"
 		machine                   		1
-		linkNode                  		[1 176 0]
+		linkNode                  		[1 187 0]
 	}
 }
