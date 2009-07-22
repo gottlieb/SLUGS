@@ -107,7 +107,7 @@ powerOffset = P(2);
 basePressure = 98192.64;
 baseTemp = 288.215;
 lapseRate = -0.00198122;
-baseH = 225;
+%baseH = 225;
        
 % Ellipse Compensation for Magnetometers
 % =========================

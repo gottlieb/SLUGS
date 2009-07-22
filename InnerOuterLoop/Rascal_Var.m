@@ -83,7 +83,7 @@ windDirHor = 180;
 
 % Baro Altitude Computation
 % =========================
-baseHeight =225;
+baseHeight = 180;
 baseTemp = 288.215;
 lapseRate = -0.00198122;
 

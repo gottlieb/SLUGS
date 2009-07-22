@@ -20,13 +20,17 @@ float getDynamic (void) {
 	return dynTempControlData.dynamic.flData;
 } 
 
-void getAttitude (float* attitude){
+void getAttitude (float* correction, float* attitude){	
+	float tmp_att[3];
+		
+	// Return the values to the control algorithm
 	attitude[0] = attitudeControlData.roll.flData;
 	attitude[1] = attitudeControlData.pitch.flData;
 	attitude[2] = attitudeControlData.yaw.flData;
 	attitude[3] = attitudeControlData.p.flData;
 	attitude[4] = attitudeControlData.q.flData;
 	attitude[5] = attitudeControlData.r.flData;	
+	
 }
 
 void getXYZ (float* xyz) {

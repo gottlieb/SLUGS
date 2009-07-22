@@ -12,7 +12,7 @@ void getMidLevelCommands (float* commands);
 unsigned char isApManual (void);
 void getPidIdx (unsigned char idx, float* PID);
 float getDynamic (void);
-void getAttitude (float* attitude);
+void getAttitude ( float* attitude);
 void getXYZ (float* xyz);
 unsigned char getMaxWp (void);
 unsigned char isWpFly (void);
