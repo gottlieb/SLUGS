@@ -42,10 +42,10 @@ object FPpal: TFPpal
     Top = 25
     Width = 375
     Height = 668
-    ActivePage = tsHil
+    ActivePage = ts_plots
     Align = alClient
     MultiLine = True
-    TabIndex = 4
+    TabIndex = 9
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth'
@@ -2137,7 +2137,7 @@ object FPpal: TFPpal
         Top = 321
         Width = 169
         Height = 97
-        Caption = ' PID Loop 8'
+        Caption = 'Attitude Bias Elimination '
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -2148,13 +2148,13 @@ object FPpal: TFPpal
         object Label109: TLabel
           Left = 8
           Top = 19
-          Width = 9
+          Width = 17
           Height = 13
           Hint = 
             'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
             'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
             ' which such path is refreshed'
-          Caption = 'P'
+          Caption = 'Ro'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -2167,13 +2167,13 @@ object FPpal: TFPpal
         object Label110: TLabel
           Left = 8
           Top = 51
-          Width = 10
+          Width = 16
           Height = 13
           Hint = 
             'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
             'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
             ' which such path is refreshed'
-          Caption = 'D'
+          Caption = 'Ya'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -2186,13 +2186,13 @@ object FPpal: TFPpal
         object Label111: TLabel
           Left = 8
           Top = 35
-          Width = 5
+          Width = 12
           Height = 13
           Hint = 
             'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
             'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
             ' which such path is refreshed'
-          Caption = 'I'
+          Caption = 'Pi'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -6104,7 +6104,7 @@ object FPpal: TFPpal
         object ts_direct: TTabSheet
           Caption = 'Direct Commands'
           object Label150: TLabel
-            Left = 8
+            Left = 1
             Top = 16
             Width = 59
             Height = 13
@@ -6156,7 +6156,7 @@ object FPpal: TFPpal
             OnClick = bt_gethClick
           end
           object Label151: TLabel
-            Left = 8
+            Left = 2
             Top = 40
             Width = 83
             Height = 13
@@ -6209,7 +6209,7 @@ object FPpal: TFPpal
             OnClick = bt_gethClick
           end
           object Label152: TLabel
-            Left = 8
+            Left = 2
             Top = 64
             Width = 100
             Height = 13
@@ -6308,20 +6308,20 @@ object FPpal: TFPpal
             OnClick = bt_getallcommandsClick
           end
           object ed_height: TCurrencyEdit
-            Left = 108
+            Left = 104
             Top = 14
-            Width = 65
+            Width = 48
             Height = 18
             AutoSize = False
-            DisplayFormat = ' ,00.0000;- ,00.0000'
+            DisplayFormat = ' ,000.00;- ,000.00'
             MaxValue = 700
             TabOrder = 0
             OnChange = ed_heightChange
           end
           object et_heightcomm: TStaticText
-            Left = 180
+            Left = 202
             Top = 15
-            Width = 67
+            Width = 50
             Height = 18
             AutoSize = False
             BevelInner = bvNone
@@ -6338,22 +6338,22 @@ object FPpal: TFPpal
             TabOrder = 1
           end
           object ed_airspeed: TCurrencyEdit
-            Left = 108
+            Left = 104
             Top = 38
-            Width = 65
+            Width = 48
             Height = 18
             AutoSize = False
-            DisplayFormat = ' ,00.0000;- ,00.0000'
-            MaxValue = 50
-            MinValue = 15
+            DisplayFormat = ' ,00.00;- ,00.00'
+            MaxValue = 30
+            MinValue = 10
             TabOrder = 2
-            Value = 15
+            Value = 14
             OnChange = ed_heightChange
           end
           object et_airspeed: TStaticText
-            Left = 180
+            Left = 202
             Top = 39
-            Width = 67
+            Width = 50
             Height = 18
             AutoSize = False
             BevelInner = bvNone
@@ -6370,21 +6370,21 @@ object FPpal: TFPpal
             TabOrder = 3
           end
           object ed_r: TCurrencyEdit
-            Left = 108
+            Left = 104
             Top = 62
-            Width = 65
+            Width = 48
             Height = 18
             AutoSize = False
-            DisplayFormat = ' ,00.0000;- ,00.0000'
-            MaxValue = 6
-            MinValue = -6
+            DisplayFormat = ' ,00.00;- ,00.00'
+            MaxValue = 2
+            MinValue = -2
             TabOrder = 4
             OnChange = ed_heightChange
           end
           object et_rcommand: TStaticText
-            Left = 180
+            Left = 202
             Top = 63
-            Width = 67
+            Width = 50
             Height = 18
             AutoSize = False
             BevelInner = bvNone
@@ -6399,6 +6399,63 @@ object FPpal: TFPpal
             Font.Style = []
             ParentFont = False
             TabOrder = 5
+          end
+          object et_height_cmds: TStaticText
+            Left = 156
+            Top = 15
+            Width = 43
+            Height = 17
+            AutoSize = False
+            BevelInner = bvNone
+            BevelKind = bkSoft
+            BevelOuter = bvNone
+            BorderStyle = sbsSunken
+            Caption = 'No Data Available'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 6
+          end
+          object et_airspeed_cmds: TStaticText
+            Left = 157
+            Top = 38
+            Width = 43
+            Height = 17
+            AutoSize = False
+            BevelInner = bvNone
+            BevelKind = bkSoft
+            BevelOuter = bvNone
+            BorderStyle = sbsSunken
+            Caption = 'No Data Available'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 7
+          end
+          object et_turnrate_cmds: TStaticText
+            Left = 157
+            Top = 62
+            Width = 43
+            Height = 17
+            AutoSize = False
+            BevelInner = bvNone
+            BevelKind = bkSoft
+            BevelOuter = bvNone
+            BorderStyle = sbsSunken
+            Caption = 'No Data Available'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 8
           end
         end
         object ts_wp: TTabSheet
@@ -6555,7 +6612,7 @@ object FPpal: TFPpal
             Top = 52
             Width = 97
             Height = 17
-            Caption = 'Throttle'
+            Caption = 'Elevator'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -11
@@ -6569,20 +6626,20 @@ object FPpal: TFPpal
             Top = 70
             Width = 97
             Height = 17
-            Caption = 'Left Aileron'
+            Caption = 'Rudder'
             TabOrder = 1
           end
           object cb_ptpdle: TCheckBox
-            Left = 198
-            Top = 52
+            Left = 16
+            Top = 88
             Width = 97
             Height = 17
-            Caption = 'Left Elevator'
+            Caption = 'Throttle'
             TabOrder = 2
           end
           object cb_ptpdra: TCheckBox
-            Left = 16
-            Top = 89
+            Left = 196
+            Top = 51
             Width = 97
             Height = 17
             Caption = 'Right Aileron'
@@ -6593,7 +6650,7 @@ object FPpal: TFPpal
             Top = 108
             Width = 97
             Height = 17
-            Caption = 'Rudder'
+            Caption = 'Ailerons'
             TabOrder = 4
           end
           object cb_ptpdre: TCheckBox
@@ -6637,8 +6694,8 @@ object FPpal: TFPpal
             TabOrder = 9
           end
           object cb_repptpdra: TCheckBox
-            Left = 134
-            Top = 89
+            Left = 309
+            Top = 51
             Width = 17
             Height = 17
             Enabled = False
@@ -6653,8 +6710,8 @@ object FPpal: TFPpal
             TabOrder = 11
           end
           object cb_repptpdle: TCheckBox
-            Left = 310
-            Top = 52
+            Left = 133
+            Top = 88
             Width = 17
             Height = 17
             Enabled = False

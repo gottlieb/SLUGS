@@ -670,6 +670,9 @@ __published:	// IDE-managed Components
         TLabel *Label157;
         TStaticText *et_power;
     TWSocket *skt_rcv;
+    TStaticText *et_height_cmds;
+    TStaticText *et_airspeed_cmds;
+    TStaticText *et_turnrate_cmds;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);

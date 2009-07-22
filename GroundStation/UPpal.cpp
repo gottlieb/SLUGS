@@ -640,6 +640,7 @@ void TFPpal::updateGPSLabels(void){
 
    et_cog->Caption = IntToStr(gpsSamples[0].cog.usData);
    et_sog->Caption = IntToStr(gpsSamples[0].sog.usData);
+   et_airspeed_cmds->Caption = FormatFloat("0.00",(gpsSamples[0].sog.usData)/100.0);
 
    et_hdop->Caption = IntToStr(gpsSamples[0].hdop.usData);
    et_fix->Caption = (gpsSamples[0].fix == 1)? "Yes": "No";
@@ -692,6 +693,7 @@ void TFPpal::updateAttitudeLabels(void){
    et_x->Caption = FormatFloat("0.00",xyzSample.Xcoord.flData);
    et_y->Caption = FormatFloat("0.00",xyzSample.Ycoord.flData);
    et_z->Caption = FormatFloat("0.00",xyzSample.Zcoord.flData);
+   et_height_cmds->Caption = FormatFloat("0.00",xyzSample.Zcoord.flData);
 
    gr_height->Value = xyzSample.Zcoord.flData;
 
@@ -702,6 +704,8 @@ void TFPpal::updateAttitudeLabels(void){
    et_p->Caption = FormatFloat("0.0000",RAD2DEG*attitudeSample.p.flData);
    et_q->Caption = FormatFloat("0.0000",RAD2DEG*attitudeSample.q.flData);
    et_r->Caption = FormatFloat("0.0000",RAD2DEG*attitudeSample.r.flData);
+   et_turnrate_cmds->Caption = FormatFloat("0.00",attitudeSample.r.flData);
+
 
    et_phi->Caption = FormatFloat("0.0000",RAD2DEG*attitudeSample.roll.flData);
    et_theta->Caption = FormatFloat("0.0000",RAD2DEG*attitudeSample.pitch.flData);
@@ -2542,15 +2546,16 @@ void __fastcall TFPpal::bt_getallcommandsClick(TObject *Sender)
 
 void __fastcall TFPpal::bt_allgainsClick(TObject *Sender)
 {
- if (MessageDlg("Do you Want to Configure All the Gains?", mtWarning,TMsgDlgButtons() << mbYes << mbNo,0) == mrYes){
+ if (0!=bt_serial->Tag){
+    if (MessageDlg("Do you Want to Configure All the Gains?", mtWarning,TMsgDlgButtons() << mbYes << mbNo,0) == mrYes){
 
-  
-  // dummy delay
-  pidRequestQueue = 1;
-  allGains = 1;
-  bt_allgains->Enabled = false;
-  Timer3->Enabled = true;
+    // dummy delay
+    pidRequestQueue = 1;
+    allGains = 1;
+    bt_allgains->Enabled = false;
+    Timer3->Enabled = true;
 
+    }
  }
 }
 //---------------------------------------------------------------------------
