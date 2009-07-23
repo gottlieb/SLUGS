@@ -24,6 +24,8 @@
 #pragma link "AbHBar"
 #pragma link "CurrEdit"
 #pragma link "OoMisc"
+#pragma link "RxCombos"
+#pragma link "RXSlider"
 #pragma resource "*.dfm"
 
 
@@ -619,6 +621,7 @@ void TFPpal::updateAkn(void){
         case COMM_TYPE_GOTO_WP:
           ed_gotowp->Color = clWhite;
         break;
+
        }
        setAknComCal(0);
     }
@@ -640,7 +643,7 @@ void TFPpal::updateGPSLabels(void){
 
    et_cog->Caption = IntToStr(gpsSamples[0].cog.usData);
    et_sog->Caption = IntToStr(gpsSamples[0].sog.usData);
-   et_airspeed_cmds->Caption = FormatFloat("0.00",(gpsSamples[0].sog.usData)/100.0);
+   et_airspeed_cmds->Caption = FormatFloat("0.00",pwmSample.da2_c.usData/1000.0);
 
    et_hdop->Caption = IntToStr(gpsSamples[0].hdop.usData);
    et_fix->Caption = (gpsSamples[0].fix == 1)? "Yes": "No";
@@ -715,24 +718,14 @@ void TFPpal::updateAttitudeLabels(void){
 }
 
 void TFPpal::updatePlots(void){
-  switch (rg_plot->ItemIndex){
-     case 0:
-       mt_x->DigitCh1 = rawSample.accelX.shData;
-       mt_y->DigitCh1 = rawSample.accelY.shData;
-       mt_z->DigitCh1 = rawSample.accelZ.shData;
-    break;
-    case 1:
-       mt_x->DigitCh1 = rawSample.gyroX.shData;
-       mt_y->DigitCh1 = rawSample.gyroY.shData;
-       mt_z->DigitCh1 = rawSample.gyroZ.shData;
-    break;
-    case 2:
-       mt_x->DigitCh1 = rawSample.magX.shData;
-       mt_y->DigitCh1 = rawSample.magY.shData;
-       mt_z->DigitCh1 = rawSample.magZ.shData;
-     break;
-  } 
+   mt_x->ValueCh1 = xyzSample.Zcoord.flData;
+   mt_x->ValueCh2 = comSample.hCommand.flData;
 
+   mt_y->ValueCh1 = pwmSample.da2_c.usData/1000.0;
+   mt_y->ValueCh2 = comSample.airspeedCommand.flData;
+
+   mt_z->ValueCh1 = attitudeSample.r.flData;
+   mt_z->ValueCh2 = comSample.rCommand.flData;
 }
 
 void TFPpal::updateBiasLabels(void){
@@ -755,6 +748,11 @@ void TFPpal::updateDynLabels(void){
   et_volt->Caption = FormatFloat("0.00",statusSample.bVolt.usData/1000.0);
 
   gr_batt->Value = statusSample.bVolt.usData;
+
+  // THIS IS HACK and need to be solved currently using the PWMCommand AUX2 to
+  // report airspeed back
+  // ==================================================
+  et_a2c->Caption  =  FormatFloat("0.00",pwmSample.da2_c.usData/1000.0);
 }
 void TFPpal::updateDiagLabels(void){
   et_fl1->Caption = FormatFloat("0.0000",diagSample.fl1.flData);
@@ -776,7 +774,7 @@ void TFPpal::updatePilotLabels(void){
   gr_dr->Value = StrToInt(et_dr->Caption);
   gr_da->Value = StrToInt(et_dla->Caption);
   gr_de->Value = StrToInt(et_dra->Caption);
-  
+
 
   et_dla->Caption = IntToStr(pilControlSample.dla.usData);
   et_dt->Caption =  IntToStr(pilControlSample.dt.usData);
@@ -796,7 +794,7 @@ void TFPpal::updatePWM(void){
   et_dlfc->Caption =  IntToStr(pwmSample.dlf_c.usData);
   et_drfc->Caption =  IntToStr(pwmSample.drf_c.usData);
   et_a1c->Caption  =  IntToStr(pwmSample.da1_c.usData);
-  et_a2c->Caption  =  IntToStr(pwmSample.da2_c.usData);
+
 }
 
 
@@ -1628,8 +1626,8 @@ void __fastcall TFPpal::skt_rcvDataAvailable(TObject *Sender, WORD ErrCode)
 {
     char        Buffer[113];
     int         Len;
-    //Winsock::TSockAddrIn Src;
-    TSockAddrIn Src;
+    Winsock::TSockAddrIn Src;
+    //TSockAddrIn Src;
     int         SrcLen;
 
     memset(&Buffer, 0, 113);
@@ -2562,4 +2560,84 @@ void __fastcall TFPpal::bt_allgainsClick(TObject *Sender)
 
 
 
+
+
+void __fastcall TFPpal::ed_minhExit(TObject *Sender)
+{
+mt_x->SignalSettingsCh1->DigitalFrom = ed_minh->Value;
+mt_x->SignalSettingsCh1->ValueFrom = ed_minh->Value;
+mt_x->SignalSettingsCh2->DigitalFrom = ed_minh->Value;
+mt_x->SignalSettingsCh2->ValueFrom = ed_minh->Value;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::ed_maxhExit(TObject *Sender)
+{
+mt_x->SignalSettingsCh1->DigitalTo = ed_maxh->Value;
+mt_x->SignalSettingsCh1->ValueTo = ed_maxh->Value;
+mt_x->SignalSettingsCh2->DigitalTo = ed_maxh->Value;
+mt_x->SignalSettingsCh2->ValueTo = ed_maxh->Value;
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::ed_minairspeedChange(TObject *Sender)
+{
+mt_y->SignalSettingsCh1->DigitalFrom = ed_minairspeed->Value;
+mt_y->SignalSettingsCh1->ValueFrom = ed_minairspeed->Value;
+mt_y->SignalSettingsCh2->DigitalFrom = ed_minairspeed->Value;
+mt_y->SignalSettingsCh2->ValueFrom = ed_minairspeed->Value;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::ed_maxairspeedExit(TObject *Sender)
+{
+mt_y->SignalSettingsCh1->DigitalTo = ed_maxairspeed->Value;
+mt_y->SignalSettingsCh1->ValueTo = ed_maxairspeed->Value;
+mt_y->SignalSettingsCh2->DigitalTo = ed_maxairspeed->Value;
+mt_y->SignalSettingsCh2->ValueTo = ed_maxairspeed->Value;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::ed_minturnrateExit(TObject *Sender)
+{
+mt_z->SignalSettingsCh1->DigitalFrom = ed_minturnrate->Value;
+mt_z->SignalSettingsCh1->ValueFrom = ed_minturnrate->Value;
+mt_z->SignalSettingsCh2->DigitalFrom = ed_minturnrate->Value;
+mt_z->SignalSettingsCh2->ValueFrom = ed_minturnrate->Value;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::ed_maxturnrateExit(TObject *Sender)
+{
+mt_z->SignalSettingsCh1->DigitalTo = ed_maxturnrate->Value;
+mt_z->SignalSettingsCh1->ValueTo = ed_maxturnrate->Value;
+mt_z->SignalSettingsCh2->DigitalTo = ed_maxturnrate->Value;
+mt_z->SignalSettingsCh2->ValueTo = ed_maxturnrate->Value;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::cb_comExit(TObject *Sender)
+{
+mt_x->SignalColorCh2 = cb_com->ColorValue;
+mt_y->SignalColorCh2 = cb_com->ColorValue;
+mt_z->SignalColorCh2 = cb_com->ColorValue;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::cb_meaExit(TObject *Sender)
+{
+mt_x->SignalColorCh1 = cb_mea->ColorValue;
+mt_y->SignalColorCh1 = cb_mea->ColorValue;
+mt_z->SignalColorCh1 = cb_mea->ColorValue;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::RxSlider1Changed(TObject *Sender)
+{
+mt_x->TimeScale = RxSlider1->Value;
+mt_y->TimeScale = RxSlider1->Value;
+mt_z->TimeScale = RxSlider1->Value;
+}
+//---------------------------------------------------------------------------
 

@@ -39,6 +39,8 @@
 #include "AbHBar.hpp"
 #include "CurrEdit.hpp"
 #include "OoMisc.hpp"
+#include "RxCombos.hpp"
+#include "RXSlider.hpp"
 #include <string>
 
 #define  DISLIMIT      30.0
@@ -141,7 +143,6 @@ __published:	// IDE-managed Components
     TStaticText *et_magy;
     TLabel *Label27;
     TStaticText *et_magz;
-    TRadioGroup *rg_plot;
     TGroupBox *GroupBox3;
     TDBEdit *DBEdit4;
     TLabel *Label28;
@@ -646,7 +647,6 @@ __published:	// IDE-managed Components
         TLabel *Label84;
         TLabel *Label85;
         TLabel *Label86;
-        TLabel *Label87;
         TStaticText *et_dtc;
         TStaticText *et_dlac;
         TStaticText *et_drac;
@@ -656,7 +656,6 @@ __published:	// IDE-managed Components
         TStaticText *et_drc;
         TStaticText *et_a1c;
         TStaticText *et_dlec;
-        TStaticText *et_a2c;
         TSpeedButton *bt_setallpid;
         TSpeedButton *bt_setallcommands;
         TSpeedButton *bt_getallcommands;
@@ -673,6 +672,29 @@ __published:	// IDE-managed Components
     TStaticText *et_height_cmds;
     TStaticText *et_airspeed_cmds;
     TStaticText *et_turnrate_cmds;
+        TGroupBox *GroupBox16;
+        TLabel *Label158;
+        TCurrencyEdit *ed_minh;
+        TLabel *Label159;
+        TLabel *Label160;
+        TCurrencyEdit *ed_maxh;
+        TLabel *Label161;
+        TCurrencyEdit *ed_minairspeed;
+        TCurrencyEdit *ed_maxairspeed;
+        TLabel *Label162;
+        TCurrencyEdit *ed_minturnrate;
+        TCurrencyEdit *ed_maxturnrate;
+        TLabel *Label163;
+        TLabel *Label164;
+        TLabel *Label165;
+        TColorComboBox *cb_com;
+        TLabel *Label166;
+        TLabel *Label167;
+        TColorComboBox *cb_mea;
+        TLabel *Label87;
+        TStaticText *et_a2c;
+        TRxSlider *RxSlider1;
+        TLabel *Label168;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -731,6 +753,15 @@ __published:	// IDE-managed Components
         void __fastcall bt_setallcommandsClick(TObject *Sender);
         void __fastcall bt_getallcommandsClick(TObject *Sender);
         void __fastcall bt_allgainsClick(TObject *Sender);
+        void __fastcall ed_minhExit(TObject *Sender);
+        void __fastcall ed_maxhExit(TObject *Sender);
+        void __fastcall ed_minairspeedChange(TObject *Sender);
+        void __fastcall ed_maxairspeedExit(TObject *Sender);
+        void __fastcall ed_minturnrateExit(TObject *Sender);
+        void __fastcall ed_maxturnrateExit(TObject *Sender);
+        void __fastcall cb_comExit(TObject *Sender);
+        void __fastcall cb_meaExit(TObject *Sender);
+        void __fastcall RxSlider1Changed(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TFPpal(TComponent* Owner);

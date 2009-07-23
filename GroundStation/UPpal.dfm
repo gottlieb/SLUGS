@@ -1,6 +1,6 @@
 object FPpal: TFPpal
-  Left = 402
-  Top = 13
+  Left = 401
+  Top = 121
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 
@@ -42,10 +42,10 @@ object FPpal: TFPpal
     Top = 25
     Width = 375
     Height = 668
-    ActivePage = ts_plots
+    ActivePage = ts_commands
     Align = alClient
     MultiLine = True
-    TabIndex = 9
+    TabIndex = 5
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth'
@@ -6316,6 +6316,7 @@ object FPpal: TFPpal
             DisplayFormat = ' ,000.00;- ,000.00'
             MaxValue = 700
             TabOrder = 0
+            Value = 250
             OnChange = ed_heightChange
           end
           object et_heightcomm: TStaticText
@@ -7475,7 +7476,7 @@ object FPpal: TFPpal
         end
         object Label26: TLabel
           Left = 8
-          Top = 103
+          Top = 89
           Width = 37
           Height = 13
           Hint = 
@@ -7493,8 +7494,8 @@ object FPpal: TFPpal
           ShowHint = True
         end
         object Label27: TLabel
-          Left = 8
-          Top = 86
+          Left = 9
+          Top = 108
           Width = 37
           Height = 13
           Hint = 
@@ -7741,7 +7742,7 @@ object FPpal: TFPpal
         end
         object et_magy: TStaticText
           Left = 56
-          Top = 103
+          Top = 89
           Width = 105
           Height = 17
           AutoSize = False
@@ -7759,8 +7760,8 @@ object FPpal: TFPpal
           TabOrder = 7
         end
         object et_magz: TStaticText
-          Left = 56
-          Top = 86
+          Left = 57
+          Top = 108
           Width = 105
           Height = 17
           AutoSize = False
@@ -7943,6 +7944,25 @@ object FPpal: TFPpal
           ParentShowHint = False
           ShowHint = True
         end
+        object Label87: TLabel
+          Left = 169
+          Top = 33
+          Width = 50
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'Airspeed'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
         object et_dyn: TStaticText
           Left = 56
           Top = 16
@@ -7963,7 +7983,7 @@ object FPpal: TFPpal
           TabOrder = 0
         end
         object et_temp: TStaticText
-          Left = 216
+          Left = 223
           Top = 16
           Width = 105
           Height = 17
@@ -7999,6 +8019,25 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 2
+        end
+        object et_a2c: TStaticText
+          Left = 223
+          Top = 33
+          Width = 105
+          Height = 17
+          AutoSize = False
+          BevelInner = bvNone
+          BevelKind = bkSoft
+          BevelOuter = bvNone
+          BorderStyle = sbsSunken
+          Caption = 'No Data Available'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 3
         end
       end
       object GroupBox10: TGroupBox
@@ -9361,25 +9400,6 @@ object FPpal: TFPpal
           ParentShowHint = False
           ShowHint = True
         end
-        object Label87: TLabel
-          Left = 176
-          Top = 81
-          Width = 33
-          Height = 13
-          Hint = 
-            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
-            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
-            ' which such path is refreshed'
-          Caption = 'Aux 2'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentFont = False
-          ParentShowHint = False
-          ShowHint = True
-        end
         object et_dtc: TStaticText
           Left = 56
           Top = 16
@@ -9550,25 +9570,6 @@ object FPpal: TFPpal
           Font.Style = []
           ParentFont = False
           TabOrder = 8
-        end
-        object et_a2c: TStaticText
-          Left = 224
-          Top = 81
-          Width = 105
-          Height = 17
-          AutoSize = False
-          BevelInner = bvNone
-          BevelKind = bkSoft
-          BevelOuter = bvNone
-          BorderStyle = sbsSunken
-          Caption = 'No Data Available'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          TabOrder = 9
         end
       end
     end
@@ -10413,12 +10414,12 @@ object FPpal: TFPpal
       Caption = 'Data Plots'
       ImageIndex = 3
       object mt_x: TAbMiniTrend
-        Left = 0
-        Top = 72
-        Width = 365
+        Left = -1
+        Top = 8
+        Width = 364
         Height = 161
         CaptionFont.Charset = DEFAULT_CHARSET
-        CaptionFont.Color = clWindowText
+        CaptionFont.Color = clBlack
         CaptionFont.Height = -16
         CaptionFont.Name = 'Arial'
         CaptionFont.Style = [fsBold]
@@ -10434,34 +10435,35 @@ object FPpal: TFPpal
         BevelOuter.Width = 2
         BevelOuter.SurfaceGrad.Visible = False
         BevelOuter.SurfaceGrad.Style = gsHorizontal1
-        DigitCh1 = 5394
+        DigitCh1 = 0
         DigitCh2 = 0
-        SignalSettingsCh1.DigitalFrom = 1500
-        SignalSettingsCh1.DigitalTo = 4096
+        SignalSettingsCh1.DigitalFrom = 100
+        SignalSettingsCh1.DigitalTo = 300
         SignalSettingsCh1.Name1 = 'Name1'
         SignalSettingsCh1.Name2 = 'Name2'
         SignalSettingsCh1.ValueFormat = '##0'
-        SignalSettingsCh1.ValueTo = 100
-        SignalSettingsCh1.ValueUnit = '%'
+        SignalSettingsCh1.ValueFrom = 100
+        SignalSettingsCh1.ValueTo = 300
+        SignalSettingsCh2.DigitalFrom = 100
+        SignalSettingsCh2.DigitalTo = 300
         SignalSettingsCh2.Name1 = 'Name1'
         SignalSettingsCh2.Name2 = 'Name2'
         SignalSettingsCh2.ValueFormat = '##0'
-        SignalSettingsCh2.ValueTo = 100
-        SignalSettingsCh2.ValueUnit = '%'
-        ValueCh1 = 150
+        SignalSettingsCh2.ValueFrom = 100
+        SignalSettingsCh2.ValueTo = 300
+        SignalSettingsCh2.ValueUnit = 'm'
         TimeScale = 1
-        Options = [opCaption, opScaleCh1, opTimeLine]
-        SignalColorCh2 = clBlack
-        Caption = 'X Axis'
+        Options = [opCaption, opScaleCh1, opGrid, opTimeLine]
+        GridColor = clMaroon
         Flow = False
       end
       object mt_y: TAbMiniTrend
-        Left = 0
-        Top = 240
-        Width = 365
+        Left = 4
+        Top = 176
+        Width = 359
         Height = 161
         CaptionFont.Charset = DEFAULT_CHARSET
-        CaptionFont.Color = clWindowText
+        CaptionFont.Color = clBlack
         CaptionFont.Height = -16
         CaptionFont.Name = 'Arial'
         CaptionFont.Style = [fsBold]
@@ -10477,37 +10479,35 @@ object FPpal: TFPpal
         BevelOuter.Width = 2
         BevelOuter.SurfaceGrad.Visible = False
         BevelOuter.SurfaceGrad.Style = gsHorizontal1
-        DigitCh1 = 5394
+        DigitCh1 = 0
         DigitCh2 = 0
-        SignalSettingsCh1.DigitalFrom = 1500
-        SignalSettingsCh1.DigitalTo = 4096
+        SignalSettingsCh1.DigitalFrom = 7
+        SignalSettingsCh1.DigitalTo = 30
         SignalSettingsCh1.Name1 = 'Name1'
         SignalSettingsCh1.Name2 = 'Name2'
         SignalSettingsCh1.ValueFormat = '##0'
-        SignalSettingsCh1.ValueTo = 100
-        SignalSettingsCh1.ValueUnit = '%'
+        SignalSettingsCh1.ValueFrom = 7
+        SignalSettingsCh1.ValueTo = 30
         SignalSettingsCh2.Name1 = 'Name1'
         SignalSettingsCh2.Name2 = 'Name2'
         SignalSettingsCh2.ValueFormat = '##0'
         SignalSettingsCh2.ValueTo = 100
         SignalSettingsCh2.ValueUnit = '%'
-        ValueCh1 = 150
         TimeScale = 1
-        Options = [opCaption, opScaleCh1, opTimeLine]
-        SignalColorCh2 = clBlack
-        Caption = 'Y Axis'
+        Options = [opCaption, opScaleCh1, opGrid, opTimeLine]
+        GridColor = clMaroon
         Flow = False
       end
       object mt_z: TAbMiniTrend
-        Left = 0
-        Top = 408
-        Width = 365
+        Left = 6
+        Top = 344
+        Width = 356
         Height = 161
         CaptionFont.Charset = DEFAULT_CHARSET
-        CaptionFont.Color = clWindowText
+        CaptionFont.Color = clBlack
         CaptionFont.Height = -16
         CaptionFont.Name = 'Arial'
-        CaptionFont.Style = [fsBold]
+        CaptionFont.Style = []
         BevelInner.Style = bsLowered
         BevelInner.Spacing = 0
         BevelInner.BevelLine = blNone
@@ -10520,46 +10520,354 @@ object FPpal: TFPpal
         BevelOuter.Width = 2
         BevelOuter.SurfaceGrad.Visible = False
         BevelOuter.SurfaceGrad.Style = gsHorizontal1
-        DigitCh1 = 5394
-        DigitCh2 = 0
-        SignalSettingsCh1.DigitalFrom = 1500
-        SignalSettingsCh1.DigitalTo = 4096
+        DigitCh1 = 0
+        DigitCh2 = -1
+        SignalSettingsCh1.DigitalFrom = -1
+        SignalSettingsCh1.DigitalTo = 1
         SignalSettingsCh1.Name1 = 'Name1'
         SignalSettingsCh1.Name2 = 'Name2'
         SignalSettingsCh1.ValueFormat = '##0'
-        SignalSettingsCh1.ValueTo = 100
-        SignalSettingsCh1.ValueUnit = '%'
+        SignalSettingsCh1.ValueFrom = -1
+        SignalSettingsCh1.ValueTo = 1
+        SignalSettingsCh2.DigitalFrom = -1
+        SignalSettingsCh2.DigitalTo = 1
         SignalSettingsCh2.Name1 = 'Name1'
         SignalSettingsCh2.Name2 = 'Name2'
         SignalSettingsCh2.ValueFormat = '##0'
-        SignalSettingsCh2.ValueTo = 100
+        SignalSettingsCh2.ValueFrom = -1
+        SignalSettingsCh2.ValueTo = 1
         SignalSettingsCh2.ValueUnit = '%'
-        ValueCh1 = 150
+        ValueCh2 = -0.75
         TimeScale = 1
-        Options = [opCaption, opScaleCh1, opTimeLine]
-        SignalColorCh2 = clBlack
-        Caption = 'Z Axis'
+        Options = [opCaption, opScaleCh1, opGrid, opTimeLine]
+        GridColor = clMaroon
         Flow = False
       end
-      object rg_plot: TRadioGroup
-        Left = 8
-        Top = 8
-        Width = 359
-        Height = 57
-        Caption = ' Select Sensor to Plot '
-        Columns = 3
+      object Label163: TLabel
+        Left = 0
+        Top = 1
+        Width = 369
+        Height = 13
+        Hint = 
+          'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+          'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+          ' which such path is refreshed'
+        Alignment = taCenter
+        AutoSize = False
+        Caption = 'Height (m)'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = [fsBold]
-        ItemIndex = 0
-        Items.Strings = (
-          'Accelerometers'
-          'Gyros'
-          'Magnetometers')
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+      end
+      object Label164: TLabel
+        Left = 0
+        Top = 169
+        Width = 369
+        Height = 13
+        Hint = 
+          'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+          'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+          ' which such path is refreshed'
+        Alignment = taCenter
+        AutoSize = False
+        Caption = 'Airspeed (m/s)'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+      end
+      object Label165: TLabel
+        Left = 0
+        Top = 337
+        Width = 369
+        Height = 13
+        Hint = 
+          'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+          'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+          ' which such path is refreshed'
+        Alignment = taCenter
+        AutoSize = False
+        Caption = 'Turn Rate (rad/s)'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+      end
+      object GroupBox16: TGroupBox
+        Left = 2
+        Top = 512
+        Width = 364
+        Height = 105
+        Caption = ' Plot Configuration  '
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 0
+        object Label158: TLabel
+          Left = 4
+          Top = 35
+          Width = 38
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'Height'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label159: TLabel
+          Left = 79
+          Top = 16
+          Width = 21
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'Min'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label160: TLabel
+          Left = 143
+          Top = 16
+          Width = 24
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'Max'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label161: TLabel
+          Left = 4
+          Top = 59
+          Width = 50
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'Airspeed'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label162: TLabel
+          Left = 4
+          Top = 83
+          Width = 49
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'Turnrate'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label166: TLabel
+          Left = 203
+          Top = 20
+          Width = 69
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'Commanded'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label167: TLabel
+          Left = 203
+          Top = 60
+          Width = 56
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'Measured'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label168: TLabel
+          Left = 296
+          Top = 14
+          Width = 64
+          Height = 13
+          Hint = 
+            'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
+            'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
+            ' which such path is refreshed'
+          Caption = 'Time Scale'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object ed_minh: TCurrencyEdit
+          Left = 61
+          Top = 33
+          Width = 60
+          Height = 18
+          AutoSize = False
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.000;- ,00.000'
+          TabOrder = 0
+          OnExit = ed_minhExit
+        end
+        object ed_maxh: TCurrencyEdit
+          Left = 125
+          Top = 33
+          Width = 60
+          Height = 18
+          AutoSize = False
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.000;- ,00.000'
+          TabOrder = 1
+          OnExit = ed_maxhExit
+        end
+        object ed_minairspeed: TCurrencyEdit
+          Left = 61
+          Top = 57
+          Width = 60
+          Height = 18
+          AutoSize = False
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.000;- ,00.000'
+          TabOrder = 2
+          OnChange = ed_minairspeedChange
+        end
+        object ed_maxairspeed: TCurrencyEdit
+          Left = 125
+          Top = 57
+          Width = 60
+          Height = 18
+          AutoSize = False
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.000;- ,00.000'
+          TabOrder = 3
+          OnExit = ed_maxairspeedExit
+        end
+        object ed_minturnrate: TCurrencyEdit
+          Left = 61
+          Top = 81
+          Width = 60
+          Height = 18
+          AutoSize = False
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.000;- ,00.000'
+          TabOrder = 4
+          OnExit = ed_minturnrateExit
+        end
+        object ed_maxturnrate: TCurrencyEdit
+          Left = 125
+          Top = 81
+          Width = 60
+          Height = 18
+          AutoSize = False
+          DecimalPlaces = 5
+          DisplayFormat = ' ,00.000;- ,00.000'
+          TabOrder = 5
+          OnExit = ed_maxturnrateExit
+        end
+        object cb_com: TColorComboBox
+          Left = 201
+          Top = 35
+          Width = 92
+          Height = 20
+          ColorValue = clYellow
+          TabOrder = 6
+          OnExit = cb_comExit
+        end
+        object cb_mea: TColorComboBox
+          Left = 201
+          Top = 75
+          Width = 92
+          Height = 20
+          ColorValue = clLime
+          TabOrder = 7
+          OnExit = cb_meaExit
+        end
+        object RxSlider1: TRxSlider
+          Left = 315
+          Top = 29
+          Width = 37
+          Height = 72
+          Increment = 1
+          MinValue = 1
+          MaxValue = 5
+          Orientation = soVertical
+          TabOrder = 8
+          Value = 1
+          OnChanged = RxSlider1Changed
+        end
       end
     end
   end
