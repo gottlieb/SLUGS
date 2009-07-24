@@ -1,6 +1,6 @@
 object FPpal: TFPpal
-  Left = 401
-  Top = 121
+  Left = 390
+  Top = 7
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 
@@ -42,10 +42,10 @@ object FPpal: TFPpal
     Top = 25
     Width = 375
     Height = 668
-    ActivePage = ts_commands
+    ActivePage = ts_plots
     Align = alClient
     MultiLine = True
-    TabIndex = 5
+    TabIndex = 9
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth'
@@ -10442,14 +10442,13 @@ object FPpal: TFPpal
         SignalSettingsCh1.Name1 = 'Name1'
         SignalSettingsCh1.Name2 = 'Name2'
         SignalSettingsCh1.ValueFormat = '##0'
-        SignalSettingsCh1.ValueFrom = 100
         SignalSettingsCh1.ValueTo = 300
+        SignalSettingsCh1.ValueUnit = '%'
         SignalSettingsCh2.DigitalFrom = 100
         SignalSettingsCh2.DigitalTo = 300
         SignalSettingsCh2.Name1 = 'Name1'
         SignalSettingsCh2.Name2 = 'Name2'
         SignalSettingsCh2.ValueFormat = '##0'
-        SignalSettingsCh2.ValueFrom = 100
         SignalSettingsCh2.ValueTo = 300
         SignalSettingsCh2.ValueUnit = 'm'
         TimeScale = 1
@@ -10488,6 +10487,7 @@ object FPpal: TFPpal
         SignalSettingsCh1.ValueFormat = '##0'
         SignalSettingsCh1.ValueFrom = 7
         SignalSettingsCh1.ValueTo = 30
+        SignalSettingsCh1.ValueUnit = '%'
         SignalSettingsCh2.Name1 = 'Name1'
         SignalSettingsCh2.Name2 = 'Name2'
         SignalSettingsCh2.ValueFormat = '##0'
@@ -10499,9 +10499,9 @@ object FPpal: TFPpal
         Flow = False
       end
       object mt_z: TAbMiniTrend
-        Left = 6
+        Left = 1
         Top = 344
-        Width = 356
+        Width = 362
         Height = 161
         CaptionFont.Charset = DEFAULT_CHARSET
         CaptionFont.Color = clBlack
@@ -10522,13 +10522,14 @@ object FPpal: TFPpal
         BevelOuter.SurfaceGrad.Style = gsHorizontal1
         DigitCh1 = 0
         DigitCh2 = -1
-        SignalSettingsCh1.DigitalFrom = -1
-        SignalSettingsCh1.DigitalTo = 1
+        SignalSettingsCh1.DigitalFrom = -15
+        SignalSettingsCh1.DigitalTo = 15
         SignalSettingsCh1.Name1 = 'Name1'
         SignalSettingsCh1.Name2 = 'Name2'
         SignalSettingsCh1.ValueFormat = '##0'
-        SignalSettingsCh1.ValueFrom = -1
-        SignalSettingsCh1.ValueTo = 1
+        SignalSettingsCh1.ValueFrom = -15
+        SignalSettingsCh1.ValueTo = 15
+        SignalSettingsCh1.ValueUnit = '%'
         SignalSettingsCh2.DigitalFrom = -1
         SignalSettingsCh2.DigitalTo = 1
         SignalSettingsCh2.Name1 = 'Name1'
@@ -10544,9 +10545,9 @@ object FPpal: TFPpal
         Flow = False
       end
       object Label163: TLabel
-        Left = 0
+        Left = 23
         Top = 1
-        Width = 369
+        Width = 339
         Height = 13
         Hint = 
           'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
@@ -10565,9 +10566,9 @@ object FPpal: TFPpal
         ShowHint = True
       end
       object Label164: TLabel
-        Left = 0
+        Left = 23
         Top = 169
-        Width = 369
+        Width = 339
         Height = 13
         Hint = 
           'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
@@ -10586,9 +10587,9 @@ object FPpal: TFPpal
         ShowHint = True
       end
       object Label165: TLabel
-        Left = 0
+        Left = 23
         Top = 337
-        Width = 369
+        Width = 339
         Height = 13
         Hint = 
           'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
@@ -10596,7 +10597,7 @@ object FPpal: TFPpal
           ' which such path is refreshed'
         Alignment = taCenter
         AutoSize = False
-        Caption = 'Turn Rate (rad/s)'
+        Caption = 'Roll (degrees)'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
