@@ -7,8 +7,51 @@
 // #include "gpsParse.h"
 #include "gps.h"
 
+unsigned char quickSort(unsigned short *arr, char elements) {
+
+  #define  MAX_LEVELS  6
+
+  unsigned short  piv, beg[MAX_LEVELS], end[MAX_LEVELS], i=0, L, R ;
+
+  beg[0]=0; end[0]=elements;
+  while (i>=0) {
+    L=beg[i]; R=end[i]-1;
+    if (L<R) {
+      piv=arr[L]; if (i==MAX_LEVELS-1) return 0;
+      while (L<R) {
+        while (arr[R]>=piv && L<R) {
+        	R--; 
+        }
+        if (L<R){ 
+        	arr[L++]=arr[R];
+        }
+        while (arr[L]<=piv && L<R) {
+        	L++;
+        } 
+        if (L<R) {
+        	arr[R--]=arr[L];
+      	}   
+      }
+      arr[L]=piv; beg[i+1]=L+1; end[i+1]=end[i]; end[i++]=L; 
+    } else {
+      i--;     
+    }
+  }
+  return 1; 
+}
+
 int main(int argc, char* argv[])
 {
+	unsigned short myArray[] ={1456, 7856, 1450, 1423, 1423 }
+	char i;
+	
+	quickSort(&myArray[0], 5)
+	
+	for( i = 0; i < 5; i += 1 )
+	{
+		printf("%d ", myArray[i]);
+	}
+	
   /*char str[] ="- This,a,,,,,sample,string.";
   char * pch;
 	char count = 0;
@@ -43,34 +86,34 @@ int main(int argc, char* argv[])
 	printf ("found token %s\n",token);
 	*/
 	
-	unsigned char msg1 [] = "@$GPRMC,040302.663,A,3939.7,N,10506.6,W,5.27,358.86,200804,,*1A\r\n\0";
-	unsigned char msg2 [] = "N$GPGGA,213924.000,4221.1129,N,07102.9146,W,1,04,3.9,129.7,M,-33.7,M,,0000*68\r\n";
-	unsigned char msg3 [] = "&$GPGGA,213922.000,4221.1129,N,07102.91";
-	unsigned char msg4 [] = "(46,W,1,04,3.9,129.7,M,-33.7,M,,0000*6E\r\n";
+	// unsigned char msg1 [] = "@$GPRMC,040302.663,A,3939.7,N,10506.6,W,5.27,358.86,200804,,*1A\r\n\0";
+	// 	unsigned char msg2 [] = "N$GPGGA,213924.000,4221.1129,N,07102.9146,W,1,04,3.9,129.7,M,-33.7,M,,0000*68\r\n";
+	// 	unsigned char msg3 [] = "&$GPGGA,213922.000,4221.1129,N,07102.91";
+	// 	unsigned char msg4 [] = "(46,W,1,04,3.9,129.7,M,-33.7,M,,0000*6E\r\n";
+	// 	
+	// 	char i;
+	// 	
+	// 	float gpsData[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
+	// 	gpsInit();
+	// 	
+	// 	for(i=0; i<strlen(msg1); i++){
+	// 		writeBack(uartBuffer, (unsigned char)msg1[i]);
+	// 	}
+	// 	for(i=0; i<strlen(msg2); i++){
+	// 		writeBack(uartBuffer, (unsigned char)msg2[i]);
+	// 	}
+	// 	for(i=0; i<strlen(msg3); i++){
+	// 		writeBack(uartBuffer, (unsigned char)msg3[i]);
+	// 	}
+	// 	
+	// 	printf("%c\n\r", peak(uartBuffer));
+	// 	
+	// 	getGpsMainData(gpsData);
+	// 	
+	// 	printf("%f\t%f\t%f\t%f\t%f\n\r", gpsData[0], gpsData[1], gpsData[2], gpsData[3], gpsData[4]);
+	// 
+	// 	printf("%d\n\r", getLength(uartBuffer));
 	
-	char i;
-	
-	float gpsData[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
-	gpsInit();
-	
-	for(i=0; i<strlen(msg1); i++){
-		writeBack(uartBuffer, (unsigned char)msg1[i]);
-	}
-	for(i=0; i<strlen(msg2); i++){
-		writeBack(uartBuffer, (unsigned char)msg2[i]);
-	}
-	for(i=0; i<strlen(msg3); i++){
-		writeBack(uartBuffer, (unsigned char)msg3[i]);
-	}
-	
-	printf("%c\n\r", peak(uartBuffer));
-	
-	getGpsMainData(gpsData);
-	
-	printf("%f\t%f\t%f\t%f\t%f\n\r", gpsData[0], gpsData[1], gpsData[2], gpsData[3], gpsData[4]);
-
-	printf("%d\n\r", getLength(uartBuffer));
-
    return(0);
 }
 	

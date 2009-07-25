@@ -436,14 +436,14 @@ typedef struct tCommandsData{
 typedef struct tAPStatusData{
 	unsigned char	controlType;
 	unsigned char	beaconStatus;
-	unsigned char 	hilStatus;
+	unsigned char hilStatus;
 	
 	unsigned char	dt_pass; 
 	unsigned char	dla_pass;
 	unsigned char	dra_pass;
 	unsigned char	dr_pass; 
 	unsigned char	dle_pass;
-	unsigned char 	dre_pass;
+	unsigned char dre_pass;
 	unsigned char	dlf_pass;
 	unsigned char	drf_pass;
 }tAPStatusData;
