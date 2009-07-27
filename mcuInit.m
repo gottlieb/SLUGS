@@ -193,10 +193,10 @@ maxDynPressure = 3000;
 xCutoff = 10;
 yCutoff = 10;
 zCutoff = 0.2;
-baroCutoff = 0.2/(2*pi);
+baroCutoff = 0.38/(2*pi);
 
 %Velocity Comp filters
-vzCutoff = 1;
+vzCutoff = 2;
 
 % Accelerometer bias rate limiter
 accBiasRateLimit = 2*(.014844)/300*apSampleTime;

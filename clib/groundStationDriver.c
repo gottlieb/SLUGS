@@ -1053,6 +1053,12 @@ void updateLoad (unsigned char mcuLoad){
 	statusControlData.vdetect =  mcuLoad;
 }
 
+void updateEuler(float* newEuler){
+	attitudeControlData.roll.flData = newEuler[0];
+	attitudeControlData.pitch.flData = newEuler[1];
+	attitudeControlData.yaw.flData = newEuler[2];
+}
+
 void pilotCommands (unsigned short*  pilCom){
 	pilCom[0] = pilControlData.dt.usData;
 	pilCom[1] = pilControlData.dla.usData;

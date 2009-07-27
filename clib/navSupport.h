@@ -24,6 +24,9 @@ void setDiagnosticGb (float * flValues);
 unsigned char getApControlType (void);
 unsigned char getPassValues (unsigned char * pasVals);
 void setCurrentCommands (float airSpeed);
+unsigned char quickSort (unsigned short *arr, char elements);
+// void bufferICValues (unsigned short latest, unsigned short* history);
+unsigned short meanFilter5 (unsigned short * values);
 
 #ifdef __cplusplus
        }
