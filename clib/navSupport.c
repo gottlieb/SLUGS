@@ -96,6 +96,25 @@ void setCurrentCommands (float airSpeed){
 	comControlData.rCommand.flData = 0.0;
 }
 
+
+void setNavLong (float* values) {
+	navControlData.uMeasured.flData = values[0];
+	navControlData.thetaCommanded.flData = values[1];
+}
+
+void setNavLat (float* values) {
+	navControlData.psiDotCommanded.flData = values[0];
+	navControlData.phiCommanded.flData = values[1];
+	navControlData.rHighPass.flData = values[2];
+}
+
+void setNavNav (float* values) {
+	navControlData.totRun.flData = values[0];
+	navControlData.distance2Go.flData = values[1];
+	navControlData.fromWp = (unsigned char) values[2];
+	navControlData.toWp = (unsigned char) values[3];
+}
+
 // void bufferICValues(unsigned short latest, unsigned short* history){
 // 	static unsigned short * oldValues[] = {0, 0, 0, 0, 0, 0, 0};
 // 	unsigned char i;

@@ -872,8 +872,8 @@ void prepareTelemetry( unsigned char* dataOut){
 			rawSentence[25]= navControlData.distance2Go.chData[1]; 
 			rawSentence[26]= navControlData.distance2Go.chData[2]; 
 			rawSentence[27]= navControlData.distance2Go.chData[3]; 
-			rawSentence[28]= navControlData.fromWP; 
-			rawSentence[29]= navControlData.toWP; 
+			rawSentence[28]= navControlData.fromWp; 
+			rawSentence[29]= navControlData.toWp; 
 
 			// assemble the XYZ data for protocol sending
 			assembleMsg(&rawSentence[0], NAVMSG_LEN, NAVMSG_ID, telemetryBuf);

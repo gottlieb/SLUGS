@@ -27,7 +27,9 @@ void setCurrentCommands (float airSpeed);
 unsigned char quickSort (unsigned short *arr, char elements);
 // void bufferICValues (unsigned short latest, unsigned short* history);
 unsigned short meanFilter5 (unsigned short * values);
-
+void setNavLong (float* values);
+void setNavLat (float* values);
+void setNavNav (float* values);
 #ifdef __cplusplus
        }
 #endif

@@ -691,8 +691,6 @@ __published:	// IDE-managed Components
         TLabel *Label166;
         TLabel *Label167;
         TColorComboBox *cb_mea;
-        TLabel *Label87;
-        TStaticText *et_a2c;
         TRxSlider *RxSlider1;
         TLabel *Label168;
     TTabSheet *TabSheet2;
@@ -706,15 +704,36 @@ __published:	// IDE-managed Components
     TLabel *Label175;
     TLabel *Label176;
     TLabel *Label177;
-    TCurrencyEdit *CurrencyEdit1;
-    TCurrencyEdit *CurrencyEdit2;
-    TCurrencyEdit *CurrencyEdit5;
-    TCurrencyEdit *CurrencyEdit6;
-    TColorComboBox *ColorComboBox1;
-    TColorComboBox *ColorComboBox2;
+        TCurrencyEdit *ed_rollmin;
+        TCurrencyEdit *ed_rollmax;
+        TCurrencyEdit *ed_rmin;
+        TCurrencyEdit *ed_rmax;
+        TColorComboBox *cb_lat_1;
+        TColorComboBox *cb_lat_2;
     TRxSlider *RxSlider2;
     TLabel *Label178;
     TAbMiniTrend *mt_b;
+        TGroupBox *GroupBox18;
+        TLabel *Label173;
+        TLabel *Label179;
+        TLabel *Label180;
+        TLabel *Label181;
+        TLabel *Label182;
+        TLabel *Label183;
+        TLabel *Label184;
+        TLabel *Label186;
+        TStaticText *et_um;
+        TStaticText *et_pitchc;
+        TStaticText *et_psidc;
+        TStaticText *et_towp;
+        TStaticText *et_totrun;
+        TStaticText *et_dist2go;
+        TStaticText *et_phic;
+        TStaticText *et_fromwp;
+        TLabel *Label185;
+        TStaticText *et_rhp;
+        TLabel *Label87;
+        TStaticText *et_a2c;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -782,6 +801,13 @@ __published:	// IDE-managed Components
         void __fastcall cb_comExit(TObject *Sender);
         void __fastcall cb_meaExit(TObject *Sender);
         void __fastcall RxSlider1Changed(TObject *Sender);
+        void __fastcall ed_rollminExit(TObject *Sender);
+        void __fastcall ed_rminExit(TObject *Sender);
+        void __fastcall ed_rollmaxExit(TObject *Sender);
+        void __fastcall ed_rmaxExit(TObject *Sender);
+        void __fastcall RxSlider2Changed(TObject *Sender);
+        void __fastcall cb_lat_1Exit(TObject *Sender);
+        void __fastcall cb_lat_2Exit(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TFPpal(TComponent* Owner);
@@ -807,7 +833,7 @@ public:		// User declarations
         tWPData                   wpsSample;
         tAPStatusData             apsSample;
         tCommandsData             comSample;
-
+        tNavData                  navSample;
         String str_modes[10];
 
         float csFail;
@@ -833,6 +859,8 @@ public:		// User declarations
         void updateBiasLabels(void);
         void updateDynLabels(void);
         void updateDiagLabels(void);
+
+        void updateNav(void);
 
         void printFileHeader(FILE* fileLog);
 

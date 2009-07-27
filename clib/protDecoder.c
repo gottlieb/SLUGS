@@ -481,9 +481,9 @@ static tNavData	cpnavControlData;
 	         cpnavControlData.phiCommanded.flData,
 	         cpnavControlData.rHighPass.flData,
 	         cpnavControlData.totRun.flData,
-	         cpnavControlData.distance2go.flData,
-	         cpnavControlData.fromWP,
-	         cpnavControlData.toWP);
+	         cpnavControlData.distance2Go.flData,
+	         cpnavControlData.fromWp,
+	         cpnavControlData.toWp);
 
 	// Add new line
 	fprintf(outFile, "\n");

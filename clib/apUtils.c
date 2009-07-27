@@ -384,8 +384,8 @@ void updateStates(unsigned char * completeSentence){
 			navControlData.distance2Go.chData[1]		= completeSentence[29];
 			navControlData.distance2Go.chData[2]		= completeSentence[30];
 			navControlData.distance2Go.chData[3]		= completeSentence[31];		
-			navControlData.fromWP			= completeSentence[32];
-			navControlData.toWP			  = completeSentence[33];
+			navControlData.fromWp			= completeSentence[32];
+			navControlData.toWp			  = completeSentence[33];
 		break;
 		
 		default:

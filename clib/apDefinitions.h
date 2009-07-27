@@ -462,15 +462,15 @@ typedef struct tCubeBuffer {
 }tCubeBuffer;
 
 typedef struct tNavData {
-	tfloatToChar	uMeasured;
-	tfloatToChar	thetaCommanded;
-	tfloatToChar	psiDotCommanded;
-	tfloatToChar	phiCommanded;
-	tfloatToChar	rHighPass;
-	tfloatToChar	totRun;
-	tfloatToChar	distance2Go;
+	tFloatToChar	uMeasured;
+	tFloatToChar	thetaCommanded;
+	tFloatToChar	psiDotCommanded;
+	tFloatToChar	phiCommanded;
+	tFloatToChar	rHighPass;
+	tFloatToChar	totRun;
+	tFloatToChar	distance2Go;
 	unsigned char	fromWp;
-	unsigned char toWp	
+	unsigned char toWp;	
 }tNavData;
 
 #ifdef __cplusplus

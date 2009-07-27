@@ -454,6 +454,9 @@ void __fastcall TFPpal::bt_serialClick(TObject *Sender)
    mt_x->Flow = true;
    mt_y->Flow = true;
    mt_z->Flow = true;
+   mt_a->Flow = true;
+   mt_b->Flow = true;
+
  } else {
    cp_serial->Open = False;
    bt_serial->Tag = 0;
@@ -463,6 +466,9 @@ void __fastcall TFPpal::bt_serialClick(TObject *Sender)
    mt_x->Flow = false;
    mt_y->Flow = false;
    mt_z->Flow = false;
+   mt_a->Flow = false;
+   mt_b->Flow = false;
+
  }
 }
 //---------------------------------------------------------------------------
@@ -506,6 +512,7 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    wpsSample = getWPStruct();
    apsSample = getAPSStruct();
    comSample = getComStruct();
+   navSample = getNavStruct();
 
    updateAkn();
 
@@ -525,6 +532,8 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    updatePID();
    updateWP();
    updateStatus();
+
+   updateNav();
 
    et_fail ->Caption = FormatFloat("0.0000E+00",csFail);
 
@@ -643,7 +652,7 @@ void TFPpal::updateGPSLabels(void){
 
    et_cog->Caption = IntToStr(gpsSamples[0].cog.usData);
    et_sog->Caption = IntToStr(gpsSamples[0].sog.usData);
-   et_airspeed_cmds->Caption = FormatFloat("0.00",pwmSample.da2_c.usData/1000.0);
+   et_airspeed_cmds->Caption = FormatFloat("0.00",navSample.uMeasured.flData);
 
    et_hdop->Caption = IntToStr(gpsSamples[0].hdop.usData);
    et_fix->Caption = (gpsSamples[0].fix == 1)? "Yes": "No";
@@ -723,18 +732,20 @@ void TFPpal::updatePlots(void){
    mt_x->ValueCh2 = comSample.hCommand.flData;
 
    // Airspeed
-   mt_y->ValueCh1 = pwmSample.da2_c.usData/1000.0;
+   mt_y->ValueCh1 = navSample.uMeasured.flData;
    mt_y->ValueCh2 = comSample.airspeedCommand.flData;
 
    // Pitch
    mt_z->ValueCh1 = RAD2DEG*attitudeSample.pitch.flData;
-   mt_z->ValueCh2 = RAD2DEG*((pwmSample.dre_c.usData - 32768.0)/1000.0);
+   mt_z->ValueCh2 = RAD2DEG*(navSample.thetaCommanded.flData);
 
    // Roll
    mt_a->ValueCh1 = RAD2DEG*attitudeSample.roll.flData;
-   mt_a->ValueCh2 = RAD2DEG*((pwmSample.dre_c.usData - 32768.0)/1000.0);
+   mt_a->ValueCh2 = RAD2DEG*(navSample.phiCommanded.flData);
 
    // R
+   mt_b->ValueCh1 = RAD2DEG*attitudeSample.r.flData;
+   mt_b->ValueCh2 = 0.0;
 
 }
 
@@ -762,7 +773,7 @@ void TFPpal::updateDynLabels(void){
   // THIS IS HACK and need to be solved currently using the PWMCommand AUX2 to
   // report airspeed back
   // ==================================================
-  et_a2c->Caption  =  FormatFloat("0.00",pwmSample.da2_c.usData/1000.0);
+
 }
 void TFPpal::updateDiagLabels(void){
   et_fl1->Caption = FormatFloat("0.0000",diagSample.fl1.flData);
@@ -791,6 +802,7 @@ void TFPpal::updatePilotLabels(void){
   et_dra->Caption = IntToStr(pilControlSample.dra.usData);
   et_de->Caption =  pilControlSample.de.usData > 6000 ? "Manual":"Auto";
   et_dr->Caption =  IntToStr(pilControlSample.dr.usData);
+  et_a2c->Caption  = IntToStr(pwmSample.da2_c.usData);
 }
 
 
@@ -868,6 +880,18 @@ void TFPpal::updateStatus(void){
    et_rcommand->Caption = FloatToStr(comSample.rCommand.flData);
 }
 
+
+void TFPpal::updateNav(void){
+  et_um->Caption  = FormatFloat("0.0000",navSample.uMeasured.flData);
+  et_pitchc->Caption = FormatFloat("0.0000",RAD2DEG*navSample.thetaCommanded.flData);
+  et_psidc->Caption = FormatFloat("0.0000",RAD2DEG*navSample.psiDotCommanded.flData);
+  et_phic->Caption = FormatFloat("0.0000",RAD2DEG*navSample.phiCommanded.flData);
+  et_rhp->Caption = FormatFloat("0.0000",RAD2DEG*navSample.rHighPass.flData);
+  et_towp->Caption = IntToStr(navSample.toWp);
+  et_fromwp->Caption = IntToStr(navSample.fromWp);
+  et_totrun->Caption  = FormatFloat("0.0000",navSample.totRun.flData);
+  et_dist2go->Caption  = FormatFloat("0.0000",navSample.distance2Go.flData);
+}
 
 void __fastcall TFPpal::cp_serialTriggerAvail(TObject *CP, WORD Count)
 {
@@ -1576,8 +1600,17 @@ void TFPpal::printFileHeader(FILE* fileLog){
            fprintf(fileLog,"% (93)R Command\n" );
            fprintf(fileLog,"% (94)Current WP\n" );
            fprintf(fileLog,"% (95)Next WP\n");
-           fprintf(fileLog,"% ======================================");
-           
+           fprintf(fileLog,"% (96)Airspeed Measured (in control System)\n" );
+           fprintf(fileLog,"% (97)Pitch Commanded\n" );
+           fprintf(fileLog,"% (98)Psi dot Commanded\n");
+           fprintf(fileLog,"% (99)Phi Commanded\n" );
+           fprintf(fileLog,"% (100)R high passed\n" );
+           fprintf(fileLog,"% (101)Tot Run \n" );
+           fprintf(fileLog,"% (102)Distance to go\n");
+           fprintf(fileLog,"% (103)From WP \n" );
+           fprintf(fileLog,"% (104)To WP\n");
+           fprintf(fileLog,"% ======================================\n");
+
           
 }
 
@@ -2648,6 +2681,66 @@ void __fastcall TFPpal::RxSlider1Changed(TObject *Sender)
 mt_x->TimeScale = RxSlider1->Value;
 mt_y->TimeScale = RxSlider1->Value;
 mt_z->TimeScale = RxSlider1->Value;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::ed_rollminExit(TObject *Sender)
+{
+mt_a->SignalSettingsCh1->DigitalFrom = ed_rollmin->Value;
+mt_a->SignalSettingsCh1->ValueFrom = ed_rollmin->Value;
+mt_a->SignalSettingsCh2->DigitalFrom = ed_rollmin->Value;
+mt_a->SignalSettingsCh2->ValueFrom = ed_rollmin->Value;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::ed_rminExit(TObject *Sender)
+{
+mt_b->SignalSettingsCh1->DigitalFrom = ed_rmin->Value;
+mt_b->SignalSettingsCh1->ValueFrom = ed_rmin->Value;
+mt_b->SignalSettingsCh2->DigitalFrom = ed_rmin->Value;
+mt_b->SignalSettingsCh2->ValueFrom = ed_rmin->Value;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::ed_rollmaxExit(TObject *Sender)
+{
+mt_a->SignalSettingsCh1->DigitalTo = ed_rollmax->Value;
+mt_a->SignalSettingsCh1->ValueTo = ed_rollmax->Value;
+mt_a->SignalSettingsCh2->DigitalTo = ed_rollmax->Value;
+mt_a->SignalSettingsCh2->ValueTo = ed_rollmax->Value;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::ed_rmaxExit(TObject *Sender)
+{
+mt_b->SignalSettingsCh1->DigitalTo = ed_rmax->Value;
+mt_b->SignalSettingsCh1->ValueTo = ed_rmax->Value;
+mt_b->SignalSettingsCh2->DigitalTo = ed_rmax->Value;
+mt_b->SignalSettingsCh2->ValueTo = ed_rmax->Value;
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::RxSlider2Changed(TObject *Sender)
+{
+mt_a->TimeScale = RxSlider2->Value;
+mt_b->TimeScale = RxSlider2->Value;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::cb_lat_1Exit(TObject *Sender)
+{
+mt_a->SignalColorCh2 = cb_lat_1->ColorValue;
+mt_b->SignalColorCh2 = cb_lat_1->ColorValue;
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::cb_lat_2Exit(TObject *Sender)
+{
+mt_a->SignalColorCh1 = cb_lat_2->ColorValue;
+mt_b->SignalColorCh1 = cb_lat_2->ColorValue;
+
 }
 //---------------------------------------------------------------------------
 
