@@ -196,8 +196,6 @@ void updateStates(unsigned char * completeSentence){
 			#endif
 		break;		
 		case DIAMSG_ID:
-		
-		
 			//change comment on USE_SENSOR_MCU_DIAG (in apUtils.h) if you want to use diagnostic data
 			// from the sensor MCU
 			#if defined(_IN_PC_) || defined(USE_SENSOR_MCU_DIAG)
@@ -355,6 +353,39 @@ void updateStates(unsigned char * completeSentence){
 			apsControlData.dre_pass		=	completeSentence[10];	
 			apsControlData.dlf_pass		=	completeSentence[11];	
 			apsControlData.drf_pass		=	completeSentence[12];						
+		break;
+		
+		case NAVMSG_ID:
+			navControlData.uMeasured.chData[0]	= completeSentence[4];
+			navControlData.uMeasured.chData[1]	= completeSentence[5];
+			navControlData.uMeasured.chData[2]	= completeSentence[6];
+			navControlData.uMeasured.chData[3]	= completeSentence[7];
+			navControlData.thetaCommanded.chData[0]	= completeSentence[8];
+			navControlData.thetaCommanded.chData[1]	= completeSentence[9];
+			navControlData.thetaCommanded.chData[2]	= completeSentence[10];
+			navControlData.thetaCommanded.chData[3]	= completeSentence[11];
+			navControlData.psiDotCommanded.chData[0]	= completeSentence[12];
+			navControlData.psiDotCommanded.chData[1]	= completeSentence[13];
+			navControlData.psiDotCommanded.chData[2]	= completeSentence[14];
+			navControlData.psiDotCommanded.chData[3]	= completeSentence[15];
+			navControlData.phiCommanded.chData[0]		= completeSentence[16];
+			navControlData.phiCommanded.chData[1]		= completeSentence[17];
+			navControlData.phiCommanded.chData[2]		= completeSentence[18];
+			navControlData.phiCommanded.chData[3]		= completeSentence[19];
+			navControlData.rHighPass.chData[0]		= completeSentence[20];
+			navControlData.rHighPass.chData[1]		= completeSentence[21];
+			navControlData.rHighPass.chData[2]		= completeSentence[22];
+			navControlData.rHighPass.chData[3]		= completeSentence[23];
+			navControlData.totRun.chData[0]		= completeSentence[24];
+			navControlData.totRun.chData[1]		= completeSentence[25];
+			navControlData.totRun.chData[2]		= completeSentence[26];
+			navControlData.totRun.chData[3]		= completeSentence[27];		
+			navControlData.distance2Go.chData[0]		= completeSentence[28];
+			navControlData.distance2Go.chData[1]		= completeSentence[29];
+			navControlData.distance2Go.chData[2]		= completeSentence[30];
+			navControlData.distance2Go.chData[3]		= completeSentence[31];		
+			navControlData.fromWP			= completeSentence[32];
+			navControlData.toWP			  = completeSentence[33];
 		break;
 		
 		default:

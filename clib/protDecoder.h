@@ -34,7 +34,7 @@ extern tQueryData		queControlData;
 extern tWPData			wpsControlData;
 extern tAPStatusData	apsControlData;
 extern tCommandsData	comControlData;
-
+extern tNavData			navControlData;
 
 void protParserInit (void);
 
@@ -53,6 +53,7 @@ void protParserInit (void);
     tDiagData getDiagStruct (void);
     tSensStatus getSensStruct (void);
     tPilotData getPilotStruct (void);
+    tNavData getNavStruct (void);
     void setAknFilter (unsigned char value);
     void setAknPidCal (unsigned char value);
     void setAknReboot (unsigned char value);

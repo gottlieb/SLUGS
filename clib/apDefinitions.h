@@ -116,6 +116,9 @@ and data types.
 #define APSMSG_ID		101
 #define APSMSG_LEN		20
 
+#define NAVMSG_ID		120
+#define	NAVMSG_LEN	30
+
 
 // GROUND STATION
 // ==============
@@ -457,6 +460,18 @@ typedef struct tCubeBuffer {
   tShortToChar  gz[4];
   unsigned char sampleCount;
 }tCubeBuffer;
+
+typedef struct tNavData {
+	tfloatToChar	uMeasured;
+	tfloatToChar	thetaCommanded;
+	tfloatToChar	psiDotCommanded;
+	tfloatToChar	phiCommanded;
+	tfloatToChar	rHighPass;
+	tfloatToChar	totRun;
+	tfloatToChar	distance2Go;
+	unsigned char	fromWp;
+	unsigned char toWp	
+}tNavData;
 
 #ifdef __cplusplus
       }

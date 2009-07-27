@@ -32,6 +32,7 @@ tQueryData		queControlData;
 tWPData			wpsControlData;
 tAPStatusData	apsControlData;
 tCommandsData	comControlData;
+tNavData	navControlData;
 
 
 
@@ -61,6 +62,7 @@ void protParserInit(void){
 	memset(&wpsControlData, 0, sizeof(tWPData));
 	memset(&apsControlData, 0, sizeof(tAPStatusData));
 	memset(&comControlData, 0, sizeof(tCommandsData));
+	memset(&navControlData, 0, sizeof(tNavData));
 	filterControlData = 0;
 	
 	// Control MCU boot procedures
@@ -338,6 +340,7 @@ static tPilotData		cppilControlData;
 static tPWMData			cppwmControlData;  
 static tAPStatusData	cpapsControlData;  
 static tCommandsData	cpcomControlData;  
+static tNavData	cpnavControlData;  
 
 	if (cpattitudeControlData.timeStamp.usData != attitudeControlData.timeStamp.usData) {
 		// the time changed, so print the known state in the last sample time
@@ -470,6 +473,18 @@ static tCommandsData	cpcomControlData;
 	         cpcomControlData.currWPCommand,
 	         cpcomControlData.nextWPCommand);
  		     		     
+	// Print Nav Data
+    fprintf(outFile, "%f,%f,%f,%f,%f,%f,%f,%d,%d,",
+	         cpnavControlData.uMeasured.flData,
+	         cpnavControlData.thetaCommanded.flData,
+	         cpnavControlData.psiDotCommanded.flData,
+	         cpnavControlData.phiCommanded.flData,
+	         cpnavControlData.rHighPass.flData,
+	         cpnavControlData.totRun.flData,
+	         cpnavControlData.distance2go.flData,
+	         cpnavControlData.fromWP,
+	         cpnavControlData.toWP);
+
 	// Add new line
 	fprintf(outFile, "\n");
 
@@ -559,6 +574,9 @@ tAPStatusData getAPSStruct(void){
 	return apsControlData;
 }
 
+tNavData getNavStruct(void){
+	return navControlData;
+}
 
 void setAknFilter (unsigned char value){
 	aknControlData.filOnOff = value;

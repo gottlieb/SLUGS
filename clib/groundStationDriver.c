@@ -843,6 +843,50 @@ void prepareTelemetry( unsigned char* dataOut){
 			
 		break;
 		
+		case 10:
+			rawSentence[0] = navControlData.uMeasured.chData[0];
+			rawSentence[1] = navControlData.uMeasured.chData[1];
+			rawSentence[2] = navControlData.uMeasured.chData[2];
+			rawSentence[3] = navControlData.uMeasured.chData[3];
+			rawSentence[4] = navControlData.thetaCommanded.chData[0];	
+			rawSentence[5] = navControlData.thetaCommanded.chData[1];	
+			rawSentence[6] = navControlData.thetaCommanded.chData[2];	
+			rawSentence[7] = navControlData.thetaCommanded.chData[3];	
+			rawSentence[8] = navControlData.psiDotCommanded.chData[0];
+			rawSentence[9] = navControlData.psiDotCommanded.chData[1];
+			rawSentence[10]= navControlData.psiDotCommanded.chData[2];
+			rawSentence[11]= navControlData.psiDotCommanded.chData[3];
+			rawSentence[12]= navControlData.phiCommanded.chData[0];		
+			rawSentence[13]= navControlData.phiCommanded.chData[1];		
+			rawSentence[14]= navControlData.phiCommanded.chData[2];		
+			rawSentence[15]= navControlData.phiCommanded.chData[3];		
+			rawSentence[16]= navControlData.rHighPass.chData[0]; 
+			rawSentence[17]= navControlData.rHighPass.chData[1]; 
+			rawSentence[18]= navControlData.rHighPass.chData[2]; 
+			rawSentence[19]= navControlData.rHighPass.chData[3]; 
+			rawSentence[20]= navControlData.totRun.chData[0];
+			rawSentence[21]= navControlData.totRun.chData[1];
+			rawSentence[22]= navControlData.totRun.chData[2];
+			rawSentence[23]= navControlData.totRun.chData[3];
+			rawSentence[24]= navControlData.distance2Go.chData[0];		
+			rawSentence[25]= navControlData.distance2Go.chData[1]; 
+			rawSentence[26]= navControlData.distance2Go.chData[2]; 
+			rawSentence[27]= navControlData.distance2Go.chData[3]; 
+			rawSentence[28]= navControlData.fromWP; 
+			rawSentence[29]= navControlData.toWP; 
+
+			// assemble the XYZ data for protocol sending
+			assembleMsg(&rawSentence[0], NAVMSG_LEN, NAVMSG_ID, telemetryBuf);
+
+			// add it to the out Array
+			for( i = 0; i < NAVMSG_LEN+7; i += 1 ){
+				dataOut[i+1] = telemetryBuf[i];
+			}					
+
+				// set the total data out for log
+				len2Telemetry = NAVMSG_LEN+7; 			
+		break;
+		
 		default:
 			dataOut[0] = 0;
 			break;
@@ -972,9 +1016,6 @@ void prepareTelemetry( unsigned char* dataOut){
 					
 	} // if hil	
 	
-	
-
-
 	rawSentence[0] = attitudeControlData.roll.chData[0]		;
 	rawSentence[1] = attitudeControlData.roll.chData[1]		;
 	rawSentence[2] = attitudeControlData.roll.chData[2]		;
@@ -1015,7 +1056,7 @@ void prepareTelemetry( unsigned char* dataOut){
 
 	// increment/overflow the samplePeriod counter
 	// configured for 16 Hz in non vital messages
-	sampleTelemetry = (sampleTelemetry >= 9)? 1: sampleTelemetry + 1;
+	sampleTelemetry = (sampleTelemetry >= 10)? 1: sampleTelemetry + 1;
 
 }
 
