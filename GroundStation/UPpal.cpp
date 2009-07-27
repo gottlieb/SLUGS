@@ -718,14 +718,24 @@ void TFPpal::updateAttitudeLabels(void){
 }
 
 void TFPpal::updatePlots(void){
+   // Height
    mt_x->ValueCh1 = xyzSample.Zcoord.flData;
    mt_x->ValueCh2 = comSample.hCommand.flData;
 
+   // Airspeed
    mt_y->ValueCh1 = pwmSample.da2_c.usData/1000.0;
    mt_y->ValueCh2 = comSample.airspeedCommand.flData;
 
-   mt_z->ValueCh1 = attitudeSample.r.flData;
-   mt_z->ValueCh2 = comSample.rCommand.flData;
+   // Pitch
+   mt_z->ValueCh1 = RAD2DEG*attitudeSample.pitch.flData;
+   mt_z->ValueCh2 = RAD2DEG*((pwmSample.dre_c.usData - 32768.0)/1000.0);
+
+   // Roll
+   mt_a->ValueCh1 = RAD2DEG*attitudeSample.roll.flData;
+   mt_a->ValueCh2 = RAD2DEG*((pwmSample.dre_c.usData - 32768.0)/1000.0);
+
+   // R
+
 }
 
 void TFPpal::updateBiasLabels(void){
