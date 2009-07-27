@@ -96,9 +96,21 @@ void setCurrentCommands (float airSpeed){
 	comControlData.rCommand.flData = 0.0;
 }
 
+// void bufferICValues(unsigned short latest, unsigned short* history){
+// 	static unsigned short * oldValues[] = {0, 0, 0, 0, 0, 0, 0};
+// 	unsigned char i;
+// 	for (i=6; i>0; i--){
+// 		oldValues[i] = oldValues[i-1];
+// 		history[i] = oldValues[i];
+// 	}
+// 	
+// 	oldValues[0] = latest;
+// 	history[0] = latest;
+// }
+
 unsigned short meanFilter5(unsigned short * values){
-	quickSort(values, 5);
-	return values[2];
+	quickSort(values, 7);
+	return values[3];
 }
 
 //  quickSort

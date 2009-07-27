@@ -196,6 +196,8 @@ void updateStates(unsigned char * completeSentence){
 			#endif
 		break;		
 		case DIAMSG_ID:
+		
+		
 			//change comment on USE_SENSOR_MCU_DIAG (in apUtils.h) if you want to use diagnostic data
 			// from the sensor MCU
 			#if defined(_IN_PC_) || defined(USE_SENSOR_MCU_DIAG)
@@ -278,6 +280,7 @@ void updateStates(unsigned char * completeSentence){
 				} else if (apsControlData.controlType == CTRL_TYPE_MANUAL) {
 					apsControlData.controlType = CTRL_TYPE_AP_COMM;
 				}
+				
 			#endif 
 		break;
 		
