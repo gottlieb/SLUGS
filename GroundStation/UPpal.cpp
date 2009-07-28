@@ -727,6 +727,8 @@ void TFPpal::updateAttitudeLabels(void){
 }
 
 void TFPpal::updatePlots(void){
+   float temp = 0.0;
+
    // Height
    mt_x->ValueCh1 = xyzSample.Zcoord.flData;
    mt_x->ValueCh2 = comSample.hCommand.flData;
@@ -737,14 +739,16 @@ void TFPpal::updatePlots(void){
 
    // Pitch
    mt_z->ValueCh1 = RAD2DEG*attitudeSample.pitch.flData;
-   mt_z->ValueCh2 = RAD2DEG*(navSample.thetaCommanded.flData);
+   temp = (navSample.thetaCommanded.flData < 20.0 && navSample.thetaCommanded.flData > -20.0) ?  navSample.thetaCommanded.flData : 0.0;
+   mt_z->ValueCh2 = RAD2DEG*(temp);
 
    // Roll
    mt_a->ValueCh1 = RAD2DEG*attitudeSample.roll.flData;
-   mt_a->ValueCh2 = RAD2DEG*(navSample.phiCommanded.flData);
+   temp = (navSample.phiCommanded.flData < 20.0 && navSample.phiCommanded.flData > -20.0) ?  navSample.phiCommanded.flData : 0.0;
+   mt_a->ValueCh2 = RAD2DEG*(temp);
 
    // R
-   mt_b->ValueCh1 = RAD2DEG*attitudeSample.r.flData;
+   mt_b->ValueCh1 = RAD2DEG*navSample.rHighPass.flData;
    mt_b->ValueCh2 = 0.0;
 
 }
