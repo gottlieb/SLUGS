@@ -1016,32 +1016,32 @@ void prepareTelemetry( unsigned char* dataOut){
 					
 	} // if hil	
 	
-	rawSentence[0] = attitudeControlData.roll.chData[0]		;
-	rawSentence[1] = attitudeControlData.roll.chData[1]		;
-	rawSentence[2] = attitudeControlData.roll.chData[2]		;
-	rawSentence[3] = attitudeControlData.roll.chData[3]		;
-	rawSentence[4] = attitudeControlData.pitch.chData[0]	;	
-	rawSentence[5] = attitudeControlData.pitch.chData[1]	;	
-	rawSentence[6] = attitudeControlData.pitch.chData[2]	;	
-	rawSentence[7] = attitudeControlData.pitch.chData[3]	;	
-	rawSentence[8] = attitudeControlData.yaw.chData[0]		;
-	rawSentence[9] = attitudeControlData.yaw.chData[1]		;
-	rawSentence[10] =attitudeControlData.yaw.chData[2]		;
-	rawSentence[11] =attitudeControlData.yaw.chData[3]		;
-	rawSentence[12] =attitudeControlData.p.chData[0]		;	
-	rawSentence[13] =attitudeControlData.p.chData[1]		;	
-	rawSentence[14] =attitudeControlData.p.chData[2]		;	
-	rawSentence[15] =attitudeControlData.p.chData[3]		;	
-	rawSentence[16] =attitudeControlData.q.chData[0]		;	
-	rawSentence[17] =attitudeControlData.q.chData[1]		;	
-	rawSentence[18] =attitudeControlData.q.chData[2]		;	
-	rawSentence[19] =attitudeControlData.q.chData[3]		;	
-	rawSentence[20] =attitudeControlData.r.chData[0]		;	
-	rawSentence[21] =attitudeControlData.r.chData[1]		;	
-	rawSentence[22] =attitudeControlData.r.chData[2]		;	
-	rawSentence[23] =attitudeControlData.r.chData[3]		;	
-	rawSentence[24] =attitudeControlData.timeStamp.chData[0];	
-	rawSentence[25] =attitudeControlData.timeStamp.chData[1];					 	
+	rawSentence[0] = attitudeRotatedControlData.roll.chData[0]		;
+	rawSentence[1] = attitudeRotatedControlData.roll.chData[1]		;
+	rawSentence[2] = attitudeRotatedControlData.roll.chData[2]		;
+	rawSentence[3] = attitudeRotatedControlData.roll.chData[3]		;
+	rawSentence[4] = attitudeRotatedControlData.pitch.chData[0]	;	
+	rawSentence[5] = attitudeRotatedControlData.pitch.chData[1]	;	
+	rawSentence[6] = attitudeRotatedControlData.pitch.chData[2]	;	
+	rawSentence[7] = attitudeRotatedControlData.pitch.chData[3]	;	
+	rawSentence[8] = attitudeRotatedControlData.yaw.chData[0]		;
+	rawSentence[9] = attitudeRotatedControlData.yaw.chData[1]		;
+	rawSentence[10] =attitudeRotatedControlData.yaw.chData[2]		;
+	rawSentence[11] =attitudeRotatedControlData.yaw.chData[3]		;
+	rawSentence[12] =attitudeRotatedControlData.p.chData[0]		;	
+	rawSentence[13] =attitudeRotatedControlData.p.chData[1]		;	
+	rawSentence[14] =attitudeRotatedControlData.p.chData[2]		;	
+	rawSentence[15] =attitudeRotatedControlData.p.chData[3]		;	
+	rawSentence[16] =attitudeRotatedControlData.q.chData[0]		;	
+	rawSentence[17] =attitudeRotatedControlData.q.chData[1]		;	
+	rawSentence[18] =attitudeRotatedControlData.q.chData[2]		;	
+	rawSentence[19] =attitudeRotatedControlData.q.chData[3]		;	
+	rawSentence[20] =attitudeRotatedControlData.r.chData[0]		;	
+	rawSentence[21] =attitudeRotatedControlData.r.chData[1]		;	
+	rawSentence[22] =attitudeRotatedControlData.r.chData[2]		;	
+	rawSentence[23] =attitudeRotatedControlData.r.chData[3]		;	
+	rawSentence[24] =attitudeRotatedControlData.timeStamp.chData[0];	
+	rawSentence[25] =attitudeRotatedControlData.timeStamp.chData[1];					 	
 			
 	// assemble the Diag data for protocol sending
 	assembleMsg(&rawSentence[0], ATTMSG_LEN, ATTMSG_ID, telemetryBuf);
@@ -1095,9 +1095,17 @@ void updateLoad (unsigned char mcuLoad){
 }
 
 void updateEuler(float* newEuler){
-	attitudeControlData.roll.flData = newEuler[0];
-	attitudeControlData.pitch.flData = newEuler[1];
-	attitudeControlData.yaw.flData = newEuler[2];
+	attitudeRotatedControlData.roll.flData = newEuler[0];
+	attitudeRotatedControlData.pitch.flData = newEuler[1];
+	attitudeRotatedControlData.yaw.flData = newEuler[2];
+	attitudeRotatedControlData.timeStamp.usData = attitudeControlData.timeStamp.usData;
+}
+
+
+void updatePQR(float* newPQR){
+	attitudeRotatedControlData.p.flData = newPQR[0];
+	attitudeRotatedControlData.q.flData = newPQR[1];
+	attitudeRotatedControlData.r.flData = newPQR[2];
 }
 
 void pilotCommands (unsigned short*  pilCom){

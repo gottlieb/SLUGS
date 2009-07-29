@@ -26,7 +26,7 @@ void EEPInit (void);
 void loadEEPData (void);
 void pilotCommands (unsigned short* pilCom);
 void updateEuler (float* newEuler);
-
+void updatePQR (float* newPQR);
 #ifdef __cplusplus
       }
 #endif
