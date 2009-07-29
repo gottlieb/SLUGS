@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.871"
+    ComputedModelVersion    "1.873"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sun Jul 26 14:56:13 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:871>"
+  LastModifiedDate	  "Tue Jul 28 21:40:41 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:873>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -713,6 +713,10 @@ Model {
       BlockType		      Ground
     }
     Block {
+      BlockType		      SignalConversion
+      OverrideOpt	      off
+    }
+    Block {
       BlockType		      Inport
       Port		      "1"
       UseBusObject	      off
@@ -753,6 +757,18 @@ Model {
 "tion)"
       LogicDataType	      "uint(8)"
       SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Math
+      Operator		      "exp"
+      OutputSignalType	      "auto"
+      SampleTime	      "-1"
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
     }
     Block {
       BlockType		      Merge
@@ -964,7 +980,7 @@ Model {
   }
   System {
     Name		    "sensorMCUSlugsMKII_ren"
-    Location		    [44, 82, 1236, 983]
+    Location		    [49, 161, 1215, 1087]
     Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    212
@@ -997,7 +1013,7 @@ Model {
       System {
 	Name			"Control Surface Input"
 	Location		[280, 704, 825, 928]
-	Open			on
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1593,7 +1609,7 @@ Model {
       System {
 	Name			"Position and Attitude Filter"
 	Location		[577, 611, 1157, 960]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1608,14 +1624,14 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "A_sens(m/s^2)"
-	  Position		  [485, 113, 515, 127]
+	  Position		  [910, 48, 940, 62]
 	  BackgroundColor	  "darkGreen"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
 	  Name			  "Omega (rad/s)"
-	  Position		  [475, 213, 505, 227]
+	  Position		  [900, 148, 930, 162]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "2"
 	  IconDisplay		  "Port number"
@@ -1623,7 +1639,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "GPSMain"
-	  Position		  [145, 558, 175, 572]
+	  Position		  [130, 373, 160, 387]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "3"
 	  IconDisplay		  "Port number"
@@ -1631,7 +1647,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "Baro Alt (m)"
-	  Position		  [515, 478, 545, 492]
+	  Position		  [625, 328, 655, 342]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "4"
 	  IconDisplay		  "Port number"
@@ -1640,7 +1656,7 @@ Model {
 	  BlockType		  SubSystem
 	  Name			  "Attitude\nComplimentary\nFilter COG"
 	  Ports			  [5, 4]
-	  Position		  [555, 98, 745, 342]
+	  Position		  [980, 33, 1170, 277]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
@@ -8559,7 +8575,7 @@ Model {
 	  BlockType		  SubSystem
 	  Name			  "COG.SOG2V"
 	  Ports			  [2, 3]
-	  Position		  [325, 609, 425, 691]
+	  Position		  [555, 449, 655, 531]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
@@ -9031,7 +9047,7 @@ Model {
 	  BlockType		  SubSystem
 	  Name			  "Compute GS Location"
 	  Ports			  [1, 2]
-	  Position		  [245, 343, 370, 432]
+	  Position		  [115, 248, 205, 332]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
@@ -9815,7 +9831,7 @@ Model {
 	Block {
 	  BlockType		  Constant
 	  Name			  "Constant"
-	  Position		  [55, 375, 130, 405]
+	  Position		  [15, 275, 90, 305]
 	  ShowName		  off
 	  Value			  "GS_location"
 	  OutDataTypeMode	  "single"
@@ -9824,16 +9840,121 @@ Model {
 	  BlockType		  Demux
 	  Name			  "Demux"
 	  Ports			  [1, 5]
-	  Position		  [245, 524, 250, 606]
+	  Position		  [230, 339, 235, 421]
 	  BackgroundColor	  "black"
 	  ShowName		  off
 	  Outputs		  "5"
 	  DisplayOption		  "bar"
 	}
 	Block {
+	  BlockType		  SubSystem
+	  Name			  "Enabled\nSubsystem"
+	  Ports			  [3, 3, 1]
+	  Position		  [505, 308, 525, 392]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Enabled\nSubsystem"
+	    Location		    [6, 173, 1535, 950]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [110, 103, 140, 117]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In2"
+	      Position		      [110, 158, 140, 172]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In3"
+	      Position		      [110, 208, 140, 222]
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      EnablePort
+	      Name		      "Enable"
+	      Ports		      []
+	      Position		      [235, 20, 255, 40]
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [360, 103, 390, 117]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out2"
+	      Position		      [360, 158, 390, 172]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out3"
+	      Position		      [360, 208, 390, 222]
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "In2"
+	      SrcPort		      1
+	      DstBlock		      "Out2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "In3"
+	      SrcPort		      1
+	      DstBlock		      "Out3"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From1"
+	  Position		  [610, 366, 665, 384]
+	  BackgroundColor	  "cyan"
+	  ShowName		  off
+	  CloseFcn		  "tagdialog Close"
+	  GotoTag		  "RL2B"
+	}
+	Block {
 	  BlockType		  From
 	  Name			  "From26"
-	  Position		  [480, 161, 535, 179]
+	  Position		  [905, 96, 960, 114]
 	  BackgroundColor	  "cyan"
 	  ShowName		  off
 	  CloseFcn		  "tagdialog Close"
@@ -9843,7 +9964,7 @@ Model {
 	  BlockType		  SubSystem
 	  Name			  "GPS Update"
 	  Ports			  [1, 1]
-	  Position		  [470, 692, 550, 728]
+	  Position		  [585, 277, 665, 313]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
@@ -10315,9 +10436,115 @@ Model {
 	}
 	Block {
 	  BlockType		  SubSystem
+	  Name			  "GPSValid"
+	  Ports			  [1, 1]
+	  Position		  [435, 241, 510, 279]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  MaskPromptString	  "Maximum Distance Error (in Mts)"
+	  MaskStyleString	  "edit"
+	  MaskTunableValueString  "on"
+	  MaskEnableString	  "on"
+	  MaskVisibilityString	  "on"
+	  MaskToolTipString	  "on"
+	  MaskVariables		  "deadLimit=@1;"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "2500"
+	  System {
+	    Name		    "GPSValid"
+	    Location		    [6, 173, 1535, 950]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "XYZ"
+	      Position		      [30, 63, 60, 77]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Compare\nTo Constant"
+	      Ports		      [1, 1]
+	      Position		      [300, 55, 380, 85]
+	      SourceBlock	      "simulink/Logic and Bit\nOperations/Comp"
+"are\nTo Constant"
+	      SourceType	      "Compare To Constant"
+	      ShowPortLabels	      "FromPortIcon"
+	      SystemSampleTime	      "-1"
+	      FunctionWithSeparateData off
+	      RTWMemSecFuncInitTerm   "Inherit from model"
+	      RTWMemSecFuncExecute    "Inherit from model"
+	      RTWMemSecDataConstants  "Inherit from model"
+	      RTWMemSecDataInternal   "Inherit from model"
+	      RTWMemSecDataParameters "Inherit from model"
+	      relop		      "<="
+	      const		      "deadLimit"
+	      LogicOutDataTypeMode    "uint8"
+	      ZeroCross		      off
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Norm"
+	      Ports		      [1, 1]
+	      Position		      [165, 45, 235, 95]
+	      SourceBlock	      "SLUGS_Library/Navigation/Norm"
+	      SourceType	      "SubSystem"
+	      ShowPortLabels	      "FromPortIcon"
+	      SystemSampleTime	      "-1"
+	      FunctionWithSeparateData off
+	      RTWMemSecFuncInitTerm   "Inherit from model"
+	      RTWMemSecFuncExecute    "Inherit from model"
+	      RTWMemSecDataConstants  "Inherit from model"
+	      RTWMemSecDataInternal   "Inherit from model"
+	      RTWMemSecDataParameters "Inherit from model"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "GPSValid"
+	      Position		      [405, 63, 435, 77]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "XYZ"
+	      SrcPort		      1
+	      DstBlock		      "Norm"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Compare\nTo Constant"
+	      SrcPort		      1
+	      DstBlock		      "GPSValid"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Norm"
+	      SrcPort		      1
+	      DstBlock		      "Compare\nTo Constant"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
 	  Name			  "Geod2LTP1"
 	  Ports			  [5, 1]
-	  Position		  [305, 478, 430, 582]
+	  Position		  [290, 293, 405, 397]
 	  ShowName		  off
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
@@ -11667,7 +11894,7 @@ Model {
 	Block {
 	  BlockType		  Goto
 	  Name			  "Goto1"
-	  Position		  [345, 711, 410, 729]
+	  Position		  [575, 551, 640, 569]
 	  Orientation		  "left"
 	  BackgroundColor	  "magenta"
 	  ShowName		  off
@@ -11675,10 +11902,19 @@ Model {
 	  TagVisibility		  "local"
 	}
 	Block {
+	  BlockType		  Goto
+	  Name			  "Goto2"
+	  Position		  [1190, 236, 1255, 254]
+	  BackgroundColor	  "magenta"
+	  ShowName		  off
+	  GotoTag		  "RL2B"
+	  TagVisibility		  "local"
+	}
+	Block {
 	  BlockType		  SubSystem
 	  Name			  "Position Filter"
 	  Ports			  [7, 3]
-	  Position		  [580, 462, 755, 738]
+	  Position		  [695, 277, 870, 553]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
@@ -11700,15 +11936,15 @@ Model {
 	    ZoomFactor		    "100"
 	    Block {
 	      BlockType		      Inport
-	      Name		      "Baro Alt"
-	      Position		      [85, 158, 115, 172]
+	      Name		      "NewGPS"
+	      Position		      [85, 228, 115, 242]
 	      BackgroundColor	      "green"
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Inport
-	      Name		      "GPS_XYD"
-	      Position		      [85, 53, 115, 67]
+	      Name		      "Baro Alt"
+	      Position		      [85, 158, 115, 172]
 	      BackgroundColor	      "green"
 	      Port		      "2"
 	      IconDisplay	      "Port number"
@@ -11723,24 +11959,24 @@ Model {
 	    }
 	    Block {
 	      BlockType		      Inport
-	      Name		      "Vnorth"
-	      Position		      [85, 88, 115, 102]
+	      Name		      "GPS_XYD"
+	      Position		      [85, 53, 115, 67]
 	      BackgroundColor	      "green"
 	      Port		      "4"
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Inport
-	      Name		      "Veast"
-	      Position		      [85, 123, 115, 137]
+	      Name		      "Vnorth"
+	      Position		      [85, 88, 115, 102]
 	      BackgroundColor	      "green"
 	      Port		      "5"
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Inport
-	      Name		      "NewGPS"
-	      Position		      [85, 228, 115, 242]
+	      Name		      "Veast"
+	      Position		      [85, 123, 115, 137]
 	      BackgroundColor	      "green"
 	      Port		      "6"
 	      IconDisplay	      "Port number"
@@ -15350,7 +15586,7 @@ Model {
 	Block {
 	  BlockType		  Gain
 	  Name			  "[1 1 -1]"
-	  Position		  [485, 515, 515, 545]
+	  Position		  [600, 400, 630, 430]
 	  Gain			  "[1 1 -1]"
 	  ParameterDataTypeMode	  "Inherit via internal rule"
 	  OutDataTypeMode	  "Inherit via internal rule"
@@ -15359,7 +15595,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "euler_hat (rad)"
-	  Position		  [795, 123, 825, 137]
+	  Position		  [1195, 58, 1225, 72]
 	  BackgroundColor	  "yellow"
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
@@ -15367,7 +15603,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "pqr_hat\n(rad/s)"
-	  Position		  [800, 183, 830, 197]
+	  Position		  [1195, 118, 1225, 132]
 	  BackgroundColor	  "yellow"
 	  Port			  "2"
 	  IconDisplay		  "Port number"
@@ -15376,7 +15612,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Pxyz_hat\n(m)"
-	  Position		  [915, 593, 945, 607]
+	  Position		  [935, 408, 965, 422]
 	  BackgroundColor	  "yellow"
 	  Port			  "3"
 	  IconDisplay		  "Port number"
@@ -15385,7 +15621,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Vned_hat\n(m/s)"
-	  Position		  [920, 503, 950, 517]
+	  Position		  [935, 318, 965, 332]
 	  BackgroundColor	  "yellow"
 	  Port			  "4"
 	  IconDisplay		  "Port number"
@@ -15394,7 +15630,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "GyroBias\n(rad/s)"
-	  Position		  [805, 243, 835, 257]
+	  Position		  [1200, 178, 1230, 192]
 	  BackgroundColor	  "yellow"
 	  Port			  "5"
 	  IconDisplay		  "Port number"
@@ -15403,7 +15639,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Accel Bias\n(m/s)"
-	  Position		  [880, 683, 910, 697]
+	  Position		  [940, 498, 970, 512]
 	  BackgroundColor	  "yellow"
 	  Port			  "6"
 	  IconDisplay		  "Port number"
@@ -15412,13 +15648,13 @@ Model {
 	Line {
 	  SrcBlock		  "Position Filter"
 	  SrcPort		  1
-	  Points		  [15, 0]
+	  Points		  [20, 0]
 	  Branch {
 	    DstBlock		    "Vned_hat\n(m/s)"
 	    DstPort		    1
 	  }
 	  Branch {
-	    Points		    [5, 0; 0, -65; -275, 0; 0, -175]
+	    Points		    [0, -120]
 	    DstBlock		    "Attitude\nComplimentary\nFilter COG"
 	    DstPort		    4
 	  }
@@ -15439,30 +15675,10 @@ Model {
 	    DstPort		    1
 	  }
 	  Branch {
-	    Points		    [0, -260; -270, 0; 0, -105]
+	    Points		    [0, -245]
 	    DstBlock		    "Attitude\nComplimentary\nFilter COG"
 	    DstPort		    5
 	  }
-	}
-	Line {
-	  SrcBlock		  "Geod2LTP1"
-	  SrcPort		  1
-	  Points		  [20, 0]
-	  Branch {
-	    DstBlock		    "GPS Update"
-	    DstPort		    1
-	  }
-	  Branch {
-	    DstBlock		    "[1 1 -1]"
-	    DstPort		    1
-	  }
-	}
-	Line {
-	  SrcBlock		  "Attitude\nComplimentary\nFilter COG"
-	  SrcPort		  4
-	  Points		  [25, 0; 0, 100; -335, 0; 0, 150]
-	  DstBlock		  "Position Filter"
-	  DstPort		  3
 	}
 	Line {
 	  SrcBlock		  "Attitude\nComplimentary\nFilter COG"
@@ -15517,23 +15733,22 @@ Model {
 	Line {
 	  SrcBlock		  "Compute GS Location"
 	  SrcPort		  2
-	  Points		  [0, 50; -105, 0; 0, 50]
+	  Points		  [45, 0; 0, 15]
 	  DstBlock		  "Geod2LTP1"
 	  DstPort		  2
 	}
 	Line {
 	  SrcBlock		  "Compute GS Location"
 	  SrcPort		  1
-	  Points		  [35, 0; 0, 105; -120, 0]
+	  Points		  [65, 0]
 	  DstBlock		  "Geod2LTP1"
 	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "GPS Update"
 	  SrcPort		  1
-	  Points		  [10, 0]
 	  DstBlock		  "Position Filter"
-	  DstPort		  6
+	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "A_sens(m/s^2)"
@@ -15550,9 +15765,8 @@ Model {
 	Line {
 	  SrcBlock		  "[1 1 -1]"
 	  SrcPort		  1
-	  Points		  [45, 0]
 	  DstBlock		  "Position Filter"
-	  DstPort		  2
+	  DstPort		  4
 	}
 	Line {
 	  SrcBlock		  "From26"
@@ -15563,44 +15777,22 @@ Model {
 	Line {
 	  SrcBlock		  "Baro Alt (m)"
 	  SrcPort		  1
-	  Points		  [15, 0]
 	  DstBlock		  "Position Filter"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  4
-	  Points		  [25, 0; 0, 50]
-	  DstBlock		  "COG.SOG2V"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  5
-	  Points		  [15, 0; 0, 75]
-	  Branch {
-	    DstBlock		    "COG.SOG2V"
-	    DstPort		    2
-	  }
-	  Branch {
-	    Points		    [0, 85; 295, 0]
-	    DstBlock		    "Position Filter"
-	    DstPort		    7
-	  }
+	  DstPort		  2
 	}
 	Line {
 	  SrcBlock		  "COG.SOG2V"
 	  SrcPort		  1
-	  Points		  [135, 0]
+	  Points		  [20, 0]
 	  DstBlock		  "Position Filter"
-	  DstPort		  4
+	  DstPort		  5
 	}
 	Line {
 	  SrcBlock		  "COG.SOG2V"
 	  SrcPort		  2
-	  Points		  [135, 0]
+	  Points		  [20, 0]
 	  DstBlock		  "Position Filter"
-	  DstPort		  5
+	  DstPort		  6
 	}
 	Line {
 	  SrcBlock		  "COG.SOG2V"
@@ -15608,6 +15800,87 @@ Model {
 	  Points		  [10, 0; 0, 45]
 	  DstBlock		  "Goto1"
 	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "GPSValid"
+	  SrcPort		  1
+	  DstBlock		  "Enabled\nSubsystem"
+	  DstPort		  enable
+	}
+	Line {
+	  SrcBlock		  "Attitude\nComplimentary\nFilter COG"
+	  SrcPort		  4
+	  DstBlock		  "Goto2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From1"
+	  SrcPort		  1
+	  DstBlock		  "Position Filter"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Enabled\nSubsystem"
+	  SrcPort		  1
+	  Points		  [0, -25; 30, 0]
+	  Branch {
+	    DstBlock		    "GPS Update"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 120]
+	    DstBlock		    "[1 1 -1]"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Geod2LTP1"
+	  SrcPort		  1
+	  Points		  [10, 0]
+	  Branch {
+	    Points		    [25, 0; 0, -25]
+	    DstBlock		    "Enabled\nSubsystem"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "GPSValid"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  4
+	  Points		  [45, 0; 0, 5; 170, 0; 0, -50]
+	  DstBlock		  "Enabled\nSubsystem"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  5
+	  Points		  [250, 0]
+	  DstBlock		  "Enabled\nSubsystem"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Enabled\nSubsystem"
+	  SrcPort		  2
+	  Points		  [10, 0]
+	  DstBlock		  "COG.SOG2V"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Enabled\nSubsystem"
+	  SrcPort		  3
+	  Points		  [0, 130]
+	  Branch {
+	    DstBlock		    "COG.SOG2V"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, 75; 150, 0]
+	    DstBlock		    "Position Filter"
+	    DstPort		    7
+	  }
 	}
       }
     }
