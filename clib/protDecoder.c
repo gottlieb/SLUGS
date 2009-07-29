@@ -19,6 +19,7 @@ tGpsData 		gpsControlData;
 tRawData 		rawControlData;
 tSensStatus		statusControlData;
 tAttitudeData	attitudeControlData;
+tAttitudeData	attitudeRotatedControlData;
 tDynTempData	dynTempControlData;
 tBiasData		biasControlData;
 tDiagData		diagControlData;
@@ -50,6 +51,7 @@ void protParserInit(void){
 	memset(&rawControlData, 0, sizeof(tRawData));
 	memset(&statusControlData, 0, sizeof(tSensStatus));
 	memset(&attitudeControlData, 0, sizeof(tAttitudeData));
+	memset(&attitudeRotatedControlData, 0, sizeof(tAttitudeData));
 	memset(&dynTempControlData, 0, sizeof(tDynTempData));
 	memset(&biasControlData, 0, sizeof(tBiasData));
 	memset(&diagControlData, 0, sizeof(tDiagData));

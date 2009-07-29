@@ -150,6 +150,16 @@ comRIdx         = 93;
 comCwpIdx       = 94;
 comNwpIdx       = 95;
 
+navUmIdx        = 96;
+navThcIdx       = 97;
+navPdcIdx       = 98;
+navPhcIdx       = 99;
+navRhpIdx       = 100;
+navTruIdx       = 101;
+navD2gIdx       = 102;
+navFwpIdx       = 103;
+navTwpIdx       = 104;
+
 %% if we need to validate GPS
 idxIni = 1;
 idxEnd = size(M,1);
@@ -169,6 +179,8 @@ time_plot   = (M(idxIni:idxEnd,timeStampIdx));
 % Produce the Time vector
 time = 0:0.01:(size(M(idxIni:idxEnd,1))*.01 - 0.01);
     
+autoIdx = find(M(idxIni:idxEnd,64)< 6000);
+
 %time   = M(idxIni:idxEnd,timeStampIdx);
 
 phi = M(idxIni:idxEnd,attRollIdx);
@@ -230,9 +242,17 @@ if onlyRaw == 0
     sh1 = M(idxIni:idxEnd,diaSh1Idx);
     sh2 = M(idxIni:idxEnd,diaSh2Idx);
     sh3 = M(idxIni:idxEnd,diaSh3Idx);
+    
+    hc = M(idxIni:idxEnd,comHeiIdx);
+    um = M(idxIni:idxEnd,navUmIdx);
+    uc = M(idxIni:idxEnd,comAirIdx);
+    rhp = M(idxIni:idxEnd,navRhpIdx);
+    phi_c = M(idxIni:idxEnd,navPhcIdx);
+    the_c = M(idxIni:idxEnd,navThcIdx);
 end
+
 %%
- if plotData == 1
+if plotData == 1
      
     % Plot the time count 
     figure (figct)
@@ -498,19 +518,84 @@ end
         figct = figct + 1;
 
         
-     figure(figct)
-        subplot(2,1,1)
-            plot(time, sec);
-            title('GPS Seconds');        
-        subplot(2,1,2)
-            plot(diff(sec));
-            title('Update Rate');                
+%      figure(figct)
+%         subplot(2,1,1)
+%             plot(time, sec);
+%             title('GPS Seconds');        
+%         subplot(2,1,2)
+%             plot(diff(sec));
+%             title('Update Rate');                
+%         eval(['print -depsc  '  num2str(figct)]);
+%         figct = figct + 1;
+% 
+%     end
+        
+        % Commanded vs Measured plots
+        % ===========================
+        figure(figct)
+            plot(time(autoIdx), z(autoIdx));
+            hold on
+            plot(time(autoIdx), hc(autoIdx), 'r');
+            hold off
+            title('Height measured vs commanded');        
+            xlabel ('Time (s)');
+            ylabel ('Height (m)');
+            grid on
+            
+        eval(['print -depsc  '  num2str(figct)]);
+        figct = figct + 1;
+
+
+        figure(figct)
+            plot(time(autoIdx), the(autoIdx)*180/pi);
+            hold on
+            plot(time(autoIdx), the_c(autoIdx)*180/pi, 'r');
+            hold off
+            title('Pitch measured vs commanded');        
+            xlabel ('Time (s)');
+            ylabel ('Pitch (deg)');
+            grid on
+        eval(['print -depsc  '  num2str(figct)]);
+        figct = figct + 1;
+
+        figure(figct)
+            plot(time(autoIdx), um(autoIdx));
+            hold on
+            plot(time(autoIdx), uc(autoIdx), 'r');
+            hold off
+            title('Airspeed measured vs commanded');        
+            xlabel ('Time (s)');
+            ylabel ('Airspeed (m/s)');
+            grid on
+        eval(['print -depsc  '  num2str(figct)]);
+        figct = figct + 1;
+        
+        figure(figct)
+            plot(time(autoIdx), phi(autoIdx)*180/pi);
+            hold on 
+            plot(time(autoIdx), phi_c(autoIdx)*180/pi, 'r');
+            hold off
+            title('Roll measured vs commanded');        
+            xlabel ('Time (s)');
+            ylabel ('Roll (deg)');
+            grid on
+        eval(['print -depsc  '  num2str(figct)]);
+        figct = figct + 1;
+        
+
+        figure(figct)
+            plot(time(autoIdx), zeros(size(time(autoIdx))));
+            hold
+            plot(time(autoIdx), rhp(autoIdx)*180/pi, 'r');
+            title('R high passed measured vs commanded');        
+            xlabel ('Time (s)');
+            ylabel ('Roll (deg)');
+            
         eval(['print -depsc  '  num2str(figct)]);
         figct = figct + 1;
 
     end
-        
- end % if plots are required
+end % if plots are required
 
 %% Return Values
 PosAtt = [phi the psi p q r x y z vx vy vz];

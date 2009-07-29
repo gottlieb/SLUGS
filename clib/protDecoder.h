@@ -21,6 +21,7 @@ extern tGpsData 		gpsControlData;
 extern tRawData 		rawControlData;
 extern tSensStatus		statusControlData;
 extern tAttitudeData	attitudeControlData;
+extern tAttitudeData	attitudeRotatedControlData;
 extern tDynTempData		dynTempControlData;
 extern tBiasData		biasControlData;
 extern tDiagData		diagControlData;

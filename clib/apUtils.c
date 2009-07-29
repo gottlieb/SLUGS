@@ -168,6 +168,7 @@ void updateStates(unsigned char * completeSentence){
 			// Note that as an additional tool the bias messages can be used as 
 			// diagnostic messages providing an additional 6 floating point values
 			// for diagnostics
+		
 			#if defined(_IN_PC_) || defined(USE_SENSOR_MCU_DIAG)
 				biasControlData.axb.chData[0]	= completeSentence[4];
 				biasControlData.axb.chData[1]	= completeSentence[5];
