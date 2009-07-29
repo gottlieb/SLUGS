@@ -1,6 +1,6 @@
 object FPpal: TFPpal
-  Left = -187
-  Top = 3
+  Left = 6
+  Top = -4
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 
@@ -42,10 +42,10 @@ object FPpal: TFPpal
     Top = 25
     Width = 375
     Height = 668
-    ActivePage = TabSheet2
+    ActivePage = ts_plots
     Align = alClient
     MultiLine = True
-    TabIndex = 10
+    TabIndex = 9
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth'

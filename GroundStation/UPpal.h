@@ -42,6 +42,7 @@
 #include "RxCombos.hpp"
 #include "RXSlider.hpp"
 #include <string>
+#include <limits.h>
 
 #define  DISLIMIT      30.0
 
@@ -855,6 +856,7 @@ public:		// User declarations
         void updatePID(void);
         void updateWP(void);
         void updateStatus(void);
+        bool myisnan(float var);
 
         void updateBiasLabels(void);
         void updateDynLabels(void);

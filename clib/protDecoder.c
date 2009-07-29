@@ -84,7 +84,7 @@ void protParserInit(void){
 #ifdef _IN_PC_
 // TODO: Include a messaging Mechanism for immediate or once in time messages
 // TODO: Include a File option for Archiving checksum fails for debuging
-float protParseDecode (unsigned char* fromSPI,  FILE* outFile){
+float protParseDecode (unsigned char* fromSPI,  FILE* outFile, unsigned char prevException){
 #else
 void protParseDecode (unsigned char* fromSPI){
 #endif
@@ -195,7 +195,7 @@ void protParseDecode (unsigned char* fromSPI){
                 #ifdef _IN_PC_
 					// if in PC and loggin is enabled
                     if ((outFile != NULL)){
-                       printState(outFile);
+                       printState(outFile, prevException);
                     }
                     //test = alpha*test;
                 #endif
@@ -324,7 +324,7 @@ unsigned short hil_getTs(void){
 // ================================
 
 #ifdef _IN_PC_
-void printState (FILE* outFile){
+void printState (FILE* outFile, unsigned char prevException){
 static tGpsData 		cpgpsControlData;
 static tRawData 		cprawControlData;
 static tSensStatus		cpstatusControlData;
@@ -340,7 +340,26 @@ static tPilotData		cppilControlData;
 static tPWMData			cppwmControlData;  
 static tAPStatusData	cpapsControlData;  
 static tCommandsData	cpcomControlData;  
-static tNavData	cpnavControlData;  
+static tNavData	cpnavControlData;
+
+    if (prevException){
+        // Initialize all global data structures
+	    memset(&cpgpsControlData, 0, sizeof(tGpsData));
+	    memset(&cprawControlData, 0, sizeof(tRawData));
+	    memset(&cpstatusControlData, 0, sizeof(tSensStatus));
+	    memset(&cpattitudeControlData, 0, sizeof(tAttitudeData));
+	    memset(&cpdynTempControlData, 0, sizeof(tDynTempData));
+	    memset(&cpbiasControlData, 0, sizeof(tBiasData));
+	    memset(&cpdiagControlData, 0, sizeof(tDiagData));
+	    memset(&cpxyzControlData, 0, sizeof(tXYZData));
+	    memset(&cpaknControlData, 0, sizeof(tAknData));
+	    memset(&cppilControlData, 0, sizeof(tPilotData));
+	    memset(&cppwmControlData, 0, sizeof(tPWMData));
+	    memset(&cpapsControlData, 0, sizeof(tAPStatusData));
+	    memset(&cpcomControlData, 0, sizeof(tCommandsData));
+	    memset(&cpnavControlData, 0, sizeof(tNavData));
+	    cpfilterControlData = 0;
+    }
 
 	if (cpattitudeControlData.timeStamp.usData != attitudeControlData.timeStamp.usData) {
 		// the time changed, so print the known state in the last sample time
@@ -444,7 +463,7 @@ static tNavData	cpnavControlData;
 	         cppwmControlData.dlf_c.usData,
 	         cppwmControlData.drf_c.usData,
 	         cppwmControlData.da1_c.usData,
-	         cppwmControlData.da2_c.usData);	
+	         cppwmControlData.da2_c.usData);
 
 	// Print AP Status Data
     fprintf(outFile, "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,",
@@ -459,7 +478,7 @@ static tNavData	cpnavControlData;
 	         cpapsControlData.dre_pass,
 	         cpapsControlData.dlf_pass,
 		       cpapsControlData.drf_pass);
-	
+
 	// Print Commands Data
     fprintf(outFile, "%f,%f,%f,%f,%f,%f,%f,%f,%d,%d,",
 	         cpcomControlData.hCommand.flData,
@@ -472,7 +491,7 @@ static tNavData	cpnavControlData;
 	         cpcomControlData.rCommand.flData,
 	         cpcomControlData.currWPCommand,
 	         cpcomControlData.nextWPCommand);
- 		     		     
+
 	// Print Nav Data
     fprintf(outFile, "%f,%f,%f,%f,%f,%f,%f,%d,%d,",
 	         cpnavControlData.uMeasured.flData,
@@ -489,7 +508,7 @@ static tNavData	cpnavControlData;
 	fprintf(outFile, "\n");
 
 	}// if
-
+    
     cpgpsControlData 		= gpsControlData;
 	cprawControlData 		= rawControlData;
 	cpstatusControlData 	= statusControlData;
@@ -504,6 +523,7 @@ static tNavData	cpnavControlData;
 	cppwmControlData		= pwmControlData;
 	cpapsControlData		= apsControlData;
 	cpcomControlData		= comControlData;
+    cpnavControlData        = navControlData;
 	
 }
 

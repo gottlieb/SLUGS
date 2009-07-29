@@ -39,8 +39,8 @@ extern tNavData			navControlData;
 void protParserInit (void);
 
 #ifdef _IN_PC_
-    float protParseDecode (unsigned char* fromSPI,  FILE* outFile);
-    void printState (FILE* outfile);
+    float protParseDecode (unsigned char* fromSPI,  FILE* outFile, unsigned char prevException);
+    void printState (FILE* outFile, unsigned char prevException);
     void getTime (unsigned char * values);
     tGpsData getGpsStruct (void);
     tRawData getRawStruct (void);

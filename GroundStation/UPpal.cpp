@@ -738,21 +738,24 @@ void TFPpal::updatePlots(void){
    mt_y->ValueCh2 = comSample.airspeedCommand.flData;
 
    // Pitch
-   mt_z->ValueCh1 = RAD2DEG*attitudeSample.pitch.flData;
-   temp = (navSample.thetaCommanded.flData < 20.0 && navSample.thetaCommanded.flData > -20.0) ?  navSample.thetaCommanded.flData : 0.0;
-   mt_z->ValueCh2 = RAD2DEG*(temp);
+   mt_z->ValueCh1 = IsNan(attitudeSample.pitch.flData) ? 0.0: RAD2DEG*attitudeSample.pitch.flData;
+   mt_z->ValueCh2 = IsNan(navSample.thetaCommanded.flData)? 0.0: RAD2DEG*navSample.thetaCommanded.flData;
 
    // Roll
-   mt_a->ValueCh1 = RAD2DEG*attitudeSample.roll.flData;
-   temp = (navSample.phiCommanded.flData < 20.0 && navSample.phiCommanded.flData > -20.0) ?  navSample.phiCommanded.flData : 0.0;
-   mt_a->ValueCh2 = RAD2DEG*(temp);
+   mt_a->ValueCh1 = IsNan(attitudeSample.roll.flData)? 0.0 : RAD2DEG*attitudeSample.roll.flData;
+   mt_a->ValueCh2 = IsNan(navSample.phiCommanded.flData)? 0.0 : RAD2DEG*navSample.phiCommanded.flData;
 
    // R
-   mt_b->ValueCh1 = RAD2DEG*navSample.rHighPass.flData;
+   mt_b->ValueCh1 = IsNan(navSample.rHighPass.flData)? 0.0 : RAD2DEG*navSample.rHighPass.flData;
    mt_b->ValueCh2 = 0.0;
 
 }
 
+bool TFPpal::myisnan(float var) {
+volatile float temp1 = var;
+volatile float temp2 = var;
+return temp1 != temp2;
+}
 void TFPpal::updateBiasLabels(void){
   et_axb->Caption = FormatFloat("0.0000",biasSample.axb.flData);
   et_ayb->Caption = FormatFloat("0.0000",biasSample.ayb.flData);
@@ -902,6 +905,7 @@ void __fastcall TFPpal::cp_serialTriggerAvail(TObject *CP, WORD Count)
   int logSize = 254;
   unsigned char fromSerial[254+1];
   int bytesRemain = Count;
+  static unsigned char prevException = 0;
   //et_count->Caption = IntToStr(Count);
   try {
     while (bytesRemain > 0) {
@@ -915,13 +919,15 @@ void __fastcall TFPpal::cp_serialTriggerAvail(TObject *CP, WORD Count)
          bytesRemain -= logSize;
        }
        if (logIsOpen==true)
-         csFail = protParseDecode (&fromSerial[0], liveLog);
+         csFail = protParseDecode (&fromSerial[0], liveLog, prevException);
        else
-         csFail = protParseDecode (&fromSerial[0],  NULL);
+         csFail = protParseDecode (&fromSerial[0],  NULL, prevException);
+       prevException =0;
     }
   }
    catch (...) {
       mm_diagnose->Lines->Add("Exception Caught");
+      prevException = 1;
   }
 
 }
@@ -1440,6 +1446,8 @@ void __fastcall TFPpal::bt_importLogClick(TObject *Sender)
     unsigned char buffer[97];
     unsigned long fileLen;
     unsigned long i;
+    static unsigned char prevException = 0;
+    
     //unsigned char amountToRead = 24;
     String toMatFile;
 
@@ -1464,10 +1472,16 @@ void __fastcall TFPpal::bt_importLogClick(TObject *Sender)
 	       //Read file contents into buffer and write to file
                i = 0;
                while (i<fileLen-96){
-	         fread(&(buffer[0]) + 1, sizeof(unsigned char), 96, logFile);
+	             fread(&(buffer[0]) + 1, sizeof(unsigned char), 96, logFile);
                  i+=96;
                  buffer[0] = 96;
-                 protParseDecode(buffer, matFile);
+                 try {
+                     protParseDecode(buffer, matFile, prevException);
+                     prevException = 0;
+                 } catch (...) {
+                    mm_diagnose->Lines->Add("Parsing Exception Caught");
+                    prevException =1;
+                 }
                } // while
 
            // close th files
