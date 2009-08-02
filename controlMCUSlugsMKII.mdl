@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.564"
+    ComputedModelVersion    "1.569"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Jul 30 16:43:04 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:564>"
+  LastModifiedDate	  "Sat Aug 01 21:39:44 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:569>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -977,8 +977,8 @@ Model {
   }
   System {
     Name		    "controlMCUSlugsMKII"
-    Location		    [7, 83, 942, 810]
-    Open		    on
+    Location		    [2, 78, 937, 805]
+    Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    188
     ScreenColor		    "white"
@@ -5708,7 +5708,7 @@ Model {
 	  System {
 	    Name		    "Longitudinal Channel"
 	    Location		    [643, 232, 1784, 959]
-	    Open		    off
+	    Open		    on
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    188
 	    ScreenColor		    "white"
@@ -7329,15 +7329,6 @@ Model {
 	      OutDataTypeMode	      "single"
 	    }
 	    Block {
-	      BlockType		      DataTypeConversion
-	      Name		      "Data Type Conversion"
-	      Position		      [850, 47, 905, 63]
-	      ShowName		      off
-	      OutDataTypeMode	      "single"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
 	      BlockType		      Saturate
 	      Name		      "Elevator \nLimit"
 	      Position		      [955, 445, 985, 475]
@@ -7389,6 +7380,15 @@ Model {
 	      ShowName		      off
 	      CloseFcn		      "tagdialog Close"
 	      GotoTag		      "DFloat3"
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Gain"
+	      Position		      [975, 570, 1005, 600]
+	      Gain		      "57.295779513082323"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
 	      BlockType		      Reference
@@ -7444,7 +7444,7 @@ Model {
 	    Block {
 	      BlockType		      Goto
 	      Name		      "Goto12"
-	      Position		      [940, 46, 990, 64]
+	      Position		      [1045, 576, 1095, 594]
 	      BackgroundColor	      "magenta"
 	      ShowName		      off
 	      GotoTag		      "DFloat1"
@@ -7633,7 +7633,7 @@ Model {
 		Block {
 		  BlockType		  Outport
 		  Name			  "I contrib"
-		  Position		  [500, 398, 530, 412]
+		  Position		  [550, 398, 580, 412]
 		  BackgroundColor	  "yellow"
 		  Port			  "2"
 		  IconDisplay		  "Port number"
@@ -7648,8 +7648,16 @@ Model {
 		Line {
 		  SrcBlock		  "Divide1"
 		  SrcPort		  1
-		  DstBlock		  "Add"
-		  DstPort		  2
+		  Points		  [10, 0]
+		  Branch {
+		    DstBlock		    "Add"
+		    DstPort		    2
+		  }
+		  Branch {
+		    Points		    [0, 110]
+		    DstBlock		    "I contrib"
+		    DstPort		    1
+		  }
 		}
 		Line {
 		  SrcBlock		  "Demux"
@@ -7693,16 +7701,8 @@ Model {
 		Line {
 		  SrcBlock		  "Discrete-Time\nIntegrator"
 		  SrcPort		  1
-		  Points		  [85, 0]
-		  Branch {
-		    DstBlock		    "Divide1"
-		    DstPort		    2
-		  }
-		  Branch {
-		    Points		    [0, 105]
-		    DstBlock		    "I contrib"
-		    DstPort		    1
-		  }
+		  DstBlock		  "Divide1"
+		  DstPort		  2
 		}
 		Line {
 		  SrcBlock		  "Int Reset"
@@ -8503,16 +8503,8 @@ Model {
 	    Line {
 	      SrcBlock		      "Add1"
 	      SrcPort		      1
-	      Points		      [10, 0]
-	      Branch {
-		DstBlock		"Throttle \nLimit"
-		DstPort			1
-	      }
-	      Branch {
-		Points			[0, -65]
-		DstBlock		"Data Type Conversion"
-		DstPort			1
-	      }
+	      DstBlock		      "Throttle \nLimit"
+	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "dT_trim"
@@ -8579,12 +8571,6 @@ Model {
 	      SrcBlock		      "myMux Fun2"
 	      SrcPort		      1
 	      DstBlock		      "C Function Call1"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Data Type Conversion"
-	      SrcPort		      1
-	      DstBlock		      "Goto12"
 	      DstPort		      1
 	    }
 	    Line {
@@ -8711,9 +8697,16 @@ Model {
 	    Line {
 	      SrcBlock		      "Product1"
 	      SrcPort		      1
-	      Points		      [0, -170; -35, 0]
-	      DstBlock		      "Add4"
-	      DstPort		      3
+	      Points		      [0, -70]
+	      Branch {
+		Points			[0, -100; -35, 0]
+		DstBlock		"Add4"
+		DstPort			3
+	      }
+	      Branch {
+		DstBlock		"Gain"
+		DstPort			1
+	      }
 	    }
 	    Line {
 	      SrcBlock		      "Height Error to \nPitch Command\n[PI Co"
@@ -8721,6 +8714,12 @@ Model {
 	      SrcPort		      2
 	      Points		      [10, 0; 0, 85]
 	      DstBlock		      "Goto3"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Gain"
+	      SrcPort		      1
+	      DstBlock		      "Goto12"
 	      DstPort		      1
 	    }
 	    Annotation {
@@ -8856,8 +8855,6 @@ Model {
 	      Name		      "Compute WP Index"
 	      Ports		      [10, 6]
 	      Position		      [100, 65, 240, 320]
-	      AncestorBlock	      "SLUGS_Library/Navigation/Compute WP Ind"
-"ex"
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
@@ -11113,7 +11110,7 @@ Model {
 		    Block {
 		    BlockType		    Inport
 		    Name		    "Wp_to "
-		    Position		    [730, 308, 760, 322]
+		    Position		    [715, 308, 745, 322]
 		    BackgroundColor	    "darkGreen"
 		    Port		    "3"
 		    IconDisplay		    "Port number"
@@ -11884,7 +11881,7 @@ Model {
 		    Block {
 		    BlockType		    ToWorkspace
 		    Name		    "To Workspace"
-		    Position		    [1015, 230, 1075, 260]
+		    Position		    [1015, 210, 1075, 240]
 		    VariableName	    "O"
 		    MaxDataPoints	    "inf"
 		    SampleTime		    "-1"
@@ -11893,7 +11890,7 @@ Model {
 		    Block {
 		    BlockType		    ToWorkspace
 		    Name		    "To Workspace1"
-		    Position		    [1015, 290, 1075, 320]
+		    Position		    [1015, 265, 1075, 295]
 		    VariableName	    "P"
 		    MaxDataPoints	    "inf"
 		    SampleTime		    "-1"
@@ -12110,7 +12107,8 @@ Model {
 		    SrcPort		    2
 		    Points		    [35, 0]
 		    Branch {
-		    Points		    [0, -5]
+		    Labels		    [2, 0]
+		    Points		    [0, -30]
 		    DstBlock		    "To Workspace1"
 		    DstPort		    1
 		    }
@@ -12122,7 +12120,7 @@ Model {
 		    Line {
 		    SrcBlock		    "Compute \nCircles"
 		    SrcPort		    1
-		    Points		    [35, 0; 0, -15]
+		    Points		    [35, 0; 0, -35]
 		    DstBlock		    "To Workspace"
 		    DstPort		    1
 		    }
@@ -12369,6 +12367,7 @@ Model {
 		    BackgroundColor	    "yellow"
 		    IconDisplay		    "Port number"
 		    BusOutputAsStruct	    off
+		    InitialOutput	    "50"
 		    }
 		    Line {
 		    SrcBlock		    "IC"
@@ -39490,8 +39489,6 @@ Stateflow {
 		firstJunction                             		123
 		viewObj                                   		121
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		125

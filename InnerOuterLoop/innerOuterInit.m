@@ -79,7 +79,7 @@ bde = P(2);
 % 1  ->  4850
 
 rad = [0 1];
-pwm = [2500 4850];
+pwm = [3176 4450];
 P =  polyfit(rad, pwm, 1);
 mdt = P(1);
 bdt = P(2);
