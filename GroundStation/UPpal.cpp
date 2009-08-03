@@ -314,6 +314,8 @@ void __fastcall TFPpal::FormClose(TObject *Sender, TCloseAction &Action)
  if (bt_serial->Tag != 0){
     bt_serialClick(Sender);
  }
+
+ mm_diagnose->Lines->Clear();
 }
 //---------------------------------------------------------------------------
 
@@ -566,6 +568,8 @@ void TFPpal::updateAkn(void){
    if (aknSample.pidCal >= 1 ){
       if (aknSample.pidCal <=10){
          BoxCont[aknSample.pidCal-1]->Color = clGreen;
+         // This is a hack. This needs to be fixed
+         if (aknSample.pidCal == 9) gb_dtff->Color = clGreen;
       } else {
          switch (aknSample.pidCal){
              case PIDEEP_WRITE_FAIL: // WRITE FAILED
@@ -857,7 +861,7 @@ void TFPpal::updateStatus(void){
       pn_status->Color = clActiveBorder;
    }
 
-   if (apsSample.controlType == CTRL_TYPE_MANUAL) {
+   /*if (apsSample.controlType == CTRL_TYPE_MANUAL) {
       bt_mode->Enabled = false;
       rb_manual->Checked = true;
    } else {
@@ -865,7 +869,7 @@ void TFPpal::updateStatus(void){
       rb_auto->Checked = true;
    }
    rb_manualClick(NULL);
-
+   */
       
    bt_mode->Enabled =  !(apsSample.controlType == CTRL_TYPE_MANUAL);
 
@@ -2759,6 +2763,14 @@ void __fastcall TFPpal::cb_lat_2Exit(TObject *Sender)
 mt_a->SignalColorCh1 = cb_lat_2->ColorValue;
 mt_b->SignalColorCh1 = cb_lat_2->ColorValue;
 
+}
+//---------------------------------------------------------------------------
+
+
+
+void __fastcall TFPpal::ed_p9Change(TObject *Sender)
+{
+  gb_dtff->Color = clRed;    
 }
 //---------------------------------------------------------------------------
 
