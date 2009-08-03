@@ -57,11 +57,11 @@ mPWMde = P(1);
 bPWMde = P(2);
 
 % Throttle
-% 0  ->  2500
-% 1  ->  4850
+% 0  ->  6352/2
+% 1  ->  8900/2
 
 rad = [0 1];
-pwm = [2500 4850];
+pwm = [3176 4450];
 P =  polyfit(pwm,rad,1);
 mPWMdt = P(1);
 bPWMdt = P(2);
