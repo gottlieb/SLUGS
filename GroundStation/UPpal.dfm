@@ -42,10 +42,10 @@ object FPpal: TFPpal
     Top = 25
     Width = 375
     Height = 668
-    ActivePage = ts_commands
+    ActivePage = ts_navigation
     Align = alClient
     MultiLine = True
-    TabIndex = 6
+    TabIndex = 2
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth'
@@ -2083,13 +2083,13 @@ object FPpal: TFPpal
         object Label104: TLabel
           Left = 3
           Top = 51
-          Width = 68
+          Width = 85
           Height = 13
           Hint = 
             'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
             'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
             ' which such path is refreshed'
-          Caption = 'Gamma (L1)'
+          Caption = 'Lat Accel Gain'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -2692,7 +2692,7 @@ object FPpal: TFPpal
         Top = 224
         Width = 257
         Height = 91
-        Caption = 'L1 Control Surface '
+        Caption = 'L1 (2)'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -2703,13 +2703,13 @@ object FPpal: TFPpal
         object Label113: TLabel
           Left = 8
           Top = 37
-          Width = 53
+          Width = 72
           Height = 13
           Hint = 
             'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
             'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
             ' which such path is refreshed'
-          Caption = 'Available'
+          Caption = 'SS Comp On'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -2722,13 +2722,13 @@ object FPpal: TFPpal
         object Label114: TLabel
           Left = 8
           Top = 21
-          Width = 83
+          Width = 68
           Height = 13
           Hint = 
             'The Main KML file is the one opnened '#13#10'in Google Earth. This con' +
             'tains a link to'#13#10'the Plane Path KML File and the update'#13#10'rate at' +
             ' which such path is refreshed'
-          Caption = 'L1 Surface On'
+          Caption = 'Gamma (L1)'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
