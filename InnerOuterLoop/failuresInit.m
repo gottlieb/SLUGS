@@ -19,4 +19,4 @@ dr_failbias = 0;
 %% Initialize the L1
 L1OF = 1;
 L1CS =1;
-compensatorOn = 1;
+compensatorOn = 0;
