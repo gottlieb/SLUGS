@@ -214,6 +214,11 @@ void loadEEPData(void){
 	wpsControlData.typ[i]		  = (unsigned char)DataEERead(WPS_OFFSET+i*8+6);
 	wpsControlData.val[i].shData   = DataEERead(WPS_OFFSET+i*8+7);         	
 
+	// Compute the waypoint count
+	i = 0;
+	while ((int)(wpsControlData.lat[i].flData) != 0 && i < 9 ) i++;{
+		wpsControlData.wpCount = i;
+	}
 }
 
 void gsRead(unsigned char* gsChunk){

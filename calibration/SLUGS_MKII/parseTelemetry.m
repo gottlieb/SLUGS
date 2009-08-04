@@ -435,6 +435,11 @@ if plotData == 1
             xlabel ('Longitude (deg)');
             ylabel ('Latitude (deg)');
             
+            hold on
+            plot([-122.0534434, -122.053768, -122.0491093, -122.0494338],[36.9900606, 36.9886727, 36.9887338, 36.9900911], 'r+')
+            plot([-122.0534434, -122.053768, -122.0491093, -122.0494338, -122.0534434],[36.9900606, 36.9886727, 36.9887338, 36.9900911, 36.9900606], 'r', 'LineWidth', 2)
+            hold off
+            
         eval(['print -depsc  '  num2str(figct)]);
         figct = figct + 1;
 
@@ -594,6 +599,24 @@ if plotData == 1
         eval(['print -depsc  '  num2str(figct)]);
         figct = figct + 1;
 
+        figure(figct)
+        subplot(3,1,1)
+            plot(time(autoIdx), cog(autoIdx));
+            title('Course Over Ground');
+            grid on
+        subplot(3,1,2)
+            plot(time(autoIdx), sqrt(vx(autoIdx).^2+ vy(autoIdx).^2));
+            title('Groundspeed');
+            grid on
+        subplot(3,1,3)
+            plot(time(autoIdx), phi(autoIdx)*180/pi);
+            title('Roll');                
+            xlabel('Time (ms)');
+            grid on
+        eval(['print -depsc  '  num2str(figct)]);
+        figct = figct + 1;
+
+        
     end
 end % if plots are required
 
