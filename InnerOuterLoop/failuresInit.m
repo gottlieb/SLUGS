@@ -8,7 +8,7 @@ dr_fail  = 0;
 % Simulation time for the failure (secs)
 tfailure = 30;
 
-da_failamp = 15;
+da_failamp = 5;
 da_failper = 1500;
 da_failbias = 0; 
 
