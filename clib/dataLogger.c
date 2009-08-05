@@ -419,7 +419,45 @@ void logData (unsigned char hilOn, unsigned char* data4SPI){
 			// set the total data out for SPI
 			len2SPI = (PILMSG_LEN+7); 			
 		break;
+		
+		case 8: // Sensor Data in meaningful units
+			rawSentence[0] = senControlData.Ax.chdata[0];
+			rawSentence[1] = senControlData.Ax.chdata[1];
+			rawSentence[2] = senControlData.Ax.chdata[2];
+			rawSentence[3] = senControlData.Ax.chdata[3];
+			rawSentence[4] = senControlData.Ay.chdata[0];
+			rawSentence[5] = senControlData.Ay.chdata[1];
+			rawSentence[6] = senControlData.Ay.chdata[2];
+			rawSentence[7] = senControlData.Ay.chdata[3];
+			rawSentence[8] = senControlData.Az.chdata[0];
+			rawSentence[9] = senControlData.Az.chdata[1];
+			rawSentence[10]= senControlData.Az.chdata[2];
+			rawSentence[11]= senControlData.Az.chdata[3];
+			rawSentence[12]= senControlData.Mx.chdata[0];
+			rawSentence[13]= senControlData.Mx.chdata[1];
+			rawSentence[14]= senControlData.Mx.chdata[2];
+			rawSentence[15]= senControlData.Mx.chdata[3];
+			rawSentence[16]= senControlData.My.chdata[0];
+			rawSentence[17]= senControlData.My.chdata[1];
+			rawSentence[18]= senControlData.My.chdata[2];
+			rawSentence[19]= senControlData.My.chdata[3];
+			rawSentence[20]= senControlData.Mz.chdata[0];
+			rawSentence[21]= senControlData.Mz.chdata[1];
+			rawSentence[22]= senControlData.Mz.chdata[2];
+			rawSentence[23]= senControlData.Mz.chdata[3];
+			
+		    // assemble the Pilot Console data for protocol sending	
+			assembleMsg(&rawSentence[0], SENMSG_LEN, SENMSG_ID, tmpBuf);
+			
+			// add it to the circular buffer and SPI queue
+			for( i = 0; i < SENMSG_LEN+7; i += 1 ){
+				writeBack(logBuffer,tmpBuf[i]);
+				data4SPI[i+1] = tmpBuf[i];
+			}
 
+			// set the total data out for SPI
+			len2SPI = (SENMSG_LEN+7); 			
+		break;
 		default:
 			data4SPI[0] = 0;
 		break;
@@ -554,7 +592,7 @@ void logData (unsigned char hilOn, unsigned char* data4SPI){
 		
 	// increment/overflow the samplePeriod counter
 	// configured for 10 Hz in non vital messages
-	samplePeriod = (samplePeriod >= 7)? 1: samplePeriod + 1;
+	samplePeriod = (samplePeriod >= 8)? 1: samplePeriod + 1;
 	
 	// get the Length of the logBuffer
 	bufLen = getLength(logBuffer);
@@ -699,4 +737,13 @@ void updateBias (float * biasData) {
 	biasControlData.axb.flData		= biasData[3];
 	biasControlData.ayb.flData		= biasData[4];
 	biasControlData.azb.flData		= biasData[5];
+}
+
+void updateSensorData (float* sens){
+	senControlData.Ax.flData			= sens[0];
+	senControlData.Ay.flData			= sens[1];
+	senControlData.Az.flData			= sens[2];
+	senControlData.Mx.flData			= sens[3];
+	senControlData.My.flData			= sens[4];
+	senControlData.Mz.flData			= sens[5];
 }

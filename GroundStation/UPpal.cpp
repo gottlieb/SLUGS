@@ -515,6 +515,7 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    apsSample = getAPSStruct();
    comSample = getComStruct();
    navSample = getNavStruct();
+   senSample = getSensorStruct();
 
    updateAkn();
 
@@ -728,6 +729,16 @@ void TFPpal::updateAttitudeLabels(void){
    et_psi->Caption = FormatFloat("0.0000",RAD2DEG*attitudeSample.yaw.flData);
 
    et_timeStamp->Caption =  IntToStr(attitudeSample.timeStamp.usData);
+
+   // Processed data
+   et_axm->Caption = FormatFloat("0.00",senSample.Ax.flData);
+   et_aym->Caption = FormatFloat("0.00",senSample.Ay.flData);
+   et_azm->Caption = FormatFloat("0.00",senSample.Az.flData);
+
+   et_mxm->Caption = FormatFloat("0.00",senSample.Mx.flData);
+   et_mym->Caption = FormatFloat("0.00",senSample.My.flData);
+   et_mzm->Caption = FormatFloat("0.00",senSample.Mz.flData);
+
 }
 
 void TFPpal::updatePlots(void){
@@ -1631,9 +1642,14 @@ void TFPpal::printFileHeader(FILE* fileLog){
            fprintf(fileLog,"% (102)Distance to go\n");
            fprintf(fileLog,"% (103)From WP \n" );
            fprintf(fileLog,"% (104)To WP\n");
+           fprintf(fileLog,"% (105)X Acceleration (m/s^2)\n" );
+           fprintf(fileLog,"% (106)Y Acceleration (m/s^2)\n" );
+           fprintf(fileLog,"% (107)Z Acceleration (m/s^2) \n" );
+           fprintf(fileLog,"% (108)X Magnetometer (normalized to 1)\n");
+           fprintf(fileLog,"% (109)Y Magnetometer (normalized to 1)\n" );
+           fprintf(fileLog,"% (110)Z Magnetometer (normalized to 1)\n");
            fprintf(fileLog,"% ======================================\n");
 
-          
 }
 
 /*

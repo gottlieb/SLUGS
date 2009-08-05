@@ -39,6 +39,7 @@ void updatePilotConsole (unsigned short * pilData);
 void updateDiagnosticFl (float* diagFl);
 void updateDiagnosticSh (short* diagSh);
 void updateBias (float * biasData); 
+void updateSensorData (float* sens);
 
 #endif /* _DATALOGGER_H_ */
 

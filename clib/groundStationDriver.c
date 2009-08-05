@@ -727,7 +727,8 @@ void prepareTelemetry( unsigned char* dataOut){
 			
 		break;
 		
-		case 7: // Pending aknowledge requests
+		case 7: // Pending aknowledge requests OR Sensor Data. If there is a pending reques
+						// Sensor data will NOT be sent in this sample
 			if (queControlData.pendingRequest){
 				
 				assembleRawSentence (queControlData.idReq, queControlData.indxReq, &rawSentence[0]);
@@ -745,6 +746,42 @@ void prepareTelemetry( unsigned char* dataOut){
 				
 				// clear the pending request
 				queControlData.pendingRequest = 0;
+			} else {
+				rawSentence[0] = senControlData.Ax.chData[0] ;
+				rawSentence[1] = senControlData.Ax.chData[1] ;
+				rawSentence[2] = senControlData.Ax.chData[2] ;
+				rawSentence[3] = senControlData.Ax.chData[3] ;
+				rawSentence[4] = senControlData.Ay.chData[0] ;	
+				rawSentence[5] = senControlData.Ay.chData[1] ;	
+				rawSentence[6] = senControlData.Ay.chData[2] ;	
+				rawSentence[7] = senControlData.Ay.chData[3] ;	
+				rawSentence[8] = senControlData.Az.chData[0] ;
+				rawSentence[9] = senControlData.Az.chData[1] ;
+				rawSentence[10]= senControlData.Az.chData[2];
+				rawSentence[11]= senControlData.Az.chData[3];
+				rawSentence[12]= senControlData.Mx.chData[0];	
+				rawSentence[13]= senControlData.Mx.chData[1];	
+				rawSentence[14]= senControlData.Mx.chData[2];	
+				rawSentence[15]= senControlData.Mx.chData[3];	
+				rawSentence[16]= senControlData.My.chData[0];	
+				rawSentence[17]= senControlData.My.chData[1];	
+				rawSentence[18]= senControlData.My.chData[2];	
+				rawSentence[19]= senControlData.My.chData[3];	
+				rawSentence[20]= senControlData.Mz.chData[0];	
+				rawSentence[21]= senControlData.Mz.chData[1];	
+				rawSentence[22]= senControlData.Mz.chData[2];	
+				rawSentence[23]= senControlData.Mz.chData[3];	
+						
+				// assemble the data for protocol sending
+				assembleMsg(&rawSentence[0], SENMSG_LEN, SENMSG_ID, telemetryBuf);
+
+				// add it to the out Array
+				for( i = 0; i < SENMSG_LEN+7; i += 1 ){
+					dataOut[i+1] = telemetryBuf[i];
+				}					
+
+				// set the total data out for log
+				len2Telemetry = SENMSG_LEN+7; 
 			}
 		break;
 		case 8: // AP Status
@@ -848,7 +885,7 @@ void prepareTelemetry( unsigned char* dataOut){
 			
 		break;
 		
-		case 10:
+		case 10: // Nav Sentence 
 			rawSentence[0] = navControlData.uMeasured.chData[0];
 			rawSentence[1] = navControlData.uMeasured.chData[1];
 			rawSentence[2] = navControlData.uMeasured.chData[2];

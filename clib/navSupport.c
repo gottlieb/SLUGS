@@ -115,6 +115,18 @@ void setNavNav (float* values) {
 	navControlData.toWp = (unsigned char) values[3];
 }
 
+void getAccels (float * accels){
+	accels[0] = senControlData.Ax.flData;
+	accels[1] = senControlData.Ay.flData;
+	accels[2] = senControlData.Az.flData;
+}
+
+void getAccBias (float * bias){
+	bias[0] = biasControlData.axb.flData;
+	bias[1] = biasControlData.ayb.flData;
+	bias[2] = biasControlData.azb.flData;
+}
+
 // void bufferICValues(unsigned short latest, unsigned short* history){
 // 	static unsigned short * oldValues[] = {0, 0, 0, 0, 0, 0, 0};
 // 	unsigned char i;

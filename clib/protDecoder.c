@@ -34,6 +34,7 @@ tWPData			wpsControlData;
 tAPStatusData	apsControlData;
 tCommandsData	comControlData;
 tNavData	navControlData;
+tSensData senControlData;
 
 
 
@@ -65,6 +66,7 @@ void protParserInit(void){
 	memset(&apsControlData, 0, sizeof(tAPStatusData));
 	memset(&comControlData, 0, sizeof(tCommandsData));
 	memset(&navControlData, 0, sizeof(tNavData));
+	memset(&senControlData, 0, sizeof(tSensData));
 	filterControlData = 0;
 	
 	// Control MCU boot procedures
@@ -343,6 +345,7 @@ static tPWMData			cppwmControlData;
 static tAPStatusData	cpapsControlData;  
 static tCommandsData	cpcomControlData;  
 static tNavData	cpnavControlData;
+static tSensData cpsenControlData;
 
     if (prevException){
         // Initialize all global data structures
@@ -506,6 +509,14 @@ static tNavData	cpnavControlData;
 	         cpnavControlData.fromWp,
 	         cpnavControlData.toWp);
 
+	// Print Sens Data
+    fprintf(outFile, "%f,%f,%f,%f,%f,%f,",
+	         cpsenControlData.Ax.flData,
+	         cpsenControlData.Ay.flData,
+	         cpsenControlData.Az.flData,
+	         cpsenControlData.Mx.flData,
+	         cpsenControlData.My.flData,
+	         cpsenControlData.Mz.flData);
 	// Add new line
 	fprintf(outFile, "\n");
 
@@ -526,7 +537,7 @@ static tNavData	cpnavControlData;
 	cpapsControlData		= apsControlData;
 	cpcomControlData		= comControlData;
     cpnavControlData        = navControlData;
-	
+	cpsenControlData        = senControlData;
 }
 
 // ===============================================
@@ -598,6 +609,10 @@ tAPStatusData getAPSStruct(void){
 
 tNavData getNavStruct(void){
 	return navControlData;
+}
+
+tSensData getSensorStruct(void){
+	return senControlData;
 }
 
 void setAknFilter (unsigned char value){

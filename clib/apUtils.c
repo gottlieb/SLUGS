@@ -169,7 +169,7 @@ void updateStates(unsigned char * completeSentence){
 			// diagnostic messages providing an additional 6 floating point values
 			// for diagnostics
 		
-			#if defined(_IN_PC_) || defined(USE_SENSOR_MCU_DIAG)
+			//#if defined(_IN_PC_) || defined(USE_SENSOR_MCU_DIAG)
 				biasControlData.axb.chData[0]	= completeSentence[4];
 				biasControlData.axb.chData[1]	= completeSentence[5];
 				biasControlData.axb.chData[2]	= completeSentence[6];
@@ -194,7 +194,7 @@ void updateStates(unsigned char * completeSentence){
 				biasControlData.gzb.chData[1]	= completeSentence[25];
 				biasControlData.gzb.chData[2]	= completeSentence[26];
 				biasControlData.gzb.chData[3]	= completeSentence[27];			
-			#endif
+			//#endif
 		break;		
 		case DIAMSG_ID:
 			//change comment on USE_SENSOR_MCU_DIAG (in apUtils.h) if you want to use diagnostic data
@@ -389,6 +389,32 @@ void updateStates(unsigned char * completeSentence){
 			navControlData.toWp			  = completeSentence[33];
 		break;
 		
+		case SENMSG_ID:
+			senControlData.Ax.chData[0]	= completeSentence[4];
+			senControlData.Ax.chData[1]	= completeSentence[5];
+			senControlData.Ax.chData[2]	= completeSentence[6];
+			senControlData.Ax.chData[3]	= completeSentence[7];
+			senControlData.Ay.chData[0]	= completeSentence[8];
+			senControlData.Ay.chData[1]	= completeSentence[9];
+			senControlData.Ay.chData[2]	= completeSentence[10];
+			senControlData.Ay.chData[3]	= completeSentence[11];
+			senControlData.Az.chData[0]	= completeSentence[12];
+			senControlData.Az.chData[1]	= completeSentence[13];
+			senControlData.Az.chData[2]	= completeSentence[14];
+			senControlData.Az.chData[3]	= completeSentence[15];
+			senControlData.Mx.chData[0]	= completeSentence[16];
+			senControlData.Mx.chData[1]	= completeSentence[17];
+			senControlData.Mx.chData[2]	= completeSentence[18];
+			senControlData.Mx.chData[3]	= completeSentence[19];
+			senControlData.My.chData[0]	= completeSentence[20];
+			senControlData.My.chData[1]	= completeSentence[21];
+			senControlData.My.chData[2]	= completeSentence[22];
+			senControlData.My.chData[3]	= completeSentence[23];
+			senControlData.Mz.chData[0]	= completeSentence[24];
+			senControlData.Mz.chData[1]	= completeSentence[25];
+			senControlData.Mz.chData[2]	= completeSentence[26];
+			senControlData.Mz.chData[3]	= completeSentence[27];			
+		break;		
 		default:
 		break;   
 	}

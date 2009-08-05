@@ -1,0 +1,24 @@
+Adding a New Sentence to the Protocol
+=====================================
+
+* Create the new data structure that will hold the data in `apDefinitions.h`. Make sure you follow the naming convention for the data structures. Always use the predifined unions for types different than `char` and `unsigned char`.
+* Declare a message identifier and size in `apDefinitions.h`.
+* Create a global variable based on that structure in `protDecoder.c` and make it publicly available by "externig" it in `protDecoder.h` . 
+* Initialize the variable to zero using `memset` in the `protParseInit` function inside `protDecoder.c`
+* If the new sentence will be in the Sensor MCU, schedule the sending of the data to the control MCU by adding a case in the function `logData` in `dataLogger.c`, replacing the message length and ID as required.
+* Create a C function that will be called inside the Simulink model to update the variables and list its prototype in the corresponding `h` file.
+* Add the C function call block to the Simulink model and make sure it gets called.
+* Create the required case for decoding the newly created message in the `updateStates` function in `apUtils.c`. make sure you use the newly created message ID for the case instead of specifyin a number.
+* If the variable will be used in the Control MCU for something then create a function that will read from the data structure and report the data to Simulink. 
+* Schedule the data so it is sent to the GS in the `prepareTelemetry` function in `groundStationDriver.c`. Remember that the available bandwidth is 103 bytes per cycle. Make sure not to exceed that.
+* Create inside `protDecoder.c` a `get` function to return the struct. Make sure this is done inside a `#ifdef` that conditionally compiles that code if in the PC. This will be used in the GS. Add the prototype to the `h` file.
+
+Ground Station
+--------------
+
+
+* Declare a global varialbe in the `Uppal.h` of the same data type than the structure declared.
+* Access the Timer2 `onTimer` event and update the variable using the `get` function.
+* Modify the GS to display the message, the protocol will handle everything else.
+* Modify `protDecoder.c` the function `printState` to print the data when the telemetry is parsed to a CSV file.
+* Modify the `TFPpal::printFileHeader(FILE* fileLog)` function in `Uppal.cpp` to print the new data as part of the header in each CSV file.

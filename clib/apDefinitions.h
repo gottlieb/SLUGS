@@ -100,7 +100,8 @@ and data types.
 #define PILMSG_ID		9
 #define PILMSG_LEN		10
 
-
+#define SENMSG_ID		25
+#define SENMSG_LEN		24
 
 // CONTROL MCU
 // ===========
@@ -472,6 +473,15 @@ typedef struct tNavData {
 	unsigned char	fromWp;
 	unsigned char toWp;	
 }tNavData;
+
+typedef struct tSensData{
+	tFloatToChar	Ax;
+	tFloatToChar	Ay;
+	tFloatToChar	Az;
+	tFloatToChar	Mx;
+	tFloatToChar	My;
+	tFloatToChar	Mz;
+}tSensData;
 
 #ifdef __cplusplus
       }
