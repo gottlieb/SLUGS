@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.884"
+    ComputedModelVersion    "1.887"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Aug 04 17:21:16 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:884>"
+  LastModifiedDate	  "Wed Aug 05 08:04:27 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:887>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -980,7 +980,7 @@ Model {
   }
   System {
     Name		    "sensorMCUSlugsMKII_ren"
-    Location		    [2, 82, 1150, 654]
+    Location		    [6, 82, 1154, 654]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    212
@@ -1626,7 +1626,7 @@ Model {
       TempProtection_33f      "TEMP_ON"
       FPBOR		      "<empty>"
       PWRT		      "64ms"
-      MCLR		      "MCLR_DIS"
+      MCLR		      "<empty>"
       PowerSave		      off
       OverrideFcy	      off
       NewFcy		      "1e6"
@@ -29757,6 +29757,40 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
+	  Name			  "Update Accels and Mags\n[dataLogger.c]"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [2, 1]
+	  Position		  [150, 519, 290, 566]
+	  BackgroundColor	  "orange"
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void updateSensorData(real32_T* u1"
+");"
+	    FctCall		    "updateSensorData(*%u1);"
+	    fctName		    "updateSensorData"
+	    INPUT_SIZE		    "6"
+	    OUTPUT_SIZE		    "1"
+	    NBR_INPUT		    "1"
+	    NBR_OUTPUT		    "0"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'updateSensorData'"
+	  INPUT_SIZE		  "6"
+	  INPUT1		  "real32"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "1"
+	  OUTPUT1		  "--"
+	  SampleTime		  ".01"
+	  InputType		  "[ 7 ]"
+	  OutputType		  "[ ]"
+	  FctDeclaration	  "extern void updateSensorData(real32_T* u1);"
+	  FctCall		  "updateSensorData(*%u1);"
+	  OrderingInOutPopup	  "Input & Output"
+	}
+	Block {
+	  BlockType		  Reference
 	  Name			  "Update Biases\n[dataLogger.c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [2, 1]
@@ -29961,40 +29995,6 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "Update XYZ and Vned\n[dataLogger.c]1"
-	  Tag			  "dsPIC_dsPIC_CFunctionCall"
-	  Ports			  [2, 1]
-	  Position		  [150, 519, 290, 566]
-	  BackgroundColor	  "orange"
-	  List {
-	    ListType		    RTWdata
-	    FctDeclaration	    "extern void updateSensorData(real32_T* u1"
-");"
-	    FctCall		    "updateSensorData(*%u1);"
-	    fctName		    "updateSensorData"
-	    INPUT_SIZE		    "6"
-	    OUTPUT_SIZE		    "1"
-	    NBR_INPUT		    "1"
-	    NBR_OUTPUT		    "0"
-	  }
-	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
-	  SourceType		  "C Function Call"
-	  fctName		  "'updateSensorData'"
-	  INPUT_SIZE		  "6"
-	  INPUT1		  "real32"
-	  INPUT2		  "--"
-	  INPUT3		  "--"
-	  OUTPUT_SIZE		  "1"
-	  OUTPUT1		  "--"
-	  SampleTime		  ".01"
-	  InputType		  "[ 7 ]"
-	  OutputType		  "[ ]"
-	  FctDeclaration	  "extern void updateSensorData(real32_T* u1);"
-	  FctCall		  "updateSensorData(*%u1);"
-	  OrderingInOutPopup	  "Input & Output"
-	}
-	Block {
-	  BlockType		  Reference
 	  Name			  "Update the Time Stamp\n[dataLogger.c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [2, 1]
@@ -30128,11 +30128,11 @@ Model {
 	  SrcBlock		  "Update the Time Stamp\n[dataLogger.c]"
 	  SrcPort		  1
 	  Points		  [0, -40; -160, 0]
-	  DstBlock		  "Update XYZ and Vned\n[dataLogger.c]1"
+	  DstBlock		  "Update Accels and Mags\n[dataLogger.c]"
 	  DstPort		  2
 	}
 	Line {
-	  SrcBlock		  "Update XYZ and Vned\n[dataLogger.c]1"
+	  SrcBlock		  "Update Accels and Mags\n[dataLogger.c]"
 	  SrcPort		  1
 	  Points		  [0, -35; -160, 0]
 	  DstBlock		  "Update XYZ and Vned\n[dataLogger.c]"
@@ -30141,7 +30141,7 @@ Model {
 	Line {
 	  SrcBlock		  "SensorData"
 	  SrcPort		  1
-	  DstBlock		  "Update XYZ and Vned\n[dataLogger.c]1"
+	  DstBlock		  "Update Accels and Mags\n[dataLogger.c]"
 	  DstPort		  1
 	}
       }
@@ -32172,8 +32172,6 @@ Stateflow {
 		firstJunction                             		65
 		viewObj                                   		63
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		67

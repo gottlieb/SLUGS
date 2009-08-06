@@ -421,30 +421,30 @@ void logData (unsigned char hilOn, unsigned char* data4SPI){
 		break;
 		
 		case 8: // Sensor Data in meaningful units
-			rawSentence[0] = senControlData.Ax.chdata[0];
-			rawSentence[1] = senControlData.Ax.chdata[1];
-			rawSentence[2] = senControlData.Ax.chdata[2];
-			rawSentence[3] = senControlData.Ax.chdata[3];
-			rawSentence[4] = senControlData.Ay.chdata[0];
-			rawSentence[5] = senControlData.Ay.chdata[1];
-			rawSentence[6] = senControlData.Ay.chdata[2];
-			rawSentence[7] = senControlData.Ay.chdata[3];
-			rawSentence[8] = senControlData.Az.chdata[0];
-			rawSentence[9] = senControlData.Az.chdata[1];
-			rawSentence[10]= senControlData.Az.chdata[2];
-			rawSentence[11]= senControlData.Az.chdata[3];
-			rawSentence[12]= senControlData.Mx.chdata[0];
-			rawSentence[13]= senControlData.Mx.chdata[1];
-			rawSentence[14]= senControlData.Mx.chdata[2];
-			rawSentence[15]= senControlData.Mx.chdata[3];
-			rawSentence[16]= senControlData.My.chdata[0];
-			rawSentence[17]= senControlData.My.chdata[1];
-			rawSentence[18]= senControlData.My.chdata[2];
-			rawSentence[19]= senControlData.My.chdata[3];
-			rawSentence[20]= senControlData.Mz.chdata[0];
-			rawSentence[21]= senControlData.Mz.chdata[1];
-			rawSentence[22]= senControlData.Mz.chdata[2];
-			rawSentence[23]= senControlData.Mz.chdata[3];
+			rawSentence[0] = senControlData.Ax.chData[0];
+			rawSentence[1] = senControlData.Ax.chData[1];
+			rawSentence[2] = senControlData.Ax.chData[2];
+			rawSentence[3] = senControlData.Ax.chData[3];
+			rawSentence[4] = senControlData.Ay.chData[0];
+			rawSentence[5] = senControlData.Ay.chData[1];
+			rawSentence[6] = senControlData.Ay.chData[2];
+			rawSentence[7] = senControlData.Ay.chData[3];
+			rawSentence[8] = senControlData.Az.chData[0];
+			rawSentence[9] = senControlData.Az.chData[1];
+			rawSentence[10]= senControlData.Az.chData[2];
+			rawSentence[11]= senControlData.Az.chData[3];
+			rawSentence[12]= senControlData.Mx.chData[0];
+			rawSentence[13]= senControlData.Mx.chData[1];
+			rawSentence[14]= senControlData.Mx.chData[2];
+			rawSentence[15]= senControlData.Mx.chData[3];
+			rawSentence[16]= senControlData.My.chData[0];
+			rawSentence[17]= senControlData.My.chData[1];
+			rawSentence[18]= senControlData.My.chData[2];
+			rawSentence[19]= senControlData.My.chData[3];
+			rawSentence[20]= senControlData.Mz.chData[0];
+			rawSentence[21]= senControlData.Mz.chData[1];
+			rawSentence[22]= senControlData.Mz.chData[2];
+			rawSentence[23]= senControlData.Mz.chData[3];
 			
 		    // assemble the Pilot Console data for protocol sending	
 			assembleMsg(&rawSentence[0], SENMSG_LEN, SENMSG_ID, tmpBuf);
