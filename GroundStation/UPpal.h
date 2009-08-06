@@ -754,6 +754,7 @@ __published:	// IDE-managed Components
         TLabel *Label39;
         TStaticText *et_q;
         TStaticText *et_r;
+    TCheckBox *cb_rhp;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);

@@ -42,10 +42,10 @@ object FPpal: TFPpal
     Top = 25
     Width = 375
     Height = 668
-    ActivePage = ts_sensors
+    ActivePage = TabSheet2
     Align = alClient
     MultiLine = True
-    TabIndex = 7
+    TabIndex = 11
     TabOrder = 1
     object ts_ge: TTabSheet
       Caption = 'Google Earth'
@@ -11910,6 +11910,20 @@ object FPpal: TFPpal
           Value = 1
           OnChanged = RxSlider2Changed
         end
+      end
+      object cb_rhp: TCheckBox
+        Left = 24
+        Top = 360
+        Width = 153
+        Height = 17
+        Caption = 'Convert To Degrees'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 1
       end
     end
   end

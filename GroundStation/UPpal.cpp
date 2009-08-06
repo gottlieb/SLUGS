@@ -761,7 +761,8 @@ void TFPpal::updatePlots(void){
    mt_a->ValueCh2 = IsNan(navSample.phiCommanded.flData)? 0.0 : RAD2DEG*navSample.phiCommanded.flData;
 
    // R
-   mt_b->ValueCh1 = IsNan(navSample.rHighPass.flData)? 0.0 : RAD2DEG*navSample.rHighPass.flData;
+   temp =  cb_rhp->Checked? RAD2DEG : 1.0;
+   mt_b->ValueCh1 = IsNan(navSample.rHighPass.flData)? 0.0 : temp*navSample.rHighPass.flData;
    mt_b->ValueCh2 = 0.0;
 
 }
