@@ -34,8 +34,8 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Jul 24 08:11:59 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:95>"
+  LastModifiedDate	  "Wed Aug 05 17:53:27 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:103>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -453,7 +453,7 @@ Library {
   }
   System {
     Name		    "SLUGS_Library"
-    Location		    [409, 82, 1031, 955]
+    Location		    [320, 516, 942, 1243]
     Open		    on
     ModelBrowserVisibility  on
     ModelBrowserWidth	    212
@@ -824,8 +824,8 @@ Library {
       MaskHideContents	      off
       System {
 	Name			"Compute CCW\nAngle From 2\nVectors"
-	Location		[239, 362, 897, 767]
-	Open			on
+	Location		[239, 426, 897, 831]
+	Open			off
 	ModelBrowserVisibility	on
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1018,7 +1018,7 @@ Library {
 	  SourceType		  "SubSystem"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData off
+	  FunctionWithSeparateData "off"
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -1035,7 +1035,7 @@ Library {
 	  SourceType		  "SubSystem"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData off
+	  FunctionWithSeparateData "off"
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -1144,7 +1144,7 @@ Library {
       MaskHideContents	      off
       System {
 	Name			"Control Blocks"
-	Location		[488, 174, 1110, 740]
+	Location		[223, 205, 1095, 804]
 	Open			on
 	ModelBrowserVisibility	on
 	ModelBrowserWidth	212
@@ -1679,7 +1679,7 @@ Library {
 	  BlockType		  SubSystem
 	  Name			  "PI Controller"
 	  Ports			  [4, 1]
-	  Position		  [275, 331, 400, 449]
+	  Position		  [270, 331, 395, 449]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
@@ -1913,6 +1913,905 @@ Library {
 "n the block\n2.- The error derivative is provided and therefore no\ntime deri"
 "vative is implemented\n3.- It contains an Integrator Reset if needed"
 	      Position		      [118, 86]
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "PI Controller w/Anti-Windup"
+	  Ports			  [3, 1]
+	  Position		  [290, 476, 390, 564]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  MaskType		  "PID"
+	  MaskDescription	  "PID controller block with anti-windup and s"
+"aturation limits. Implemented as a discrete forwardl integration which stops "
+"integrating when the output is saturated. Derivative is implemented as a nume"
+"rical derivative with N integer delays to smooth output."
+	  MaskPromptString	  "Sample Time|Integer delays for de/dt|Satura"
+"tion Limit"
+	  MaskStyleString	  "edit,edit,edit"
+	  MaskTunableValueString  "on,on,on"
+	  MaskCallbackString	  "||"
+	  MaskEnableString	  "on,on,on"
+	  MaskVisibilityString	  "on,on,on"
+	  MaskToolTipString	  "on,on,on"
+	  MaskVarAliasString	  ",,"
+	  MaskVariables		  "Tsample=@1;Ndelay=@2;SaturationLimit=@3;"
+	  MaskDisplay		  "disp('PI')\nport_label('input',1,'error')\n"
+"port_label('input',3,'gains')\nport_label('input',2,'reset')\nport_label('out"
+"put',1,'output')\n"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "normalized"
+	  MaskValueString	  "Ts|Ndelay|deLimit"
+	  MaskTabNameString	  ",,"
+	  System {
+	    Name		    "PI Controller w/Anti-Windup"
+	    Location		    [202, 82, 1220, 1000]
+	    Open		    on
+	    ModelBrowserVisibility  on
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Error"
+	      Position		      [45, 28, 75, 42]
+	      BackgroundColor	      "darkGreen"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Reset"
+	      Position		      [360, 278, 390, 292]
+	      Orientation	      "left"
+	      BackgroundColor	      "darkGreen"
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "PIDGains"
+	      Position		      [85, 458, 115, 472]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Abs
+	      Name		      "Abs"
+	      Position		      [475, 450, 505, 480]
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Add2"
+	      Ports		      [2, 1]
+	      Position		      [650, 162, 680, 193]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "single"
+	      OutScaling	      "2^-10"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Switch
+	      Name		      "AntiWindup"
+	      Position		      [275, 210, 305, 240]
+	      Threshold		      "0.5"
+	      InputSameDT	      off
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant5"
+	      Position		      [244, 265, 266, 290]
+	      Orientation	      "up"
+	      ShowName		      off
+	      Value		      "0"
+	      OutDataTypeMode	      "double"
+	    }
+	    Block {
+	      BlockType		      Demux
+	      Name		      "Demux"
+	      Ports		      [1, 3]
+	      Position		      [165, 446, 170, 484]
+	      BackgroundColor	      "black"
+	      ShowName		      off
+	      Outputs		      "3"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      From
+	      Name		      "From"
+	      Position		      [510, 231, 550, 259]
+	      BackgroundColor	      "cyan"
+	      ShowName		      off
+	      CloseFcn		      "tagdialog Close"
+	      GotoTag		      "Ki"
+	    }
+	    Block {
+	      BlockType		      From
+	      Name		      "From1"
+	      Position		      [270, 41, 310, 69]
+	      BackgroundColor	      "cyan"
+	      ShowName		      off
+	      CloseFcn		      "tagdialog Close"
+	      GotoTag		      "Kp"
+	    }
+	    Block {
+	      BlockType		      From
+	      Name		      "From3"
+	      Position		      [340, 451, 380, 479]
+	      BackgroundColor	      "cyan"
+	      ShowName		      off
+	      CloseFcn		      "tagdialog Close"
+	      GotoTag		      "Out"
+	    }
+	    Block {
+	      BlockType		      From
+	      Name		      "From4"
+	      Position		      [160, 210, 245, 240]
+	      BackgroundColor	      "cyan"
+	      ShowName		      off
+	      CloseFcn		      "tagdialog Close"
+	      GotoTag		      "NotSaturated"
+	    }
+	    Block {
+	      BlockType		      From
+	      Name		      "From5"
+	      Position		      [295, 391, 335, 419]
+	      BackgroundColor	      "cyan"
+	      ShowName		      off
+	      CloseFcn		      "tagdialog Close"
+	      GotoTag		      "Ki"
+	    }
+	    Block {
+	      BlockType		      From
+	      Name		      "From6"
+	      Position		      [340, 491, 380, 519]
+	      BackgroundColor	      "cyan"
+	      ShowName		      off
+	      CloseFcn		      "tagdialog Close"
+	      GotoTag		      "Ppart"
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Gain"
+	      Position		      [275, 357, 325, 393]
+	      ShowName		      off
+	      Gain		      "Tsample"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Goto
+	      Name		      "Goto"
+	      Position		      [200, 415, 240, 445]
+	      BackgroundColor	      "magenta"
+	      ShowName		      off
+	      GotoTag		      "Kp"
+	      TagVisibility	      "local"
+	    }
+	    Block {
+	      BlockType		      Goto
+	      Name		      "Goto1"
+	      Position		      [200, 450, 240, 480]
+	      BackgroundColor	      "magenta"
+	      ShowName		      off
+	      GotoTag		      "Ki"
+	      TagVisibility	      "local"
+	    }
+	    Block {
+	      BlockType		      Goto
+	      Name		      "Goto3"
+	      Position		      [710, 40, 750, 70]
+	      BackgroundColor	      "magenta"
+	      ShowName		      off
+	      GotoTag		      "Ppart"
+	      TagVisibility	      "local"
+	    }
+	    Block {
+	      BlockType		      Goto
+	      Name		      "Goto4"
+	      Position		      [655, 426, 745, 454]
+	      BackgroundColor	      "magenta"
+	      ShowName		      off
+	      GotoTag		      "NotSaturated"
+	      TagVisibility	      "local"
+	    }
+	    Block {
+	      BlockType		      Goto
+	      Name		      "Goto5"
+	      Position		      [805, 230, 845, 260]
+	      BackgroundColor	      "magenta"
+	      ShowName		      off
+	      GotoTag		      "Out"
+	      TagVisibility	      "local"
+	    }
+	    Block {
+	      BlockType		      Memory
+	      Name		      "Memory1"
+	      Position		      [735, 230, 765, 260]
+	      ShowName		      off
+	      InheritSampleTime	      on
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product"
+	      Ports		      [2, 1]
+	      Position		      [570, 217, 600, 248]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "single"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product1"
+	      Ports		      [2, 1]
+	      Position		      [335, 27, 365, 58]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "single"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product4"
+	      Ports		      [2, 1]
+	      Position		      [355, 377, 385, 408]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "single"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      RelationalOperator
+	      Name		      "Relational\nOperator"
+	      Position		      [560, 457, 590, 488]
+	      Operator		      "<"
+	      InputSameDT	      off
+	      LogicOutDataTypeMode    "Boolean"
+	    }
+	    Block {
+	      BlockType		      Saturate
+	      Name		      "Saturation"
+	      Position		      [750, 165, 780, 195]
+	      UpperLimit	      "SaturationLimit"
+	      LowerLimit	      "-SaturationLimit"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "SaturationLimit"
+	      Position		      [460, 505, 490, 535]
+	      Value		      "SaturationLimit"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum2"
+	      Ports		      [3, 1]
+	      Position		      [425, 455, 445, 475]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "+++"
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Terminator
+	      Name		      "Terminator"
+	      Position		      [200, 490, 220, 510]
+	      ShowName		      off
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Trapezoidal Integrator1"
+	      Ports		      [2, 1]
+	      Position		      [340, 208, 450, 252]
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      MaskPromptString	      "Sample Time|Upper Integrator Limit|Lowe"
+"r Integrator Limit"
+	      MaskStyleString	      "edit,edit,edit"
+	      MaskTunableValueString  "on,on,on"
+	      MaskCallbackString      "||"
+	      MaskEnableString	      "on,on,on"
+	      MaskVisibilityString    "on,on,on"
+	      MaskToolTipString	      "on,on,on"
+	      MaskVarAliasString      ",,"
+	      MaskVariables	      "T=@1;upperLimit=@2;lowerLimit=@3;"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      MaskValueString	      "Tsample|SaturationLimit|-SaturationLimi"
+"t"
+	      MaskTabNameString	      ",,"
+	      System {
+		Name			"Trapezoidal Integrator1"
+		Location		[276, 365, 1164, 945]
+		Open			off
+		ModelBrowserVisibility	on
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "x"
+		  Position		  [30, 178, 60, 192]
+		  BackgroundColor	  "darkGreen"
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "Reset"
+		  Position		  [515, 233, 545, 247]
+		  BackgroundColor	  "darkGreen"
+		  NamePlacement		  "alternate"
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant"
+		  Position		  [130, 205, 160, 235]
+		  ShowName		  off
+		  Value			  "1/3"
+		  OutDataTypeMode	  "single"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant1"
+		  Position		  [135, 290, 165, 320]
+		  ShowName		  off
+		  Value			  "4/3"
+		  OutDataTypeMode	  "single"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant2"
+		  Position		  [275, 210, 365, 240]
+		  ShowName		  off
+		  Value			  "T/2"
+		  OutDataTypeMode	  "single"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant3"
+		  Position		  [135, 370, 165, 400]
+		  ShowName		  off
+		  Value			  "1/3"
+		  OutDataTypeMode	  "single"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant5"
+		  Position		  [565, 170, 595, 200]
+		  Orientation		  "left"
+		  ShowName		  off
+		  Value			  "0"
+		  OutDataTypeMode	  "single"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integer Delay"
+		  Ports			  [1, 1]
+		  Position		  [130, 248, 165, 282]
+		  ShowName		  off
+		  SourceBlock		  "simulink/Discrete/Integer Delay"
+		  SourceType		  "Integer Delay"
+		  vinit			  "0.0"
+		  samptime		  "T"
+		  NumDelays		  "1"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integer Delay1"
+		  Ports			  [1, 1]
+		  Position		  [135, 328, 170, 362]
+		  ShowName		  off
+		  SourceBlock		  "simulink/Discrete/Integer Delay"
+		  SourceType		  "Integer Delay"
+		  vinit			  "0.0"
+		  samptime		  "T"
+		  NumDelays		  "2"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integer Delay2"
+		  Ports			  [1, 1]
+		  Position		  [450, 173, 485, 207]
+		  Orientation		  "left"
+		  ShowName		  off
+		  SourceBlock		  "simulink/Discrete/Integer Delay"
+		  SourceType		  "Integer Delay"
+		  vinit			  "0.0"
+		  samptime		  "T"
+		  NumDelays		  "1"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product"
+		  Ports			  [2, 1]
+		  Position		  [200, 197, 230, 228]
+		  ShowName		  off
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "single"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product1"
+		  Ports			  [2, 1]
+		  Position		  [200, 257, 230, 288]
+		  ShowName		  off
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "single"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product2"
+		  Ports			  [2, 1]
+		  Position		  [200, 337, 230, 368]
+		  ShowName		  off
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "single"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product3"
+		  Ports			  [2, 1]
+		  Position		  [395, 252, 425, 283]
+		  ShowName		  off
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "single"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Saturate
+		  Name			  "Saturation"
+		  Position		  [505, 250, 535, 280]
+		  UpperLimit		  "50"
+		  LowerLimit		  "-50"
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Subtract"
+		  Ports			  [3, 1]
+		  Position		  [320, 259, 350, 291]
+		  ShowName		  off
+		  Inputs		  "3"
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "single"
+		  OutScaling		  "2^-10"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Subtract1"
+		  Ports			  [2, 1]
+		  Position		  [450, 246, 480, 279]
+		  ShowName		  off
+		  Inputs		  "2"
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "single"
+		  OutScaling		  "2^-10"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Switch
+		  Name			  "Switch1"
+		  Position		  [565, 205, 595, 275]
+		  ShowName		  off
+		  Threshold		  "0.3"
+		  InputSameDT		  off
+		  SaturateOnIntegerOverflow off
+		  SampleTime		  ".01"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Int(x)"
+		  Position		  [650, 233, 680, 247]
+		  BackgroundColor	  "yellow"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Constant"
+		  SrcPort		  1
+		  DstBlock		  "Product"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Constant1"
+		  SrcPort		  1
+		  Points		  [5, 0; 0, -25]
+		  DstBlock		  "Product1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Integer Delay"
+		  SrcPort		  1
+		  DstBlock		  "Product1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Integer Delay1"
+		  SrcPort		  1
+		  DstBlock		  "Product2"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Constant3"
+		  SrcPort		  1
+		  Points		  [10, 0; 0, -25]
+		  DstBlock		  "Product2"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "x"
+		  SrcPort		  1
+		  Points		  [30, 0]
+		  Branch {
+		    Points		    [75, 0; 0, 20]
+		    DstBlock		    "Product"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 80]
+		    Branch {
+		    DstBlock		    "Integer Delay"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, 80]
+		    DstBlock		    "Integer Delay1"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Line {
+		  SrcBlock		  "Product"
+		  SrcPort		  1
+		  Points		  [25, 0; 0, 50]
+		  DstBlock		  "Subtract"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Product1"
+		  SrcPort		  1
+		  DstBlock		  "Subtract"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Product2"
+		  SrcPort		  1
+		  Points		  [25, 0; 0, -70]
+		  DstBlock		  "Subtract"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Constant2"
+		  SrcPort		  1
+		  Points		  [5, 0; 0, 35]
+		  DstBlock		  "Product3"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Subtract"
+		  SrcPort		  1
+		  DstBlock		  "Product3"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Subtract1"
+		  SrcPort		  1
+		  DstBlock		  "Saturation"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Integer Delay2"
+		  SrcPort		  1
+		  Points		  [-15, 0; 0, 65]
+		  DstBlock		  "Subtract1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Product3"
+		  SrcPort		  1
+		  DstBlock		  "Subtract1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Constant5"
+		  SrcPort		  1
+		  Points		  [-10, 0]
+		  DstBlock		  "Switch1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Reset"
+		  SrcPort		  1
+		  DstBlock		  "Switch1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Saturation"
+		  SrcPort		  1
+		  DstBlock		  "Switch1"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Switch1"
+		  SrcPort		  1
+		  Points		  [20, 0]
+		  Branch {
+		    DstBlock		    "Int(x)"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, -85; -90, 0; 0, 35]
+		    DstBlock		    "Integer Delay2"
+		    DstPort		    1
+		  }
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Output"
+	      Position		      [825, 173, 855, 187]
+	      BackgroundColor	      "yellow"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "Product"
+	      SrcPort		      1
+	      Points		      [10, 0; 0, -50]
+	      DstBlock		      "Add2"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Product1"
+	      SrcPort		      1
+	      Points		      [225, 0; 0, 10; 20, 0]
+	      Branch {
+		Points			[0, 115]
+		DstBlock		"Add2"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"Goto3"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Reset"
+	      SrcPort		      1
+	      Points		      [-30, 0]
+	      DstBlock		      "Trapezoidal Integrator1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Relational\nOperator"
+	      SrcPort		      1
+	      Points		      [45, 0]
+	      DstBlock		      "Goto4"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "From6"
+	      SrcPort		      1
+	      Points		      [50, 0]
+	      DstBlock		      "Sum2"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Memory1"
+	      SrcPort		      1
+	      DstBlock		      "Goto5"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Product4"
+	      SrcPort		      1
+	      Points		      [45, 0]
+	      DstBlock		      "Sum2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Gain"
+	      SrcPort		      1
+	      Points		      [0, 10]
+	      DstBlock		      "Product4"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "From5"
+	      SrcPort		      1
+	      DstBlock		      "Product4"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Sum2"
+	      SrcPort		      1
+	      DstBlock		      "Abs"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "From3"
+	      SrcPort		      1
+	      DstBlock		      "Sum2"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "PIDGains"
+	      SrcPort		      1
+	      DstBlock		      "Demux"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      1
+	      Points		      [5, 0; 0, -25]
+	      DstBlock		      "Goto"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      2
+	      DstBlock		      "Goto1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      3
+	      Points		      [5, 0; 0, 25]
+	      DstBlock		      "Terminator"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Constant5"
+	      SrcPort		      1
+	      Points		      [0, -25]
+	      DstBlock		      "AntiWindup"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "AntiWindup"
+	      SrcPort		      1
+	      Points		      [15, 0]
+	      DstBlock		      "Trapezoidal Integrator1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Error"
+	      SrcPort		      1
+	      Points		      [55, 0]
+	      Branch {
+		DstBlock		"Product1"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 145]
+		Branch {
+		  Points		  [110, 0; 0, 35]
+		  DstBlock		  "AntiWindup"
+		  DstPort		  1
+		}
+		Branch {
+		  Points		  [0, 195]
+		  DstBlock		  "Gain"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "From"
+	      SrcPort		      1
+	      DstBlock		      "Product"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Trapezoidal Integrator1"
+	      SrcPort		      1
+	      Points		      [0, -5]
+	      DstBlock		      "Product"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "From1"
+	      SrcPort		      1
+	      Points		      [0, -5]
+	      DstBlock		      "Product1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Add2"
+	      SrcPort		      1
+	      Points		      [20, 0]
+	      Branch {
+		Points			[0, 65]
+		DstBlock		"Memory1"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"Saturation"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Saturation"
+	      SrcPort		      1
+	      DstBlock		      "Output"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "SaturationLimit"
+	      SrcPort		      1
+	      Points		      [25, 0; 0, -40]
+	      DstBlock		      "Relational\nOperator"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Abs"
+	      SrcPort		      1
+	      DstBlock		      "Relational\nOperator"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "From4"
+	      SrcPort		      1
+	      DstBlock		      "AntiWindup"
+	      DstPort		      2
+	    }
+	    Annotation {
+	      Name		      "Checks in here for\nexceeding saturatio"
+"n\nlimit and stopping\nintegration if it occurs"
+	      Position		      [536, 409]
+	    }
+	    Annotation {
+	      Name		      "Nsampled time derivative"
+	      Position		      [378, 339]
+	      ForegroundColor	      "red"
 	    }
 	  }
 	}
@@ -2582,8 +3481,8 @@ Library {
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "PID Controller w/Anti-Windup"
-	  Ports			  [2, 1]
-	  Position		  [80, 334, 180, 421]
+	  Ports			  [3, 1]
+	  Position		  [80, 309, 180, 411]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
@@ -2604,7 +3503,8 @@ Library {
 	  MaskVarAliasString	  ",,"
 	  MaskVariables		  "Tsample=@1;Ndelay=@2;SaturationLimit=@3;"
 	  MaskDisplay		  "disp('PID')\nport_label('input',1,'error')"
-"\nport_label('input',2,'gains')\nport_label('output',1,'output')\n"
+"\nport_label('input',3,'gains')\nport_label('input',2,'reset')\nport_label('o"
+"utput',1,'output')\n"
 	  MaskIconFrame		  on
 	  MaskIconOpaque	  on
 	  MaskIconRotate	  "none"
@@ -2613,7 +3513,7 @@ Library {
 	  MaskTabNameString	  ",,"
 	  System {
 	    Name		    "PID Controller w/Anti-Windup"
-	    Location		    [280, 157, 1159, 742]
+	    Location		    [202, 82, 1220, 1000]
 	    Open		    off
 	    ModelBrowserVisibility  on
 	    ModelBrowserWidth	    200
@@ -2630,31 +3530,50 @@ Library {
 	      BlockType		      Inport
 	      Name		      "Error"
 	      Position		      [45, 28, 75, 42]
-	      BackgroundColor	      "green"
+	      BackgroundColor	      "darkGreen"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Reset"
+	      Position		      [360, 278, 390, 292]
+	      Orientation	      "left"
+	      BackgroundColor	      "darkGreen"
+	      Port		      "2"
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Inport
 	      Name		      "PIDGains"
-	      Position		      [55, 453, 85, 467]
-	      BackgroundColor	      "green"
-	      Port		      "2"
+	      Position		      [85, 458, 115, 472]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "3"
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Abs
 	      Name		      "Abs"
-	      Position		      [445, 445, 475, 475]
+	      Position		      [475, 450, 505, 480]
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
 	      BlockType		      Sum
-	      Name		      "Add"
-	      Ports		      [3, 1]
-	      Position		      [565, 115, 595, 145]
+	      Name		      "Add1"
+	      Ports		      [2, 1]
+	      Position		      [560, 37, 590, 68]
 	      ShowName		      off
-	      IconShape		      "round"
-	      Inputs		      "+++"
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutScaling	      "2^-10"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Add2"
+	      Ports		      [2, 1]
+	      Position		      [650, 162, 680, 193]
+	      ShowName		      off
 	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
 	      OutDataTypeMode	      "Inherit via internal rule"
@@ -2664,7 +3583,7 @@ Library {
 	    Block {
 	      BlockType		      Switch
 	      Name		      "AntiWindup"
-	      Position		      [210, 105, 240, 135]
+	      Position		      [275, 210, 305, 240]
 	      Threshold		      "0.5"
 	      InputSameDT	      off
 	      SaturateOnIntegerOverflow	off
@@ -2672,7 +3591,7 @@ Library {
 	    Block {
 	      BlockType		      Constant
 	      Name		      "Constant5"
-	      Position		      [179, 160, 201, 185]
+	      Position		      [244, 265, 266, 290]
 	      Orientation	      "up"
 	      ShowName		      off
 	      Value		      "0"
@@ -2682,30 +3601,17 @@ Library {
 	      BlockType		      Demux
 	      Name		      "Demux"
 	      Ports		      [1, 3]
-	      Position		      [135, 441, 140, 479]
+	      Position		      [165, 446, 170, 484]
 	      BackgroundColor	      "black"
 	      ShowName		      off
 	      Outputs		      "3"
 	      DisplayOption	      "bar"
 	    }
 	    Block {
-	      BlockType		      DiscreteIntegrator
-	      Name		      "Forward Integration"
-	      Ports		      [1, 1]
-	      Position		      [275, 86, 390, 154]
-	      IntegratorMethod	      "Integration: Forward Euler"
-	      ExternalReset	      "none"
-	      InitialConditionSource  "internal"
-	      SampleTime	      "Tsample"
-	      IgnoreLimit	      off
-	      ICPrevOutput	      "DiscIntNeverNeededParam"
-	      ICPrevScaledInput	      "DiscIntNeverNeededParam"
-	    }
-	    Block {
 	      BlockType		      From
 	      Name		      "From"
-	      Position		      [445, 126, 485, 154]
-	      BackgroundColor	      "red"
+	      Position		      [510, 231, 550, 259]
+	      BackgroundColor	      "cyan"
 	      ShowName		      off
 	      CloseFcn		      "tagdialog Close"
 	      GotoTag		      "Ki"
@@ -2714,7 +3620,7 @@ Library {
 	      BlockType		      From
 	      Name		      "From1"
 	      Position		      [270, 41, 310, 69]
-	      BackgroundColor	      "red"
+	      BackgroundColor	      "cyan"
 	      ShowName		      off
 	      CloseFcn		      "tagdialog Close"
 	      GotoTag		      "Kp"
@@ -2722,8 +3628,8 @@ Library {
 	    Block {
 	      BlockType		      From
 	      Name		      "From2"
-	      Position		      [455, 251, 495, 279]
-	      BackgroundColor	      "red"
+	      Position		      [410, 121, 450, 149]
+	      BackgroundColor	      "cyan"
 	      ShowName		      off
 	      CloseFcn		      "tagdialog Close"
 	      GotoTag		      "Kd"
@@ -2731,8 +3637,8 @@ Library {
 	    Block {
 	      BlockType		      From
 	      Name		      "From3"
-	      Position		      [330, 446, 370, 474]
-	      BackgroundColor	      "red"
+	      Position		      [340, 451, 380, 479]
+	      BackgroundColor	      "cyan"
 	      ShowName		      off
 	      CloseFcn		      "tagdialog Close"
 	      GotoTag		      "Out"
@@ -2740,8 +3646,8 @@ Library {
 	    Block {
 	      BlockType		      From
 	      Name		      "From4"
-	      Position		      [25, 105, 110, 135]
-	      BackgroundColor	      "red"
+	      Position		      [160, 210, 245, 240]
+	      BackgroundColor	      "cyan"
 	      ShowName		      off
 	      CloseFcn		      "tagdialog Close"
 	      GotoTag		      "NotSaturated"
@@ -2749,8 +3655,8 @@ Library {
 	    Block {
 	      BlockType		      From
 	      Name		      "From5"
-	      Position		      [265, 386, 305, 414]
-	      BackgroundColor	      "red"
+	      Position		      [295, 391, 335, 419]
+	      BackgroundColor	      "cyan"
 	      ShowName		      off
 	      CloseFcn		      "tagdialog Close"
 	      GotoTag		      "Ki"
@@ -2758,8 +3664,8 @@ Library {
 	    Block {
 	      BlockType		      From
 	      Name		      "From6"
-	      Position		      [290, 511, 330, 539]
-	      BackgroundColor	      "red"
+	      Position		      [340, 491, 380, 519]
+	      BackgroundColor	      "cyan"
 	      ShowName		      off
 	      CloseFcn		      "tagdialog Close"
 	      GotoTag		      "PDpart"
@@ -2767,7 +3673,7 @@ Library {
 	    Block {
 	      BlockType		      Gain
 	      Name		      "Gain"
-	      Position		      [245, 352, 295, 388]
+	      Position		      [275, 357, 325, 393]
 	      ShowName		      off
 	      Gain		      "Tsample"
 	      ParameterDataTypeMode   "Inherit via internal rule"
@@ -2777,8 +3683,8 @@ Library {
 	    Block {
 	      BlockType		      Goto
 	      Name		      "Goto"
-	      Position		      [170, 410, 210, 440]
-	      BackgroundColor	      "red"
+	      Position		      [200, 415, 240, 445]
+	      BackgroundColor	      "magenta"
 	      ShowName		      off
 	      GotoTag		      "Kp"
 	      TagVisibility	      "local"
@@ -2786,8 +3692,8 @@ Library {
 	    Block {
 	      BlockType		      Goto
 	      Name		      "Goto1"
-	      Position		      [170, 445, 210, 475]
-	      BackgroundColor	      "red"
+	      Position		      [200, 450, 240, 480]
+	      BackgroundColor	      "magenta"
 	      ShowName		      off
 	      GotoTag		      "Ki"
 	      TagVisibility	      "local"
@@ -2795,8 +3701,8 @@ Library {
 	    Block {
 	      BlockType		      Goto
 	      Name		      "Goto2"
-	      Position		      [170, 480, 210, 510]
-	      BackgroundColor	      "red"
+	      Position		      [200, 485, 240, 515]
+	      BackgroundColor	      "magenta"
 	      ShowName		      off
 	      GotoTag		      "Kd"
 	      TagVisibility	      "local"
@@ -2804,8 +3710,8 @@ Library {
 	    Block {
 	      BlockType		      Goto
 	      Name		      "Goto3"
-	      Position		      [835, 200, 875, 230]
-	      BackgroundColor	      "red"
+	      Position		      [710, 40, 750, 70]
+	      BackgroundColor	      "magenta"
 	      ShowName		      off
 	      GotoTag		      "PDpart"
 	      TagVisibility	      "local"
@@ -2813,8 +3719,8 @@ Library {
 	    Block {
 	      BlockType		      Goto
 	      Name		      "Goto4"
-	      Position		      [615, 456, 705, 484]
-	      BackgroundColor	      "red"
+	      Position		      [655, 426, 745, 454]
+	      BackgroundColor	      "magenta"
 	      ShowName		      off
 	      GotoTag		      "NotSaturated"
 	      TagVisibility	      "local"
@@ -2822,8 +3728,8 @@ Library {
 	    Block {
 	      BlockType		      Goto
 	      Name		      "Goto5"
-	      Position		      [715, 180, 755, 210]
-	      BackgroundColor	      "red"
+	      Position		      [805, 230, 845, 260]
+	      BackgroundColor	      "magenta"
 	      ShowName		      off
 	      GotoTag		      "Out"
 	      TagVisibility	      "local"
@@ -2831,7 +3737,7 @@ Library {
 	    Block {
 	      BlockType		      Memory
 	      Name		      "Memory1"
-	      Position		      [645, 180, 675, 210]
+	      Position		      [735, 230, 765, 260]
 	      ShowName		      off
 	      InheritSampleTime	      on
 	    }
@@ -2839,7 +3745,7 @@ Library {
 	      BlockType		      Reference
 	      Name		      "NDelays"
 	      Ports		      [1, 1]
-	      Position		      [230, 243, 265, 277]
+	      Position		      [190, 113, 225, 147]
 	      SourceBlock	      "simulink/Discrete/Integer Delay"
 	      SourceType	      "Integer Delay"
 	      vinit		      "0.0"
@@ -2850,7 +3756,7 @@ Library {
 	      BlockType		      Product
 	      Name		      "Product"
 	      Ports		      [2, 1]
-	      Position		      [505, 112, 535, 143]
+	      Position		      [570, 217, 600, 248]
 	      ShowName		      off
 	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
@@ -2872,7 +3778,7 @@ Library {
 	      BlockType		      Product
 	      Name		      "Product2"
 	      Ports		      [2, 1]
-	      Position		      [400, 222, 430, 253]
+	      Position		      [350, 92, 380, 123]
 	      ShowName		      off
 	      Inputs		      "*/"
 	      CollapseMode	      "All dimensions"
@@ -2884,7 +3790,7 @@ Library {
 	      BlockType		      Product
 	      Name		      "Product3"
 	      Ports		      [2, 1]
-	      Position		      [515, 232, 545, 263]
+	      Position		      [485, 102, 515, 133]
 	      ShowName		      off
 	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
@@ -2895,7 +3801,7 @@ Library {
 	      BlockType		      Product
 	      Name		      "Product4"
 	      Ports		      [2, 1]
-	      Position		      [325, 372, 355, 403]
+	      Position		      [355, 377, 385, 408]
 	      ShowName		      off
 	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
@@ -2905,7 +3811,7 @@ Library {
 	    Block {
 	      BlockType		      RelationalOperator
 	      Name		      "Relational\nOperator"
-	      Position		      [530, 452, 560, 483]
+	      Position		      [560, 457, 590, 488]
 	      Operator		      "<"
 	      InputSameDT	      off
 	      LogicOutDataTypeMode    "Boolean"
@@ -2913,21 +3819,21 @@ Library {
 	    Block {
 	      BlockType		      Saturate
 	      Name		      "Saturation"
-	      Position		      [660, 115, 690, 145]
+	      Position		      [750, 165, 780, 195]
 	      UpperLimit	      "SaturationLimit"
 	      LowerLimit	      "-SaturationLimit"
 	    }
 	    Block {
 	      BlockType		      Constant
 	      Name		      "SaturationLimit"
-	      Position		      [430, 500, 460, 530]
+	      Position		      [460, 505, 490, 535]
 	      Value		      "SaturationLimit"
 	    }
 	    Block {
 	      BlockType		      Sum
 	      Name		      "Sum"
 	      Ports		      [2, 1]
-	      Position		      [305, 220, 325, 240]
+	      Position		      [255, 90, 275, 110]
 	      ShowName		      off
 	      IconShape		      "round"
 	      Inputs		      "|+-"
@@ -2938,22 +3844,9 @@ Library {
 	    }
 	    Block {
 	      BlockType		      Sum
-	      Name		      "Sum1"
-	      Ports		      [2, 1]
-	      Position		      [795, 205, 815, 225]
-	      ShowName		      off
-	      IconShape		      "round"
-	      Inputs		      "+|+"
-	      CollapseMode	      "All dimensions"
-	      InputSameDT	      off
-	      OutDataTypeMode	      "Inherit via internal rule"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Sum
 	      Name		      "Sum2"
 	      Ports		      [3, 1]
-	      Position		      [395, 450, 415, 470]
+	      Position		      [425, 455, 445, 475]
 	      ShowName		      off
 	      IconShape		      "round"
 	      Inputs		      "+++"
@@ -2963,16 +3856,388 @@ Library {
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Trapezoidal Integrator"
+	      Ports		      [2, 1]
+	      Position		      [340, 208, 450, 252]
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      MaskPromptString	      "Sample Time|Upper Integrator Limit|Lowe"
+"r Integrator Limit"
+	      MaskStyleString	      "edit,edit,edit"
+	      MaskTunableValueString  "on,on,on"
+	      MaskCallbackString      "||"
+	      MaskEnableString	      "on,on,on"
+	      MaskVisibilityString    "on,on,on"
+	      MaskToolTipString	      "on,on,on"
+	      MaskVarAliasString      ",,"
+	      MaskVariables	      "T=@1;upperLimit=@2;lowerLimit=@3;"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      MaskValueString	      "Tsample|SaturationLimit|-SaturationLimi"
+"t"
+	      MaskTabNameString	      ",,"
+	      System {
+		Name			"Trapezoidal Integrator"
+		Location		[276, 365, 1164, 945]
+		Open			off
+		ModelBrowserVisibility	on
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "x"
+		  Position		  [30, 178, 60, 192]
+		  BackgroundColor	  "darkGreen"
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "Reset"
+		  Position		  [515, 233, 545, 247]
+		  BackgroundColor	  "darkGreen"
+		  NamePlacement		  "alternate"
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant"
+		  Position		  [130, 205, 160, 235]
+		  ShowName		  off
+		  Value			  "1/3"
+		  OutDataTypeMode	  "single"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant1"
+		  Position		  [135, 290, 165, 320]
+		  ShowName		  off
+		  Value			  "4/3"
+		  OutDataTypeMode	  "single"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant2"
+		  Position		  [275, 210, 365, 240]
+		  ShowName		  off
+		  Value			  "T/2"
+		  OutDataTypeMode	  "single"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant3"
+		  Position		  [135, 370, 165, 400]
+		  ShowName		  off
+		  Value			  "1/3"
+		  OutDataTypeMode	  "single"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant5"
+		  Position		  [565, 170, 595, 200]
+		  Orientation		  "left"
+		  ShowName		  off
+		  Value			  "0"
+		  OutDataTypeMode	  "single"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integer Delay"
+		  Ports			  [1, 1]
+		  Position		  [130, 248, 165, 282]
+		  ShowName		  off
+		  SourceBlock		  "simulink/Discrete/Integer Delay"
+		  SourceType		  "Integer Delay"
+		  vinit			  "0.0"
+		  samptime		  "T"
+		  NumDelays		  "1"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integer Delay1"
+		  Ports			  [1, 1]
+		  Position		  [135, 328, 170, 362]
+		  ShowName		  off
+		  SourceBlock		  "simulink/Discrete/Integer Delay"
+		  SourceType		  "Integer Delay"
+		  vinit			  "0.0"
+		  samptime		  "T"
+		  NumDelays		  "2"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integer Delay2"
+		  Ports			  [1, 1]
+		  Position		  [450, 173, 485, 207]
+		  Orientation		  "left"
+		  ShowName		  off
+		  SourceBlock		  "simulink/Discrete/Integer Delay"
+		  SourceType		  "Integer Delay"
+		  vinit			  "0.0"
+		  samptime		  "T"
+		  NumDelays		  "1"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product"
+		  Ports			  [2, 1]
+		  Position		  [200, 197, 230, 228]
+		  ShowName		  off
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "single"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product1"
+		  Ports			  [2, 1]
+		  Position		  [200, 257, 230, 288]
+		  ShowName		  off
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "single"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product2"
+		  Ports			  [2, 1]
+		  Position		  [200, 337, 230, 368]
+		  ShowName		  off
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "single"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product3"
+		  Ports			  [2, 1]
+		  Position		  [395, 252, 425, 283]
+		  ShowName		  off
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "single"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Saturate
+		  Name			  "Saturation"
+		  Position		  [505, 250, 535, 280]
+		  UpperLimit		  "50"
+		  LowerLimit		  "-50"
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Subtract"
+		  Ports			  [3, 1]
+		  Position		  [320, 259, 350, 291]
+		  ShowName		  off
+		  Inputs		  "3"
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "single"
+		  OutScaling		  "2^-10"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Subtract1"
+		  Ports			  [2, 1]
+		  Position		  [450, 246, 480, 279]
+		  ShowName		  off
+		  Inputs		  "2"
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "single"
+		  OutScaling		  "2^-10"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Switch
+		  Name			  "Switch1"
+		  Position		  [565, 205, 595, 275]
+		  ShowName		  off
+		  Threshold		  "0.3"
+		  InputSameDT		  off
+		  SaturateOnIntegerOverflow off
+		  SampleTime		  ".01"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Int(x)"
+		  Position		  [650, 233, 680, 247]
+		  BackgroundColor	  "yellow"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Switch1"
+		  SrcPort		  1
+		  Points		  [20, 0]
+		  Branch {
+		    Points		    [0, -85; -90, 0; 0, 35]
+		    DstBlock		    "Integer Delay2"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "Int(x)"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Saturation"
+		  SrcPort		  1
+		  DstBlock		  "Switch1"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Reset"
+		  SrcPort		  1
+		  DstBlock		  "Switch1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Constant5"
+		  SrcPort		  1
+		  Points		  [-10, 0]
+		  DstBlock		  "Switch1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Product3"
+		  SrcPort		  1
+		  DstBlock		  "Subtract1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Integer Delay2"
+		  SrcPort		  1
+		  Points		  [-15, 0; 0, 65]
+		  DstBlock		  "Subtract1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Subtract1"
+		  SrcPort		  1
+		  DstBlock		  "Saturation"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Subtract"
+		  SrcPort		  1
+		  DstBlock		  "Product3"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Constant2"
+		  SrcPort		  1
+		  Points		  [5, 0; 0, 35]
+		  DstBlock		  "Product3"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Product2"
+		  SrcPort		  1
+		  Points		  [25, 0; 0, -70]
+		  DstBlock		  "Subtract"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Product1"
+		  SrcPort		  1
+		  DstBlock		  "Subtract"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Product"
+		  SrcPort		  1
+		  Points		  [25, 0; 0, 50]
+		  DstBlock		  "Subtract"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "x"
+		  SrcPort		  1
+		  Points		  [30, 0]
+		  Branch {
+		    Points		    [0, 80]
+		    Branch {
+		    Points		    [0, 80]
+		    DstBlock		    "Integer Delay1"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Integer Delay"
+		    DstPort		    1
+		    }
+		  }
+		  Branch {
+		    Points		    [75, 0; 0, 20]
+		    DstBlock		    "Product"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Constant3"
+		  SrcPort		  1
+		  Points		  [10, 0; 0, -25]
+		  DstBlock		  "Product2"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Integer Delay1"
+		  SrcPort		  1
+		  DstBlock		  "Product2"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Integer Delay"
+		  SrcPort		  1
+		  DstBlock		  "Product1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Constant1"
+		  SrcPort		  1
+		  Points		  [5, 0; 0, -25]
+		  DstBlock		  "Product1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Constant"
+		  SrcPort		  1
+		  DstBlock		  "Product"
+		  DstPort		  2
+		}
+	      }
+	    }
+	    Block {
 	      BlockType		      Constant
 	      Name		      "delayTime"
-	      Position		      [295, 275, 325, 305]
+	      Position		      [265, 145, 295, 175]
 	      Value		      "Ndelay*Tsample"
 	    }
 	    Block {
 	      BlockType		      Outport
 	      Name		      "Output"
-	      Position		      [730, 123, 760, 137]
-	      BackgroundColor	      "green"
+	      Position		      [820, 173, 850, 187]
+	      BackgroundColor	      "yellow"
 	      IconDisplay	      "Port number"
 	      BusOutputAsStruct	      off
 	    }
@@ -3002,20 +4267,6 @@ Library {
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "Product3"
-	      SrcPort		      1
-	      Points		      [30, 0]
-	      Branch {
-		DstBlock		"Add"
-		DstPort			3
-	      }
-	      Branch {
-		Points			[225, 0]
-		DstBlock		"Sum1"
-		DstPort			2
-	      }
-	    }
-	    Line {
 	      SrcBlock		      "Product2"
 	      SrcPort		      1
 	      DstBlock		      "Product3"
@@ -3024,13 +4275,14 @@ Library {
 	    Line {
 	      SrcBlock		      "From2"
 	      SrcPort		      1
+	      Points		      [15, 0]
 	      DstBlock		      "Product3"
 	      DstPort		      2
 	    }
 	    Line {
 	      SrcBlock		      "delayTime"
 	      SrcPort		      1
-	      Points		      [25, 0; 0, -45]
+	      Points		      [15, 0; 0, -45]
 	      DstBlock		      "Product2"
 	      DstPort		      2
 	    }
@@ -3043,14 +4295,14 @@ Library {
 	    Line {
 	      SrcBlock		      "NDelays"
 	      SrcPort		      1
-	      Points		      [45, 0]
+	      Points		      [35, 0]
 	      DstBlock		      "Sum"
 	      DstPort		      2
 	    }
 	    Line {
-	      SrcBlock		      "Add"
+	      SrcBlock		      "Add2"
 	      SrcPort		      1
-	      Points		      [15, 0]
+	      Points		      [20, 0]
 	      Branch {
 		DstBlock		"Saturation"
 		DstPort			1
@@ -3062,26 +4314,6 @@ Library {
 	      }
 	    }
 	    Line {
-	      SrcBlock		      "Product1"
-	      SrcPort		      1
-	      Points		      [210, 0]
-	      Branch {
-		Points			[225, 0]
-		DstBlock		"Sum1"
-		DstPort			1
-	      }
-	      Branch {
-		DstBlock		"Add"
-		DstPort			1
-	      }
-	    }
-	    Line {
-	      SrcBlock		      "Product"
-	      SrcPort		      1
-	      DstBlock		      "Add"
-	      DstPort		      2
-	    }
-	    Line {
 	      SrcBlock		      "From1"
 	      SrcPort		      1
 	      Points		      [0, -5]
@@ -3089,8 +4321,9 @@ Library {
 	      DstPort		      2
 	    }
 	    Line {
-	      SrcBlock		      "Forward Integration"
+	      SrcBlock		      "Trapezoidal Integrator"
 	      SrcPort		      1
+	      Points		      [0, -5]
 	      DstBlock		      "Product"
 	      DstPort		      1
 	    }
@@ -3109,29 +4342,30 @@ Library {
 		DstPort			1
 	      }
 	      Branch {
-		Points			[0, 75]
+		Points			[0, 65]
 		Branch {
-		  DstBlock		  "AntiWindup"
-		  DstPort		  1
+		  Points		  [20, 0]
+		  Branch {
+		    DstBlock		    "Sum"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 30]
+		    DstBlock		    "NDelays"
+		    DstPort		    1
+		  }
 		}
 		Branch {
-		  Points		  [0, 120]
+		  Points		  [0, 80]
 		  Branch {
-		    Points		    [0, 140]
+		    Points		    [0, 195]
 		    DstBlock		    "Gain"
 		    DstPort		    1
 		  }
 		  Branch {
-		    Points		    [50, 0]
-		    Branch {
-		    DstBlock		    "Sum"
+		    Points		    [110, 0; 0, 35]
+		    DstBlock		    "AntiWindup"
 		    DstPort		    1
-		    }
-		    Branch {
-		    Points		    [0, 30]
-		    DstBlock		    "NDelays"
-		    DstPort		    1
-		    }
 		  }
 		}
 	      }
@@ -3139,7 +4373,8 @@ Library {
 	    Line {
 	      SrcBlock		      "AntiWindup"
 	      SrcPort		      1
-	      DstBlock		      "Forward Integration"
+	      Points		      [15, 0]
+	      DstBlock		      "Trapezoidal Integrator"
 	      DstPort		      1
 	    }
 	    Line {
@@ -3173,12 +4408,6 @@ Library {
 	      SrcBlock		      "PIDGains"
 	      SrcPort		      1
 	      DstBlock		      "Demux"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Sum1"
-	      SrcPort		      1
-	      DstBlock		      "Goto3"
 	      DstPort		      1
 	    }
 	    Line {
@@ -3222,32 +4451,74 @@ Library {
 	    Line {
 	      SrcBlock		      "From6"
 	      SrcPort		      1
-	      Points		      [70, 0]
+	      Points		      [50, 0]
 	      DstBlock		      "Sum2"
 	      DstPort		      3
 	    }
 	    Line {
 	      SrcBlock		      "Relational\nOperator"
 	      SrcPort		      1
+	      Points		      [45, 0]
 	      DstBlock		      "Goto4"
 	      DstPort		      1
 	    }
+	    Line {
+	      SrcBlock		      "Reset"
+	      SrcPort		      1
+	      Points		      [-30, 0]
+	      DstBlock		      "Trapezoidal Integrator"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Product1"
+	      SrcPort		      1
+	      DstBlock		      "Add1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Product3"
+	      SrcPort		      1
+	      Points		      [15, 0; 0, -60]
+	      DstBlock		      "Add1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Add1"
+	      SrcPort		      1
+	      Points		      [20, 0]
+	      Branch {
+		DstBlock		"Goto3"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 115]
+		DstBlock		"Add2"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Product"
+	      SrcPort		      1
+	      Points		      [10, 0; 0, -50]
+	      DstBlock		      "Add2"
+	      DstPort		      2
+	    }
 	    Annotation {
 	      Name		      "Nsampled time derivative"
-	      Position		      [308, 339]
+	      Position		      [418, 79]
 	      ForegroundColor	      "red"
 	    }
 	    Annotation {
 	      Name		      "Checks in here for\nexceeding saturatio"
 "n\nlimit and stopping\nintegration if it occurs"
-	      Position		      [506, 404]
+	      Position		      [536, 409]
 	    }
 	  }
 	}
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "PID available Derivative\nw/Anti-Windup"
-	  Ports			  [3, 1]
+	  Ports			  [4, 1]
 	  Position		  [80, 450, 180, 540]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
@@ -3269,8 +4540,8 @@ Library {
 	  MaskVarAliasString	  ",,"
 	  MaskVariables		  "Tsample=@1;Ndelay=@2;SaturationLimit=@3;"
 	  MaskDisplay		  "disp('PID')\nport_label('input',1,'error')"
-"\nport_label('input',2,'de/dt')\nport_label('input',3,'gains')\nport_label('o"
-"utput',1,'output')\n"
+"\nport_label('input',2,'de/dt')\nport_label('input',3,'gains')\nport_label('i"
+"nput',4,'reset')\nport_label('output',1,'output')\n"
 	  MaskIconFrame		  on
 	  MaskIconOpaque	  on
 	  MaskIconRotate	  "none"
@@ -3296,14 +4567,14 @@ Library {
 	      BlockType		      Inport
 	      Name		      "Error"
 	      Position		      [45, 28, 75, 42]
-	      BackgroundColor	      "green"
+	      BackgroundColor	      "darkGreen"
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Inport
 	      Name		      "de/dt"
 	      Position		      [330, 233, 360, 247]
-	      BackgroundColor	      "green"
+	      BackgroundColor	      "darkGreen"
 	      Port		      "2"
 	      IconDisplay	      "Port number"
 	    }
@@ -3311,8 +4582,16 @@ Library {
 	      BlockType		      Inport
 	      Name		      "PIDGains"
 	      Position		      [55, 453, 85, 467]
-	      BackgroundColor	      "green"
+	      BackgroundColor	      "darkGreen"
 	      Port		      "3"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Reset"
+	      Position		      [205, 198, 235, 212]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "4"
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
@@ -3363,23 +4642,10 @@ Library {
 	      DisplayOption	      "bar"
 	    }
 	    Block {
-	      BlockType		      DiscreteIntegrator
-	      Name		      "Forward Integration"
-	      Ports		      [1, 1]
-	      Position		      [275, 86, 390, 154]
-	      IntegratorMethod	      "Integration: Forward Euler"
-	      ExternalReset	      "none"
-	      InitialConditionSource  "internal"
-	      SampleTime	      "Tsample"
-	      IgnoreLimit	      off
-	      ICPrevOutput	      "DiscIntNeverNeededParam"
-	      ICPrevScaledInput	      "DiscIntNeverNeededParam"
-	    }
-	    Block {
 	      BlockType		      From
 	      Name		      "From"
 	      Position		      [445, 126, 485, 154]
-	      BackgroundColor	      "red"
+	      BackgroundColor	      "cyan"
 	      ShowName		      off
 	      CloseFcn		      "tagdialog Close"
 	      GotoTag		      "Ki"
@@ -3388,7 +4654,7 @@ Library {
 	      BlockType		      From
 	      Name		      "From1"
 	      Position		      [270, 41, 310, 69]
-	      BackgroundColor	      "red"
+	      BackgroundColor	      "cyan"
 	      ShowName		      off
 	      CloseFcn		      "tagdialog Close"
 	      GotoTag		      "Kp"
@@ -3397,7 +4663,7 @@ Library {
 	      BlockType		      From
 	      Name		      "From2"
 	      Position		      [455, 251, 495, 279]
-	      BackgroundColor	      "red"
+	      BackgroundColor	      "cyan"
 	      ShowName		      off
 	      CloseFcn		      "tagdialog Close"
 	      GotoTag		      "Kd"
@@ -3406,7 +4672,7 @@ Library {
 	      BlockType		      From
 	      Name		      "From3"
 	      Position		      [330, 446, 370, 474]
-	      BackgroundColor	      "red"
+	      BackgroundColor	      "cyan"
 	      ShowName		      off
 	      CloseFcn		      "tagdialog Close"
 	      GotoTag		      "Out"
@@ -3415,7 +4681,7 @@ Library {
 	      BlockType		      From
 	      Name		      "From4"
 	      Position		      [25, 105, 110, 135]
-	      BackgroundColor	      "red"
+	      BackgroundColor	      "cyan"
 	      ShowName		      off
 	      CloseFcn		      "tagdialog Close"
 	      GotoTag		      "NotSaturated"
@@ -3424,7 +4690,7 @@ Library {
 	      BlockType		      From
 	      Name		      "From5"
 	      Position		      [265, 386, 305, 414]
-	      BackgroundColor	      "red"
+	      BackgroundColor	      "cyan"
 	      ShowName		      off
 	      CloseFcn		      "tagdialog Close"
 	      GotoTag		      "Ki"
@@ -3433,7 +4699,7 @@ Library {
 	      BlockType		      From
 	      Name		      "From6"
 	      Position		      [290, 511, 330, 539]
-	      BackgroundColor	      "red"
+	      BackgroundColor	      "cyan"
 	      ShowName		      off
 	      CloseFcn		      "tagdialog Close"
 	      GotoTag		      "PDpart"
@@ -3452,7 +4718,7 @@ Library {
 	      BlockType		      Goto
 	      Name		      "Goto"
 	      Position		      [170, 410, 210, 440]
-	      BackgroundColor	      "red"
+	      BackgroundColor	      "magenta"
 	      ShowName		      off
 	      GotoTag		      "Kp"
 	      TagVisibility	      "local"
@@ -3461,7 +4727,7 @@ Library {
 	      BlockType		      Goto
 	      Name		      "Goto1"
 	      Position		      [170, 445, 210, 475]
-	      BackgroundColor	      "red"
+	      BackgroundColor	      "magenta"
 	      ShowName		      off
 	      GotoTag		      "Ki"
 	      TagVisibility	      "local"
@@ -3470,7 +4736,7 @@ Library {
 	      BlockType		      Goto
 	      Name		      "Goto2"
 	      Position		      [170, 480, 210, 510]
-	      BackgroundColor	      "red"
+	      BackgroundColor	      "magenta"
 	      ShowName		      off
 	      GotoTag		      "Kd"
 	      TagVisibility	      "local"
@@ -3479,7 +4745,7 @@ Library {
 	      BlockType		      Goto
 	      Name		      "Goto3"
 	      Position		      [835, 200, 875, 230]
-	      BackgroundColor	      "red"
+	      BackgroundColor	      "magenta"
 	      ShowName		      off
 	      GotoTag		      "PDpart"
 	      TagVisibility	      "local"
@@ -3488,7 +4754,7 @@ Library {
 	      BlockType		      Goto
 	      Name		      "Goto4"
 	      Position		      [615, 456, 705, 484]
-	      BackgroundColor	      "red"
+	      BackgroundColor	      "magenta"
 	      ShowName		      off
 	      GotoTag		      "NotSaturated"
 	      TagVisibility	      "local"
@@ -3497,7 +4763,7 @@ Library {
 	      BlockType		      Goto
 	      Name		      "Goto5"
 	      Position		      [715, 180, 755, 210]
-	      BackgroundColor	      "red"
+	      BackgroundColor	      "magenta"
 	      ShowName		      off
 	      GotoTag		      "Out"
 	      TagVisibility	      "local"
@@ -3601,10 +4867,30 @@ Library {
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
+	      BlockType		      Reference
+	      Name		      "Trapezoidal Integrator1"
+	      Ports		      [2, 1]
+	      Position		      [280, 108, 390, 152]
+	      SourceBlock	      "SLUGS_Library/Control Blocks/PID Contro"
+"ller w//Anti-Windup/Trapezoidal Integrator1"
+	      SourceType	      "Unknown"
+	      ShowPortLabels	      "FromPortIcon"
+	      SystemSampleTime	      "-1"
+	      FunctionWithSeparateData "off"
+	      RTWMemSecFuncInitTerm   "Inherit from model"
+	      RTWMemSecFuncExecute    "Inherit from model"
+	      RTWMemSecDataConstants  "Inherit from model"
+	      RTWMemSecDataInternal   "Inherit from model"
+	      RTWMemSecDataParameters "Inherit from model"
+	      T			      "Tsample"
+	      upperLimit	      "SaturationLimit"
+	      lowerLimit	      "-SaturationLimit"
+	    }
+	    Block {
 	      BlockType		      Outport
 	      Name		      "Output"
 	      Position		      [730, 123, 760, 137]
-	      BackgroundColor	      "green"
+	      BackgroundColor	      "yellow"
 	      IconDisplay	      "Port number"
 	      BusOutputAsStruct	      off
 	    }
@@ -3701,7 +4987,7 @@ Library {
 	    Line {
 	      SrcBlock		      "AntiWindup"
 	      SrcPort		      1
-	      DstBlock		      "Forward Integration"
+	      DstBlock		      "Trapezoidal Integrator1"
 	      DstPort		      1
 	    }
 	    Line {
@@ -3732,8 +5018,9 @@ Library {
 	      DstPort		      2
 	    }
 	    Line {
-	      SrcBlock		      "Forward Integration"
+	      SrcBlock		      "Trapezoidal Integrator1"
 	      SrcPort		      1
+	      Points		      [0, -10]
 	      DstBlock		      "Product"
 	      DstPort		      1
 	    }
@@ -3827,6 +5114,13 @@ Library {
 	      SrcBlock		      "From4"
 	      SrcPort		      1
 	      DstBlock		      "AntiWindup"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Reset"
+	      SrcPort		      1
+	      Points		      [25, 0]
+	      DstBlock		      "Trapezoidal Integrator1"
 	      DstPort		      2
 	    }
 	    Annotation {
@@ -3969,7 +5263,7 @@ Library {
       MaskHideContents	      off
       System {
 	Name			"InnerLoop"
-	Location		[394, 237, 1097, 932]
+	Location		[219, 70, 922, 765]
 	Open			off
 	ModelBrowserVisibility	on
 	ModelBrowserWidth	200
@@ -8460,8 +9754,8 @@ Library {
       MaskHideContents	      off
       System {
 	Name			"Navigation"
-	Location		[302, 333, 1171, 919]
-	Open			on
+	Location		[100, 242, 1173, 861]
+	Open			off
 	ModelBrowserVisibility	on
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -11515,13 +12809,13 @@ Library {
 	  Position		  [370, 220, 405, 255]
 	  SourceBlock		  "simulink/Math\nOperations/Dot Product"
 	  SourceType		  "Dot Product"
-	  InputSameDT		  on
+	  InputSameDT		  "on"
 	  OutputDataTypeScalingMode "Inherit via internal rule"
 	  OutDataType		  "sfix(16)"
 	  OutScaling		  "2^-10"
-	  LockScale		  off
+	  LockScale		  "off"
 	  RndMeth		  "Floor"
-	  DoSatur		  off
+	  DoSatur		  "off"
 	}
 	Block {
 	  BlockType		  SubSystem
@@ -22030,6 +23324,16 @@ Stateflow {
 		name                      		"sfun"
 		description               		"Default Simulink S-Function Target."
 		machine                   		1
-		linkNode                  		[1 0 0]
+		linkNode                  		[1 0 172]
+	}
+
+	target {
+		id                        		172
+		name                      		"rtw"
+		codeFlags                 		" comments=1 statebitsets=1 databitsets=1 emitlogicalops=1 el"
+						"seifdetection=1 constantfolding=1 redundantloadelimination=0"
+						" preservenames=0 preservenameswithparent=0 exportcharts=0"
+		machine                   		1
+		linkNode                  		[1 171 0]
 	}
 }
