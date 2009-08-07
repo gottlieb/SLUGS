@@ -34,8 +34,8 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Aug 05 17:53:27 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:103>"
+  LastModifiedDate	  "Thu Aug 06 17:30:00 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:112>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -284,6 +284,20 @@ Library {
       InputPortOffsets	      "[]"
     }
     Block {
+      BlockType		      MinMax
+      Function		      "min"
+      Inputs		      "1"
+      InputSameDT	      on
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
       BlockType		      Mux
       Inputs		      "4"
       DisplayOption	      "none"
@@ -453,7 +467,7 @@ Library {
   }
   System {
     Name		    "SLUGS_Library"
-    Location		    [320, 516, 942, 1243]
+    Location		    [389, 224, 1011, 951]
     Open		    on
     ModelBrowserVisibility  on
     ModelBrowserWidth	    212
@@ -1919,8 +1933,8 @@ Library {
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "PI Controller w/Anti-Windup"
-	  Ports			  [3, 1]
-	  Position		  [290, 476, 390, 564]
+	  Ports			  [4, 1]
+	  Position		  [285, 476, 385, 579]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
@@ -1930,25 +1944,26 @@ Library {
 "aturation limits. Implemented as a discrete forwardl integration which stops "
 "integrating when the output is saturated. Derivative is implemented as a nume"
 "rical derivative with N integer delays to smooth output."
-	  MaskPromptString	  "Sample Time|Integer delays for de/dt|Satura"
-"tion Limit"
-	  MaskStyleString	  "edit,edit,edit"
-	  MaskTunableValueString  "on,on,on"
-	  MaskCallbackString	  "||"
-	  MaskEnableString	  "on,on,on"
-	  MaskVisibilityString	  "on,on,on"
-	  MaskToolTipString	  "on,on,on"
-	  MaskVarAliasString	  ",,"
-	  MaskVariables		  "Tsample=@1;Ndelay=@2;SaturationLimit=@3;"
+	  MaskPromptString	  "Sample Time|Integer delays for de/dt|Upper "
+"Saturation Limit|Lower Saturation Limit"
+	  MaskStyleString	  "edit,edit,edit,edit"
+	  MaskTunableValueString  "on,on,on,on"
+	  MaskCallbackString	  "|||"
+	  MaskEnableString	  "on,on,on,on"
+	  MaskVisibilityString	  "on,on,on,on"
+	  MaskToolTipString	  "on,on,on,on"
+	  MaskVarAliasString	  ",,,"
+	  MaskVariables		  "Tsample=@1;Ndelay=@2;upperSaturationLimit=@"
+"3;lowerSaturationLimit=@4;"
 	  MaskDisplay		  "disp('PI')\nport_label('input',1,'error')\n"
-"port_label('input',3,'gains')\nport_label('input',2,'reset')\nport_label('out"
-"put',1,'output')\n"
+"port_label('input',3,'gains')\nport_label('input',2,'reset')\nport_label('inp"
+"ut',4,'trim')\nport_label('output',1,'output')\n"
 	  MaskIconFrame		  on
 	  MaskIconOpaque	  on
 	  MaskIconRotate	  "none"
 	  MaskIconUnits		  "normalized"
-	  MaskValueString	  "Ts|Ndelay|deLimit"
-	  MaskTabNameString	  ",,"
+	  MaskValueString	  "Ts|Ndelay|deLimit|0"
+	  MaskTabNameString	  ",,,"
 	  System {
 	    Name		    "PI Controller w/Anti-Windup"
 	    Location		    [202, 82, 1220, 1000]
@@ -1989,10 +2004,12 @@ Library {
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
-	      BlockType		      Abs
-	      Name		      "Abs"
-	      Position		      [475, 450, 505, 480]
-	      SaturateOnIntegerOverflow	off
+	      BlockType		      Inport
+	      Name		      "Trim"
+	      Position		      [490, 583, 520, 597]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "4"
+	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Sum
@@ -2000,6 +2017,32 @@ Library {
 	      Ports		      [2, 1]
 	      Position		      [650, 162, 680, 193]
 	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "single"
+	      OutScaling	      "2^-10"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Add3"
+	      Ports		      [2, 1]
+	      Position		      [550, 537, 580, 568]
+	      ShowName		      off
+	      Inputs		      "+-"
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "single"
+	      OutScaling	      "2^-10"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Add4"
+	      Ports		      [2, 1]
+	      Position		      [625, 372, 655, 403]
+	      ShowName		      off
+	      Inputs		      "+-"
 	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
 	      OutDataTypeMode	      "single"
@@ -2085,7 +2128,25 @@ Library {
 	      BackgroundColor	      "cyan"
 	      ShowName		      off
 	      CloseFcn		      "tagdialog Close"
-	      GotoTag		      "Ppart"
+	      GotoTag		      "PDpart"
+	    }
+	    Block {
+	      BlockType		      From
+	      Name		      "From7"
+	      Position		      [695, 146, 735, 174]
+	      BackgroundColor	      "cyan"
+	      ShowName		      off
+	      CloseFcn		      "tagdialog Close"
+	      GotoTag		      "upLimit"
+	    }
+	    Block {
+	      BlockType		      From
+	      Name		      "From8"
+	      Position		      [700, 186, 740, 214]
+	      BackgroundColor	      "cyan"
+	      ShowName		      off
+	      CloseFcn		      "tagdialog Close"
+	      GotoTag		      "lowLimit"
 	    }
 	    Block {
 	      BlockType		      Gain
@@ -2121,13 +2182,13 @@ Library {
 	      Position		      [710, 40, 750, 70]
 	      BackgroundColor	      "magenta"
 	      ShowName		      off
-	      GotoTag		      "Ppart"
+	      GotoTag		      "PDpart"
 	      TagVisibility	      "local"
 	    }
 	    Block {
 	      BlockType		      Goto
 	      Name		      "Goto4"
-	      Position		      [655, 426, 745, 454]
+	      Position		      [835, 396, 925, 424]
 	      BackgroundColor	      "magenta"
 	      ShowName		      off
 	      GotoTag		      "NotSaturated"
@@ -2136,16 +2197,45 @@ Library {
 	    Block {
 	      BlockType		      Goto
 	      Name		      "Goto5"
-	      Position		      [805, 230, 845, 260]
+	      Position		      [570, 295, 610, 325]
+	      Orientation	      "left"
 	      BackgroundColor	      "magenta"
 	      ShowName		      off
 	      GotoTag		      "Out"
 	      TagVisibility	      "local"
 	    }
 	    Block {
+	      BlockType		      Goto
+	      Name		      "Goto6"
+	      Position		      [690, 396, 740, 424]
+	      BackgroundColor	      "magenta"
+	      ShowName		      off
+	      GotoTag		      "lowLimit"
+	      TagVisibility	      "local"
+	    }
+	    Block {
+	      BlockType		      Goto
+	      Name		      "Goto7"
+	      Position		      [695, 496, 745, 524]
+	      BackgroundColor	      "magenta"
+	      ShowName		      off
+	      GotoTag		      "upLimit"
+	      TagVisibility	      "local"
+	    }
+	    Block {
+	      BlockType		      Logic
+	      Name		      "Logical\nOperator"
+	      Ports		      [2, 1]
+	      Position		      [775, 392, 805, 423]
+	      ShowName		      off
+	      AllPortsSameDT	      off
+	      OutDataTypeMode	      "Boolean"
+	    }
+	    Block {
 	      BlockType		      Memory
 	      Name		      "Memory1"
-	      Position		      [735, 230, 765, 260]
+	      Position		      [630, 295, 660, 325]
+	      Orientation	      "left"
 	      ShowName		      off
 	      InheritSampleTime	      on
 	    }
@@ -2157,7 +2247,7 @@ Library {
 	      ShowName		      off
 	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
-	      OutDataTypeMode	      "single"
+	      OutDataTypeMode	      "Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
@@ -2168,7 +2258,7 @@ Library {
 	      ShowName		      off
 	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
-	      OutDataTypeMode	      "single"
+	      OutDataTypeMode	      "Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
@@ -2179,29 +2269,60 @@ Library {
 	      ShowName		      off
 	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
-	      OutDataTypeMode	      "single"
+	      OutDataTypeMode	      "Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
 	      BlockType		      RelationalOperator
 	      Name		      "Relational\nOperator"
-	      Position		      [560, 457, 590, 488]
+	      Position		      [710, 452, 740, 483]
+	      ShowName		      off
 	      Operator		      "<"
 	      InputSameDT	      off
 	      LogicOutDataTypeMode    "Boolean"
 	    }
 	    Block {
-	      BlockType		      Saturate
-	      Name		      "Saturation"
-	      Position		      [750, 165, 780, 195]
-	      UpperLimit	      "SaturationLimit"
-	      LowerLimit	      "-SaturationLimit"
+	      BlockType		      RelationalOperator
+	      Name		      "Relational\nOperator1"
+	      Position		      [700, 347, 730, 378]
+	      ShowName		      off
+	      Operator		      ">"
+	      InputSameDT	      off
+	      LogicOutDataTypeMode    "Boolean"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Saturation\nDynamic"
+	      Ports		      [3, 1]
+	      Position		      [770, 151, 850, 209]
+	      NamePlacement	      "alternate"
+	      SourceBlock	      "simulink/Discontinuities/Saturation\nDy"
+"namic"
+	      SourceType	      "Saturation Dynamic"
+	      ShowPortLabels	      "FromPortIcon"
+	      SystemSampleTime	      "-1"
+	      FunctionWithSeparateData off
+	      RTWMemSecFuncInitTerm   "Inherit from model"
+	      RTWMemSecFuncExecute    "Inherit from model"
+	      RTWMemSecDataConstants  "Inherit from model"
+	      RTWMemSecDataInternal   "Inherit from model"
+	      RTWMemSecDataParameters "Inherit from model"
 	    }
 	    Block {
 	      BlockType		      Constant
 	      Name		      "SaturationLimit"
-	      Position		      [460, 505, 490, 535]
-	      Value		      "SaturationLimit"
+	      Position		      [405, 527, 520, 563]
+	      ShowName		      off
+	      Value		      "upperSaturationLimit"
+	      OutDataTypeMode	      "single"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "SaturationLimit1"
+	      Position		      [470, 362, 585, 398]
+	      ShowName		      off
+	      Value		      "lowerSaturationLimit"
+	      OutDataTypeMode	      "single"
 	    }
 	    Block {
 	      BlockType		      Sum
@@ -2219,39 +2340,34 @@ Library {
 	    Block {
 	      BlockType		      Terminator
 	      Name		      "Terminator"
-	      Position		      [200, 490, 220, 510]
+	      Position		      [200, 495, 220, 515]
 	      ShowName		      off
 	    }
 	    Block {
 	      BlockType		      SubSystem
-	      Name		      "Trapezoidal Integrator1"
+	      Name		      "Trapezoidal Integrator"
 	      Ports		      [2, 1]
 	      Position		      [340, 208, 450, 252]
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
 	      MaskHideContents	      off
-	      MaskPromptString	      "Sample Time|Upper Integrator Limit|Lowe"
-"r Integrator Limit"
-	      MaskStyleString	      "edit,edit,edit"
-	      MaskTunableValueString  "on,on,on"
-	      MaskCallbackString      "||"
-	      MaskEnableString	      "on,on,on"
-	      MaskVisibilityString    "on,on,on"
-	      MaskToolTipString	      "on,on,on"
-	      MaskVarAliasString      ",,"
-	      MaskVariables	      "T=@1;upperLimit=@2;lowerLimit=@3;"
+	      MaskPromptString	      "Sample Time"
+	      MaskStyleString	      "edit"
+	      MaskTunableValueString  "on"
+	      MaskEnableString	      "on"
+	      MaskVisibilityString    "on"
+	      MaskToolTipString	      "on"
+	      MaskVariables	      "T=@1;"
 	      MaskIconFrame	      on
 	      MaskIconOpaque	      on
 	      MaskIconRotate	      "none"
 	      MaskIconUnits	      "autoscale"
-	      MaskValueString	      "Tsample|SaturationLimit|-SaturationLimi"
-"t"
-	      MaskTabNameString	      ",,"
+	      MaskValueString	      "Tsample"
 	      System {
-		Name			"Trapezoidal Integrator1"
+		Name			"Trapezoidal Integrator"
 		Location		[276, 365, 1164, 945]
-		Open			off
+		Open			on
 		ModelBrowserVisibility	on
 		ModelBrowserWidth	200
 		ScreenColor		"white"
@@ -2403,13 +2519,6 @@ Library {
 		  SaturateOnIntegerOverflow off
 		}
 		Block {
-		  BlockType		  Saturate
-		  Name			  "Saturation"
-		  Position		  [505, 250, 535, 280]
-		  UpperLimit		  "50"
-		  LowerLimit		  "-50"
-		}
-		Block {
 		  BlockType		  Sum
 		  Name			  "Subtract"
 		  Ports			  [3, 1]
@@ -2440,6 +2549,7 @@ Library {
 		  Name			  "Switch1"
 		  Position		  [565, 205, 595, 275]
 		  ShowName		  off
+		  Criteria		  "u2 > Threshold"
 		  Threshold		  "0.3"
 		  InputSameDT		  off
 		  SaturateOnIntegerOverflow off
@@ -2543,8 +2653,8 @@ Library {
 		Line {
 		  SrcBlock		  "Subtract1"
 		  SrcPort		  1
-		  DstBlock		  "Saturation"
-		  DstPort		  1
+		  DstBlock		  "Switch1"
+		  DstPort		  3
 		}
 		Line {
 		  SrcBlock		  "Integer Delay2"
@@ -2573,12 +2683,6 @@ Library {
 		  DstPort		  2
 		}
 		Line {
-		  SrcBlock		  "Saturation"
-		  SrcPort		  1
-		  DstBlock		  "Switch1"
-		  DstPort		  3
-		}
-		Line {
 		  SrcBlock		  "Switch1"
 		  SrcPort		  1
 		  Points		  [20, 0]
@@ -2595,12 +2699,157 @@ Library {
 	      }
 	    }
 	    Block {
+	      BlockType		      InportShadow
+	      Name		      "Trim "
+	      Position		      [525, 418, 555, 432]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "4"
+	      IconDisplay	      "Port number"
+	      LatchByDelayingOutsideSignal off
+	      LatchByCopyingInsideSignal off
+	    }
+	    Block {
 	      BlockType		      Outport
 	      Name		      "Output"
-	      Position		      [825, 173, 855, 187]
+	      Position		      [875, 173, 905, 187]
 	      BackgroundColor	      "yellow"
 	      IconDisplay	      "Port number"
 	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "From8"
+	      SrcPort		      1
+	      DstBlock		      "Saturation\nDynamic"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "From7"
+	      SrcPort		      1
+	      DstBlock		      "Saturation\nDynamic"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Trim "
+	      SrcPort		      1
+	      Points		      [50, 0]
+	      DstBlock		      "Add4"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "SaturationLimit1"
+	      SrcPort		      1
+	      DstBlock		      "Add4"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Add4"
+	      SrcPort		      1
+	      Points		      [10, 0]
+	      Branch {
+		Points			[0, 20]
+		DstBlock		"Goto6"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, -20]
+		DstBlock		"Relational\nOperator1"
+		DstPort			2
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "SaturationLimit"
+	      SrcPort		      1
+	      DstBlock		      "Add3"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Trim"
+	      SrcPort		      1
+	      Points		      [5, 0; 0, -30]
+	      DstBlock		      "Add3"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Logical\nOperator"
+	      SrcPort		      1
+	      DstBlock		      "Goto4"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Relational\nOperator1"
+	      SrcPort		      1
+	      Points		      [15, 0; 0, 35]
+	      DstBlock		      "Logical\nOperator"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Relational\nOperator"
+	      SrcPort		      1
+	      Points		      [5, 0; 0, -55]
+	      DstBlock		      "Logical\nOperator"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Add3"
+	      SrcPort		      1
+	      Points		      [0, -80; 90, 0]
+	      Branch {
+		Points			[0, 35]
+		DstBlock		"Goto7"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"Relational\nOperator"
+		DstPort			2
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "From3"
+	      SrcPort		      1
+	      DstBlock		      "Sum2"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Sum2"
+	      SrcPort		      1
+	      Points		      [5, 0]
+	      Branch {
+		Points			[0, -110]
+		DstBlock		"Relational\nOperator1"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[240, 0]
+		DstBlock		"Relational\nOperator"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "From5"
+	      SrcPort		      1
+	      DstBlock		      "Product4"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Gain"
+	      SrcPort		      1
+	      Points		      [0, 10]
+	      DstBlock		      "Product4"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Product4"
+	      SrcPort		      1
+	      Points		      [45, 0]
+	      DstBlock		      "Sum2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "From6"
+	      SrcPort		      1
+	      Points		      [50, 0]
+	      DstBlock		      "Sum2"
+	      DstPort		      3
 	    }
 	    Line {
 	      SrcBlock		      "Product"
@@ -2627,60 +2876,14 @@ Library {
 	      SrcBlock		      "Reset"
 	      SrcPort		      1
 	      Points		      [-30, 0]
-	      DstBlock		      "Trapezoidal Integrator1"
+	      DstBlock		      "Trapezoidal Integrator"
 	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "Relational\nOperator"
-	      SrcPort		      1
-	      Points		      [45, 0]
-	      DstBlock		      "Goto4"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "From6"
-	      SrcPort		      1
-	      Points		      [50, 0]
-	      DstBlock		      "Sum2"
-	      DstPort		      3
 	    }
 	    Line {
 	      SrcBlock		      "Memory1"
 	      SrcPort		      1
 	      DstBlock		      "Goto5"
 	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Product4"
-	      SrcPort		      1
-	      Points		      [45, 0]
-	      DstBlock		      "Sum2"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Gain"
-	      SrcPort		      1
-	      Points		      [0, 10]
-	      DstBlock		      "Product4"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "From5"
-	      SrcPort		      1
-	      DstBlock		      "Product4"
-	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "Sum2"
-	      SrcPort		      1
-	      DstBlock		      "Abs"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "From3"
-	      SrcPort		      1
-	      DstBlock		      "Sum2"
-	      DstPort		      2
 	    }
 	    Line {
 	      SrcBlock		      "PIDGains"
@@ -2704,7 +2907,7 @@ Library {
 	    Line {
 	      SrcBlock		      "Demux"
 	      SrcPort		      3
-	      Points		      [5, 0; 0, 25]
+	      Points		      [5, 0; 0, 30]
 	      DstBlock		      "Terminator"
 	      DstPort		      1
 	    }
@@ -2719,7 +2922,7 @@ Library {
 	      SrcBlock		      "AntiWindup"
 	      SrcPort		      1
 	      Points		      [15, 0]
-	      DstBlock		      "Trapezoidal Integrator1"
+	      DstBlock		      "Trapezoidal Integrator"
 	      DstPort		      1
 	    }
 	    Line {
@@ -2733,13 +2936,13 @@ Library {
 	      Branch {
 		Points			[0, 145]
 		Branch {
-		  Points		  [110, 0; 0, 35]
-		  DstBlock		  "AntiWindup"
+		  Points		  [0, 195]
+		  DstBlock		  "Gain"
 		  DstPort		  1
 		}
 		Branch {
-		  Points		  [0, 195]
-		  DstBlock		  "Gain"
+		  Points		  [110, 0; 0, 35]
+		  DstBlock		  "AntiWindup"
 		  DstPort		  1
 		}
 	      }
@@ -2751,7 +2954,7 @@ Library {
 	      DstPort		      2
 	    }
 	    Line {
-	      SrcBlock		      "Trapezoidal Integrator1"
+	      SrcBlock		      "Trapezoidal Integrator"
 	      SrcPort		      1
 	      Points		      [0, -5]
 	      DstBlock		      "Product"
@@ -2767,34 +2970,21 @@ Library {
 	    Line {
 	      SrcBlock		      "Add2"
 	      SrcPort		      1
-	      Points		      [20, 0]
+	      Points		      [10, 0]
 	      Branch {
-		Points			[0, 65]
+		DstBlock		"Saturation\nDynamic"
+		DstPort			2
+	      }
+	      Branch {
+		Points			[0, 130]
 		DstBlock		"Memory1"
 		DstPort			1
 	      }
-	      Branch {
-		DstBlock		"Saturation"
-		DstPort			1
-	      }
 	    }
 	    Line {
-	      SrcBlock		      "Saturation"
+	      SrcBlock		      "Saturation\nDynamic"
 	      SrcPort		      1
 	      DstBlock		      "Output"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "SaturationLimit"
-	      SrcPort		      1
-	      Points		      [25, 0; 0, -40]
-	      DstBlock		      "Relational\nOperator"
-	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "Abs"
-	      SrcPort		      1
-	      DstBlock		      "Relational\nOperator"
 	      DstPort		      1
 	    }
 	    Line {
@@ -2802,16 +2992,6 @@ Library {
 	      SrcPort		      1
 	      DstBlock		      "AntiWindup"
 	      DstPort		      2
-	    }
-	    Annotation {
-	      Name		      "Checks in here for\nexceeding saturatio"
-"n\nlimit and stopping\nintegration if it occurs"
-	      Position		      [536, 409]
-	    }
-	    Annotation {
-	      Name		      "Nsampled time derivative"
-	      Position		      [378, 339]
-	      ForegroundColor	      "red"
 	    }
 	  }
 	}
@@ -3481,8 +3661,8 @@ Library {
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "PID Controller w/Anti-Windup"
-	  Ports			  [3, 1]
-	  Position		  [80, 309, 180, 411]
+	  Ports			  [4, 1]
+	  Position		  [80, 311, 180, 414]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
@@ -3492,25 +3672,26 @@ Library {
 "aturation limits. Implemented as a discrete forwardl integration which stops "
 "integrating when the output is saturated. Derivative is implemented as a nume"
 "rical derivative with N integer delays to smooth output."
-	  MaskPromptString	  "Sample Time|Integer delays for de/dt|Satura"
-"tion Limit"
-	  MaskStyleString	  "edit,edit,edit"
-	  MaskTunableValueString  "on,on,on"
-	  MaskCallbackString	  "||"
-	  MaskEnableString	  "on,on,on"
-	  MaskVisibilityString	  "on,on,on"
-	  MaskToolTipString	  "on,on,on"
-	  MaskVarAliasString	  ",,"
-	  MaskVariables		  "Tsample=@1;Ndelay=@2;SaturationLimit=@3;"
+	  MaskPromptString	  "Sample Time|Integer delays for de/dt|Upper "
+"Saturation Limit|Lower Saturation Limit"
+	  MaskStyleString	  "edit,edit,edit,edit"
+	  MaskTunableValueString  "on,on,on,on"
+	  MaskCallbackString	  "|||"
+	  MaskEnableString	  "on,on,on,on"
+	  MaskVisibilityString	  "on,on,on,on"
+	  MaskToolTipString	  "on,on,on,on"
+	  MaskVarAliasString	  ",,,"
+	  MaskVariables		  "Tsample=@1;Ndelay=@2;upperSaturationLimit=@"
+"3;lowerSaturationLimit=@4;"
 	  MaskDisplay		  "disp('PID')\nport_label('input',1,'error')"
-"\nport_label('input',3,'gains')\nport_label('input',2,'reset')\nport_label('o"
-"utput',1,'output')\n"
+"\nport_label('input',3,'gains')\nport_label('input',2,'reset')\nport_label('i"
+"nput',4,'trim')\nport_label('output',1,'output')\n"
 	  MaskIconFrame		  on
 	  MaskIconOpaque	  on
 	  MaskIconRotate	  "none"
 	  MaskIconUnits		  "normalized"
-	  MaskValueString	  "Ts|Ndelay|deLimit"
-	  MaskTabNameString	  ",,"
+	  MaskValueString	  "Ts|Ndelay|deLimit|0"
+	  MaskTabNameString	  ",,,"
 	  System {
 	    Name		    "PID Controller w/Anti-Windup"
 	    Location		    [202, 82, 1220, 1000]
@@ -3551,10 +3732,12 @@ Library {
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
-	      BlockType		      Abs
-	      Name		      "Abs"
-	      Position		      [475, 450, 505, 480]
-	      SaturateOnIntegerOverflow	off
+	      BlockType		      Inport
+	      Name		      "Trim"
+	      Position		      [490, 583, 520, 597]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "4"
+	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Sum
@@ -3576,7 +3759,33 @@ Library {
 	      ShowName		      off
 	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
-	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataTypeMode	      "single"
+	      OutScaling	      "2^-10"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Add3"
+	      Ports		      [2, 1]
+	      Position		      [550, 537, 580, 568]
+	      ShowName		      off
+	      Inputs		      "+-"
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "single"
+	      OutScaling	      "2^-10"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Add4"
+	      Ports		      [2, 1]
+	      Position		      [625, 372, 655, 403]
+	      ShowName		      off
+	      Inputs		      "+-"
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "single"
 	      OutScaling	      "2^-10"
 	      SaturateOnIntegerOverflow	off
 	    }
@@ -3671,6 +3880,24 @@ Library {
 	      GotoTag		      "PDpart"
 	    }
 	    Block {
+	      BlockType		      From
+	      Name		      "From7"
+	      Position		      [695, 146, 735, 174]
+	      BackgroundColor	      "cyan"
+	      ShowName		      off
+	      CloseFcn		      "tagdialog Close"
+	      GotoTag		      "upLimit"
+	    }
+	    Block {
+	      BlockType		      From
+	      Name		      "From8"
+	      Position		      [700, 186, 740, 214]
+	      BackgroundColor	      "cyan"
+	      ShowName		      off
+	      CloseFcn		      "tagdialog Close"
+	      GotoTag		      "lowLimit"
+	    }
+	    Block {
 	      BlockType		      Gain
 	      Name		      "Gain"
 	      Position		      [275, 357, 325, 393]
@@ -3719,7 +3946,7 @@ Library {
 	    Block {
 	      BlockType		      Goto
 	      Name		      "Goto4"
-	      Position		      [655, 426, 745, 454]
+	      Position		      [835, 396, 925, 424]
 	      BackgroundColor	      "magenta"
 	      ShowName		      off
 	      GotoTag		      "NotSaturated"
@@ -3728,16 +3955,45 @@ Library {
 	    Block {
 	      BlockType		      Goto
 	      Name		      "Goto5"
-	      Position		      [805, 230, 845, 260]
+	      Position		      [570, 295, 610, 325]
+	      Orientation	      "left"
 	      BackgroundColor	      "magenta"
 	      ShowName		      off
 	      GotoTag		      "Out"
 	      TagVisibility	      "local"
 	    }
 	    Block {
+	      BlockType		      Goto
+	      Name		      "Goto6"
+	      Position		      [690, 396, 740, 424]
+	      BackgroundColor	      "magenta"
+	      ShowName		      off
+	      GotoTag		      "lowLimit"
+	      TagVisibility	      "local"
+	    }
+	    Block {
+	      BlockType		      Goto
+	      Name		      "Goto7"
+	      Position		      [695, 496, 745, 524]
+	      BackgroundColor	      "magenta"
+	      ShowName		      off
+	      GotoTag		      "upLimit"
+	      TagVisibility	      "local"
+	    }
+	    Block {
+	      BlockType		      Logic
+	      Name		      "Logical\nOperator"
+	      Ports		      [2, 1]
+	      Position		      [775, 392, 805, 423]
+	      ShowName		      off
+	      AllPortsSameDT	      off
+	      OutDataTypeMode	      "Boolean"
+	    }
+	    Block {
 	      BlockType		      Memory
 	      Name		      "Memory1"
-	      Position		      [735, 230, 765, 260]
+	      Position		      [630, 295, 660, 325]
+	      Orientation	      "left"
 	      ShowName		      off
 	      InheritSampleTime	      on
 	    }
@@ -3811,23 +4067,54 @@ Library {
 	    Block {
 	      BlockType		      RelationalOperator
 	      Name		      "Relational\nOperator"
-	      Position		      [560, 457, 590, 488]
+	      Position		      [710, 452, 740, 483]
+	      ShowName		      off
 	      Operator		      "<"
 	      InputSameDT	      off
 	      LogicOutDataTypeMode    "Boolean"
 	    }
 	    Block {
-	      BlockType		      Saturate
-	      Name		      "Saturation"
-	      Position		      [750, 165, 780, 195]
-	      UpperLimit	      "SaturationLimit"
-	      LowerLimit	      "-SaturationLimit"
+	      BlockType		      RelationalOperator
+	      Name		      "Relational\nOperator1"
+	      Position		      [700, 347, 730, 378]
+	      ShowName		      off
+	      Operator		      ">"
+	      InputSameDT	      off
+	      LogicOutDataTypeMode    "Boolean"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Saturation\nDynamic"
+	      Ports		      [3, 1]
+	      Position		      [770, 151, 850, 209]
+	      NamePlacement	      "alternate"
+	      SourceBlock	      "simulink/Discontinuities/Saturation\nDy"
+"namic"
+	      SourceType	      "Saturation Dynamic"
+	      ShowPortLabels	      "FromPortIcon"
+	      SystemSampleTime	      "-1"
+	      FunctionWithSeparateData off
+	      RTWMemSecFuncInitTerm   "Inherit from model"
+	      RTWMemSecFuncExecute    "Inherit from model"
+	      RTWMemSecDataConstants  "Inherit from model"
+	      RTWMemSecDataInternal   "Inherit from model"
+	      RTWMemSecDataParameters "Inherit from model"
 	    }
 	    Block {
 	      BlockType		      Constant
 	      Name		      "SaturationLimit"
-	      Position		      [460, 505, 490, 535]
-	      Value		      "SaturationLimit"
+	      Position		      [405, 527, 520, 563]
+	      ShowName		      off
+	      Value		      "upperSaturationLimit"
+	      OutDataTypeMode	      "single"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "SaturationLimit1"
+	      Position		      [470, 362, 585, 398]
+	      ShowName		      off
+	      Value		      "lowerSaturationLimit"
+	      OutDataTypeMode	      "single"
 	    }
 	    Block {
 	      BlockType		      Sum
@@ -3864,23 +4151,18 @@ Library {
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
 	      MaskHideContents	      off
-	      MaskPromptString	      "Sample Time|Upper Integrator Limit|Lowe"
-"r Integrator Limit"
-	      MaskStyleString	      "edit,edit,edit"
-	      MaskTunableValueString  "on,on,on"
-	      MaskCallbackString      "||"
-	      MaskEnableString	      "on,on,on"
-	      MaskVisibilityString    "on,on,on"
-	      MaskToolTipString	      "on,on,on"
-	      MaskVarAliasString      ",,"
-	      MaskVariables	      "T=@1;upperLimit=@2;lowerLimit=@3;"
+	      MaskPromptString	      "Sample Time"
+	      MaskStyleString	      "edit"
+	      MaskTunableValueString  "on"
+	      MaskEnableString	      "on"
+	      MaskVisibilityString    "on"
+	      MaskToolTipString	      "on"
+	      MaskVariables	      "T=@1;"
 	      MaskIconFrame	      on
 	      MaskIconOpaque	      on
 	      MaskIconRotate	      "none"
 	      MaskIconUnits	      "autoscale"
-	      MaskValueString	      "Tsample|SaturationLimit|-SaturationLimi"
-"t"
-	      MaskTabNameString	      ",,"
+	      MaskValueString	      "Tsample"
 	      System {
 		Name			"Trapezoidal Integrator"
 		Location		[276, 365, 1164, 945]
@@ -4036,13 +4318,6 @@ Library {
 		  SaturateOnIntegerOverflow off
 		}
 		Block {
-		  BlockType		  Saturate
-		  Name			  "Saturation"
-		  Position		  [505, 250, 535, 280]
-		  UpperLimit		  "50"
-		  LowerLimit		  "-50"
-		}
-		Block {
 		  BlockType		  Sum
 		  Name			  "Subtract"
 		  Ports			  [3, 1]
@@ -4073,6 +4348,7 @@ Library {
 		  Name			  "Switch1"
 		  Position		  [565, 205, 595, 275]
 		  ShowName		  off
+		  Criteria		  "u2 > Threshold"
 		  Threshold		  "0.3"
 		  InputSameDT		  off
 		  SaturateOnIntegerOverflow off
@@ -4099,12 +4375,6 @@ Library {
 		    DstBlock		    "Int(x)"
 		    DstPort		    1
 		  }
-		}
-		Line {
-		  SrcBlock		  "Saturation"
-		  SrcPort		  1
-		  DstBlock		  "Switch1"
-		  DstPort		  3
 		}
 		Line {
 		  SrcBlock		  "Reset"
@@ -4135,8 +4405,8 @@ Library {
 		Line {
 		  SrcBlock		  "Subtract1"
 		  SrcPort		  1
-		  DstBlock		  "Saturation"
-		  DstPort		  1
+		  DstBlock		  "Switch1"
+		  DstPort		  3
 		}
 		Line {
 		  SrcBlock		  "Subtract"
@@ -4228,15 +4498,26 @@ Library {
 	      }
 	    }
 	    Block {
+	      BlockType		      InportShadow
+	      Name		      "Trim "
+	      Position		      [525, 418, 555, 432]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "4"
+	      IconDisplay	      "Port number"
+	      LatchByDelayingOutsideSignal off
+	      LatchByCopyingInsideSignal off
+	    }
+	    Block {
 	      BlockType		      Constant
 	      Name		      "delayTime"
 	      Position		      [265, 145, 295, 175]
 	      Value		      "Ndelay*Tsample"
+	      OutDataTypeMode	      "single"
 	    }
 	    Block {
 	      BlockType		      Outport
 	      Name		      "Output"
-	      Position		      [820, 173, 850, 187]
+	      Position		      [875, 173, 905, 187]
 	      BackgroundColor	      "yellow"
 	      IconDisplay	      "Port number"
 	      BusOutputAsStruct	      off
@@ -4248,20 +4529,7 @@ Library {
 	      DstPort		      2
 	    }
 	    Line {
-	      SrcBlock		      "Abs"
-	      SrcPort		      1
-	      DstBlock		      "Relational\nOperator"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "SaturationLimit"
-	      SrcPort		      1
-	      Points		      [25, 0; 0, -40]
-	      DstBlock		      "Relational\nOperator"
-	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "Saturation"
+	      SrcBlock		      "Saturation\nDynamic"
 	      SrcPort		      1
 	      DstBlock		      "Output"
 	      DstPort		      1
@@ -4302,15 +4570,15 @@ Library {
 	    Line {
 	      SrcBlock		      "Add2"
 	      SrcPort		      1
-	      Points		      [20, 0]
+	      Points		      [10, 0]
 	      Branch {
-		DstBlock		"Saturation"
+		Points			[0, 130]
+		DstBlock		"Memory1"
 		DstPort			1
 	      }
 	      Branch {
-		Points			[0, 65]
-		DstBlock		"Memory1"
-		DstPort			1
+		DstBlock		"Saturation\nDynamic"
+		DstPort			2
 	      }
 	    }
 	    Line {
@@ -4358,13 +4626,13 @@ Library {
 		Branch {
 		  Points		  [0, 80]
 		  Branch {
-		    Points		    [0, 195]
-		    DstBlock		    "Gain"
+		    Points		    [110, 0; 0, 35]
+		    DstBlock		    "AntiWindup"
 		    DstPort		    1
 		  }
 		  Branch {
-		    Points		    [110, 0; 0, 35]
-		    DstBlock		    "AntiWindup"
+		    Points		    [0, 195]
+		    DstBlock		    "Gain"
 		    DstPort		    1
 		  }
 		}
@@ -4411,55 +4679,9 @@ Library {
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "From3"
-	      SrcPort		      1
-	      DstBlock		      "Sum2"
-	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "Sum2"
-	      SrcPort		      1
-	      DstBlock		      "Abs"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "From5"
-	      SrcPort		      1
-	      DstBlock		      "Product4"
-	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "Gain"
-	      SrcPort		      1
-	      Points		      [0, 10]
-	      DstBlock		      "Product4"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Product4"
-	      SrcPort		      1
-	      Points		      [45, 0]
-	      DstBlock		      "Sum2"
-	      DstPort		      1
-	    }
-	    Line {
 	      SrcBlock		      "Memory1"
 	      SrcPort		      1
 	      DstBlock		      "Goto5"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "From6"
-	      SrcPort		      1
-	      Points		      [50, 0]
-	      DstBlock		      "Sum2"
-	      DstPort		      3
-	    }
-	    Line {
-	      SrcBlock		      "Relational\nOperator"
-	      SrcPort		      1
-	      Points		      [45, 0]
-	      DstBlock		      "Goto4"
 	      DstPort		      1
 	    }
 	    Line {
@@ -4503,15 +4725,145 @@ Library {
 	      DstBlock		      "Add2"
 	      DstPort		      2
 	    }
+	    Line {
+	      SrcBlock		      "From6"
+	      SrcPort		      1
+	      Points		      [50, 0]
+	      DstBlock		      "Sum2"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Product4"
+	      SrcPort		      1
+	      Points		      [45, 0]
+	      DstBlock		      "Sum2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Gain"
+	      SrcPort		      1
+	      Points		      [0, 10]
+	      DstBlock		      "Product4"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "From5"
+	      SrcPort		      1
+	      DstBlock		      "Product4"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Sum2"
+	      SrcPort		      1
+	      Points		      [5, 0]
+	      Branch {
+		Points			[240, 0]
+		DstBlock		"Relational\nOperator"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, -110]
+		DstBlock		"Relational\nOperator1"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "From3"
+	      SrcPort		      1
+	      DstBlock		      "Sum2"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Add3"
+	      SrcPort		      1
+	      Points		      [0, -80; 90, 0]
+	      Branch {
+		DstBlock		"Relational\nOperator"
+		DstPort			2
+	      }
+	      Branch {
+		Points			[0, 35]
+		DstBlock		"Goto7"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Relational\nOperator"
+	      SrcPort		      1
+	      Points		      [5, 0; 0, -55]
+	      DstBlock		      "Logical\nOperator"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Relational\nOperator1"
+	      SrcPort		      1
+	      Points		      [15, 0; 0, 35]
+	      DstBlock		      "Logical\nOperator"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Logical\nOperator"
+	      SrcPort		      1
+	      DstBlock		      "Goto4"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Trim"
+	      SrcPort		      1
+	      Points		      [5, 0; 0, -30]
+	      DstBlock		      "Add3"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "SaturationLimit"
+	      SrcPort		      1
+	      DstBlock		      "Add3"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Add4"
+	      SrcPort		      1
+	      Points		      [10, 0]
+	      Branch {
+		Points			[0, -20]
+		DstBlock		"Relational\nOperator1"
+		DstPort			2
+	      }
+	      Branch {
+		Points			[0, 20]
+		DstBlock		"Goto6"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "SaturationLimit1"
+	      SrcPort		      1
+	      DstBlock		      "Add4"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Trim "
+	      SrcPort		      1
+	      Points		      [50, 0]
+	      DstBlock		      "Add4"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "From7"
+	      SrcPort		      1
+	      DstBlock		      "Saturation\nDynamic"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "From8"
+	      SrcPort		      1
+	      DstBlock		      "Saturation\nDynamic"
+	      DstPort		      3
+	    }
 	    Annotation {
 	      Name		      "Nsampled time derivative"
 	      Position		      [418, 79]
 	      ForegroundColor	      "red"
-	    }
-	    Annotation {
-	      Name		      "Checks in here for\nexceeding saturatio"
-"n\nlimit and stopping\nintegration if it occurs"
-	      Position		      [536, 409]
 	    }
 	  }
 	}
@@ -4519,7 +4871,7 @@ Library {
 	  BlockType		  SubSystem
 	  Name			  "PID available Derivative\nw/Anti-Windup"
 	  Ports			  [4, 1]
-	  Position		  [80, 450, 180, 540]
+	  Position		  [450, 35, 550, 125]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
