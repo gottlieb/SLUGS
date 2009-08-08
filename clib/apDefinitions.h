@@ -55,7 +55,7 @@ and data types.
 // XYZ data come at 100 Hz instead. COMMENT not Change to 0 (using #ifdef)
 //#define LOGRAW100	1
 
-
+// #define DIAG100		1
 
 // Message Protocol Lengths and IDs
 // ================================
