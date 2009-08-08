@@ -152,7 +152,7 @@ void updateStates(unsigned char * completeSentence){
 			attitudeControlData.timeStamp.chData[0]	= completeSentence[28];			
 			attitudeControlData.timeStamp.chData[1]	= completeSentence[29];			
 		break;
-        case DYNMSG_ID:
+    case DYNMSG_ID:
 			dynTempControlData.dynamic.chData[0]	= completeSentence[4];
 			dynTempControlData.dynamic.chData[1]	= completeSentence[5];
 			dynTempControlData.dynamic.chData[2]	= completeSentence[6];
@@ -414,7 +414,34 @@ void updateStates(unsigned char * completeSentence){
 			senControlData.Mz.chData[1]	= completeSentence[25];
 			senControlData.Mz.chData[2]	= completeSentence[26];
 			senControlData.Mz.chData[3]	= completeSentence[27];			
-		break;		
+		break;	
+		case LOGMSG_ID:
+			logControlData.fl1.chData[0]	= completeSentence[4];
+			logControlData.fl1.chData[1]	= completeSentence[5];
+			logControlData.fl1.chData[2]	= completeSentence[6];
+			logControlData.fl1.chData[3]	= completeSentence[7];
+			logControlData.fl2.chData[0]	= completeSentence[8];
+			logControlData.fl2.chData[1]	= completeSentence[9];
+			logControlData.fl2.chData[2]	= completeSentence[10];
+			logControlData.fl2.chData[3]	= completeSentence[11];
+			logControlData.fl3.chData[0]	= completeSentence[12];
+			logControlData.fl3.chData[1]	= completeSentence[13];
+			logControlData.fl3.chData[2]	= completeSentence[14];
+			logControlData.fl3.chData[3]	= completeSentence[15];
+			logControlData.fl4.chData[0]	= completeSentence[16];
+			logControlData.fl4.chData[1]	= completeSentence[17];
+			logControlData.fl4.chData[2]	= completeSentence[18];
+			logControlData.fl4.chData[3]	= completeSentence[19];
+			logControlData.fl5.chData[0]	= completeSentence[20];
+			logControlData.fl5.chData[1]	= completeSentence[21];
+			logControlData.fl5.chData[2]	= completeSentence[22];
+			logControlData.fl5.chData[3]	= completeSentence[23];
+			logControlData.fl6.chData[0]	= completeSentence[24];
+			logControlData.fl6.chData[1]	= completeSentence[25];
+			logControlData.fl6.chData[2]	= completeSentence[26];
+			logControlData.fl6.chData[3]	= completeSentence[27];			
+		break;	
+						
 		default:
 		break;   
 	}

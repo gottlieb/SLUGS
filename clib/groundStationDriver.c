@@ -373,6 +373,7 @@ void prepareTelemetry( unsigned char* dataOut){
 	
 	// sample period variable
 	static unsigned char sampleTelemetry = 1;
+	static unsigned char scheduleBiases = 1;
 	static unsigned char telemetryBuf [37];
 	
 	// temp var to store the assembled message
@@ -486,8 +487,8 @@ void prepareTelemetry( unsigned char* dataOut){
 			}		
 		break;
 
-		case 3: // Raw or XYZ, depending on logging config
-			#ifdef LOGRAW100 	// If we need to log raw at 100 Hz, then send XYZ here
+		case 3: // Raw, XYZ, or diagnostic depending on logging config
+			#if defined(LOGRAW100) || defined (DIAG100) 	// If we need to log raw or diag at 100 Hz, then send XYZ here
 				rawSentence[0] = xyzControlData.Xcoord.chData[0];
 				rawSentence[1] = xyzControlData.Xcoord.chData[1];
 				rawSentence[2] = xyzControlData.Xcoord.chData[2];
@@ -525,6 +526,7 @@ void prepareTelemetry( unsigned char* dataOut){
 				len2Telemetry = XYZMSG_LEN+7; 		
 
 			#else // if XYZ is sent at 100Hz then send raw here at 10 hz
+	
 				rawSentence[0] 	=	rawControlData.gyroX.chData[0];	
 				rawSentence[1]  =	rawControlData.gyroX.chData[1];	
 				rawSentence[2] 	=	rawControlData.gyroY.chData[0];		 	
@@ -621,77 +623,158 @@ void prepareTelemetry( unsigned char* dataOut){
 		break;
 		
 		case 5: // Bias		
-			
-			rawSentence[0] = biasControlData.axb.chData[0] ;
-			rawSentence[1] = biasControlData.axb.chData[1] ;
-			rawSentence[2] = biasControlData.axb.chData[2] ;
-			rawSentence[3] = biasControlData.axb.chData[3] ;
-			rawSentence[4] = biasControlData.ayb.chData[0] ;	
-			rawSentence[5] = biasControlData.ayb.chData[1] ;	
-			rawSentence[6] = biasControlData.ayb.chData[2] ;	
-			rawSentence[7] = biasControlData.ayb.chData[3] ;	
-			rawSentence[8] = biasControlData.azb.chData[0] ;
-			rawSentence[9] = biasControlData.azb.chData[1] ;
-			rawSentence[10]= biasControlData.azb.chData[2];
-			rawSentence[11]= biasControlData.azb.chData[3];
-			rawSentence[12]= biasControlData.gxb.chData[0];	
-			rawSentence[13]= biasControlData.gxb.chData[1];	
-			rawSentence[14]= biasControlData.gxb.chData[2];	
-			rawSentence[15]= biasControlData.gxb.chData[3];	
-			rawSentence[16]= biasControlData.gyb.chData[0];	
-			rawSentence[17]= biasControlData.gyb.chData[1];	
-			rawSentence[18]= biasControlData.gyb.chData[2];	
-			rawSentence[19]= biasControlData.gyb.chData[3];	
-			rawSentence[20]= biasControlData.gzb.chData[0];	
-			rawSentence[21]= biasControlData.gzb.chData[1];	
-			rawSentence[22]= biasControlData.gzb.chData[2];	
-			rawSentence[23]= biasControlData.gzb.chData[3];	
-					
-			// assemble the Diag data for protocol sending
-			assembleMsg(&rawSentence[0], BIAMSG_LEN, BIAMSG_ID, telemetryBuf);
+			if (1 == scheduleBiases){
+				rawSentence[0] = biasControlData.axb.chData[0] ;
+				rawSentence[1] = biasControlData.axb.chData[1] ;
+				rawSentence[2] = biasControlData.axb.chData[2] ;
+				rawSentence[3] = biasControlData.axb.chData[3] ;
+				rawSentence[4] = biasControlData.ayb.chData[0] ;	
+				rawSentence[5] = biasControlData.ayb.chData[1] ;	
+				rawSentence[6] = biasControlData.ayb.chData[2] ;	
+				rawSentence[7] = biasControlData.ayb.chData[3] ;	
+				rawSentence[8] = biasControlData.azb.chData[0] ;
+				rawSentence[9] = biasControlData.azb.chData[1] ;
+				rawSentence[10]= biasControlData.azb.chData[2];
+				rawSentence[11]= biasControlData.azb.chData[3];
+				rawSentence[12]= biasControlData.gxb.chData[0];	
+				rawSentence[13]= biasControlData.gxb.chData[1];	
+				rawSentence[14]= biasControlData.gxb.chData[2];	
+				rawSentence[15]= biasControlData.gxb.chData[3];	
+				rawSentence[16]= biasControlData.gyb.chData[0];	
+				rawSentence[17]= biasControlData.gyb.chData[1];	
+				rawSentence[18]= biasControlData.gyb.chData[2];	
+				rawSentence[19]= biasControlData.gyb.chData[3];	
+				rawSentence[20]= biasControlData.gzb.chData[0];	
+				rawSentence[21]= biasControlData.gzb.chData[1];	
+				rawSentence[22]= biasControlData.gzb.chData[2];	
+				rawSentence[23]= biasControlData.gzb.chData[3];	
+						
+				// assemble the Diag data for protocol sending
+				assembleMsg(&rawSentence[0], BIAMSG_LEN, BIAMSG_ID, telemetryBuf);
 
-			// add it to the out Array
-			for( i = 0; i < BIAMSG_LEN+7; i += 1 ){
-				dataOut[i+1] = telemetryBuf[i];
-			}					
+				// add it to the out Array
+				for( i = 0; i < BIAMSG_LEN+7; i += 1 ){
+					dataOut[i+1] = telemetryBuf[i];
+				}
+				
+				// set the total data out for log
+				len2Telemetry = BIAMSG_LEN+7; 
+			}	else {
+				rawSentence[0] = logControlData.fl1.chData[0] ;
+				rawSentence[1] = logControlData.fl1.chData[1] ;
+				rawSentence[2] = logControlData.fl1.chData[2] ;
+				rawSentence[3] = logControlData.fl1.chData[3] ;
+				rawSentence[4] = logControlData.fl2.chData[0] ;	
+				rawSentence[5] = logControlData.fl2.chData[1] ;	
+				rawSentence[6] = logControlData.fl2.chData[2] ;	
+				rawSentence[7] = logControlData.fl2.chData[3] ;	
+				rawSentence[8] = logControlData.fl3.chData[0] ;
+				rawSentence[9] = logControlData.fl3.chData[1] ;
+				rawSentence[10]= logControlData.fl3.chData[2];
+				rawSentence[11]= logControlData.fl3.chData[3];
+				rawSentence[12]= logControlData.fl4.chData[0];	
+				rawSentence[13]= logControlData.fl4.chData[1];	
+				rawSentence[14]= logControlData.fl4.chData[2];	
+				rawSentence[15]= logControlData.fl4.chData[3];	
+				rawSentence[16]= logControlData.fl5.chData[0];	
+				rawSentence[17]= logControlData.fl5.chData[1];	
+				rawSentence[18]= logControlData.fl5.chData[2];	
+				rawSentence[19]= logControlData.fl5.chData[3];	
+				rawSentence[20]= logControlData.fl6.chData[0];	
+				rawSentence[21]= logControlData.fl6.chData[1];	
+				rawSentence[22]= logControlData.fl6.chData[2];	
+				rawSentence[23]= logControlData.fl6.chData[3];	
+						
+				// assemble the Diag data for protocol sending
+				assembleMsg(&rawSentence[0], LOGMSG_LEN, LOGMSG_ID, telemetryBuf);
 
-			// set the total data out for log
-			len2Telemetry = BIAMSG_LEN+7; 
-					
+				// add it to the out Array
+				for( i = 0; i < LOGMSG_LEN+7; i += 1 ){
+					dataOut[i+1] = telemetryBuf[i];					
+				}
+				
+				// set the total data out for log
+				len2Telemetry = LOGMSG_LEN+7; 
+			}
+			scheduleBiases= (scheduleBiases>9)? 1 : scheduleBiases+1;
+		
 		break;
 
-		case 6: // Diagnostic and Aknowledge
-			rawSentence[0]	=	diagControlData.fl1.chData[0];	
-			rawSentence[1]	=	diagControlData.fl1.chData[1];	
-			rawSentence[2]	=	diagControlData.fl1.chData[2];	
-			rawSentence[3]	=	diagControlData.fl1.chData[3];	
-			rawSentence[4]	=	diagControlData.fl2.chData[0];	
-			rawSentence[5]	=	diagControlData.fl2.chData[1];	
-			rawSentence[6]	=	diagControlData.fl2.chData[2];	
-			rawSentence[7]	=	diagControlData.fl2.chData[3];	
-			rawSentence[8]	=	diagControlData.fl3.chData[0];	
-			rawSentence[9]	=	diagControlData.fl3.chData[1];	
-			rawSentence[10]=	diagControlData.fl3.chData[2];	
-			rawSentence[11]=	diagControlData.fl3.chData[3];	
-			rawSentence[12]=	diagControlData.sh1.chData[0];	
-			rawSentence[13]=	diagControlData.sh1.chData[1];	
-			rawSentence[14]=	diagControlData.sh2.chData[0];	
-			rawSentence[15]=	diagControlData.sh2.chData[1];	
-			rawSentence[16]=	diagControlData.sh3.chData[0];	
-			rawSentence[17]=	diagControlData.sh3.chData[1];
-				 	
-					
-			// assemble the Diag data for protocol sending
-			assembleMsg(&rawSentence[0], DIAMSG_LEN, DIAMSG_ID, telemetryBuf);
+		case 6: // Diagnostic/Raw and Aknowledge
+			#if defined(DIAG100)
+				rawSentence[0] 	=	rawControlData.gyroX.chData[0];	
+				rawSentence[1]  =	rawControlData.gyroX.chData[1];	
+				rawSentence[2] 	=	rawControlData.gyroY.chData[0];		 	
+				rawSentence[3]  =	rawControlData.gyroY.chData[1];	
+				rawSentence[4] 	=	rawControlData.gyroZ.chData[0];	 
+				rawSentence[5] 	=	rawControlData.gyroZ.chData[1];	 
+				rawSentence[6] =	rawControlData.accelX.chData[0];	 
+				rawSentence[7] =	rawControlData.accelX.chData[1];	   
+				rawSentence[8] =	rawControlData.accelY.chData[0];	  
+				rawSentence[9] =	rawControlData.accelY.chData[1];	  
+				rawSentence[10] =	rawControlData.accelZ.chData[0];	  
+				rawSentence[11] =	rawControlData.accelZ.chData[1];	  
+				rawSentence[12] =	rawControlData.magX.chData[0];	  
+				rawSentence[13] =	rawControlData.magX.chData[1];	  
+				rawSentence[14] =	rawControlData.magY.chData[0];	  
+				rawSentence[15] =	rawControlData.magY.chData[1];	  
+				rawSentence[16] =	rawControlData.magZ.chData[0];	  
+				rawSentence[17] =	rawControlData.magZ.chData[1];	
+				// included in SLUGS MKII
+				rawSentence[18] =	rawControlData.baro.chData[0];	  
+				rawSentence[19] =	rawControlData.baro.chData[1];	
+				rawSentence[20] =	rawControlData.pito.chData[0];	  
+				rawSentence[21] =	rawControlData.pito.chData[1];	
+				rawSentence[22] =	rawControlData.powr.chData[0];	  
+				rawSentence[23] =	rawControlData.powr.chData[1];
+				rawSentence[24] =	rawControlData.ther.chData[0];	  
+				rawSentence[25] =	rawControlData.ther.chData[1];
 
-			// add it to the out Array
-			for( i = 0; i < DIAMSG_LEN+7; i += 1 ){
-				dataOut[i+1] = telemetryBuf[i];
-			}					
+				// assemble the Attitude data for protocol sending
+				assembleMsg(&rawSentence[0], RAWMSG_LEN, RAWMSG_ID, telemetryBuf);
+	
+				// add it to the circular buffer and SPI queue
+				for( i = 0; i < RAWMSG_LEN+7; i += 1 ){
+					dataOut[i+1] = telemetryBuf[i];
+				}					
+	
+				// set the total data out for SPI			
+				len2Telemetry= RAWMSG_LEN+7; 
+			 	
+			#else
+				rawSentence[0]	=	diagControlData.fl1.chData[0];	
+				rawSentence[1]	=	diagControlData.fl1.chData[1];	
+				rawSentence[2]	=	diagControlData.fl1.chData[2];	
+				rawSentence[3]	=	diagControlData.fl1.chData[3];	
+				rawSentence[4]	=	diagControlData.fl2.chData[0];	
+				rawSentence[5]	=	diagControlData.fl2.chData[1];	
+				rawSentence[6]	=	diagControlData.fl2.chData[2];	
+				rawSentence[7]	=	diagControlData.fl2.chData[3];	
+				rawSentence[8]	=	diagControlData.fl3.chData[0];	
+				rawSentence[9]	=	diagControlData.fl3.chData[1];	
+				rawSentence[10]=	diagControlData.fl3.chData[2];	
+				rawSentence[11]=	diagControlData.fl3.chData[3];	
+				rawSentence[12]=	diagControlData.sh1.chData[0];	
+				rawSentence[13]=	diagControlData.sh1.chData[1];	
+				rawSentence[14]=	diagControlData.sh2.chData[0];	
+				rawSentence[15]=	diagControlData.sh2.chData[1];	
+				rawSentence[16]=	diagControlData.sh3.chData[0];	
+				rawSentence[17]=	diagControlData.sh3.chData[1];
+					 	
+						
+				// assemble the Diag data for protocol sending
+				assembleMsg(&rawSentence[0], DIAMSG_LEN, DIAMSG_ID, telemetryBuf);
 
-			// set the total data out for log
-			len2Telemetry = DIAMSG_LEN+7; 			
-			
+				// add it to the out Array
+				for( i = 0; i < DIAMSG_LEN+7; i += 1 ){
+					dataOut[i+1] = telemetryBuf[i];
+				}					
+
+				// set the total data out for log
+				len2Telemetry = DIAMSG_LEN+7; 			
+				
+			#endif
+				
 			// if one of the aknowledge flags are turned on
 			// then the AKN message needs to be sent
 			if ((aknControlData.WP>0) || (aknControlData.commands>0) || (aknControlData.pidCal > 0)
@@ -803,84 +886,115 @@ void prepareTelemetry( unsigned char* dataOut){
 		
 		case 9: // This only works when HIL is on
 			if (apsControlData.hilStatus){
-				#ifdef LOGRAW100 	// If we need to log raw at 100 Hz
-					rawSentence[0] 	=	rawControlData.gyroX.chData[0];	
-					rawSentence[1]  =	rawControlData.gyroX.chData[1];	
-					rawSentence[2] 	=	rawControlData.gyroY.chData[0];		 	
-					rawSentence[3]  =	rawControlData.gyroY.chData[1];	
-					rawSentence[4] 	=	rawControlData.gyroZ.chData[0];	 
-					rawSentence[5] 	=	rawControlData.gyroZ.chData[1];	 
-					rawSentence[6] =	rawControlData.accelX.chData[0];	 
-					rawSentence[7] =	rawControlData.accelX.chData[1];	   
-					rawSentence[8] =	rawControlData.accelY.chData[0];	  
-					rawSentence[9] =	rawControlData.accelY.chData[1];	  
-					rawSentence[10] =	rawControlData.accelZ.chData[0];	  
-					rawSentence[11] =	rawControlData.accelZ.chData[1];	  
-					rawSentence[12] =	rawControlData.magX.chData[0];	  
-					rawSentence[13] =	rawControlData.magX.chData[1];	  
-					rawSentence[14] =	rawControlData.magY.chData[0];	  
-					rawSentence[15] =	rawControlData.magY.chData[1];	  
-					rawSentence[16] =	rawControlData.magZ.chData[0];	  
-					rawSentence[17] =	rawControlData.magZ.chData[1];	
-					// included in SLUGS MKII
-					rawSentence[18] =	rawControlData.baro.chData[0];	  
-					rawSentence[19] =	rawControlData.baro.chData[1];	
-					rawSentence[20] =	rawControlData.pito.chData[0];	  
-					rawSentence[21] =	rawControlData.pito.chData[1];	
-					rawSentence[22] =	rawControlData.powr.chData[0];	  
-					rawSentence[23] =	rawControlData.powr.chData[1];
-					rawSentence[24] =	rawControlData.ther.chData[0];	  
-					rawSentence[25] =	rawControlData.ther.chData[1];
-									
-					// assemble the Attitude data for protocol sending
-					assembleMsg(&rawSentence[0], RAWMSG_LEN, RAWMSG_ID, telemetryBuf);
-				
-					// add it to the circular buffer and SPI queue
-					for( i = 0; i < RAWMSG_LEN+7; i += 1 ){
-						dataOut[i+1+len2Telemetry] = telemetryBuf[i];
-					}					
-				
-					// set the total data out for SPI			
-					len2Telemetry+= RAWMSG_LEN+7; 			
-			
-				#else
-					rawSentence[0] = xyzControlData.Xcoord.chData[0];
-					rawSentence[1] = xyzControlData.Xcoord.chData[1];
-					rawSentence[2] = xyzControlData.Xcoord.chData[2];
-					rawSentence[3] = xyzControlData.Xcoord.chData[3];
-					rawSentence[4] = xyzControlData.Ycoord.chData[0];	
-					rawSentence[5] = xyzControlData.Ycoord.chData[1];	
-					rawSentence[6] = xyzControlData.Ycoord.chData[2];	
-					rawSentence[7] = xyzControlData.Ycoord.chData[3];	
-					rawSentence[8] = xyzControlData.Zcoord.chData[0];
-					rawSentence[9] = xyzControlData.Zcoord.chData[1];
-					rawSentence[10]= xyzControlData.Zcoord.chData[2];
-					rawSentence[11]= xyzControlData.Zcoord.chData[3];
-					rawSentence[12]= xyzControlData.VX.chData[0]	;	
-					rawSentence[13]= xyzControlData.VX.chData[1]	;	
-					rawSentence[14]= xyzControlData.VX.chData[2]	;	
-					rawSentence[15]= xyzControlData.VX.chData[3]	;	
-					rawSentence[16]= xyzControlData.VY.chData[0]	;	
-					rawSentence[17]= xyzControlData.VY.chData[1]	;	
-					rawSentence[18]= xyzControlData.VY.chData[2]	;	
-					rawSentence[19]= xyzControlData.VY.chData[3]	;	
-					rawSentence[20]= xyzControlData.VZ.chData[0]	;	
-					rawSentence[21]= xyzControlData.VZ.chData[1]	;	
-					rawSentence[22]= xyzControlData.VZ.chData[2]	;	
-					rawSentence[23]= xyzControlData.VZ.chData[3]	;	
-							
-					// assemble the Diag data for protocol sending
-					assembleMsg(&rawSentence[0], XYZMSG_LEN, XYZMSG_ID, telemetryBuf);
-			
-					// add it to the out Array
-					for( i = 0; i < XYZMSG_LEN+7; i += 1 ){
-						dataOut[i+1+ len2Telemetry] = telemetryBuf[i];
-					}					
-			
-					// set the total data out for log
-					len2Telemetry += XYZMSG_LEN+7; 
-			
-				#endif	
+			#ifdef LOGRAW100 	// If we need to log raw at 100 Hz
+				rawSentence[0] 	=	rawControlData.gyroX.chData[0];	
+				rawSentence[1]  =	rawControlData.gyroX.chData[1];	
+				rawSentence[2] 	=	rawControlData.gyroY.chData[0];		 	
+				rawSentence[3]  =	rawControlData.gyroY.chData[1];	
+				rawSentence[4] 	=	rawControlData.gyroZ.chData[0];	 
+				rawSentence[5] 	=	rawControlData.gyroZ.chData[1];	 
+				rawSentence[6] =	rawControlData.accelX.chData[0];	 
+				rawSentence[7] =	rawControlData.accelX.chData[1];	   
+				rawSentence[8] =	rawControlData.accelY.chData[0];	  
+				rawSentence[9] =	rawControlData.accelY.chData[1];	  
+				rawSentence[10] =	rawControlData.accelZ.chData[0];	  
+				rawSentence[11] =	rawControlData.accelZ.chData[1];	  
+				rawSentence[12] =	rawControlData.magX.chData[0];	  
+				rawSentence[13] =	rawControlData.magX.chData[1];	  
+				rawSentence[14] =	rawControlData.magY.chData[0];	  
+				rawSentence[15] =	rawControlData.magY.chData[1];	  
+				rawSentence[16] =	rawControlData.magZ.chData[0];	  
+				rawSentence[17] =	rawControlData.magZ.chData[1];	
+				// included in SLUGS MKII
+				rawSentence[18] =	rawControlData.baro.chData[0];	  
+				rawSentence[19] =	rawControlData.baro.chData[1];	
+				rawSentence[20] =	rawControlData.pito.chData[0];	  
+				rawSentence[21] =	rawControlData.pito.chData[1];	
+				rawSentence[22] =	rawControlData.powr.chData[0];	  
+				rawSentence[23] =	rawControlData.powr.chData[1];
+				rawSentence[24] =	rawControlData.ther.chData[0];	  
+				rawSentence[25] =	rawControlData.ther.chData[1];		
+	
+				// assemble the Attitude data for protocol sending
+				assembleMsg(&rawSentence[0], RAWMSG_LEN, RAWMSG_ID, telemetryBuf);
+	
+				// add it to the circular buffer and SPI queue
+				for( i = 0; i < RAWMSG_LEN+7; i += 1 ){
+					dataOut[i+1+len2Telemetry] = telemetryBuf[i];
+				}					
+	
+				// set the total data out for SPI			
+				len2Telemetry+= RAWMSG_LEN+7; 			
+  			
+			#elif  defined(DIAG100) //if we want diagnostics at 100
+				rawSentence[0]	=	diagControlData.fl1.chData[0];	
+				rawSentence[1]	=	diagControlData.fl1.chData[1];	
+				rawSentence[2]	=	diagControlData.fl1.chData[2];	
+				rawSentence[3]	=	diagControlData.fl1.chData[3];	
+				rawSentence[4]	=	diagControlData.fl2.chData[0];	
+				rawSentence[5]	=	diagControlData.fl2.chData[1];	
+				rawSentence[6]	=	diagControlData.fl2.chData[2];	
+				rawSentence[7]	=	diagControlData.fl2.chData[3];	
+				rawSentence[8]	=	diagControlData.fl3.chData[0];	
+				rawSentence[9]	=	diagControlData.fl3.chData[1];	
+				rawSentence[10]=	diagControlData.fl3.chData[2];	
+				rawSentence[11]=	diagControlData.fl3.chData[3];	
+				rawSentence[12]=	diagControlData.sh1.chData[0];	
+				rawSentence[13]=	diagControlData.sh1.chData[1];	
+				rawSentence[14]=	diagControlData.sh2.chData[0];	
+				rawSentence[15]=	diagControlData.sh2.chData[1];	
+				rawSentence[16]=	diagControlData.sh3.chData[0];	
+				rawSentence[17]=	diagControlData.sh3.chData[1];
+					 	
+						
+				// assemble the Diag data for protocol sending
+				assembleMsg(&rawSentence[0], DIAMSG_LEN, DIAMSG_ID, telemetryBuf);
+
+				// add it to the out Array
+				for( i = 0; i < DIAMSG_LEN+7; i += 1 ){
+					dataOut[i+1] = telemetryBuf[i];
+				}					
+
+				// set the total data out for log
+				len2Telemetry = DIAMSG_LEN+7; 		
+						
+			#else
+				rawSentence[0] = xyzControlData.Xcoord.chData[0];
+				rawSentence[1] = xyzControlData.Xcoord.chData[1];
+				rawSentence[2] = xyzControlData.Xcoord.chData[2];
+				rawSentence[3] = xyzControlData.Xcoord.chData[3];
+				rawSentence[4] = xyzControlData.Ycoord.chData[0];	
+				rawSentence[5] = xyzControlData.Ycoord.chData[1];	
+				rawSentence[6] = xyzControlData.Ycoord.chData[2];	
+				rawSentence[7] = xyzControlData.Ycoord.chData[3];	
+				rawSentence[8] = xyzControlData.Zcoord.chData[0];
+				rawSentence[9] = xyzControlData.Zcoord.chData[1];
+				rawSentence[10]= xyzControlData.Zcoord.chData[2];
+				rawSentence[11]= xyzControlData.Zcoord.chData[3];
+				rawSentence[12]= xyzControlData.VX.chData[0]	;	
+				rawSentence[13]= xyzControlData.VX.chData[1]	;	
+				rawSentence[14]= xyzControlData.VX.chData[2]	;	
+				rawSentence[15]= xyzControlData.VX.chData[3]	;	
+				rawSentence[16]= xyzControlData.VY.chData[0]	;	
+				rawSentence[17]= xyzControlData.VY.chData[1]	;	
+				rawSentence[18]= xyzControlData.VY.chData[2]	;	
+				rawSentence[19]= xyzControlData.VY.chData[3]	;	
+				rawSentence[20]= xyzControlData.VZ.chData[0]	;	
+				rawSentence[21]= xyzControlData.VZ.chData[1]	;	
+				rawSentence[22]= xyzControlData.VZ.chData[2]	;	
+				rawSentence[23]= xyzControlData.VZ.chData[3]	;	
+						
+				// assemble the Diag data for protocol sending
+				assembleMsg(&rawSentence[0], XYZMSG_LEN, XYZMSG_ID, telemetryBuf);
+
+				// add it to the out Array
+				for( i = 0; i < XYZMSG_LEN+7; i += 1 ){
+					dataOut[i+1+ len2Telemetry] = telemetryBuf[i];
+				}					
+
+				// set the total data out for log
+				len2Telemetry += XYZMSG_LEN+7; 
+			#endif	
 			}
 			
 		break;
@@ -939,7 +1053,7 @@ void prepareTelemetry( unsigned char* dataOut){
 	// Raw/XYZ and Attitude data. Gets included every sample time
 	// ==============================================
 	
-	// Raw or XYZ data is sent down to GS at 100Hz only in real flight (or in the ground)
+	// Raw, DIAG or XYZ data is sent down to GS at 100Hz only in real flight (or in the ground)
 	// if HIL is on then control commands are sent at 100Hz instead of either raw
 	
 	if (!apsControlData.hilStatus){
@@ -982,7 +1096,39 @@ void prepareTelemetry( unsigned char* dataOut){
 	
 		// set the total data out for SPI			
 		len2Telemetry+= RAWMSG_LEN+7; 			
+  	
+	#elif  defined(DIAG100) //if we want diagnostics at 100
+		rawSentence[0]	=	diagControlData.fl1.chData[0];	
+		rawSentence[1]	=	diagControlData.fl1.chData[1];	
+		rawSentence[2]	=	diagControlData.fl1.chData[2];	
+		rawSentence[3]	=	diagControlData.fl1.chData[3];	
+		rawSentence[4]	=	diagControlData.fl2.chData[0];	
+		rawSentence[5]	=	diagControlData.fl2.chData[1];	
+		rawSentence[6]	=	diagControlData.fl2.chData[2];	
+		rawSentence[7]	=	diagControlData.fl2.chData[3];	
+		rawSentence[8]	=	diagControlData.fl3.chData[0];	
+		rawSentence[9]	=	diagControlData.fl3.chData[1];	
+		rawSentence[10]=	diagControlData.fl3.chData[2];	
+		rawSentence[11]=	diagControlData.fl3.chData[3];	
+		rawSentence[12]=	diagControlData.sh1.chData[0];	
+		rawSentence[13]=	diagControlData.sh1.chData[1];	
+		rawSentence[14]=	diagControlData.sh2.chData[0];	
+		rawSentence[15]=	diagControlData.sh2.chData[1];	
+		rawSentence[16]=	diagControlData.sh3.chData[0];	
+		rawSentence[17]=	diagControlData.sh3.chData[1];
+			 	
+				
+		// assemble the Diag data for protocol sending
+		assembleMsg(&rawSentence[0], DIAMSG_LEN, DIAMSG_ID, telemetryBuf);
 
+		// add it to the out Array
+		for( i = 0; i < DIAMSG_LEN+7; i += 1 ){
+			dataOut[i+1] = telemetryBuf[i];
+		}					
+
+		// set the total data out for log
+		len2Telemetry = DIAMSG_LEN+7; 		
+				
 	#else
 		rawSentence[0] = xyzControlData.Xcoord.chData[0];
 		rawSentence[1] = xyzControlData.Xcoord.chData[1];

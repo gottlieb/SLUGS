@@ -79,6 +79,19 @@ void setDiagnosticGb(float * flValues){
 	biasControlData.gzb.flData = flValues[2];	
 }
 
+
+void setLogFloat1(float * flValues){
+	logControlData.fl1.flData = flValues[0];
+	logControlData.fl2.flData = flValues[1];
+	logControlData.fl3.flData = flValues[2];	
+}
+
+void setLogFloat2(float * flValues){
+	logControlData.fl4.flData = flValues[0];
+	logControlData.fl5.flData = flValues[1];
+	logControlData.fl6.flData = flValues[2];	
+}
+
 unsigned char getApControlType (void) {
 	return apsControlData.controlType;
 }

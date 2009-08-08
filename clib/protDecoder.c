@@ -35,7 +35,10 @@ tAPStatusData	apsControlData;
 tCommandsData	comControlData;
 tNavData	navControlData;
 tSensData senControlData;
-
+tLogFloats  logControlData;
+// TODO: Log Flotas currently is only used in the control MCU
+//			 make sure to add it to dataLogger.c so it gets scheduled
+// 			 from the sensor MCU in case it needs to be used there.
 
 
 struct CircBuffer protParseBuffer;
@@ -67,6 +70,7 @@ void protParserInit(void){
 	memset(&comControlData, 0, sizeof(tCommandsData));
 	memset(&navControlData, 0, sizeof(tNavData));
 	memset(&senControlData, 0, sizeof(tSensData));
+	memset(&logControlData, 0, sizeof(tLogFloats));
 	filterControlData = 0;
 	
 	// Control MCU boot procedures
@@ -346,6 +350,11 @@ static tAPStatusData	cpapsControlData;
 static tCommandsData	cpcomControlData;  
 static tNavData	cpnavControlData;
 static tSensData cpsenControlData;
+static tLogFloats cplogControlData;
+static tPIDData cppidControlData;
+
+unsigned char i =0;
+
 
     if (prevException){
         // Initialize all global data structures
@@ -363,6 +372,8 @@ static tSensData cpsenControlData;
 	    memset(&cpapsControlData, 0, sizeof(tAPStatusData));
 	    memset(&cpcomControlData, 0, sizeof(tCommandsData));
 	    memset(&cpnavControlData, 0, sizeof(tNavData));
+	    memset(&cplogControlData, 0, sizeof(tLogFloats));
+	    memset(&cppidControlData, 0, sizeof(tPIDData));
 	    cpfilterControlData = 0;
     }
 
@@ -517,6 +528,24 @@ static tSensData cpsenControlData;
 	         cpsenControlData.Mx.flData,
 	         cpsenControlData.My.flData,
 	         cpsenControlData.Mz.flData);
+	         
+	         
+	// Print Log Data
+    fprintf(outFile, "%f,%f,%f,%f,%f,%f,",
+	         cplogControlData.fl1.flData,
+	         cplogControlData.fl2.flData,
+	         cplogControlData.fl3.flData,
+	         cplogControlData.fl4.flData,
+	         cplogControlData.fl5.flData,
+	         cplogControlData.fl6.flData);
+
+	// Print PID
+		for(i = 0; i<10; i++){
+    	fprintf(outFile, "%f,%f,%f,",
+	         		cppidControlData.P[i].flData,
+	         		cppidControlData.I[i].flData,
+	         		cppidControlData.D[i].flData);	         			
+		}	
 	// Add new line
 	fprintf(outFile, "\n");
 
@@ -538,6 +567,8 @@ static tSensData cpsenControlData;
 	cpcomControlData		= comControlData;
     cpnavControlData        = navControlData;
 	cpsenControlData        = senControlData;
+	cplogControlData        = logControlData;
+	cppidControlData				= pidControlData;
 }
 
 // ===============================================
@@ -615,6 +646,9 @@ tSensData getSensorStruct(void){
 	return senControlData;
 }
 
+tLogFloats getLogStruct(void){
+	return logControlData;
+}
 void setAknFilter (unsigned char value){
 	aknControlData.filOnOff = value;
 }

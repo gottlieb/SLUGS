@@ -37,6 +37,7 @@ extern tAPStatusData	apsControlData;
 extern tCommandsData	comControlData;
 extern tNavData			navControlData;
 extern tSensData senControlData;
+extern tLogFloats  logControlData;
 
 void protParserInit (void);
 
@@ -68,6 +69,7 @@ void protParserInit (void);
     tWPData  getWPStruct (void);
 	tAPStatusData getAPSStruct (void);   
 	tCommandsData getComStruct (void); 
+	tLogFloats getLogStruct (void);
     
 #else
      void protParseDecode (unsigned char* fromSPI);

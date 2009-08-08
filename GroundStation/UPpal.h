@@ -671,7 +671,7 @@ __published:	// IDE-managed Components
         TStaticText *et_dist2go;
         TStaticText *et_phic;
         TStaticText *et_fromwp;
-        TLabel *Label185;
+        TLabel *et_lblrhp;
         TStaticText *et_rhp;
         TLabel *Label87;
         TStaticText *et_a2c;
@@ -755,6 +755,19 @@ __published:	// IDE-managed Components
         TStaticText *et_q;
         TStaticText *et_r;
     TCheckBox *cb_rhp;
+        TGroupBox *GroupBox20;
+        TLabel *Label190;
+        TLabel *Label191;
+        TLabel *Label192;
+        TLabel *Label196;
+        TLabel *Label197;
+        TLabel *Label198;
+        TStaticText *et_log1;
+        TStaticText *et_log2;
+        TStaticText *et_log3;
+        TStaticText *et_log4;
+        TStaticText *et_log5;
+        TStaticText *et_log6;
         void __fastcall FormShow(TObject *Sender);
     void __fastcall bt_clearClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -830,6 +843,7 @@ __published:	// IDE-managed Components
         void __fastcall cb_lat_1Exit(TObject *Sender);
         void __fastcall cb_lat_2Exit(TObject *Sender);
     void __fastcall ed_p9Change(TObject *Sender);
+        void __fastcall cb_rhpClick(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TFPpal(TComponent* Owner);
@@ -857,6 +871,8 @@ public:		// User declarations
         tCommandsData             comSample;
         tNavData                  navSample;
         tSensData                 senSample;
+        tLogFloats                logSample;
+
         String str_modes[10];
 
         float csFail;

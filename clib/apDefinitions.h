@@ -55,7 +55,9 @@ and data types.
 // XYZ data come at 100 Hz instead. COMMENT not Change to 0 (using #ifdef)
 //#define LOGRAW100	1
 
-// #define DIAG100		1
+// Define diagnostic data at 100 hz. Comment out to have
+// XYZ data come at 100 Hz instead. COMMENT not Change to 0 (using #ifdef)
+#define DIAG100		1
 
 // Message Protocol Lengths and IDs
 // ================================
@@ -102,6 +104,9 @@ and data types.
 
 #define SENMSG_ID		25
 #define SENMSG_LEN		24
+
+#define LOGMSG_ID		26
+#define LOGMSG_LEN	24
 
 // CONTROL MCU
 // ===========
@@ -482,6 +487,15 @@ typedef struct tSensData{
 	tFloatToChar	My;
 	tFloatToChar	Mz;
 }tSensData;
+
+typedef struct tLogFloats{
+	tFloatToChar	fl1;
+	tFloatToChar	fl2;
+	tFloatToChar	fl3;
+	tFloatToChar	fl4;
+	tFloatToChar	fl5;
+	tFloatToChar	fl6;
+}tLogFloats;
 
 #ifdef __cplusplus
       }

@@ -30,6 +30,8 @@ unsigned short meanFilter5 (unsigned short * values);
 void setNavLong (float* values);
 void setNavLat (float* values);
 void setNavNav (float* values);
+void setLogFloat1 (float * flValues);
+void setLogFloat2 (float * flValues);
 #ifdef __cplusplus
        }
 #endif

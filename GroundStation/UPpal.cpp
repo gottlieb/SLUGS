@@ -516,6 +516,7 @@ void __fastcall TFPpal::Timer2Timer(TObject *Sender)
    comSample = getComStruct();
    navSample = getNavStruct();
    senSample = getSensorStruct();
+   logSample = getLogStruct();
 
    updateAkn();
 
@@ -768,9 +769,9 @@ void TFPpal::updatePlots(void){
 }
 
 bool TFPpal::myisnan(float var) {
-volatile float temp1 = var;
-volatile float temp2 = var;
-return temp1 != temp2;
+   volatile float temp1 = var;
+   volatile float temp2 = var;
+   return temp1 != temp2;
 }
 void TFPpal::updateBiasLabels(void){
   et_axb->Caption = FormatFloat("0.0000",biasSample.axb.flData);
@@ -793,9 +794,6 @@ void TFPpal::updateDynLabels(void){
 
   gr_batt->Value = statusSample.bVolt.usData;
 
-  // THIS IS HACK and need to be solved currently using the PWMCommand AUX2 to
-  // report airspeed back
-  // ==================================================
 
 }
 void TFPpal::updateDiagLabels(void){
@@ -805,6 +803,12 @@ void TFPpal::updateDiagLabels(void){
   et_sh1->Caption = IntToStr( diagSample.sh1.shData);
   et_sh2->Caption = IntToStr( diagSample.sh2.shData);
   et_sh3->Caption = IntToStr( diagSample.sh3.shData);
+  et_log1->Caption = FormatFloat("0.0000",logSample.fl1.flData);
+  et_log2->Caption = FormatFloat("0.0000",logSample.fl2.flData);
+  et_log3->Caption = FormatFloat("0.0000",logSample.fl3.flData);
+  et_log1->Caption = FormatFloat("0.0000",logSample.fl4.flData);
+  et_log2->Caption = FormatFloat("0.0000",logSample.fl5.flData);
+  et_log3->Caption = FormatFloat("0.0000",logSample.fl6.flData);
 }
 
 void TFPpal::updatePilotLabels(void){
@@ -1652,6 +1656,42 @@ void TFPpal::printFileHeader(FILE* fileLog){
            fprintf(fileLog,"% (108)X Magnetometer (normalized to 1)\n");
            fprintf(fileLog,"% (109)Y Magnetometer (normalized to 1)\n" );
            fprintf(fileLog,"% (110)Z Magnetometer (normalized to 1)\n");
+           fprintf(fileLog,"% (111)Log Float 1\n" );
+           fprintf(fileLog,"% (112)Log Float 2\n" );
+           fprintf(fileLog,"% (113)Log Float 3\n" );
+           fprintf(fileLog,"% (114)Log Float 4\n");
+           fprintf(fileLog,"% (115)Log Float 5\n" );
+           fprintf(fileLog,"% (115)Log Float 6\n");
+           fprintf(fileLog,"% (116)P Gain 1\n" );
+           fprintf(fileLog,"% (117)I Gain 1\n" );
+           fprintf(fileLog,"% (118)D Gain 1\n" );
+           fprintf(fileLog,"% (119)P Gain 2\n");
+           fprintf(fileLog,"% (120)I Gain 2\n" );
+           fprintf(fileLog,"% (121)D Gain 2\n");
+           fprintf(fileLog,"% (122)P Gain 3\n" );
+           fprintf(fileLog,"% (123)I Gain 3\n" );
+           fprintf(fileLog,"% (124)D Gain 3\n" );
+           fprintf(fileLog,"% (125)P Gain 4\n");
+           fprintf(fileLog,"% (126)I Gain 4\n" );
+           fprintf(fileLog,"% (127)D Gain 4\n");
+           fprintf(fileLog,"% (128)P Gain 5\n" );
+           fprintf(fileLog,"% (129)I Gain 5\n" );
+           fprintf(fileLog,"% (130)D Gain 5\n" );
+           fprintf(fileLog,"% (131)P Gain 6\n");
+           fprintf(fileLog,"% (132)I Gain 6\n" );
+           fprintf(fileLog,"% (133)D Gain 6\n");
+           fprintf(fileLog,"% (134)P Gain 7\n" );
+           fprintf(fileLog,"% (135)I Gain 7\n" );
+           fprintf(fileLog,"% (136)D Gain 7\n" );
+           fprintf(fileLog,"% (137)P Gain 8\n");
+           fprintf(fileLog,"% (138)I Gain 8\n" );
+           fprintf(fileLog,"% (139)D Gain 8\n");
+           fprintf(fileLog,"% (140)P Gain 9\n" );
+           fprintf(fileLog,"% (141)I Gain 9\n" );
+           fprintf(fileLog,"% (142)D Gain 9\n" );
+           fprintf(fileLog,"% (143)P Gain 10\n");
+           fprintf(fileLog,"% (144)I Gain 10\n" );
+           fprintf(fileLog,"% (145)D Gain 10\n");
            fprintf(fileLog,"% ======================================\n");
 
 }
@@ -2791,6 +2831,16 @@ mt_b->SignalColorCh1 = cb_lat_2->ColorValue;
 void __fastcall TFPpal::ed_p9Change(TObject *Sender)
 {
   gb_dtff->Color = clRed;    
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFPpal::cb_rhpClick(TObject *Sender)
+{
+ if(cb_rhp->Checked){
+  et_lblrhp->Caption = "R hp";
+ } else {
+  et_lblrhp->Caption = "Ay body";
+ }
 }
 //---------------------------------------------------------------------------
 
