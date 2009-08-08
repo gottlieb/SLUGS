@@ -905,11 +905,14 @@ void TFPpal::updateStatus(void){
 
 
 void TFPpal::updateNav(void){
+  float tmp =0;
+
   et_um->Caption  = FormatFloat("0.0000",navSample.uMeasured.flData);
   et_pitchc->Caption = FormatFloat("0.0000",RAD2DEG*navSample.thetaCommanded.flData);
   et_psidc->Caption = FormatFloat("0.0000",RAD2DEG*navSample.psiDotCommanded.flData);
   et_phic->Caption = FormatFloat("0.0000",RAD2DEG*navSample.phiCommanded.flData);
-  et_rhp->Caption = FormatFloat("0.0000",RAD2DEG*navSample.rHighPass.flData);
+  tmp = cb_rhp->Checked? RAD2DEG*navSample.rHighPass.flData : navSample.rHighPass.flData;
+  et_rhp->Caption = FormatFloat("0.0000",tmp);
   et_towp->Caption = IntToStr(navSample.toWp);
   et_fromwp->Caption = IntToStr(navSample.fromWp);
   et_totrun->Caption  = FormatFloat("0.0000",navSample.totRun.flData);
