@@ -488,7 +488,7 @@ void prepareTelemetry( unsigned char* dataOut){
 		break;
 
 		case 3: // Raw, XYZ, or diagnostic depending on logging config
-			#if defined(LOGRAW100) || defined (DIAG100) 	// If we need to log raw or diag at 100 Hz, then send XYZ here
+			#if defined(LOGRAW100) || defined (DIAG100) 	// If log raw or diag at 100 Hz, then send XYZ here
 				rawSentence[0] = xyzControlData.Xcoord.chData[0];
 				rawSentence[1] = xyzControlData.Xcoord.chData[1];
 				rawSentence[2] = xyzControlData.Xcoord.chData[2];
@@ -567,7 +567,6 @@ void prepareTelemetry( unsigned char* dataOut){
 				len2Telemetry= RAWMSG_LEN+7; 
 
 			#endif	
-
 
 		break;
 			
@@ -810,7 +809,7 @@ void prepareTelemetry( unsigned char* dataOut){
 			
 		break;
 		
-		case 7: // Pending aknowledge requests OR Sensor Data. If there is a pending reques
+		case 7: // Pending aknowledge requests OR Sensor Data. If there is a pending request
 						// Sensor data will NOT be sent in this sample
 			if (queControlData.pendingRequest){
 				
@@ -886,7 +885,7 @@ void prepareTelemetry( unsigned char* dataOut){
 		
 		case 9: // This only works when HIL is on
 			if (apsControlData.hilStatus){
-			#ifdef LOGRAW100 	// If we need to log raw at 100 Hz
+			#if defined(LOGRAW100) 	// If we need to log raw at 100 Hz
 				rawSentence[0] 	=	rawControlData.gyroX.chData[0];	
 				rawSentence[1]  =	rawControlData.gyroX.chData[1];	
 				rawSentence[2] 	=	rawControlData.gyroY.chData[0];		 	
@@ -994,7 +993,7 @@ void prepareTelemetry( unsigned char* dataOut){
 
 				// set the total data out for log
 				len2Telemetry += XYZMSG_LEN+7; 
-			#endif	
+			#endif
 			}
 			
 		break;
@@ -1057,7 +1056,7 @@ void prepareTelemetry( unsigned char* dataOut){
 	// if HIL is on then control commands are sent at 100Hz instead of either raw
 	
 	if (!apsControlData.hilStatus){
-	#ifdef LOGRAW100 	// If we need to log raw at 100 Hz
+	#if defined(LOGRAW100) 	// If we need to log raw at 100 Hz
 		rawSentence[0] 	=	rawControlData.gyroX.chData[0];	
 		rawSentence[1]  =	rawControlData.gyroX.chData[1];	
 		rawSentence[2] 	=	rawControlData.gyroY.chData[0];		 	
@@ -1097,7 +1096,7 @@ void prepareTelemetry( unsigned char* dataOut){
 		// set the total data out for SPI			
 		len2Telemetry+= RAWMSG_LEN+7; 			
   	
-	#elif  defined(DIAG100) //if we want diagnostics at 100
+	#elif  defined(DIAG100) //if we want diagnostics at 100 
 		rawSentence[0]	=	diagControlData.fl1.chData[0];	
 		rawSentence[1]	=	diagControlData.fl1.chData[1];	
 		rawSentence[2]	=	diagControlData.fl1.chData[2];	
@@ -1123,11 +1122,11 @@ void prepareTelemetry( unsigned char* dataOut){
 
 		// add it to the out Array
 		for( i = 0; i < DIAMSG_LEN+7; i += 1 ){
-			dataOut[i+1] = telemetryBuf[i];
+			dataOut[i+1+len2Telemetry] = telemetryBuf[i];
 		}					
 
 		// set the total data out for log
-		len2Telemetry = DIAMSG_LEN+7; 		
+		len2Telemetry += DIAMSG_LEN+7; 		
 				
 	#else
 		rawSentence[0] = xyzControlData.Xcoord.chData[0];
@@ -1166,6 +1165,7 @@ void prepareTelemetry( unsigned char* dataOut){
 		// set the total data out for log
 		len2Telemetry += XYZMSG_LEN+7; 
 	#endif
+
 	} else {
 		// clear the buffer for next sentence
 		memset(telemetryBuf, 0, sizeof(telemetryBuf));
