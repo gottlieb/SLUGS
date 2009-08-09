@@ -806,9 +806,9 @@ void TFPpal::updateDiagLabels(void){
   et_log1->Caption = FormatFloat("0.0000",logSample.fl1.flData);
   et_log2->Caption = FormatFloat("0.0000",logSample.fl2.flData);
   et_log3->Caption = FormatFloat("0.0000",logSample.fl3.flData);
-  et_log1->Caption = FormatFloat("0.0000",logSample.fl4.flData);
-  et_log2->Caption = FormatFloat("0.0000",logSample.fl5.flData);
-  et_log3->Caption = FormatFloat("0.0000",logSample.fl6.flData);
+  et_log4->Caption = FormatFloat("0.0000",logSample.fl4.flData);
+  et_log5->Caption = FormatFloat("0.0000",logSample.fl5.flData);
+  et_log6->Caption = FormatFloat("0.0000",logSample.fl6.flData);
 }
 
 void TFPpal::updatePilotLabels(void){
