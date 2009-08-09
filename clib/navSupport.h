@@ -32,6 +32,7 @@ void setNavLat (float* values);
 void setNavNav (float* values);
 void setLogFloat1 (float * flValues);
 void setLogFloat2 (float * flValues);
+void getVned (float* xyz) ;
 #ifdef __cplusplus
        }
 #endif

@@ -36,11 +36,13 @@ void getXYZ (float* xyz) {
 	xyz[0] =  xyzControlData.Xcoord.flData;
 	xyz[1] =  xyzControlData.Ycoord.flData;
 	xyz[2] =  xyzControlData.Zcoord.flData;
-	xyz[3] =  xyzControlData.VX.flData;
-	xyz[4] =  xyzControlData.VY.flData;
-	xyz[5] =  xyzControlData.VZ.flData;
 }
 
+void getVned (float* xyz) {
+	xyz[0] =  xyzControlData.VX.flData;
+	xyz[1] =  xyzControlData.VY.flData;
+	xyz[2] =  xyzControlData.VZ.flData;
+}
 unsigned char getMaxWp (void){
 	return wpsControlData.wpCount;
 }
