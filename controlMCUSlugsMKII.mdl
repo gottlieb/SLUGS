@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.689"
+    ComputedModelVersion    "1.710"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -16,7 +16,7 @@ Model {
   LibraryLinkDisplay	  "none"
   WideLines		  on
   ShowLineDimensions	  on
-  ShowPortDataTypes	  on
+  ShowPortDataTypes	  off
   ShowLoopsOnError	  on
   IgnoreBidirectionalLines off
   ShowStorageClass	  off
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sat Aug 08 20:12:54 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:689>"
+  LastModifiedDate	  "Sun Aug 09 16:47:24 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:710>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -976,7 +976,7 @@ Model {
   }
   System {
     Name		    "controlMCUSlugsMKII"
-    Location		    [-1, 77, 1200, 995]
+    Location		    [2, 78, 1203, 801]
     Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    188
@@ -1681,8 +1681,8 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Inner Loop/ Navigation"
-	Location		[7, 83, 1225, 984]
-	Open			on
+	Location		[7, 83, 1198, 787]
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	141
 	ScreenColor		"white"
@@ -1840,7 +1840,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "XYZ (m)"
-	  Position		  [125, 248, 155, 262]
+	  Position		  [20, 248, 50, 262]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "19"
 	  IconDisplay		  "Port number"
@@ -1848,7 +1848,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "Vned (m/s)"
-	  Position		  [125, 348, 155, 362]
+	  Position		  [20, 348, 50, 362]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "20"
 	  IconDisplay		  "Port number"
@@ -2027,6 +2027,127 @@ Model {
 	      OutDataTypeMode	      "Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
 	      SampleTime	      "apSampleTime"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Protect NaNs"
+	      Ports		      [1, 1]
+	      Position		      [390, 85, 460, 115]
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"Protect NaNs"
+		Location		[2, 78, 1220, 809]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [35, 28, 65, 42]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integer Delay3"
+		  Ports			  [1, 1]
+		  Position		  [165, 108, 200, 142]
+		  Orientation		  "left"
+		  ShowName		  off
+		  SourceBlock		  "simulink/Discrete/Integer Delay"
+		  SourceType		  "Integer Delay"
+		  vinit			  "0.0"
+		  samptime		  "T"
+		  NumDelays		  "1"
+		}
+		Block {
+		  BlockType		  RelationalOperator
+		  Name			  "Relational\nOperator2"
+		  Position		  [100, 42, 130, 73]
+		  ShowName		  off
+		  Operator		  "=="
+		  InputSameDT		  off
+		  LogicOutDataTypeMode	  "Specify via dialog"
+		}
+		Block {
+		  BlockType		  Switch
+		  Name			  "Switch3"
+		  Position		  [170, 25, 200, 95]
+		  ShowName		  off
+		  Criteria		  "u2 > Threshold"
+		  Threshold		  "0.3"
+		  InputSameDT		  off
+		  SaturateOnIntegerOverflow off
+		  SampleTime		  ".01"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [280, 75, 310, 90]
+		  Orientation		  "down"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Integer Delay3"
+		  SrcPort		  1
+		  Points		  [-15, 0; 0, -40]
+		  DstBlock		  "Switch3"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Switch3"
+		  SrcPort		  1
+		  Points		  [30, 0]
+		  Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  Points		  [15, 0]
+		  Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		  }
+		  Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Relational\nOperator2"
+		  SrcPort		  1
+		  DstBlock		  "Switch3"
+		  DstPort		  2
+		}
+	      }
 	    }
 	    Block {
 	      BlockType		      SubSystem
@@ -2316,7 +2437,7 @@ Model {
 	    Block {
 	      BlockType		      Outport
 	      Name		      "psi_dot_m"
-	      Position		      [365, 93, 395, 107]
+	      Position		      [510, 93, 540, 107]
 	      BackgroundColor	      "yellow"
 	      IconDisplay	      "Port number"
 	      BusOutputAsStruct	      off
@@ -2331,7 +2452,7 @@ Model {
 	    Line {
 	      SrcBlock		      "Subtract"
 	      SrcPort		      1
-	      DstBlock		      "psi_dot_m"
+	      DstBlock		      "Protect NaNs"
 	      DstPort		      1
 	    }
 	    Line {
@@ -2383,12 +2504,18 @@ Model {
 	      DstBlock		      "Product"
 	      DstPort		      2
 	    }
+	    Line {
+	      SrcBlock		      "Protect NaNs"
+	      SrcPort		      1
+	      DstBlock		      "psi_dot_m"
+	      DstPort		      1
+	    }
 	  }
 	}
 	Block {
 	  BlockType		  DataTypeConversion
 	  Name			  "Data Type Conversion1"
-	  Position		  [1165, 141, 1225, 159]
+	  Position		  [1140, 176, 1200, 194]
 	  ShowName		  off
 	  OutDataTypeMode	  "single"
 	  RndMeth		  "Floor"
@@ -2399,7 +2526,7 @@ Model {
 	  Name			  "Diagnostics\n[navSupport.c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [1]
-	  Position		  [1265, 136, 1370, 164]
+	  Position		  [1240, 171, 1345, 199]
 	  BackgroundColor	  "orange"
 	  List {
 	    ListType		    RTWdata
@@ -2431,8 +2558,8 @@ Model {
 	}
 	Block {
 	  BlockType		  From
-	  Name			  "From5"
-	  Position		  [1060, 142, 1115, 158]
+	  Name			  "From6"
+	  Position		  [1035, 177, 1090, 193]
 	  BackgroundColor	  "cyan"
 	  ShowName		  off
 	  CloseFcn		  "tagdialog Close"
@@ -2441,8 +2568,8 @@ Model {
 	}
 	Block {
 	  BlockType		  From
-	  Name			  "From6"
-	  Position		  [1060, 122, 1115, 138]
+	  Name			  "From7"
+	  Position		  [1035, 157, 1090, 173]
 	  BackgroundColor	  "cyan"
 	  ShowName		  off
 	  CloseFcn		  "tagdialog Close"
@@ -2451,8 +2578,8 @@ Model {
 	}
 	Block {
 	  BlockType		  From
-	  Name			  "From7"
-	  Position		  [1060, 162, 1115, 178]
+	  Name			  "From9"
+	  Position		  [1035, 197, 1090, 213]
 	  BackgroundColor	  "cyan"
 	  ShowName		  off
 	  CloseFcn		  "tagdialog Close"
@@ -2462,7 +2589,7 @@ Model {
 	Block {
 	  BlockType		  Goto
 	  Name			  "Goto10"
-	  Position		  [1070, 441, 1120, 459]
+	  Position		  [1065, 441, 1115, 459]
 	  BackgroundColor	  "lightBlue"
 	  ShowName		  off
 	  GotoTag		  "DFloat1"
@@ -2480,7 +2607,7 @@ Model {
 	Block {
 	  BlockType		  Goto
 	  Name			  "Goto9"
-	  Position		  [1245, 641, 1295, 659]
+	  Position		  [1240, 641, 1290, 659]
 	  BackgroundColor	  "lightBlue"
 	  ShowName		  off
 	  GotoTag		  "DFloat3"
@@ -2516,7 +2643,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "psi_dot_m"
-	      Position		      [140, 143, 170, 157]
+	      Position		      [45, 138, 75, 152]
 	      BackgroundColor	      "darkGreen"
 	      IconDisplay	      "Port number"
 	      Port {
@@ -3151,7 +3278,7 @@ Model {
 	      BlockType		      Reference
 	      Name		      "Integer Delay"
 	      Ports		      [1, 1]
-	      Position		      [790, 78, 825, 112]
+	      Position		      [830, 78, 865, 112]
 	      ShowName		      off
 	      SourceBlock	      "simulink/Discrete/Integer Delay"
 	      SourceType	      "Integer Delay"
@@ -3993,9 +4120,259 @@ Model {
 	    }
 	    Block {
 	      BlockType		      SubSystem
+	      Name		      "Protect NaNs"
+	      Ports		      [1, 1]
+	      Position		      [140, 130, 210, 160]
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"Protect NaNs"
+		Location		[2, 78, 1220, 809]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [35, 28, 65, 42]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integer Delay3"
+		  Ports			  [1, 1]
+		  Position		  [165, 108, 200, 142]
+		  Orientation		  "left"
+		  ShowName		  off
+		  SourceBlock		  "simulink/Discrete/Integer Delay"
+		  SourceType		  "Integer Delay"
+		  vinit			  "0.0"
+		  samptime		  "T"
+		  NumDelays		  "1"
+		}
+		Block {
+		  BlockType		  RelationalOperator
+		  Name			  "Relational\nOperator2"
+		  Position		  [100, 42, 130, 73]
+		  ShowName		  off
+		  Operator		  "=="
+		  InputSameDT		  off
+		  LogicOutDataTypeMode	  "Specify via dialog"
+		}
+		Block {
+		  BlockType		  Switch
+		  Name			  "Switch3"
+		  Position		  [170, 25, 200, 95]
+		  ShowName		  off
+		  Criteria		  "u2 > Threshold"
+		  Threshold		  "0.3"
+		  InputSameDT		  off
+		  SaturateOnIntegerOverflow off
+		  SampleTime		  ".01"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [280, 75, 310, 90]
+		  Orientation		  "down"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Relational\nOperator2"
+		  SrcPort		  1
+		  DstBlock		  "Switch3"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  Points		  [15, 0]
+		  Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		  }
+		}
+		Line {
+		  SrcBlock		  "Switch3"
+		  SrcPort		  1
+		  Points		  [30, 0]
+		  Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Integer Delay3"
+		  SrcPort		  1
+		  Points		  [-15, 0; 0, -40]
+		  DstBlock		  "Switch3"
+		  DstPort		  3
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Protect NaNs2"
+	      Ports		      [1, 1]
+	      Position		      [80, 215, 150, 245]
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"Protect NaNs2"
+		Location		[2, 78, 1220, 809]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [35, 28, 65, 42]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integer Delay3"
+		  Ports			  [1, 1]
+		  Position		  [165, 108, 200, 142]
+		  Orientation		  "left"
+		  ShowName		  off
+		  SourceBlock		  "simulink/Discrete/Integer Delay"
+		  SourceType		  "Integer Delay"
+		  vinit			  "0.0"
+		  samptime		  "T"
+		  NumDelays		  "1"
+		}
+		Block {
+		  BlockType		  RelationalOperator
+		  Name			  "Relational\nOperator2"
+		  Position		  [100, 42, 130, 73]
+		  ShowName		  off
+		  Operator		  "=="
+		  InputSameDT		  off
+		  LogicOutDataTypeMode	  "Specify via dialog"
+		}
+		Block {
+		  BlockType		  Switch
+		  Name			  "Switch3"
+		  Position		  [170, 25, 200, 95]
+		  ShowName		  off
+		  Criteria		  "u2 > Threshold"
+		  Threshold		  "0.3"
+		  InputSameDT		  off
+		  SaturateOnIntegerOverflow off
+		  SampleTime		  ".01"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [280, 75, 310, 90]
+		  Orientation		  "down"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Relational\nOperator2"
+		  SrcPort		  1
+		  DstBlock		  "Switch3"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  Points		  [15, 0]
+		  Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		  }
+		}
+		Line {
+		  SrcBlock		  "Switch3"
+		  SrcPort		  1
+		  Points		  [30, 0]
+		  Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Integer Delay3"
+		  SrcPort		  1
+		  Points		  [-15, 0; 0, -40]
+		  DstBlock		  "Switch3"
+		  DstPort		  3
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Saturate
+	      Name		      "Psi Dot \nLimit"
+	      Position		      [1035, 160, 1065, 190]
+	      UpperLimit	      "1"
+	      LowerLimit	      "-1"
+	      SampleTime	      "apSampleTime"
+	    }
+	    Block {
+	      BlockType		      SubSystem
 	      Name		      "State Predictor"
 	      Ports		      [2, 1]
-	      Position		      [155, 184, 220, 246]
+	      Position		      [175, 184, 240, 246]
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
@@ -4535,7 +4912,7 @@ Model {
 	      BlockType		      Sum
 	      Name		      "Sum2"
 	      Ports		      [2, 1]
-	      Position		      [95, 220, 115, 240]
+	      Position		      [25, 220, 45, 240]
 	      ShowName		      off
 	      IconShape		      "round"
 	      Inputs		      "|++"
@@ -4719,7 +5096,7 @@ Model {
 		  BlockType		  Reference
 		  Name			  "Integer Delay2"
 		  Ports			  [1, 1]
-		  Position		  [635, 273, 670, 307]
+		  Position		  [760, 258, 795, 292]
 		  Orientation		  "left"
 		  ShowName		  off
 		  SourceBlock		  "simulink/Discrete/Integer Delay"
@@ -4894,6 +5271,127 @@ Model {
 		  }
 		}
 		Block {
+		  BlockType		  SubSystem
+		  Name			  "Protect NaNs1"
+		  Ports			  [1, 1]
+		  Position		  [835, 355, 905, 385]
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Auto"
+		  FunctionWithSeparateData off
+		  MaskHideContents	  off
+		  System {
+		    Name		    "Protect NaNs1"
+		    Location		    [522, 762, 797, 931]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [35, 28, 65, 42]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Integer Delay3"
+		    Ports		    [1, 1]
+		    Position		    [165, 108, 200, 142]
+		    Orientation		    "left"
+		    ShowName		    off
+		    SourceBlock		    "simulink/Discrete/Integer Delay"
+		    SourceType		    "Integer Delay"
+		    vinit		    "0.0"
+		    samptime		    "T"
+		    NumDelays		    "1"
+		    }
+		    Block {
+		    BlockType		    RelationalOperator
+		    Name		    "Relational\nOperator2"
+		    Position		    [100, 42, 130, 73]
+		    ShowName		    off
+		    Operator		    "=="
+		    InputSameDT		    off
+		    LogicOutDataTypeMode    "Specify via dialog"
+		    }
+		    Block {
+		    BlockType		    Switch
+		    Name		    "Switch3"
+		    Position		    [170, 25, 200, 95]
+		    ShowName		    off
+		    Criteria		    "u2 > Threshold"
+		    Threshold		    "0.3"
+		    InputSameDT		    off
+		    SaturateOnIntegerOverflow off
+		    SampleTime		    ".01"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [280, 75, 310, 90]
+		    Orientation		    "down"
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "Integer Delay3"
+		    SrcPort		    1
+		    Points		    [-15, 0; 0, -40]
+		    DstBlock		    "Switch3"
+		    DstPort		    3
+		    }
+		    Line {
+		    SrcBlock		    "Switch3"
+		    SrcPort		    1
+		    Points		    [30, 0]
+		    Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    Points		    [15, 0]
+		    Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		    }
+		    Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Relational\nOperator2"
+		    SrcPort		    1
+		    DstBlock		    "Switch3"
+		    DstPort		    2
+		    }
+		  }
+		}
+		Block {
 		  BlockType		  Sum
 		  Name			  "Subtract"
 		  Ports			  [3, 1]
@@ -4941,7 +5439,7 @@ Model {
 		Block {
 		  BlockType		  Outport
 		  Name			  "Int(x)"
-		  Position		  [850, 363, 880, 377]
+		  Position		  [1025, 363, 1055, 377]
 		  BackgroundColor	  "yellow"
 		  IconDisplay		  "Port number"
 		  BusOutputAsStruct	  off
@@ -5020,7 +5518,7 @@ Model {
 		Line {
 		  SrcBlock		  "Integer Delay2"
 		  SrcPort		  1
-		  Points		  [-45, 0; 0, 95]
+		  Points		  [-170, 0; 0, 110]
 		  DstBlock		  "Subtract1"
 		  DstPort		  1
 		}
@@ -5040,16 +5538,8 @@ Model {
 		Line {
 		  SrcBlock		  "Switch1"
 		  SrcPort		  1
-		  Points		  [20, 0]
-		  Branch {
-		    DstBlock		    "Int(x)"
-		    DstPort		    1
-		  }
-		  Branch {
-		    Points		    [0, -80]
-		    DstBlock		    "Integer Delay2"
-		    DstPort		    1
-		  }
+		  DstBlock		  "Protect NaNs1"
+		  DstPort		  1
 		}
 		Line {
 		  SrcBlock		  "[min max]"
@@ -5091,12 +5581,26 @@ Model {
 		    }
 		  }
 		}
+		Line {
+		  SrcBlock		  "Protect NaNs1"
+		  SrcPort		  1
+		  Points		  [25, 0]
+		  Branch {
+		    DstBlock		    "Int(x)"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, -95]
+		    DstBlock		    "Integer Delay2"
+		    DstPort		    1
+		  }
+		}
 	      }
 	    }
 	    Block {
 	      BlockType		      Outport
 	      Name		      "psi_dot_ad"
-	      Position		      [1070, 168, 1100, 182]
+	      Position		      [1130, 168, 1160, 182]
 	      BackgroundColor	      "yellow"
 	      IconDisplay	      "Port number"
 	      BusOutputAsStruct	      off
@@ -5105,7 +5609,7 @@ Model {
 	      Name		      "psi_dot_c"
 	      SrcBlock		      "Integer Delay"
 	      SrcPort		      1
-	      Points		      [165, 0]
+	      Points		      [125, 0]
 	      DstBlock		      "Sum4"
 	      DstPort		      1
 	    }
@@ -5130,16 +5634,15 @@ Model {
 	    Line {
 	      SrcBlock		      "Sum2"
 	      SrcPort		      1
-	      DstBlock		      "State Predictor"
-	      DstPort		      2
+	      DstBlock		      "Protect NaNs2"
+	      DstPort		      1
 	    }
 	    Line {
 	      Name		      "psi_dot_m"
 	      Labels		      [0, 1; 1, 1]
 	      SrcBlock		      "psi_dot_m"
 	      SrcPort		      1
-	      Points		      [90, 0]
-	      DstBlock		      "Sum3"
+	      DstBlock		      "Protect NaNs"
 	      DstPort		      1
 	    }
 	    Line {
@@ -5193,17 +5696,8 @@ Model {
 	      Labels		      [0, 0]
 	      SrcBlock		      "Sum4"
 	      SrcPort		      1
-	      Points		      [15, 0]
-	      Branch {
-		Labels			[1, 0]
-		DstBlock		"psi_dot_ad"
-		DstPort			1
-	      }
-	      Branch {
-		Points			[0, 175; -970, 0; 0, -120]
-		DstBlock		"Sum2"
-		DstPort			1
-	      }
+	      DstBlock		      "Psi Dot \nLimit"
+	      DstPort		      1
 	    }
 	    Line {
 	      Name		      "Proj"
@@ -5232,7 +5726,7 @@ Model {
 	      SrcPort		      1
 	      Points		      [-185, 0]
 	      Branch {
-		Points			[-270, 0]
+		Points			[-340, 0]
 		DstBlock		"Sum2"
 		DstPort			2
 	      }
@@ -5272,6 +5766,34 @@ Model {
 		DstPort			1
 	      }
 	    }
+	    Line {
+	      SrcBlock		      "Protect NaNs2"
+	      SrcPort		      1
+	      DstBlock		      "State Predictor"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Protect NaNs"
+	      SrcPort		      1
+	      Points		      [50, 0]
+	      DstBlock		      "Sum3"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Psi Dot \nLimit"
+	      SrcPort		      1
+	      Points		      [15, 0]
+	      Branch {
+		Labels			[1, 0]
+		DstBlock		"psi_dot_ad"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 175; -1075, 0]
+		DstBlock		"Sum2"
+		DstPort			1
+	      }
+	    }
 	  }
 	}
 	Block {
@@ -5298,7 +5820,7 @@ Model {
 	  System {
 	    Name		    "Lateral Channel"
 	    Location		    [39, 82, 1257, 1000]
-	    Open		    off
+	    Open		    on
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -5313,7 +5835,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "r_m"
-	      Position		      [120, 713, 150, 727]
+	      Position		      [30, 713, 60, 727]
 	      BackgroundColor	      "darkGreen"
 	      IconDisplay	      "Port number"
 	    }
@@ -5344,7 +5866,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "psi_dot_c_noNav"
-	      Position		      [220, 328, 250, 342]
+	      Position		      [185, 328, 215, 342]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "5"
 	      IconDisplay	      "Port number"
@@ -5368,7 +5890,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "Roll PID Gains"
-	      Position		      [765, 353, 795, 367]
+	      Position		      [830, 353, 860, 367]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "8"
 	      IconDisplay	      "Port number"
@@ -5376,7 +5898,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "dA Trim"
-	      Position		      [760, 468, 790, 482]
+	      Position		      [825, 468, 855, 482]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "9"
 	      IconDisplay	      "Port number"
@@ -5384,7 +5906,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "wpFly"
-	      Position		      [230, 288, 260, 302]
+	      Position		      [185, 288, 215, 302]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "10"
 	      IconDisplay	      "Port number"
@@ -5401,7 +5923,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "psi_dot_ad"
-	      Position		      [325, 223, 355, 237]
+	      Position		      [325, 198, 355, 212]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "12"
 	      IconDisplay	      "Port number"
@@ -5410,7 +5932,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "L1OnOff"
-	      Position		      [340, 268, 370, 282]
+	      Position		      [355, 268, 385, 282]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "13"
 	      IconDisplay	      "Port number"
@@ -5426,16 +5948,16 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "Ayb"
-	      Position		      [250, 543, 280, 557]
+	      Position		      [30, 543, 60, 557]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "15"
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      SubSystem
-	      Name		      "0.25 sec  tau"
+	      Name		      "0.5 sec  tau"
 	      Ports		      [1, 1]
-	      Position		      [305, 538, 385, 562]
+	      Position		      [275, 538, 355, 562]
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
@@ -5462,10 +5984,10 @@ Model {
 	      MaskIconOpaque	      on
 	      MaskIconRotate	      "none"
 	      MaskIconUnits	      "autoscale"
-	      MaskValueString	      "0.636|T"
+	      MaskValueString	      "0.3183|T"
 	      MaskTabNameString	      ","
 	      System {
-		Name			"0.25 sec  tau"
+		Name			"0.5 sec  tau"
 		Location		[433, 403, 831, 596]
 		Open			off
 		ModelBrowserVisibility	off
@@ -5702,7 +6224,7 @@ Model {
 	      BlockType		      Sum
 	      Name		      "Add3"
 	      Ports		      [2, 1]
-	      Position		      [975, 332, 1005, 363]
+	      Position		      [1040, 332, 1070, 363]
 	      ShowName		      off
 	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
@@ -5713,7 +6235,7 @@ Model {
 	    Block {
 	      BlockType		      Saturate
 	      Name		      "Aileron\nLimit"
-	      Position		      [1030, 335, 1060, 365]
+	      Position		      [1095, 335, 1125, 365]
 	      UpperLimit	      "daLimit"
 	      LowerLimit	      "-daLimit"
 	      SampleTime	      "apSampleTime"
@@ -5741,7 +6263,7 @@ Model {
 	      BlockType		      Reference
 	      Name		      "Angle Conversion1"
 	      Ports		      [1, 1]
-	      Position		      [890, 726, 960, 754]
+	      Position		      [715, 136, 785, 164]
 	      ShowName		      off
 	      SourceBlock	      "aerolibconvert2/Angle Conversion"
 	      SourceType	      "Angle Conversion"
@@ -5760,7 +6282,7 @@ Model {
 	      BlockType		      Reference
 	      Name		      "Angle Conversion2"
 	      Ports		      [1, 1]
-	      Position		      [1055, 591, 1125, 619]
+	      Position		      [1055, 531, 1125, 559]
 	      ShowName		      off
 	      SourceBlock	      "aerolibconvert2/Angle Conversion"
 	      SourceType	      "Angle Conversion"
@@ -5787,7 +6309,7 @@ Model {
 	      BlockType		      SubSystem
 	      Name		      "Bank to Psi Dot"
 	      Ports		      [2, 1]
-	      Position		      [115, 235, 205, 310]
+	      Position		      [80, 235, 170, 310]
 	      AncestorBlock	      "SLUGS_Library/Navigation/Bank to Psi Do"
 "t"
 	      MinAlgLoopOccurrences   off
@@ -5820,7 +6342,7 @@ Model {
 		Block {
 		  BlockType		  Inport
 		  Name			  "U_m"
-		  Position		  [215, 178, 245, 192]
+		  Position		  [95, 178, 125, 192]
 		  BackgroundColor	  "darkGreen"
 		  Port			  "2"
 		  IconDisplay		  "Port number"
@@ -5982,6 +6504,127 @@ Model {
 		  }
 		}
 		Block {
+		  BlockType		  SubSystem
+		  Name			  "Protect NaNs1"
+		  Ports			  [1, 1]
+		  Position		  [190, 170, 260, 200]
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Auto"
+		  FunctionWithSeparateData off
+		  MaskHideContents	  off
+		  System {
+		    Name		    "Protect NaNs1"
+		    Location		    [10, 82, 1228, 1000]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [35, 28, 65, 42]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Integer Delay3"
+		    Ports		    [1, 1]
+		    Position		    [165, 108, 200, 142]
+		    Orientation		    "left"
+		    ShowName		    off
+		    SourceBlock		    "simulink/Discrete/Integer Delay"
+		    SourceType		    "Integer Delay"
+		    vinit		    "0.0"
+		    samptime		    "T"
+		    NumDelays		    "1"
+		    }
+		    Block {
+		    BlockType		    RelationalOperator
+		    Name		    "Relational\nOperator2"
+		    Position		    [100, 42, 130, 73]
+		    ShowName		    off
+		    Operator		    "=="
+		    InputSameDT		    off
+		    LogicOutDataTypeMode    "Specify via dialog"
+		    }
+		    Block {
+		    BlockType		    Switch
+		    Name		    "Switch3"
+		    Position		    [170, 25, 200, 95]
+		    ShowName		    off
+		    Criteria		    "u2 > Threshold"
+		    Threshold		    "0.3"
+		    InputSameDT		    off
+		    SaturateOnIntegerOverflow off
+		    SampleTime		    ".01"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [280, 75, 310, 90]
+		    Orientation		    "down"
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "Integer Delay3"
+		    SrcPort		    1
+		    Points		    [-15, 0; 0, -40]
+		    DstBlock		    "Switch3"
+		    DstPort		    3
+		    }
+		    Line {
+		    SrcBlock		    "Switch3"
+		    SrcPort		    1
+		    Points		    [30, 0]
+		    Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    Points		    [15, 0]
+		    Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		    }
+		    Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Relational\nOperator2"
+		    SrcPort		    1
+		    DstBlock		    "Switch3"
+		    DstPort		    2
+		    }
+		  }
+		}
+		Block {
 		  BlockType		  Reference
 		  Name			  "Subsystem8"
 		  Ports			  [1, 1]
@@ -6000,115 +6643,19 @@ Model {
 		}
 		Block {
 		  BlockType		  Saturate
+		  Name			  "[0 40]"
+		  Position		  [310, 170, 340, 200]
+		  UpperLimit		  "40"
+		  LowerLimit		  "0"
+		  SampleTime		  ".01"
+		}
+		Block {
+		  BlockType		  Saturate
 		  Name			  "bank Limit"
 		  Position		  [310, 105, 340, 135]
 		  UpperLimit		  "bankCommandLimit"
 		  LowerLimit		  "-bankCommandLimit"
-		}
-		Block {
-		  BlockType		  SubSystem
-		  Name			  "negprotect"
-		  Ports			  [1, 1]
-		  Position		  [275, 164, 380, 206]
-		  ForegroundColor	  "blue"
-		  ShowName		  off
-		  MinAlgLoopOccurrences	  off
-		  RTWSystemCode		  "Auto"
-		  FunctionWithSeparateData off
-		  MaskHideContents	  off
-		  MaskType		  "Stateflow"
-		  MaskDescription	  "Embedded MATLAB block"
-		  MaskDisplay		  "disp('negProt');"
-		  MaskSelfModifiable	  on
-		  MaskIconFrame		  on
-		  MaskIconOpaque	  off
-		  MaskIconRotate	  "none"
-		  MaskIconUnits		  "autoscale"
-		  System {
-		    Name		    "negprotect"
-		    Location		    [257, 457, 812, 717]
-		    Open		    off
-		    ModelBrowserVisibility  off
-		    ModelBrowserWidth	    200
-		    ScreenColor		    "white"
-		    PaperOrientation	    "landscape"
-		    PaperPositionMode	    "auto"
-		    PaperType		    "usletter"
-		    PaperUnits		    "inches"
-		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
-"500000]"
-		    TiledPageScale	    1
-		    ShowPageBoundaries	    off
-		    ZoomFactor		    "100"
-		    Block {
-		    BlockType		    Inport
-		    Name		    "val"
-		    Position		    [20, 101, 40, 119]
-		    IconDisplay		    "Port number"
-		    }
-		    Block {
-		    BlockType		    Demux
-		    Name		    " Demux "
-		    Ports		    [1, 1]
-		    Position		    [270, 160, 320, 200]
-		    Outputs		    "1"
-		    }
-		    Block {
-		    BlockType		    "S-Function"
-		    Name		    " SFunction "
-		    Tag			    "Stateflow S-Function controlMCUSl"
-"ugsMKII 38"
-		    Ports		    [1, 2]
-		    Position		    [180, 100, 230, 160]
-		    FunctionName	    "sf_sfun"
-		    PortCounts		    "[1 2]"
-		    Port {
-		    PortNumber		    2
-		    Name		    "zpVal"
-		    RTWStorageClass	    "Auto"
-		    DataLoggingNameMode	    "SignalName"
-		    }
-		    }
-		    Block {
-		    BlockType		    Terminator
-		    Name		    " Terminator "
-		    Position		    [460, 171, 480, 189]
-		    }
-		    Block {
-		    BlockType		    Outport
-		    Name		    "zpVal"
-		    Position		    [460, 101, 480, 119]
-		    IconDisplay		    "Port number"
-		    BusOutputAsStruct	    off
-		    }
-		    Line {
-		    SrcBlock		    " SFunction "
-		    SrcPort		    1
-		    Points		    [0, 65]
-		    DstBlock		    " Demux "
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    " Demux "
-		    SrcPort		    1
-		    DstBlock		    " Terminator "
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "val"
-		    SrcPort		    1
-		    DstBlock		    " SFunction "
-		    DstPort		    1
-		    }
-		    Line {
-		    Name		    "zpVal"
-		    Labels		    [0, 0]
-		    SrcBlock		    " SFunction "
-		    SrcPort		    2
-		    DstBlock		    "zpVal"
-		    DstPort		    1
-		    }
-		  }
+		  SampleTime		  ".01"
 		}
 		Block {
 		  BlockType		  Outport
@@ -6118,7 +6665,7 @@ Model {
 		  BusOutputAsStruct	  off
 		}
 		Line {
-		  SrcBlock		  "negprotect"
+		  SrcBlock		  "[0 40]"
 		  SrcPort		  1
 		  DstBlock		  "Divide"
 		  DstPort		  1
@@ -6158,7 +6705,7 @@ Model {
 		Line {
 		  SrcBlock		  "U_m"
 		  SrcPort		  1
-		  DstBlock		  "negprotect"
+		  DstBlock		  "Protect NaNs1"
 		  DstPort		  1
 		}
 		Line {
@@ -6172,6 +6719,12 @@ Model {
 		  SrcBlock		  "Protect NaNs"
 		  SrcPort		  1
 		  DstBlock		  "bank Limit"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Protect NaNs1"
+		  SrcPort		  1
+		  DstBlock		  "[0 40]"
 		  DstPort		  1
 		}
 	      }
@@ -6359,7 +6912,7 @@ Model {
 	    Block {
 	      BlockType		      Goto
 	      Name		      "Goto13"
-	      Position		      [1000, 731, 1050, 749]
+	      Position		      [825, 141, 875, 159]
 	      BackgroundColor	      "lightBlue"
 	      ShowName		      off
 	      GotoTag		      "DShort3"
@@ -6378,7 +6931,7 @@ Model {
 	    Block {
 	      BlockType		      Goto
 	      Name		      "Goto3"
-	      Position		      [625, 571, 680, 589]
+	      Position		      [650, 581, 705, 599]
 	      BackgroundColor	      "magenta"
 	      ShowName		      off
 	      GotoTag		      "rHp"
@@ -6387,7 +6940,7 @@ Model {
 	    Block {
 	      BlockType		      Goto
 	      Name		      "Goto4"
-	      Position		      [1160, 596, 1210, 614]
+	      Position		      [1160, 536, 1210, 554]
 	      BackgroundColor	      "lightBlue"
 	      ShowName		      off
 	      GotoTag		      "DShort1"
@@ -6397,7 +6950,7 @@ Model {
 	      BlockType		      SubSystem
 	      Name		      "High Pass\n(Washout) Filter"
 	      Ports		      [1, 1]
-	      Position		      [330, 703, 400, 737]
+	      Position		      [275, 703, 345, 737]
 	      TreatAsAtomicUnit	      on
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
@@ -6640,7 +7193,7 @@ Model {
 	    Block {
 	      BlockType		      InportShadow
 	      Name		      "Manual?1"
-	      Position		      [760, 318, 790, 332]
+	      Position		      [825, 318, 855, 332]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "2"
 	      IconDisplay	      "Port number"
@@ -6650,28 +7203,520 @@ Model {
 	    Block {
 	      BlockType		      Gain
 	      Name		      "Neg\nFeedback"
-	      Position		      [180, 705, 210, 735]
+	      Position		      [390, 705, 420, 735]
 	      Gain		      "-1"
 	      ParameterDataTypeMode   "Inherit via internal rule"
 	      OutDataTypeMode	      "Specify via dialog"
-	      OutDataType	      "float('double')"
+	      OutDataType	      "float('single')"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
 	      BlockType		      Gain
 	      Name		      "Neg\nFeedback "
-	      Position		      [405, 535, 435, 565]
+	      Position		      [390, 535, 420, 565]
 	      Gain		      "-1"
 	      ParameterDataTypeMode   "Inherit via internal rule"
 	      OutDataTypeMode	      "Specify via dialog"
-	      OutDataType	      "float('double')"
+	      OutDataType	      "float('single')"
 	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Protect NaNs"
+	      Ports		      [1, 1]
+	      Position		      [805, 275, 875, 305]
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"Protect NaNs"
+		Location		[2, 78, 1220, 809]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [35, 28, 65, 42]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integer Delay3"
+		  Ports			  [1, 1]
+		  Position		  [165, 108, 200, 142]
+		  Orientation		  "left"
+		  ShowName		  off
+		  SourceBlock		  "simulink/Discrete/Integer Delay"
+		  SourceType		  "Integer Delay"
+		  vinit			  "0.0"
+		  samptime		  "T"
+		  NumDelays		  "1"
+		}
+		Block {
+		  BlockType		  RelationalOperator
+		  Name			  "Relational\nOperator2"
+		  Position		  [100, 42, 130, 73]
+		  ShowName		  off
+		  Operator		  "=="
+		  InputSameDT		  off
+		  LogicOutDataTypeMode	  "Specify via dialog"
+		}
+		Block {
+		  BlockType		  Switch
+		  Name			  "Switch3"
+		  Position		  [170, 25, 200, 95]
+		  ShowName		  off
+		  Criteria		  "u2 > Threshold"
+		  Threshold		  "0.3"
+		  InputSameDT		  off
+		  SaturateOnIntegerOverflow off
+		  SampleTime		  ".01"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [280, 75, 310, 90]
+		  Orientation		  "down"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Relational\nOperator2"
+		  SrcPort		  1
+		  DstBlock		  "Switch3"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  Points		  [15, 0]
+		  Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		  }
+		}
+		Line {
+		  SrcBlock		  "Switch3"
+		  SrcPort		  1
+		  Points		  [30, 0]
+		  Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Integer Delay3"
+		  SrcPort		  1
+		  Points		  [-15, 0; 0, -40]
+		  DstBlock		  "Switch3"
+		  DstPort		  3
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Protect NaNs1"
+	      Ports		      [1, 1]
+	      Position		      [510, 620, 580, 650]
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"Protect NaNs1"
+		Location		[2, 78, 1220, 809]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [35, 28, 65, 42]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integer Delay3"
+		  Ports			  [1, 1]
+		  Position		  [165, 108, 200, 142]
+		  Orientation		  "left"
+		  ShowName		  off
+		  SourceBlock		  "simulink/Discrete/Integer Delay"
+		  SourceType		  "Integer Delay"
+		  vinit			  "0.0"
+		  samptime		  "T"
+		  NumDelays		  "1"
+		}
+		Block {
+		  BlockType		  RelationalOperator
+		  Name			  "Relational\nOperator2"
+		  Position		  [100, 42, 130, 73]
+		  ShowName		  off
+		  Operator		  "=="
+		  InputSameDT		  off
+		  LogicOutDataTypeMode	  "Specify via dialog"
+		}
+		Block {
+		  BlockType		  Switch
+		  Name			  "Switch3"
+		  Position		  [170, 25, 200, 95]
+		  ShowName		  off
+		  Criteria		  "u2 > Threshold"
+		  Threshold		  "0.3"
+		  InputSameDT		  off
+		  SaturateOnIntegerOverflow off
+		  SampleTime		  ".01"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [280, 75, 310, 90]
+		  Orientation		  "down"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Integer Delay3"
+		  SrcPort		  1
+		  Points		  [-15, 0; 0, -40]
+		  DstBlock		  "Switch3"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Switch3"
+		  SrcPort		  1
+		  Points		  [30, 0]
+		  Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  Points		  [15, 0]
+		  Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		  }
+		  Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Relational\nOperator2"
+		  SrcPort		  1
+		  DstBlock		  "Switch3"
+		  DstPort		  2
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Protect NaNs2"
+	      Ports		      [1, 1]
+	      Position		      [95, 535, 165, 565]
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"Protect NaNs2"
+		Location		[2, 78, 1220, 809]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [35, 28, 65, 42]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integer Delay3"
+		  Ports			  [1, 1]
+		  Position		  [165, 108, 200, 142]
+		  Orientation		  "left"
+		  ShowName		  off
+		  SourceBlock		  "simulink/Discrete/Integer Delay"
+		  SourceType		  "Integer Delay"
+		  vinit			  "0.0"
+		  samptime		  "T"
+		  NumDelays		  "1"
+		}
+		Block {
+		  BlockType		  RelationalOperator
+		  Name			  "Relational\nOperator2"
+		  Position		  [100, 42, 130, 73]
+		  ShowName		  off
+		  Operator		  "=="
+		  InputSameDT		  off
+		  LogicOutDataTypeMode	  "Specify via dialog"
+		}
+		Block {
+		  BlockType		  Switch
+		  Name			  "Switch3"
+		  Position		  [170, 25, 200, 95]
+		  ShowName		  off
+		  Criteria		  "u2 > Threshold"
+		  Threshold		  "0.3"
+		  InputSameDT		  off
+		  SaturateOnIntegerOverflow off
+		  SampleTime		  ".01"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [280, 75, 310, 90]
+		  Orientation		  "down"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Relational\nOperator2"
+		  SrcPort		  1
+		  DstBlock		  "Switch3"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  Points		  [15, 0]
+		  Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		  }
+		}
+		Line {
+		  SrcBlock		  "Switch3"
+		  SrcPort		  1
+		  Points		  [30, 0]
+		  Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Integer Delay3"
+		  SrcPort		  1
+		  Points		  [-15, 0; 0, -40]
+		  DstBlock		  "Switch3"
+		  DstPort		  3
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Protect NaNs3"
+	      Ports		      [1, 1]
+	      Position		      [85, 705, 155, 735]
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"Protect NaNs3"
+		Location		[2, 78, 1220, 809]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [35, 28, 65, 42]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integer Delay3"
+		  Ports			  [1, 1]
+		  Position		  [165, 108, 200, 142]
+		  Orientation		  "left"
+		  ShowName		  off
+		  SourceBlock		  "simulink/Discrete/Integer Delay"
+		  SourceType		  "Integer Delay"
+		  vinit			  "0.0"
+		  samptime		  "T"
+		  NumDelays		  "1"
+		}
+		Block {
+		  BlockType		  RelationalOperator
+		  Name			  "Relational\nOperator2"
+		  Position		  [100, 42, 130, 73]
+		  ShowName		  off
+		  Operator		  "=="
+		  InputSameDT		  off
+		  LogicOutDataTypeMode	  "Specify via dialog"
+		}
+		Block {
+		  BlockType		  Switch
+		  Name			  "Switch3"
+		  Position		  [170, 25, 200, 95]
+		  ShowName		  off
+		  Criteria		  "u2 > Threshold"
+		  Threshold		  "0.3"
+		  InputSameDT		  off
+		  SaturateOnIntegerOverflow off
+		  SampleTime		  ".01"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [280, 75, 310, 90]
+		  Orientation		  "down"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Integer Delay3"
+		  SrcPort		  1
+		  Points		  [-15, 0; 0, -40]
+		  DstBlock		  "Switch3"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Switch3"
+		  SrcPort		  1
+		  Points		  [30, 0]
+		  Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  Points		  [15, 0]
+		  Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		  }
+		  Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Relational\nOperator2"
+		  SrcPort		  1
+		  DstBlock		  "Switch3"
+		  DstPort		  2
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Saturate
+	      Name		      "Psi Dot \nLimit"
+	      Position		      [310, 280, 340, 310]
+	      UpperLimit	      "1"
+	      LowerLimit	      "-1"
+	      SampleTime	      "apSampleTime"
 	    }
 	    Block {
 	      BlockType		      Reference
 	      Name		      "Roll Control\n[PID]"
 	      Ports		      [4, 1]
-	      Position		      [830, 269, 935, 416]
+	      Position		      [895, 269, 1000, 416]
 	      SourceBlock	      "SLUGS_Library/Control Blocks/PID Contro"
 "ller w//Anti-Windup"
 	      SourceType	      "PID"
@@ -7037,7 +8082,7 @@ Model {
 		  BlockType		  SubSystem
 		  Name			  "Low Pass"
 		  Ports			  [2, 1]
-		  Position		  [550, 154, 615, 216]
+		  Position		  [635, 154, 700, 216]
 		  MinAlgLoopOccurrences	  off
 		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
@@ -7488,6 +8533,127 @@ Model {
 		  }
 		}
 		Block {
+		  BlockType		  SubSystem
+		  Name			  "Protect NaNs2"
+		  Ports			  [1, 1]
+		  Position		  [525, 180, 595, 210]
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Auto"
+		  FunctionWithSeparateData off
+		  MaskHideContents	  off
+		  System {
+		    Name		    "Protect NaNs2"
+		    Location		    [2, 78, 1220, 809]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [35, 28, 65, 42]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Integer Delay3"
+		    Ports		    [1, 1]
+		    Position		    [165, 108, 200, 142]
+		    Orientation		    "left"
+		    ShowName		    off
+		    SourceBlock		    "simulink/Discrete/Integer Delay"
+		    SourceType		    "Integer Delay"
+		    vinit		    "0.0"
+		    samptime		    "T"
+		    NumDelays		    "1"
+		    }
+		    Block {
+		    BlockType		    RelationalOperator
+		    Name		    "Relational\nOperator2"
+		    Position		    [100, 42, 130, 73]
+		    ShowName		    off
+		    Operator		    "=="
+		    InputSameDT		    off
+		    LogicOutDataTypeMode    "Specify via dialog"
+		    }
+		    Block {
+		    BlockType		    Switch
+		    Name		    "Switch3"
+		    Position		    [170, 25, 200, 95]
+		    ShowName		    off
+		    Criteria		    "u2 > Threshold"
+		    Threshold		    "0.3"
+		    InputSameDT		    off
+		    SaturateOnIntegerOverflow off
+		    SampleTime		    ".01"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [280, 75, 310, 90]
+		    Orientation		    "down"
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "Relational\nOperator2"
+		    SrcPort		    1
+		    DstBlock		    "Switch3"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    Points		    [15, 0]
+		    Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Switch3"
+		    SrcPort		    1
+		    Points		    [30, 0]
+		    Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Integer Delay3"
+		    SrcPort		    1
+		    Points		    [-15, 0; 0, -40]
+		    DstBlock		    "Switch3"
+		    DstPort		    3
+		    }
+		  }
+		}
+		Block {
 		  BlockType		  Sum
 		  Name			  "Subtract"
 		  Ports			  [2, 1]
@@ -7639,7 +8805,7 @@ Model {
 		Block {
 		  BlockType		  Outport
 		  Name			  "bankComp"
-		  Position		  [655, 178, 685, 192]
+		  Position		  [765, 178, 795, 192]
 		  BackgroundColor	  "yellow"
 		  IconDisplay		  "Port number"
 		  BusOutputAsStruct	  off
@@ -7664,9 +8830,8 @@ Model {
 		  Labels		  [0, 0]
 		  SrcBlock		  "psi_dot to Bank"
 		  SrcPort		  1
-		  Points		  [50, 0]
-		  DstBlock		  "Low Pass"
-		  DstPort		  2
+		  DstBlock		  "Protect NaNs2"
+		  DstPort		  1
 		}
 		Line {
 		  Name			  "turn rate error"
@@ -7711,12 +8876,19 @@ Model {
 		  DstBlock		  "Bank to Psi Dot"
 		  DstPort		  1
 		}
+		Line {
+		  SrcBlock		  "Protect NaNs2"
+		  SrcPort		  1
+		  Points		  [20, 0]
+		  DstBlock		  "Low Pass"
+		  DstPort		  2
+		}
 	      }
 	    }
 	    Block {
 	      BlockType		      Switch
 	      Name		      "Switch"
-	      Position		      [400, 245, 435, 305]
+	      Position		      [410, 245, 445, 305]
 	      ShowName		      off
 	      Criteria		      "u2 > Threshold"
 	      Threshold		      "0.3"
@@ -7726,7 +8898,7 @@ Model {
 	    Block {
 	      BlockType		      Switch
 	      Name		      "Switch1"
-	      Position		      [300, 265, 335, 325]
+	      Position		      [255, 265, 290, 325]
 	      ShowName		      off
 	      Criteria		      "u2 > Threshold"
 	      Threshold		      "0.3"
@@ -7735,7 +8907,7 @@ Model {
 	    Block {
 	      BlockType		      Switch
 	      Name		      "Switch2"
-	      Position		      [485, 605, 520, 665]
+	      Position		      [450, 605, 485, 665]
 	      ShowName		      off
 	      Criteria		      "u2 > Threshold"
 	      Threshold		      "0.3"
@@ -7777,7 +8949,7 @@ Model {
 	      BlockType		      Selector
 	      Name		      "Use P Gain"
 	      Ports		      [1, 1]
-	      Position		      [340, 616, 380, 654]
+	      Position		      [350, 616, 390, 654]
 	      IndexOptions	      "Index vector (dialog)"
 	      Indices		      "1"
 	      OutputSizes	      "1"
@@ -7807,9 +8979,16 @@ Model {
 	    Block {
 	      BlockType		      Saturate
 	      Name		      "[-2 2]"
-	      Position		      [245, 705, 275, 735]
+	      Position		      [200, 705, 230, 735]
 	      UpperLimit	      "2"
 	      LowerLimit	      "-2"
+	    }
+	    Block {
+	      BlockType		      Saturate
+	      Name		      "[-20 20]"
+	      Position		      [200, 535, 230, 565]
+	      UpperLimit	      "20"
+	      LowerLimit	      "-20"
 	    }
 	    Block {
 	      BlockType		      Reference
@@ -8152,7 +9331,7 @@ Model {
 	    Block {
 	      BlockType		      Outport
 	      Name		      "dA"
-	      Position		      [1110, 343, 1140, 357]
+	      Position		      [1175, 343, 1205, 357]
 	      BackgroundColor	      "yellow"
 	      IconDisplay	      "Port number"
 	      BusOutputAsStruct	      off
@@ -8179,7 +9358,7 @@ Model {
 	    Block {
 	      BlockType		      Outport
 	      Name		      "psi_dot_c "
-	      Position		      [325, 358, 355, 372]
+	      Position		      [320, 378, 350, 392]
 	      Orientation	      "left"
 	      BackgroundColor	      "yellow"
 	      Port		      "4"
@@ -8222,7 +9401,7 @@ Model {
 	    Line {
 	      SrcBlock		      "Add1"
 	      SrcPort		      1
-	      DstBlock		      "Roll Control\n[PID]"
+	      DstBlock		      "Protect NaNs"
 	      DstPort		      1
 	    }
 	    Line {
@@ -8301,15 +9480,8 @@ Model {
 	    Line {
 	      SrcBlock		      "Add"
 	      SrcPort		      1
-	      Points		      [50, 0]
-	      Branch {
-		DstBlock		"Switch3"
-		DstPort			3
-	      }
-	      Branch {
-		DstBlock		"Angle Conversion1"
-		DstPort			1
-	      }
+	      DstBlock		      "Switch3"
+	      DstPort		      3
 	    }
 	    Line {
 	      SrcBlock		      "Yaw Damp \nPID Gains"
@@ -8326,19 +9498,13 @@ Model {
 	    Line {
 	      SrcBlock		      "r_m"
 	      SrcPort		      1
-	      DstBlock		      "Neg\nFeedback"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Neg\nFeedback"
-	      SrcPort		      1
-	      DstBlock		      "[-2 2]"
+	      DstBlock		      "Protect NaNs3"
 	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "Switch"
 	      SrcPort		      1
-	      Points		      [15, 0]
+	      Points		      [5, 0]
 	      Branch {
 		DstBlock		"psi_dot to Bank"
 		DstPort			1
@@ -8352,16 +9518,8 @@ Model {
 	    Line {
 	      SrcBlock		      "Switch1"
 	      SrcPort		      1
-	      Points		      [35, 0]
-	      Branch {
-		DstBlock		"Switch"
-		DstPort			3
-	      }
-	      Branch {
-		Points			[0, 70]
-		DstBlock		"psi_dot_c "
-		DstPort			1
-	      }
+	      DstBlock		      "Psi Dot \nLimit"
+	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "L1OnOff"
@@ -8372,7 +9530,7 @@ Model {
 	    Line {
 	      SrcBlock		      "psi_dot_ad"
 	      SrcPort		      1
-	      Points		      [10, 0; 0, 25]
+	      Points		      [10, 0; 0, 50]
 	      DstBlock		      "Switch"
 	      DstPort		      1
 	    }
@@ -8448,9 +9606,17 @@ Model {
 	    Line {
 	      SrcBlock		      "Sideslip Compensation"
 	      SrcPort		      1
-	      Points		      [15, 0; 0, 170]
-	      DstBlock		      "Add2"
-	      DstPort		      1
+	      Points		      [15, 0; 0, 30]
+	      Branch {
+		Points			[0, 140]
+		DstBlock		"Add2"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 5]
+		DstBlock		"Angle Conversion1"
+		DstPort			1
+	      }
 	    }
 	    Line {
 	      SrcBlock		      "phi_m  "
@@ -8480,28 +9646,19 @@ Model {
 	    Line {
 	      SrcBlock		      "Switch2"
 	      SrcPort		      1
-	      Points		      [25, 0]
-	      Branch {
-		Points			[0, -55]
-		DstBlock		"Goto3"
-		DstPort			1
-	      }
-	      Branch {
-		DstBlock		"Yaw Damper\n[PID]"
-		DstPort			1
-	      }
+	      DstBlock		      "Protect NaNs1"
+	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "High Pass\n(Washout) Filter"
 	      SrcPort		      1
-	      Points		      [50, 0; 0, -65]
-	      DstBlock		      "Switch2"
-	      DstPort		      3
+	      DstBlock		      "Neg\nFeedback"
+	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "Ayb"
 	      SrcPort		      1
-	      DstBlock		      "0.25 sec  tau"
+	      DstBlock		      "Protect NaNs2"
 	      DstPort		      1
 	    }
 	    Line {
@@ -8513,13 +9670,13 @@ Model {
 	    Line {
 	      SrcBlock		      "[navSupport.c]   "
 	      SrcPort		      1
-	      Points		      [20, 0]
+	      Points		      [65, 0]
 	      Branch {
 		DstBlock		"Use P Gain"
 		DstPort			1
 	      }
 	      Branch {
-		Points			[10, 0; 0, -120; 515, 0; 0, 55]
+		Points			[0, -120; 480, 0; 0, 55]
 		Branch {
 		  Points		  [0, 70]
 		  DstBlock		  "I-> Fail On"
@@ -8540,12 +9697,12 @@ Model {
 	    Line {
 	      SrcBlock		      "Neg\nFeedback "
 	      SrcPort		      1
-	      Points		      [15, 0; 0, 65]
+	      Points		      [5, 0; 0, 65]
 	      DstBlock		      "Switch2"
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "0.25 sec  tau"
+	      SrcBlock		      "0.5 sec  tau"
 	      SrcPort		      1
 	      DstBlock		      "Neg\nFeedback "
 	      DstPort		      1
@@ -8644,6 +9801,65 @@ Model {
 	      DstBlock		      "Goto4"
 	      DstPort		      1
 	    }
+	    Line {
+	      SrcBlock		      "Protect NaNs"
+	      SrcPort		      1
+	      DstBlock		      "Roll Control\n[PID]"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Protect NaNs1"
+	      SrcPort		      1
+	      Points		      [10, 0]
+	      Branch {
+		Points			[0, -45]
+		DstBlock		"Goto3"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"Yaw Damper\n[PID]"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Protect NaNs2"
+	      SrcPort		      1
+	      DstBlock		      "[-20 20]"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Protect NaNs3"
+	      SrcPort		      1
+	      DstBlock		      "[-2 2]"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "[-20 20]"
+	      SrcPort		      1
+	      DstBlock		      "0.5 sec  tau"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Neg\nFeedback"
+	      SrcPort		      1
+	      Points		      [5, 0; 0, -65]
+	      DstBlock		      "Switch2"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Psi Dot \nLimit"
+	      SrcPort		      1
+	      Points		      [30, 0]
+	      Branch {
+		DstBlock		"Switch"
+		DstPort			3
+	      }
+	      Branch {
+		Points			[0, 90]
+		DstBlock		"psi_dot_c "
+		DstPort			1
+	      }
+	    }
 	  }
 	}
 	Block {
@@ -8683,7 +9899,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "dyn P"
-	      Position		      [30, 103, 60, 117]
+	      Position		      [15, 103, 45, 117]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "2"
 	      IconDisplay	      "Port number"
@@ -8731,7 +9947,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "theta_m"
-	      Position		      [500, 543, 530, 557]
+	      Position		      [560, 543, 590, 557]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "8"
 	      IconDisplay	      "Port number"
@@ -8739,7 +9955,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "th2dE PID Gains"
-	      Position		      [570, 558, 600, 572]
+	      Position		      [630, 558, 660, 572]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "9"
 	      IconDisplay	      "Port number"
@@ -8747,7 +9963,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "dE_trim"
-	      Position		      [620, 643, 650, 657]
+	      Position		      [680, 643, 710, 657]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "10"
 	      IconDisplay	      "Port number"
@@ -8780,7 +9996,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "phi_m"
-	      Position		      [355, 788, 385, 802]
+	      Position		      [245, 788, 275, 802]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "14"
 	      IconDisplay	      "Port number"
@@ -8788,7 +10004,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "dt FF\nGain"
-	      Position		      [665, 253, 695, 267]
+	      Position		      [745, 253, 775, 267]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "15"
 	      IconDisplay	      "Port number"
@@ -8797,7 +10013,7 @@ Model {
 	      BlockType		      SubSystem
 	      Name		      "0.3 sec  tau for\nlow speeds"
 	      Ports		      [1, 1]
-	      Position		      [335, 58, 415, 82]
+	      Position		      [340, 58, 420, 82]
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
@@ -9257,7 +10473,7 @@ Model {
 	      BlockType		      SubSystem
 	      Name		      "5 sec tau for\nhigh speeds"
 	      Ports		      [1, 1]
-	      Position		      [335, 173, 415, 197]
+	      Position		      [340, 173, 420, 197]
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
@@ -9500,7 +10716,7 @@ Model {
 	      BlockType		      Sum
 	      Name		      "Add1"
 	      Ports		      [3, 1]
-	      Position		      [825, 119, 855, 151]
+	      Position		      [905, 119, 935, 151]
 	      ShowName		      off
 	      Inputs		      "3"
 	      CollapseMode	      "All dimensions"
@@ -9526,7 +10742,7 @@ Model {
 	      BlockType		      Sum
 	      Name		      "Add3"
 	      Ports		      [2, 1]
-	      Position		      [570, 487, 600, 518]
+	      Position		      [630, 487, 660, 518]
 	      ShowName		      off
 	      Inputs		      "+-"
 	      CollapseMode	      "All dimensions"
@@ -9539,7 +10755,7 @@ Model {
 	      BlockType		      Sum
 	      Name		      "Add4"
 	      Ports		      [3, 1]
-	      Position		      [905, 544, 935, 576]
+	      Position		      [965, 544, 995, 576]
 	      ShowName		      off
 	      Inputs		      "3"
 	      CollapseMode	      "All dimensions"
@@ -9565,7 +10781,7 @@ Model {
 	      BlockType		      SubSystem
 	      Name		      "Air Density from\nHeight"
 	      Ports		      [1, 1]
-	      Position		      [80, 133, 170, 187]
+	      Position		      [65, 133, 155, 187]
 	      AncestorBlock	      "SLUGS_Library/Air Density from\nHeight"
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
@@ -9879,7 +11095,7 @@ Model {
 	      BlockType		      Reference
 	      Name		      "Airspeed Hold\n[PID]"
 	      Ports		      [4, 1]
-	      Position		      [655, 61, 760, 189]
+	      Position		      [735, 61, 840, 189]
 	      SourceBlock	      "SLUGS_Library/Control Blocks/PID Contro"
 "ller w//Anti-Windup"
 	      SourceType	      "PID"
@@ -9900,7 +11116,7 @@ Model {
 	      BlockType		      SubSystem
 	      Name		      "Compute\nAirspeed"
 	      Ports		      [2, 1]
-	      Position		      [210, 95, 290, 155]
+	      Position		      [170, 95, 250, 155]
 	      AncestorBlock	      "SLUGS_Library/Compute\nAirspeed"
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
@@ -10240,7 +11456,7 @@ Model {
 	    Block {
 	      BlockType		      Saturate
 	      Name		      "Elevator \nLimit"
-	      Position		      [960, 545, 990, 575]
+	      Position		      [1020, 545, 1050, 575]
 	      UpperLimit	      "deLimit"
 	      LowerLimit	      "-deLimit"
 	      SampleTime	      "apSampleTime"
@@ -10248,7 +11464,7 @@ Model {
 	    Block {
 	      BlockType		      From
 	      Name		      "From1"
-	      Position		      [810, 402, 865, 418]
+	      Position		      [870, 402, 925, 418]
 	      BackgroundColor	      "cyan"
 	      ShowName		      off
 	      CloseFcn		      "tagdialog Close"
@@ -10257,7 +11473,7 @@ Model {
 	    Block {
 	      BlockType		      From
 	      Name		      "From2"
-	      Position		      [810, 382, 865, 398]
+	      Position		      [870, 382, 925, 398]
 	      BackgroundColor	      "cyan"
 	      ShowName		      off
 	      CloseFcn		      "tagdialog Close"
@@ -10268,7 +11484,7 @@ Model {
 	      Name		      "Get XYZ\n[navSupport.c]"
 	      Tag		      "dsPIC_dsPIC_CFunctionCall"
 	      Ports		      [1]
-	      Position		      [925, 386, 1030, 414]
+	      Position		      [985, 386, 1090, 414]
 	      BackgroundColor	      "orange"
 	      List {
 		ListType		RTWdata
@@ -10309,7 +11525,7 @@ Model {
 	    Block {
 	      BlockType		      Goto
 	      Name		      "Goto1"
-	      Position		      [625, 406, 680, 424]
+	      Position		      [685, 406, 740, 424]
 	      BackgroundColor	      "magenta"
 	      ShowName		      off
 	      GotoTag		      "thetaC"
@@ -10319,7 +11535,7 @@ Model {
 	      BlockType		      Reference
 	      Name		      "Height Error to Pitch \nCommand\n[PI]"
 	      Ports		      [4, 1]
-	      Position		      [305, 437, 405, 548]
+	      Position		      [400, 437, 500, 548]
 	      SourceBlock	      "SLUGS_Library/Control Blocks/PI Control"
 "ler w//Anti-Windup"
 	      SourceType	      "PID"
@@ -10349,7 +11565,7 @@ Model {
 	    Block {
 	      BlockType		      InportShadow
 	      Name		      "Manual?  "
-	      Position		      [630, 528, 660, 542]
+	      Position		      [690, 528, 720, 542]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "11"
 	      IconDisplay	      "Port number"
@@ -10360,7 +11576,7 @@ Model {
 	      BlockType		      Reference
 	      Name		      "Pitch To Elevator\n[PID]"
 	      Ports		      [4, 1]
-	      Position		      [700, 486, 805, 614]
+	      Position		      [760, 486, 865, 614]
 	      SourceBlock	      "SLUGS_Library/Control Blocks/PID Contro"
 "ller w//Anti-Windup"
 	      SourceType	      "PID"
@@ -10404,12 +11620,618 @@ Model {
 	      BlockType		      Product
 	      Name		      "Product2"
 	      Ports		      [2, 1]
-	      Position		      [760, 267, 790, 298]
+	      Position		      [840, 267, 870, 298]
 	      ShowName		      off
 	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
 	      OutDataTypeMode	      "Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Protect NaNs"
+	      Ports		      [1, 1]
+	      Position		      [640, 65, 710, 95]
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"Protect NaNs"
+		Location		[2, 78, 1220, 809]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [35, 28, 65, 42]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integer Delay3"
+		  Ports			  [1, 1]
+		  Position		  [165, 108, 200, 142]
+		  Orientation		  "left"
+		  ShowName		  off
+		  SourceBlock		  "simulink/Discrete/Integer Delay"
+		  SourceType		  "Integer Delay"
+		  vinit			  "0.0"
+		  samptime		  "T"
+		  NumDelays		  "1"
+		}
+		Block {
+		  BlockType		  RelationalOperator
+		  Name			  "Relational\nOperator2"
+		  Position		  [100, 42, 130, 73]
+		  ShowName		  off
+		  Operator		  "=="
+		  InputSameDT		  off
+		  LogicOutDataTypeMode	  "Specify via dialog"
+		}
+		Block {
+		  BlockType		  Switch
+		  Name			  "Switch3"
+		  Position		  [170, 25, 200, 95]
+		  ShowName		  off
+		  Criteria		  "u2 > Threshold"
+		  Threshold		  "0.3"
+		  InputSameDT		  off
+		  SaturateOnIntegerOverflow off
+		  SampleTime		  ".01"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [280, 75, 310, 90]
+		  Orientation		  "down"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Relational\nOperator2"
+		  SrcPort		  1
+		  DstBlock		  "Switch3"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  Points		  [15, 0]
+		  Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		  }
+		}
+		Line {
+		  SrcBlock		  "Switch3"
+		  SrcPort		  1
+		  Points		  [30, 0]
+		  Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Integer Delay3"
+		  SrcPort		  1
+		  Points		  [-15, 0; 0, -40]
+		  DstBlock		  "Switch3"
+		  DstPort		  3
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Protect NaNs1"
+	      Ports		      [1, 1]
+	      Position		      [310, 440, 380, 470]
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"Protect NaNs1"
+		Location		[2, 78, 1220, 809]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [35, 28, 65, 42]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integer Delay3"
+		  Ports			  [1, 1]
+		  Position		  [165, 108, 200, 142]
+		  Orientation		  "left"
+		  ShowName		  off
+		  SourceBlock		  "simulink/Discrete/Integer Delay"
+		  SourceType		  "Integer Delay"
+		  vinit			  "0.0"
+		  samptime		  "T"
+		  NumDelays		  "1"
+		}
+		Block {
+		  BlockType		  RelationalOperator
+		  Name			  "Relational\nOperator2"
+		  Position		  [100, 42, 130, 73]
+		  ShowName		  off
+		  Operator		  "=="
+		  InputSameDT		  off
+		  LogicOutDataTypeMode	  "Specify via dialog"
+		}
+		Block {
+		  BlockType		  Switch
+		  Name			  "Switch3"
+		  Position		  [170, 25, 200, 95]
+		  ShowName		  off
+		  Criteria		  "u2 > Threshold"
+		  Threshold		  "0.3"
+		  InputSameDT		  off
+		  SaturateOnIntegerOverflow off
+		  SampleTime		  ".01"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [280, 75, 310, 90]
+		  Orientation		  "down"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Relational\nOperator2"
+		  SrcPort		  1
+		  DstBlock		  "Switch3"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  Points		  [15, 0]
+		  Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		  }
+		}
+		Line {
+		  SrcBlock		  "Switch3"
+		  SrcPort		  1
+		  Points		  [30, 0]
+		  Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Integer Delay3"
+		  SrcPort		  1
+		  Points		  [-15, 0; 0, -40]
+		  DstBlock		  "Switch3"
+		  DstPort		  3
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Protect NaNs2"
+	      Ports		      [1, 1]
+	      Position		      [680, 490, 740, 520]
+	      NamePlacement	      "alternate"
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"Protect NaNs2"
+		Location		[2, 78, 1220, 809]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [35, 28, 65, 42]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integer Delay3"
+		  Ports			  [1, 1]
+		  Position		  [165, 108, 200, 142]
+		  Orientation		  "left"
+		  ShowName		  off
+		  SourceBlock		  "simulink/Discrete/Integer Delay"
+		  SourceType		  "Integer Delay"
+		  vinit			  "0.0"
+		  samptime		  "T"
+		  NumDelays		  "1"
+		}
+		Block {
+		  BlockType		  RelationalOperator
+		  Name			  "Relational\nOperator2"
+		  Position		  [100, 42, 130, 73]
+		  ShowName		  off
+		  Operator		  "=="
+		  InputSameDT		  off
+		  LogicOutDataTypeMode	  "Specify via dialog"
+		}
+		Block {
+		  BlockType		  Switch
+		  Name			  "Switch3"
+		  Position		  [170, 25, 200, 95]
+		  ShowName		  off
+		  Criteria		  "u2 > Threshold"
+		  Threshold		  "0.3"
+		  InputSameDT		  off
+		  SaturateOnIntegerOverflow off
+		  SampleTime		  ".01"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [280, 75, 310, 90]
+		  Orientation		  "down"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Integer Delay3"
+		  SrcPort		  1
+		  Points		  [-15, 0; 0, -40]
+		  DstBlock		  "Switch3"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Switch3"
+		  SrcPort		  1
+		  Points		  [30, 0]
+		  Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  Points		  [15, 0]
+		  Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		  }
+		  Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Relational\nOperator2"
+		  SrcPort		  1
+		  DstBlock		  "Switch3"
+		  DstPort		  2
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Protect NaNs3"
+	      Ports		      [1, 1]
+	      Position		      [265, 110, 315, 140]
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"Protect NaNs3"
+		Location		[2, 78, 1220, 809]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [35, 28, 65, 42]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integer Delay3"
+		  Ports			  [1, 1]
+		  Position		  [165, 108, 200, 142]
+		  Orientation		  "left"
+		  ShowName		  off
+		  SourceBlock		  "simulink/Discrete/Integer Delay"
+		  SourceType		  "Integer Delay"
+		  vinit			  "0.0"
+		  samptime		  "T"
+		  NumDelays		  "1"
+		}
+		Block {
+		  BlockType		  RelationalOperator
+		  Name			  "Relational\nOperator2"
+		  Position		  [100, 42, 130, 73]
+		  ShowName		  off
+		  Operator		  "=="
+		  InputSameDT		  off
+		  LogicOutDataTypeMode	  "Specify via dialog"
+		}
+		Block {
+		  BlockType		  Switch
+		  Name			  "Switch3"
+		  Position		  [170, 25, 200, 95]
+		  ShowName		  off
+		  Criteria		  "u2 > Threshold"
+		  Threshold		  "0.3"
+		  InputSameDT		  off
+		  SaturateOnIntegerOverflow off
+		  SampleTime		  ".01"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [280, 75, 310, 90]
+		  Orientation		  "down"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Integer Delay3"
+		  SrcPort		  1
+		  Points		  [-15, 0; 0, -40]
+		  DstBlock		  "Switch3"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Switch3"
+		  SrcPort		  1
+		  Points		  [30, 0]
+		  Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  Points		  [15, 0]
+		  Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		  }
+		  Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Relational\nOperator2"
+		  SrcPort		  1
+		  DstBlock		  "Switch3"
+		  DstPort		  2
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Protect NaNs4"
+	      Ports		      [1, 1]
+	      Position		      [330, 780, 400, 810]
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"Protect NaNs4"
+		Location		[2, 78, 1220, 809]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [35, 28, 65, 42]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integer Delay3"
+		  Ports			  [1, 1]
+		  Position		  [165, 108, 200, 142]
+		  Orientation		  "left"
+		  ShowName		  off
+		  SourceBlock		  "simulink/Discrete/Integer Delay"
+		  SourceType		  "Integer Delay"
+		  vinit			  "0.0"
+		  samptime		  "T"
+		  NumDelays		  "1"
+		}
+		Block {
+		  BlockType		  RelationalOperator
+		  Name			  "Relational\nOperator2"
+		  Position		  [100, 42, 130, 73]
+		  ShowName		  off
+		  Operator		  "=="
+		  InputSameDT		  off
+		  LogicOutDataTypeMode	  "Specify via dialog"
+		}
+		Block {
+		  BlockType		  Switch
+		  Name			  "Switch3"
+		  Position		  [170, 25, 200, 95]
+		  ShowName		  off
+		  Criteria		  "u2 > Threshold"
+		  Threshold		  "0.3"
+		  InputSameDT		  off
+		  SaturateOnIntegerOverflow off
+		  SampleTime		  ".01"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [280, 75, 310, 90]
+		  Orientation		  "down"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Integer Delay3"
+		  SrcPort		  1
+		  Points		  [-15, 0; 0, -40]
+		  DstBlock		  "Switch3"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Switch3"
+		  SrcPort		  1
+		  Points		  [30, 0]
+		  Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  Points		  [15, 0]
+		  Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		  }
+		  Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Relational\nOperator2"
+		  SrcPort		  1
+		  DstBlock		  "Switch3"
+		  DstPort		  2
+		}
+	      }
 	    }
 	    Block {
 	      BlockType		      RateLimiter
@@ -10532,7 +12354,7 @@ Model {
 	    Block {
 	      BlockType		      Saturate
 	      Name		      "Theta_c\nLimit"
-	      Position		      [470, 480, 500, 510]
+	      Position		      [530, 480, 560, 510]
 	      UpperLimit	      "pitchCommandLimit"
 	      LowerLimit	      "-pitchCommandLimit"
 	      SampleTime	      "apSampleTime"
@@ -10540,7 +12362,7 @@ Model {
 	    Block {
 	      BlockType		      Saturate
 	      Name		      "Throttle \nLimit"
-	      Position		      [875, 120, 905, 150]
+	      Position		      [955, 120, 985, 150]
 	      UpperLimit	      "dtLimit"
 	      LowerLimit	      "0"
 	      SampleTime	      "apSampleTime"
@@ -10549,7 +12371,7 @@ Model {
 	      BlockType		      Selector
 	      Name		      "Use D Term\nfor FF\nMust be Negative"
 	      Ports		      [1, 1]
-	      Position		      [790, 671, 830, 709]
+	      Position		      [500, 671, 540, 709]
 	      IndexOptions	      "Index vector (dialog)"
 	      Indices		      "3"
 	      OutputSizes	      "1"
@@ -10566,7 +12388,7 @@ Model {
 	    Block {
 	      BlockType		      InportShadow
 	      Name		      "h_m1"
-	      Position		      [30, 153, 60, 167]
+	      Position		      [15, 153, 45, 167]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "6"
 	      IconDisplay	      "Port number"
@@ -10598,7 +12420,7 @@ Model {
 	      BlockType		      SubSystem
 	      Name		      "myMux Fun1"
 	      Ports		      [2, 1]
-	      Position		      [890, 381, 895, 419]
+	      Position		      [950, 381, 955, 419]
 	      BackgroundColor	      "black"
 	      ShowName		      off
 	      MinAlgLoopOccurrences   off
@@ -10717,7 +12539,7 @@ Model {
 	    Block {
 	      BlockType		      InportShadow
 	      Name		      "theta_m "
-	      Position		      [665, 308, 695, 322]
+	      Position		      [745, 308, 775, 322]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "8"
 	      IconDisplay	      "Port number"
@@ -10727,7 +12549,7 @@ Model {
 	    Block {
 	      BlockType		      Outport
 	      Name		      "dE"
-	      Position		      [1050, 553, 1080, 567]
+	      Position		      [1110, 553, 1140, 567]
 	      BackgroundColor	      "yellow"
 	      IconDisplay	      "Port number"
 	      BusOutputAsStruct	      off
@@ -10735,7 +12557,7 @@ Model {
 	    Block {
 	      BlockType		      Outport
 	      Name		      "dT"
-	      Position		      [945, 128, 975, 142]
+	      Position		      [1025, 128, 1055, 142]
 	      BackgroundColor	      "yellow"
 	      Port		      "2"
 	      IconDisplay	      "Port number"
@@ -10744,7 +12566,7 @@ Model {
 	    Block {
 	      BlockType		      Outport
 	      Name		      "theta_C"
-	      Position		      [650, 443, 680, 457]
+	      Position		      [710, 443, 740, 457]
 	      BackgroundColor	      "yellow"
 	      Port		      "3"
 	      IconDisplay	      "Port number"
@@ -10838,7 +12660,7 @@ Model {
 	    Line {
 	      SrcBlock		      "Add3"
 	      SrcPort		      1
-	      DstBlock		      "Pitch To Elevator\n[PID]"
+	      DstBlock		      "Protect NaNs2"
 	      DstPort		      1
 	    }
 	    Line {
@@ -10947,7 +12769,7 @@ Model {
 	    Line {
 	      SrcBlock		      "Add2"
 	      SrcPort		      1
-	      DstBlock		      "Height Error to Pitch \nCommand\n[PI]"
+	      DstBlock		      "Protect NaNs1"
 	      DstPort		      1
 	    }
 	    Line {
@@ -10967,11 +12789,12 @@ Model {
 	      SrcPort		      1
 	      Points		      [55, 0]
 	      Branch {
-		Points			[140, 0; 0, -85]
+		Points			[220, 0; 0, -85]
 		DstBlock		"Add1"
 		DstPort			2
 	      }
 	      Branch {
+		Points			[0, -50]
 		DstBlock		"Airspeed Hold\n[PID]"
 		DstPort			4
 	      }
@@ -10985,7 +12808,7 @@ Model {
 	    Line {
 	      SrcBlock		      "Add"
 	      SrcPort		      1
-	      DstBlock		      "Airspeed Hold\n[PID]"
+	      DstBlock		      "Protect NaNs"
 	      DstPort		      1
 	    }
 	    Line {
@@ -11037,21 +12860,8 @@ Model {
 	    Line {
 	      SrcBlock		      "Compute\nAirspeed"
 	      SrcPort		      1
-	      Points		      [5, 0]
-	      Branch {
-		Points			[0, -55]
-		DstBlock		"0.3 sec  tau for\nlow speeds"
-		DstPort			1
-	      }
-	      Branch {
-		Points			[0, 60]
-		DstBlock		"5 sec tau for\nhigh speeds"
-		DstPort			1
-	      }
-	      Branch {
-		DstBlock		"lowpass\nlimit"
-		DstPort			1
-	      }
+	      DstBlock		      "Protect NaNs3"
+	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "lowpass\nlimit"
@@ -11062,21 +12872,21 @@ Model {
 	    Line {
 	      SrcBlock		      "5 sec tau for\nhigh speeds"
 	      SrcPort		      1
-	      Points		      [10, 0; 0, -35]
+	      Points		      [5, 0; 0, -35]
 	      DstBlock		      "Schedule\nLPF"
 	      DstPort		      3
 	    }
 	    Line {
 	      SrcBlock		      "0.3 sec  tau for\nlow speeds"
 	      SrcPort		      1
-	      Points		      [10, 0; 0, 30]
+	      Points		      [5, 0; 0, 30]
 	      DstBlock		      "Schedule\nLPF"
 	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "phi_m"
 	      SrcPort		      1
-	      DstBlock		      "0.5 sec  tau for\nTurns"
+	      DstBlock		      "Protect NaNs4"
 	      DstPort		      1
 	    }
 	    Line {
@@ -11129,14 +12939,14 @@ Model {
 	    Line {
 	      SrcBlock		      "Use D Term\nfor FF\nMust be Negative"
 	      SrcPort		      1
-	      Points		      [20, 0; 0, 55]
+	      Points		      [310, 0; 0, 55]
 	      DstBlock		      "Product1"
 	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "Product1"
 	      SrcPort		      1
-	      Points		      [0, -170; -35, 0]
+	      Points		      [60, 0; 0, -170; -35, 0]
 	      DstBlock		      "Add4"
 	      DstPort		      3
 	    }
@@ -11173,9 +12983,50 @@ Model {
 	      DstBlock		      "Height Error to Pitch \nCommand\n[PI]"
 	      DstPort		      4
 	    }
+	    Line {
+	      SrcBlock		      "Protect NaNs"
+	      SrcPort		      1
+	      DstBlock		      "Airspeed Hold\n[PID]"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Protect NaNs1"
+	      SrcPort		      1
+	      DstBlock		      "Height Error to Pitch \nCommand\n[PI]"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Protect NaNs2"
+	      SrcPort		      1
+	      DstBlock		      "Pitch To Elevator\n[PID]"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Protect NaNs3"
+	      SrcPort		      1
+	      Points		      [5, 0]
+	      Branch {
+		DstBlock		"0.3 sec  tau for\nlow speeds"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"5 sec tau for\nhigh speeds"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"lowpass\nlimit"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Protect NaNs4"
+	      SrcPort		      1
+	      DstBlock		      "0.5 sec  tau for\nTurns"
+	      DstPort		      1
+	    }
 	    Annotation {
 	      Name		      "Altitude Hold"
-	      Position		      [513, 421]
+	      Position		      [573, 421]
 	    }
 	  }
 	}
@@ -11279,21 +13130,487 @@ Model {
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
-	      BlockType		      Reference
+	      BlockType		      SubSystem
 	      Name		      "Compute\nLateral Error"
 	      Ports		      [3, 1]
 	      Position		      [520, 138, 620, 272]
-	      SourceBlock	      "SLUGS_Library/Navigation/Compute\nLater"
+	      AncestorBlock	      "SLUGS_Library/Navigation/Compute\nLater"
 "al Error"
-	      SourceType	      "SubSystem"
-	      ShowPortLabels	      "FromPortIcon"
-	      SystemSampleTime	      "-1"
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
-	      RTWMemSecFuncInitTerm   "Inherit from model"
-	      RTWMemSecFuncExecute    "Inherit from model"
-	      RTWMemSecDataConstants  "Inherit from model"
-	      RTWMemSecDataInternal   "Inherit from model"
-	      RTWMemSecDataParameters "Inherit from model"
+	      MaskHideContents	      off
+	      System {
+		Name			"Compute\nLateral Error"
+		Location		[536, 630, 841, 766]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "N"
+		  Position		  [25, 28, 55, 42]
+		  BackgroundColor	  "darkGreen"
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "WP1"
+		  Position		  [25, 63, 55, 77]
+		  BackgroundColor	  "darkGreen"
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "UAV pos"
+		  Position		  [25, 98, 55, 112]
+		  BackgroundColor	  "darkGreen"
+		  Port			  "3"
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Add"
+		  Ports			  [2, 1]
+		  Position		  [95, 72, 125, 103]
+		  ShowName		  off
+		  Inputs		  "+-"
+		  CollapseMode		  "All dimensions"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "Inherit via internal rule"
+		  OutScaling		  "2^-10"
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "Subsystem3"
+		  Ports			  [2, 1]
+		  Position		  [170, 38, 230, 82]
+		  ShowName		  off
+		  AncestorBlock		  "SLUGS_Library/Subsystem3"
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Auto"
+		  FunctionWithSeparateData off
+		  MaskHideContents	  off
+		  System {
+		    Name		    "Subsystem3"
+		    Location		    [2, 82, 535, 314]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "x"
+		    Position		    [70, 28, 100, 42]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Inport
+		    Name		    "y"
+		    Position		    [50, 43, 80, 57]
+		    Port		    "2"
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Dot Product"
+		    Ports		    [2, 1]
+		    Position		    [195, 25, 230, 60]
+		    SourceBlock		    "simulink/Math\nOperations/Dot Pro"
+"duct"
+		    SourceType		    "Dot Product"
+		    InputSameDT		    on
+		    OutputDataTypeScalingMode "Inherit via internal rule"
+		    OutDataType		    "sfix(16)"
+		    OutScaling		    "2^-10"
+		    LockScale		    off
+		    RndMeth		    "Floor"
+		    DoSatur		    off
+		    }
+		    Block {
+		    BlockType		    SubSystem
+		    Name		    "Embedded\nMATLAB Function"
+		    Ports		    [2, 1]
+		    Position		    [150, 90, 270, 130]
+		    ForegroundColor	    "blue"
+		    ShowName		    off
+		    MinAlgLoopOccurrences   off
+		    RTWSystemCode	    "Auto"
+		    FunctionWithSeparateData off
+		    MaskHideContents	    off
+		    MaskType		    "Stateflow"
+		    MaskDescription	    "Embedded MATLAB block"
+		    MaskDisplay		    "disp('myDot');"
+		    MaskSelfModifiable	    on
+		    MaskIconFrame	    on
+		    MaskIconOpaque	    off
+		    MaskIconRotate	    "none"
+		    MaskIconUnits	    "autoscale"
+		    System {
+		    Name		    "Embedded\nMATLAB Function"
+		    Location		    [257, 457, 812, 717]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "x"
+		    Position		    [20, 101, 40, 119]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Inport
+		    Name		    "y"
+		    Position		    [20, 136, 40, 154]
+		    Port		    "2"
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Demux
+		    Name		    " Demux "
+		    Ports		    [1, 1]
+		    Position		    [270, 160, 320, 200]
+		    Outputs		    "1"
+		    }
+		    Block {
+		    BlockType		    "S-Function"
+		    Name		    " SFunction "
+		    Tag			    "Stateflow S-Function controlMCUSl"
+"ugsMKII 42"
+		    Ports		    [2, 2]
+		    Position		    [180, 100, 230, 160]
+		    FunctionName	    "sf_sfun"
+		    PortCounts		    "[2 2]"
+		    Port {
+		    PortNumber		    2
+		    Name		    "xDoty"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Terminator
+		    Name		    " Terminator "
+		    Position		    [460, 171, 480, 189]
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "xDoty"
+		    Position		    [460, 101, 480, 119]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    " SFunction "
+		    SrcPort		    1
+		    Points		    [0, 65]
+		    DstBlock		    " Demux "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    " Demux "
+		    SrcPort		    1
+		    DstBlock		    " Terminator "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "x"
+		    SrcPort		    1
+		    DstBlock		    " SFunction "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "y"
+		    SrcPort		    1
+		    DstBlock		    " SFunction "
+		    DstPort		    2
+		    }
+		    Line {
+		    Name		    "xDoty"
+		    Labels		    [0, 0]
+		    SrcBlock		    " SFunction "
+		    SrcPort		    2
+		    DstBlock		    "xDoty"
+		    DstPort		    1
+		    }
+		    }
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Environment\nController"
+		    Ports		    [2, 1]
+		    Position		    [315, 51, 355, 89]
+		    ShowName		    off
+		    SourceBlock		    "simulink/Signal\nRouting/Environm"
+"ent\nController"
+		    SourceType		    "Environment Controller"
+		    ShowPortLabels	    "FromPortIcon"
+		    SystemSampleTime	    "-1"
+		    FunctionWithSeparateData off
+		    RTWMemSecFuncInitTerm   "Inherit from model"
+		    RTWMemSecFuncExecute    "Inherit from model"
+		    RTWMemSecDataConstants  "Inherit from model"
+		    RTWMemSecDataInternal   "Inherit from model"
+		    RTWMemSecDataParameters "Inherit from model"
+		    }
+		    Block {
+		    BlockType		    SubSystem
+		    Name		    "Protect NaNs"
+		    Ports		    [1, 1]
+		    Position		    [425, 55, 495, 85]
+		    MinAlgLoopOccurrences   off
+		    RTWSystemCode	    "Auto"
+		    FunctionWithSeparateData off
+		    MaskHideContents	    off
+		    System {
+		    Name		    "Protect NaNs"
+		    Location		    [2, 78, 1220, 809]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [35, 28, 65, 42]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Integer Delay3"
+		    Ports		    [1, 1]
+		    Position		    [165, 108, 200, 142]
+		    Orientation		    "left"
+		    ShowName		    off
+		    SourceBlock		    "simulink/Discrete/Integer Delay"
+		    SourceType		    "Integer Delay"
+		    vinit		    "0.0"
+		    samptime		    "T"
+		    NumDelays		    "1"
+		    }
+		    Block {
+		    BlockType		    RelationalOperator
+		    Name		    "Relational\nOperator2"
+		    Position		    [100, 42, 130, 73]
+		    ShowName		    off
+		    Operator		    "=="
+		    InputSameDT		    off
+		    LogicOutDataTypeMode    "Specify via dialog"
+		    }
+		    Block {
+		    BlockType		    Switch
+		    Name		    "Switch3"
+		    Position		    [170, 25, 200, 95]
+		    ShowName		    off
+		    Criteria		    "u2 > Threshold"
+		    Threshold		    "0.3"
+		    InputSameDT		    off
+		    SaturateOnIntegerOverflow off
+		    SampleTime		    ".01"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [280, 75, 310, 90]
+		    Orientation		    "down"
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "Relational\nOperator2"
+		    SrcPort		    1
+		    DstBlock		    "Switch3"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    Points		    [15, 0]
+		    Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Switch3"
+		    SrcPort		    1
+		    Points		    [30, 0]
+		    Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Integer Delay3"
+		    SrcPort		    1
+		    Points		    [-15, 0; 0, -40]
+		    DstBlock		    "Switch3"
+		    DstPort		    3
+		    }
+		    }
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "x dot y"
+		    Position		    [590, 63, 620, 77]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "Environment\nController"
+		    SrcPort		    1
+		    DstBlock		    "Protect NaNs"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Embedded\nMATLAB Function"
+		    SrcPort		    1
+		    Points		    [0, -30]
+		    DstBlock		    "Environment\nController"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "Dot Product"
+		    SrcPort		    1
+		    Points		    [30, 0; 0, 15]
+		    DstBlock		    "Environment\nController"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "x"
+		    SrcPort		    1
+		    Points		    [15, 0]
+		    Branch {
+		    DstBlock		    "Dot Product"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Embedded\nMATLAB Function"
+		    DstPort		    1
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "y"
+		    SrcPort		    1
+		    Points		    [15, 0]
+		    Branch {
+		    DstBlock		    "Dot Product"
+		    DstPort		    2
+		    }
+		    Branch {
+		    Points		    [0, 70]
+		    DstBlock		    "Embedded\nMATLAB Function"
+		    DstPort		    2
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Protect NaNs"
+		    SrcPort		    1
+		    DstBlock		    "x dot y"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Pe_lat"
+		  Position		  [250, 53, 280, 67]
+		  BackgroundColor	  "yellow"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Subsystem3"
+		  SrcPort		  1
+		  DstBlock		  "Pe_lat"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Add"
+		  SrcPort		  1
+		  Points		  [15, 0; 0, -20]
+		  DstBlock		  "Subsystem3"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "N"
+		  SrcPort		  1
+		  Points		  [50, 0; 0, 15]
+		  DstBlock		  "Subsystem3"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "UAV pos"
+		  SrcPort		  1
+		  Points		  [20, 0]
+		  DstBlock		  "Add"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "WP1"
+		  SrcPort		  1
+		  Points		  [20, 0]
+		  DstBlock		  "Add"
+		  DstPort		  1
+		}
+	      }
 	    }
 	    Block {
 	      BlockType		      SubSystem
@@ -16418,7 +18735,7 @@ Model {
 		  BlockType		  Reference
 		  Name			  "Integer Delay3"
 		  Ports			  [1, 1]
-		  Position		  [170, 398, 200, 432]
+		  Position		  [65, 398, 95, 432]
 		  Orientation		  "left"
 		  ShowName		  off
 		  SourceBlock		  "simulink/Discrete/Integer Delay"
@@ -16437,6 +18754,128 @@ Model {
 		  Operator		  "OR"
 		  AllPortsSameDT	  off
 		  OutDataTypeMode	  "Boolean"
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "Protect NaNs"
+		  Ports			  [1, 1]
+		  Position		  [135, 400, 205, 430]
+		  Orientation		  "left"
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Auto"
+		  FunctionWithSeparateData off
+		  MaskHideContents	  off
+		  System {
+		    Name		    "Protect NaNs"
+		    Location		    [2, 78, 1220, 809]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [35, 28, 65, 42]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Integer Delay3"
+		    Ports		    [1, 1]
+		    Position		    [165, 108, 200, 142]
+		    Orientation		    "left"
+		    ShowName		    off
+		    SourceBlock		    "simulink/Discrete/Integer Delay"
+		    SourceType		    "Integer Delay"
+		    vinit		    "0.0"
+		    samptime		    "T"
+		    NumDelays		    "1"
+		    }
+		    Block {
+		    BlockType		    RelationalOperator
+		    Name		    "Relational\nOperator2"
+		    Position		    [100, 42, 130, 73]
+		    ShowName		    off
+		    Operator		    "=="
+		    InputSameDT		    off
+		    LogicOutDataTypeMode    "Specify via dialog"
+		    }
+		    Block {
+		    BlockType		    Switch
+		    Name		    "Switch3"
+		    Position		    [170, 25, 200, 95]
+		    ShowName		    off
+		    Criteria		    "u2 > Threshold"
+		    Threshold		    "0.3"
+		    InputSameDT		    off
+		    SaturateOnIntegerOverflow off
+		    SampleTime		    ".01"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [280, 75, 310, 90]
+		    Orientation		    "down"
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "Relational\nOperator2"
+		    SrcPort		    1
+		    DstBlock		    "Switch3"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    Points		    [15, 0]
+		    Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Switch3"
+		    SrcPort		    1
+		    Points		    [30, 0]
+		    Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Integer Delay3"
+		    SrcPort		    1
+		    Points		    [-15, 0; 0, -40]
+		    DstBlock		    "Switch3"
+		    DstPort		    3
+		    }
+		  }
 		}
 		Block {
 		  BlockType		  InportShadow
@@ -16858,6 +19297,127 @@ Model {
 		    }
 		    Block {
 		    BlockType		    SubSystem
+		    Name		    "Protect NaNs"
+		    Ports		    [1, 1]
+		    Position		    [330, 70, 400, 100]
+		    MinAlgLoopOccurrences   off
+		    RTWSystemCode	    "Auto"
+		    FunctionWithSeparateData off
+		    MaskHideContents	    off
+		    System {
+		    Name		    "Protect NaNs"
+		    Location		    [2, 78, 1220, 809]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [35, 28, 65, 42]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Integer Delay3"
+		    Ports		    [1, 1]
+		    Position		    [165, 108, 200, 142]
+		    Orientation		    "left"
+		    ShowName		    off
+		    SourceBlock		    "simulink/Discrete/Integer Delay"
+		    SourceType		    "Integer Delay"
+		    vinit		    "0.0"
+		    samptime		    "T"
+		    NumDelays		    "1"
+		    }
+		    Block {
+		    BlockType		    RelationalOperator
+		    Name		    "Relational\nOperator2"
+		    Position		    [100, 42, 130, 73]
+		    ShowName		    off
+		    Operator		    "=="
+		    InputSameDT		    off
+		    LogicOutDataTypeMode    "Specify via dialog"
+		    }
+		    Block {
+		    BlockType		    Switch
+		    Name		    "Switch3"
+		    Position		    [170, 25, 200, 95]
+		    ShowName		    off
+		    Criteria		    "u2 > Threshold"
+		    Threshold		    "0.3"
+		    InputSameDT		    off
+		    SaturateOnIntegerOverflow off
+		    SampleTime		    ".01"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [280, 75, 310, 90]
+		    Orientation		    "down"
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "Relational\nOperator2"
+		    SrcPort		    1
+		    DstBlock		    "Switch3"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    Points		    [15, 0]
+		    Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Switch3"
+		    SrcPort		    1
+		    Points		    [30, 0]
+		    Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Integer Delay3"
+		    SrcPort		    1
+		    Points		    [-15, 0; 0, -40]
+		    DstBlock		    "Switch3"
+		    DstPort		    3
+		    }
+		    }
+		    }
+		    Block {
+		    BlockType		    SubSystem
 		    Name		    "Subsystem3"
 		    Ports		    [2, 1]
 		    Position		    [195, 63, 255, 107]
@@ -17060,7 +19620,7 @@ Model {
 		    Block {
 		    BlockType		    Outport
 		    Name		    "Dg"
-		    Position		    [310, 78, 340, 92]
+		    Position		    [465, 78, 495, 92]
 		    BackgroundColor	    "yellow"
 		    IconDisplay		    "Port number"
 		    BusOutputAsStruct	    off
@@ -17068,7 +19628,7 @@ Model {
 		    Line {
 		    SrcBlock		    "Subsystem3"
 		    SrcPort		    1
-		    DstBlock		    "Dg"
+		    DstBlock		    "Protect NaNs"
 		    DstPort		    1
 		    }
 		    Line {
@@ -17097,6 +19657,12 @@ Model {
 		    SrcPort		    1
 		    Points		    [10, 0; 0, 10]
 		    DstBlock		    "Subtract"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Protect NaNs"
+		    SrcPort		    1
+		    DstBlock		    "Dg"
 		    DstPort		    1
 		    }
 		    }
@@ -17520,6 +20086,127 @@ Model {
 		    }
 		    }
 		    Block {
+		    BlockType		    SubSystem
+		    Name		    "Protect NaNs"
+		    Ports		    [1, 1]
+		    Position		    [455, 170, 525, 200]
+		    MinAlgLoopOccurrences   off
+		    RTWSystemCode	    "Auto"
+		    FunctionWithSeparateData off
+		    MaskHideContents	    off
+		    System {
+		    Name		    "Protect NaNs"
+		    Location		    [2, 78, 1220, 809]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [35, 28, 65, 42]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Integer Delay3"
+		    Ports		    [1, 1]
+		    Position		    [165, 108, 200, 142]
+		    Orientation		    "left"
+		    ShowName		    off
+		    SourceBlock		    "simulink/Discrete/Integer Delay"
+		    SourceType		    "Integer Delay"
+		    vinit		    "0.0"
+		    samptime		    "T"
+		    NumDelays		    "1"
+		    }
+		    Block {
+		    BlockType		    RelationalOperator
+		    Name		    "Relational\nOperator2"
+		    Position		    [100, 42, 130, 73]
+		    ShowName		    off
+		    Operator		    "=="
+		    InputSameDT		    off
+		    LogicOutDataTypeMode    "Specify via dialog"
+		    }
+		    Block {
+		    BlockType		    Switch
+		    Name		    "Switch3"
+		    Position		    [170, 25, 200, 95]
+		    ShowName		    off
+		    Criteria		    "u2 > Threshold"
+		    Threshold		    "0.3"
+		    InputSameDT		    off
+		    SaturateOnIntegerOverflow off
+		    SampleTime		    ".01"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [280, 75, 310, 90]
+		    Orientation		    "down"
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "Relational\nOperator2"
+		    SrcPort		    1
+		    DstBlock		    "Switch3"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    Points		    [15, 0]
+		    Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Switch3"
+		    SrcPort		    1
+		    Points		    [30, 0]
+		    Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Integer Delay3"
+		    SrcPort		    1
+		    Points		    [-15, 0; 0, -40]
+		    DstBlock		    "Switch3"
+		    DstPort		    3
+		    }
+		    }
+		    }
+		    Block {
 		    BlockType		    Sum
 		    Name		    "Subtract1"
 		    Ports		    [2, 1]
@@ -17535,7 +20222,7 @@ Model {
 		    Block {
 		    BlockType		    Outport
 		    Name		    "Tot Run"
-		    Position		    [410, 178, 440, 192]
+		    Position		    [575, 178, 605, 192]
 		    IconDisplay		    "Port number"
 		    BusOutputAsStruct	    off
 		    InitialOutput	    "150"
@@ -17543,7 +20230,7 @@ Model {
 		    Line {
 		    SrcBlock		    "Subtract1"
 		    SrcPort		    1
-		    DstBlock		    "Tot Run"
+		    DstBlock		    "Protect NaNs"
 		    DstPort		    1
 		    }
 		    Line {
@@ -17570,6 +20257,12 @@ Model {
 		    SrcPort		    1
 		    DstBlock		    "Compute Distance"
 		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "Protect NaNs"
+		    SrcPort		    1
+		    DstBlock		    "Tot Run"
+		    DstPort		    1
 		    }
 		    }
 		    }
@@ -18260,9 +20953,7 @@ Model {
 		    Line {
 		    SrcBlock		    "Compute \nProjection"
 		    SrcPort		    1
-		    Points		    [65, 0]
-		    Branch {
-		    Points		    [0, 10]
+		    Points		    [65, 0; 0, 10]
 		    Branch {
 		    Points		    [0, 80]
 		    DstBlock		    "Switch Distance\nLess than?"
@@ -18271,10 +20962,6 @@ Model {
 		    Branch {
 		    DstBlock		    "Dg"
 		    DstPort		    1
-		    }
-		    }
-		    Branch {
-		    Points		    [0, -40; 55, 0]
 		    }
 		    }
 		    Line {
@@ -18740,7 +21427,7 @@ Model {
 		Line {
 		  SrcBlock		  "Compute P"
 		  SrcPort		  1
-		  DstBlock		  "Integer Delay3"
+		  DstBlock		  "Protect NaNs"
 		  DstPort		  1
 		}
 		Line {
@@ -18834,7 +21521,7 @@ Model {
 		Line {
 		  SrcBlock		  "Integer Delay3"
 		  SrcPort		  1
-		  Points		  [-125, 0; 0, -330]
+		  Points		  [-20, 0; 0, -330]
 		  DstBlock		  "Switch when \nin Line\nSegment"
 		  DstPort		  1
 		}
@@ -18924,6 +21611,12 @@ Model {
 		  Points		  [20, 0; 0, -5]
 		  DstBlock		  "myMux Fun2"
 		  DstPort		  4
+		}
+		Line {
+		  SrcBlock		  "Protect NaNs"
+		  SrcPort		  1
+		  DstBlock		  "Integer Delay3"
+		  DstPort		  1
 		}
 	      }
 	    }
@@ -22403,13 +25096,83 @@ Model {
 		    InputPortWidth	    "3"
 		    }
 		    Block {
-		    BlockType		    Reference
+		    BlockType		    SubSystem
 		    Name		    "Subsystem6"
 		    Ports		    [1, 1]
-		    Position		    [560, 89, 620, 131]
+		    Position		    [590, 89, 650, 131]
 		    ShowName		    off
-		    SourceBlock		    "SLUGS_Library/Subsystem6"
-		    SourceType		    "SubSystem"
+		    AncestorBlock	    "SLUGS_Library/Subsystem6"
+		    MinAlgLoopOccurrences   off
+		    RTWSystemCode	    "Auto"
+		    FunctionWithSeparateData off
+		    MaskHideContents	    off
+		    System {
+		    Name		    "Subsystem6"
+		    Location		    [232, 110, 758, 429]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "x"
+		    Position		    [15, 33, 45, 47]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "C Function Call"
+		    Tag			    "dsPIC_dsPIC_CFunctionCall"
+		    Ports		    [1, 1]
+		    Position		    [225, 79, 325, 121]
+		    ShowName		    off
+		    List {
+		    ListType		    RTWdata
+		    FctDeclaration	    "extern real32_T myAsin(real32_T u"
+"1);"
+		    FctCall		    "%y1 = myAsin(%u1);"
+		    fctName		    "myAsin"
+		    INPUT_SIZE		    "1"
+		    OUTPUT_SIZE		    "1"
+		    NBR_INPUT		    "1"
+		    NBR_OUTPUT		    "1"
+		    }
+		    SourceBlock		    "dsPICdrivers/OTHERS/C Function Ca"
+"ll"
+		    SourceType		    "C Function Call"
+		    fctName		    "'myAsin'"
+		    INPUT_SIZE		    "1"
+		    INPUT1		    "real32"
+		    INPUT2		    "--"
+		    INPUT3		    "--"
+		    OUTPUT_SIZE		    "1"
+		    OUTPUT1		    "real32"
+		    SampleTime		    "-1"
+		    InputType		    "[ 7 ]"
+		    OutputType		    "[ 7 ]"
+		    FctDeclaration	    "extern real32_T myAsin(real32_T u"
+"1);"
+		    FctCall		    "%y1 = myAsin(%u1);"
+		    OrderingInOutPopup	    "None"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Environment\nController"
+		    Ports		    [2, 1]
+		    Position		    [370, 46, 410, 84]
+		    ShowName		    off
+		    SourceBlock		    "simulink/Signal\nRouting/Environm"
+"ent\nController"
+		    SourceType		    "Environment Controller"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
 		    FunctionWithSeparateData off
@@ -22418,6 +25181,196 @@ Model {
 		    RTWMemSecDataConstants  "Inherit from model"
 		    RTWMemSecDataInternal   "Inherit from model"
 		    RTWMemSecDataParameters "Inherit from model"
+		    }
+		    Block {
+		    BlockType		    SubSystem
+		    Name		    "Protect NaNs"
+		    Ports		    [1, 1]
+		    Position		    [70, 25, 140, 55]
+		    MinAlgLoopOccurrences   off
+		    RTWSystemCode	    "Reusable function"
+		    FunctionWithSeparateData off
+		    MaskHideContents	    off
+		    System {
+		    Name		    "Protect NaNs"
+		    Location		    [2, 78, 1220, 809]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [35, 28, 65, 42]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Integer Delay3"
+		    Ports		    [1, 1]
+		    Position		    [165, 108, 200, 142]
+		    Orientation		    "left"
+		    ShowName		    off
+		    SourceBlock		    "simulink/Discrete/Integer Delay"
+		    SourceType		    "Integer Delay"
+		    vinit		    "0.0"
+		    samptime		    "T"
+		    NumDelays		    "1"
+		    }
+		    Block {
+		    BlockType		    RelationalOperator
+		    Name		    "Relational\nOperator2"
+		    Position		    [100, 42, 130, 73]
+		    ShowName		    off
+		    Operator		    "=="
+		    InputSameDT		    off
+		    LogicOutDataTypeMode    "Specify via dialog"
+		    }
+		    Block {
+		    BlockType		    Switch
+		    Name		    "Switch3"
+		    Position		    [170, 25, 200, 95]
+		    ShowName		    off
+		    Criteria		    "u2 > Threshold"
+		    Threshold		    "0.3"
+		    InputSameDT		    off
+		    SaturateOnIntegerOverflow off
+		    SampleTime		    ".01"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [280, 75, 310, 90]
+		    Orientation		    "down"
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "Relational\nOperator2"
+		    SrcPort		    1
+		    DstBlock		    "Switch3"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    Points		    [15, 0]
+		    Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Switch3"
+		    SrcPort		    1
+		    Points		    [30, 0]
+		    Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Integer Delay3"
+		    SrcPort		    1
+		    Points		    [-15, 0; 0, -40]
+		    DstBlock		    "Switch3"
+		    DstPort		    3
+		    }
+		    }
+		    }
+		    Block {
+		    BlockType		    Trigonometry
+		    Name		    "Trigonometric\nFunction"
+		    Ports		    [1, 1]
+		    Position		    [265, 25, 295, 55]
+		    ShowName		    off
+		    Operator		    "asin"
+		    }
+		    Block {
+		    BlockType		    Saturate
+		    Name		    "[-1,1]"
+		    Position		    [175, 25, 205, 55]
+		    UpperLimit		    "0.9999"
+		    LowerLimit		    "-0.999"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "asin(x)"
+		    Position		    [445, 58, 475, 72]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "[-1,1]"
+		    SrcPort		    1
+		    Points		    [0, 0]
+		    Branch {
+		    DstBlock		    "C Function Call"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Trigonometric\nFunction"
+		    DstPort		    1
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "x"
+		    SrcPort		    1
+		    DstBlock		    "Protect NaNs"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Trigonometric\nFunction"
+		    SrcPort		    1
+		    Points		    [55, 0]
+		    DstBlock		    "Environment\nController"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "C Function Call"
+		    SrcPort		    1
+		    Points		    [5, 0; 0, -25]
+		    DstBlock		    "Environment\nController"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "Environment\nController"
+		    SrcPort		    1
+		    DstBlock		    "asin(x)"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Protect NaNs"
+		    SrcPort		    1
+		    DstBlock		    "[-1,1]"
+		    DstPort		    1
+		    }
+		    }
 		    }
 		    Block {
 		    BlockType		    ToWorkspace
@@ -22440,7 +25393,7 @@ Model {
 		    Block {
 		    BlockType		    ToWorkspace
 		    Name		    "To Workspace2"
-		    Position		    [770, 125, 830, 155]
+		    Position		    [775, 170, 835, 200]
 		    VariableName	    "eta"
 		    MaxDataPoints	    "inf"
 		    SampleTime		    "-1"
@@ -22562,7 +25515,7 @@ Model {
 		    Block {
 		    BlockType		    Outport
 		    Name		    "Eta"
-		    Position		    [665, 103, 695, 117]
+		    Position		    [770, 103, 800, 117]
 		    BackgroundColor	    "yellow"
 		    IconDisplay		    "Port number"
 		    BusOutputAsStruct	    off
@@ -22630,13 +25583,13 @@ Model {
 		    Line {
 		    SrcBlock		    "Subsystem6"
 		    SrcPort		    1
-		    Points		    [20, 0]
+		    Points		    [55, 0]
 		    Branch {
 		    DstBlock		    "Eta"
 		    DstPort		    1
 		    }
 		    Branch {
-		    Points		    [0, 30]
+		    Points		    [0, 75]
 		    DstBlock		    "To Workspace2"
 		    DstPort		    1
 		    }
@@ -23034,7 +25987,7 @@ Model {
 		    Block {
 		    BlockType		    Inport
 		    Name		    "L2 Base"
-		    Position		    [295, 28, 325, 42]
+		    Position		    [420, 28, 450, 42]
 		    BackgroundColor	    "darkGreen"
 		    IconDisplay		    "Port number"
 		    }
@@ -23050,7 +26003,7 @@ Model {
 		    BlockType		    Product
 		    Name		    "Divide4"
 		    Ports		    [2, 1]
-		    Position		    [375, 27, 405, 58]
+		    Position		    [500, 27, 530, 58]
 		    ShowName		    off
 		    CollapseMode	    "All dimensions"
 		    InputSameDT		    off
@@ -23063,7 +26016,7 @@ Model {
 		    BlockType		    SubSystem
 		    Name		    "Norm "
 		    Ports		    [1, 1]
-		    Position		    [110, 70, 180, 120]
+		    Position		    [85, 70, 155, 120]
 		    AncestorBlock	    "SLUGS_Library/Navigation/Norm"
 		    MinAlgLoopOccurrences   off
 		    RTWSystemCode	    "Auto"
@@ -23350,9 +26303,130 @@ Model {
 		    }
 		    }
 		    Block {
+		    BlockType		    SubSystem
+		    Name		    "Protect NaNs"
+		    Ports		    [1, 1]
+		    Position		    [305, 80, 375, 110]
+		    MinAlgLoopOccurrences   off
+		    RTWSystemCode	    "Auto"
+		    FunctionWithSeparateData off
+		    MaskHideContents	    off
+		    System {
+		    Name		    "Protect NaNs"
+		    Location		    [2, 78, 1220, 809]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [35, 28, 65, 42]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Integer Delay3"
+		    Ports		    [1, 1]
+		    Position		    [165, 108, 200, 142]
+		    Orientation		    "left"
+		    ShowName		    off
+		    SourceBlock		    "simulink/Discrete/Integer Delay"
+		    SourceType		    "Integer Delay"
+		    vinit		    "0.0"
+		    samptime		    "T"
+		    NumDelays		    "1"
+		    }
+		    Block {
+		    BlockType		    RelationalOperator
+		    Name		    "Relational\nOperator2"
+		    Position		    [100, 42, 130, 73]
+		    ShowName		    off
+		    Operator		    "=="
+		    InputSameDT		    off
+		    LogicOutDataTypeMode    "Specify via dialog"
+		    }
+		    Block {
+		    BlockType		    Switch
+		    Name		    "Switch3"
+		    Position		    [170, 25, 200, 95]
+		    ShowName		    off
+		    Criteria		    "u2 > Threshold"
+		    Threshold		    "0.3"
+		    InputSameDT		    off
+		    SaturateOnIntegerOverflow off
+		    SampleTime		    ".01"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [280, 75, 310, 90]
+		    Orientation		    "down"
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "Relational\nOperator2"
+		    SrcPort		    1
+		    DstBlock		    "Switch3"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    Points		    [15, 0]
+		    Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Switch3"
+		    SrcPort		    1
+		    Points		    [30, 0]
+		    Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Integer Delay3"
+		    SrcPort		    1
+		    Points		    [-15, 0; 0, -40]
+		    DstBlock		    "Switch3"
+		    DstPort		    3
+		    }
+		    }
+		    }
+		    Block {
 		    BlockType		    ToWorkspace
 		    Name		    "To Workspace3"
-		    Position		    [530, 85, 590, 115]
+		    Position		    [625, 85, 685, 115]
 		    NamePlacement	    "alternate"
 		    VariableName	    "L2"
 		    MaxDataPoints	    "inf"
@@ -23360,10 +26434,18 @@ Model {
 		    SaveFormat		    "Array"
 		    }
 		    Block {
+		    BlockType		    Saturate
+		    Name		    "[0 45]"
+		    Position		    [400, 80, 430, 110]
+		    UpperLimit		    "45"
+		    LowerLimit		    "0"
+		    SampleTime		    ".01"
+		    }
+		    Block {
 		    BlockType		    SubSystem
 		    Name		    "negprotect1"
 		    Ports		    [1, 1]
-		    Position		    [215, 74, 320, 116]
+		    Position		    [175, 74, 280, 116]
 		    ShowName		    off
 		    MinAlgLoopOccurrences   off
 		    RTWSystemCode	    "Auto"
@@ -23466,7 +26548,7 @@ Model {
 		    Block {
 		    BlockType		    Outport
 		    Name		    "L2"
-		    Position		    [465, 38, 495, 52]
+		    Position		    [590, 38, 620, 52]
 		    BackgroundColor	    "yellow"
 		    IconDisplay		    "Port number"
 		    BusOutputAsStruct	    off
@@ -23474,7 +26556,7 @@ Model {
 		    Block {
 		    BlockType		    Outport
 		    Name		    "Ground Speed"
-		    Position		    [390, 88, 420, 102]
+		    Position		    [490, 88, 520, 102]
 		    BackgroundColor	    "yellow"
 		    Port		    "2"
 		    IconDisplay		    "Port number"
@@ -23503,15 +26585,8 @@ Model {
 		    Line {
 		    SrcBlock		    "negprotect1"
 		    SrcPort		    1
-		    Points		    [35, 0]
-		    Branch {
-		    DstBlock		    "Divide4"
-		    DstPort		    2
-		    }
-		    Branch {
-		    DstBlock		    "Ground Speed"
+		    DstBlock		    "Protect NaNs"
 		    DstPort		    1
-		    }
 		    }
 		    Line {
 		    SrcBlock		    "Vxyz"
@@ -23524,6 +26599,26 @@ Model {
 		    SrcPort		    1
 		    DstBlock		    "negprotect1"
 		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Protect NaNs"
+		    SrcPort		    1
+		    DstBlock		    "[0 45]"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "[0 45]"
+		    SrcPort		    1
+		    Points		    [25, 0]
+		    Branch {
+		    Points		    [0, -45]
+		    DstBlock		    "Divide4"
+		    DstPort		    2
+		    }
+		    Branch {
+		    DstBlock		    "Ground Speed"
+		    DstPort		    1
+		    }
 		    }
 		  }
 		}
@@ -23595,6 +26690,127 @@ Model {
 		    SaturateOnIntegerOverflow off
 		    }
 		    Block {
+		    BlockType		    SubSystem
+		    Name		    "Protect NaNs"
+		    Ports		    [1, 1]
+		    Position		    [275, 95, 345, 125]
+		    MinAlgLoopOccurrences   off
+		    RTWSystemCode	    "Auto"
+		    FunctionWithSeparateData off
+		    MaskHideContents	    off
+		    System {
+		    Name		    "Protect NaNs"
+		    Location		    [2, 78, 1220, 809]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [35, 28, 65, 42]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Integer Delay3"
+		    Ports		    [1, 1]
+		    Position		    [165, 108, 200, 142]
+		    Orientation		    "left"
+		    ShowName		    off
+		    SourceBlock		    "simulink/Discrete/Integer Delay"
+		    SourceType		    "Integer Delay"
+		    vinit		    "0.0"
+		    samptime		    "T"
+		    NumDelays		    "1"
+		    }
+		    Block {
+		    BlockType		    RelationalOperator
+		    Name		    "Relational\nOperator2"
+		    Position		    [100, 42, 130, 73]
+		    ShowName		    off
+		    Operator		    "=="
+		    InputSameDT		    off
+		    LogicOutDataTypeMode    "Specify via dialog"
+		    }
+		    Block {
+		    BlockType		    Switch
+		    Name		    "Switch3"
+		    Position		    [170, 25, 200, 95]
+		    ShowName		    off
+		    Criteria		    "u2 > Threshold"
+		    Threshold		    "0.3"
+		    InputSameDT		    off
+		    SaturateOnIntegerOverflow off
+		    SampleTime		    ".01"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [280, 75, 310, 90]
+		    Orientation		    "down"
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "Relational\nOperator2"
+		    SrcPort		    1
+		    DstBlock		    "Switch3"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    Points		    [15, 0]
+		    Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Switch3"
+		    SrcPort		    1
+		    Points		    [30, 0]
+		    Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Integer Delay3"
+		    SrcPort		    1
+		    Points		    [-15, 0; 0, -40]
+		    DstBlock		    "Switch3"
+		    DstPort		    3
+		    }
+		    }
+		    }
+		    Block {
 		    BlockType		    Reference
 		    Name		    "Subsystem7"
 		    Ports		    [1, 1]
@@ -23612,9 +26828,16 @@ Model {
 		    RTWMemSecDataParameters "Inherit from model"
 		    }
 		    Block {
+		    BlockType		    Saturate
+		    Name		    "[-25,25]"
+		    Position		    [390, 95, 420, 125]
+		    UpperLimit		    "25"
+		    LowerLimit		    "-25"
+		    }
+		    Block {
 		    BlockType		    Outport
 		    Name		    "a_s_c"
-		    Position		    [280, 103, 310, 117]
+		    Position		    [465, 103, 495, 117]
 		    BackgroundColor	    "yellow"
 		    IconDisplay		    "Port number"
 		    BusOutputAsStruct	    off
@@ -23622,7 +26845,7 @@ Model {
 		    Line {
 		    SrcBlock		    "Product"
 		    SrcPort		    1
-		    DstBlock		    "a_s_c"
+		    DstBlock		    "Protect NaNs"
 		    DstPort		    1
 		    }
 		    Line {
@@ -23661,6 +26884,18 @@ Model {
 		    SrcBlock		    "eta"
 		    SrcPort		    1
 		    DstBlock		    "Subsystem7"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Protect NaNs"
+		    SrcPort		    1
+		    DstBlock		    "[-25,25]"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "[-25,25]"
+		    SrcPort		    1
+		    DstBlock		    "a_s_c"
 		    DstPort		    1
 		    }
 		  }
@@ -24006,6 +27241,127 @@ Model {
 		  SaturateOnIntegerOverflow off
 		}
 		Block {
+		  BlockType		  SubSystem
+		  Name			  "Protect NaNs"
+		  Ports			  [1, 1]
+		  Position		  [245, 35, 315, 65]
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Auto"
+		  FunctionWithSeparateData off
+		  MaskHideContents	  off
+		  System {
+		    Name		    "Protect NaNs"
+		    Location		    [2, 78, 1220, 809]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [35, 28, 65, 42]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Integer Delay3"
+		    Ports		    [1, 1]
+		    Position		    [165, 108, 200, 142]
+		    Orientation		    "left"
+		    ShowName		    off
+		    SourceBlock		    "simulink/Discrete/Integer Delay"
+		    SourceType		    "Integer Delay"
+		    vinit		    "0.0"
+		    samptime		    "T"
+		    NumDelays		    "1"
+		    }
+		    Block {
+		    BlockType		    RelationalOperator
+		    Name		    "Relational\nOperator2"
+		    Position		    [100, 42, 130, 73]
+		    ShowName		    off
+		    Operator		    "=="
+		    InputSameDT		    off
+		    LogicOutDataTypeMode    "Specify via dialog"
+		    }
+		    Block {
+		    BlockType		    Switch
+		    Name		    "Switch3"
+		    Position		    [170, 25, 200, 95]
+		    ShowName		    off
+		    Criteria		    "u2 > Threshold"
+		    Threshold		    "0.3"
+		    InputSameDT		    off
+		    SaturateOnIntegerOverflow off
+		    SampleTime		    ".01"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [280, 75, 310, 90]
+		    Orientation		    "down"
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "Relational\nOperator2"
+		    SrcPort		    1
+		    DstBlock		    "Switch3"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    Points		    [15, 0]
+		    Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Switch3"
+		    SrcPort		    1
+		    Points		    [30, 0]
+		    Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Integer Delay3"
+		    SrcPort		    1
+		    Points		    [-15, 0; 0, -40]
+		    DstBlock		    "Switch3"
+		    DstPort		    3
+		    }
+		  }
+		}
+		Block {
 		  BlockType		  Reference
 		  Name			  "Subsystem2"
 		  Ports			  [1, 1]
@@ -24025,7 +27381,7 @@ Model {
 		Block {
 		  BlockType		  Outport
 		  Name			  "phi_c"
-		  Position		  [235, 43, 265, 57]
+		  Position		  [375, 43, 405, 57]
 		  IconDisplay		  "Port number"
 		  BusOutputAsStruct	  off
 		}
@@ -24039,7 +27395,7 @@ Model {
 		Line {
 		  SrcBlock		  "Subsystem2"
 		  SrcPort		  1
-		  DstBlock		  "phi_c"
+		  DstBlock		  "Protect NaNs"
 		  DstPort		  1
 		}
 		Line {
@@ -24053,6 +27409,12 @@ Model {
 		  SrcBlock		  "Divide"
 		  SrcPort		  1
 		  DstBlock		  "Subsystem2"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Protect NaNs"
+		  SrcPort		  1
+		  DstBlock		  "phi_c"
 		  DstPort		  1
 		}
 	      }
@@ -24512,10 +27874,130 @@ Model {
 	  }
 	}
 	Block {
+	  BlockType		  SubSystem
+	  Name			  "Protect NaNs"
+	  Ports			  [1, 1]
+	  Position		  [275, 145, 345, 175]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Protect NaNs"
+	    Location		    [2, 78, 1220, 809]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [35, 28, 65, 42]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Integer Delay3"
+	      Ports		      [1, 1]
+	      Position		      [165, 108, 200, 142]
+	      Orientation	      "left"
+	      ShowName		      off
+	      SourceBlock	      "simulink/Discrete/Integer Delay"
+	      SourceType	      "Integer Delay"
+	      vinit		      "0.0"
+	      samptime		      "T"
+	      NumDelays		      "1"
+	    }
+	    Block {
+	      BlockType		      RelationalOperator
+	      Name		      "Relational\nOperator2"
+	      Position		      [100, 42, 130, 73]
+	      ShowName		      off
+	      Operator		      "=="
+	      InputSameDT	      off
+	      LogicOutDataTypeMode    "Specify via dialog"
+	    }
+	    Block {
+	      BlockType		      Switch
+	      Name		      "Switch3"
+	      Position		      [170, 25, 200, 95]
+	      ShowName		      off
+	      Criteria		      "u2 > Threshold"
+	      Threshold		      "0.3"
+	      InputSameDT	      off
+	      SaturateOnIntegerOverflow	off
+	      SampleTime	      ".01"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [280, 75, 310, 90]
+	      Orientation	      "down"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "Integer Delay3"
+	      SrcPort		      1
+	      Points		      [-15, 0; 0, -40]
+	      DstBlock		      "Switch3"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Switch3"
+	      SrcPort		      1
+	      Points		      [30, 0]
+	      Branch {
+		DstBlock		"Out1"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 65]
+		DstBlock		"Integer Delay3"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      Points		      [15, 0]
+	      Branch {
+		Points			[0, 15]
+		Branch {
+		  DstBlock		  "Relational\nOperator2"
+		  DstPort		  2
+		}
+		Branch {
+		  DstBlock		  "Relational\nOperator2"
+		  DstPort		  1
+		}
+	      }
+	      Branch {
+		DstBlock		"Switch3"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Relational\nOperator2"
+	      SrcPort		      1
+	      DstBlock		      "Switch3"
+	      DstPort		      2
+	    }
+	  }
+	}
+	Block {
 	  BlockType		  Selector
 	  Name			  "Selector"
 	  Ports			  [1, 1]
-	  Position		  [210, 146, 250, 174]
+	  Position		  [195, 146, 235, 174]
 	  ShowName		  off
 	  IndexOptions		  "Index vector (dialog)"
 	  Indices		  "[3]"
@@ -24533,10 +28015,26 @@ Model {
 	  LatchByCopyingInsideSignal off
 	}
 	Block {
+	  BlockType		  Saturate
+	  Name			  "[-20 20]"
+	  Position		  [385, 145, 415, 175]
+	  ShowName		  off
+	  UpperLimit		  "350"
+	  LowerLimit		  "170"
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "[-20 20]1"
+	  Position		  [360, 320, 390, 350]
+	  ShowName		  off
+	  UpperLimit		  "350"
+	  LowerLimit		  "170"
+	}
+	Block {
 	  BlockType		  SubSystem
 	  Name			  "myMux Fun2"
 	  Ports			  [3, 1]
-	  Position		  [1140, 122, 1145, 178]
+	  Position		  [1115, 157, 1120, 213]
 	  BackgroundColor	  "black"
 	  ShowName		  off
 	  MinAlgLoopOccurrences	  off
@@ -24848,8 +28346,8 @@ Model {
 	Line {
 	  SrcBlock		  "Selector"
 	  SrcPort		  1
-	  DstBlock		  "Longitudinal Channel"
-	  DstPort		  6
+	  DstBlock		  "Protect NaNs"
+	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "he2th PID"
@@ -24958,7 +28456,7 @@ Model {
 	Line {
 	  SrcBlock		  "XYZ (m)"
 	  SrcPort		  1
-	  Points		  [10, 0]
+	  Points		  [115, 0]
 	  Branch {
 	    Points		    [0, -95]
 	    DstBlock		    "Selector"
@@ -24997,8 +28495,8 @@ Model {
 	  SrcBlock		  "Navigation"
 	  SrcPort		  1
 	  Points		  [0, -10]
-	  DstBlock		  "Longitudinal Channel"
-	  DstPort		  13
+	  DstBlock		  "[-20 20]1"
+	  DstPort		  1
 	}
 	Line {
 	  Labels		  [3, 0]
@@ -25134,21 +28632,6 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Lateral Channel"
-	  SrcPort		  4
-	  Points		  [0, -25; 195, 0]
-	  Branch {
-	    DstBlock		    "L1 Output Feedback\nController\nWith \nPr"
-"ojection Operator"
-	    DstPort		    5
-	  }
-	  Branch {
-	    Points		    [0, 40]
-	    DstBlock		    "Goto8"
-	    DstPort		    1
-	  }
-	}
-	Line {
 	  SrcBlock		  "Lat Accel Gain"
 	  SrcPort		  1
 	  DstBlock		  "Navigation"
@@ -25167,19 +28650,53 @@ Model {
 	  DstPort		  15
 	}
 	Line {
-	  SrcBlock		  "From6"
+	  SrcBlock		  "Lateral Channel"
+	  SrcPort		  4
+	  Points		  [135, 0]
+	  Branch {
+	    Points		    [0, -25]
+	    DstBlock		    "L1 Output Feedback\nController\nWith \nPr"
+"ojection Operator"
+	    DstPort		    5
+	  }
+	  Branch {
+	    Points		    [0, 15]
+	    DstBlock		    "Goto8"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Protect NaNs"
+	  SrcPort		  1
+	  DstBlock		  "[-20 20]"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "[-20 20]"
+	  SrcPort		  1
+	  DstBlock		  "Longitudinal Channel"
+	  DstPort		  6
+	}
+	Line {
+	  SrcBlock		  "[-20 20]1"
+	  SrcPort		  1
+	  DstBlock		  "Longitudinal Channel"
+	  DstPort		  13
+	}
+	Line {
+	  SrcBlock		  "From7"
 	  SrcPort		  1
 	  DstBlock		  "myMux Fun2"
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "From5"
+	  SrcBlock		  "From6"
 	  SrcPort		  1
 	  DstBlock		  "myMux Fun2"
 	  DstPort		  2
 	}
 	Line {
-	  SrcBlock		  "From7"
+	  SrcBlock		  "From9"
 	  SrcPort		  1
 	  DstBlock		  "myMux Fun2"
 	  DstPort		  3
@@ -26449,7 +29966,7 @@ Model {
 	      Name		      "Input Capture"
 	      Tag		      "dsPIC_PWM_IC"
 	      Ports		      [0, 5]
-	      Position		      [25, 29, 185, 201]
+	      Position		      [25, 28, 185, 202]
 	      BackgroundColor	      "lightBlue"
 	      Priority		      "5"
 	      SourceBlock	      "dsPICdrivers/Peripheral I//O/Input Capt"
@@ -40342,7 +43859,7 @@ Stateflow {
 		name                 		"controlMCUSlugsMKII"
 		created              		"30-Oct-2008 13:16:33"
 		isLibrary            		0
-		firstTarget          		388
+		firstTarget          		389
 		sfVersion            		66014000
 	}
 
@@ -42650,7 +46167,7 @@ Stateflow {
 	chart {
 		id                                        		112
 		name                                      		"Inner Loop/ Navigation/myMux Fun2"
-		windowPosition                            		[566.827 51.356 200.25 189.75]
+		windowPosition                            		[596.827 21.356 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 113 0 0]
@@ -45032,8 +48549,6 @@ Stateflow {
 		firstJunction                             		232
 		viewObj                                   		230
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		234
@@ -47014,7 +50529,7 @@ Stateflow {
 
 	chart {
 		id                                        		329
-		name                                      		"Inner Loop/ Navigation/Lateral Channel/0.25 sec  tau/Embedded\n"
+		name                                      		"Inner Loop/ Navigation/Lateral Channel/0.5 sec  tau/Embedded\n"
 					"MATLAB Function"
 		windowPosition                            		[541.813 51.606 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
@@ -47200,7 +50715,7 @@ Stateflow {
 
 	instance {
 		id     		337
-		name   		"Inner Loop// Navigation/Lateral Channel/0.25 sec  tau/Embedded\n"
+		name   		"Inner Loop// Navigation/Lateral Channel/0.5 sec  tau/Embedded\n"
 					"MATLAB Function"
 		machine		1
 		chart  		329
@@ -47208,22 +50723,27 @@ Stateflow {
 
 	chart {
 		id                                        		338
-		name                                      		"Inner Loop/ Navigation/Lateral Channel/Bank to Psi Dot/negprotect"
-		windowPosition                            		[252.588 326.703 200.25 189.75]
+		name                                      		"Inner Loop/ Navigation/Navigation/Compute WP Index/Switch when \n"
+					"in Line\n"
+					"Segment/Compute Total\n"
+					"Run/Compute Distance/Norm/Subsystem3/Embedded\n"
+					"MATLAB Function"
+		windowPosition                            		[311.813 207.525 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
-		screen                                    		[1 1 1920 1200 1.333333333333333]
+		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 339 0 0]
 		firstTransition                           		341
 		firstJunction                             		340
 		viewObj                                   		338
 		machine                                   		1
+		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		342
-		chartFileNumber                           		38
+		chartFileNumber                           		39
 		disableImplicitCasting                    		1
 		eml {
-			name       		"negProt"
+			name       		"myDot"
 		}
 	}
 
@@ -47240,16 +50760,12 @@ Stateflow {
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function zpVal = negProt(val)\n"
+			script                   		"function xDoty = myDot(x,y)\n"
 						"% This block supports an embeddable subset of the MATLAB la"
 						"nguage.\n"
 						"% See the help menu for details. \n"
 						"\n"
-						"if val >= single(0.1)\n"
-						"    zpVal = val;\n"
-						"else\n"
-						"    zpVal = single(0.001);\n"
-						"end"
+						"xDoty = x(1)*y(1) + x(2)*y(2) + x(3)*y(3);"
 			editorLayout             		"100 M4x1[146 214 671 364]"
 			treatIntsAsFixpt         		0
 		}
@@ -47287,7 +50803,7 @@ Stateflow {
 
 	data {
 		id                            		342
-		name                          		"val"
+		name                          		"x"
 		linkNode                      		[338 0 343]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -47310,9 +50826,9 @@ Stateflow {
 
 	data {
 		id                            		343
-		name                          		"zpVal"
-		linkNode                      		[338 342 0]
-		scope                         		OUTPUT_DATA
+		name                          		"y"
+		linkNode                      		[338 342 344]
+		scope                         		INPUT_DATA
 		machine                       		1
 		props {
 			array {
@@ -47332,34 +50848,59 @@ Stateflow {
 		complexity                    		SF_COMPLEX_INHERITED
 	}
 
+	data {
+		id                            		344
+		name                          		"xDoty"
+		linkNode                      		[338 343 0]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
 	instance {
-		id     		344
-		name   		"Inner Loop// Navigation/Lateral Channel/Bank to Psi Dot/negprotec"
-					"t"
+		id     		345
+		name   		"Inner Loop// Navigation/Navigation/Compute WP Index/Switch when \n"
+					"in Line\n"
+					"Segment/Compute Total\n"
+					"Run/Compute Distance/Norm/Subsystem3/Embedded\n"
+					"MATLAB Function"
 		machine		1
 		chart  		338
 	}
 
 	chart {
-		id                                        		345
+		id                                        		346
 		name                                      		"Inner Loop/ Navigation/Navigation/Compute WP Index/Switch when \n"
 					"in Line\n"
-					"Segment/Compute Total\n"
-					"Run/Compute Distance/Norm/Subsystem3/Embedded\n"
+					"Segment/Compute \n"
+					"Projection/Subsystem3/Embedded\n"
 					"MATLAB Function"
 		windowPosition                            		[311.813 207.525 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 346 0 0]
-		firstTransition                           		348
-		firstJunction                             		347
-		viewObj                                   		345
+		treeNode                                  		[0 347 0 0]
+		firstTransition                           		349
+		firstJunction                             		348
+		viewObj                                   		346
 		machine                                   		1
-		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		349
-		chartFileNumber                           		39
+		firstData                                 		350
+		chartFileNumber                           		40
 		disableImplicitCasting                    		1
 		eml {
 			name       		"myDot"
@@ -47367,14 +50908,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		346
+		id                           		347
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		345
-		treeNode                     		[345 0 0 0]
+		chart                        		346
+		treeNode                     		[346 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		345
+		subviewer                    		346
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -47391,16 +50932,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		347
+		id         		348
 		position   		[23.5747 49.5747 7]
-		chart      		345
-		linkNode   		[345 0 0]
-		subviewer  		345
+		chart      		346
+		linkNode   		[346 0 0]
+		subviewer  		346
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		348
+		id             		349
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -47408,45 +50949,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		347
+			id          		348
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		345
-		linkNode       		[345 0 0]
+		chart          		346
+		linkNode       		[346 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		345
+		subviewer      		346
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		349
-		name                          		"x"
-		linkNode                      		[345 0 350]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
 		id                            		350
-		name                          		"y"
-		linkNode                      		[345 349 351]
+		name                          		"x"
+		linkNode                      		[346 0 351]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -47457,7 +50975,6 @@ Stateflow {
 				method    		SF_INHERITED_TYPE
 			}
 			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_NO
 		}
 		dataType                      		"inherited"
 		fixptType {
@@ -47469,144 +50986,8 @@ Stateflow {
 
 	data {
 		id                            		351
-		name                          		"xDoty"
-		linkNode                      		[345 350 0]
-		scope                         		OUTPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_NO
-		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	instance {
-		id     		352
-		name   		"Inner Loop// Navigation/Navigation/Compute WP Index/Switch when \n"
-					"in Line\n"
-					"Segment/Compute Total\n"
-					"Run/Compute Distance/Norm/Subsystem3/Embedded\n"
-					"MATLAB Function"
-		machine		1
-		chart  		345
-	}
-
-	chart {
-		id                                        		353
-		name                                      		"Inner Loop/ Navigation/Navigation/Compute WP Index/Switch when \n"
-					"in Line\n"
-					"Segment/Compute \n"
-					"Projection/Subsystem3/Embedded\n"
-					"MATLAB Function"
-		windowPosition                            		[311.813 207.525 200.25 189.75]
-		viewLimits                                		[0 156.75 0 153.75]
-		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 354 0 0]
-		firstTransition                           		356
-		firstJunction                             		355
-		viewObj                                   		353
-		machine                                   		1
-		decomposition                             		CLUSTER_CHART
-		type                                      		EML_CHART
-		firstData                                 		357
-		chartFileNumber                           		40
-		disableImplicitCasting                    		1
-		eml {
-			name       		"myDot"
-		}
-	}
-
-	state {
-		id                           		354
-		labelString                  		"eML_blk_kernel()"
-		position                     		[18 64.5 118 66]
-		fontSize                     		12
-		chart                        		353
-		treeNode                     		[353 0 0 0]
-		superState                   		SUBCHART
-		subviewer                    		353
-		type                         		FUNC_STATE
-		decomposition                		CLUSTER_STATE
-		eml {
-			isEML                    		1
-			script                   		"function xDoty = myDot(x,y)\n"
-						"% This block supports an embeddable subset of the MATLAB la"
-						"nguage.\n"
-						"% See the help menu for details. \n"
-						"\n"
-						"xDoty = x(1)*y(1) + x(2)*y(2) + x(3)*y(3);"
-			editorLayout             		"100 M4x1[146 214 671 364]"
-			treatIntsAsFixpt         		0
-		}
-	}
-
-	junction {
-		id         		355
-		position   		[23.5747 49.5747 7]
-		chart      		353
-		linkNode   		[353 0 0]
-		subviewer  		353
-		type       		CONNECTIVE_JUNCTION
-	}
-
-	transition {
-		id             		356
-		labelString    		"{eML_blk_kernel();}"
-		labelPosition  		[32.125 19.875 102.544 14.964]
-		fontSize       		12
-		src {
-			intersection		[0 0 1 0 23.5747 14.625 0 0]
-		}
-		dst {
-			id          		355
-			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
-		}
-		midPoint       		[23.5747 24.9468]
-		chart          		353
-		linkNode       		[353 0 0]
-		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		353
-		drawStyle      		SMART
-		executionOrder 		1
-	}
-
-	data {
-		id                            		357
-		name                          		"x"
-		linkNode                      		[353 0 358]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		358
 		name                          		"y"
-		linkNode                      		[353 357 359]
+		linkNode                      		[346 350 352]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -47628,9 +51009,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		359
+		id                            		352
 		name                          		"xDoty"
-		linkNode                      		[353 358 0]
+		linkNode                      		[346 351 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -47651,30 +51032,30 @@ Stateflow {
 	}
 
 	instance {
-		id     		360
+		id     		353
 		name   		"Inner Loop// Navigation/Navigation/Compute WP Index/Switch when \n"
 					"in Line\n"
 					"Segment/Compute \n"
 					"Projection/Subsystem3/Embedded\n"
 					"MATLAB Function"
 		machine		1
-		chart  		353
+		chart  		346
 	}
 
 	chart {
-		id                                        		361
+		id                                        		354
 		name                                      		"Inner Loop/ Navigation/Navigation/myMux Fun1"
 		windowPosition                            		[476.827 141.356 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 362 0 0]
-		firstTransition                           		364
-		firstJunction                             		363
-		viewObj                                   		361
+		treeNode                                  		[0 355 0 0]
+		firstTransition                           		357
+		firstJunction                             		356
+		viewObj                                   		354
 		machine                                   		1
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		365
+		firstData                                 		358
 		chartFileNumber                           		41
 		disableImplicitCasting                    		1
 		eml {
@@ -47683,14 +51064,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		362
+		id                           		355
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		361
-		treeNode                     		[361 0 0 0]
+		chart                        		354
+		treeNode                     		[354 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		361
+		subviewer                    		354
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -47707,16 +51088,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		363
+		id         		356
 		position   		[23.5747 49.5747 7]
-		chart      		361
-		linkNode   		[361 0 0]
-		subviewer  		361
+		chart      		354
+		linkNode   		[354 0 0]
+		subviewer  		354
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		364
+		id             		357
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -47724,22 +51105,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		363
+			id          		356
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		361
-		linkNode       		[361 0 0]
+		chart          		354
+		linkNode       		[354 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		361
+		subviewer      		354
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		365
+		id                            		358
 		name                          		"u1"
-		linkNode                      		[361 0 366]
+		linkNode                      		[354 0 359]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -47760,9 +51141,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		366
+		id                            		359
 		name                          		"y"
-		linkNode                      		[361 365 367]
+		linkNode                      		[354 358 360]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -47784,9 +51165,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		367
+		id                            		360
 		name                          		"u2"
-		linkNode                      		[361 366 368]
+		linkNode                      		[354 359 361]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -47807,9 +51188,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		368
+		id                            		361
 		name                          		"u3"
-		linkNode                      		[361 367 0]
+		linkNode                      		[354 360 0]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -47830,28 +51211,187 @@ Stateflow {
 	}
 
 	instance {
-		id     		369
+		id     		362
 		name   		"Inner Loop// Navigation/Navigation/myMux Fun1"
 		machine		1
-		chart  		361
+		chart  		354
 	}
 
 	chart {
-		id                                        		370
+		id                                        		363
+		name                                      		"Inner Loop/ Navigation/Navigation/Compute\n"
+					"Lateral Error/Subsystem3/Embedded\n"
+					"MATLAB Function"
+		windowPosition                            		[311.813 207.525 200.25 189.75]
+		viewLimits                                		[0 156.75 0 153.75]
+		screen                                    		[1 1 1280 1024 1.333333333333333]
+		treeNode                                  		[0 364 0 0]
+		firstTransition                           		366
+		firstJunction                             		365
+		viewObj                                   		363
+		machine                                   		1
+		toolbarMode                               		LIBRARY_TOOLBAR
+		subviewS {
+		}
+		decomposition                             		CLUSTER_CHART
+		type                                      		EML_CHART
+		firstData                                 		367
+		chartFileNumber                           		42
+		disableImplicitCasting                    		1
+		eml {
+			name       		"myDot"
+		}
+	}
+
+	state {
+		id                           		364
+		labelString                  		"eML_blk_kernel()"
+		position                     		[18 64.5 118 66]
+		fontSize                     		12
+		chart                        		363
+		treeNode                     		[363 0 0 0]
+		superState                   		SUBCHART
+		subviewer                    		363
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			isEML                    		1
+			script                   		"function xDoty = myDot(x,y)\n"
+						"% This block supports an embeddable subset of the MATLAB la"
+						"nguage.\n"
+						"% See the help menu for details. \n"
+						"\n"
+						"xDoty = x(1)*y(1) + x(2)*y(2) + x(3)*y(3);"
+			editorLayout             		"100 M4x1[146 214 671 364]"
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	junction {
+		id         		365
+		position   		[23.5747 49.5747 7]
+		chart      		363
+		linkNode   		[363 0 0]
+		subviewer  		363
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		366
+		labelString    		"{eML_blk_kernel();}"
+		labelPosition  		[32.125 19.875 102.544 14.964]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 23.5747 14.625 0 0]
+		}
+		dst {
+			id          		365
+			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
+		}
+		midPoint       		[23.5747 24.9468]
+		chart          		363
+		linkNode       		[363 0 0]
+		dataLimits     		[23.575 23.575 14.625 34.575]
+		subviewer      		363
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	data {
+		id                            		367
+		name                          		"x"
+		linkNode                      		[363 0 368]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		368
+		name                          		"y"
+		linkNode                      		[363 367 369]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		369
+		name                          		"xDoty"
+		linkNode                      		[363 368 0]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	instance {
+		id     		370
+		name   		"Inner Loop// Navigation/Navigation/Compute\n"
+					"Lateral Error/Subsystem3/Embedded\n"
+					"MATLAB Function"
+		machine		1
+		chart  		363
+	}
+
+	chart {
+		id                                        		371
 		name                                      		"Inner Loop/ Navigation/Longitudinal Channel/5 sec tau for\n"
 					"high speeds/Embedded\n"
 					"MATLAB Function"
 		windowPosition                            		[526.813 66.606 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 371 0 0]
-		firstTransition                           		373
-		firstJunction                             		372
-		viewObj                                   		370
+		treeNode                                  		[0 372 0 0]
+		firstTransition                           		374
+		firstJunction                             		373
+		viewObj                                   		371
 		machine                                   		1
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		374
+		firstData                                 		375
 		chartFileNumber                           		48
 		disableImplicitCasting                    		1
 		eml {
@@ -47860,14 +51400,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		371
+		id                           		372
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		370
-		treeNode                     		[370 0 0 0]
+		chart                        		371
+		treeNode                     		[371 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		370
+		subviewer                    		371
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -47901,16 +51441,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		372
+		id         		373
 		position   		[23.5747 49.5747 7]
-		chart      		370
-		linkNode   		[370 0 0]
-		subviewer  		370
+		chart      		371
+		linkNode   		[371 0 0]
+		subviewer  		371
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		373
+		id             		374
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -47918,22 +51458,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		372
+			id          		373
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		370
-		linkNode       		[370 0 0]
+		chart          		371
+		linkNode       		[371 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		370
+		subviewer      		371
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		374
+		id                            		375
 		name                          		"u"
-		linkNode                      		[370 0 375]
+		linkNode                      		[371 0 376]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -47944,30 +51484,6 @@ Stateflow {
 				method    		SF_INHERITED_TYPE
 			}
 			complexity           		SF_COMPLEX_INHERITED
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		375
-		name                          		"y"
-		linkNode                      		[370 374 376]
-		scope                         		OUTPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_NO
 		}
 		dataType                      		"inherited"
 		fixptType {
@@ -47979,8 +51495,32 @@ Stateflow {
 
 	data {
 		id                            		376
+		name                          		"y"
+		linkNode                      		[371 375 377]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		377
 		name                          		"T"
-		linkNode                      		[370 375 377]
+		linkNode                      		[371 376 378]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -48001,9 +51541,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		377
+		id                            		378
 		name                          		"f"
-		linkNode                      		[370 376 0]
+		linkNode                      		[371 377 0]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -48024,30 +51564,30 @@ Stateflow {
 	}
 
 	instance {
-		id     		378
+		id     		379
 		name   		"Inner Loop// Navigation/Longitudinal Channel/5 sec tau for\n"
 					"high speeds/Embedded\n"
 					"MATLAB Function"
 		machine		1
-		chart  		370
+		chart  		371
 	}
 
 	chart {
-		id                                        		379
+		id                                        		380
 		name                                      		"Inner Loop/ Navigation/Longitudinal Channel/0.3 sec  tau for\n"
 					"low speeds/Embedded\n"
 					"MATLAB Function"
 		windowPosition                            		[526.813 66.606 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 380 0 0]
-		firstTransition                           		382
-		firstJunction                             		381
-		viewObj                                   		379
+		treeNode                                  		[0 381 0 0]
+		firstTransition                           		383
+		firstJunction                             		382
+		viewObj                                   		380
 		machine                                   		1
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		383
+		firstData                                 		384
 		chartFileNumber                           		49
 		disableImplicitCasting                    		1
 		eml {
@@ -48056,14 +51596,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		380
+		id                           		381
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		379
-		treeNode                     		[379 0 0 0]
+		chart                        		380
+		treeNode                     		[380 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		379
+		subviewer                    		380
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -48097,16 +51637,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		381
+		id         		382
 		position   		[23.5747 49.5747 7]
-		chart      		379
-		linkNode   		[379 0 0]
-		subviewer  		379
+		chart      		380
+		linkNode   		[380 0 0]
+		subviewer  		380
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		382
+		id             		383
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -48114,22 +51654,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		381
+			id          		382
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		379
-		linkNode       		[379 0 0]
+		chart          		380
+		linkNode       		[380 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		379
+		subviewer      		380
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		383
+		id                            		384
 		name                          		"u"
-		linkNode                      		[379 0 384]
+		linkNode                      		[380 0 385]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -48150,9 +51690,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		384
+		id                            		385
 		name                          		"y"
-		linkNode                      		[379 383 385]
+		linkNode                      		[380 384 386]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -48174,9 +51714,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		385
+		id                            		386
 		name                          		"T"
-		linkNode                      		[379 384 386]
+		linkNode                      		[380 385 387]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -48197,9 +51737,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		386
+		id                            		387
 		name                          		"f"
-		linkNode                      		[379 385 0]
+		linkNode                      		[380 386 0]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -48220,29 +51760,29 @@ Stateflow {
 	}
 
 	instance {
-		id     		387
+		id     		388
 		name   		"Inner Loop// Navigation/Longitudinal Channel/0.3 sec  tau for\n"
 					"low speeds/Embedded\n"
 					"MATLAB Function"
 		machine		1
-		chart  		379
-	}
-
-	target {
-		id                        		388
-		name                      		"sfun"
-		description               		"Default Simulink S-Function Target."
-		machine                   		1
-		linkNode                  		[1 0 389]
+		chart  		380
 	}
 
 	target {
 		id                        		389
+		name                      		"sfun"
+		description               		"Default Simulink S-Function Target."
+		machine                   		1
+		linkNode                  		[1 0 390]
+	}
+
+	target {
+		id                        		390
 		name                      		"rtw"
 		codeFlags                 		" comments=1 statebitsets=1 databitsets=1 emitlogicalops=1 el"
 						"seifdetection=1 constantfolding=1 redundantloadelimination=0"
 						" preservenames=0 preservenameswithparent=0 exportcharts=0"
 		machine                   		1
-		linkNode                  		[1 388 0]
+		linkNode                  		[1 389 0]
 	}
 }
