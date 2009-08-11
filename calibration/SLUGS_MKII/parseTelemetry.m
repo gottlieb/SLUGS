@@ -90,6 +90,7 @@ biaGyIdx        = 46;
 biaGzIdx        = 47;
 
 % Air data and Diagnostics
+% ==========================
 airDynIdx       = 48;
 airStaIdx       = 49;
 airTemIdx       = 50;
@@ -101,11 +102,13 @@ diaSh2Idx       = 55;
 diaSh3Idx       = 56;
 
 % Load message
+% ==============
 loaSenIdx       = 57;
 loaCtrIdx       = 58;
 loaVolIdx       = 59;
 
-%Pilot Console Message 
+% Pilot Console Message 
+% ======================
 pilDtIdx        = 60;
 pilDlaIdx       = 61;
 pilFaiIdx       = 62;
@@ -113,6 +116,7 @@ pilDrIdx        = 63;
 pilDeIdx        = 64;
 
 % PWM Messages (Sent to control surfaces)
+% =========================================
 pwmDtIdx        = 65;
 pwmDlaIdx       = 66;
 pwmDraIdx       = 67;
@@ -125,10 +129,13 @@ pwmDa1Idx       = 73;
 pwmDa2Idx       = 74;
 
 % Aircraft Status
+% =================
 apsCtyIdx       = 75;
 apsBeaIdx       = 76;
 apsHilIdx       = 77;
+
 % Passthroughs
+% ============
 apsPthIdx       = 78;
 apsPlaIdx       = 79;
 apsPraIdx       = 80;
@@ -139,6 +146,7 @@ apsPlfIdx       = 84;
 apsPrfIdx       = 85;
 
 % Ground Station Commands
+% =========================
 comHeiIdx       = 86;
 comAirIdx       = 87;
 comPhiIdx       = 88;
@@ -150,6 +158,8 @@ comRIdx         = 93;
 comCwpIdx       = 94;
 comNwpIdx       = 95;
 
+% Navigation Data
+% ===============
 navUmIdx        = 96;
 navThcIdx       = 97;
 navPdcIdx       = 98;
@@ -159,6 +169,25 @@ navTruIdx       = 101;
 navD2gIdx       = 102;
 navFwpIdx       = 103;
 navTwpIdx       = 104;
+
+% Sensors in Units
+% ================
+senAxIdx        = 105;
+senAyIdx        = 106;
+senAzIdx        = 107;
+senMxIdx        = 108;
+senMyIdx        = 109;
+senMzIdx        = 110;
+
+% Log Mesasges
+% ============
+logFl1idx       = 111;
+logFl2idx       = 112;
+logFl3idx       = 113;
+logFl4idx       = 114;
+logFl5idx       = 115;
+logFl6idx       = 116;
+
 
 %% if we need to validate GPS
 idxIni = 1;
