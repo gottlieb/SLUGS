@@ -192,6 +192,7 @@ logFl6idx       = 116;
 %% if we need to validate GPS
 idxIni = 1;
 idxEnd = size(M,1);
+idxEnd = 4500;
 
 if (validateGPS == 1)
     while (M(idxIni,gpsSatIdx) < 3)

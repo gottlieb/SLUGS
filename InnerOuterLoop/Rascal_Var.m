@@ -15,11 +15,11 @@ r_lim=200*pi/180;
 % Set the initial conditions based on the Piccolo Doublets File
 %  Initial Conditions in ENU (all vector data is represented as a column
 %  vectors)
-Pos_0   = [-200; 0 ;150]';     % Initial position vector (m)
-Euler_0 = [0; 0; 160*pi/180]';     % Initial Euler angles    (rad)
+Pos_0   = [50; 200 ;230]';     % Initial position vector (m)
+Euler_0 = [0; 0; 270*pi/180]';     % Initial Euler angles    (rad)
 Omega_0 = [0; 0; 0]';                              % Initial Omega           (rad/s)
 PQR_0   = [0;0;0]';      % Initial Omega           (rad/s)
-Vb_0    = [ 25; 0;0]';                     % Initial body-velocity vector (m/s)
+Vb_0    = [ 15; 0;0]';                     % Initial body-velocity vector (m/s)
 
 % Mass and Geometric Parameters recomputation
 S     = 0.982;       % surface area of wing  (m2)

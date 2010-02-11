@@ -1,10 +1,11 @@
 %% General Values
 derivativesConstant = 5;
 apSampleTime = 0.01;
+T = 0.01;
 
 %% Control Surface Limits
 deLimit = single(15*pi/180);
-daLimit = single(16*pi/180);
+daLimit = single(45*pi/180);
 dtLimit = single(1);
 drLimit = single(10*pi/180);
 
@@ -16,14 +17,14 @@ yawDamperLimit = single(0.9*drLimit);       % controls rudder
 rollControlLimit = single(0.95*daLimit);     % controls aileron
 
 %% Command Limits
-pitchCommandLimit = single(20*pi/180);
+pitchCommandLimit = single(30*pi/180);
 bankCommandLimit = single(45*pi/180);
 
 %% Nav Values
 
-L2_base = single(5);
-U_comm = single(20);
-R = single((U_comm)^2/(ISA_g*tan(bankCommandLimit)));
+L2_base = single(4.5);
+U_comm = single(15);
+R = single((U_comm)^2/(ISA_g*tan(bankCommandLimit)))+20;
 
 %% Curve fitting for PWM . Conversion from Radians to PWM
 % Rudder

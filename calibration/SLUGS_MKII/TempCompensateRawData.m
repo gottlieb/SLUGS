@@ -127,50 +127,50 @@ if plotData == 1
 
     % Temperature Dependence for each sensor
     figure(figct);
-        subplot(3,3,1)
+        subplot(2,3,1)
             plot(temp,data(ini:fin, rawGxIdx));
             title('Gyro X');
             legend(num2str(tgains(1)));
             ylabel('Gyro counts');
-        subplot(3,3,2)
+        subplot(2,3,2)
             plot(temp,data(ini:fin, rawGyIdx));
             title('Gyro Y');
             legend(num2str(tgains(2)));
-         subplot(3,3,3)
+         subplot(2,3,3)
             plot(temp,data(ini:fin, rawGzIdx));
             title('Gyro Z');
             legend(num2str(tgains(3)));
 
-        subplot(3,3,4)
+        subplot(2,3,4)
             plot(temp,data(ini:fin, rawAxIdx));
             title('Accel X');
             legend(num2str(tgains(4)));
             ylabel('Accel counts');
-        subplot(3,3,5)
+        subplot(2,3,5)
             plot(temp,data(ini:fin, rawAyIdx));
             title('Accel Y');
             legend(num2str(tgains(5)));
-         subplot(3,3,6)
+         subplot(2,3,6)
             plot(temp,data(ini:fin, rawAzIdx));
             title('Accel Z');
             legend(num2str(tgains(6)));
 
-        subplot(3,3,7)
-            plot(temp,data(ini:fin, rawMxIdx));
-            title('Mag X');
-            legend(num2str(tgains(7)));
-            ylabel('Magn counts');
-            xlabel ('Temp 0.1(C)');
-        subplot(3,3,8)
-            plot(temp,data(ini:fin, rawMyIdx));
-            title('Mag Y');
-            legend(num2str(tgains(8)));
-            xlabel ('Temp 0.1(C)');
-         subplot(3,3,9)
-            plot(temp,data(ini:fin, rawMzIdx));
-            title('Mag Z');
-            legend(num2str(tgains(9)));
-            xlabel ('Temp 0.1(C)');
+%         subplot(3,3,7)
+%             plot(temp,data(ini:fin, rawMxIdx));
+%             title('Mag X');
+%             legend(num2str(tgains(7)));
+%             ylabel('Magn counts');
+%             xlabel ('Temp 0.1(C)');
+%         subplot(3,3,8)
+%             plot(temp,data(ini:fin, rawMyIdx));
+%             title('Mag Y');
+%             legend(num2str(tgains(8)));
+%             xlabel ('Temp 0.1(C)');
+%          subplot(3,3,9)
+%             plot(temp,data(ini:fin, rawMzIdx));
+%             title('Mag Z');
+%             legend(num2str(tgains(9)));
+%             xlabel ('Temp 0.1(C)');
         
     eval(['print -depsc  '  num2str(figct)]);
     figct= figct+1;    
@@ -202,40 +202,31 @@ figure(figct)
             plot(time,temp);            
             title('Temperature');
             ylabel('Temperature (0.1 C)');
-        subplot(2,1,2);
+            xlabel ('Time (s)');
+        subplot(2,4,5);
             plot(time,data(ini:fin, rawAxIdx));            
             title('Accelerometer X');
             ylabel('Accelerometer X(counts)');
             xlabel ('Time (s)');         
             
-    eval(['print -depsc  '  num2str(figct)]);
-    figct= figct+1;    
-
-    figure(figct)
-        subplot(2,1,1);
-            plot(time,temp);            
-            title('Temperature');
-            ylabel('Temperature (0.1 C)');
-        subplot(2,1,2);
+        subplot(2,4,6);
             plot(time,data(ini:fin, rawBarIdx));            
             title('Barometer');
             ylabel('Barometer(counts)');
             xlabel ('Time (s)');         
             
-    eval(['print -depsc  '  num2str(figct)]);
-    figct= figct+1; 
-    
-    figure(figct)
-        subplot(2,1,1);
-            plot(time,temp);            
-            title('Temperature');
-            ylabel('Temperature (0.1 C)');
-        subplot(2,1,2);
+        subplot(2,4,7);
             plot(time,data(ini:fin, rawPitIdx));            
             title('Dynamic');
             ylabel('Dynamic(counts)');
             xlabel ('Time (s)');         
-            
+
+        subplot(2,4,8);
+            plot(time,data(ini:fin, rawPwrIdx));            
+            title('Power');
+            ylabel('Power(counts)');
+            xlabel ('Time (s)');         
+     
     eval(['print -depsc  '  num2str(figct)]);
     figct= figct+1; 
 %% Start plotting the temperature compensated ones    
@@ -248,7 +239,7 @@ figure(figct)
 %     plot(time,sta_comp, 'r');
     plot(time(1:2.4e4-ini+1),sta_comp1, 'r');
     plot(time(2.4e4-ini+2:end),sta_comp2+barAdjust, 'r');
-    title (['Temperature Compensated Static.' 'Mean Temp = ' num2str(tmean)]);
+    title (['Temperature Compensated Static Pressure']);
     hold off
     ylabel ('Static (counts)');
     xlabel ('Time (s)');
@@ -269,7 +260,7 @@ figure(figct)
 %     plot(time,dyn_comp, 'r');
     plot(time(1:1.55e4-ini+1),dyn_comp1+pitAdjust, 'r');
     plot(time(1.55e4-ini+2:end),dyn_comp2, 'r');    
-    title (['Temperature Compensated Dynamic.' 'Mean Temp = ' num2str(tmean)]);
+    title (['Temperature Compensated Dynamic Pressure']);
     hold off
     ylabel ('Dynamic (counts)');
     xlabel ('Time (s)');
@@ -288,7 +279,7 @@ figure(figct)
 %    plot(time,ax_comp, 'r');
     plot(time(1:9e4-ini+1),ax_comp1, 'r');
     plot(time(9e4-ini+2:end),ax_comp2, 'r');    
-    title (['Accelerometer X.' 'Mean Temp = ' num2str(tmean)]);
+    title (['Accelerometer X.' ]);
     hold off
     ylabel ('Accelerometer X (counts)');
     xlabel ('Time (s)');
@@ -302,7 +293,7 @@ figure(figct)
     plot(time,data(ini:fin, rawPwrIdx),'b');
     hold on
     plot(time,pow_comp, 'r');
-    title (['Voltage.' 'Mean Temp = ' num2str(tmean)]);
+    title (['Voltage.']);
     hold off
     ylabel ('Voltage (counts)');
     xlabel ('Time (s)');

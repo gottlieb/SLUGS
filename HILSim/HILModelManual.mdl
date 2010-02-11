@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.696"
+    ComputedModelVersion    "1.698"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -47,8 +47,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sun May 24 20:02:12 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:696>"
+  LastModifiedDate	  "Fri Nov 13 16:41:04 2009"
+  ModelVersionFormat	  "1.%<AutoIncrement:698>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -981,8 +981,8 @@ Model {
   }
   System {
     Name		    "HILModelManual"
-    Location		    [-3, 82, 906, 852]
-    Open		    on
+    Location		    [-3, 82, 924, 880]
+    Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "white"
@@ -11137,7 +11137,7 @@ Model {
 	      System {
 		Name			"Get GPS"
 		Location		[176, 146, 1036, 832]
-		Open			off
+		Open			on
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
@@ -11230,6 +11230,11 @@ Model {
 		  MinAlgLoopOccurrences	  off
 		  RTWSystemCode		  "Auto"
 		  FunctionWithSeparateData off
+		  Array {
+		    Type		    "Handle"
+		    Dimension		    0
+		    PropName		    "AvailSigsLoadSave"
+		  }
 		  MaskHideContents	  off
 		  MaskType		  "Stateflow"
 		  MaskDescription	  "Embedded MATLAB block"
@@ -11364,8 +11369,7 @@ Model {
 		  ptype			  "Earth (WGS84)"
 		  F			  "1/298.257223563"
 		  R			  "6378137"
-		  LL0			  "[37.0004768371582, -122.06189727783"
-"2]"
+		  LL0			  "[GS_location(2) GS_location(3)]"
 		  psi			  "0"
 		}
 		Block {
@@ -14053,6 +14057,15 @@ Model {
 	      Lockdown		      off
 	    }
 	    Block {
+	      BlockType		      Display
+	      Name		      "Display3"
+	      Ports		      [1]
+	      Position		      [555, 110, 645, 140]
+	      Orientation	      "left"
+	      Decimation	      "1"
+	      Lockdown		      off
+	    }
+	    Block {
 	      BlockType		      Goto
 	      Name		      "Goto1"
 	      Position		      [1060, 101, 1110, 119]
@@ -14592,15 +14605,23 @@ Model {
 	    Line {
 	      SrcBlock		      "Angle Conversion"
 	      SrcPort		      1
-	      Points		      [540, 0]
+	      Points		      [300, 0]
 	      Branch {
-		Points			[0, 60]
-		DstBlock		"Rate Transition"
-		DstPort			1
+		Points			[240, 0]
+		Branch {
+		  Points		  [0, 60]
+		  DstBlock		  "Rate Transition"
+		  DstPort		  1
+		}
+		Branch {
+		  Points		  [80, 0]
+		  DstBlock		  "de,deg"
+		  DstPort		  1
+		}
 	      }
 	      Branch {
-		Points			[80, 0]
-		DstBlock		"de,deg"
+		Points			[0, 75]
+		DstBlock		"Display3"
 		DstPort			1
 	      }
 	    }
@@ -16426,8 +16447,8 @@ Model {
       Ports		      [4]
       Position		      [790, 547, 820, 663]
       Floating		      off
-      Location		      [482, 120, 944, 925]
-      Open		      off
+      Location		      [919, 54, 1381, 859]
+      Open		      on
       NumInputPorts	      "4"
       ZoomMode		      "yonly"
       List {
@@ -16438,10 +16459,8 @@ Model {
 	axes4			"%<SignalLabel>"
       }
       TimeRange		      "70"
-      YMin		      "-5.812499999999972~-10.62499999999994~-2.156249"
-"999999886~0.03515625000000001"
-      YMax		      "5.687500000000028~15.15625000000006~2.093750000"
-"000114~1.08984375"
+      YMin		      "-55~-65~-75~-2.5"
+      YMax		      "10~15~5~1"
       DataFormat	      "StructureWithTime"
       MaxDataPoints	      "25000"
       SampleTime	      "0"
@@ -16739,9 +16758,9 @@ Model {
     }
     Block {
       BlockType		      SubSystem
-      Name		      "Convert to Rad2"
+      Name		      "Convert to Rad3"
       Ports		      [1, 1]
-      Position		      [105, 267, 190, 293]
+      Position		      [105, 237, 190, 263]
       NamePlacement	      "alternate"
       ShowName		      off
       MinAlgLoopOccurrences   off
@@ -16761,10 +16780,10 @@ Model {
       MaskIconOpaque	      on
       MaskIconRotate	      "none"
       MaskIconUnits	      "autoscale"
-      MaskValueString	      "mPWMde|bPWMde"
+      MaskValueString	      "mPWMdr|bPWMdr"
       MaskTabNameString	      ","
       System {
-	Name			"Convert to Rad2"
+	Name			"Convert to Rad3"
 	Location		[917, 78, 1880, 1107]
 	Open			off
 	ModelBrowserVisibility	off
@@ -16841,21 +16860,16 @@ Model {
 	  BusOutputAsStruct	  off
 	}
 	Line {
-	  SrcBlock		  "Constant1"
+	  SrcBlock		  "Data Type Conversion"
 	  SrcPort		  1
-	  DstBlock		  "Divide"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Add"
-	  SrcPort		  1
-	  DstBlock		  "Data Type Conversion"
+	  DstBlock		  "Angle (rad)"
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Divide"
+	  SrcBlock		  "PWM"
 	  SrcPort		  1
-	  DstBlock		  "Add"
+	  Points		  [0, 15]
+	  DstBlock		  "Divide"
 	  DstPort		  1
 	}
 	Line {
@@ -16866,17 +16880,22 @@ Model {
 	  DstPort		  2
 	}
 	Line {
-	  SrcBlock		  "PWM"
+	  SrcBlock		  "Divide"
 	  SrcPort		  1
-	  Points		  [0, 15]
-	  DstBlock		  "Divide"
+	  DstBlock		  "Add"
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Data Type Conversion"
+	  SrcBlock		  "Add"
 	  SrcPort		  1
-	  DstBlock		  "Angle (rad)"
+	  DstBlock		  "Data Type Conversion"
 	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Constant1"
+	  SrcPort		  1
+	  DstBlock		  "Divide"
+	  DstPort		  2
 	}
 	Annotation {
 	  Position		  [216, 97]
@@ -16885,9 +16904,9 @@ Model {
     }
     Block {
       BlockType		      SubSystem
-      Name		      "Convert to Rad3"
+      Name		      "Convert to Rad4"
       Ports		      [1, 1]
-      Position		      [105, 237, 190, 263]
+      Position		      [105, 207, 190, 233]
       NamePlacement	      "alternate"
       ShowName		      off
       MinAlgLoopOccurrences   off
@@ -16907,10 +16926,10 @@ Model {
       MaskIconOpaque	      on
       MaskIconRotate	      "none"
       MaskIconUnits	      "autoscale"
-      MaskValueString	      "mPWMdr|bPWMdr"
+      MaskValueString	      "mPWMde|bPWMde"
       MaskTabNameString	      ","
       System {
-	Name			"Convert to Rad3"
+	Name			"Convert to Rad4"
 	Location		[917, 78, 1880, 1107]
 	Open			off
 	ModelBrowserVisibility	off
@@ -18239,6 +18258,15 @@ Model {
     }
     Block {
       BlockType		      Goto
+      Name		      "Goto12"
+      Position		      [210, 211, 260, 229]
+      BackgroundColor	      "magenta"
+      ShowName		      off
+      GotoTag		      "de_c"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      Goto
       Name		      "Goto2"
       Position		      [515, 276, 565, 294]
       BackgroundColor	      "magenta"
@@ -18316,15 +18344,6 @@ Model {
       BackgroundColor	      "magenta"
       ShowName		      off
       GotoTag		      "dr_c"
-      TagVisibility	      "local"
-    }
-    Block {
-      BlockType		      Goto
-      Name		      "Goto9"
-      Position		      [210, 271, 260, 289]
-      BackgroundColor	      "magenta"
-      ShowName		      off
-      GotoTag		      "de_c"
       TagVisibility	      "local"
     }
     Block {
@@ -18872,7 +18891,7 @@ Model {
     Block {
       BlockType		      Terminator
       Name		      "Terminator"
-      Position		      [105, 210, 125, 230]
+      Position		      [120, 270, 140, 290]
       ShowName		      off
     }
     Block {
@@ -18881,8 +18900,8 @@ Model {
       Ports		      [1]
       Position		      [265, 29, 295, 61]
       Floating		      off
-      Location		      [9, 877, 943, 1018]
-      Open		      off
+      Location		      [9, 753, 943, 894]
+      Open		      on
       NumInputPorts	      "1"
       ZoomMode		      "yonly"
       List {
@@ -20435,7 +20454,7 @@ Model {
     Line {
       SrcBlock		      "From AP"
       SrcPort		      4
-      DstBlock		      "Terminator"
+      DstBlock		      "Convert to Rad4"
       DstPort		      1
     }
     Line {
@@ -20464,12 +20483,6 @@ Model {
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Convert to Rad2"
-      SrcPort		      1
-      DstBlock		      "Goto9"
-      DstPort		      1
-    }
-    Line {
       SrcBlock		      "Convert to Rad3"
       SrcPort		      1
       DstBlock		      "Goto8"
@@ -20478,7 +20491,7 @@ Model {
     Line {
       SrcBlock		      "From AP"
       SrcPort		      6
-      DstBlock		      "Convert to Rad2"
+      DstBlock		      "Terminator"
       DstPort		      1
     }
     Line {
@@ -20674,6 +20687,12 @@ Model {
       SrcPort		      11
       Points		      [5, 0; 0, -15]
       DstBlock		      "Subsystem4"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Convert to Rad4"
+      SrcPort		      1
+      DstBlock		      "Goto12"
       DstPort		      1
     }
     Annotation {
