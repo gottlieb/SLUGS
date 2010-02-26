@@ -4,6 +4,8 @@
 
 "PDFs" has the schematics in PDF form, duh
 
+"link_board" is an Altium Designer 09 project containing schematics for the link board. This board sits between the Xtend radio and the groundstation laptop and acts as a go-between.
+
 Enjoy!
 
 -Greg Horn
