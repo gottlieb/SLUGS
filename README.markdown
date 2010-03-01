@@ -85,7 +85,7 @@ Sending a Board to Manufacture
 Building a Connection Harness
 -----------------------------
 
-(Comment: Remember to point out that the PIC12 should be preprogrammed. Jonathan Lowert, jonathan@lowert.dk)
+(Comment: Remember to point out that the PIC12 should be preprogrammed. Jonathan Lowert)
 
 Flight Harness
 --------------
