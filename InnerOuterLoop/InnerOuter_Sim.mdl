@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.1138"
+    ComputedModelVersion    "1.1139"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -40,15 +40,16 @@ Model {
   BrowserLookUnderMasks	  on
   CloseFcn		  "rtwprivate ssgencode ModelCloseRequest AttitudeComp"
 "lementary"
-  InitFcn		  "clc\nRascal_Var\ninnerOuterInit\nwpFile"
+  InitFcn		  "clc\nRascal_Var\ninnerOuterInit\nwpFile\nfailuresIn"
+"it"
   Created		  "Wed Jul 02 09:38:16 2008"
   Creator		  "ASL_Lab"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Feb 03 08:16:32 2010"
-  ModelVersionFormat	  "1.%<AutoIncrement:1138>"
+  LastModifiedDate	  "Tue Mar 02 16:13:51 2010"
+  ModelVersionFormat	  "1.%<AutoIncrement:1139>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -108,7 +109,7 @@ Model {
 	  $ObjectID		  2
 	  Version		  "1.2.0"
 	  StartTime		  "0.0"
-	  StopTime		  "80"
+	  StopTime		  "200"
 	  AbsTol		  "auto"
 	  FixedStep		  "SampleT"
 	  InitialStep		  "auto"
@@ -485,6 +486,11 @@ Model {
       SampleTime	      "-1"
     }
     Block {
+      BlockType		      ActionPort
+      InitializeStates	      "held"
+      ActionType	      "unset"
+    }
+    Block {
       BlockType		      BusCreator
       Inputs		      "4"
       DisplayOption	      "none"
@@ -620,10 +626,22 @@ Model {
       BlockType		      Ground
     }
     Block {
+      BlockType		      SignalConversion
+      OverrideOpt	      off
+    }
+    Block {
       BlockType		      HitCross
       HitCrossingOffset	      "0"
       HitCrossingDirection    "either"
       ShowOutputPort	      on
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      If
+      NumInputs		      "1"
+      IfExpression	      "u1 > 0"
+      ShowElse		      on
       ZeroCross		      on
       SampleTime	      "-1"
     }
@@ -677,6 +695,29 @@ Model {
       IgnoreLimit	      off
       ZeroCross		      on
       ContinuousStateAttributes	"''"
+    }
+    Block {
+      BlockType		      "Interpolation_n-D"
+      NumberOfTableDimensions "2"
+      Table		      "sqrt([1:11]' * [1:11])"
+      InterpMethod	      "Linear"
+      ExtrapMethod	      "Linear"
+      RangeErrorMode	      "None"
+      CheckIndexInCode	      on
+      ValidIndexMayReachLast  off
+      NumSelectionDims	      "0"
+      OutDataTypeMode	      "Inherit from table data"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SampleTime	      "-1"
+      LUTDesignTableMode      "Redesign Table"
+      LUTDesignDataSource     "Block Dialog"
+      LUTDesignFunctionName   "sqrt(x)"
+      LUTDesignUseExistingBP  on
+      LUTDesignRelError	      "0.01"
+      LUTDesignAbsError	      "1e-6"
     }
     Block {
       BlockType		      Logic
@@ -741,6 +782,24 @@ Model {
       InitialOutput	      "[]"
     }
     Block {
+      BlockType		      PreLookup
+      BreakpointsData	      "[10:10:100]"
+      IndexSearchMethod	      "Binary search"
+      BeginIndexSearchUsingPreviousIndexResult off
+      OutputOnlyTheIndex      off
+      ProcessOutOfRangeInput  "Clip to range"
+      UseLastBreakpoint	      off
+      ActionForOutOfRangeInput "None"
+      SampleTime	      "-1"
+      IndexDataTypeMode	      "uint32"
+      IndexDataType	      "sfix(16)"
+      FractionDataTypeMode    "Inherit via internal rule"
+      FractionDataType	      "sfix(16)"
+      FractionScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+    }
+    Block {
       BlockType		      Product
       Inputs		      "2"
       Multiplication	      "Element-wise(.*)"
@@ -777,9 +836,6 @@ Model {
       SampleTimeMode	      "continuous"
       InitialCondition	      "0"
       LinearizeAsGain	      on
-    }
-    Block {
-      BlockType		      Reference
     }
     Block {
       BlockType		      RelationalOperator
@@ -838,6 +894,16 @@ Model {
       FunctionName	      "system"
       SFunctionModules	      "''"
       PortCounts	      "[]"
+    }
+    Block {
+      BlockType		      SignalSpecification
+      Dimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
     }
     Block {
       BlockType		      Signum
@@ -953,7 +1019,7 @@ Model {
   }
   System {
     Name		    "InnerOuter_Sim"
-    Location		    [2, 78, 1387, 880]
+    Location		    [2, 82, 1387, 884]
     Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -979,7 +1045,7 @@ Model {
       System {
 	Name			"6DOF Model"
 	Location		[75, 107, 1068, 985]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -3522,7 +3588,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -5736,7 +5802,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -5763,7 +5829,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -6010,7 +6076,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -6036,7 +6102,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -6184,7 +6250,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -6204,7 +6270,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -6961,7 +7027,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -6981,7 +7047,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -7043,7 +7109,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -7063,7 +7129,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -7712,7 +7778,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -8114,7 +8180,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -8134,7 +8200,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -8154,7 +8220,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -8539,7 +8605,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -8659,7 +8725,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -8679,7 +8745,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -8699,7 +8765,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -8719,7 +8785,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -8969,7 +9035,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -9092,7 +9158,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -9118,7 +9184,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -9158,7 +9224,7 @@ Model {
 		    SourceType		    "Slider Gain"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -11074,7 +11140,7 @@ Model {
 		  SourceType		  "Angle Conversion"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -11254,7 +11320,7 @@ Model {
 		  SourceType		  "Flat Earth to LLA"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -11681,7 +11747,7 @@ Model {
 		  SourceType		  "Wind Turbulence Model"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -11697,7 +11763,7 @@ Model {
 		  Wingspan		  "span"
 		  ts			  "0.005"
 		  Seed			  "[23341 23342 23343 23344]"
-		  T_on			  "on"
+		  T_on			  on
 		}
 		Block {
 		  BlockType		  Reference
@@ -11710,7 +11776,7 @@ Model {
 		  SourceType		  "Euler2DCM"
 		  ShowPortLabels	  "none"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -11742,7 +11808,7 @@ Model {
 		  SourceType		  "Horizontal Wind Model"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -11764,13 +11830,13 @@ Model {
 "odel"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
 		  RTWMemSecDataInternal	  "Inherit from model"
 		  RTWMemSecDataParameters "Inherit from model"
-		  custom		  "off"
+		  custom		  off
 		  g			  "9.80665"
 		  gamma			  "1.4"
 		  R			  "287.0531"
@@ -11847,14 +11913,14 @@ Model {
 		  SourceType		  "Transpose"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
 		  RTWMemSecDataInternal	  "Inherit from model"
 		  RTWMemSecDataParameters "Inherit from model"
-		  Hermitian		  "off"
-		  overflowFlag		  "off"
+		  Hermitian		  off
+		  overflowFlag		  off
 		}
 		Block {
 		  BlockType		  UnitDelay
@@ -12114,14 +12180,14 @@ Model {
 		  SourceType		  "Transpose"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
 		  RTWMemSecDataInternal	  "Inherit from model"
 		  RTWMemSecDataParameters "Inherit from model"
-		  Hermitian		  "off"
-		  overflowFlag		  "off"
+		  Hermitian		  off
+		  overflowFlag		  off
 		}
 		Block {
 		  BlockType		  Constant
@@ -12501,7 +12567,7 @@ Model {
 		  SourceType		  "Compare To Zero"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -12509,7 +12575,7 @@ Model {
 		  RTWMemSecDataParameters "Inherit from model"
 		  relop			  ">="
 		  LogicOutDataTypeMode	  "uint8"
-		  ZeroCross		  "off"
+		  ZeroCross		  off
 		}
 		Block {
 		  BlockType		  Logic
@@ -13619,7 +13685,7 @@ Model {
 	      SourceType	      "Angle Conversion"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -13638,7 +13704,7 @@ Model {
 	      SourceType	      "Angle Conversion"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -13657,7 +13723,7 @@ Model {
 	      SourceType	      "Angle Conversion"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -13676,7 +13742,7 @@ Model {
 	      SourceType	      "Angle Conversion"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -13983,7 +14049,7 @@ Model {
 	      SourceType	      "Second Order Linear Actuator"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -14004,7 +14070,7 @@ Model {
 	      SourceType	      "Second Order Linear Actuator"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -14025,7 +14091,7 @@ Model {
 	      SourceType	      "Second Order Linear Actuator"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -14046,7 +14112,7 @@ Model {
 	      SourceType	      "Second Order Linear Actuator"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -14067,7 +14133,7 @@ Model {
 	      SourceType	      "Second Order Linear Actuator"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -16311,7 +16377,7 @@ Model {
 	  SourceType		  "SubSystem"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -16715,7 +16781,7 @@ Model {
 	      SourceType	      "Length Conversion"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -17613,7 +17679,7 @@ Model {
 	      SourceType	      "Environment Controller"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -17682,7 +17748,7 @@ Model {
 	  SourceType		  "SubSystem"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -20088,7 +20154,7 @@ Model {
 		    SourceType		    "Environment Controller"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -20235,7 +20301,7 @@ Model {
 		  SourceType		  "Difference"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -20245,9 +20311,9 @@ Model {
 		  OutputDataTypeScalingMode "Inherit via internal rule"
 		  OutDataType		  "sfix(16)"
 		  OutScaling		  "2^-10"
-		  LockScale		  "off"
+		  LockScale		  off
 		  RndMeth		  "Floor"
-		  DoSatur		  "off"
+		  DoSatur		  off
 		}
 		Block {
 		  BlockType		  Saturate
@@ -20605,7 +20671,7 @@ Model {
 	      SourceType	      "Compare To Zero"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -20613,7 +20679,7 @@ Model {
 	      RTWMemSecDataParameters "Inherit from model"
 	      relop		      ">="
 	      LogicOutDataTypeMode    "boolean"
-	      ZeroCross		      "off"
+	      ZeroCross		      off
 	    }
 	    Block {
 	      BlockType		      Reference
@@ -20626,7 +20692,7 @@ Model {
 	      SourceType	      "Compare To Zero"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -20634,7 +20700,7 @@ Model {
 	      RTWMemSecDataParameters "Inherit from model"
 	      relop		      ">"
 	      LogicOutDataTypeMode    "boolean"
-	      ZeroCross		      "off"
+	      ZeroCross		      off
 	    }
 	    Block {
 	      BlockType		      DataTypeConversion
@@ -21791,7 +21857,7 @@ Model {
 		    SourceType		    "Environment Controller"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -21938,7 +22004,7 @@ Model {
 		  SourceType		  "Difference"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -21948,9 +22014,9 @@ Model {
 		  OutputDataTypeScalingMode "Inherit via internal rule"
 		  OutDataType		  "sfix(16)"
 		  OutScaling		  "2^-10"
-		  LockScale		  "off"
+		  LockScale		  off
 		  RndMeth		  "Floor"
-		  DoSatur		  "off"
+		  DoSatur		  off
 		}
 		Block {
 		  BlockType		  Saturate
@@ -22735,7 +22801,7 @@ Model {
 		  SourceType		  "Difference"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -22745,9 +22811,9 @@ Model {
 		  OutputDataTypeScalingMode "Inherit via internal rule"
 		  OutDataType		  "sfix(16)"
 		  OutScaling		  "2^-10"
-		  LockScale		  "off"
+		  LockScale		  off
 		  RndMeth		  "Floor"
-		  DoSatur		  "off"
+		  DoSatur		  off
 		}
 		Block {
 		  BlockType		  Saturate
@@ -23142,7 +23208,7 @@ Model {
 	      SourceType	      "Compare To Zero"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -23150,7 +23216,7 @@ Model {
 	      RTWMemSecDataParameters "Inherit from model"
 	      relop		      ">="
 	      LogicOutDataTypeMode    "boolean"
-	      ZeroCross		      "off"
+	      ZeroCross		      off
 	    }
 	    Block {
 	      BlockType		      Reference
@@ -23163,7 +23229,7 @@ Model {
 	      SourceType	      "Compare To Zero"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -23171,7 +23237,7 @@ Model {
 	      RTWMemSecDataParameters "Inherit from model"
 	      relop		      ">"
 	      LogicOutDataTypeMode    "boolean"
-	      ZeroCross		      "off"
+	      ZeroCross		      off
 	    }
 	    Block {
 	      BlockType		      DataTypeConversion
@@ -24138,7 +24204,7 @@ Model {
 		  SourceType		  "Difference"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -24148,9 +24214,9 @@ Model {
 		  OutputDataTypeScalingMode "Inherit via internal rule"
 		  OutDataType		  "sfix(16)"
 		  OutScaling		  "2^-10"
-		  LockScale		  "off"
+		  LockScale		  off
 		  RndMeth		  "Floor"
-		  DoSatur		  "off"
+		  DoSatur		  off
 		}
 		Block {
 		  BlockType		  Saturate
@@ -25003,7 +25069,7 @@ Model {
 	      SourceType	      "SubSystem"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -25219,10 +25285,10 @@ Model {
 	  Ports			  [4, 1]
 	  Position		  [745, 212, 875, 408]
 	  SourceBlock		  "SLUGS_Library/Control Blocks/PID Controller"
-	  SourceType		  "Unknown"
+	  SourceType		  ""
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -25239,10 +25305,10 @@ Model {
 	  Ports			  [4, 1]
 	  Position		  [435, 402, 565, 598]
 	  SourceBlock		  "SLUGS_Library/Control Blocks/PID Controller"
-	  SourceType		  "Unknown"
+	  SourceType		  ""
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -25411,7 +25477,7 @@ Model {
 		  SourceType		  "SubSystem"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -25815,7 +25881,7 @@ Model {
 		    SourceType		    "Difference"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -25825,9 +25891,9 @@ Model {
 		    OutputDataTypeScalingMode "Inherit via internal rule"
 		    OutDataType		    "sfix(16)"
 		    OutScaling		    "2^-10"
-		    LockScale		    "off"
+		    LockScale		    off
 		    RndMeth		    "Floor"
-		    DoSatur		    "off"
+		    DoSatur		    off
 		    }
 		    Block {
 		    BlockType		    Saturate
@@ -26139,7 +26205,7 @@ Model {
 		  SourceType		  "SubSystem"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -26393,7 +26459,7 @@ Model {
 	      SourceType	      "SubSystem"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -27277,7 +27343,7 @@ Model {
 	      SourceType	      "Length Conversion"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -27304,7 +27370,7 @@ Model {
 	      SourceType	      "SubSystem"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -27453,7 +27519,7 @@ Model {
 	      SourceType	      "SubSystem"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -27595,10 +27661,10 @@ Model {
 	  Ports			  [4, 1]
 	  Position		  [285, 301, 410, 419]
 	  SourceBlock		  "SLUGS_Library/Control Blocks/PI Controller"
-	  SourceType		  "Unknown"
+	  SourceType		  ""
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -28009,10 +28075,10 @@ Model {
 	  Ports			  [4, 1]
 	  Position		  [615, 356, 740, 474]
 	  SourceBlock		  "SLUGS_Library/Control Blocks/PID Controller"
-	  SourceType		  "Unknown"
+	  SourceType		  ""
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData "off"
+	  FunctionWithSeparateData off
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -28885,8 +28951,8 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Navigation"
-	Location		[2, 82, 1244, 1000]
-	Open			on
+	Location		[2, 82, 1404, 884]
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -29200,7 +29266,7 @@ Model {
 		    SourceType		    "SubSystem"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -29761,7 +29827,7 @@ Model {
 		    SourceType		    "SubSystem"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -29779,7 +29845,7 @@ Model {
 		    SourceType		    "SubSystem"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -30057,7 +30123,7 @@ Model {
 		    SourceType		    "SubSystem"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -30568,7 +30634,7 @@ Model {
 		    SourceType		    "Environment Controller"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -31601,7 +31667,7 @@ Model {
 		  SourceType		  "Compare To Zero"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -31609,7 +31675,7 @@ Model {
 		  RTWMemSecDataParameters "Inherit from model"
 		  relop			  ">"
 		  LogicOutDataTypeMode	  "uint8"
-		  ZeroCross		  "off"
+		  ZeroCross		  off
 		}
 		Block {
 		  BlockType		  SubSystem
@@ -32183,7 +32249,7 @@ Model {
 		    SourceType		    "SubSystem"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -32894,7 +32960,7 @@ Model {
 		    SourceType		    "Difference"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -32904,9 +32970,9 @@ Model {
 		    OutputDataTypeScalingMode "Inherit via internal rule"
 		    OutDataType		    "sfix(16)"
 		    OutScaling		    "2^-10"
-		    LockScale		    "off"
+		    LockScale		    off
 		    RndMeth		    "Floor"
-		    DoSatur		    "off"
+		    DoSatur		    off
 		    }
 		    Block {
 		    BlockType		    Saturate
@@ -32926,7 +32992,7 @@ Model {
 		    SourceType		    "SubSystem"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -33007,7 +33073,7 @@ Model {
 		    SourceType		    "Difference"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -33017,9 +33083,9 @@ Model {
 		    OutputDataTypeScalingMode "Inherit via internal rule"
 		    OutDataType		    "sfix(16)"
 		    OutScaling		    "2^-10"
-		    LockScale		    "off"
+		    LockScale		    off
 		    RndMeth		    "Floor"
-		    DoSatur		    "off"
+		    DoSatur		    off
 		    }
 		    Block {
 		    BlockType		    Saturate
@@ -33039,7 +33105,7 @@ Model {
 		    SourceType		    "SubSystem"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -33120,7 +33186,7 @@ Model {
 		    SourceType		    "Difference"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -33130,9 +33196,9 @@ Model {
 		    OutputDataTypeScalingMode "Inherit via internal rule"
 		    OutDataType		    "sfix(16)"
 		    OutScaling		    "2^-10"
-		    LockScale		    "off"
+		    LockScale		    off
 		    RndMeth		    "Floor"
-		    DoSatur		    "off"
+		    DoSatur		    off
 		    }
 		    Block {
 		    BlockType		    Saturate
@@ -33152,7 +33218,7 @@ Model {
 		    SourceType		    "SubSystem"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -33790,7 +33856,7 @@ Model {
 	      SourceType	      "SubSystem"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -33817,7 +33883,7 @@ Model {
 	      SourceType	      "SubSystem"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -33835,7 +33901,7 @@ Model {
 	      SourceType	      "SubSystem"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -34131,7 +34197,7 @@ Model {
 		  SourceType		  "Angle Conversion"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -34149,7 +34215,7 @@ Model {
 		  SourceType		  "Angle Conversion"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -34167,7 +34233,7 @@ Model {
 		  SourceType		  "Angle Conversion"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -34250,7 +34316,7 @@ Model {
 		    SourceType		    "SubSystem"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -34371,7 +34437,7 @@ Model {
 		    SourceType		    "SubSystem"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -34428,7 +34494,7 @@ Model {
 		    SourceType		    "Stateflow"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -34752,7 +34818,7 @@ Model {
 		    SourceType		    "Angle Conversion"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -34770,7 +34836,7 @@ Model {
 		    SourceType		    "Angle Conversion"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -34788,7 +34854,7 @@ Model {
 		    SourceType		    "Angle Conversion"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -34806,7 +34872,7 @@ Model {
 		    SourceType		    "Angle Conversion"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -34824,7 +34890,7 @@ Model {
 		    SourceType		    "Angle Conversion"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -34842,7 +34908,7 @@ Model {
 		    SourceType		    "Angle Conversion"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -34861,7 +34927,7 @@ Model {
 		    SourceType		    "Compare To Zero"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -34869,7 +34935,7 @@ Model {
 		    RTWMemSecDataParameters "Inherit from model"
 		    relop		    "<"
 		    LogicOutDataTypeMode    "uint8"
-		    ZeroCross		    "off"
+		    ZeroCross		    off
 		    }
 		    Block {
 		    BlockType		    Constant
@@ -34954,7 +35020,7 @@ Model {
 		    SourceType		    "Stateflow"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -35303,7 +35369,7 @@ Model {
 		    SourceType		    "SubSystem"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -35349,7 +35415,7 @@ Model {
 		    SourceType		    "Stateflow"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -35503,7 +35569,7 @@ Model {
 		    SourceType		    "Stateflow"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -35543,7 +35609,7 @@ Model {
 		    SourceType		    "SubSystem"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -36108,7 +36174,7 @@ Model {
 		  SourceType		  "CrossProduct"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -36139,7 +36205,7 @@ Model {
 		  SourceType		  "SubSystem"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -36168,7 +36234,7 @@ Model {
 		  SourceType		  "SubSystem"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -36475,7 +36541,7 @@ Model {
 		  SourceType		  "SubSystem"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -36735,7 +36801,7 @@ Model {
 		  SourceType		  "SubSystem"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -36915,7 +36981,7 @@ Model {
 		    SourceType		    "SubSystem"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -36939,7 +37005,7 @@ Model {
 		    SourceType		    "SubSystem"
 		    ShowPortLabels	    "FromPortIcon"
 		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData "off"
+		    FunctionWithSeparateData off
 		    RTWMemSecFuncInitTerm   "Inherit from model"
 		    RTWMemSecFuncExecute    "Inherit from model"
 		    RTWMemSecDataConstants  "Inherit from model"
@@ -37230,7 +37296,7 @@ Model {
 		  SourceType		  "SubSystem"
 		  ShowPortLabels	  "FromPortIcon"
 		  SystemSampleTime	  "-1"
-		  FunctionWithSeparateData "off"
+		  FunctionWithSeparateData off
 		  RTWMemSecFuncInitTerm	  "Inherit from model"
 		  RTWMemSecFuncExecute	  "Inherit from model"
 		  RTWMemSecDataConstants  "Inherit from model"
@@ -37636,7 +37702,7 @@ Model {
 	      SourceType	      "SubSystem"
 	      ShowPortLabels	      "FromPortIcon"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
