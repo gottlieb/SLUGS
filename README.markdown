@@ -78,6 +78,24 @@ Ground Station
 
 Repository Organization
 -----------------------
+The main Simulink models for each of the DSCs lie in the repository's root directory, they are aptly named ControlMCUSlugsMKII and SensorMCUSlugsMKII. Additionally the repository also includes HEX files of each model.
+
+The root directory also contains an init script (`mcuInit.m`) and a Simulink Library with the most commonly used blocks (`SLUGS_Library.mdl`).
+
+There are eight subdirectories, each with its own README file:
+
+* **Calibration**: It contains all the m-files to produce the magnetometer and accelerometer calibration numbers based on collected data sets. It also contains the temperature compensation scripts.
+* **clib**: Contains all the C-files used by Simulink
+* **DataSamples**: Self explanatory
+* **FlightData**: It contains a script to analyze the collected data from a telemtry file. It also contains a Simulink model to replay the telemetry file.
+* **GroundStation**: It contains all the source code of the ground station software.
+* **hardware**: It contains all the source, PDFs and Gerbers of the hardware.
+* **HILSim**: It contains the Simulink file used for the HIL Simulator.
+* **InnerOuterLoop**: It contains the main Simulink file to run software simulation, whic includes a full 6DOF model of the Rascal UAV, the inner and outer loop. It also contains some scripts to analyze the data after every simulation. 
+
+It is important to note that the repository includes a `.gitattributes` file which is used to make Git treat the Simulink model files as binaries (even though they are really text files). This facilitates handling of the MDL files but the tradeoff is that it makes contributions harder. 
+
+
 
 Sending a Board to Manufacture
 ------------------------------
@@ -95,6 +113,9 @@ Ground Harness
 
 Understanding the Architecture
 ------------------------------
+
+How to Contribute
+-----------------
 
 4. Installing Hardware to the UAV
 
