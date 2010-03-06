@@ -36,33 +36,33 @@ title('Reference Path for PM_3 and PM_4');
 plotCirc
 axis equal;
 
-%  for j=l:25:i
-%      % plot the UAV postion
-%      switch apMode(j)
-%          case 1
-%             plot(y(j),x(j),'gx');
-%          case 2
-%              plot(y(j),x(j),'rx');
-%          case 0
-%              plot(y(j),x(j),'bx');
-%      end 
-%      %plot the velocity vector
-%      %plot ([y(j) y(j)+ve(j)], [x(j) x(j)+vn(j)], 'r');
-%      
-%      %plot the L2 vector
-% %      if j > 1000 %&& apMode(j) == 0
-% %         plot ([y(j) y(j)+L1(j,2)], [x(j) x(j)+L1(j,1)], 'b-');
-% %      end
-%      % plot N exagerated (multiplied by 20)
-%       %plot ([y(j) y(j)+20*N(j,2)], [x(j) x(j)+20*N(j,1)], 'c-');
-%       
-%      %pause the animation
-%      if pauseOn == 1
-%         if (mod(j-1,200)==0)
-%              pause(0.01);
-%         end
-%      end
-%  end
+ for j=l:25:i
+     % plot the UAV postion
+     switch apMode(j)
+         case 1
+            plot(y(j),x(j),'gx');
+         case 2
+             plot(y(j),x(j),'rx');
+         case 0
+             plot(y(j),x(j),'bx');
+     end 
+     %plot the velocity vector
+     plot ([y(j) y(j)+ve(j)], [x(j) x(j)+vn(j)], 'r');
+     
+     %plot the L2 vector
+     if j > 10 %&& apMode(j) == 0
+        plot ([y(j) y(j)+L1(j,2)], [x(j) x(j)+L1(j,1)], 'b-');
+     end
+     % plot N exagerated (multiplied by 20)
+      plot ([y(j) y(j)+20*N(j,2)], [x(j) x(j)+20*N(j,1)], 'c-');
+      
+     %pause the animation
+     if pauseOn == 1
+        if (mod(j-1,200)==0)
+             pause(0.01);
+        end
+     end
+ end
  xlabel('X(m)');
  ylabel('Y(m)');
  grid on;
