@@ -50,7 +50,7 @@ axis equal;
      plot ([y(j) y(j)+ve(j)], [x(j) x(j)+vn(j)], 'r');
      
      %plot the L2 vector
-     if j > 10 %&& apMode(j) == 0
+     if j > 10 && L2Enabled(j) == 1
         plot ([y(j) y(j)+L1(j,2)], [x(j) x(j)+L1(j,1)], 'b-');
      end
      % plot N exagerated (multiplied by 20)
@@ -59,17 +59,17 @@ axis equal;
      %pause the animation
      if pauseOn == 1
         if (mod(j-1,200)==0)
-             pause(0.01);
+             pause(0.1);
         end
      end
  end
- xlabel('X(m)');
- ylabel('Y(m)');
+ xlabel('Y(m)');
+ ylabel('X(m)');
  grid on;
  hold off
  
- eval(['print -depsc  '  num2str(figct) '_'  datestr(now,1) '_' ... 
-     datestr(now,'HH') '_' datestr(now,'MM') '_' datestr(now,'SS')]);
+%  eval(['print -depsc  '  num2str(figct) '_'  datestr(now,1) '_' ... 
+%      datestr(now,'HH') '_' datestr(now,'MM') '_' datestr(now,'SS')]);
  figct = figct + 1;
 %%  Collect the rest of the values
 %time 

@@ -7,7 +7,7 @@ tp = 0:0.1:2*pi;
 
 figure(figct)
 hold on;
-for ii = 6:2:length(cent)
+for ii = 4:1:length(cent)
     plot(cent(ii,2)+R*cos(tp), cent(ii,1)+R*sin(tp),'k');
     plot(cent(ii,2), cent(ii,1),'vk');
     
