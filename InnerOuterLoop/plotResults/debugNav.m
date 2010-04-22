@@ -16,7 +16,7 @@ vd = vd(:);
  figct = 1;
  
 % Turn the Pause On
-pauseOn = 1;
+pauseOn = 0;
 
 %% Start the Main loop
 figure(figct);
