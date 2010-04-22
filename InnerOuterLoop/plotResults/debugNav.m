@@ -13,11 +13,11 @@ vd = vd(:);
 % housekeeping variables
  l = 1;
  i =  length(eta);
- %i = 7260;
  figct = 1;
  
 % Turn the Pause On
 pauseOn = 1;
+
 %% Start the Main loop
 figure(figct);
 %figure(2);
@@ -38,14 +38,8 @@ axis equal;
 
  for j=l:25:i
      % plot the UAV postion
-     switch apMode(j)
-         case 1
-            plot(y(j),x(j),'gx');
-         case 2
-             plot(y(j),x(j),'rx');
-         case 0
-             plot(y(j),x(j),'bx');
-     end 
+      plot(y(j),x(j),'gx');
+
      %plot the velocity vector
      plot ([y(j) y(j)+ve(j)], [x(j) x(j)+vn(j)], 'r');
      
@@ -201,73 +195,6 @@ subplot(3,1,3)
  figct = figct + 1;
 
  
-%   figure(figct)
-%   subplot(4,2,1)
-%     plot(timePl,decPl,'b'); 
-%     xlabel('Time(s)');
-%     ylabel('Elevator (deg)');
-%     title('Commanded');
-%     axis tight
-%   subplot(4,2,2)
-%     plot(timePl,deservoPl,'r'); 
-%     xlabel('Time(s)');
-%     title('After Servo Dynamics');
-%     axis tight
-%   subplot(4,2,3)
-%     plot(timePl,dacPl,'b'); 
-%     xlabel('Time(s)');
-%     ylabel('Aileron (deg)');
-%     axis tight
-%   subplot(4,2,4)
-%     plot(timePl,daservoPl,'r'); 
-%     xlabel('Time(s)');
-%     axis tight  
-%    subplot(4,2,5)
-%     plot(timePl,drcPl,'b'); 
-%     xlabel('Time(s)');
-%     ylabel('Rudder (deg)');
-%     axis tight
-%   subplot(4,2,6)
-%     plot(timePl,drservoPl,'r'); 
-%     xlabel('Time(s)');
-%     axis tight  
-%   subplot(4,2,7)
-%     plot(timePl,dtcPl,'b'); 
-%     xlabel('Time(s)');
-%     ylabel('Throttle (%)');
-%     axis tight
-%   subplot(4,2,8)
-%     plot(timePl,dtservoPl,'r'); 
-%     xlabel('Time(s)');
-%     axis tight    
-%  
-% 
-%  eval(['print -depsc  '  num2str(figct) '_'  datestr(now,1) '_' ... 
-%      datestr(now,'HH') '_' datestr(now,'MM') '_' datestr(now,'SS')]);
-%  figct = figct + 1;
-
-%  figure(figct)
-%  subplot(4,1,1)
-%    plot(windTime,xw,'b'); 
-%    xlabel('Time(s)');
-%    ylabel('Wind X Component (m/s)');
-%  subplot(4,1,2)
-%    plot(windTime,yw,'b'); 
-%    xlabel('Time(s)');
-%    ylabel('Wind Y Component (m/s)');
-%  subplot(4,1,3)
-%    plot(windTime,zw,'b'); 
-%    xlabel('Time(s)');
-%    ylabel('Wind Z Component (m/s)');
-% subplot(4,1,4)
-%    plot(windTime,sqrt(xw.*xw + yw.*yw+ zw.*zw),'b'); 
-%    xlabel('Time(s)');
-%    ylabel('Total Wind Speed  (m/s)');
-%    legend(['BS = ', num2str(windBase), ' TD = ', num2str(windDirTurb) , ' HD = ' , num2str(windDirHor)])
-% 
-%  eval(['print -depsc  '  num2str(figct) '_'  datestr(now,1) '_' ... 
-%      datestr(now,'HH') '_' datestr(now,'MM') '_' datestr(now,'SS')]);
-%  figct = figct + 1;
 
  figure(figct)
  subplot(4,1,1)
@@ -281,13 +208,13 @@ subplot(3,1,3)
    ylabel('Acceleration Command');
    grid on
 subplot(4,1,3)
-   plot(timePl,L2,'b'); 
-   xlabel('Time(s)');
+   plot(L2,'b'); 
+   xlabel('Time(.01 s)');
    ylabel('L2 Magnitude');
    grid on
 subplot(4,1,4)
-   plot(timePl,rad2deg(eta),'b'); 
-   xlabel('Time(s)');
+   plot(rad2deg(eta),'b'); 
+   xlabel('Time(.01 s)');
    ylabel('Eta(rad)');
    grid on
    
@@ -295,45 +222,7 @@ subplot(4,1,4)
      datestr(now,'HH') '_' datestr(now,'MM') '_' datestr(now,'SS')]);
  figct = figct + 1;
  
-%% Create the plot comparison for L2 scheduling
-% 
-% x_axis = as_c./sin(eta);
-% idx = find (isnan(x_axis));
-% 
-% gsp_cpy = sqrt(Vxyz(:,1).^2 + Vxyz(:,2).^2 + Vxyz(:,3).^2);
-% 
-% x_axis(idx) =[];
-% gsp_cpy(idx) = [];
-% 
-% 
-%  figure(figct)
-% plot(2*gsp_cpy, x_axis);
-%    xlabel('2*Groundspeed');
-%    ylabel('as_c/sin(\eta)');
-%    grid on
 
-% %% Compute error value. For now just in straight segment
-% 
-% idx = find(apMode ~= 1);
-% Pey_c = Pey;
-% Pey_c(idx) = 0;
-% 
-% pe_mean = mean(abs(Pey_c));
-% 
-%  figure(figct)
-%    plot(timePl, Pey_c);
-%    hold on
-%    plot(timePl, ones(size(Pey_c))*pe_mean, 'r-')
-%    hold off
-%    xlabel('Time(s)');
-%    ylabel('Lateral Error in Line Mode (m)');
-%       legend(['Mean Error = ', num2str(pe_mean), ' Max Error = ', num2str(max(abs(Pey_c)))])
-%    grid on
-% 
-% eval(['print -depsc  '  num2str(figct) '_'  datestr(now,1) '_' ... 
-%      datestr(now,'HH') '_' datestr(now,'MM') '_' datestr(now,'SS')]);
-%  figct = figct + 1;
-%% Thesis Results
 %% Longitudinal  Channel (Um, Theta, H)
 
  figure(figct)

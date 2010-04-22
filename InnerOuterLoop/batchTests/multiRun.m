@@ -1,5 +1,5 @@
 %% Initialize failure variables
-failuresInit;
+run ..\Configuration\failuresInit.m;
 figct =85;
 compensatorOn = 0;
 
@@ -14,7 +14,7 @@ daR_fail = 0;
 dr_fail  = 0;
 da_failamp = 0;
 
-sim('InnerOuter_Sim.mdl');
+sim('..\InnerOuter_Sim.mdl');
 debugNav;
 close all;
 clc;
@@ -27,7 +27,7 @@ daR_fail = 1;
 dr_fail  = 0;
 da_failamp = 20;
 
-sim('InnerOuter_Sim.mdl');
+sim('..\InnerOuter_Sim.mdl');
 debugNav;
 close all;
 clc;
@@ -39,7 +39,7 @@ daR_fail = 0;
 dr_fail  = 1;
 da_failamp = 10;
 
-sim('InnerOuter_Sim.mdl');
+sim('..\InnerOuter_Sim.mdl');
 debugNav;
 close all;
 clc;
@@ -55,7 +55,7 @@ daR_fail = 0;
 dr_fail  = 0;
 da_failamp = 0;
 
-sim('InnerOuter_Sim.mdl');
+sim('..\InnerOuter_Sim.mdl');
 debugNav;
 close all;
 clc;
@@ -68,7 +68,7 @@ daR_fail = 1;
 dr_fail  = 0;
 da_failamp = 20;
 
-sim('InnerOuter_Sim.mdl');
+sim('..\InnerOuter_Sim.mdl');
 debugNav;
 close all;
 clc;
@@ -80,7 +80,7 @@ daR_fail = 0;
 dr_fail  = 1;
 da_failamp = 10;
 
-sim('InnerOuter_Sim.mdl');
+sim('..\InnerOuter_Sim.mdl');
 debugNav;
 close all;
 clc;
@@ -96,7 +96,7 @@ daR_fail = 0;
 dr_fail  = 0;
 da_failamp = 0;
 
-sim('InnerOuter_Sim.mdl');
+sim('..\InnerOuter_Sim.mdl');
 debugNav;
 close all;
 clc;
@@ -109,7 +109,7 @@ daR_fail = 1;
 dr_fail  = 0;
 da_failamp = 20;
 
-sim('InnerOuter_Sim.mdl');
+sim('..\InnerOuter_Sim.mdl');
 debugNav;
 close all;
 clc;
@@ -121,7 +121,7 @@ daR_fail = 0;
 dr_fail  = 1;
 da_failamp = 10;
 
-sim('InnerOuter_Sim.mdl');
+sim('..\InnerOuter_Sim.mdl');
 debugNav;
 close all;
 clc;
@@ -138,7 +138,7 @@ daR_fail = 0;
 dr_fail  = 1;
 da_failamp = 5;
 
-sim('InnerOuter_Sim.mdl');
+sim('..\InnerOuter_Sim.mdl');
 debugNav;
 close all;
 clc;
@@ -154,7 +154,7 @@ daR_fail = 0;
 dr_fail  = 1;
 da_failamp = 5;
 
-sim('InnerOuter_Sim.mdl');
+sim('..\InnerOuter_Sim.mdl');
 debugNav;
 close all;
 clc;
@@ -170,7 +170,7 @@ daR_fail = 0;
 dr_fail  = 1;
 da_failamp = 5;
 
-sim('InnerOuter_Sim.mdl');
+sim('..\InnerOuter_Sim.mdl');
 debugNav;
 close all;
 clc;

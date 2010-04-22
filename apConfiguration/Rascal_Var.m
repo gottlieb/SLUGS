@@ -1,7 +1,5 @@
 %% Sig RASCAL 110 data
 clc;
-SampleT=0.005;
-r_lim=200*pi/180;
 
 % Standartd Atmosphere
     ISA_lapse = .0065;          % Lapse rate            (degC/m)
@@ -75,30 +73,3 @@ CmDe    = -3.2;        %  pitch control power
  MinThK    = 0.077;
  ThK       = 2.17;
  TFact     = 0.4;%1.0;
- 
-% Wind Configuration
-windBase = 3.5;
-windDirTurb = 180;
-windDirHor = 180;
-
-% Baro Altitude Computation
-% =========================
-baseHeight = 180;
-baseTemp = 288.215;
-lapseRate = -0.00198122;
-
-% GS Location. East field location
-GS_location = [0 36.9898376464844 -122.051963806152];
-
-%  Initial Conditions in ENU (all vector data is represented as a column
-%  vectors) for the quaternion
-Euler_quat = [0; 0;  0]';     % Initial Euler angles    (rad)
-
-% initial quaternion
-cph = cos(Euler_quat(1)/2); sph = sin(Euler_quat(1)/2);
-cth = cos(Euler_quat(2)/2); sth = sin(Euler_quat(2)/2);
-cps = cos(Euler_quat(3)/2); sps = sin(Euler_quat(3)/2);
-q_quat(1) = cph*cth*cps + sph*sth*sps;
-q_quat(2) = sph*cth*cps - cph*sth*sps;
-q_quat(3) = cph*sth*cps + sph*cth*sps;
-q_quat(4) = cph*cth*sps - sph*sth*cps;
