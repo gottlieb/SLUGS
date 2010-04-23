@@ -1,5 +1,6 @@
 %% General Values
 derivativesConstant = 5;
+
 apSampleTime = 0.01;
 T = 0.01;
 SampleT=0.005;
@@ -7,6 +8,12 @@ SampleT=0.005;
 
 %% Run the Required Configuration Files for Simulation
 run ..\apConfiguration\Rascal_Var.m
+run ..\apConfiguration\compFilterInit.m
+
+% ===== Replace this one with your location file ====
+run ..\apConfiguration\gsLocation.m
+% ===================================================
+
 run ..\apConfiguration\simulationWPFile.m
 run ..\apConfiguration\failuresInit.m
 run ..\apConfiguration\limits.m

@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.1190"
+    ComputedModelVersion    "1.1191"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -47,8 +47,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Apr 23 12:59:57 2010"
-  ModelVersionFormat	  "1.%<AutoIncrement:1190>"
+  LastModifiedDate	  "Fri Apr 23 14:25:09 2010"
+  ModelVersionFormat	  "1.%<AutoIncrement:1191>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -534,30 +534,6 @@ Model {
       Outputs		      "4"
       DisplayOption	      "none"
       BusSelectionMode	      off
-    }
-    Block {
-      BlockType		      DiscreteIntegrator
-      IntegratorMethod	      "Integration: Forward Euler"
-      gainval		      "1.0"
-      ExternalReset	      "none"
-      InitialConditionSource  "internal"
-      InitialCondition	      "0"
-      InitialConditionMode    "State and output"
-      SampleTime	      "1"
-      OutDataTypeMode	      "Inherit via internal rule"
-      OutDataType	      "sfix(16)"
-      OutScaling	      "2^0"
-      LockScale		      off
-      RndMeth		      "Floor"
-      SaturateOnIntegerOverflow	off
-      LimitOutput	      off
-      UpperSaturationLimit    "inf"
-      LowerSaturationLimit    "-inf"
-      ShowSaturationPort      off
-      ShowStatePort	      off
-      IgnoreLimit	      off
-      StateMustResolveToSignalObject off
-      RTWStateStorageClass    "Auto"
     }
     Block {
       BlockType		      DiscretePulseGenerator
@@ -19879,7 +19855,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "psi_dot_c"
-	  Position		  [615, 88, 645, 102]
+	  Position		  [720, 93, 750, 107]
 	  BackgroundColor	  "darkGreen"
 	  IconDisplay		  "Port number"
 	  Port {
@@ -19914,7 +19890,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "omega"
-	  Position		  [690, 153, 720, 167]
+	  Position		  [790, 153, 820, 167]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "4"
 	  IconDisplay		  "Port number"
@@ -19936,8 +19912,9 @@ Model {
 	Block {
 	  BlockType		  EnablePort
 	  Name			  "Enable"
-	  Ports			  []
-	  Position		  [465, 40, 485, 60]
+	  Ports			  [0, 1]
+	  Position		  [510, 215, 530, 235]
+	  ShowOutputPort	  on
 	}
 	Block {
 	  BlockType		  Constant
@@ -19958,7 +19935,7 @@ Model {
 	  BlockType		  SubSystem
 	  Name			  "Control \nLaw"
 	  Ports			  [2, 1]
-	  Position		  [740, 144, 805, 206]
+	  Position		  [845, 149, 910, 211]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
@@ -20506,7 +20483,7 @@ Model {
 	  BlockType		  Reference
 	  Name			  "Integer Delay"
 	  Ports			  [1, 1]
-	  Position		  [740, 78, 775, 112]
+	  Position		  [845, 83, 880, 117]
 	  ShowName		  off
 	  SourceBlock		  "simulink/Discrete/Integer Delay"
 	  SourceType		  "Integer Delay"
@@ -20534,26 +20511,14 @@ Model {
 	  NumDelays		  "1"
 	}
 	Block {
-	  BlockType		  DiscreteIntegrator
-	  Name			  "Integration"
+	  BlockType		  Logic
+	  Name			  "Logical\nOperator"
 	  Ports			  [1, 1]
-	  Position		  [615, 167, 680, 213]
-	  IntegratorMethod	  "Integration: Trapezoidal"
-	  ExternalReset		  "none"
-	  InitialConditionSource  "internal"
-	  SampleTime		  "apSampleTime"
-	  LimitOutput		  on
-	  UpperSaturationLimit	  "1"
-	  LowerSaturationLimit	  "-1"
-	  IgnoreLimit		  off
-	  ICPrevOutput		  "DiscIntNeverNeededParam"
-	  ICPrevScaledInput	  "DiscIntNeverNeededParam"
-	  Port {
-	    PortNumber		    1
-	    Name		    "sigma_hat"
-	    RTWStorageClass	    "Auto"
-	    DataLoggingNameMode	    "SignalName"
-	  }
+	  Position		  [595, 209, 625, 241]
+	  ShowName		  off
+	  Operator		  "NOT"
+	  AllPortsSameDT	  off
+	  OutDataTypeMode	  "Specify via dialog"
 	}
 	Block {
 	  BlockType		  Product
@@ -21659,7 +21624,7 @@ Model {
 	Block {
 	  BlockType		  Saturate
 	  Name			  "Psi Dot \nLimit"
-	  Position		  [920, 160, 950, 190]
+	  Position		  [1025, 165, 1055, 195]
 	  UpperLimit		  "1"
 	  LowerLimit		  "-1"
 	  SampleTime		  "apSampleTime"
@@ -22234,7 +22199,7 @@ Model {
 	  BlockType		  Sum
 	  Name			  "Sum4"
 	  Ports			  [2, 1]
-	  Position		  [880, 165, 900, 185]
+	  Position		  [985, 170, 1005, 190]
 	  ShowName		  off
 	  IconShape		  "round"
 	  Inputs		  "+-|"
@@ -22251,9 +22216,643 @@ Model {
 	  }
 	}
 	Block {
+	  BlockType		  SubSystem
+	  Name			  "Trapezoidal Integrator"
+	  Ports			  [2, 1]
+	  Position		  [655, 173, 765, 217]
+	  AncestorBlock		  "SLUGS_Library/Control Blocks/PID Controller"
+" w//Anti-Windup/Trapezoidal Integrator"
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  MaskPromptString	  "Sample Time|Upper Saturation|Lower Saturati"
+"on"
+	  MaskStyleString	  "edit,edit,edit"
+	  MaskTunableValueString  "on,on,on"
+	  MaskCallbackString	  "||"
+	  MaskEnableString	  "on,on,on"
+	  MaskVisibilityString	  "on,on,on"
+	  MaskToolTipString	  "on,on,on"
+	  MaskVarAliasString	  ",,"
+	  MaskVariables		  "T=@1;upperLimit=@2;lowerLimit=@3;"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "apSampleTime|2|-2"
+	  MaskTabNameString	  ",,"
+	  Port {
+	    PortNumber		    1
+	    Name		    "sigma_hat"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  System {
+	    Name		    "Trapezoidal Integrator"
+	    Location		    [276, 365, 1164, 945]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "x"
+	      Position		      [65, 308, 95, 322]
+	      BackgroundColor	      "darkGreen"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Reset"
+	      Position		      [710, 363, 740, 377]
+	      BackgroundColor	      "darkGreen"
+	      NamePlacement	      "alternate"
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant"
+	      Position		      [275, 335, 305, 365]
+	      ShowName		      off
+	      Value		      "1/3"
+	      OutDataTypeMode	      "single"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant1"
+	      Position		      [280, 420, 310, 450]
+	      ShowName		      off
+	      Value		      "4/3"
+	      OutDataTypeMode	      "single"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant2"
+	      Position		      [420, 340, 510, 370]
+	      ShowName		      off
+	      Value		      "T/2"
+	      OutDataTypeMode	      "single"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant3"
+	      Position		      [280, 500, 310, 530]
+	      ShowName		      off
+	      Value		      "1/3"
+	      OutDataTypeMode	      "single"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant5"
+	      Position		      [765, 300, 795, 330]
+	      Orientation	      "left"
+	      ShowName		      off
+	      Value		      "0"
+	      OutDataTypeMode	      "single"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Integer Delay"
+	      Ports		      [1, 1]
+	      Position		      [275, 378, 310, 412]
+	      ShowName		      off
+	      SourceBlock	      "simulink/Discrete/Integer Delay"
+	      SourceType	      "Integer Delay"
+	      vinit		      "0.0"
+	      samptime		      "T"
+	      NumDelays		      "1"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Integer Delay1"
+	      Ports		      [1, 1]
+	      Position		      [280, 458, 315, 492]
+	      ShowName		      off
+	      SourceBlock	      "simulink/Discrete/Integer Delay"
+	      SourceType	      "Integer Delay"
+	      vinit		      "0.0"
+	      samptime		      "T"
+	      NumDelays		      "2"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Integer Delay2"
+	      Ports		      [1, 1]
+	      Position		      [760, 258, 795, 292]
+	      Orientation	      "left"
+	      ShowName		      off
+	      SourceBlock	      "simulink/Discrete/Integer Delay"
+	      SourceType	      "Integer Delay"
+	      vinit		      "0.0"
+	      samptime		      "T"
+	      NumDelays		      "1"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product"
+	      Ports		      [2, 1]
+	      Position		      [345, 327, 375, 358]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "single"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product1"
+	      Ports		      [2, 1]
+	      Position		      [345, 387, 375, 418]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "single"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product2"
+	      Ports		      [2, 1]
+	      Position		      [345, 467, 375, 498]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "single"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product3"
+	      Ports		      [2, 1]
+	      Position		      [540, 382, 570, 413]
+	      ShowName		      off
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "single"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Protect NaNs"
+	      Ports		      [1, 1]
+	      Position		      [140, 300, 210, 330]
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"Protect NaNs"
+		Location		[522, 762, 797, 931]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [35, 28, 65, 42]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integer Delay3"
+		  Ports			  [1, 1]
+		  Position		  [165, 108, 200, 142]
+		  Orientation		  "left"
+		  ShowName		  off
+		  SourceBlock		  "simulink/Discrete/Integer Delay"
+		  SourceType		  "Integer Delay"
+		  vinit			  "0.0"
+		  samptime		  "T"
+		  NumDelays		  "1"
+		}
+		Block {
+		  BlockType		  RelationalOperator
+		  Name			  "Relational\nOperator2"
+		  Position		  [100, 42, 130, 73]
+		  ShowName		  off
+		  Operator		  "=="
+		  InputSameDT		  off
+		  LogicOutDataTypeMode	  "Specify via dialog"
+		}
+		Block {
+		  BlockType		  Switch
+		  Name			  "Switch3"
+		  Position		  [170, 25, 200, 95]
+		  ShowName		  off
+		  Criteria		  "u2 > Threshold"
+		  Threshold		  "0.3"
+		  InputSameDT		  off
+		  SaturateOnIntegerOverflow off
+		  SampleTime		  ".01"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [280, 75, 310, 90]
+		  Orientation		  "down"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Integer Delay3"
+		  SrcPort		  1
+		  Points		  [-15, 0; 0, -40]
+		  DstBlock		  "Switch3"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Switch3"
+		  SrcPort		  1
+		  Points		  [30, 0]
+		  Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  Points		  [15, 0]
+		  Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		  }
+		  Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Relational\nOperator2"
+		  SrcPort		  1
+		  DstBlock		  "Switch3"
+		  DstPort		  2
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Protect NaNs1"
+	      Ports		      [1, 1]
+	      Position		      [835, 355, 905, 385]
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"Protect NaNs1"
+		Location		[522, 762, 797, 931]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [35, 28, 65, 42]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integer Delay3"
+		  Ports			  [1, 1]
+		  Position		  [165, 108, 200, 142]
+		  Orientation		  "left"
+		  ShowName		  off
+		  SourceBlock		  "simulink/Discrete/Integer Delay"
+		  SourceType		  "Integer Delay"
+		  vinit			  "0.0"
+		  samptime		  "T"
+		  NumDelays		  "1"
+		}
+		Block {
+		  BlockType		  RelationalOperator
+		  Name			  "Relational\nOperator2"
+		  Position		  [100, 42, 130, 73]
+		  ShowName		  off
+		  Operator		  "=="
+		  InputSameDT		  off
+		  LogicOutDataTypeMode	  "Specify via dialog"
+		}
+		Block {
+		  BlockType		  Switch
+		  Name			  "Switch3"
+		  Position		  [170, 25, 200, 95]
+		  ShowName		  off
+		  Criteria		  "u2 > Threshold"
+		  Threshold		  "0.3"
+		  InputSameDT		  off
+		  SaturateOnIntegerOverflow off
+		  SampleTime		  ".01"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [280, 75, 310, 90]
+		  Orientation		  "down"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Relational\nOperator2"
+		  SrcPort		  1
+		  DstBlock		  "Switch3"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  Points		  [15, 0]
+		  Branch {
+		    DstBlock		    "Switch3"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 15]
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator2"
+		    DstPort		    2
+		    }
+		  }
+		}
+		Line {
+		  SrcBlock		  "Switch3"
+		  SrcPort		  1
+		  Points		  [30, 0]
+		  Branch {
+		    Points		    [0, 65]
+		    DstBlock		    "Integer Delay3"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Integer Delay3"
+		  SrcPort		  1
+		  Points		  [-15, 0; 0, -40]
+		  DstBlock		  "Switch3"
+		  DstPort		  3
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Subtract"
+	      Ports		      [3, 1]
+	      Position		      [465, 389, 495, 421]
+	      ShowName		      off
+	      Inputs		      "3"
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "single"
+	      OutScaling	      "2^-10"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Subtract1"
+	      Ports		      [2, 1]
+	      Position		      [615, 376, 645, 409]
+	      ShowName		      off
+	      Inputs		      "2"
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "single"
+	      OutScaling	      "2^-10"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Switch
+	      Name		      "Switch1"
+	      Position		      [765, 335, 795, 405]
+	      ShowName		      off
+	      Criteria		      "u2 > Threshold"
+	      Threshold		      "0.3"
+	      InputSameDT	      off
+	      SaturateOnIntegerOverflow	off
+	      SampleTime	      ".01"
+	    }
+	    Block {
+	      BlockType		      Saturate
+	      Name		      "[min max]"
+	      Position		      [670, 380, 700, 410]
+	      UpperLimit	      "upperLimit"
+	      LowerLimit	      "lowerLimit"
+	      SampleTime	      "T"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Int(x)"
+	      Position		      [1025, 363, 1055, 377]
+	      BackgroundColor	      "yellow"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "Protect NaNs1"
+	      SrcPort		      1
+	      Points		      [25, 0]
+	      Branch {
+		Points			[0, -95]
+		DstBlock		"Integer Delay2"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"Int(x)"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Protect NaNs"
+	      SrcPort		      1
+	      Points		      [25, 0]
+	      Branch {
+		Points			[0, 80]
+		Branch {
+		  Points		  [0, 80]
+		  DstBlock		  "Integer Delay1"
+		  DstPort		  1
+		}
+		Branch {
+		  DstBlock		  "Integer Delay"
+		  DstPort		  1
+		}
+	      }
+	      Branch {
+		Points			[75, 0; 0, 20]
+		DstBlock		"Product"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Subtract1"
+	      SrcPort		      1
+	      DstBlock		      "[min max]"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Product3"
+	      SrcPort		      1
+	      DstBlock		      "Subtract1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "[min max]"
+	      SrcPort		      1
+	      DstBlock		      "Switch1"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Switch1"
+	      SrcPort		      1
+	      DstBlock		      "Protect NaNs1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Reset"
+	      SrcPort		      1
+	      DstBlock		      "Switch1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Constant5"
+	      SrcPort		      1
+	      Points		      [-10, 0]
+	      DstBlock		      "Switch1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Integer Delay2"
+	      SrcPort		      1
+	      Points		      [-170, 0; 0, 110]
+	      DstBlock		      "Subtract1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Subtract"
+	      SrcPort		      1
+	      DstBlock		      "Product3"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Constant2"
+	      SrcPort		      1
+	      Points		      [0, 35]
+	      DstBlock		      "Product3"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Product2"
+	      SrcPort		      1
+	      Points		      [25, 0; 0, -70]
+	      DstBlock		      "Subtract"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Product1"
+	      SrcPort		      1
+	      DstBlock		      "Subtract"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Product"
+	      SrcPort		      1
+	      Points		      [25, 0; 0, 50]
+	      DstBlock		      "Subtract"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "x"
+	      SrcPort		      1
+	      DstBlock		      "Protect NaNs"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Constant3"
+	      SrcPort		      1
+	      Points		      [10, 0; 0, -25]
+	      DstBlock		      "Product2"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Integer Delay1"
+	      SrcPort		      1
+	      DstBlock		      "Product2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Integer Delay"
+	      SrcPort		      1
+	      DstBlock		      "Product1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Constant1"
+	      SrcPort		      1
+	      Points		      [0, -25]
+	      DstBlock		      "Product1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Constant"
+	      SrcPort		      1
+	      DstBlock		      "Product"
+	      DstPort		      2
+	    }
+	  }
+	}
+	Block {
 	  BlockType		  Outport
 	  Name			  "psi_dot_ad"
-	  Position		  [990, 168, 1020, 182]
+	  Position		  [1095, 173, 1125, 187]
 	  BackgroundColor	  "yellow"
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
@@ -22313,6 +22912,7 @@ Model {
 	Line {
 	  SrcBlock		  "omega"
 	  SrcPort		  1
+	  Points		  [5, 0]
 	  DstBlock		  "Control \nLaw"
 	  DstPort		  1
 	}
@@ -22326,9 +22926,9 @@ Model {
 	}
 	Line {
 	  Name			  "sigma_hat"
-	  SrcBlock		  "Integration"
+	  SrcBlock		  "Trapezoidal Integrator"
 	  SrcPort		  1
-	  Points		  [15, 0]
+	  Points		  [25, 0]
 	  Branch {
 	    Labels		    [1, 1]
 	    DstBlock		    "Control \nLaw"
@@ -22336,7 +22936,7 @@ Model {
 	  }
 	  Branch {
 	    Labels		    [2, 0]
-	    Points		    [0, 70]
+	    Points		    [0, 65]
 	    DstBlock		    "Integer Delay1"
 	    DstPort		    1
 	  }
@@ -22344,7 +22944,8 @@ Model {
 	Line {
 	  SrcBlock		  "Projection"
 	  SrcPort		  1
-	  DstBlock		  "Integration"
+	  Points		  [50, 0]
+	  DstBlock		  "Trapezoidal Integrator"
 	  DstPort		  1
 	}
 	Line {
@@ -22415,10 +23016,23 @@ Model {
 	  }
 	  Branch {
 	    Labels		    [2, 0]
-	    Points		    [0, 115; -875, 0; 0, -60]
+	    Points		    [0, 115; -995, 0; 0, -65]
 	    DstBlock		    "Sum2"
 	    DstPort		    1
 	  }
+	}
+	Line {
+	  SrcBlock		  "Logical\nOperator"
+	  SrcPort		  1
+	  Points		  [5, 0; 0, -20]
+	  DstBlock		  "Trapezoidal Integrator"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Enable"
+	  SrcPort		  1
+	  DstBlock		  "Logical\nOperator"
+	  DstPort		  1
 	}
       }
     }

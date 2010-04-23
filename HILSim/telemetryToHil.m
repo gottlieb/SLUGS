@@ -1,4 +1,5 @@
 %% Read the data from the workspace. 
+
 % It assumes the telemtery is stored in a workspace variable named data
 
 % GPS
