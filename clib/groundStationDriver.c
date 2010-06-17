@@ -50,14 +50,10 @@ void uart1Init (void){
 	
 	// DMA1REQ Register
 	// ================
-	//DMA1REQ = 0x000C;
-	// FIXME: Remove for UART 1 to work
 	DMA1REQ = 0x001F;
 	
 	// DMA1PAD Register
 	// ================
-	//DMA1PAD = (volatile unsigned int) &U1TXREG;
-	// FIXME: Remove for UART 1 to work
 	DMA1PAD = (volatile unsigned int) &U2TXREG;
 	
 	// DMA1CON Register
@@ -80,48 +76,7 @@ void uart1Init (void){
 	IPC3bits.DMA1IP  = 6;			// interrupt priority to 6
 	IEC0bits.DMA1IE  = 1;			// Enable DMA interrupt
 	
-	/*
 	// Configure and open the port;
-	// U1MODE Register
-	// ==============
-	U1MODEbits.UARTEN	= 0;		// Disable the port		
-	U1MODEbits.USIDL 	= 0;		// Stop on idle
-	U1MODEbits.IREN		= 0;		// No IR decoder
-	U1MODEbits.RTSMD	= 0;		// Ready to send mode (irrelevant)
-	U1MODEbits.UEN		= 0;		// Only RX and TX
-	U1MODEbits.WAKE		= 1;		// Enable at startup
-	U1MODEbits.LPBACK	= 0;		// Disable loopback
-	U1MODEbits.ABAUD	= 0;		// Disable autobaud
-	U1MODEbits.URXINV	= 0;		// Normal operation (high is idle)
-	U1MODEbits.PDSEL	= 0;		// No parity 8 bit
-	U1MODEbits.STSEL	= 0;		// 1 stop bit
-	U1MODEbits.BRGH 	= 0;		// Low speed mode
-	
-	// U1STA Register
-	// ==============
-	U1STAbits.UTXISEL0	= 0;		// generate interrupt on every char
-	U1STAbits.UTXISEL1	= 0;		// for the DMA	
-	U1STAbits.URXISEL	= 0;		// RX interrupt when a char is in
-	U1STAbits.OERR		= 0;		// clear overun error
-	
-	// U1BRG Register
-	// ==============
-	U1BRG = LOG_UBRG;				// Set the baud rate for 115,200
-	
-	// Initialize the Interrupt  
-  	// ========================
-	IPC2bits.U1RXIP   = 6;    		// Interrupt priority 6  
-  	IFS0bits.U1RXIF   = 0;    		// Clear the interrupt flag
-  	IEC0bits.U1RXIE   = 1;    		// Enable interrupts
-
-	// Enable the port;
-	U1MODEbits.UARTEN	= 1;		// Enable the port	
-	U1STAbits.UTXEN		= 1;		// Enable TX
-	
-	IEC4bits.U1EIE 		= 0;
-	*/
-	//FIXME: Remove for UART 1 to work
-		// Configure and open the port;
 	// U2MODE Register
 	// ==============
 	U2MODEbits.UARTEN	= 0;		// Disable the port		
@@ -159,7 +114,6 @@ void uart1Init (void){
 	U2STAbits.UTXEN		= 1;		// Enable TX
 	
 	IEC4bits.U2EIE 		= 0;
-
 	
 }
 
@@ -393,17 +347,27 @@ void protParseDecodeGS(unsigned char* fromSPI){
 	
 */
 
+
+
 void prepareTelemetry( unsigned char* dataOut){
 	unsigned char rawSentence[35];
 	
-	// sample period variable
+	// sampleTelemetry variable is the one that cycles from 1 to 10 to decide which 
+	// message's turn is to be sent
 	static unsigned char sampleTelemetry = 1;
+	
 	static unsigned char scheduleBiases = 1;
+	
 	static unsigned char telemetryBuf [37];
+	
 	
 	// temp var to store the assembled message
 	unsigned char i;
+	
+	// this variable sets the lenght of the telemetry to be sent
 	unsigned char len2Telemetry=0;
+	
+	
 	unsigned char bufLen = 0;
 	
 	//TODO: Remove 
@@ -1335,32 +1299,6 @@ void __attribute__((interrupt, no_auto_psv)) _DMA1Interrupt(void)
     IFS0bits.DMA1IF  = 0;		
 }
 
-// Interrupt service routine for U1 GS protocol port
-/*void __attribute__((__interrupt__, no_auto_psv)) _U1RXInterrupt(void){
- 
-	// Read the buffer while it has data
-	// and add it to the circular buffer
-	while(U1STAbits.URXDA == 1){
-		writeBack(uartBufferIn, (unsigned char)U1RXREG);
-	}
-	
-	// If there was an overun error clear it and continue
-	if (U1STAbits.OERR == 1){
-		U1STAbits.OERR = 0;
-	}
-	
-	// clear the interrupt
-	IFS0bits.U1RXIF = 0;
-}
-
-
-void __attribute__ ((interrupt, no_auto_psv)) _U1ErrInterrupt(void)
-{
-	IFS4bits.U1EIF = 0; // Clear the UART2 Error Interrupt Flag
-}
-*/
-
-//FIXME: Remove for UART 1 to work
 void __attribute__((__interrupt__, no_auto_psv)) _U2RXInterrupt(void){
  
 	// Read the buffer while it has data

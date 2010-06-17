@@ -39,6 +39,7 @@ THE SOFTWARE.
 #include <uart.h>
 #include "DEE.h"
 #include "interProcCommSlave.h"
+
        	
 void uart1Init (void);
 void gsRead (unsigned char* gsChunk);       	
@@ -52,6 +53,8 @@ void loadEEPData (void);
 void pilotCommands (unsigned short* pilCom);
 void updateEuler (float* newEuler);
 void updatePQR (float* newPQR);
+
+
 #ifdef __cplusplus
       }
 #endif

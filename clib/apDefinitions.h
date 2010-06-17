@@ -48,6 +48,11 @@ and data types.
        #define BSIZE			512
 #endif
 
+// UAV System ID
+// =============
+#define SLUGS_SYSTEMID		100
+#define SLUGS_COMPID			1
+
 // GPS Checksum Messages
 // =====================
 #define GGACS			86
@@ -67,7 +72,7 @@ and data types.
 // Data Logger Values
 // ================
 #define LOGSEND					8
-#define MAXSEND					103
+#define MAXSEND					109
 #define MAXLOGSEND				56
 
 #ifdef __cplusplus

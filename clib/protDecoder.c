@@ -66,6 +66,10 @@ tLogFloats  logControlData;
 // 			 from the sensor MCU in case it needs to be used there.
 
 
+// Mavlink definitions these will get moved eventually to their own IPC file
+
+mavlink_gps_raw_t	mlGpsData;
+
 struct CircBuffer protParseBuffer;
 CBRef ppBuffer;
 
@@ -98,6 +102,8 @@ void protParserInit(void){
 	memset(&logControlData, 0, sizeof(tLogFloats));
 	filterControlData = 0;
 	
+	memset(&mlGpsData, 0, sizeof(mavlink_gps_raw_t));
+		
 	// Control MCU boot procedures
 	#ifdef _IN_PC_
 		//

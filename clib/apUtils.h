@@ -41,6 +41,7 @@ THE SOFTWARE.
 #include "protDecoder.h"
 #include <stdlib.h>
 #include <stdarg.h>
+#include "mavlink.h"
 
 // Uncomment if you want to use sensor
 // mcu diagnostic  data. Note that you can only
@@ -48,6 +49,7 @@ THE SOFTWARE.
 // 
 //#define USE_SENSOR_MCU_DIAG		1
 
+extern mavlink_gps_raw_t	mlGpsData;
 	
 unsigned char getChecksum(unsigned char* sentence, unsigned char size);
 void assembleMsg(unsigned char* rawData , unsigned char size, unsigned char type, unsigned char* protMsg );

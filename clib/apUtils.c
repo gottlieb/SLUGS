@@ -113,6 +113,17 @@ void updateStates(unsigned char * completeSentence){
 			gpsControlData.fix				= completeSentence[28];	
 			gpsControlData.sats				= completeSentence[29];	
 			gpsControlData.newValue		 	= completeSentence[30];	
+			
+			mlGpsData.fix_type = gpsControlData.fix;
+			mlGpsData.lat = gpsControlData.lat.flData;
+			mlGpsData.lon = gpsControlData.lon.flData;
+			mlGpsData.alt = gpsControlData.height.flData;
+			mlGpsData.eph = gpsControlData.hdop.usData;
+			mlGpsData.epv = 0.0;
+			mlGpsData.v = ((float)gpsControlData.sog.usData/100.0);
+			mlGpsData.hdg = gpsControlData.cog.usData;
+			
+			
 		break;
 		case LOADMSG_ID:
 			statusControlData.load		 		= completeSentence[4];
