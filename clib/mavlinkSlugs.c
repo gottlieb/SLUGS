@@ -18,7 +18,7 @@ void prepareTelemetryPixHawk( unsigned char* dataOut){
 	memset(&msg,0,sizeof(mavlink_message_t));
 	
 	switch (sampleTelemetry){
-		case 1:
+		case 1: // GPS and Heartbeat
 			// Pack the Heartbeat message
 			mavlink_msg_heartbeat_pack(SLUGS_SYSTEMID, 
 																 SLUGS_COMPID, 
@@ -27,6 +27,8 @@ void prepareTelemetryPixHawk( unsigned char* dataOut){
 																 MAV_AUTOPILOT_SLUGS);
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+			
+			memset(&msg,0,sizeof(mavlink_message_t));
 			
 			// Pack the GPS message
 			mavlink_msg_gps_raw_pack(SLUGS_SYSTEMID, 
@@ -44,6 +46,37 @@ void prepareTelemetryPixHawk( unsigned char* dataOut){
 																 
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+		break;
+		case 2: // LOAD and PWM
+			mavlink_msg_cpu_load_pack( SLUGS_SYSTEMID, 
+																 SLUGS_COMPID, 
+																 &msg, 
+																 mlCpuLoadData.target, 
+																 mlCpuLoadData.sensLoad, 
+																 mlCpuLoadData.ctrlLoad, 
+																 mlCpuLoadData.batVolt);
+		  
+			// Copy the message to the send buffer
+			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+
+			
+			mavlink_msg_pwm_commands_pack( SLUGS_SYSTEMID, 
+																 		 SLUGS_COMPID, 
+																 		 &msg, 
+																 		 mlPwmCommandsData.dt_c, 
+																 		 mlPwmCommandsData.dla_c, 
+																 		 mlPwmCommandsData.dra_c, 
+																 		 mlPwmCommandsData.dr_c, 
+																 		 mlPwmCommandsData.dle_c, 
+																 		 mlPwmCommandsData.dre_c, 
+																 		 mlPwmCommandsData.dlf_c, 
+																 		 mlPwmCommandsData.drf_c, 
+																 		 mlPwmCommandsData.aux1, 
+																 		 mlPwmCommandsData.aux2);
+
+			// Copy the message to the send buffer
+			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+
 		break;
 	}
 	 
