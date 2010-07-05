@@ -50,6 +50,20 @@ THE SOFTWARE.
 //#define USE_SENSOR_MCU_DIAG		1
 
 extern mavlink_gps_raw_t	mlGpsData;
+extern mavlink_cpu_load_t	mlLoadData;
+extern mavlink_air_data_t	mlAirData;
+extern mavlink_sensor_bias_t	mlSensorBiasData;
+extern mavlink_diagnostic_t	mlDiagnosticData;
+extern mavlink_pilot_console_t mlPilotConsoleData;
+extern mavlink_pwm_commands_t mlPwmCommandsData;
+extern mavlink_raw_imu_t mlRawImuData;
+extern mavlink_raw_pressure_t mlRawPressureData;
+extern mavlink_attitude_t mlAttitudeData;
+extern mavlink_local_position_t mlLocalPositionData;
+
+
+
+
 	
 unsigned char getChecksum(unsigned char* sentence, unsigned char size);
 void assembleMsg(unsigned char* rawData , unsigned char size, unsigned char type, unsigned char* protMsg );
