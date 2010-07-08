@@ -175,7 +175,6 @@ void updateStates(unsigned char * completeSentence){
 			// Mavlink
 			// =======
 			
-			mlRawImuData.usec =(uint64_t)attitudeControlData.timeStamp.usData;;
 			mlRawImuData.xacc = rawControlData.gyroX.shData;
 			mlRawImuData.yacc = rawControlData.gyroY.shData;
 			mlRawImuData.zacc = rawControlData.gyroZ.shData;
@@ -186,7 +185,6 @@ void updateStates(unsigned char * completeSentence){
 			mlRawImuData.ymag = rawControlData.magY.shData;
 			mlRawImuData.zmag = rawControlData.magZ.shData;
 
-			mlRawPressureData.usec = (uint64_t) rawControlData.ther.shData;
 			mlRawPressureData.press_abs = rawControlData.baro.shData;
 			mlRawPressureData.press_diff1 = rawControlData.pito.shData;
 			mlRawPressureData.press_diff2 = rawControlData.powr.shData;
@@ -229,7 +227,6 @@ void updateStates(unsigned char * completeSentence){
 			mlAttitudeData.rollspeed = attitudeControlData.p.flData;
 			mlAttitudeData.pitchspeed = attitudeControlData.q.flData;
 			mlAttitudeData.yawspeed = attitudeControlData.r.flData;
-			mlAttitudeData.usec = (uint64_t)attitudeControlData.timeStamp.usData;
 			
 		break;
     case DYNMSG_ID:
