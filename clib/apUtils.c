@@ -137,10 +137,10 @@ void updateStates(unsigned char * completeSentence){
 			// Mavlink
 			// =======
 			
-			mlLoadData.target = SLUGS_SYSTEMID;
-			mlLoadData.sensLoad = statusControlData.load;
-			mlLoadData.ctrlLoad = statusControlData.vdetect;
-			mlLoadData.batVolt  = statusControlData.bVolt.usData;
+			mlCpuLoadData.target = SLUGS_SYSTEMID;
+			mlCpuLoadData.sensLoad = statusControlData.load;
+			mlCpuLoadData.ctrlLoad = statusControlData.vdetect;
+			mlCpuLoadData.batVolt  = statusControlData.bVolt.usData;
 			
 		break;
 		case RAWMSG_ID: // Sensor Raw data
@@ -175,21 +175,21 @@ void updateStates(unsigned char * completeSentence){
 			// Mavlink
 			// =======
 			
-			mlRawImuData.target = SLUGS_SYSTEMID;
-			mlRawImuData.xacc = rawControlData.gyroX.shdata;
-			mlRawImuData.yacc = rawControlData.gyroY.shdata;
-			mlRawImuData.zacc = rawControlData.gyroZ.shdata;
-			mlRawImuData.xgyro = rawControlData.accelX.shdata;
-			mlRawImuData.ygyro = rawControlData.accelY.shdata;
-			mlRawImuData.zgyro = rawControlData.accelZ.shdata;
-			mlRawImuData.xmag = rawControlData.magX.shdata;
-			mlRawImuData.ymag = rawControlData.magY.shdata;
-			mlRawImuData.zmag = rawControlData.magZ.shdata;
+			mlRawImuData.usec =(uint64_t)attitudeControlData.timeStamp.usData;;
+			mlRawImuData.xacc = rawControlData.gyroX.shData;
+			mlRawImuData.yacc = rawControlData.gyroY.shData;
+			mlRawImuData.zacc = rawControlData.gyroZ.shData;
+			mlRawImuData.xgyro = rawControlData.accelX.shData;
+			mlRawImuData.ygyro = rawControlData.accelY.shData;
+			mlRawImuData.zgyro = rawControlData.accelZ.shData;
+			mlRawImuData.xmag = rawControlData.magX.shData;
+			mlRawImuData.ymag = rawControlData.magY.shData;
+			mlRawImuData.zmag = rawControlData.magZ.shData;
 
-			mlRawPressureData.usec = (uint64_t) rawControlData.ther.shdata;
-			mlRawPressureData.press_abs = rawControlData.baro.shdata;
-			mlRawPressureData.press_diff1 = rawControlData.pito.shdata;
-			mlRawPressureData.press_diff2 = rawControlData.powr.shdata;
+			mlRawPressureData.usec = (uint64_t) rawControlData.ther.shData;
+			mlRawPressureData.press_abs = rawControlData.baro.shData;
+			mlRawPressureData.press_diff1 = rawControlData.pito.shData;
+			mlRawPressureData.press_diff2 = rawControlData.powr.shData;
 			 
 		break;
 		case ATTMSG_ID:
@@ -223,7 +223,6 @@ void updateStates(unsigned char * completeSentence){
 			// Mavlink
 			// =======
 			
-			mlAttitudeData.target = SLUGS_SYSTEMID;
 			mlAttitudeData.roll = attitudeControlData.roll.flData;
 			mlAttitudeData.pitch = attitudeControlData.pitch.flData;
 			mlAttitudeData.yaw = attitudeControlData.yaw.flData;
@@ -289,13 +288,13 @@ void updateStates(unsigned char * completeSentence){
 			// Mavlink
 			// =======
 			
-			mlSensoBiasData.target = SLUGS_SYSTEMID;
-			mlSensoBiasData.axBias = biasControlData.axb.flData;
-			mlSensoBiasData.ayBias = biasControlData.ayb.flData;
-			mlSensoBiasData.azBias = biasControlData.azb.flData;
-			mlSensoBiasData.gxBias = biasControlData.gxb.flData;
-			mlSensoBiasData.gyBias = biasControlData.gyb.flData;
-			mlSensoBiasData.gzBias = biasControlData.gzb.flData;
+			mlSensorBiasData.target = SLUGS_SYSTEMID;
+			mlSensorBiasData.axBias = biasControlData.axb.flData;
+			mlSensorBiasData.ayBias = biasControlData.ayb.flData;
+			mlSensorBiasData.azBias = biasControlData.azb.flData;
+			mlSensorBiasData.gxBias = biasControlData.gxb.flData;
+			mlSensorBiasData.gyBias = biasControlData.gyb.flData;
+			mlSensorBiasData.gzBias = biasControlData.gzb.flData;
 
 		break;		
 		case DIAMSG_ID:
@@ -361,7 +360,7 @@ void updateStates(unsigned char * completeSentence){
 			xyzControlData.VZ.chData[2]		= completeSentence[26];
 			xyzControlData.VZ.chData[3]		= completeSentence[27];
 			
-			/ Mavlink
+			// Mavlink
 			// =======
 			
 			mlLocalPositionData.x = xyzControlData.Xcoord.flData;

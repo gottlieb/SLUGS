@@ -69,12 +69,12 @@ tLogFloats  logControlData;
 // Mavlink definitions these will get moved eventually to their own IPC file
 
 mavlink_gps_raw_t	mlGpsData;
-mavlink_cpu_load_t mlLoadData;
+mavlink_cpu_load_t mlCpuLoadData;
 mavlink_air_data_t mlAirData;
 mavlink_sensor_bias_t mlSensorBiasData;
 mavlink_diagnostic_t mlDiagnosticData;
 mavlink_pilot_console_t mlPilotConsoleData;
-mavlink_pwm_coommands_t mlPwmCommandsData;
+mavlink_pwm_commands_t mlPwmCommandsData;
 mavlink_raw_imu_t mlRawImuData;
 mavlink_raw_pressure_t mlRawPressureData;
 mavlink_attitude_t mlAttitudeData;
@@ -114,12 +114,12 @@ void protParserInit(void){
 	
 	// Mavlink data structures
 	memset(&mlGpsData, 0, sizeof(mavlink_gps_raw_t));
-	memset(&mlLoadData, 0, sizeof(mavlink_cpu_load_t));
+	memset(&mlCpuLoadData, 0, sizeof(mavlink_cpu_load_t));
 	memset(&mlAirData, 0, sizeof(mavlink_air_data_t));
 	memset(&mlSensorBiasData, 0, sizeof(mavlink_sensor_bias_t));
 	memset(&mlDiagnosticData, 0, sizeof(mavlink_diagnostic_t));
-	memset(&mlPilotConoleData, 0, sizeof(mavlink_pilot_console_t));
-	memset(&mlPwmCommandsData ,0, sizeof(mavlink_pwm_coommands_t));
+	memset(&mlPilotConsoleData, 0, sizeof(mavlink_pilot_console_t));
+	memset(&mlPwmCommandsData ,0, sizeof(mavlink_pwm_commands_t));
 	memset(&mlRawImuData ,0, sizeof(mavlink_raw_imu_t));
 	memset(&mlRawPressureData ,0, sizeof(mavlink_raw_pressure_t));
 	memset(&mlAttitudeData ,0, sizeof(mavlink_attitude_t));	
